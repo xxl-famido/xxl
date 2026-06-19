@@ -51,7 +51,14 @@ let lastResult = null;
 // ── 기록(캐시) 시스템 ──
 const HKEY = 'woofia_history';
 let simHistory = [];
-function loadHistory() { try { simHistory = JSON.parse(localStorage.getItem(HKEY) || '[]'); } catch { simHistory = []; } }
+function loadHistory() {
+  try {
+    simHistory = JSON.parse(localStorage.getItem(HKEY) || '[]');
+    let changed = false;
+    for (const r of simHistory) if (r.data) { delete r.data; changed = true; }   // 옛 대용량 기록 정리(용량 회수)
+    if (changed) persistHistory();
+  } catch { simHistory = []; }
+}
 function persistHistory() { try { localStorage.setItem(HKEY, JSON.stringify(simHistory)); } catch { } }
 function fmtShort(n) {
   if (n >= 1e8) return (n / 1e8).toFixed(2).replace(/\.?0+$/, '') + '억';
@@ -68,7 +75,9 @@ function snapshot() {
 function saveRecord(snap, data) {
   const names = data.team.map(t => (CHARS[t.id] || t).name).join('·');
   const label = `${names} · ${data.meta.turns}턴 · ${fmtShort(data.meta.total)}`;
-  simHistory.unshift({ id: Date.now(), label, snap, data });
+  // 결과(data)는 저장하지 않는다 — 전투로그 포함 시 1건이 ~750KB라 localStorage(~5MB)가 금방 초과돼
+  // setItem이 조용히 실패(새 기록 미저장)했음. 설정(snap)만 저장하고, 복원 시 재실행(시드 고정 = 동일 결과).
+  simHistory.unshift({ id: Date.now(), label, snap });
   if (simHistory.length > 40) simHistory.length = 40;
   persistHistory();
   renderHistory(simHistory[0].id);
@@ -95,7 +104,8 @@ function restoreRecord(rec) {
   setSeg('dummies', s.dummies); setSeg('enemyHits', s.enemyHits);
   $('#forceProc').classList.toggle('on', forceProc); syncRunsField();
   buildFilters(); renderRoster(); renderTeam(); renderPrio();
-  if (rec.data) { lastResult = rec.data; renderResults(rec.data); }
+  if (rec.data) { lastResult = rec.data; renderResults(rec.data); }   // 구버전 기록(결과 내장)
+  else { run(false); }                  // 결과 미저장 기록 → 동일 설정으로 재실행 (저장 안 함)
 }
 function renderHistList() {
   const list = $('#histList'); if (!list) return;
@@ -318,7 +328,7 @@ function bindSettings() {
     seg.dataset.val = b.dataset.v; seg.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
   });
   $('#forceProc').onclick = () => { forceProc = !forceProc; $('#forceProc').classList.toggle('on', forceProc); syncRunsField(); };
-  $('#runBtn').onclick = run;
+  $('#runBtn').onclick = () => run(true);
 }
 let forceProc = false;   // 확률 100% 모드
 
@@ -541,7 +551,7 @@ function toast(msg) {
 }
 
 // ── run simulation ──
-async function run() {
+async function run(save = true) {
   const picked = team.map((s, i) => s ? { ...s, position: i + 1, priority: s.priority ?? null } : null).filter(Boolean);
   if (picked.length === 0) return;
   // 이태호처럼 매턴 2회 행동·테세 전환 캐릭은 턴별 설정을 권장
@@ -559,7 +569,7 @@ async function run() {
     const data = await API.simulate(cfg);
     if (data.error) throw new Error(data.error);
     lastResult = data; renderResults(data);
-    saveRecord(snapshot(), data);          // 조건+결과를 기록에 저장
+    if (save) saveRecord(snapshot(), data);   // 새 실행만 기록 저장 (복원 재실행은 저장 안 함)
     $('#results').scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (err) { alert('시뮬 오류: ' + err.message); }
   finally { btn.classList.remove('busy'); btn.querySelector('span').textContent = '시뮬레이션 실행'; }
