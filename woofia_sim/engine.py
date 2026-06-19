@@ -493,10 +493,13 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
             stk, bonus, owner, skill, hp_op, hp_val = entry
             cond_kr = kr(stk) if stk else (f"HP<{hp_val:g}%" if hp_op == "lt" else f"HP≥{hp_val:g}%")
             dealt.append({"v": bonus, "by": owner, "skill": skill, "cond": cond_kr})
-    taken = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill,
-              "el": _ELNAME.get(b.element, "전체")}
-             for b in tgt.buffs if b.stat == STAT_DMG_TAKEN
-             and (b.element == 0 or b.element == caster.element)]
+    # 받뎀증은 별개 곱연산 채널 2개: 일반(element 0) / 속성(공격자 속성과 일치)
+    taken_g = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill}
+               for b in tgt.buffs if b.stat == STAT_DMG_TAKEN and b.element == 0]
+    taken_p = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill,
+                "el": _ELNAME.get(b.element, "")}
+               for b in tgt.buffs if b.stat == STAT_DMG_TAKEN
+               and b.element != 0 and b.element == caster.element]
     struct = {
         "act": act_kr, "target": tgt.name, "final": dmg,
         "base": caster.base_atk, "atkTotal": round(atk, 2),
@@ -506,7 +509,7 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
         "dealt": dealt,
         "effLabel": {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과", "dot": "지속딜"}.get(action, ""),
         "eff": caster._comp(eff_stat) if eff_stat else [],
-        "taken": taken,
+        "takenG": taken_g, "takenP": taken_p,
     }
     detail = caster.outgoing_detail(action, tgt)
     state.record(caster.name,

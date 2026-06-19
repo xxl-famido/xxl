@@ -686,9 +686,12 @@ function renderHit(l) {
     : `<span class="sk">스킬 ${d.skillPct}% 계수</span>`;
   const dealt = d.dealt.length ? ' × ' + chan('주는딜', d.dealt) : '';
   const eff = d.eff.length ? ' × ' + chan(d.effLabel, d.eff) : '';
-  const taken = d.taken.length ? ' × ' + chan('받는딜', d.taken) : '';
+  // 받뎀증 = 일반 × 속성 (별개 곱연산 채널이라 따로 표시). 구버전(d.taken)은 합쳐서 표시.
+  const tg = (d.takenG || []).length ? ' × ' + chan('받는딜', d.takenG) : '';
+  const tp = (d.takenP || []).length ? ' × ' + chan('속성 받는딜', d.takenP) : '';
+  const takenOld = (d.taken || []).length ? ' × ' + chan('받는딜', d.taken) : '';
   return `<div class="hit"><div class="hit-top"><b class="num">${fmt(d.final)}</b><span class="hm">ATK ${fmt(d.atkTotal)}</span></div>
-    <div class="formula">(${inner}) × ${sk}${dealt}${eff}${taken}</div></div>`;
+    <div class="formula">(${inner}) × ${sk}${dealt}${eff}${tg}${tp}${takenOld}</div></div>`;
 }
 function showSource(chip) {
   document.querySelector('.srcpop')?.remove();
