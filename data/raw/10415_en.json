@@ -1,0 +1,1789 @@
+{
+    "info": {
+        "id": 10415,
+        "name": "Kyrian",
+        "feature": "Heal & Barrier / Target Revive",
+        "rarity": 4,
+        "class": 3,
+        "element": 3,
+        "baseHP": 2291,
+        "sign": "sign_J",
+        "baseATK": 545,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Let's pray... and please,\ndon't mind my holy relic here.\"",
+    "interactions": {
+        "0": [
+            "Prayer would lead me to the quietest corner within my heart, where I can feel him standing right beside me.",
+            "Would you like to make a confession? Please come to the confessional. I will, on behalf of god, accept all the sins that weigh on you.",
+            "I hope Kumoyama enjoys his new life here... I'll do my best to make Kenran Village a warm, loving home for him once again.",
+            "O lord, please help me resist this temptation through pain."
+        ],
+        "1": [
+            "Don't play with my relic like that... That's slutty? I-it's merely to demonstrate my devotion to god...!",
+            "Ah! N-no... The children... the children might see...!"
+        ],
+        "2": [
+            "Usually, I'm the one patting the kids on the head... This feels somehow... novel."
+        ],
+        "3": [
+            "I've been mentally prepared for this... I will never succumb to any temptation!",
+            "Ugh! W-what do you want?! Oh no... I didn't cast any holy spell there...!",
+            "Hah... if something huge went in... wait! What am I thinking?!",
+            "You keep touching me there... Interested in my holy relic?"
+        ],
+        "98": [
+            "Forgive me, evildoers, but now, repent under god's ever-watchful eyes!"
+        ],
+        "99": [
+            "Is it because... I'm still not devoted enough?"
+        ],
+        "100": [
+            "May god bless and protect you with their grace... Sorry, did that kill the mood?"
+        ]
+    },
+    "story": {
+        "1": "Kyrian serves as the head of an abbey in Seiran Wakoku. When people talk about him, they often say, \"Ah, it's that director again,\" but few truly know about his past.",
+        "2": "Due to his past experiences, Kyrian practices asceticism and often teaches others about the benefits of self-restraint. However, in WOOFIA these days, teaching those to people seems a bit difficult, doesn't it? As a result, he is sometimes criticized for interfering in other people's affairs too much. Eventually, aside from doing prayers and confessions, a portion of the public seems to avoid talking to him, as they fear the conversation will inevitably lead back to asceticism. In reality, though, it's not as if Kyrian is particularly passionate about preaching it... Perhaps it's just that he really gives off that vibe.",
+        "3": "Although Kyrian isn't particularly liked by some, there's a stark contrast: He is well-loved by children. Whether they're human, Hominians, or Beastfolks, they all adore him. Even if it's their first time meeting him, they can immediately tell how much he loves children and how much care and affection he pours into them.\nKyrian's hobbies, aside from taking care of children, are mostly about praying, reciting scriptures, and other similar activities. Sometimes, you can hear him playing the organ, which fits his role quite well. However, it's also rumored that he's quite skilled in swordsmanship, which is quite surprising to many.",
+        "4": "Kyrian is quite friendly and approachable, and his embrace feels just as reassuring. While he doesn't seem to realize it, his physique and features align with what a certain type of people might find appealing, and as a result, he's secretly admired by them. However, Kyrian is completely unaware of it."
+    },
+    "hookUp": {
+        "cards": [
+            80064,
+            80116,
+            80104
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80064,
+                    "speakerPosition": 1,
+                    "text": "Ah...T-that's so big...!"
+                },
+                {
+                    "boundId": 80064,
+                    "speakerPosition": 1,
+                    "text": "N-no! Take this evil shaft of blasphemy away... away from me—!"
+                },
+                {
+                    "boundId": 80064,
+                    "speakerPosition": 1,
+                    "text": "God...! Please let me feel your love guiding me deeply at all times..."
+                },
+                {
+                    "boundId": 80064,
+                    "speakerPosition": 1,
+                    "text": "Fill me fully and deeply with your love..."
+                },
+                {
+                    "boundId": 80064,
+                    "speakerPosition": 1,
+                    "text": "Uhm... No! Why does this prayer sound... oh... ahh—!"
+                },
+                {
+                    "boundId": 80064,
+                    "speakerPosition": 0,
+                    "text": "I didn't assume Kyrian to be the kinky type. He's belief is wavering..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80116,
+                    "speakerPosition": 1,
+                    "text": "Hm? Do you use a chastity cage as well?"
+                },
+                {
+                    "boundId": 80116,
+                    "speakerPosition": 1,
+                    "text": "Although I've been using it before, yours is quite licentious...!"
+                },
+                {
+                    "boundId": 80116,
+                    "speakerPosition": 1,
+                    "text": "O-oh...! D-don't rub my crotch with your caged cock!"
+                },
+                {
+                    "boundId": 80116,
+                    "speakerPosition": 1,
+                    "text": "Ahahh...! Isn't this like a kiss between caged cocks? I-indecent...!"
+                },
+                {
+                    "boundId": 80116,
+                    "speakerPosition": 1,
+                    "text": "N-no... If you confine both cocks, then it's not considered indulgence, right? Ahh... It must be!"
+                },
+                {
+                    "boundId": 80116,
+                    "speakerPosition": 1,
+                    "text": "If so, keep on going seems...!"
+                },
+                {
+                    "boundId": 80116,
+                    "speakerPosition": 0,
+                    "text": "It seems Kyrian's logical thinking is getting interesting."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80104,
+                    "speakerPosition": 1,
+                    "text": "A whip...!"
+                },
+                {
+                    "boundId": 80104,
+                    "speakerPosition": 1,
+                    "text": "Ahhah... Are you using it to spur my soul and hone my mind?"
+                },
+                {
+                    "boundId": 80104,
+                    "speakerPosition": 1,
+                    "text": "Thank you so much... Please don't show any mercy."
+                },
+                {
+                    "boundId": 80104,
+                    "speakerPosition": 1,
+                    "text": "Uhahh...! Ahhh! O-ohhh—!"
+                },
+                {
+                    "boundId": 80104,
+                    "speakerPosition": 1,
+                    "text": "M-more...! I need more... more! Ahhh... This level of pain is nothing...!"
+                },
+                {
+                    "boundId": 80104,
+                    "speakerPosition": 1,
+                    "text": "Ah... ahhaa...! Ah...♡"
+                },
+                {
+                    "boundId": 80104,
+                    "speakerPosition": 0,
+                    "text": "Am I reading this wrong, or is Kyrian kind of enjoying it...?"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "In the darkest times, remember that god is always with you—let go of those worldly temptations."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "No! I want to play—!!!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Our almighty god is the greatness that will transcend all space and time."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "As long as you pray earnestly, you will feel his presence beside you... even now, he is with you."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "So god will watch me jerk off and rope others?"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Love is not just words but actions."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "That's why I'm about to show you my love, hoohoo!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Holy Recitation",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 90
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32301,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 96.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32301,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 103.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32311,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 110
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32311,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 116.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32321,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 123.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 130
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 136.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32331,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 143.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32341,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 150
+                    },
+                    "materials": {},
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Merciful Hymn",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 45,
+                        "arg2": 15,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 54
+                        },
+                        {
+                            "id": 32302,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 48.34,
+                        "arg2": 16.12,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32301,
+                            "count": 63
+                        },
+                        {
+                            "id": 32302,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 51.67,
+                        "arg2": 17.23,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32311,
+                            "count": 63
+                        },
+                        {
+                            "id": 32312,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 55,
+                        "arg2": 18.34,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32311,
+                            "count": 72
+                        },
+                        {
+                            "id": 32312,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 58.34,
+                        "arg2": 19.45,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 72
+                        },
+                        {
+                            "id": 32322,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 61.67,
+                        "arg2": 20.56,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 81
+                        },
+                        {
+                            "id": 32322,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 65,
+                        "arg2": 21.67,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32331,
+                            "count": 81
+                        },
+                        {
+                            "id": 32332,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 68.34,
+                        "arg2": 22.78,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32331,
+                            "count": 90
+                        },
+                        {
+                            "id": 32332,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 71.67,
+                        "arg2": 23.89,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32341,
+                            "count": 90
+                        },
+                        {
+                            "id": 32342,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 25,
+                        "arg3": 2
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "AoE HP Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Lamb's Grace",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On Basic Attack, grant own Buddy with the lowest HP% a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 32.23,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, grant own Buddy with the lowest HP% a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 34.45,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, grant own Buddy with the lowest HP% a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 36.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, grant own Buddy with the lowest HP% a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 38.89,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, grant own Buddy with the lowest HP% a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 41.12,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, grant own Buddy with the lowest HP% a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 43.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, grant own Buddy with the lowest HP% a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 45.56,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, grant own Buddy with the lowest HP% a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 47.78,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, grant own Buddy with the lowest HP% a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 2
+                    },
+                    "materials": {},
+                    "description": "On Basic Attack, grant own Buddy with the lowest HP% a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Holy Guardian",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When defending, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 16.12,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 17.23,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 18.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 19.45,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 20.56,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 21.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 22.78,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 23.89,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 25,
+                        "arg2": 2
+                    },
+                    "materials": {},
+                    "description": "When defending, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Song of Glory",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 16.12,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 17.23,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 18.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 19.45,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 20.56,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 21.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 22.78,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 23.89,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 25,
+                        "arg2": 2
+                    },
+                    "materials": {},
+                    "description": "On EX Skill, trigger: Grant all of own Buddies a Barrier ${arg1}% of own ATK for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10415,
+            "name": "Merciful Hymn",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 45,
+                        "arg2": 15,
+                        "arg3": 2,
+                        "arg4": 32,
+                        "arg5": 25
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).\nSigil Passive:\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Revive a random Buddy and heal ${arg5}% of his HP.",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 48.34,
+                        "arg2": 16.12,
+                        "arg3": 2,
+                        "arg4": 34,
+                        "arg5": 25
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).\nSigil Passive:\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Revive a random Buddy and heal ${arg5}% of his HP.",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 51.67,
+                        "arg2": 17.23,
+                        "arg3": 2,
+                        "arg4": 36,
+                        "arg5": 25
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).\nSigil Passive:\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Revive a random Buddy and heal ${arg5}% of his HP.",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 55,
+                        "arg2": 18.34,
+                        "arg3": 2,
+                        "arg4": 38,
+                        "arg5": 25
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).\nSigil Passive:\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Revive a random Buddy and heal ${arg5}% of his HP.",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 58.34,
+                        "arg2": 19.45,
+                        "arg3": 2,
+                        "arg4": 40,
+                        "arg5": 25
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).\nSigil Passive:\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Revive a random Buddy and heal ${arg5}% of his HP.",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 61.67,
+                        "arg2": 20.56,
+                        "arg3": 2,
+                        "arg4": 42,
+                        "arg5": 25
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).\nSigil Passive:\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Revive a random Buddy and heal ${arg5}% of his HP.",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 65,
+                        "arg2": 21.67,
+                        "arg3": 2,
+                        "arg4": 44,
+                        "arg5": 25
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).\nSigil Passive:\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Revive a random Buddy and heal ${arg5}% of his HP.",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 68.34,
+                        "arg2": 22.78,
+                        "arg3": 2,
+                        "arg4": 46,
+                        "arg5": 25
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).\nSigil Passive:\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Revive a random Buddy and heal ${arg5}% of his HP.",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 71.67,
+                        "arg2": 23.89,
+                        "arg3": 2,
+                        "arg4": 48,
+                        "arg5": 25
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).\nSigil Passive:\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Revive a random Buddy and heal ${arg5}% of his HP.",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 25,
+                        "arg3": 2,
+                        "arg4": 50,
+                        "arg5": 25
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nGrant all of own Buddies a Barrier ${arg2}% of own ATK for ${arg3} turn(s).\nSigil Passive:\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Revive a random Buddy and heal ${arg5}% of his HP.",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

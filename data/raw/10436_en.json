@@ -1,0 +1,1844 @@
+{
+    "info": {
+        "id": 10436,
+        "name": "Moyru",
+        "feature": "Toxin Erosion / Defense Break",
+        "rarity": 4,
+        "class": 5,
+        "element": 3,
+        "baseHP": 2347,
+        "sign": "8",
+        "baseATK": 532,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Purr... You're going to regret treating\nme like a housecat, you know?\"",
+    "interactions": {
+        "0": [
+            "Come a little closer. The air is damp in the mountains, and I don't want you catching a cold.",
+            "You want to see my pupils dilate? That's how feline Beastfolks look at their prey, you know?",
+            "Just between us... the scent of the forest makes me feel... good."
+        ],
+        "1": [
+            "Nngh... Why do I get so sensitive whenever you touch me...?",
+            "Hey, don't push your luck."
+        ],
+        "2": [
+            "Purr... Wait, what are you doing?!",
+            "Sniff sniff... Hehe~ What did you grow for me this time?"
+        ],
+        "3": [
+            "Ugh—! Just because nobody's around doesn't mean you can get handsy...!",
+            "Meow... this spot is off-limits. Try that again and don't say I didn't warn you.",
+            "Meow...! You knew this spot was off-limits! You've got balls."
+        ],
+        "98": [
+            "Well, the forest is my turf after all."
+        ],
+        "99": [
+            "Testing my patience...? Are you prepared for the consequences?"
+        ],
+        "100": [
+            "Hey, do you want to head into the mountains with me again today?",
+            "Oh...? Let me see what tricks you've got up your sleeve then..."
+        ]
+    },
+    "story": {
+        "1": "Moyru has lived alone in a hunting ground passed down to him from his ancestors in the mountain for many years. He lives in a secluded hunting lodge he built with his own hands, relying on his hunting skills and knowledge of the wilderness to be as self-sufficient as possible.\n\nHe reveres the mountain spirits and acts as the guardian of this hunting ground. To poachers and loggers who enter these mountains with ill intentions, Moyru is a nightmare lying in wait at the end of their lives.",
+        "2": "Moyru didn't always live in the mountains. In the past, he lived with his clan in a village at the foot of the mountain. Although they weren't a particularly wealthy village, blessed by the abundant resources of the mountains and forests, they were fortunate enough to live a carefree life.\n\nOne night during Moyru's youth, he went up the mountain alone to hunt, and narrowly escaped a sudden flash flood. All traces of the village were washed away overnight.",
+        "3": "From the night the flash flood swept away the village until today, Moyru has never left his hunting grounds. As time has passed, he seems to have begun to grasp the very breath and pulse of the mountains and forests.\n\nRock moss and mountain trees, reptiles and beasts, even the morning dew and night mist... everything in the forest has taken the place of his closest kin in Moyru's life. And for this reason, when faced with intruders harboring ill intent, Moyru leaves no room for mercy.",
+        "4": "If he thinks an opponent is stronger than him, Moyru will use his large, round feline eyes and smile to lull them into a false sense of security before striking at the right moment.\n\nThere is a stark contrast between the swiftness of his attack and the appearance he puts on when feigning weakness, but no one who has witnessed this contrast has ever survived. Move in secret, and strike with ruthless precision—these are his rules for survival in the wilderness.\n\n\"The fate of those who trespass upon the wilderness is to be devoured by it... But before that happens, I'll cut you into bite-sized pieces for the wilderness to enjoy.\""
+    },
+    "hookUp": {
+        "cards": [
+            80092,
+            80119,
+            80011
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 1,
+                    "text": "Hmm... hehe..."
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 1,
+                    "text": "Sniff... sniff sniff..."
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 1,
+                    "text": "You went through all this trouble? You actually know a thing or two."
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 1,
+                    "text": "With something like this adding to the vibe, I wouldn't mind having a little fun with you."
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 0,
+                    "text": "It's surprisingly easy to get Moyru to let his guard down."
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 0,
+                    "text": "Catnip was all it took...?"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 1,
+                    "text": "M-meow..."
+                },
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 1,
+                    "text": "So... so good..."
+                },
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 1,
+                    "text": "Damn it... I keep lifting my butt..."
+                },
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 1,
+                    "text": "You're going to pay for making me lose control like this."
+                },
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 1,
+                    "text": "Purrrrr..."
+                },
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 0,
+                    "text": "Hehe~ it seems that every feline Beastfolk can't resist a good pat on the butt."
+                },
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 0,
+                    "text": "I even got Moyru wrapped around my fingers♪"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 1,
+                    "text": "Ah... the scent of the forest."
+                },
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 1,
+                    "text": "Damp... and warm..."
+                },
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 1,
+                    "text": "It makes me... want it so much..."
+                },
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 1,
+                    "text": "...Why are you still standing there for?"
+                },
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 1,
+                    "text": "Come here."
+                },
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 0,
+                    "text": "Moyru seems extra sensitive when he's outdoors."
+                },
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 0,
+                    "text": "Alright, don't rush me...! I'm coming~"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "You dragged me out of the mountains just to give me this piece of trash?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "S-sorry..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Hmph—"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Looking down on me...? Aren't you afraid I'll bury you in the mountains?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Alright... let's all get along..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Hiss—"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "......"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Don't say I didn't warn you."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Once I lose my patience, it won't just be hissing anymore."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I really thought I was going to die just now..."
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Net-launcher",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 3.75,
+                        "arg2": 2,
+                        "arg3": 45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32501,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 4.03,
+                        "arg2": 2,
+                        "arg3": 48.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32501,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 4.31,
+                        "arg2": 2,
+                        "arg3": 51.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32511,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 4.59,
+                        "arg2": 2,
+                        "arg3": 55
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32511,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 4.87,
+                        "arg2": 2,
+                        "arg3": 58.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32521,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 5.14,
+                        "arg2": 2,
+                        "arg3": 61.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 5.42,
+                        "arg2": 2,
+                        "arg3": 65
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 5.7,
+                        "arg2": 2,
+                        "arg3": 68.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32531,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 5.98,
+                        "arg2": 2,
+                        "arg3": 71.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32541,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 6.25,
+                        "arg2": 2,
+                        "arg3": 75
+                    },
+                    "materials": {},
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "The Hunt Begins",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 163.57
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 54
+                        },
+                        {
+                            "id": 32502,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 6
+                },
+                "1": {
+                    "params": {
+                        "arg1": 175.69
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32501,
+                            "count": 63
+                        },
+                        {
+                            "id": 32502,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 6
+                },
+                "2": {
+                    "params": {
+                        "arg1": 187.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32511,
+                            "count": 63
+                        },
+                        {
+                            "id": 32512,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 6
+                },
+                "3": {
+                    "params": {
+                        "arg1": 199.92
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32511,
+                            "count": 72
+                        },
+                        {
+                            "id": 32512,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 6
+                },
+                "4": {
+                    "params": {
+                        "arg1": 212.03
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 72
+                        },
+                        {
+                            "id": 32522,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 6
+                },
+                "5": {
+                    "params": {
+                        "arg1": 224.15
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 81
+                        },
+                        {
+                            "id": 32522,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 6
+                },
+                "6": {
+                    "params": {
+                        "arg1": 236.27
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32531,
+                            "count": 81
+                        },
+                        {
+                            "id": 32532,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 6
+                },
+                "7": {
+                    "params": {
+                        "arg1": 248.38
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32531,
+                            "count": 90
+                        },
+                        {
+                            "id": 32532,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 6
+                },
+                "8": {
+                    "params": {
+                        "arg1": 260.5
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32541,
+                            "count": 90
+                        },
+                        {
+                            "id": 32542,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 6
+                },
+                "9": {
+                    "params": {
+                        "arg1": 272.61
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 6
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "Wood ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 7.2,
+                        "arg2": 3.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Wood Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 7.74,
+                        "arg2": 3.87
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Wood Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 8.27,
+                        "arg2": 4.14
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Wood Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 8.8,
+                        "arg2": 4.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Wood Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 9.34,
+                        "arg2": 4.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Wood Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 9.87,
+                        "arg2": 4.94
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Wood Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 10.4,
+                        "arg2": 5.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Wood Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 10.94,
+                        "arg2": 5.47
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Wood Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 11.47,
+                        "arg2": 5.74
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Wood Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 12,
+                        "arg2": 6
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Wood Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Wild Venom",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 3,
+                        "arg3": 31.2,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) each turn for ${arg2} turn(s).\nOn EX Skill, trigger: Target Wood damage taken +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 32.23,
+                        "arg2": 3,
+                        "arg3": 33.52,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) each turn for ${arg2} turn(s).\nOn EX Skill, trigger: Target Wood damage taken +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 34.45,
+                        "arg2": 3,
+                        "arg3": 35.83,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) each turn for ${arg2} turn(s).\nOn EX Skill, trigger: Target Wood damage taken +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 36.67,
+                        "arg2": 3,
+                        "arg3": 38.14,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) each turn for ${arg2} turn(s).\nOn EX Skill, trigger: Target Wood damage taken +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 38.89,
+                        "arg2": 3,
+                        "arg3": 40.45,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) each turn for ${arg2} turn(s).\nOn EX Skill, trigger: Target Wood damage taken +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 41.12,
+                        "arg2": 3,
+                        "arg3": 42.76,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) each turn for ${arg2} turn(s).\nOn EX Skill, trigger: Target Wood damage taken +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 43.34,
+                        "arg2": 3,
+                        "arg3": 45.07,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) each turn for ${arg2} turn(s).\nOn EX Skill, trigger: Target Wood damage taken +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 45.56,
+                        "arg2": 3,
+                        "arg3": 47.38,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) each turn for ${arg2} turn(s).\nOn EX Skill, trigger: Target Wood damage taken +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 47.78,
+                        "arg2": 3,
+                        "arg3": 49.69,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) each turn for ${arg2} turn(s).\nOn EX Skill, trigger: Target Wood damage taken +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 3,
+                        "arg3": 52,
+                        "arg4": 3
+                    },
+                    "materials": {},
+                    "description": "On Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) each turn for ${arg2} turn(s).\nOn EX Skill, trigger: Target Wood damage taken +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Wild Persuit",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 30,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: On Basic Attack, trigger: Moyru gains 1 stack of Pursuit for 30 turns, up to 3 stacks.\nWhen defending, trigger the same number of times as own stack(s) of Pursuit: Own EX Skill CD -${arg1} turn(s).\nOn EX Skill, trigger: Target DoT damage taken +${arg2}% for ${arg3} turn(s).\nWhen defending, trigger: Remove Pursuit from self.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 32.23,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: On Basic Attack, trigger: Moyru gains 1 stack of Pursuit for 30 turns, up to 3 stacks.\nWhen defending, trigger the same number of times as own stack(s) of Pursuit: Own EX Skill CD -${arg1} turn(s).\nOn EX Skill, trigger: Target DoT damage taken +${arg2}% for ${arg3} turn(s).\nWhen defending, trigger: Remove Pursuit from self.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 34.45,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: On Basic Attack, trigger: Moyru gains 1 stack of Pursuit for 30 turns, up to 3 stacks.\nWhen defending, trigger the same number of times as own stack(s) of Pursuit: Own EX Skill CD -${arg1} turn(s).\nOn EX Skill, trigger: Target DoT damage taken +${arg2}% for ${arg3} turn(s).\nWhen defending, trigger: Remove Pursuit from self.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 36.67,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: On Basic Attack, trigger: Moyru gains 1 stack of Pursuit for 30 turns, up to 3 stacks.\nWhen defending, trigger the same number of times as own stack(s) of Pursuit: Own EX Skill CD -${arg1} turn(s).\nOn EX Skill, trigger: Target DoT damage taken +${arg2}% for ${arg3} turn(s).\nWhen defending, trigger: Remove Pursuit from self.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 38.89,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: On Basic Attack, trigger: Moyru gains 1 stack of Pursuit for 30 turns, up to 3 stacks.\nWhen defending, trigger the same number of times as own stack(s) of Pursuit: Own EX Skill CD -${arg1} turn(s).\nOn EX Skill, trigger: Target DoT damage taken +${arg2}% for ${arg3} turn(s).\nWhen defending, trigger: Remove Pursuit from self.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 41.12,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: On Basic Attack, trigger: Moyru gains 1 stack of Pursuit for 30 turns, up to 3 stacks.\nWhen defending, trigger the same number of times as own stack(s) of Pursuit: Own EX Skill CD -${arg1} turn(s).\nOn EX Skill, trigger: Target DoT damage taken +${arg2}% for ${arg3} turn(s).\nWhen defending, trigger: Remove Pursuit from self.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 43.34,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: On Basic Attack, trigger: Moyru gains 1 stack of Pursuit for 30 turns, up to 3 stacks.\nWhen defending, trigger the same number of times as own stack(s) of Pursuit: Own EX Skill CD -${arg1} turn(s).\nOn EX Skill, trigger: Target DoT damage taken +${arg2}% for ${arg3} turn(s).\nWhen defending, trigger: Remove Pursuit from self.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 45.56,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: On Basic Attack, trigger: Moyru gains 1 stack of Pursuit for 30 turns, up to 3 stacks.\nWhen defending, trigger the same number of times as own stack(s) of Pursuit: Own EX Skill CD -${arg1} turn(s).\nOn EX Skill, trigger: Target DoT damage taken +${arg2}% for ${arg3} turn(s).\nWhen defending, trigger: Remove Pursuit from self.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 47.78,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: On Basic Attack, trigger: Moyru gains 1 stack of Pursuit for 30 turns, up to 3 stacks.\nWhen defending, trigger the same number of times as own stack(s) of Pursuit: Own EX Skill CD -${arg1} turn(s).\nOn EX Skill, trigger: Target DoT damage taken +${arg2}% for ${arg3} turn(s).\nWhen defending, trigger: Remove Pursuit from self.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 50,
+                        "arg3": 3
+                    },
+                    "materials": {},
+                    "description": "Grant all of own Buddies: On Basic Attack, trigger: Moyru gains 1 stack of Pursuit for 30 turns, up to 3 stacks.\nWhen defending, trigger the same number of times as own stack(s) of Pursuit: Own EX Skill CD -${arg1} turn(s).\nOn EX Skill, trigger: Target DoT damage taken +${arg2}% for ${arg3} turn(s).\nWhen defending, trigger: Remove Pursuit from self.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Camouflage",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 36,
+                        "arg2": 18,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: When attacked, trigger: Gain a Barrier ${arg1}% of own ATK for 2 turns. This effect can only trigger 1 time.\nWhen defending, trigger: Deal damage ${arg2}% of own ATK to target(s) each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 38.67,
+                        "arg2": 19.34,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: When attacked, trigger: Gain a Barrier ${arg1}% of own ATK for 2 turns. This effect can only trigger 1 time.\nWhen defending, trigger: Deal damage ${arg2}% of own ATK to target(s) each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 41.34,
+                        "arg2": 20.67,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: When attacked, trigger: Gain a Barrier ${arg1}% of own ATK for 2 turns. This effect can only trigger 1 time.\nWhen defending, trigger: Deal damage ${arg2}% of own ATK to target(s) each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 44,
+                        "arg2": 22,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: When attacked, trigger: Gain a Barrier ${arg1}% of own ATK for 2 turns. This effect can only trigger 1 time.\nWhen defending, trigger: Deal damage ${arg2}% of own ATK to target(s) each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 46.67,
+                        "arg2": 23.34,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: When attacked, trigger: Gain a Barrier ${arg1}% of own ATK for 2 turns. This effect can only trigger 1 time.\nWhen defending, trigger: Deal damage ${arg2}% of own ATK to target(s) each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 49.34,
+                        "arg2": 24.67,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: When attacked, trigger: Gain a Barrier ${arg1}% of own ATK for 2 turns. This effect can only trigger 1 time.\nWhen defending, trigger: Deal damage ${arg2}% of own ATK to target(s) each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 52,
+                        "arg2": 26,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: When attacked, trigger: Gain a Barrier ${arg1}% of own ATK for 2 turns. This effect can only trigger 1 time.\nWhen defending, trigger: Deal damage ${arg2}% of own ATK to target(s) each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 54.67,
+                        "arg2": 27.34,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: When attacked, trigger: Gain a Barrier ${arg1}% of own ATK for 2 turns. This effect can only trigger 1 time.\nWhen defending, trigger: Deal damage ${arg2}% of own ATK to target(s) each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 57.34,
+                        "arg2": 28.67,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: When attacked, trigger: Gain a Barrier ${arg1}% of own ATK for 2 turns. This effect can only trigger 1 time.\nWhen defending, trigger: Deal damage ${arg2}% of own ATK to target(s) each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 60,
+                        "arg2": 30,
+                        "arg3": 3
+                    },
+                    "materials": {},
+                    "description": "On EX Skill, trigger: When attacked, trigger: Gain a Barrier ${arg1}% of own ATK for 2 turns. This effect can only trigger 1 time.\nWhen defending, trigger: Deal damage ${arg2}% of own ATK to target(s) each turn for ${arg3} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10436,
+            "name": "The Hunt Begins",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 224.28,
+                        "arg2": 5.4,
+                        "arg3": 4,
+                        "arg4": 2
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, trigger: Own DoT damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).\nOn EX Skill, cancel Defense on target(s).",
+                    "cd": 6
+                },
+                "1": {
+                    "params": {
+                        "arg1": 240.9,
+                        "arg2": 5.8,
+                        "arg3": 4,
+                        "arg4": 2
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, trigger: Own DoT damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).\nOn EX Skill, cancel Defense on target(s).",
+                    "cd": 6
+                },
+                "2": {
+                    "params": {
+                        "arg1": 257.51,
+                        "arg2": 6.2,
+                        "arg3": 4,
+                        "arg4": 2
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, trigger: Own DoT damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).\nOn EX Skill, cancel Defense on target(s).",
+                    "cd": 6
+                },
+                "3": {
+                    "params": {
+                        "arg1": 274.12,
+                        "arg2": 6.6,
+                        "arg3": 4,
+                        "arg4": 2
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, trigger: Own DoT damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).\nOn EX Skill, cancel Defense on target(s).",
+                    "cd": 6
+                },
+                "4": {
+                    "params": {
+                        "arg1": 290.74,
+                        "arg2": 7,
+                        "arg3": 4,
+                        "arg4": 2
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, trigger: Own DoT damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).\nOn EX Skill, cancel Defense on target(s).",
+                    "cd": 6
+                },
+                "5": {
+                    "params": {
+                        "arg1": 307.35,
+                        "arg2": 7.4,
+                        "arg3": 4,
+                        "arg4": 2
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, trigger: Own DoT damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).\nOn EX Skill, cancel Defense on target(s).",
+                    "cd": 6
+                },
+                "6": {
+                    "params": {
+                        "arg1": 323.96,
+                        "arg2": 7.8,
+                        "arg3": 4,
+                        "arg4": 2
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, trigger: Own DoT damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).\nOn EX Skill, cancel Defense on target(s).",
+                    "cd": 6
+                },
+                "7": {
+                    "params": {
+                        "arg1": 340.58,
+                        "arg2": 8.2,
+                        "arg3": 4,
+                        "arg4": 2
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, trigger: Own DoT damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).\nOn EX Skill, cancel Defense on target(s).",
+                    "cd": 6
+                },
+                "8": {
+                    "params": {
+                        "arg1": 357.19,
+                        "arg2": 8.6,
+                        "arg3": 4,
+                        "arg4": 2
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, trigger: Own DoT damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).\nOn EX Skill, cancel Defense on target(s).",
+                    "cd": 6
+                },
+                "9": {
+                    "params": {
+                        "arg1": 373.8,
+                        "arg2": 9,
+                        "arg3": 4,
+                        "arg4": 2
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, trigger: Own DoT damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).\nOn EX Skill, cancel Defense on target(s).",
+                    "cd": 6
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

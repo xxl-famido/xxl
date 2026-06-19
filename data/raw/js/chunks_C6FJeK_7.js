@@ -1,0 +1,1 @@
+import{h as r,d as c,x as o,an as d,ao as _,b as h,L as u,e as b,f as l,a0 as k,a6 as v,ap as y}from"./TUCncXwf.js";function g(a,e,n){r&&c();var s=a,f=k,t,i=o()?d:_;h(()=>{i(f,f=e())&&(t&&u(t),t=b(()=>n(s)))}),r&&(s=l)}function x(a,e,n){var s=v(a,e);s&&s.set&&(a[e]=n,y(()=>{a[e]=null}))}export{x as b,g as k};

@@ -1,0 +1,1834 @@
+{
+    "info": {
+        "id": 10421,
+        "name": "Famido",
+        "feature": "Centerline Assault / Tactical Charge",
+        "rarity": 4,
+        "class": 1,
+        "element": 3,
+        "baseHP": 2245,
+        "sign": "sign_V",
+        "baseATK": 556,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Hey! Come play on my team?\"",
+    "interactions": {
+        "0": [
+            "Football gets pretty rough... without a solid body, you'd get knocked flying in no time!",
+            "Practice is what makes you better, in both sports and studies!",
+            "Falling asleep while holding someone... sounds pretty nice, doesn't it...?",
+            "Every time we shower, some rookie drops his soap... as a senior, what am I supposed to do?",
+            "During those training camps, we'd play some... \"mature\" games. Sometimes, they involve cookies... Eh? How do I put it...?"
+        ],
+        "1": [
+            "This is the result of daily training. Well? Feels pretty firm, right?",
+            "Feels good, doesn't it? My fans love it too... haha."
+        ],
+        "2": [
+            "The visor on my helmet... Ricano customized it for me. Normally, they're fixed in place, you know."
+        ],
+        "3": [
+            "Uwah!? H-hey... you can't just touch there!",
+            "Haa... hah... Can't... let anyone see me like this..."
+        ],
+        "98": [
+            "Phew... even though we won, I can't just relax. Practice continues tomorrow!"
+        ],
+        "99": [
+            "Huff... huff... guess I still haven't trained enough..."
+        ],
+        "100": [
+            "I'm heading to the field to practice. Want to come with me?",
+            "It's my first time coming to a place like this... Kinda excited, actually..."
+        ]
+    },
+    "story": {
+        "1": "Famido, captain of the NTUU Football Team and the very soul of the lineup, serves as both their leader and star quarterback.\nHe has carried the team through countless hard-fought games, winning victory after victory. With his exceptional leadership, natural charisma, and a look that blends cuteness with undeniable charm, he has captured the hearts of fans both on and off the field. Some supporters have even formed a dedicated fan club for him, and at every match, a cheering squad waves banners high, shouting his name with all their might.",
+        "2": "On the field, Famido dominates the game with sharp football instincts and lightning-quick reactions. His strategic mind and outstanding physical ability make him the most reliable captain his teammates could ever ask for.\nYet the moment he leaves the stadium... Famido turns into a hopeless noob in daily life. He uses far too much detergent when doing laundry, making his clothes foam up whenever he sweats. When cooking, he either ruins the cookware or nearly sets the kitchen on fire. He's vaguely aware of his shortcomings—but only vaguely. As a result, he relies heavily on his roommate for daily life.",
+        "3": "Now a third-year chemistry major, Famido excels not only in sports but also in academics, even serving as a TA as a junior. To outsiders, he is the perfect model student, the very definition of a \"golden boy.\"\nThanks to his fans, stories about him constantly circulate across campus—many exaggerated, many simply untrue. But to Famido, academics and training already leave him exhausted. He has neither the time nor the interest to address rumors. His unintentional gestures are often overinterpreted, which attracts jealousy and the occasional malicious gossip. Faced with baseless accusations like \"secretly promiscuous,\" he never responds—perhaps out of shyness, or simply because he finds them too ridiculous to bother with.",
+        "4": "In truth, Famido feels awkward—almost clueless—when it comes to romance. His views on love are simple and sincere. Though he harbors curiosity about intimacy, he never musters the courage to say yes anyone's invitation. He often watches his teammates chat about sexual topics with wide-eyed interest, yet never joins in. Despite being wildly popular and constantly approached for one-night stands, Famido always finds some excuse to politely decline.\nBehind the dazzling spotlight, this so-called \"perfect quarterback\" is really just a sweet, slightly goofy big boy at heart."
+    },
+    "hookUp": {
+        "cards": [
+            80134,
+            80012,
+            80091
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80134,
+                    "speakerPosition": 1,
+                    "text": "Mmm... So warm..."
+                },
+                {
+                    "boundId": 80134,
+                    "speakerPosition": 1,
+                    "text": "Holding someone in my arms... it feels so nice..."
+                },
+                {
+                    "boundId": 80134,
+                    "speakerPosition": 1,
+                    "text": "Huff... zzz..."
+                },
+                {
+                    "boundId": 80134,
+                    "speakerPosition": 0,
+                    "text": "Famido's breathing is so loud... it's kinda comforting."
+                },
+                {
+                    "boundId": 80134,
+                    "speakerPosition": 0,
+                    "text": "Huff... zzz... Whoa! I almost fell asleep too!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80012,
+                    "speakerPosition": 1,
+                    "text": "What's that...? Is that a soap?"
+                },
+                {
+                    "boundId": 80012,
+                    "speakerPosition": 1,
+                    "text": "Ah! You dropped it. Want me to pick it up...?"
+                },
+                {
+                    "boundId": 80012,
+                    "speakerPosition": 1,
+                    "text": "You're doing that on purpose, aren't you... sticking your butt up like that..."
+                },
+                {
+                    "boundId": 80012,
+                    "speakerPosition": 0,
+                    "text": "Of course it is. How else am I supposed to get your attention?"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80091,
+                    "speakerPosition": 1,
+                    "text": "What's that smell...?"
+                },
+                {
+                    "boundId": 80091,
+                    "speakerPosition": 1,
+                    "text": "Milk... wheat... and something kinda... salty?"
+                },
+                {
+                    "boundId": 80091,
+                    "speakerPosition": 1,
+                    "text": "Wait... what did you get on that cookie?!"
+                },
+                {
+                    "boundId": 80091,
+                    "speakerPosition": 1,
+                    "text": "I-I'm not into that kind of cookie!"
+                },
+                {
+                    "boundId": 80091,
+                    "speakerPosition": 0,
+                    "text": "You're saying one thing, but your body proves otherwise~"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "It's... so-so, I guess."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Maybe we should try something else..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Alright... so Famido's not into this, huh?"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Mm... I'm not used to this... Is this normal?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Judging from Famido's face... he doesn't seem to like it much, huh?"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "After this... I should hit the gym for two more sets... then Ricano will probably be finishing making dinner... and then..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Famido's already thinking about something else..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Damn it... I'm definitely getting his attention back next time!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Quickfire Pass",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32101,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32111,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32111,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32121,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32131,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32141,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Champion's Battle Cry",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18,
+                        "arg2": 2,
+                        "arg3": 86.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 54
+                        },
+                        {
+                            "id": 32102,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34,
+                        "arg2": 2,
+                        "arg3": 91.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 63
+                        },
+                        {
+                            "id": 32102,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67,
+                        "arg2": 2,
+                        "arg3": 97.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 63
+                        },
+                        {
+                            "id": 32112,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22,
+                        "arg2": 2,
+                        "arg3": 102.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 72
+                        },
+                        {
+                            "id": 32112,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34,
+                        "arg2": 2,
+                        "arg3": 108
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 72
+                        },
+                        {
+                            "id": 32122,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67,
+                        "arg2": 2,
+                        "arg3": 113.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 81
+                        },
+                        {
+                            "id": 32122,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26,
+                        "arg2": 2,
+                        "arg3": 118.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 81
+                        },
+                        {
+                            "id": 32132,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34,
+                        "arg2": 2,
+                        "arg3": 124.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 90
+                        },
+                        {
+                            "id": 32132,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67,
+                        "arg2": 2,
+                        "arg3": 129.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32141,
+                            "count": 90
+                        },
+                        {
+                            "id": 32142,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 2,
+                        "arg3": 135
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Long Pass Prep",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18,
+                        "arg2": 2,
+                        "arg3": 3,
+                        "arg4": 3,
+                        "arg5": 18,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When defending, trigger: Own base ATK +${arg1}% for ${arg2} turn(s).\nWhen in Position ${arg3}, every 1 turn, gain 1 stack of Strategic Insight for 30 turns, up to 3 stacks.\nWhen own Strategic Insight ≧ ${arg4} stack(s), on attack, trigger: All of own Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove Strategic Insight from self.\n",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34,
+                        "arg2": 2,
+                        "arg3": 3,
+                        "arg4": 3,
+                        "arg5": 19.34,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Own base ATK +${arg1}% for ${arg2} turn(s).\nWhen in Position ${arg3}, every 1 turn, gain 1 stack of Strategic Insight for 30 turns, up to 3 stacks.\nWhen own Strategic Insight ≧ ${arg4} stack(s), on attack, trigger: All of own Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove Strategic Insight from self.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67,
+                        "arg2": 2,
+                        "arg3": 3,
+                        "arg4": 3,
+                        "arg5": 20.67,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Own base ATK +${arg1}% for ${arg2} turn(s).\nWhen in Position ${arg3}, every 1 turn, gain 1 stack of Strategic Insight for 30 turns, up to 3 stacks.\nWhen own Strategic Insight ≧ ${arg4} stack(s), on attack, trigger: All of own Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove Strategic Insight from self.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22,
+                        "arg2": 2,
+                        "arg3": 3,
+                        "arg4": 3,
+                        "arg5": 22,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Own base ATK +${arg1}% for ${arg2} turn(s).\nWhen in Position ${arg3}, every 1 turn, gain 1 stack of Strategic Insight for 30 turns, up to 3 stacks.\nWhen own Strategic Insight ≧ ${arg4} stack(s), on attack, trigger: All of own Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove Strategic Insight from self.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34,
+                        "arg2": 2,
+                        "arg3": 3,
+                        "arg4": 3,
+                        "arg5": 23.34,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Own base ATK +${arg1}% for ${arg2} turn(s).\nWhen in Position ${arg3}, every 1 turn, gain 1 stack of Strategic Insight for 30 turns, up to 3 stacks.\nWhen own Strategic Insight ≧ ${arg4} stack(s), on attack, trigger: All of own Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove Strategic Insight from self.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67,
+                        "arg2": 2,
+                        "arg3": 3,
+                        "arg4": 3,
+                        "arg5": 24.67,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Own base ATK +${arg1}% for ${arg2} turn(s).\nWhen in Position ${arg3}, every 1 turn, gain 1 stack of Strategic Insight for 30 turns, up to 3 stacks.\nWhen own Strategic Insight ≧ ${arg4} stack(s), on attack, trigger: All of own Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove Strategic Insight from self.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26,
+                        "arg2": 2,
+                        "arg3": 3,
+                        "arg4": 3,
+                        "arg5": 26,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Own base ATK +${arg1}% for ${arg2} turn(s).\nWhen in Position ${arg3}, every 1 turn, gain 1 stack of Strategic Insight for 30 turns, up to 3 stacks.\nWhen own Strategic Insight ≧ ${arg4} stack(s), on attack, trigger: All of own Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove Strategic Insight from self.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34,
+                        "arg2": 2,
+                        "arg3": 3,
+                        "arg4": 3,
+                        "arg5": 27.34,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Own base ATK +${arg1}% for ${arg2} turn(s).\nWhen in Position ${arg3}, every 1 turn, gain 1 stack of Strategic Insight for 30 turns, up to 3 stacks.\nWhen own Strategic Insight ≧ ${arg4} stack(s), on attack, trigger: All of own Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove Strategic Insight from self.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67,
+                        "arg2": 2,
+                        "arg3": 3,
+                        "arg4": 3,
+                        "arg5": 28.67,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Own base ATK +${arg1}% for ${arg2} turn(s).\nWhen in Position ${arg3}, every 1 turn, gain 1 stack of Strategic Insight for 30 turns, up to 3 stacks.\nWhen own Strategic Insight ≧ ${arg4} stack(s), on attack, trigger: All of own Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove Strategic Insight from self.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 2,
+                        "arg3": 3,
+                        "arg4": 3,
+                        "arg5": 30,
+                        "arg6": 2
+                    },
+                    "materials": {},
+                    "description": "When defending, trigger: Own base ATK +${arg1}% for ${arg2} turn(s).\nWhen in Position ${arg3}, every 1 turn, gain 1 stack of Strategic Insight for 30 turns, up to 3 stacks.\nWhen own Strategic Insight ≧ ${arg4} stack(s), on attack, trigger: All of own Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove Strategic Insight from self.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Quarterback Command",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 4.5,
+                        "arg2": 2,
+                        "arg3": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Famido's base ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 4.84,
+                        "arg2": 2,
+                        "arg3": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Famido's base ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 5.17,
+                        "arg2": 2,
+                        "arg3": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Famido's base ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 5.5,
+                        "arg2": 2,
+                        "arg3": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Famido's base ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 5.84,
+                        "arg2": 2,
+                        "arg3": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Famido's base ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 6.17,
+                        "arg2": 2,
+                        "arg3": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Famido's base ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 6.5,
+                        "arg2": 2,
+                        "arg3": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Famido's base ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 6.84,
+                        "arg2": 2,
+                        "arg3": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Famido's base ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 7.17,
+                        "arg2": 2,
+                        "arg3": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Famido's base ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 7.5,
+                        "arg2": 2,
+                        "arg3": 4
+                    },
+                    "materials": {},
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Famido's base ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Play Call: Codes",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 12,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own damage dealt +${arg1}%.\nOn attack, trigger: Target(s) gains/gain 1 stack of Command Callout for 1 turn.\nExcept self, all of own Buddies gain: When locked target(s) is/are with Command Callout, own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 12.89,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own damage dealt +${arg1}%.\nOn attack, trigger: Target(s) gains/gain 1 stack of Command Callout for 1 turn.\nExcept self, all of own Buddies gain: When locked target(s) is/are with Command Callout, own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 13.78,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own damage dealt +${arg1}%.\nOn attack, trigger: Target(s) gains/gain 1 stack of Command Callout for 1 turn.\nExcept self, all of own Buddies gain: When locked target(s) is/are with Command Callout, own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 14.67,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own damage dealt +${arg1}%.\nOn attack, trigger: Target(s) gains/gain 1 stack of Command Callout for 1 turn.\nExcept self, all of own Buddies gain: When locked target(s) is/are with Command Callout, own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 15.56,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own damage dealt +${arg1}%.\nOn attack, trigger: Target(s) gains/gain 1 stack of Command Callout for 1 turn.\nExcept self, all of own Buddies gain: When locked target(s) is/are with Command Callout, own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 16.45,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own damage dealt +${arg1}%.\nOn attack, trigger: Target(s) gains/gain 1 stack of Command Callout for 1 turn.\nExcept self, all of own Buddies gain: When locked target(s) is/are with Command Callout, own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 17.34,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own damage dealt +${arg1}%.\nOn attack, trigger: Target(s) gains/gain 1 stack of Command Callout for 1 turn.\nExcept self, all of own Buddies gain: When locked target(s) is/are with Command Callout, own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 18.23,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own damage dealt +${arg1}%.\nOn attack, trigger: Target(s) gains/gain 1 stack of Command Callout for 1 turn.\nExcept self, all of own Buddies gain: When locked target(s) is/are with Command Callout, own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 19.12,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own damage dealt +${arg1}%.\nOn attack, trigger: Target(s) gains/gain 1 stack of Command Callout for 1 turn.\nExcept self, all of own Buddies gain: When locked target(s) is/are with Command Callout, own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 20,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own damage dealt +${arg1}%.\nOn attack, trigger: Target(s) gains/gain 1 stack of Command Callout for 1 turn.\nExcept self, all of own Buddies gain: When locked target(s) is/are with Command Callout, own damage dealt +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10421,
+            "name": "Champion's Battle Cry",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18,
+                        "arg2": 2,
+                        "arg3": 96,
+                        "arg4": 9,
+                        "arg5": 2,
+                        "arg6": 9,
+                        "arg7": 2
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).\nAll of own Fighter Buddies' ATK +${arg4}% of own base ATK for ${arg5} turn(s).\nAll of own Vandal Buddies' ATK +${arg6}% of own base ATK for ${arg7} turn(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34,
+                        "arg2": 2,
+                        "arg3": 102,
+                        "arg4": 9.67,
+                        "arg5": 2,
+                        "arg6": 9.67,
+                        "arg7": 2
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).\nAll of own Fighter Buddies' ATK +${arg4}% of own base ATK for ${arg5} turn(s).\nAll of own Vandal Buddies' ATK +${arg6}% of own base ATK for ${arg7} turn(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67,
+                        "arg2": 2,
+                        "arg3": 108,
+                        "arg4": 10.34,
+                        "arg5": 2,
+                        "arg6": 10.34,
+                        "arg7": 2
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).\nAll of own Fighter Buddies' ATK +${arg4}% of own base ATK for ${arg5} turn(s).\nAll of own Vandal Buddies' ATK +${arg6}% of own base ATK for ${arg7} turn(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22,
+                        "arg2": 2,
+                        "arg3": 114,
+                        "arg4": 11,
+                        "arg5": 2,
+                        "arg6": 11,
+                        "arg7": 2
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).\nAll of own Fighter Buddies' ATK +${arg4}% of own base ATK for ${arg5} turn(s).\nAll of own Vandal Buddies' ATK +${arg6}% of own base ATK for ${arg7} turn(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34,
+                        "arg2": 2,
+                        "arg3": 120,
+                        "arg4": 11.67,
+                        "arg5": 2,
+                        "arg6": 11.67,
+                        "arg7": 2
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).\nAll of own Fighter Buddies' ATK +${arg4}% of own base ATK for ${arg5} turn(s).\nAll of own Vandal Buddies' ATK +${arg6}% of own base ATK for ${arg7} turn(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67,
+                        "arg2": 2,
+                        "arg3": 126,
+                        "arg4": 12.34,
+                        "arg5": 2,
+                        "arg6": 12.34,
+                        "arg7": 2
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).\nAll of own Fighter Buddies' ATK +${arg4}% of own base ATK for ${arg5} turn(s).\nAll of own Vandal Buddies' ATK +${arg6}% of own base ATK for ${arg7} turn(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26,
+                        "arg2": 2,
+                        "arg3": 132,
+                        "arg4": 13,
+                        "arg5": 2,
+                        "arg6": 13,
+                        "arg7": 2
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).\nAll of own Fighter Buddies' ATK +${arg4}% of own base ATK for ${arg5} turn(s).\nAll of own Vandal Buddies' ATK +${arg6}% of own base ATK for ${arg7} turn(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34,
+                        "arg2": 2,
+                        "arg3": 138,
+                        "arg4": 13.67,
+                        "arg5": 2,
+                        "arg6": 13.67,
+                        "arg7": 2
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).\nAll of own Fighter Buddies' ATK +${arg4}% of own base ATK for ${arg5} turn(s).\nAll of own Vandal Buddies' ATK +${arg6}% of own base ATK for ${arg7} turn(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67,
+                        "arg2": 2,
+                        "arg3": 144,
+                        "arg4": 14.34,
+                        "arg5": 2,
+                        "arg6": 14.34,
+                        "arg7": 2
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).\nAll of own Fighter Buddies' ATK +${arg4}% of own base ATK for ${arg5} turn(s).\nAll of own Vandal Buddies' ATK +${arg6}% of own base ATK for ${arg7} turn(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 2,
+                        "arg3": 150,
+                        "arg4": 15,
+                        "arg5": 2,
+                        "arg6": 15,
+                        "arg7": 2
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).\nAll of own Fighter Buddies' ATK +${arg4}% of own base ATK for ${arg5} turn(s).\nAll of own Vandal Buddies' ATK +${arg6}% of own base ATK for ${arg7} turn(s).",
+                    "cd": 3
+                }
+            },
+            "type": 0
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

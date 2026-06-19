@@ -1,0 +1,1920 @@
+{
+    "info": {
+        "id": 10431,
+        "name": "Divine Blessing Suichong",
+        "feature": "Rune Trigger / Power Strike",
+        "rarity": 4,
+        "class": 1,
+        "element": 4,
+        "baseHP": 2791,
+        "sign": "sign_D",
+        "baseATK": 592,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Um... Are we... friends now?\"",
+    "interactions": {
+        "0": [
+            "Aren't you... afraid of me?",
+            "Fireworks? Well, not bad...",
+            "It's pretty interesting... to be tied up like this with the red rope.",
+            "W-why do you keep staring at my feet?"
+        ],
+        "1": [
+            "People who come here to pray seem to like touching me here.",
+            "You won't get good fortune even if you keep touching me here..."
+        ],
+        "2": [
+            "You dare to pat my head? Whatever... this doesn't feel half bad..."
+        ],
+        "3": [
+            "Hmph... You're quite bold!",
+            "Well...? Do you like my ritual tool?",
+            "Is there anything that can seal my ritual tool so I can stop my fortune from leaking out?"
+        ],
+        "98": [
+            "I am the mighty guardian beast of WOOFIA. Begone, you evil spirits!"
+        ],
+        "99": [
+            "Ugh... I hear... something terrifying..."
+        ],
+        "100": [
+            "Sniff~ Hm... There's a scent of misfortune in the air! Looks like it's time for me to step in!",
+            "It's my first time doing this... it feels kind of new..."
+        ]
+    },
+    "story": {
+        "1": "Within Suichong's bloodline, a deep-seated fear of fire clashes with his divinity as a fortune bringer. While he holds the power to bless and guard, he is also burdened with the primal dread of the color red and firecrackers. After years of living in the modern world, Suichong claims to have conquered them all... or at least, that's what he tells others.\nHe's made a home in a small shrine deep in the mountains of Section Hunk. Years ago, he had tried to interact with the locals, but his intimidating appearance led the villagers to see him as a monster. They drove him away with firecrackers. Bound by a Nian beast's innate fear of fire, Suichong fled in terror back to the mountains.",
+        "2": "After saving hikers from a monster's attack, he bestowed some good luck upon them while he was at it. Word of the encounter spread through Section Hunk, turning into a rumor about an \"efficacious little shrine.\" Though many have tried to find it, only a few ever reach the doorstep. Those who manage to find him usually have gloomy stories. Suichong likes to listen to those stories, and would grant fortune to those who show sincerity. To him, it isn't charity but his divine duty as a guardian beast.",
+        "3": "Despite Suichong's resolve to reconnect with the society, he still sways between curiosity and caution toward the modern world. When it comes to food, he favors the traditional red bean buns and custard buns. He hesitated to try modern desserts at first, but once he tasted them, he was instantly addicted to the flavors. To meet new people, a friend helped him set up a smartphone and download a dating app, allowing him to take the first step toward friendship from a safe, comfortable distance.",
+        "4": "Suichong has a weakness for anything cute despite his imposing looks—he is particularly fond of soft mascots and plushies.\nDon't be intimidated by his appearance if you want to get on his good side. Bringing him a trendy dessert or a cute little keychain as a gift is surely a way to win his heart."
+    },
+    "hookUp": {
+        "cards": [
+            80081,
+            80111,
+            80129
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 1,
+                    "text": "Oh~"
+                },
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 1,
+                    "text": "Interesting!"
+                },
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 1,
+                    "text": "The fortune won't leak anymore this way."
+                },
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 1,
+                    "text": "Yes... this tool... It's perfect!"
+                },
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 0,
+                    "text": "...After pinning Suichong's \"ritual tool\" in place, it looks even thicker."
+                },
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 0,
+                    "text": "This is way too tempting..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80111,
+                    "speakerPosition": 1,
+                    "text": "Ngh~! Even more ropes..."
+                },
+                {
+                    "boundId": 80111,
+                    "speakerPosition": 1,
+                    "text": "I gotta say... it does feel good... to be tied up like this..."
+                },
+                {
+                    "boundId": 80111,
+                    "speakerPosition": 1,
+                    "text": "Me... likey!"
+                },
+                {
+                    "boundId": 80111,
+                    "speakerPosition": 0,
+                    "text": "Suichong is tied up in red ropes."
+                },
+                {
+                    "boundId": 80111,
+                    "speakerPosition": 0,
+                    "text": "Looks like he is enjoying himself..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 1,
+                    "text": "Waah!?"
+                },
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 1,
+                    "text": "Don't lick there... hah..."
+                },
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 1,
+                    "text": "Haaah... huff..."
+                },
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 0,
+                    "text": "Suichong... looks so damn cute like that..."
+                },
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 0,
+                    "text": "And... there's even the smell of mint chocolate and popcorn on his toe beans~?"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Tsk..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "I didn't come down here to get stuck in some paper just for you to mess around."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Waaah~ It failed?!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "No... I absolutely can't mess up the next one."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "It's... my first time seeing this."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Can I take a closer look?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Suichong looks curious..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "But it's not what I expected..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Ah... Someone's texting me."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Lemme check the messages."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I forgot to tell him to turn off the notifications... What a bummer."
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Blessing Light",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32101,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32111,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32111,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32121,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32131,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32141,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 2
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Golden Radiance",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 36,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 54
+                        },
+                        {
+                            "id": 32102,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 2
+                },
+                "1": {
+                    "params": {
+                        "arg1": 38.67,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 63
+                        },
+                        {
+                            "id": 32102,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 2
+                },
+                "2": {
+                    "params": {
+                        "arg1": 41.34,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 63
+                        },
+                        {
+                            "id": 32112,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 2
+                },
+                "3": {
+                    "params": {
+                        "arg1": 44,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 72
+                        },
+                        {
+                            "id": 32112,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 2
+                },
+                "4": {
+                    "params": {
+                        "arg1": 46.67,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 72
+                        },
+                        {
+                            "id": 32122,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 2
+                },
+                "5": {
+                    "params": {
+                        "arg1": 49.34,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 81
+                        },
+                        {
+                            "id": 32122,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 2
+                },
+                "6": {
+                    "params": {
+                        "arg1": 52,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 81
+                        },
+                        {
+                            "id": 32132,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 2
+                },
+                "7": {
+                    "params": {
+                        "arg1": 54.67,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 90
+                        },
+                        {
+                            "id": 32132,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 2
+                },
+                "8": {
+                    "params": {
+                        "arg1": 57.34,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32141,
+                            "count": 90
+                        },
+                        {
+                            "id": 32142,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 2
+                },
+                "9": {
+                    "params": {
+                        "arg1": 60,
+                        "arg2": 1
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 2
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Divine Rune",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 60,
+                        "arg3": 128,
+                        "arg4": 3,
+                        "arg5": 30,
+                        "arg6": 4,
+                        "arg7": 30
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Every ${arg1} turn(s), trigger: Gain 1 stack of Divine Rune, up to 4 stack(s).\nOn Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to target(s).\nWhen own Divine Rune ≧ ${arg4} stack(s), on EX Skill, trigger: Deal damage ${arg5}% of own ATK to target(s).\nWhen own Divine Rune = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Divine Rune from self.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 64.45,
+                        "arg3": 136,
+                        "arg4": 3,
+                        "arg5": 32.23,
+                        "arg6": 4,
+                        "arg7": 32.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Every ${arg1} turn(s), trigger: Gain 1 stack of Divine Rune, up to 4 stack(s).\nOn Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to target(s).\nWhen own Divine Rune ≧ ${arg4} stack(s), on EX Skill, trigger: Deal damage ${arg5}% of own ATK to target(s).\nWhen own Divine Rune = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Divine Rune from self.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 68.89,
+                        "arg3": 144,
+                        "arg4": 3,
+                        "arg5": 34.45,
+                        "arg6": 4,
+                        "arg7": 34.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Every ${arg1} turn(s), trigger: Gain 1 stack of Divine Rune, up to 4 stack(s).\nOn Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to target(s).\nWhen own Divine Rune ≧ ${arg4} stack(s), on EX Skill, trigger: Deal damage ${arg5}% of own ATK to target(s).\nWhen own Divine Rune = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Divine Rune from self.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 73.34,
+                        "arg3": 152,
+                        "arg4": 3,
+                        "arg5": 36.67,
+                        "arg6": 4,
+                        "arg7": 36.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Every ${arg1} turn(s), trigger: Gain 1 stack of Divine Rune, up to 4 stack(s).\nOn Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to target(s).\nWhen own Divine Rune ≧ ${arg4} stack(s), on EX Skill, trigger: Deal damage ${arg5}% of own ATK to target(s).\nWhen own Divine Rune = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Divine Rune from self.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 77.78,
+                        "arg3": 160,
+                        "arg4": 3,
+                        "arg5": 38.89,
+                        "arg6": 4,
+                        "arg7": 38.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Every ${arg1} turn(s), trigger: Gain 1 stack of Divine Rune, up to 4 stack(s).\nOn Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to target(s).\nWhen own Divine Rune ≧ ${arg4} stack(s), on EX Skill, trigger: Deal damage ${arg5}% of own ATK to target(s).\nWhen own Divine Rune = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Divine Rune from self.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 82.23,
+                        "arg3": 168,
+                        "arg4": 3,
+                        "arg5": 41.12,
+                        "arg6": 4,
+                        "arg7": 41.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Every ${arg1} turn(s), trigger: Gain 1 stack of Divine Rune, up to 4 stack(s).\nOn Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to target(s).\nWhen own Divine Rune ≧ ${arg4} stack(s), on EX Skill, trigger: Deal damage ${arg5}% of own ATK to target(s).\nWhen own Divine Rune = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Divine Rune from self.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 86.67,
+                        "arg3": 176,
+                        "arg4": 3,
+                        "arg5": 43.34,
+                        "arg6": 4,
+                        "arg7": 43.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Every ${arg1} turn(s), trigger: Gain 1 stack of Divine Rune, up to 4 stack(s).\nOn Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to target(s).\nWhen own Divine Rune ≧ ${arg4} stack(s), on EX Skill, trigger: Deal damage ${arg5}% of own ATK to target(s).\nWhen own Divine Rune = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Divine Rune from self.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 91.12,
+                        "arg3": 184,
+                        "arg4": 3,
+                        "arg5": 45.56,
+                        "arg6": 4,
+                        "arg7": 45.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Every ${arg1} turn(s), trigger: Gain 1 stack of Divine Rune, up to 4 stack(s).\nOn Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to target(s).\nWhen own Divine Rune ≧ ${arg4} stack(s), on EX Skill, trigger: Deal damage ${arg5}% of own ATK to target(s).\nWhen own Divine Rune = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Divine Rune from self.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 95.56,
+                        "arg3": 192,
+                        "arg4": 3,
+                        "arg5": 47.78,
+                        "arg6": 4,
+                        "arg7": 47.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Every ${arg1} turn(s), trigger: Gain 1 stack of Divine Rune, up to 4 stack(s).\nOn Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to target(s).\nWhen own Divine Rune ≧ ${arg4} stack(s), on EX Skill, trigger: Deal damage ${arg5}% of own ATK to target(s).\nWhen own Divine Rune = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Divine Rune from self.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 100,
+                        "arg3": 200,
+                        "arg4": 3,
+                        "arg5": 50,
+                        "arg6": 4,
+                        "arg7": 50
+                    },
+                    "materials": {},
+                    "description": "Every ${arg1} turn(s), trigger: Gain 1 stack of Divine Rune, up to 4 stack(s).\nOn Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to target(s).\nWhen own Divine Rune ≧ ${arg4} stack(s), on EX Skill, trigger: Deal damage ${arg5}% of own ATK to target(s).\nWhen own Divine Rune = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Divine Rune from self.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Sharp Scales",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 5,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When defending, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger: Remove own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s), from self.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 5,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger: Remove own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s), from self.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 5,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger: Remove own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s), from self.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 5,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger: Remove own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s), from self.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 5,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger: Remove own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s), from self.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 5,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger: Remove own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s), from self.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 5,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger: Remove own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s), from self.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 5,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger: Remove own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s), from self.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 5,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger: Remove own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s), from self.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 5,
+                        "arg3": 2
+                    },
+                    "materials": {},
+                    "description": "When defending, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger: Remove own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s), from self.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Passing Seasons",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 16,
+                        "arg3": 1,
+                        "arg4": 32
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies Afterglow for 2 turn(s).\nGrant all of own Buddies: When own Afterglow = ${arg1} stack(s), on Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nGrant all of own Buddies: When own Afterglow = ${arg3} stack(s), on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 17,
+                        "arg3": 1,
+                        "arg4": 34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies Afterglow for 2 turn(s).\nGrant all of own Buddies: When own Afterglow = ${arg1} stack(s), on Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nGrant all of own Buddies: When own Afterglow = ${arg3} stack(s), on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 18,
+                        "arg3": 1,
+                        "arg4": 36
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies Afterglow for 2 turn(s).\nGrant all of own Buddies: When own Afterglow = ${arg1} stack(s), on Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nGrant all of own Buddies: When own Afterglow = ${arg3} stack(s), on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 19,
+                        "arg3": 1,
+                        "arg4": 38
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies Afterglow for 2 turn(s).\nGrant all of own Buddies: When own Afterglow = ${arg1} stack(s), on Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nGrant all of own Buddies: When own Afterglow = ${arg3} stack(s), on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 20,
+                        "arg3": 1,
+                        "arg4": 40
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies Afterglow for 2 turn(s).\nGrant all of own Buddies: When own Afterglow = ${arg1} stack(s), on Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nGrant all of own Buddies: When own Afterglow = ${arg3} stack(s), on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 21,
+                        "arg3": 1,
+                        "arg4": 42
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies Afterglow for 2 turn(s).\nGrant all of own Buddies: When own Afterglow = ${arg1} stack(s), on Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nGrant all of own Buddies: When own Afterglow = ${arg3} stack(s), on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 22,
+                        "arg3": 1,
+                        "arg4": 44
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies Afterglow for 2 turn(s).\nGrant all of own Buddies: When own Afterglow = ${arg1} stack(s), on Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nGrant all of own Buddies: When own Afterglow = ${arg3} stack(s), on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 23,
+                        "arg3": 1,
+                        "arg4": 46
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies Afterglow for 2 turn(s).\nGrant all of own Buddies: When own Afterglow = ${arg1} stack(s), on Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nGrant all of own Buddies: When own Afterglow = ${arg3} stack(s), on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 24,
+                        "arg3": 1,
+                        "arg4": 48
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Grant all of own Buddies Afterglow for 2 turn(s).\nGrant all of own Buddies: When own Afterglow = ${arg1} stack(s), on Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nGrant all of own Buddies: When own Afterglow = ${arg3} stack(s), on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 25,
+                        "arg3": 1,
+                        "arg4": 50
+                    },
+                    "materials": {},
+                    "description": "On EX Skill, trigger: Grant all of own Buddies Afterglow for 2 turn(s).\nGrant all of own members: When own Afterglow = ${arg1} stack(s), on Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s).\nGrant all of own members: When own Afterglow = ${arg3} stack(s), on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10431,
+            "name": "Golden Radiance",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 36,
+                        "arg2": 1,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 4.5,
+                        "arg6": 2,
+                        "arg7": 2,
+                        "arg8": 50,
+                        "arg9": 4.5,
+                        "arg10": 2
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nWhen own Divine Rune ≧ ${arg3} stack(s), when taking an action, there is a(n) ${arg4}% chance to trigger: All of own Buddies' ATK +${arg5}% for ${arg6} turn(s).\nWhen own Divine Rune ≧ ${arg7} stack(s), when taking an action, there is a(n) ${arg8}% chance to trigger: All of own Buddies' ATK +${arg9}% for ${arg10} turn(s).",
+                    "cd": 2
+                },
+                "1": {
+                    "params": {
+                        "arg1": 38.67,
+                        "arg2": 1,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 4.84,
+                        "arg6": 2,
+                        "arg7": 2,
+                        "arg8": 50,
+                        "arg9": 4.84,
+                        "arg10": 2
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nWhen own Divine Rune ≧ ${arg3} stack(s), when taking an action, there is a(n) ${arg4}% chance to trigger: All of own Buddies' ATK +${arg5}% for ${arg6} turn(s).\nWhen own Divine Rune ≧ ${arg7} stack(s), when taking an action, there is a(n) ${arg8}% chance to trigger: All of own Buddies' ATK +${arg9}% for ${arg10} turn(s).",
+                    "cd": 2
+                },
+                "2": {
+                    "params": {
+                        "arg1": 41.34,
+                        "arg2": 1,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 5.17,
+                        "arg6": 2,
+                        "arg7": 2,
+                        "arg8": 50,
+                        "arg9": 5.17,
+                        "arg10": 2
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nWhen own Divine Rune ≧ ${arg3} stack(s), when taking an action, there is a(n) ${arg4}% chance to trigger: All of own Buddies' ATK +${arg5}% for ${arg6} turn(s).\nWhen own Divine Rune ≧ ${arg7} stack(s), when taking an action, there is a(n) ${arg8}% chance to trigger: All of own Buddies' ATK +${arg9}% for ${arg10} turn(s).",
+                    "cd": 2
+                },
+                "3": {
+                    "params": {
+                        "arg1": 44,
+                        "arg2": 1,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 5.5,
+                        "arg6": 2,
+                        "arg7": 2,
+                        "arg8": 50,
+                        "arg9": 5.5,
+                        "arg10": 2
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nWhen own Divine Rune ≧ ${arg3} stack(s), when taking an action, there is a(n) ${arg4}% chance to trigger: All of own Buddies' ATK +${arg5}% for ${arg6} turn(s).\nWhen own Divine Rune ≧ ${arg7} stack(s), when taking an action, there is a(n) ${arg8}% chance to trigger: All of own Buddies' ATK +${arg9}% for ${arg10} turn(s).",
+                    "cd": 2
+                },
+                "4": {
+                    "params": {
+                        "arg1": 46.67,
+                        "arg2": 1,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 5.84,
+                        "arg6": 2,
+                        "arg7": 2,
+                        "arg8": 50,
+                        "arg9": 5.84,
+                        "arg10": 2
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nWhen own Divine Rune ≧ ${arg3} stack(s), when taking an action, there is a(n) ${arg4}% chance to trigger: All of own Buddies' ATK +${arg5}% for ${arg6} turn(s).\nWhen own Divine Rune ≧ ${arg7} stack(s), when taking an action, there is a(n) ${arg8}% chance to trigger: All of own Buddies' ATK +${arg9}% for ${arg10} turn(s).",
+                    "cd": 2
+                },
+                "5": {
+                    "params": {
+                        "arg1": 49.34,
+                        "arg2": 1,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 6.17,
+                        "arg6": 2,
+                        "arg7": 2,
+                        "arg8": 50,
+                        "arg9": 6.17,
+                        "arg10": 2
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nWhen own Divine Rune ≧ ${arg3} stack(s), when taking an action, there is a(n) ${arg4}% chance to trigger: All of own Buddies' ATK +${arg5}% for ${arg6} turn(s).\nWhen own Divine Rune ≧ ${arg7} stack(s), when taking an action, there is a(n) ${arg8}% chance to trigger: All of own Buddies' ATK +${arg9}% for ${arg10} turn(s).",
+                    "cd": 2
+                },
+                "6": {
+                    "params": {
+                        "arg1": 52,
+                        "arg2": 1,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 6.5,
+                        "arg6": 2,
+                        "arg7": 2,
+                        "arg8": 50,
+                        "arg9": 6.5,
+                        "arg10": 2
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nWhen own Divine Rune ≧ ${arg3} stack(s), when taking an action, there is a(n) ${arg4}% chance to trigger: All of own Buddies' ATK +${arg5}% for ${arg6} turn(s).\nWhen own Divine Rune ≧ ${arg7} stack(s), when taking an action, there is a(n) ${arg8}% chance to trigger: All of own Buddies' ATK +${arg9}% for ${arg10} turn(s).",
+                    "cd": 2
+                },
+                "7": {
+                    "params": {
+                        "arg1": 54.67,
+                        "arg2": 1,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 6.84,
+                        "arg6": 2,
+                        "arg7": 2,
+                        "arg8": 50,
+                        "arg9": 6.84,
+                        "arg10": 2
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nWhen own Divine Rune ≧ ${arg3} stack(s), when taking an action, there is a(n) ${arg4}% chance to trigger: All of own Buddies' ATK +${arg5}% for ${arg6} turn(s).\nWhen own Divine Rune ≧ ${arg7} stack(s), when taking an action, there is a(n) ${arg8}% chance to trigger: All of own Buddies' ATK +${arg9}% for ${arg10} turn(s).",
+                    "cd": 2
+                },
+                "8": {
+                    "params": {
+                        "arg1": 57.34,
+                        "arg2": 1,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 7.17,
+                        "arg6": 2,
+                        "arg7": 2,
+                        "arg8": 50,
+                        "arg9": 7.17,
+                        "arg10": 2
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nWhen own Divine Rune ≧ ${arg3} stack(s), when taking an action, there is a(n) ${arg4}% chance to trigger: All of own Buddies' ATK +${arg5}% for ${arg6} turn(s).\nWhen own Divine Rune ≧ ${arg7} stack(s), when taking an action, there is a(n) ${arg8}% chance to trigger: All of own Buddies' ATK +${arg9}% for ${arg10} turn(s).",
+                    "cd": 2
+                },
+                "9": {
+                    "params": {
+                        "arg1": 60,
+                        "arg2": 1,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 7.5,
+                        "arg6": 2,
+                        "arg7": 2,
+                        "arg8": 50,
+                        "arg9": 7.5,
+                        "arg10": 2
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nWhen own Divine Rune ≧ ${arg3} stack(s), when taking an action, there is a(n) ${arg4}% chance to trigger: All of own Buddies' ATK +${arg5}% for ${arg6} turn(s).\nWhen own Divine Rune ≧ ${arg7} stack(s), when taking an action, there is a(n) ${arg8}% chance to trigger: All of own Buddies' ATK +${arg9}% for ${arg10} turn(s).",
+                    "cd": 2
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true
+    }
+}

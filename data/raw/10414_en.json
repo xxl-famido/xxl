@@ -1,0 +1,1879 @@
+{
+    "info": {
+        "id": 10414,
+        "name": "Kumoyama",
+        "feature": "Counterattack / Team Protection",
+        "rarity": 4,
+        "class": 2,
+        "element": 3,
+        "baseHP": 2835,
+        "sign": "sign_V",
+        "baseATK": 440,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Wherever Master goes,\nKumoyama will follow.\"",
+    "interactions": {
+        "0": [
+            "Master, are you going somewhere? Let Kumoyama be your guard!",
+            "I want to write down all the fun things and share them with the priest and everyone at the abbey... Master, you should come, too!",
+            "Master's hand... so warm, I want more."
+        ],
+        "1": [
+            "Would Master like a hug? Hehe—!",
+            "Does Master like Kumoyama's chest? Then Kumoyama will work even harder to make his pecs stronger for you!",
+            "Master's touch feels so good, woof~"
+        ],
+        "2": [
+            "Woof... Kumoyama loves it when Master pats Kumoyama's head... Woof~!",
+            "Master's kisses are amazing... Can Kumoyama have more...?"
+        ],
+        "3": [
+            "Hahaha—! That tickles, Master!",
+            "Mmm... My tail feels so fluffy..."
+        ],
+        "98": [
+            "Hehe... will Master give Kumoyama a reward?"
+        ],
+        "99": [
+            "Sorry... Kumoyama's been a bad puppy..."
+        ],
+        "100": [
+            "Master~ the melon soda from that shop is really tasty! Let's go get it together!",
+            "Be it Seiran or Section Hunk... as long as I'm with master, I fear nothing!"
+        ]
+    },
+    "story": {
+        "1": "Kumoyama is a white dog Beastfolk from Kenran Village, a small area located in the remote regions of Seiran Wakoku. His father passed away when he was young, leaving him orphaned. Perhaps due to hereditary factors, Kumoyama was weak and sickly as a child, so the villagers were not so fond of him. Eventually, he left the village and wandered. It was by chance that he met Kyrian, who took him to his abbey and raised him.",
+        "2": "Kumoyama's personality... is as complicated as his childhood. While he generally appears cheerful and adorable, due to his bitter childhood, deep down, he has a tendency to push himself to read the room, please others, and act overly compliant. If you aren't that close to him, though he won't be exactly cold to you, there will still be an obvious sense of distance and alienation. That said, by nature, Kumoyama is still a genuinely upright and lovable person.",
+        "3": "Not sure if Kumoyama himself is aware that some of his behaviors are quite endearing. His naturally lovable and affectionate side tends to show more when he's with people he truly trusts. However, with his past childhood, one cannot help but wonder if this side of him stems from a fear of being abandoned again, and the thought alone only makes people feel more protective and unwilling to let go of him. Because of this, Kyrian taught him swordsmanship, hoping that it would help him become more confident and allow him to slash through the inner demons that still haunt him to this day.",
+        "4": "In addition to the katana passed down to him by Kyrian, Kumoyama's favorite things are apple candies and melon soda. Also, he tends to get a little jealous when people he likes and trusts become overly close with others. At times like this, all it takes is a head pat to make him happy again. Whether it's his preference for food or his simple jealousy, they all showcase his innocent and adorable nature."
+    },
+    "hookUp": {
+        "cards": [
+            80126,
+            80127,
+            80120
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80126,
+                    "speakerPosition": 1,
+                    "text": "Ugh... hm... this feeling is so unfamiliar... No one has ever touched my body like this..."
+                },
+                {
+                    "boundId": 80126,
+                    "speakerPosition": 1,
+                    "text": "My chest here... it's warm. Ha... ah! My body tingles like it's being shocked, I love it..."
+                },
+                {
+                    "boundId": 80126,
+                    "speakerPosition": 0,
+                    "text": "I love your furry pecs as well! Ahhhhh!!!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80127,
+                    "speakerPosition": 1,
+                    "text": "Ah... aha... slurp... ha! W-wait! Um! Umm... haaa... Umgh..."
+                },
+                {
+                    "boundId": 80127,
+                    "speakerPosition": 1,
+                    "text": "Why is master... so good at this? Haa..."
+                },
+                {
+                    "boundId": 80127,
+                    "speakerPosition": 0,
+                    "text": "Kumoyama really likes my rough embrace and kisses. The next step then..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 1,
+                    "text": "Ah... keep petting my head... uhh..."
+                },
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 1,
+                    "text": "Kumoyama will be master's good boy... so keep doing it, please... it feels so good..."
+                },
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 0,
+                    "text": "Kumoyama loves getting head pets indeed, what an adorable doggy!"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Ah! Master... there..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "He seems to be responding... But doesn't appear very effective..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Master, are you... trying to do it like this?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Kumoyama doesn't seem to enjoy it very much..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Sorry master... I'm a bad doggy..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Bad doggy Kumoyama is still so adorable... No, wait, in that case, try this!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Gleaming Blade",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32201,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32201,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32211,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32211,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32221,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32231,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32241,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Maple Dance",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 18,
+                        "arg3": 1,
+                        "arg4": 22.5,
+                        "arg5": 7.5,
+                        "arg6": 2,
+                        "arg7": 36,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 54
+                        },
+                        {
+                            "id": 32202,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all of own Buddies by ${arg4}% of own ATK.\nGrant a Barrier ${arg5}% of own ATK to all of own Buddies for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage ${arg7}% of own ATK to target(s) for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 19.34,
+                        "arg3": 1,
+                        "arg4": 24.17,
+                        "arg5": 8.06,
+                        "arg6": 2,
+                        "arg7": 38.67,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32201,
+                            "count": 63
+                        },
+                        {
+                            "id": 32202,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all of own Buddies by ${arg4}% of own ATK.\nGrant a Barrier ${arg5}% of own ATK to all of own Buddies for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage ${arg7}% of own ATK to target(s) for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 20.67,
+                        "arg3": 1,
+                        "arg4": 25.84,
+                        "arg5": 8.62,
+                        "arg6": 2,
+                        "arg7": 41.34,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32211,
+                            "count": 63
+                        },
+                        {
+                            "id": 32212,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all of own Buddies by ${arg4}% of own ATK.\nGrant a Barrier ${arg5}% of own ATK to all of own Buddies for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage ${arg7}% of own ATK to target(s) for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 22,
+                        "arg3": 1,
+                        "arg4": 27.5,
+                        "arg5": 9.17,
+                        "arg6": 2,
+                        "arg7": 44,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32211,
+                            "count": 72
+                        },
+                        {
+                            "id": 32212,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all of own Buddies by ${arg4}% of own ATK.\nGrant a Barrier ${arg5}% of own ATK to all of own Buddies for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage ${arg7}% of own ATK to target(s) for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 23.34,
+                        "arg3": 1,
+                        "arg4": 29.17,
+                        "arg5": 9.73,
+                        "arg6": 2,
+                        "arg7": 46.67,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 72
+                        },
+                        {
+                            "id": 32222,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all of own Buddies by ${arg4}% of own ATK.\nGrant a Barrier ${arg5}% of own ATK to all of own Buddies for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage ${arg7}% of own ATK to target(s) for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 24.67,
+                        "arg3": 1,
+                        "arg4": 30.84,
+                        "arg5": 10.28,
+                        "arg6": 2,
+                        "arg7": 49.34,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 81
+                        },
+                        {
+                            "id": 32222,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all of own Buddies by ${arg4}% of own ATK.\nGrant a Barrier ${arg5}% of own ATK to all of own Buddies for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage ${arg7}% of own ATK to target(s) for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 26,
+                        "arg3": 1,
+                        "arg4": 32.5,
+                        "arg5": 10.84,
+                        "arg6": 2,
+                        "arg7": 52,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32231,
+                            "count": 81
+                        },
+                        {
+                            "id": 32232,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all of own Buddies by ${arg4}% of own ATK.\nGrant a Barrier ${arg5}% of own ATK to all of own Buddies for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage ${arg7}% of own ATK to target(s) for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 27.34,
+                        "arg3": 1,
+                        "arg4": 34.17,
+                        "arg5": 11.39,
+                        "arg6": 2,
+                        "arg7": 54.67,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32231,
+                            "count": 90
+                        },
+                        {
+                            "id": 32232,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all of own Buddies by ${arg4}% of own ATK.\nGrant a Barrier ${arg5}% of own ATK to all of own Buddies for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage ${arg7}% of own ATK to target(s) for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 28.67,
+                        "arg3": 1,
+                        "arg4": 35.84,
+                        "arg5": 11.95,
+                        "arg6": 2,
+                        "arg7": 57.34,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32241,
+                            "count": 90
+                        },
+                        {
+                            "id": 32242,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all of own Buddies by ${arg4}% of own ATK.\nGrant a Barrier ${arg5}% of own ATK to all of own Buddies for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage ${arg7}% of own ATK to target(s) for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 30,
+                        "arg3": 1,
+                        "arg4": 37.5,
+                        "arg5": 12.5,
+                        "arg6": 2,
+                        "arg7": 60,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all of own Buddies by ${arg4}% of own ATK.\nGrant a Barrier ${arg5}% of own ATK to all of own Buddies for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage ${arg7}% of own ATK to target(s) for ${arg8} turn(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "Wood HP Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 7.2,
+                        "arg2": 3.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 18
+                        },
+                        {
+                            "id": 32203,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Wood Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 7.74,
+                        "arg2": 3.87
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32201,
+                            "count": 21
+                        },
+                        {
+                            "id": 32203,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Wood Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 8.27,
+                        "arg2": 4.14
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32211,
+                            "count": 21
+                        },
+                        {
+                            "id": 32213,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Wood Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 8.8,
+                        "arg2": 4.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32211,
+                            "count": 24
+                        },
+                        {
+                            "id": 32213,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Wood Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 9.34,
+                        "arg2": 4.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32221,
+                            "count": 24
+                        },
+                        {
+                            "id": 32223,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Wood Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 9.87,
+                        "arg2": 4.94
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 27
+                        },
+                        {
+                            "id": 32223,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Wood Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 10.4,
+                        "arg2": 5.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32231,
+                            "count": 27
+                        },
+                        {
+                            "id": 32233,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Wood Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 10.94,
+                        "arg2": 5.47
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 30
+                        },
+                        {
+                            "id": 32233,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Wood Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 11.47,
+                        "arg2": 5.74
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32241,
+                            "count": 30
+                        },
+                        {
+                            "id": 32243,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Wood Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 12,
+                        "arg2": 6
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Wood Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Flowing Cycle",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 9.6,
+                        "arg3": 2,
+                        "arg4": 9.6,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 18
+                        },
+                        {
+                            "id": 32203,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 10.32,
+                        "arg3": 2,
+                        "arg4": 10.32,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32201,
+                            "count": 21
+                        },
+                        {
+                            "id": 32203,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 11.03,
+                        "arg3": 2,
+                        "arg4": 11.03,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32211,
+                            "count": 21
+                        },
+                        {
+                            "id": 32213,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 11.74,
+                        "arg3": 2,
+                        "arg4": 11.74,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32211,
+                            "count": 24
+                        },
+                        {
+                            "id": 32213,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 12.45,
+                        "arg3": 2,
+                        "arg4": 12.45,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32221,
+                            "count": 24
+                        },
+                        {
+                            "id": 32223,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 13.16,
+                        "arg3": 2,
+                        "arg4": 13.16,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 27
+                        },
+                        {
+                            "id": 32223,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 13.87,
+                        "arg3": 2,
+                        "arg4": 13.87,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32231,
+                            "count": 27
+                        },
+                        {
+                            "id": 32233,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 14.58,
+                        "arg3": 2,
+                        "arg4": 14.58,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 30
+                        },
+                        {
+                            "id": 32233,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 15.29,
+                        "arg3": 2,
+                        "arg4": 15.29,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32241,
+                            "count": 30
+                        },
+                        {
+                            "id": 32243,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 16,
+                        "arg3": 2,
+                        "arg4": 16,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Guarding Edge",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 9.6,
+                        "arg3": 2,
+                        "arg4": 9.6,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 18
+                        },
+                        {
+                            "id": 32203,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When attacked, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 10.32,
+                        "arg3": 2,
+                        "arg4": 10.32,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32201,
+                            "count": 21
+                        },
+                        {
+                            "id": 32203,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When attacked, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 11.03,
+                        "arg3": 2,
+                        "arg4": 11.03,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32211,
+                            "count": 21
+                        },
+                        {
+                            "id": 32213,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When attacked, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 11.74,
+                        "arg3": 2,
+                        "arg4": 11.74,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32211,
+                            "count": 24
+                        },
+                        {
+                            "id": 32213,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When attacked, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 12.45,
+                        "arg3": 2,
+                        "arg4": 12.45,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32221,
+                            "count": 24
+                        },
+                        {
+                            "id": 32223,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When attacked, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 13.16,
+                        "arg3": 2,
+                        "arg4": 13.16,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 27
+                        },
+                        {
+                            "id": 32223,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When attacked, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 13.87,
+                        "arg3": 2,
+                        "arg4": 13.87,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32231,
+                            "count": 27
+                        },
+                        {
+                            "id": 32233,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When attacked, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 14.58,
+                        "arg3": 2,
+                        "arg4": 14.58,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 30
+                        },
+                        {
+                            "id": 32233,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When attacked, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 15.29,
+                        "arg3": 2,
+                        "arg4": 15.29,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32241,
+                            "count": 30
+                        },
+                        {
+                            "id": 32243,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When attacked, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 16,
+                        "arg3": 2,
+                        "arg4": 16,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "When attacked, there is a(n) ${arg1}% chance to trigger: Own damage dealt +${arg2}% for ${arg3} turn(s) and own damage taken -${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 18
+                        },
+                        {
+                            "id": 32203,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32201,
+                            "count": 21
+                        },
+                        {
+                            "id": 32203,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32211,
+                            "count": 21
+                        },
+                        {
+                            "id": 32213,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32211,
+                            "count": 24
+                        },
+                        {
+                            "id": 32213,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32221,
+                            "count": 24
+                        },
+                        {
+                            "id": 32223,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 27
+                        },
+                        {
+                            "id": 32223,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32231,
+                            "count": 27
+                        },
+                        {
+                            "id": 32233,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 30
+                        },
+                        {
+                            "id": 32233,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32241,
+                            "count": 30
+                        },
+                        {
+                            "id": 32243,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Shuhari",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 24,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 18
+                        },
+                        {
+                            "id": 32203,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 25.78,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32201,
+                            "count": 21
+                        },
+                        {
+                            "id": 32203,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 27.56,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32211,
+                            "count": 21
+                        },
+                        {
+                            "id": 32213,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 29.34,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32211,
+                            "count": 24
+                        },
+                        {
+                            "id": 32213,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 31.12,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32221,
+                            "count": 24
+                        },
+                        {
+                            "id": 32223,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 32.89,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 27
+                        },
+                        {
+                            "id": 32223,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 34.67,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32231,
+                            "count": 27
+                        },
+                        {
+                            "id": 32233,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 36.45,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 30
+                        },
+                        {
+                            "id": 32233,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 38.23,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32241,
+                            "count": 30
+                        },
+                        {
+                            "id": 32243,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 40,
+                        "arg2": 1
+                    },
+                    "materials": {},
+                    "description": "On EX Skill, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10414,
+            "name": "Maple Dance",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 18,
+                        "arg3": 1,
+                        "arg4": 45,
+                        "arg5": 15,
+                        "arg6": 2,
+                        "arg7": 36,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all of own Buddies by ${arg4}% of own ATK.\nGrant a Barrier ${arg5}% of own ATK to all of own Buddies for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage ${arg7}% of own ATK to all enemies for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 19.34,
+                        "arg3": 1,
+                        "arg4": 48.34,
+                        "arg5": 16.12,
+                        "arg6": 2,
+                        "arg7": 38.67,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all allies by ${arg4}% of own ATK.\nGrant a Shield to all allies equal to ${arg5}% of own ATK for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage equal to ${arg7}% of own ATK to all enemies for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 20.67,
+                        "arg3": 1,
+                        "arg4": 51.67,
+                        "arg5": 17.23,
+                        "arg6": 2,
+                        "arg7": 41.34,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all allies by ${arg4}% of own ATK.\nGrant a Shield to all allies equal to ${arg5}% of own ATK for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage equal to ${arg7}% of own ATK to all enemies for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 22,
+                        "arg3": 1,
+                        "arg4": 55,
+                        "arg5": 18.34,
+                        "arg6": 2,
+                        "arg7": 44,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all allies by ${arg4}% of own ATK.\nGrant a Shield to all allies equal to ${arg5}% of own ATK for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage equal to ${arg7}% of own ATK to all enemies for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 23.34,
+                        "arg3": 1,
+                        "arg4": 58.34,
+                        "arg5": 19.45,
+                        "arg6": 2,
+                        "arg7": 46.67,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all allies by ${arg4}% of own ATK.\nGrant a Shield to all allies equal to ${arg5}% of own ATK for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage equal to ${arg7}% of own ATK to all enemies for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 24.67,
+                        "arg3": 1,
+                        "arg4": 61.67,
+                        "arg5": 20.56,
+                        "arg6": 2,
+                        "arg7": 49.34,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all allies by ${arg4}% of own ATK.\nGrant a Shield to all allies equal to ${arg5}% of own ATK for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage equal to ${arg7}% of own ATK to all enemies for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 26,
+                        "arg3": 1,
+                        "arg4": 65,
+                        "arg5": 21.67,
+                        "arg6": 2,
+                        "arg7": 52,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all allies by ${arg4}% of own ATK.\nGrant a Shield to all allies equal to ${arg5}% of own ATK for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage equal to ${arg7}% of own ATK to all enemies for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 27.34,
+                        "arg3": 1,
+                        "arg4": 68.34,
+                        "arg5": 22.78,
+                        "arg6": 2,
+                        "arg7": 54.67,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all allies by ${arg4}% of own ATK.\nGrant a Shield to all allies equal to ${arg5}% of own ATK for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage equal to ${arg7}% of own ATK to all enemies for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 28.67,
+                        "arg3": 1,
+                        "arg4": 71.67,
+                        "arg5": 23.89,
+                        "arg6": 2,
+                        "arg7": 57.34,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all allies by ${arg4}% of own ATK.\nGrant a Shield to all allies equal to ${arg5}% of own ATK for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage equal to ${arg7}% of own ATK to all enemies for ${arg8} turn(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 30,
+                        "arg3": 1,
+                        "arg4": 75,
+                        "arg5": 25,
+                        "arg6": 2,
+                        "arg7": 60,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "Gain Taunt for ${arg1} turn(s).\nOwn damage taken -${arg2}% for ${arg3} turn(s).\nHeal all allies by ${arg4}% of own ATK.\nGrant a Shield to all allies equal to ${arg5}% of own ATK for ${arg6} turn(s).\nWhen attacked, trigger: Deal damage equal to ${arg7}% of own ATK to all enemies for ${arg8} turn(s).",
+                    "cd": 3
+                }
+            },
+            "type": 0
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

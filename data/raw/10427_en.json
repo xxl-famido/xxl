@@ -1,0 +1,1885 @@
+{
+    "info": {
+        "id": 10427,
+        "name": "Duncan Charles",
+        "feature": "Sniper Triple Strike / Power Boost",
+        "rarity": 4,
+        "class": 4,
+        "element": 1,
+        "baseHP": 2500,
+        "sign": "sign_D",
+        "baseATK": 499,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Duncan Charles. Don't fret,\nI'm not here on an investigation.\"",
+    "interactions": {
+        "0": [
+            "You want one too? Trust me... this isn't exactly something good for you.",
+            "You know why MRB detectives never have curly hair? Because we keep everything straight.",
+            "Hm? What was that? You want to play the suspect and see how I interrogate people?",
+            "I once fell into a Jelly trap during a case. Honestly... it felt pretty good! Haha!",
+            "Tying up suspects? That's outdated. We use handcuffs now!"
+        ],
+        "1": [
+            "Oh? You're pretty bold, huh? ...You're sorry? If sorry worked, we wouldn't need the police, haha!",
+            "I'm pretty proud of my chest hair, you know. Want to get a little closer and feel it?"
+        ],
+        "2": [
+            "This scar on my face...? Got it during a mission."
+        ],
+        "3": [
+            "Looks like you're really interested in my baton, huh?",
+            "Flirting with an MRB detective in broad daylight...? I'll show you what that means."
+        ],
+        "98": [
+            "Once I'm off shift, let's grab a celebration dinner."
+        ],
+        "99": [
+            "Haa... hah... Can't let the rookies see me slipping..."
+        ],
+        "100": [
+            "Why don't Furvale students use owls for mail? Because the owls are students as well~ Haha!",
+            "This place feels just like the interrogation room back at the bureau... though sitting on this side is new to me."
+        ]
+    },
+    "story": {
+        "1": "During his school years, Duncan Charles was deeply influenced by the senior detectives around him. Growing up surrounded by their work, he developed a strong admiration for the profession. Driven by a strong sense of justice, he trained in magic with the goal of joining the Magical Regulation Bureau. However, his efforts never translated into results. His magical ability remained near the bottom of his class. In order to pass the licensing exam, he made a bold choice. He began studying firearms, tools often looked down upon by traditional wizards, and devoted himself to the underexplored field of generative magic, attempting to combine the two. This unconventional pursuit unexpectedly opened a new path for him. Duncan set a new record by becoming the first student admitted with the lowest score. His acceptance made him both controversial and highly talked-about among his peers.",
+        "2": "After joining the Bureau, Duncan quickly rose to the rank of squad leader through perseverance and hard work. He now leads a small team responsible for handling cases in the Furvale region. The promotion, however, came with its own cost. Well-liked in the beginning, he gradually grew distant from his colleagues as he devoted more and more of his time to investigations. Constant late nights dulled his eyes, and interacting with others became increasingly difficult. In an effort to improve the atmosphere, he often tried easing tension with jokes, though most of them were awkward puns that only he found amusing. For example: \"Why don't Furvale students use owls for mail? Because the owls are students.\" Jokes of that caliber consistently brought conversations to a halt, their chilling effect almost comparable to magic.",
+        "3": "In actual combat, the magic gun technique Duncan invented allows him to generate specialized bullets based on the situation, delivering decisive blows to any criminal in his sights. He can also summon the smoke spirit he has formed a contract with, aiding in reconnaissance and pursuit missions. Under Duncan's lead, the squad consistently cracks case after case, capturing one dangerous criminal after another—earning him the deep trust of his subordinates. Though Duncan often blurts out strange jokes whenever he panics, those slip-ups somehow always manage to ease the squad's tension in the end.",
+        "4": "There are even several legendary moments about him circulating within the Magic Regulation Bureau. For example, during one mission, a colleague had the tip of his nose sliced off in battle. Duncan rushed over in a panic and blurted out, \"No! You'll become way too opinionated now—because you can't be led by the nose anymore!\" A heavy silence fell over the scene... And Duncan, mortified, hurried to restore his teammate with healing magic. These stories have become everyone's favorite jokes to chat about during breaks, but to Duncan himself, every one of them is a history he'd rather forget. Even so, Duncan is still the detective who will charge into danger without hesitation, no matter how difficult the mission. He may stumble over his words and embarrass himself in creative new ways every time, but to his squad, he remains the most trusted and respected figure among them."
+    },
+    "hookUp": {
+        "cards": [
+            80136,
+            80074,
+            80111
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80136,
+                    "speakerPosition": 1,
+                    "text": "Tch... even now, you still won't give up the names of your accomplices?"
+                },
+                {
+                    "boundId": 80136,
+                    "speakerPosition": 1,
+                    "text": "Sure, you have the right to remain silent... but I've got plenty of ways to make you talk."
+                },
+                {
+                    "boundId": 80136,
+                    "speakerPosition": 1,
+                    "text": "Maybe I should use my baton to see just how tight your lips really are."
+                },
+                {
+                    "boundId": 80136,
+                    "speakerPosition": 1,
+                    "text": "Let's see how long you can last under my big baton!"
+                },
+                {
+                    "boundId": 80136,
+                    "speakerPosition": 0,
+                    "text": "Whoa—Duncan's really in character!"
+                },
+                {
+                    "boundId": 80136,
+                    "speakerPosition": 0,
+                    "text": "But... I kinda want to try his baton myself..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80074,
+                    "speakerPosition": 1,
+                    "text": "This bottle... is this just normal lube?"
+                },
+                {
+                    "boundId": 80074,
+                    "speakerPosition": 1,
+                    "text": "Wait... no... this sweet smell..."
+                },
+                {
+                    "boundId": 80074,
+                    "speakerPosition": 1,
+                    "text": "And this tingling... Is this Jelly slime?!"
+                },
+                {
+                    "boundId": 80074,
+                    "speakerPosition": 1,
+                    "text": "Mmh..."
+                },
+                {
+                    "boundId": 80074,
+                    "speakerPosition": 0,
+                    "text": "Even if he doesn't say it out loud, Duncan's body is surprisingly honest."
+                },
+                {
+                    "boundId": 80074,
+                    "speakerPosition": 0,
+                    "text": "Looks like he's enjoying it!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80111,
+                    "speakerPosition": 1,
+                    "text": "Mmh... nobody uses rope these days..."
+                },
+                {
+                    "boundId": 80111,
+                    "speakerPosition": 1,
+                    "text": "But this feeling is pretty unique."
+                },
+                {
+                    "boundId": 80111,
+                    "speakerPosition": 1,
+                    "text": "The rough hemp digging into my skin... this old-fashioned touch is... actually pretty nice..."
+                },
+                {
+                    "boundId": 80111,
+                    "speakerPosition": 0,
+                    "text": "Oh~ a detective who likes being tied up, huh?"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "That doesn't sound right. Looks like your line of investigation is way off."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Not right? Wait, this isn't even an investigation!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Why don't a medium-rare steak and a medium steak talk when they meet?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Because steaks can't talk, hahahaha!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "......"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "That joke was lame."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Do you know what you can't eat, but you taste every night, and it even makes you foam white at the mouth?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Don't get the wrong idea, the answer is toothpaste, hahaha!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "......"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I've gotta keep him busy enough that he stops telling these awful jokes."
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Bullet: Interrogation",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 25.6,
+                        "arg2": 25.6,
+                        "arg3": 25.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32401,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemy inPosition 2.\nDeal damage ${arg2}% of own ATK to enemy inPosition 3.\nDeal damage ${arg3}% of own ATK to enemy inPosition 4.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 27.2,
+                        "arg2": 27.2,
+                        "arg3": 28.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32401,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemy inPosition 2.\nDeal damage ${arg2}% of own ATK to enemy inPosition 3.\nDeal damage ${arg3}% of own ATK to enemy inPosition 4.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 28.8,
+                        "arg2": 28.8,
+                        "arg3": 28.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32411,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemy inPosition 2.\nDeal damage ${arg2}% of own ATK to enemy inPosition 3.\nDeal damage ${arg3}% of own ATK to enemy inPosition 4.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 30.4,
+                        "arg2": 30.4,
+                        "arg3": 30.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32411,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemy inPosition 2.\nDeal damage ${arg2}% of own ATK to enemy inPosition 3.\nDeal damage ${arg3}% of own ATK to enemy inPosition 4.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 32,
+                        "arg2": 32,
+                        "arg3": 32
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32421,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemy inPosition 2.\nDeal damage ${arg2}% of own ATK to enemy inPosition 3.\nDeal damage ${arg3}% of own ATK to enemy inPosition 4.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 33.6,
+                        "arg2": 33.6,
+                        "arg3": 33.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemy inPosition 2.\nDeal damage ${arg2}% of own ATK to enemy inPosition 3.\nDeal damage ${arg3}% of own ATK to enemy inPosition 4.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 35.2,
+                        "arg2": 35.2,
+                        "arg3": 35.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemy inPosition 2.\nDeal damage ${arg2}% of own ATK to enemy inPosition 3.\nDeal damage ${arg3}% of own ATK to enemy inPosition 4.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 36.8,
+                        "arg2": 36.8,
+                        "arg3": 36.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32431,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemy inPosition 2.\nDeal damage ${arg2}% of own ATK to enemy inPosition 3.\nDeal damage ${arg3}% of own ATK to enemy inPosition 4.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 38.4,
+                        "arg2": 38.4,
+                        "arg3": 38.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32441,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemy inPosition 2.\nDeal damage ${arg2}% of own ATK to enemy inPosition 3.\nDeal damage ${arg3}% of own ATK to enemy inPosition 4.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 40,
+                        "arg2": 40,
+                        "arg3": 40
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemy inPosition 2.\nDeal damage ${arg2}% of own ATK to enemy inPosition 3.\nDeal damage ${arg3}% of own ATK to enemy inPosition 4.",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Better Than a Wand!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 19.2,
+                        "arg2": 1,
+                        "arg3": 25.6,
+                        "arg4": 25.6,
+                        "arg5": 25.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 54
+                        },
+                        {
+                            "id": 32402,
+                            "count": 24
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 20.4,
+                        "arg2": 1,
+                        "arg3": 27.2,
+                        "arg4": 27.2,
+                        "arg5": 27.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32401,
+                            "count": 63
+                        },
+                        {
+                            "id": 32402,
+                            "count": 27
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 21.6,
+                        "arg2": 1,
+                        "arg3": 28.8,
+                        "arg4": 28.8,
+                        "arg5": 28.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32411,
+                            "count": 63
+                        },
+                        {
+                            "id": 32412,
+                            "count": 27
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22.8,
+                        "arg2": 1,
+                        "arg3": 30.4,
+                        "arg4": 30.4,
+                        "arg5": 30.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32411,
+                            "count": 72
+                        },
+                        {
+                            "id": 32412,
+                            "count": 33
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 24,
+                        "arg2": 1,
+                        "arg3": 32,
+                        "arg4": 32,
+                        "arg5": 32
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 72
+                        },
+                        {
+                            "id": 32422,
+                            "count": 33
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 25.2,
+                        "arg2": 1,
+                        "arg3": 33.6,
+                        "arg4": 33.6,
+                        "arg5": 33.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 81
+                        },
+                        {
+                            "id": 32422,
+                            "count": 39
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26.4,
+                        "arg2": 1,
+                        "arg3": 35.2,
+                        "arg4": 35.2,
+                        "arg5": 35.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32431,
+                            "count": 81
+                        },
+                        {
+                            "id": 32432,
+                            "count": 39
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.6,
+                        "arg2": 1,
+                        "arg3": 36.8,
+                        "arg4": 36.8,
+                        "arg5": 36.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32431,
+                            "count": 90
+                        },
+                        {
+                            "id": 32432,
+                            "count": 45
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.8,
+                        "arg2": 1,
+                        "arg3": 38.4,
+                        "arg4": 38.4,
+                        "arg5": 38.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32441,
+                            "count": 90
+                        },
+                        {
+                            "id": 32442,
+                            "count": 45
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 1,
+                        "arg3": 40,
+                        "arg4": 40,
+                        "arg5": 40
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "AoE ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Bullet: Charging Shot",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 10.24,
+                        "arg2": 2,
+                        "arg3": 50,
+                        "arg4": 20.48,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: All of own Buddies' ATK +${arg1}% for ${arg2} turn(s), and there is a(n) ${arg3}% chance to trigger: All of own Buddies' ATK +${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 10.88,
+                        "arg2": 2,
+                        "arg3": 50,
+                        "arg4": 21.76,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: All of own Buddies' ATK +${arg1}% for ${arg2} turn(s), and there is a(n) ${arg3}% chance to trigger: All of own Buddies' ATK +${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 11.52,
+                        "arg2": 2,
+                        "arg3": 50,
+                        "arg4": 23.04,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: All of own Buddies' ATK +${arg1}% for ${arg2} turn(s), and there is a(n) ${arg3}% chance to trigger: All of own Buddies' ATK +${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 12.16,
+                        "arg2": 2,
+                        "arg3": 50,
+                        "arg4": 24.32,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: All of own Buddies' ATK +${arg1}% for ${arg2} turn(s), and there is a(n) ${arg3}% chance to trigger: All of own Buddies' ATK +${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 12.8,
+                        "arg2": 2,
+                        "arg3": 50,
+                        "arg4": 25.6,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: All of own Buddies' ATK +${arg1}% for ${arg2} turn(s), and there is a(n) ${arg3}% chance to trigger: All of own Buddies' ATK +${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 13.44,
+                        "arg2": 2,
+                        "arg3": 50,
+                        "arg4": 26.88,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: All of own Buddies' ATK +${arg1}% for ${arg2} turn(s), and there is a(n) ${arg3}% chance to trigger: All of own Buddies' ATK +${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 14.08,
+                        "arg2": 2,
+                        "arg3": 50,
+                        "arg4": 28.16,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: All of own Buddies' ATK +${arg1}% for ${arg2} turn(s), and there is a(n) ${arg3}% chance to trigger: All of own Buddies' ATK +${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 14.72,
+                        "arg2": 2,
+                        "arg3": 50,
+                        "arg4": 29.44,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: All of own Buddies' ATK +${arg1}% for ${arg2} turn(s), and there is a(n) ${arg3}% chance to trigger: All of own Buddies' ATK +${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 15.36,
+                        "arg2": 2,
+                        "arg3": 50,
+                        "arg4": 30.72,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: All of own Buddies' ATK +${arg1}% for ${arg2} turn(s), and there is a(n) ${arg3}% chance to trigger: All of own Buddies' ATK +${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 16,
+                        "arg2": 2,
+                        "arg3": 50,
+                        "arg4": 32,
+                        "arg5": 2
+                    },
+                    "materials": {},
+                    "description": "On Basic Attack, trigger: All of own Buddies' ATK +${arg1}% for ${arg2} turn(s), and there is a(n) ${arg3}% chance to trigger: All of own Buddies' ATK +${arg4}% for ${arg5} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Silence Before the Shot",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 66,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When defending, trigger: On Basic Attack, deal damage ${arg1}% of own ATK to target(s), for ${arg2} turn(s). This effect counts as Basic Attack.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 72,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: On Basic Attack, deal damage ${arg1}% of own ATK to target(s), for ${arg2} turn(s). This effect counts as Basic Attack damage.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 78,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: On Basic Attack, deal damage ${arg1}% of own ATK to target(s), for ${arg2} turn(s). This effect counts as Basic Attack damage.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 84,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: On Basic Attack, deal damage ${arg1}% of own ATK to target(s), for ${arg2} turn(s). This effect counts as Basic Attack damage.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: On Basic Attack, deal damage ${arg1}% of own ATK to target(s), for ${arg2} turn(s). This effect counts as Basic Attack damage.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 96,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: On Basic Attack, deal damage ${arg1}% of own ATK to target(s), for ${arg2} turn(s). This effect counts as Basic Attack damage.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 102,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: On Basic Attack, deal damage ${arg1}% of own ATK to target(s), for ${arg2} turn(s). This effect counts as Basic Attack damage.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 108,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: On Basic Attack, deal damage ${arg1}% of own ATK to target(s), for ${arg2} turn(s). This effect counts as Basic Attack damage.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 114,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: On Basic Attack, deal damage ${arg1}% of own ATK to target(s), for ${arg2} turn(s). This effect counts as Basic Attack damage.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 120,
+                        "arg2": 2
+                    },
+                    "materials": {},
+                    "description": "When defending, trigger: On Basic Attack, deal damage ${arg1}% of own ATK to target(s), for ${arg2} turn(s). This effect counts as Basic Attack damage.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "The Longer the Sharper",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 28.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 30.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 32.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 34.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 36
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 37.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 39.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 41.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 43.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 45
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10427,
+            "name": "Better Than a Wand!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 19.2,
+                        "arg2": 1,
+                        "arg3": 25.6,
+                        "arg4": 25.6,
+                        "arg5": 25.6,
+                        "arg6": 30,
+                        "arg7": 2,
+                        "arg8": 2,
+                        "arg9": 96
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.\nSigil Passive:\nOn EX Skill, trigger: Gain 1 stack of Arcane Focus for ${arg6} turn(s), up to ${arg7} stack(s).\nWhen own Arcane Focus ≧ ${arg8} stack(s), own damage dealt +${arg9}%. On attack, remove Arcane Focus from self.",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 20.4,
+                        "arg2": 1,
+                        "arg3": 27.2,
+                        "arg4": 27.2,
+                        "arg5": 27.2,
+                        "arg6": 30,
+                        "arg7": 2,
+                        "arg8": 2,
+                        "arg9": 102
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.\nSigil Passive:\nOn EX Skill, trigger: Gain 1 stack of Arcane Focus for ${arg6} turn(s), up to ${arg7} stack(s).\nWhen own Arcane Focus ≧ ${arg8} stack(s), own damage dealt +${arg9}%. On attack, remove Arcane Focus from self.",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 21.6,
+                        "arg2": 1,
+                        "arg3": 28.8,
+                        "arg4": 28.8,
+                        "arg5": 28.8,
+                        "arg6": 30,
+                        "arg7": 2,
+                        "arg8": 2,
+                        "arg9": 108
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.\nSigil Passive:\nOn EX Skill, trigger: Gain 1 stack of Arcane Focus for ${arg6} turn(s), up to ${arg7} stack(s).\nWhen own Arcane Focus ≧ ${arg8} stack(s), own damage dealt +${arg9}%. On attack, remove Arcane Focus from self.",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22.8,
+                        "arg2": 1,
+                        "arg3": 30.4,
+                        "arg4": 30.4,
+                        "arg5": 30.4,
+                        "arg6": 30,
+                        "arg7": 2,
+                        "arg8": 2,
+                        "arg9": 114
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.\nSigil Passive:\nOn EX Skill, trigger: Gain 1 stack of Arcane Focus for ${arg6} turn(s), up to ${arg7} stack(s).\nWhen own Arcane Focus ≧ ${arg8} stack(s), own damage dealt +${arg9}%. On attack, remove Arcane Focus from self.",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 24,
+                        "arg2": 1,
+                        "arg3": 32,
+                        "arg4": 32,
+                        "arg5": 32,
+                        "arg6": 30,
+                        "arg7": 2,
+                        "arg8": 2,
+                        "arg9": 120
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.\nSigil Passive:\nOn EX Skill, trigger: Gain 1 stack of Arcane Focus for ${arg6} turn(s), up to ${arg7} stack(s).\nWhen own Arcane Focus ≧ ${arg8} stack(s), own damage dealt +${arg9}%. On attack, remove Arcane Focus from self.",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 25.2,
+                        "arg2": 1,
+                        "arg3": 33.6,
+                        "arg4": 33.6,
+                        "arg5": 33.6,
+                        "arg6": 30,
+                        "arg7": 2,
+                        "arg8": 2,
+                        "arg9": 126
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.\nSigil Passive:\nOn EX Skill, trigger: Gain 1 stack of Arcane Focus for ${arg6} turn(s), up to ${arg7} stack(s).\nWhen own Arcane Focus ≧ ${arg8} stack(s), own damage dealt +${arg9}%. On attack, remove Arcane Focus from self.",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26.4,
+                        "arg2": 1,
+                        "arg3": 35.2,
+                        "arg4": 35.2,
+                        "arg5": 35.2,
+                        "arg6": 30,
+                        "arg7": 2,
+                        "arg8": 2,
+                        "arg9": 132
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.\nSigil Passive:\nOn EX Skill, trigger: Gain 1 stack of Arcane Focus for ${arg6} turn(s), up to ${arg7} stack(s).\nWhen own Arcane Focus ≧ ${arg8} stack(s), own damage dealt +${arg9}%. On attack, remove Arcane Focus from self.",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.6,
+                        "arg2": 1,
+                        "arg3": 36.8,
+                        "arg4": 36.8,
+                        "arg5": 36.8,
+                        "arg6": 30,
+                        "arg7": 2,
+                        "arg8": 2,
+                        "arg9": 138
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.\nSigil Passive:\nOn EX Skill, trigger: Gain 1 stack of Arcane Focus for ${arg6} turn(s), up to ${arg7} stack(s).\nWhen own Arcane Focus ≧ ${arg8} stack(s), own damage dealt +${arg9}%. On attack, remove Arcane Focus from self.",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.8,
+                        "arg2": 1,
+                        "arg3": 38.4,
+                        "arg4": 38.4,
+                        "arg5": 38.4,
+                        "arg6": 30,
+                        "arg7": 2,
+                        "arg8": 2,
+                        "arg9": 144
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.\nSigil Passive:\nOn EX Skill, trigger: Gain 1 stack of Arcane Focus for ${arg6} turn(s), up to ${arg7} stack(s).\nWhen own Arcane Focus ≧ ${arg8} stack(s), own damage dealt +${arg9}%. On attack, remove Arcane Focus from self.",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 1,
+                        "arg3": 40,
+                        "arg4": 40,
+                        "arg5": 40,
+                        "arg6": 30,
+                        "arg7": 2,
+                        "arg8": 2,
+                        "arg9": 150
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to enemy in Position 2.\nDeal damage ${arg4}% of own ATK to enemy in Position 3.\nDeal damage ${arg5}% of own ATK to enemy in Position 4.\nSigil Passive:\nOn EX Skill, trigger: Gain 1 stack of Arcane Focus for ${arg6} turn(s), up to ${arg7} stack(s).\nWhen own Arcane Focus ≧ ${arg8} stack(s), own damage dealt +${arg9}%. On attack, remove Arcane Focus from self.",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true
+    }
+}

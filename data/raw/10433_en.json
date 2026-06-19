@@ -1,0 +1,1899 @@
+{
+    "info": {
+        "id": 10433,
+        "name": "Watanabe Hitoha",
+        "feature": "Damage Boost / Extra Move",
+        "rarity": 4,
+        "class": 5,
+        "element": 1,
+        "baseHP": 2427,
+        "sign": "6",
+        "baseATK": 515,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"So you can see me...?\nGuess you really took the bait.\"",
+    "interactions": {
+        "0": [
+            "If it's a fishing match you're after, I guess I do have time for a round or two.",
+            "What am I exactly? To be honest... I'm not sure, either.",
+            "The soothing sound of the tides...",
+            "Impressive. You don't look like the type who'd ever reel that in."
+        ],
+        "1": [
+            "Oh, this? People do tend to bump into it by accident.",
+            "Don't touch me there...! Ugh... It feels so weird..."
+        ],
+        "2": [
+            "Hey! Hands off the hat!"
+        ],
+        "3": [
+            "What are you doing in public like this? Hah... Nobody's around? That's not the point!",
+            "L-let go of me! Not from behind—!",
+            "Hm? Isn't this what I just caught?"
+        ],
+        "98": [
+            "No weakness escapes my sight."
+        ],
+        "99": [
+            "Another day... and another empty catch."
+        ],
+        "100": [
+            "Tch, another one. Can't they just spare me a moment of peace? Wait, you can see me?",
+            "You don't even leave a being like me alone... What a pervert..."
+        ]
+    },
+    "story": {
+        "1": "Watanabe Hitoha is a lingering spirit who haunts a certain stretch of seaside in Seiran Wakoku. He has a powerful build that does not match his gloomy looks, and he is usually found alone, sitting on the coastal reefs and fishing.\n\nHe doesn't like dealing with people, so he stays invisible most of the time. But whenever he sees someone in danger, he cannot help but reveal himself to save them.\n\nHe always complains that it is a hassle, yet he still uses his impressive physical strength to help solve all sorts of problems people run into by the sea. Over time, he becomes known among the nearby residents as a friendly ghost.",
+        "2": "While he was alive, Watanabe Hitoha had a treasured squid-shaped fleshlight he named Twerky, and he carried it with him wherever he went.\n\nDuring one sea fishing trip, he accidentally turned it on, and Twerky slipped from his hands and fell into the ocean.Heartbroken, Watanabe Hitoha searched the sea for seven days without rest. In the end, his strength gave out, and he gradually lost consciousness amid the waves...\n\nAfter his death, his powerful obsession turned him into a lingering spirit drifting along the shore, endlessly fishing while waiting for the day Twerky might finally be reeled back up.",
+        "3": "Although Watanabe Hitoha's fishing skills are exceptional, for some reason he keeps catching pieces of artificial drift trash after losing Twerky. Things like defective fleshlights or used silicone dolls...\n\nEven though none of them look anything like Twerky, every time he reels one up, Watanabe Hitoha would still mistake it for the one he longs for, if only for a fleeting moment.",
+        "4": "While he was alive, Watanabe Hitoha loved traveling almost as much as he loved fishing. Although he did not enjoy dealing with people, the landscapes he remembered from his journeys always included those figures who greeted him with gentle smiles.\n\nAfter becoming a lingering spirit, Watanabe Hitoha tried many times to leave, but every attempt ended in failure. Eventually, the passing years wore down his resolve, leaving him with nothing but the endless tide and memories of the life he once had.\n\nHow much longer would it take before his stagnant, lifeless time could stir again with a long-forgotten ripple?"
+    },
+    "hookUp": {
+        "cards": [
+            80006,
+            80144,
+            80082
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80006,
+                    "speakerPosition": 1,
+                    "text": "Y-you're going to use that fish to...!"
+                },
+                {
+                    "boundId": 80006,
+                    "speakerPosition": 1,
+                    "text": "Hmph, ah—"
+                },
+                {
+                    "boundId": 80006,
+                    "speakerPosition": 1,
+                    "text": "......"
+                },
+                {
+                    "boundId": 80006,
+                    "speakerPosition": 1,
+                    "text": "This texture... feels just like... my Twerky."
+                },
+                {
+                    "boundId": 80006,
+                    "speakerPosition": 0,
+                    "text": "That's just a fish-shaped toy, though."
+                },
+                {
+                    "boundId": 80006,
+                    "speakerPosition": 0,
+                    "text": "Alright, picking up the pace now~"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80144,
+                    "speakerPosition": 1,
+                    "text": "Mm, I can almost hear the waves crashing against the rocks."
+                },
+                {
+                    "boundId": 80144,
+                    "speakerPosition": 1,
+                    "text": "I've got... a strange feeling..."
+                },
+                {
+                    "boundId": 80144,
+                    "speakerPosition": 1,
+                    "text": "Since you're so keen on it, I guess I can stay a while... Ngh!"
+                },
+                {
+                    "boundId": 80144,
+                    "speakerPosition": 1,
+                    "text": "Ngh, mm—"
+                },
+                {
+                    "boundId": 80144,
+                    "speakerPosition": 1,
+                    "text": "I never knew the sound of the waves... could make me feel... so tingly..."
+                },
+                {
+                    "boundId": 80144,
+                    "speakerPosition": 0,
+                    "text": "Whoa... Who knew sea ASMR was this effective?!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80082,
+                    "speakerPosition": 1,
+                    "text": "Is that number supposed to be my years as a virgin?"
+                },
+                {
+                    "boundId": 80082,
+                    "speakerPosition": 1,
+                    "text": "Strange, when I died, I was only... Ah, does my time after death count, too?"
+                },
+                {
+                    "boundId": 80082,
+                    "speakerPosition": 1,
+                    "text": "There is something seriously wrong with how this scroll works."
+                },
+                {
+                    "boundId": 80082,
+                    "speakerPosition": 0,
+                    "text": "Wow, this is way beyond a wizard."
+                },
+                {
+                    "boundId": 80082,
+                    "speakerPosition": 0,
+                    "text": "Great sage—no, something stronger, maybe...?"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Ugh, stop staring at me like that."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Huh? Is he actually blushing?"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Is teasing me that much fun?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "If you're going to do it, hurry up."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "So impatient!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Is this what people are into these days?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Honestly, I don't really get it."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "D-damn it. Just you wait. I'll make you scream for more!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Groundbait",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32501,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32501,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32511,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32511,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32521,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32531,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32541,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Hot Streak",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 111.91,
+                        "arg2": 4.8,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 54
+                        },
+                        {
+                            "id": 32502,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.",
+                    "cd": 4
+                },
+                "1": {
+                    "params": {
+                        "arg1": 120.2,
+                        "arg2": 5.16,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32501,
+                            "count": 63
+                        },
+                        {
+                            "id": 32502,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.",
+                    "cd": 4
+                },
+                "2": {
+                    "params": {
+                        "arg1": 128.49,
+                        "arg2": 5.52,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32511,
+                            "count": 63
+                        },
+                        {
+                            "id": 32512,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.",
+                    "cd": 4
+                },
+                "3": {
+                    "params": {
+                        "arg1": 136.78,
+                        "arg2": 5.87,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32511,
+                            "count": 72
+                        },
+                        {
+                            "id": 32512,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.",
+                    "cd": 4
+                },
+                "4": {
+                    "params": {
+                        "arg1": 145.06,
+                        "arg2": 6.23,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 72
+                        },
+                        {
+                            "id": 32522,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.",
+                    "cd": 4
+                },
+                "5": {
+                    "params": {
+                        "arg1": 153.35,
+                        "arg2": 6.58,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 81
+                        },
+                        {
+                            "id": 32522,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.",
+                    "cd": 4
+                },
+                "6": {
+                    "params": {
+                        "arg1": 161.64,
+                        "arg2": 6.94,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32531,
+                            "count": 81
+                        },
+                        {
+                            "id": 32532,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.",
+                    "cd": 4
+                },
+                "7": {
+                    "params": {
+                        "arg1": 169.93,
+                        "arg2": 7.29,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32531,
+                            "count": 90
+                        },
+                        {
+                            "id": 32532,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.",
+                    "cd": 4
+                },
+                "8": {
+                    "params": {
+                        "arg1": 178.22,
+                        "arg2": 7.65,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32541,
+                            "count": 90
+                        },
+                        {
+                            "id": 32542,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.",
+                    "cd": 4
+                },
+                "9": {
+                    "params": {
+                        "arg1": 186.51,
+                        "arg2": 8,
+                        "arg3": 2
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.",
+                    "cd": 4
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "Fire ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 7.2,
+                        "arg2": 3.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 7.74,
+                        "arg2": 3.87
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 8.27,
+                        "arg2": 4.14
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 8.8,
+                        "arg2": 4.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 9.34,
+                        "arg2": 4.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 9.87,
+                        "arg2": 4.94
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 10.4,
+                        "arg2": 5.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 10.94,
+                        "arg2": 5.47
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 11.47,
+                        "arg2": 5.74
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 12,
+                        "arg2": 6
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Long Casting",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 50,
+                        "arg3": 7.2,
+                        "arg4": 2,
+                        "arg5": 1,
+                        "arg6": 50,
+                        "arg7": 4.8,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Hooked.\nWhen locked target's Hooked = ${arg1} stack(s), when taking an action, there is a(n) ${arg2}% chance to trigger: Own damage dealt +${arg3}% for ${arg4} turn(s).\nWhen locked target's Hooked = ${arg5} stack(s), when taking an action, there is a(n) ${arg6}% chance to trigger: Target damage taken +${arg7}% for ${arg8} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 50,
+                        "arg3": 7.74,
+                        "arg4": 2,
+                        "arg5": 1,
+                        "arg6": 50,
+                        "arg7": 5.16,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Hooked.\nWhen locked target's Hooked = ${arg1} stack(s), when taking an action, there is a(n) ${arg2}% chance to trigger: Own damage dealt +${arg3}% for ${arg4} turn(s).\nWhen locked target's Hooked = ${arg5} stack(s), when taking an action, there is a(n) ${arg6}% chance to trigger: Target damage taken +${arg7}% for ${arg8} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 50,
+                        "arg3": 8.27,
+                        "arg4": 2,
+                        "arg5": 1,
+                        "arg6": 50,
+                        "arg7": 5.52,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Hooked.\nWhen locked target's Hooked = ${arg1} stack(s), when taking an action, there is a(n) ${arg2}% chance to trigger: Own damage dealt +${arg3}% for ${arg4} turn(s).\nWhen locked target's Hooked = ${arg5} stack(s), when taking an action, there is a(n) ${arg6}% chance to trigger: Target damage taken +${arg7}% for ${arg8} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 50,
+                        "arg3": 8.8,
+                        "arg4": 2,
+                        "arg5": 1,
+                        "arg6": 50,
+                        "arg7": 5.87,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Hooked.\nWhen locked target's Hooked = ${arg1} stack(s), when taking an action, there is a(n) ${arg2}% chance to trigger: Own damage dealt +${arg3}% for ${arg4} turn(s).\nWhen locked target's Hooked = ${arg5} stack(s), when taking an action, there is a(n) ${arg6}% chance to trigger: Target damage taken +${arg7}% for ${arg8} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 50,
+                        "arg3": 9.34,
+                        "arg4": 2,
+                        "arg5": 1,
+                        "arg6": 50,
+                        "arg7": 6.23,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Hooked.\nWhen locked target's Hooked = ${arg1} stack(s), when taking an action, there is a(n) ${arg2}% chance to trigger: Own damage dealt +${arg3}% for ${arg4} turn(s).\nWhen locked target's Hooked = ${arg5} stack(s), when taking an action, there is a(n) ${arg6}% chance to trigger: Target damage taken +${arg7}% for ${arg8} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 50,
+                        "arg3": 9.87,
+                        "arg4": 2,
+                        "arg5": 1,
+                        "arg6": 50,
+                        "arg7": 6.58,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Hooked.\nWhen locked target's Hooked = ${arg1} stack(s), when taking an action, there is a(n) ${arg2}% chance to trigger: Own damage dealt +${arg3}% for ${arg4} turn(s).\nWhen locked target's Hooked = ${arg5} stack(s), when taking an action, there is a(n) ${arg6}% chance to trigger: Target damage taken +${arg7}% for ${arg8} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 50,
+                        "arg3": 10.4,
+                        "arg4": 2,
+                        "arg5": 1,
+                        "arg6": 50,
+                        "arg7": 6.94,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Hooked.\nWhen locked target's Hooked = ${arg1} stack(s), when taking an action, there is a(n) ${arg2}% chance to trigger: Own damage dealt +${arg3}% for ${arg4} turn(s).\nWhen locked target's Hooked = ${arg5} stack(s), when taking an action, there is a(n) ${arg6}% chance to trigger: Target damage taken +${arg7}% for ${arg8} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 50,
+                        "arg3": 10.94,
+                        "arg4": 2,
+                        "arg5": 1,
+                        "arg6": 50,
+                        "arg7": 7.29,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Hooked.\nWhen locked target's Hooked = ${arg1} stack(s), when taking an action, there is a(n) ${arg2}% chance to trigger: Own damage dealt +${arg3}% for ${arg4} turn(s).\nWhen locked target's Hooked = ${arg5} stack(s), when taking an action, there is a(n) ${arg6}% chance to trigger: Target damage taken +${arg7}% for ${arg8} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 50,
+                        "arg3": 11.47,
+                        "arg4": 2,
+                        "arg5": 1,
+                        "arg6": 50,
+                        "arg7": 7.65,
+                        "arg8": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Hooked.\nWhen locked target's Hooked = ${arg1} stack(s), when taking an action, there is a(n) ${arg2}% chance to trigger: Own damage dealt +${arg3}% for ${arg4} turn(s).\nWhen locked target's Hooked = ${arg5} stack(s), when taking an action, there is a(n) ${arg6}% chance to trigger: Target damage taken +${arg7}% for ${arg8} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 50,
+                        "arg3": 12,
+                        "arg4": 2,
+                        "arg5": 1,
+                        "arg6": 50,
+                        "arg7": 8,
+                        "arg8": 1
+                    },
+                    "materials": {},
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Hooked.\nWhen locked target's Hooked = ${arg1} stack(s), when taking an action, there is a(n) ${arg2}% chance to trigger: Own damage dealt +${arg3}% for ${arg4} turn(s).\nWhen locked target's Hooked = ${arg5} stack(s), when taking an action, there is a(n) ${arg6}% chance to trigger: Target damage taken +${arg7}% for ${arg8} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Reeling In",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 18,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When locked target's Hooked = ${arg1} stack(s), when defending, trigger: Own EX Skill effect +${arg2}% for ${arg3} turn(s).\nWhen locked target's Hooked = ${arg4} stack(s), when defending, trigger: Own EX Skill CD -${arg5} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 19.34,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target's Hooked = ${arg1} stack(s), when defending, trigger: Own EX Skill effect +${arg2}% for ${arg3} turn(s).\nWhen locked target's Hooked = ${arg4} stack(s), when defending, trigger: Own EX Skill CD -${arg5} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 20.67,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target's Hooked = ${arg1} stack(s), when defending, trigger: Own EX Skill effect +${arg2}% for ${arg3} turn(s).\nWhen locked target's Hooked = ${arg4} stack(s), when defending, trigger: Own EX Skill CD -${arg5} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 22,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target's Hooked = ${arg1} stack(s), when defending, trigger: Own EX Skill effect +${arg2}% for ${arg3} turn(s).\nWhen locked target's Hooked = ${arg4} stack(s), when defending, trigger: Own EX Skill CD -${arg5} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 23.34,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target's Hooked = ${arg1} stack(s), when defending, trigger: Own EX Skill effect +${arg2}% for ${arg3} turn(s).\nWhen locked target's Hooked = ${arg4} stack(s), when defending, trigger: Own EX Skill CD -${arg5} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 24.67,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target's Hooked = ${arg1} stack(s), when defending, trigger: Own EX Skill effect +${arg2}% for ${arg3} turn(s).\nWhen locked target's Hooked = ${arg4} stack(s), when defending, trigger: Own EX Skill CD -${arg5} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 26,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target's Hooked = ${arg1} stack(s), when defending, trigger: Own EX Skill effect +${arg2}% for ${arg3} turn(s).\nWhen locked target's Hooked = ${arg4} stack(s), when defending, trigger: Own EX Skill CD -${arg5} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 27.34,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target's Hooked = ${arg1} stack(s), when defending, trigger: Own EX Skill effect +${arg2}% for ${arg3} turn(s).\nWhen locked target's Hooked = ${arg4} stack(s), when defending, trigger: Own EX Skill CD -${arg5} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 28.67,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target's Hooked = ${arg1} stack(s), when defending, trigger: Own EX Skill effect +${arg2}% for ${arg3} turn(s).\nWhen locked target's Hooked = ${arg4} stack(s), when defending, trigger: Own EX Skill CD -${arg5} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 30,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "When locked target's Hooked = ${arg1} stack(s), when defending, trigger: Own EX Skill effect +${arg2}% for ${arg3} turn(s).\nWhen locked target's Hooked = ${arg4} stack(s), when defending, trigger: Own EX Skill CD -${arg5} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": " Barbed Hook",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18,
+                        "arg2": 30
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On Basic Attack, deal damage ${arg1}% of own ATK to target(s).\nOn EX Skill, deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34,
+                        "arg2": 32.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, deal damage ${arg1}% of own ATK to target(s).\nOn EX Skill, deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67,
+                        "arg2": 34.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, deal damage ${arg1}% of own ATK to target(s).\nOn EX Skill, deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22,
+                        "arg2": 36.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, deal damage ${arg1}% of own ATK to target(s).\nOn EX Skill, deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34,
+                        "arg2": 38.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, deal damage ${arg1}% of own ATK to target(s).\nOn EX Skill, deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67,
+                        "arg2": 41.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, deal damage ${arg1}% of own ATK to target(s).\nOn EX Skill, deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26,
+                        "arg2": 43.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, deal damage ${arg1}% of own ATK to target(s).\nOn EX Skill, deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34,
+                        "arg2": 45.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, deal damage ${arg1}% of own ATK to target(s).\nOn EX Skill, deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67,
+                        "arg2": 47.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, deal damage ${arg1}% of own ATK to target(s).\nOn EX Skill, deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "On Basic Attack, deal damage ${arg1}% of own ATK to target(s).\nOn EX Skill, deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10433,
+            "name": "Hot Streak",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 139.8,
+                        "arg2": 4.8,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 18,
+                        "arg6": 1,
+                        "arg7": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.\nSigil Passive:\nWhen locked target's Hooked = ${arg4} stack(s), on defeating target(s), trigger: Own ATK +${arg5}% for ${arg6} turn(s).\nOn defeating target(s), trigger: Gain ${arg7} action(s).",
+                    "cd": 4
+                },
+                "1": {
+                    "params": {
+                        "arg1": 150.16,
+                        "arg2": 5.16,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 19.34,
+                        "arg6": 1,
+                        "arg7": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.\nSigil Passive:\nWhen locked target's Hooked = ${arg4} stack(s), on defeating target(s), trigger: Own ATK +${arg5}% for ${arg6} turn(s).\nOn defeating target(s), trigger: Gain ${arg7} action(s).",
+                    "cd": 4
+                },
+                "2": {
+                    "params": {
+                        "arg1": 160.52,
+                        "arg2": 5.52,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 20.67,
+                        "arg6": 1,
+                        "arg7": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.\nSigil Passive:\nWhen locked target's Hooked = ${arg4} stack(s), on defeating target(s), trigger: Own ATK +${arg5}% for ${arg6} turn(s).\nOn defeating target(s), trigger: Gain ${arg7} action(s).",
+                    "cd": 4
+                },
+                "3": {
+                    "params": {
+                        "arg1": 170.87,
+                        "arg2": 5.87,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 22,
+                        "arg6": 1,
+                        "arg7": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.\nSigil Passive:\nWhen locked target's Hooked = ${arg4} stack(s), on defeating target(s), trigger: Own ATK +${arg5}% for ${arg6} turn(s).\nOn defeating target(s), trigger: Gain ${arg7} action(s).",
+                    "cd": 4
+                },
+                "4": {
+                    "params": {
+                        "arg1": 181.23,
+                        "arg2": 6.23,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 23.34,
+                        "arg6": 1,
+                        "arg7": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.\nSigil Passive:\nWhen locked target's Hooked = ${arg4} stack(s), on defeating target(s), trigger: Own ATK +${arg5}% for ${arg6} turn(s).\nOn defeating target(s), trigger: Gain ${arg7} action(s).",
+                    "cd": 4
+                },
+                "5": {
+                    "params": {
+                        "arg1": 191.58,
+                        "arg2": 6.58,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 24.67,
+                        "arg6": 1,
+                        "arg7": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.\nSigil Passive:\nWhen locked target's Hooked = ${arg4} stack(s), on defeating target(s), trigger: Own ATK +${arg5}% for ${arg6} turn(s).\nOn defeating target(s), trigger: Gain ${arg7} action(s).",
+                    "cd": 4
+                },
+                "6": {
+                    "params": {
+                        "arg1": 201.94,
+                        "arg2": 6.94,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 26,
+                        "arg6": 1,
+                        "arg7": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.\nSigil Passive:\nWhen locked target's Hooked = ${arg4} stack(s), on defeating target(s), trigger: Own ATK +${arg5}% for ${arg6} turn(s).\nOn defeating target(s), trigger: Gain ${arg7} action(s).",
+                    "cd": 4
+                },
+                "7": {
+                    "params": {
+                        "arg1": 212.29,
+                        "arg2": 7.29,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 27.34,
+                        "arg6": 1,
+                        "arg7": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.\nSigil Passive:\nWhen locked target's Hooked = ${arg4} stack(s), on defeating target(s), trigger: Own ATK +${arg5}% for ${arg6} turn(s).\nOn defeating target(s), trigger: Gain ${arg7} action(s).",
+                    "cd": 4
+                },
+                "8": {
+                    "params": {
+                        "arg1": 222.65,
+                        "arg2": 7.65,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 28.67,
+                        "arg6": 1,
+                        "arg7": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.\nSigil Passive:\nWhen locked target's Hooked = ${arg4} stack(s), on defeating target(s), trigger: Own ATK +${arg5}% for ${arg6} turn(s).\nOn defeating target(s), trigger: Gain ${arg7} action(s).",
+                    "cd": 4
+                },
+                "9": {
+                    "params": {
+                        "arg1": 233,
+                        "arg2": 8,
+                        "arg3": 2,
+                        "arg4": 1,
+                        "arg5": 30,
+                        "arg6": 1,
+                        "arg7": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nRemove Hooked from locked target.\nSigil Passive:\nWhen locked target's Hooked = ${arg4} stack(s), on defeating target(s), trigger: Own ATK +${arg5}% for ${arg6} turn(s).\nOn defeating target(s), trigger: Gain ${arg7} action(s).",
+                    "cd": 4
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

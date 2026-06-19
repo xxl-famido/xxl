@@ -1,0 +1,2072 @@
+{
+    "characters": [
+        {
+            "charid": "10000",
+            "charurl": "ying-hugeeu",
+            "tags": [
+                "sign_V"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 170,
+            "rarity": 0,
+            "property": 0,
+            "kind": 0,
+            "name": {
+                "en": "Ying Hugeeu",
+                "tw": "阿佑",
+                "cn": "阿佑",
+                "kr": "남근태",
+                "jp": "剛久"
+            }
+        },
+        {
+            "charid": "10401",
+            "charurl": "hellhound-anuberus",
+            "tags": [
+                "limited",
+                "xxl",
+                "dark",
+                "debuffer",
+                "sign_V"
+            ],
+            "dateAdded": "2025-09-09",
+            "enabled": true,
+            "height": 198,
+            "cgs": [
+                "14011",
+                "14012",
+                "14013"
+            ],
+            "relatedcgs": [],
+            "rarity": 4,
+            "property": 5,
+            "kind": 5,
+            "name": {
+                "en": "Hellhound Anuberus",
+                "tw": "冥界衛犬阿努比洛斯",
+                "cn": "冥界卫犬阿努比洛斯",
+                "kr": "명계 경비견 아누비로스",
+                "jp": "冥界番犬アヌビロス"
+            }
+        },
+        {
+            "charid": "10402",
+            "charurl": "shin-rirang",
+            "tags": [
+                "xxl",
+                "water",
+                "attacker",
+                "sign_V"
+            ],
+            "dateAdded": "2025-09-24",
+            "enabled": true,
+            "height": 191,
+            "cgs": [
+                "14021",
+                "14022",
+                "14023"
+            ],
+            "rarity": 4,
+            "property": 2,
+            "kind": 1,
+            "name": {
+                "en": "Shin Rirang",
+                "tw": "申里狼",
+                "cn": "申里狼",
+                "kr": "신리랑",
+                "jp": "シン・リラン"
+            }
+        },
+        {
+            "charid": "10403",
+            "charurl": "golden-ryder",
+            "tags": [
+                "xxl",
+                "fire",
+                "attacker",
+                "sign_V"
+            ],
+            "dateAdded": "2025-10-22",
+            "enabled": true,
+            "height": 176,
+            "cgs": [
+                "14031",
+                "14032",
+                "14033"
+            ],
+            "relatedcgs": [
+                "1002039"
+            ],
+            "artwork": [
+                "SGArts_12.jpg",
+                "SGArts_13.jpg"
+            ],
+            "rarity": 4,
+            "property": 1,
+            "kind": 1,
+            "name": {
+                "en": "Golden Ryder",
+                "tw": "金鳴連駕",
+                "cn": "金鸣连驾",
+                "kr": "골든라이더",
+                "jp": "ゴールデンライダー"
+            }
+        },
+        {
+            "charid": "10404",
+            "charurl": "meng",
+            "tags": [
+                "xxl",
+                "water",
+                "healer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 175,
+            "cgs": [
+                "14041",
+                "14042",
+                "14043"
+            ],
+            "relatedcgs": [
+                "2000101"
+            ],
+            "rarity": 4,
+            "property": 2,
+            "kind": 3,
+            "name": {
+                "en": "Meng",
+                "tw": "孟叔",
+                "cn": "孟叔",
+                "kr": "맹씨",
+                "jp": "孟さん"
+            }
+        },
+        {
+            "charid": "10405",
+            "charurl": "beernox",
+            "tags": [
+                "xxl",
+                "wood",
+                "buffer",
+                "sign_V"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 197,
+            "cgs": [
+                "14051",
+                "14052",
+                "14053"
+            ],
+            "relatedcgs": [
+                "1001639"
+            ],
+            "artwork": [
+                "Vorusu_0.jpg"
+            ],
+            "rarity": 4,
+            "property": 3,
+            "kind": 4,
+            "name": {
+                "en": "Beernox",
+                "tw": "彼亞諾斯",
+                "cn": "彼亚诺斯",
+                "kr": "비어녹스",
+                "jp": "ビアノックス"
+            }
+        },
+        {
+            "charid": "10406",
+            "charurl": "leo-von-narcis",
+            "tags": [
+                "xxl",
+                "fire",
+                "healer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-07-30",
+            "enabled": true,
+            "height": 170,
+            "cgs": [
+                "14061",
+                "14062",
+                "14063"
+            ],
+            "relatedcgs": [
+                "14121"
+            ],
+            "rarity": 4,
+            "property": 1,
+            "kind": 3,
+            "name": {
+                "en": "Léo von Narcis",
+                "tw": "里歐",
+                "cn": "里欧",
+                "kr": "레오",
+                "jp": "リオ"
+            }
+        },
+        {
+            "charid": "10407",
+            "charurl": "tyrantino",
+            "tags": [
+                "xxl",
+                "water",
+                "debuffer",
+                "sign_V"
+            ],
+            "dateAdded": "2025-08-13",
+            "enabled": true,
+            "height": 197,
+            "cgs": [
+                "14071",
+                "14072",
+                "14073"
+            ],
+            "relatedcgs": [
+                "14051",
+                "14052",
+                "14053"
+            ],
+            "artwork": [
+                "Vorusu_0.jpg"
+            ],
+            "rarity": 4,
+            "property": 2,
+            "kind": 5,
+            "name": {
+                "en": "Tyrantino",
+                "tw": "塔蘭迪歐",
+                "cn": "塔兰迪欧",
+                "kr": "타란디오",
+                "jp": "タイランティノ"
+            }
+        },
+        {
+            "charid": "10408",
+            "charurl": "covetous-wolf",
+            "tags": [
+                "xxl",
+                "fire",
+                "debuffer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-10-08",
+            "enabled": true,
+            "height": 178,
+            "cgs": [
+                "14081",
+                "14082",
+                "14083"
+            ],
+            "relatedcgs": [
+                "14091"
+            ],
+            "artwork": [
+                "Hikoero_0.jpg"
+            ],
+            "rarity": 4,
+            "property": 1,
+            "kind": 5,
+            "name": {
+                "en": "Covetous Wolf",
+                "tw": "貪狼",
+                "cn": "贪狼",
+                "kr": "탐랑",
+                "jp": "貪狼"
+            }
+        },
+        {
+            "charid": "10409",
+            "charurl": "capt-locke",
+            "tags": [
+                "xxl",
+                "water",
+                "attacker",
+                "sign_V"
+            ],
+            "dateAdded": "2025-07-02",
+            "enabled": true,
+            "height": 187,
+            "cgs": [
+                "14091",
+                "14092",
+                "14093"
+            ],
+            "relatedcgs": [
+                "1001229",
+                "14321"
+            ],
+            "artwork": [
+                "Vorusu_1.jpg",
+                "Hikoero_7.jpg",
+                "SGArts_16.jpg"
+            ],
+            "rarity": 4,
+            "property": 2,
+            "kind": 1,
+            "name": {
+                "en": "Capt. Locke",
+                "tw": "卡‧拉特",
+                "cn": "卡‧拉特",
+                "kr": "카 라트",
+                "jp": "カアフ・ラット"
+            }
+        },
+        {
+            "charid": "10410",
+            "charurl": "boss-ren",
+            "tags": [
+                "xxl",
+                "water",
+                "buffer",
+                "sign_J",
+                "sign_V"
+            ],
+            "dateAdded": "2026-01-14",
+            "enabled": true,
+            "height": 190,
+            "cgs": [
+                "14101",
+                "14102",
+                "14103"
+            ],
+            "relatedcgs": [],
+            "rarity": 4,
+            "property": 2,
+            "kind": 4,
+            "name": {
+                "en": "Boss Ren",
+                "tw": "任富言",
+                "cn": "任富言",
+                "kr": "임부언",
+                "jp": "任富言"
+            }
+        },
+        {
+            "charid": "10411",
+            "charurl": "khafka",
+            "tags": [
+                "xxl",
+                "wood",
+                "debuffer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 178,
+            "cgs": [
+                "14111",
+                "14112",
+                "14113"
+            ],
+            "relatedcgs": [
+                "120"
+            ],
+            "rarity": 4,
+            "property": 3,
+            "kind": 5,
+            "name": {
+                "en": "Khafka",
+                "tw": "卡夫卡",
+                "cn": "卡夫卡",
+                "kr": "카푸카",
+                "jp": "カフカ"
+            }
+        },
+        {
+            "charid": "10412",
+            "charurl": "tayangsuyi",
+            "tags": [
+                "xxl",
+                "fire",
+                "attacker",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 190,
+            "cgs": [
+                "14121",
+                "14122",
+                "14123"
+            ],
+            "relatedcgs": [],
+            "artwork": [
+                "SGArts_5.jpg"
+            ],
+            "rarity": 4,
+            "property": 1,
+            "kind": 1,
+            "name": {
+                "en": "Tayangsuyi",
+                "tw": "答揚速亦",
+                "cn": "答扬速亦",
+                "kr": "다양수이",
+                "jp": "答揚速亦"
+            }
+        },
+        {
+            "charid": "10413",
+            "charurl": "baade",
+            "tags": [
+                "xxl",
+                "fire",
+                "attacker",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 164,
+            "cgs": [
+                "14131",
+                "14132",
+                "14133"
+            ],
+            "relatedcgs": [],
+            "artwork": [
+                "Hikoero_3.jpg",
+                "Hikoero_4.jpg",
+                "Hikoero_8.jpg",
+                "SGArts_11.jpg",
+                "SGArts_1.jpg"
+            ],
+            "rarity": 4,
+            "property": 1,
+            "kind": 1,
+            "name": {
+                "en": "Baade",
+                "tw": "巴德",
+                "cn": "巴德",
+                "kr": "바드",
+                "jp": "バーデ"
+            }
+        },
+        {
+            "charid": "10414",
+            "charurl": "kumoyama",
+            "tags": [
+                "xxl",
+                "wood",
+                "defender",
+                "sign_V"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 200,
+            "cgs": [
+                "14141",
+                "14142",
+                "14143"
+            ],
+            "relatedcgs": [
+                "14151",
+                "14152",
+                "14153",
+                "2000101"
+            ],
+            "artwork": [
+                "SGArts_4.jpg",
+                "Denk_5.jpg"
+            ],
+            "rarity": 4,
+            "property": 3,
+            "kind": 2,
+            "name": {
+                "en": "Kumoyama",
+                "tw": "雲山",
+                "cn": "云山",
+                "kr": "쿠모야마",
+                "jp": "雲山"
+            }
+        },
+        {
+            "charid": "10415",
+            "charurl": "kyrian",
+            "tags": [
+                "xxl",
+                "wood",
+                "healer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 180,
+            "cgs": [
+                "14151",
+                "14152",
+                "14153"
+            ],
+            "relatedcgs": [],
+            "rarity": 4,
+            "property": 3,
+            "kind": 3,
+            "name": {
+                "en": "Kyrian",
+                "tw": "奇里葉",
+                "cn": "奇里叶",
+                "kr": "기리안",
+                "jp": "キリエ"
+            }
+        },
+        {
+            "charid": "10416",
+            "charurl": "choi-yuhyun",
+            "tags": [
+                "xxl",
+                "wood",
+                "attacker",
+                "sign_V"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 188,
+            "cgs": [
+                "14161",
+                "14162",
+                "14163"
+            ],
+            "relatedcgs": [
+                "13031",
+                "13032",
+                "14021"
+            ],
+            "artwork": [
+                "SGArts_2.jpg"
+            ],
+            "rarity": 4,
+            "property": 3,
+            "kind": 1,
+            "name": {
+                "en": "Choi Yuhyun",
+                "tw": "崔鼬玄",
+                "cn": "崔鼬玄",
+                "kr": "최유현",
+                "jp": "チェ・ユヒョン"
+            }
+        },
+        {
+            "charid": "10417",
+            "charurl": "wang",
+            "tags": [
+                "xxl",
+                "wood",
+                "buffer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-08-27",
+            "enabled": true,
+            "height": 224,
+            "cgs": [
+                "14171",
+                "14172",
+                "14173"
+            ],
+            "relatedcgs": [],
+            "artwork": [
+                "Hikoero_2.jpg"
+            ],
+            "rarity": 4,
+            "property": 3,
+            "kind": 4,
+            "name": {
+                "en": "Wang",
+                "tw": "旺",
+                "cn": "旺",
+                "kr": "멍",
+                "jp": "ワン"
+            }
+        },
+        {
+            "charid": "10418",
+            "charurl": "jet-black",
+            "tags": [
+                "xxl",
+                "water",
+                "buffer",
+                "sign_V"
+            ],
+            "dateAdded": "2025-11-05",
+            "enabled": true,
+            "height": 180,
+            "cgs": [
+                "14181",
+                "14182",
+                "14183"
+            ],
+            "relatedcgs": [
+                "1002039"
+            ],
+            "artwork": [
+                "SGArts_12.jpg",
+                "SGArts_13.jpg"
+            ],
+            "rarity": 4,
+            "property": 2,
+            "kind": 4,
+            "name": {
+                "en": "Jet Black",
+                "tw": "噴射布萊克",
+                "cn": "喷射布莱克",
+                "kr": "제트블랙",
+                "jp": "ジェットブラック"
+            }
+        },
+        {
+            "charid": "10419",
+            "charurl": "orem",
+            "tags": [
+                "xxl",
+                "water",
+                "defender",
+                "sign_J"
+            ],
+            "dateAdded": "2025-07-16",
+            "enabled": true,
+            "height": 191,
+            "cgs": [
+                "14191",
+                "14192",
+                "14193"
+            ],
+            "relatedcgs": [
+                "14093",
+                "1001229"
+            ],
+            "artwork": [
+                "Denk_4.jpg"
+            ],
+            "rarity": 4,
+            "property": 2,
+            "kind": 2,
+            "name": {
+                "en": "Orem",
+                "tw": "奧雷姆",
+                "cn": "奥雷姆",
+                "kr": "오렘",
+                "jp": "オレム"
+            }
+        },
+        {
+            "charid": "10421",
+            "charurl": "famido",
+            "tags": [
+                "xxl",
+                "wood",
+                "attacker",
+                "sign_V"
+            ],
+            "dateAdded": "2025-12-17",
+            "enabled": true,
+            "height": 189,
+            "cgs": [
+                "14211",
+                "14212",
+                "14213"
+            ],
+            "relatedcgs": [
+                "14283",
+                "1002430",
+                "1002431"
+            ],
+            "artwork": [
+                "Vorusu_3.jpg",
+                "Vorusu_2.jpg"
+            ],
+            "rarity": 4,
+            "property": 3,
+            "kind": 1,
+            "name": {
+                "en": "Famido",
+                "tw": "法米多",
+                "cn": "法米多",
+                "kr": "파미도",
+                "jp": "ファミド"
+            }
+        },
+        {
+            "charid": "10422",
+            "charurl": "water-loving-paul",
+            "tags": [
+                "xxl",
+                "water",
+                "debuffer",
+                "sign_E"
+            ],
+            "dateAdded": "2026-04-22",
+            "enabled": true,
+            "height": 231,
+            "cgs": [
+                "14221",
+                "14222",
+                "14223"
+            ],
+            "relatedcgs": [
+                "14321",
+                "14322",
+                "14323"
+            ],
+            "relatedChar": [
+                "10008"
+            ],
+            "rarity": 4,
+            "property": 2,
+            "kind": 5,
+            "name": {
+                "en": "Water-loving Paul",
+                "tw": "歡水的波勒佩爾",
+                "cn": "欢水的波勒佩尔",
+                "kr": "물을 좋아하는 포르베어",
+                "jp": "水遊びするポラベア"
+            }
+        },
+        {
+            "charid": "10423",
+            "charurl": "mountain-lord-lee-taeho",
+            "tags": [
+                "limited",
+                "xxl",
+                "light",
+                "attacker",
+                "sign_J"
+            ],
+            "dateAdded": "2026-06-17",
+            "enabled": true,
+            "height": 0,
+            "cgs": [],
+            "relatedcgs": [],
+            "rarity": 4,
+            "property": 4,
+            "kind": 1,
+            "name": {
+                "en": "Mountain Lord Lee Taeho",
+                "tw": "五峰山君李泰虎",
+                "cn": "五峰山君李泰虎",
+                "kr": "오봉산군 이태호",
+                "jp": "五峰山君イ・テホ"
+            }
+        },
+        {
+            "charid": "10424",
+            "charurl": "rutenix",
+            "tags": [
+                "xxl",
+                "wood",
+                "debuffer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-11-19",
+            "enabled": true,
+            "height": 110,
+            "cgs": [
+                "14241",
+                "14242",
+                "14243"
+            ],
+            "relatedcgs": [],
+            "rarity": 4,
+            "property": 3,
+            "kind": 5,
+            "name": {
+                "en": "Rutenix",
+                "tw": "魯特尼希",
+                "cn": "鲁特尼希",
+                "kr": "루테닉스",
+                "jp": "ラトニックス"
+            }
+        },
+        {
+            "charid": "10425",
+            "charurl": "haniya",
+            "tags": [
+                "xxl",
+                "fire",
+                "buffer",
+                "sign_J"
+            ],
+            "dateAdded": "2026-05-06",
+            "enabled": true,
+            "height": 186,
+            "cgs": [
+                "14251",
+                "14252",
+                "14253"
+            ],
+            "relatedcgs": [],
+            "rarity": 4,
+            "property": 1,
+            "kind": 4,
+            "name": {
+                "en": "Haniya",
+                "tw": "哈尼耶",
+                "cn": "哈尼耶",
+                "kr": "하니엘",
+                "jp": "ハニエ"
+            }
+        },
+        {
+            "charid": "10426",
+            "charurl": "souran",
+            "tags": [
+                "xxl",
+                "wood",
+                "attacker",
+                "sign_D"
+            ],
+            "dateAdded": "2026-03-11",
+            "enabled": true,
+            "height": 198,
+            "cgs": [
+                "14261",
+                "14262",
+                "14263"
+            ],
+            "relatedcgs": [],
+            "rarity": 4,
+            "property": 3,
+            "kind": 1,
+            "name": {
+                "en": "Souran",
+                "tw": "蒼嵐",
+                "cn": "苍岚",
+                "kr": "란",
+                "jp": "蒼嵐"
+            }
+        },
+        {
+            "charid": "10427",
+            "charurl": "duncan-charcles",
+            "tags": [
+                "xxl",
+                "fire",
+                "buffer",
+                "sign_D"
+            ],
+            "dateAdded": "2025-12-03",
+            "enabled": true,
+            "height": 178,
+            "cgs": [
+                "14271",
+                "14272",
+                "14273"
+            ],
+            "relatedcgs": [],
+            "artwork": [
+                "Denk_3.jpg"
+            ],
+            "rarity": 4,
+            "property": 1,
+            "kind": 4,
+            "name": {
+                "en": "Duncan Charles",
+                "tw": "鄧肯‧查拉斯",
+                "cn": "邓肯‧查拉斯",
+                "kr": "던컨 찰스",
+                "jp": "ダンカン・チャールズ"
+            }
+        },
+        {
+            "charid": "10428",
+            "charurl": "ricano",
+            "tags": [
+                "xxl",
+                "fire",
+                "debuffer",
+                "sign_V"
+            ],
+            "dateAdded": "2025-12-30",
+            "enabled": true,
+            "height": 176,
+            "cgs": [
+                "14281",
+                "14282",
+                "14283"
+            ],
+            "relatedcgs": [
+                "14212",
+                "14213",
+                "1002430",
+                "1002431"
+            ],
+            "artwork": [
+                "Vorusu_3.jpg",
+                "Vorusu_2.jpg"
+            ],
+            "rarity": 4,
+            "property": 1,
+            "kind": 5,
+            "name": {
+                "en": "Ricano",
+                "tw": "瑞卡諾",
+                "cn": "瑞卡诺",
+                "kr": "리카노",
+                "jp": "リカノ"
+            }
+        },
+        {
+            "charid": "10429",
+            "charurl": "lin-yuzhan",
+            "tags": [
+                "xxl",
+                "fire",
+                "attacker",
+                "sign_J"
+            ],
+            "dateAdded": "2026-02-11",
+            "enabled": true,
+            "height": 181,
+            "cgs": [
+                "14291",
+                "14292",
+                "14293"
+            ],
+            "relatedcgs": [
+                "1002818"
+            ],
+            "rarity": 4,
+            "property": 1,
+            "kind": 1,
+            "name": {
+                "en": "Lin Yuzhan",
+                "tw": "林煜嶄",
+                "cn": "林煜崭",
+                "kr": "임욱잠",
+                "jp": "林煜嶄"
+            }
+        },
+        {
+            "charid": "10430",
+            "charurl": "izuminosuke",
+            "tags": [
+                "xxl",
+                "water",
+                "healer",
+                "sign_E"
+            ],
+            "dateAdded": "2026-01-28",
+            "enabled": true,
+            "height": 200,
+            "cgs": [
+                "14301",
+                "14302",
+                "14303"
+            ],
+            "relatedcgs": [],
+            "rarity": 4,
+            "property": 2,
+            "kind": 3,
+            "name": {
+                "en": "Izuminosuke",
+                "tw": "泉之助",
+                "cn": "泉之助",
+                "kr": "이즈미노스케",
+                "jp": "泉之助"
+            }
+        },
+        {
+            "charid": "10431",
+            "charurl": "divine-blessing-suichong",
+            "tags": [
+                "limited",
+                "xxl",
+                "light",
+                "attacker",
+                "sign_D"
+            ],
+            "dateAdded": "2026-02-11",
+            "enabled": true,
+            "height": 195,
+            "cgs": [
+                "14311",
+                "14312",
+                "14313"
+            ],
+            "relatedcgs": [
+                "1002818"
+            ],
+            "artwork": [
+                "Denk_0.jpg",
+                "Denk_2.jpg",
+                "Denk_1.jpg"
+            ],
+            "rarity": 4,
+            "property": 4,
+            "kind": 1,
+            "name": {
+                "en": "Divine Blessing Suichong",
+                "tw": "降祐之夕歲崇",
+                "cn": "降祐之夕岁崇",
+                "kr": "복을 주시는 제야의 세숭",
+                "jp": "福を賜る除夜の歳崇"
+            }
+        },
+        {
+            "charid": "10432",
+            "charurl": "saeng",
+            "tags": [
+                "collab",
+                "xxl",
+                "water",
+                "attacker",
+                "7"
+            ],
+            "dateAdded": "2026-04-08",
+            "enabled": true,
+            "height": 205,
+            "cgs": [
+                "14321",
+                "14322",
+                "14323"
+            ],
+            "relatedcgs": [],
+            "artwork": [
+                "Sollyz_0.jpg",
+                "Sollyz_1.jpg",
+                "Sollyz_2.jpg",
+                "Sollyz_3.jpg"
+            ],
+            "rarity": 4,
+            "property": 2,
+            "kind": 1,
+            "name": {
+                "en": "Saeng",
+                "tw": "絢",
+                "cn": "绚",
+                "kr": "세엔",
+                "jp": "セーン"
+            }
+        },
+        {
+            "charid": "10433",
+            "charurl": "watanabe-hitoha",
+            "tags": [
+                "xxl",
+                "fire",
+                "debuffer",
+                "sign_D",
+                "sign_V"
+            ],
+            "dateAdded": "2026-03-25",
+            "enabled": true,
+            "height": 181,
+            "cgs": [
+                "14331",
+                "14332",
+                "14333"
+            ],
+            "relatedcgs": [],
+            "rarity": 4,
+            "property": 1,
+            "kind": 5,
+            "name": {
+                "en": "Watanabe Hitoha",
+                "tw": "渡邊一羽",
+                "cn": "渡边一羽",
+                "kr": "와타나베 히토하",
+                "jp": "渡辺一羽"
+            }
+        },
+        {
+            "charid": "10435",
+            "charurl": "croklein",
+            "tags": [
+                "xxl",
+                "fire",
+                "healer",
+                "sign_D"
+            ],
+            "dateAdded": "2026-05-20",
+            "enabled": true,
+            "height": 190,
+            "cgs": [
+                "14351",
+                "14352",
+                "14353"
+            ],
+            "relatedcgs": [
+                "1003430"
+            ],
+            "rarity": 4,
+            "property": 1,
+            "kind": 3,
+            "name": {
+                "en": "Croklein",
+                "tw": "庫克萊恩",
+                "cn": "库克莱恩",
+                "kr": "크로크라인",
+                "jp": "クロックライン"
+            }
+        },
+        {
+            "charid": "10436",
+            "charurl": "moyru",
+            "tags": [
+                "collab",
+                "xxl",
+                "wood",
+                "debuffer",
+                "8"
+            ],
+            "dateAdded": "2026-06-03",
+            "enabled": true,
+            "height": 168,
+            "cgs": [
+                "14361",
+                "14362",
+                "14363"
+            ],
+            "relatedcgs": [],
+            "rarity": 4,
+            "property": 3,
+            "kind": 5,
+            "name": {
+                "en": "Moyru",
+                "tw": "莫伊魯",
+                "cn": "莫伊鲁",
+                "kr": "모이루",
+                "jp": "モイル"
+            }
+        },
+        {
+            "charid": "10301",
+            "charurl": "shibahiko",
+            "tags": [
+                "xl",
+                "fire",
+                "buffer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 179,
+            "cgs": [
+                "13011",
+                "13012"
+            ],
+            "relatedcgs": [
+                "2000101"
+            ],
+            "artwork": [
+                "SGArts_6.jpg",
+                "SGArts_14.jpg"
+            ],
+            "rarity": 3,
+            "property": 1,
+            "kind": 4,
+            "name": {
+                "en": "Shibahiko",
+                "tw": "柴彥",
+                "cn": "柴彦",
+                "kr": "시바히코",
+                "jp": "柴彦"
+            }
+        },
+        {
+            "charid": "10302",
+            "charurl": "kantos",
+            "tags": [
+                "xl",
+                "wood",
+                "healer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 138,
+            "cgs": [
+                "13021",
+                "13022"
+            ],
+            "relatedcgs": [
+                "731",
+                "836",
+                "2000101"
+            ],
+            "rarity": 3,
+            "property": 3,
+            "kind": 3,
+            "name": {
+                "en": "Kantos",
+                "tw": "卡托斯",
+                "cn": "卡托斯",
+                "kr": "카토스",
+                "jp": "カントス"
+            }
+        },
+        {
+            "charid": "10303",
+            "charurl": "choi-yuhee",
+            "tags": [
+                "xl",
+                "wood",
+                "debuffer",
+                "sign_V"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 141,
+            "cgs": [
+                "13031",
+                "13032"
+            ],
+            "relatedcgs": [],
+            "rarity": 3,
+            "property": 3,
+            "kind": 5,
+            "name": {
+                "en": "Choi Yuhee",
+                "tw": "崔鼬熙",
+                "cn": "崔鼬熙",
+                "kr": "최유희",
+                "jp": "チェ・ユヒ"
+            }
+        },
+        {
+            "charid": "10304",
+            "charurl": "akaoni-atsushi",
+            "tags": [
+                "xl",
+                "fire",
+                "defender",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "cgs": [
+                "13041",
+                "13042"
+            ],
+            "relatedcgs": [
+                "14333"
+            ],
+            "rarity": 3,
+            "property": 1,
+            "kind": 2,
+            "name": {
+                "en": "Akaoni Atsushi",
+                "tw": "赤鬼淳史",
+                "cn": "赤鬼淳史",
+                "kr": "아카오니아츠시",
+                "jp": "赤鬼淳史"
+            }
+        },
+        {
+            "charid": "10306",
+            "charurl": "code-b",
+            "tags": [
+                "xl",
+                "water",
+                "debuffer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 167,
+            "cgs": [
+                "13061",
+                "13062"
+            ],
+            "relatedcgs": [
+                "14173"
+            ],
+            "rarity": 3,
+            "property": 2,
+            "kind": 5,
+            "name": {
+                "en": "Code: B",
+                "tw": "代號B",
+                "cn": "代号B",
+                "kr": "코드B",
+                "jp": "コード：B"
+            }
+        },
+        {
+            "charid": "10307",
+            "charurl": "dallawan",
+            "tags": [
+                "xl",
+                "fire",
+                "buffer",
+                "sign_V"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 217,
+            "cgs": [
+                "13071",
+                "13072"
+            ],
+            "relatedcgs": [
+                "333"
+            ],
+            "artwork": [
+                "SGArts_3.jpg"
+            ],
+            "rarity": 3,
+            "property": 1,
+            "kind": 4,
+            "name": {
+                "en": "Dallawan",
+                "tw": "達拉萬",
+                "cn": "达拉万",
+                "kr": "다라완",
+                "jp": "ダラワン"
+            }
+        },
+        {
+            "charid": "10308",
+            "charurl": "guala",
+            "tags": [
+                "xl",
+                "wood",
+                "debuffer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 195,
+            "cgs": [
+                "13081",
+                "13082"
+            ],
+            "relatedcgs": [],
+            "rarity": 3,
+            "property": 3,
+            "kind": 5,
+            "name": {
+                "en": "Guala",
+                "tw": "谷勒塔",
+                "cn": "谷勒塔",
+                "kr": "구아라",
+                "jp": "グアラ"
+            }
+        },
+        {
+            "charid": "10309",
+            "charurl": "byun-woogyu",
+            "tags": [
+                "xl",
+                "water",
+                "healer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 183,
+            "cgs": [
+                "13091",
+                "13092"
+            ],
+            "relatedcgs": [
+                "14021"
+            ],
+            "rarity": 3,
+            "property": 2,
+            "kind": 3,
+            "name": {
+                "en": "Byun Woogyu",
+                "tw": "卞宇奎",
+                "cn": "卞宇奎",
+                "kr": "변우규",
+                "jp": "ピョン・ウキュ"
+            }
+        },
+        {
+            "charid": "10201",
+            "charurl": "muwatakha",
+            "tags": [
+                "l",
+                "fire",
+                "defender",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "cgs": [],
+            "relatedcgs": [
+                "14121",
+                "14063"
+            ],
+            "artwork": [
+                "SGArts_9.jpg"
+            ],
+            "rarity": 2,
+            "property": 1,
+            "kind": 2,
+            "name": {
+                "en": "Muwatakha",
+                "tw": "穆瓦塔卡",
+                "cn": "穆瓦塔卡",
+                "kr": "무와타카",
+                "jp": "ムワタカ"
+            }
+        },
+        {
+            "charid": "10202",
+            "charurl": "paddy",
+            "tags": [
+                "l",
+                "fire",
+                "attacker",
+                "sign_V"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 173,
+            "rarity": 2,
+            "property": 1,
+            "kind": 1,
+            "name": {
+                "en": "Paddy",
+                "tw": "潘迪",
+                "cn": "潘迪",
+                "kr": "판디",
+                "jp": "パディ"
+            }
+        },
+        {
+            "charid": "10203",
+            "charurl": "damian",
+            "tags": [
+                "l",
+                "fire",
+                "buffer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 152,
+            "cgs": [],
+            "relatedcgs": [
+                "536",
+                "14131"
+            ],
+            "rarity": 2,
+            "property": 1,
+            "kind": 4,
+            "name": {
+                "en": "Damian",
+                "tw": "達米安",
+                "cn": "达米安",
+                "kr": "다미안",
+                "jp": "ダミアン"
+            }
+        },
+        {
+            "charid": "10204",
+            "charurl": "spunk",
+            "tags": [
+                "l",
+                "fire",
+                "debuffer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "cgs": [],
+            "relatedcgs": [
+                "14151",
+                "14152",
+                "14153"
+            ],
+            "rarity": 2,
+            "property": 1,
+            "kind": 5,
+            "name": {
+                "en": "Spunk",
+                "tw": "斯巴克",
+                "cn": "斯巴克",
+                "kr": "스바크",
+                "jp": "スパンク"
+            }
+        },
+        {
+            "charid": "10205",
+            "charurl": "fogue",
+            "tags": [
+                "l",
+                "water",
+                "attacker",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 189,
+            "cgs": [],
+            "relatedcgs": [
+                "13022",
+                "836"
+            ],
+            "rarity": 2,
+            "property": 2,
+            "kind": 1,
+            "name": {
+                "en": "Fogue",
+                "tw": "弗格",
+                "cn": "弗格",
+                "kr": "포그",
+                "jp": "フォーガ"
+            }
+        },
+        {
+            "charid": "10206",
+            "charurl": "jeffrey",
+            "tags": [
+                "l",
+                "water",
+                "debuffer",
+                "sign_V"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 179,
+            "rarity": 2,
+            "property": 2,
+            "kind": 5,
+            "name": {
+                "en": "Jeffery",
+                "tw": "傑佛瑞",
+                "cn": "杰佛瑞",
+                "kr": "제프리",
+                "jp": "ジェフリー"
+            }
+        },
+        {
+            "charid": "10207",
+            "charurl": "mikeroo",
+            "tags": [
+                "l",
+                "wood",
+                "attacker",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 178,
+            "cgs": [],
+            "relatedcgs": [
+                "13011",
+                "13012"
+            ],
+            "rarity": 2,
+            "property": 3,
+            "kind": 1,
+            "name": {
+                "en": "Mikeroo",
+                "tw": "麥克",
+                "cn": "麦克",
+                "kr": "마이크루",
+                "jp": "マイケルー"
+            }
+        },
+        {
+            "charid": "10208",
+            "charurl": "yan-jiming",
+            "tags": [
+                "l",
+                "wood",
+                "defender",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "cgs": [],
+            "relatedcgs": [
+                "14041"
+            ],
+            "rarity": 2,
+            "property": 3,
+            "kind": 2,
+            "name": {
+                "en": "Yan Jiming",
+                "tw": "閻紀明",
+                "cn": "阎纪明",
+                "kr": "염기명",
+                "jp": "閻紀明"
+            }
+        },
+        {
+            "charid": "10209",
+            "charurl": "owlbert",
+            "tags": [
+                "l",
+                "water",
+                "buffer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "rarity": 2,
+            "property": 2,
+            "kind": 4,
+            "name": {
+                "en": "Owlbert",
+                "tw": "威爾伯特",
+                "cn": "威尔伯特",
+                "kr": "오르보트",
+                "jp": "オルバート"
+            }
+        },
+        {
+            "charid": "10210",
+            "charurl": "tamamaru",
+            "tags": [
+                "l",
+                "wood",
+                "buffer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-12-17",
+            "enabled": true,
+            "height": 143,
+            "artwork": [
+                "Hikoero_6.jpg"
+            ],
+            "rarity": 2,
+            "property": 3,
+            "kind": 4,
+            "name": {
+                "en": "Tamamaru",
+                "tw": "玉丸",
+                "cn": "玉丸",
+                "kr": "타마마루",
+                "jp": "玉丸"
+            }
+        },
+        {
+            "charid": "10211",
+            "charurl": "kagekuni",
+            "tags": [
+                "l",
+                "fire",
+                "healer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-08-13",
+            "enabled": true,
+            "height": 167,
+            "artwork": [
+                "Hikoero_5.jpg",
+                "Hikoero_6.jpg"
+            ],
+            "rarity": 2,
+            "property": 1,
+            "kind": 3,
+            "name": {
+                "en": "Kagekuni",
+                "tw": "景國",
+                "cn": "景国",
+                "kr": "카게쿠니",
+                "jp": "景国"
+            }
+        },
+        {
+            "charid": "10001",
+            "charurl": "thug-ed",
+            "tags": [
+                "m",
+                "fire",
+                "attacker",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "relatedcgs": [
+                "14081",
+                "14101",
+                "14171"
+            ],
+            "rarity": 1,
+            "property": 1,
+            "kind": 1,
+            "name": {
+                "en": "Thug Ed",
+                "tw": "炎八",
+                "cn": "炎八",
+                "kr": "염팔",
+                "jp": "炎八"
+            }
+        },
+        {
+            "charid": "10002",
+            "charurl": "model-az",
+            "tags": [
+                "m",
+                "fire",
+                "debuffer",
+                "sign_V"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 165,
+            "cgs": [],
+            "relatedcgs": [
+                "14111",
+                "14112",
+                "14113"
+            ],
+            "rarity": 1,
+            "property": 1,
+            "kind": 5,
+            "name": {
+                "en": "Model AZ",
+                "tw": "AZ型智慧小管家",
+                "cn": "AZ型智慧小管家",
+                "kr": "AZ형 스마트 집사",
+                "jp": "AZ型スマート執事"
+            }
+        },
+        {
+            "charid": "10003",
+            "charurl": "croc-nile",
+            "tags": [
+                "m",
+                "water",
+                "attacker",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "artwork": [
+                "Hikoero_1.jpg",
+                "SGArts_7.jpg",
+                "SGArts_8.jpg"
+            ],
+            "rarity": 1,
+            "property": 2,
+            "kind": 1,
+            "name": {
+                "en": "Croc Nile",
+                "tw": "冰九",
+                "cn": "冰九",
+                "kr": "빙구",
+                "jp": "氷九"
+            }
+        },
+        {
+            "charid": "10004",
+            "charurl": "hakui",
+            "tags": [
+                "m",
+                "water",
+                "defender",
+                "sign_V"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "relatedcgs": [
+                "14081"
+            ],
+            "rarity": 1,
+            "property": 2,
+            "kind": 2,
+            "name": {
+                "en": "Hakui",
+                "tw": "白威",
+                "cn": "白威",
+                "kr": "하쿠이",
+                "jp": "白威"
+            }
+        },
+        {
+            "charid": "10005",
+            "charurl": "sylas",
+            "tags": [
+                "m",
+                "wood",
+                "healer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "rarity": 1,
+            "property": 3,
+            "kind": 3,
+            "name": {
+                "en": "Sylas",
+                "tw": "賽拉斯",
+                "cn": "赛拉斯",
+                "kr": "사이라스",
+                "jp": "サイラス"
+            }
+        },
+        {
+            "charid": "10006",
+            "charurl": "gandope",
+            "tags": [
+                "m",
+                "wood",
+                "buffer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "rarity": 1,
+            "property": 3,
+            "kind": 4,
+            "name": {
+                "en": "Gandope",
+                "tw": "甘德普",
+                "cn": "甘德普",
+                "kr": "간도프",
+                "jp": "ガンドプ"
+            }
+        },
+        {
+            "charid": "10007",
+            "charurl": "yorick",
+            "tags": [
+                "m",
+                "wood",
+                "defender",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "cgs": [],
+            "relatedcgs": [
+                "1001639"
+            ],
+            "rarity": 1,
+            "property": 3,
+            "kind": 2,
+            "name": {
+                "en": "Yorick",
+                "tw": "亞羅里克",
+                "cn": "亚罗里克",
+                "kr": "요리크",
+                "jp": "ヨリック"
+            }
+        },
+        {
+            "charid": "10008",
+            "charurl": "paul-the-bear",
+            "tags": [
+                "m",
+                "wood",
+                "healer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 231,
+            "cgs": [],
+            "relatedcgs": [
+                "14091"
+            ],
+            "relatedChar": [
+                "10422"
+            ],
+            "artwork": [
+                "Hikoero_7.jpg",
+                "SGArts_15.jpg",
+                "SGArts_0.jpg"
+            ],
+            "rarity": 1,
+            "property": 3,
+            "kind": 3,
+            "name": {
+                "en": "Paul the Bear",
+                "tw": "波勒佩爾",
+                "cn": "波勒佩尔",
+                "kr": "포르베어",
+                "jp": "ポラベア"
+            }
+        },
+        {
+            "charid": "10009",
+            "charurl": "aldun",
+            "tags": [
+                "m",
+                "fire",
+                "attacker",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "rarity": 1,
+            "property": 1,
+            "kind": 1,
+            "name": {
+                "en": "Aldun",
+                "tw": "阿爾頓",
+                "cn": "阿尔顿",
+                "kr": "아르던",
+                "jp": "アルダン"
+            }
+        },
+        {
+            "charid": "10010",
+            "charurl": "baiel",
+            "tags": [
+                "m",
+                "water",
+                "healer",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "relatedcgs": [
+                "14083",
+                "14251"
+            ],
+            "rarity": 1,
+            "property": 2,
+            "kind": 3,
+            "name": {
+                "en": "Baiel",
+                "tw": "博耶",
+                "cn": "博耶",
+                "kr": "바엘",
+                "jp": "バイエル"
+            }
+        },
+        {
+            "charid": "10011",
+            "charurl": "ju-chenhan",
+            "tags": [
+                "m",
+                "water",
+                "buffer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "rarity": 1,
+            "property": 2,
+            "kind": 4,
+            "name": {
+                "en": "Ju Chenhan",
+                "tw": "居晨翰",
+                "cn": "居晨翰",
+                "kr": "구신한",
+                "jp": "居晨翰"
+            }
+        },
+        {
+            "charid": "10012",
+            "charurl": "racles",
+            "tags": [
+                "m",
+                "wood",
+                "buffer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "cgs": [],
+            "relatedcgs": [
+                "13081",
+                "1003430"
+            ],
+            "rarity": 1,
+            "property": 3,
+            "kind": 4,
+            "name": {
+                "en": "Racles",
+                "tw": "埃雷斯",
+                "cn": "埃雷斯",
+                "kr": "아레스",
+                "jp": "ラクレス"
+            }
+        },
+        {
+            "charid": "10013",
+            "charurl": "code-k",
+            "tags": [
+                "m",
+                "water",
+                "debuffer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "cgs": [],
+            "relatedcgs": [
+                "13061",
+                "13062"
+            ],
+            "rarity": 1,
+            "property": 2,
+            "kind": 5,
+            "name": {
+                "en": "Code: K",
+                "tw": "代號K",
+                "cn": "代号K",
+                "kr": "코드K",
+                "jp": "コード：K"
+            }
+        },
+        {
+            "charid": "10014",
+            "charurl": "yugo",
+            "tags": [
+                "m",
+                "fire",
+                "defender",
+                "sign_E"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "cgs": [
+                "1001835"
+            ],
+            "rarity": 1,
+            "property": 1,
+            "kind": 2,
+            "name": {
+                "en": "Yugo",
+                "tw": "熊梧",
+                "cn": "熊梧",
+                "kr": "유고",
+                "jp": "熊梧"
+            }
+        },
+        {
+            "charid": "10015",
+            "charurl": "ya-namhyun",
+            "tags": [
+                "m",
+                "fire",
+                "debuffer",
+                "sign_J"
+            ],
+            "dateAdded": "2025-06-19",
+            "enabled": true,
+            "height": 0,
+            "relatedcgs": [
+                "14081"
+            ],
+            "rarity": 1,
+            "property": 1,
+            "kind": 5,
+            "name": {
+                "en": "Ya Namhyun",
+                "tw": "夜南賢",
+                "cn": "夜南贤",
+                "kr": "야남현",
+                "jp": "ヤ・ナムヒョン"
+            }
+        }
+    ]
+}

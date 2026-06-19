@@ -1,0 +1,1807 @@
+{
+    "info": {
+        "id": 10426,
+        "name": "Souran",
+        "feature": "Twin-Blade Combo",
+        "rarity": 4,
+        "class": 1,
+        "element": 3,
+        "baseHP": 2225,
+        "sign": "sign_D",
+        "baseATK": 561,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Greetings, I am from Kenran... \nSorry, I'm but a wandering ronin.\"",
+    "interactions": {
+        "0": [
+            "Sniff, sniff... I think I smell fruit candy.",
+            "Training... is a never-ending effort.",
+            "A ritual dog often needs to lift others up during ceremonies... I have trained specifically for that.",
+            "I am no ordinary house pet... Don't think you can simply lay a hand on my neck!",
+            "The folks back in Kenran often groom one another... Sometimes, I find myself missing it."
+        ],
+        "1": [
+            "Hmm! For the sake of the rituals, I have specifically trained this part of my body.",
+            "The boys back in the village... they are all quite fond of touching me here..."
+        ],
+        "2": [
+            "This scar... is a badge of honor from my time as a ritual dog."
+        ],
+        "3": [
+            "H-how bold! This... this spot is not for casual touching!",
+            "The rear... Absolutely not—!"
+        ],
+        "98": [
+            "Phew... I won, but I must not let my guard down."
+        ],
+        "99": [
+            "Haah... huff... It's not enough... I still need to train more..."
+        ],
+        "100": [
+            "Good day. I am just heading out to train... Care to join me?",
+            "Is this... also a form of training?"
+        ]
+    },
+    "story": {
+        "1": "When Souran was young, his father went missing after accidentally falling off a cliff while gathering herbs. Despite both being orphans, his fate was completely different from that of Kumoyama.\nHis physique was exceptional from a young age, and because of this, the villagers of Kenran Village took great care of him. The village chief, in particular, raised him as his own, meticulously preparing him to become the ritual dog. He loved and respected the chief with a son's devotion. Since childhood, he's been trying to find a way to repay Kenran Village for the kindness shown in raising him.",
+        "2": "Souran is extremely fond of fruit candies, but as Kenran Village is nestled deep in the mountains, he only has the chance to taste them during ritual festivals or when a traveling merchant visits. Because of this, he treasures every single piece of candy gifted by the villagers and is usually reluctant to eat them—only during times of tension, sadness, or on special holidays does he allow himself a small, precious taste. It was not until he grew old enough to travel on his own that he would always take a detour down the mountain to the nearest general store for a jar of fruit candies.",
+        "3": "Under the influence of the elders in Kenran Village over the years, Souran believes that becoming a ritual dog is the most sacred honor.\nAs he grew up, he underwent various forms of harsh training, all fueled by the hope of the day he could repay the entire village for raising him by officially becoming the ritual dog who prays for the villagers and shoulders the vital mission.\nThis spirit and will have supported him every step of the way to this very day.",
+        "4": "Upon coming of age, Souran fulfilled all expectations by becoming the ritual dog in Kenran Village. Even now, he still sees it as the most glorious moment of his life.\nHowever, those days did not last. When the lineage of ritual dogs is broken, the village elders turned their attention to Kumoyama—who was dismissed as a child due to his poor health but has since grown strong away from the village.\nConsequently, he was tasked with bringing Kumoyama back to the village to serve as the next ritual dog."
+    },
+    "hookUp": {
+        "cards": [
+            80024,
+            80112,
+            80120
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80024,
+                    "speakerPosition": 1,
+                    "text": "This posture..."
+                },
+                {
+                    "boundId": 80024,
+                    "speakerPosition": 1,
+                    "text": "I used to assume it back when I served as a ritual dog."
+                },
+                {
+                    "boundId": 80024,
+                    "speakerPosition": 1,
+                    "text": "Huff... It seems I haven't grown rusty."
+                },
+                {
+                    "boundId": 80024,
+                    "speakerPosition": 0,
+                    "text": "Whoa!?"
+                },
+                {
+                    "boundId": 80024,
+                    "speakerPosition": 0,
+                    "text": "You just hoisted me up like that! Souran, you're a beast!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80112,
+                    "speakerPosition": 1,
+                    "text": "That's...! W-what are you doing?! I told you, I am no ordinary house pet!"
+                },
+                {
+                    "boundId": 80112,
+                    "speakerPosition": 1,
+                    "text": "Ugh! D-don't just shove it onto me like that!"
+                },
+                {
+                    "boundId": 80112,
+                    "speakerPosition": 1,
+                    "text": "Mmm... It... it feels odd..."
+                },
+                {
+                    "boundId": 80112,
+                    "speakerPosition": 0,
+                    "text": "Souran's tail is wagging like crazy, though."
+                },
+                {
+                    "boundId": 80112,
+                    "speakerPosition": 0,
+                    "text": "He says no... but it looks like he actually enjoys it~?"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 1,
+                    "text": "Ngh...!?"
+                },
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 1,
+                    "text": "Why do you suddenly start... stroking me?"
+                },
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 1,
+                    "text": "Fine. Once in a while... I suppose it's okay."
+                },
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 0,
+                    "text": "As expected, no dog can resist a good petting."
+                },
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 0,
+                    "text": "Even Souran's eyes... have softened up."
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Yes... I understand."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "In the face of rigorous training, some discomfort is inevitable."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I mean, you could call it training, but this is different!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Endurance is part of the training..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "I shall persevere."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I didn't expect such a hardcore training vibe in a place like this..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I've got to snap him out of this—fast!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Ugh—Agh... Gah!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "W-what is this—?!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Grrrrrr—"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "This is bad... Souran is starting to growl..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "If I really push him too far, will I even make it out of this Playroom...?"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Twin Fang Assault",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32101,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32111,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32111,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32121,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32131,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32141,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Stormfang Slash",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 75.15
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 54
+                        },
+                        {
+                            "id": 32102,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "1": {
+                    "params": {
+                        "arg1": 80.72
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 63
+                        },
+                        {
+                            "id": 32102,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "2": {
+                    "params": {
+                        "arg1": 86.29
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 63
+                        },
+                        {
+                            "id": 32112,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "3": {
+                    "params": {
+                        "arg1": 91.85
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 72
+                        },
+                        {
+                            "id": 32112,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "4": {
+                    "params": {
+                        "arg1": 97.42
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 72
+                        },
+                        {
+                            "id": 32122,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "5": {
+                    "params": {
+                        "arg1": 102.99
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 81
+                        },
+                        {
+                            "id": 32122,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "6": {
+                    "params": {
+                        "arg1": 108.55
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 81
+                        },
+                        {
+                            "id": 32132,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "7": {
+                    "params": {
+                        "arg1": 114.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 90
+                        },
+                        {
+                            "id": 32132,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "8": {
+                    "params": {
+                        "arg1": 119.69
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32141,
+                            "count": 90
+                        },
+                        {
+                            "id": 32142,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "9": {
+                    "params": {
+                        "arg1": 125.25
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 2
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Swiftshadow Bite",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 48,
+                        "arg3": 13.05
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 2 stacks of Tidefang.\nOn Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s) and gain 2 stacks of Tidefang.\nOn EX Skill, based on own Tidefang stack(s), trigger: Deal damage ${arg3}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Tidefang from self.\n\nTidefang lasts for 30 turns, up to 16 stacks.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 51.56,
+                        "arg3": 13.05
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 2 stacks of Tidefang.\nOn Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s) and gain 2 stacks of Tidefang.\nOn EX Skill, based on own Tidefang stack(s), trigger: Deal damage ${arg3}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Tidefang from self.\n\nTidefang lasts for 30 turns, up to 16 stacks.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 55.12,
+                        "arg3": 13.05
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 2 stacks of Tidefang.\nOn Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s) and gain 2 stacks of Tidefang.\nOn EX Skill, based on own Tidefang stack(s), trigger: Deal damage ${arg3}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Tidefang from self.\n\nTidefang lasts for 30 turns, up to 16 stacks.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 58.67,
+                        "arg3": 13.05
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 2 stacks of Tidefang.\nOn Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s) and gain 2 stacks of Tidefang.\nOn EX Skill, based on own Tidefang stack(s), trigger: Deal damage ${arg3}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Tidefang from self.\n\nTidefang lasts for 30 turns, up to 16 stacks.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 62.23,
+                        "arg3": 13.05
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 2 stacks of Tidefang.\nOn Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s) and gain 2 stacks of Tidefang.\nOn EX Skill, based on own Tidefang stack(s), trigger: Deal damage ${arg3}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Tidefang from self.\n\nTidefang lasts for 30 turns, up to 16 stacks.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 65.78,
+                        "arg3": 13.05
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 2 stacks of Tidefang.\nOn Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s) and gain 2 stacks of Tidefang.\nOn EX Skill, based on own Tidefang stack(s), trigger: Deal damage ${arg3}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Tidefang from self.\n\nTidefang lasts for 30 turns, up to 16 stacks.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 69.34,
+                        "arg3": 13.05
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 2 stacks of Tidefang.\nOn Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s) and gain 2 stacks of Tidefang.\nOn EX Skill, based on own Tidefang stack(s), trigger: Deal damage ${arg3}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Tidefang from self.\n\nTidefang lasts for 30 turns, up to 16 stacks.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 72.89,
+                        "arg3": 13.05
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 2 stacks of Tidefang.\nOn Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s) and gain 2 stacks of Tidefang.\nOn EX Skill, based on own Tidefang stack(s), trigger: Deal damage ${arg3}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Tidefang from self.\n\nTidefang lasts for 30 turns, up to 16 stacks.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 76.45,
+                        "arg3": 13.05
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 2 stacks of Tidefang.\nOn Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s) and gain 2 stacks of Tidefang.\nOn EX Skill, based on own Tidefang stack(s), trigger: Deal damage ${arg3}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Tidefang from self.\n\nTidefang lasts for 30 turns, up to 16 stacks.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 80,
+                        "arg3": 13.05
+                    },
+                    "materials": {},
+                    "description": "When taking an action, trigger: Gain 2 stacks of Tidefang.\nOn Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s) and gain 2 stacks of Tidefang.\nOn EX Skill, based on own Tidefang stack(s), trigger: Deal damage ${arg3}% of own ATK to target(s).\nOn EX Skill, trigger: Remove Tidefang from self.\n\nTidefang lasts for 30 turns, up to 16 stacks.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Utsusemi Cross",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 14.4,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On EX Skill, gain 1 stack of Gale Breath. \nWhen own Gale Breath = ${arg1} stack(s), when defending, trigger: Remove Gale Breath from self.\nGrant Buddy in Position 4 for 1 turn:\nATK +${arg2}% of own base ATK for ${arg3} turn(s).\nOn attack, trigger: Souran's Triggered Skill effect +${arg2}% for ${arg3} turn(s).\nOn attack, trigger: Souran gains 5 stacks of Tidefang.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 15.47,
+                        "arg3": 1,
+                        "arg4": 69.6,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, gain 1 stack of Gale Breath.\nWhen own Gale Breath = ${arg1} stack(s), when defending, trigger: Remove Gale Breath from self.\nGrant Buddy in Position 4 for 1 turn:\nATK +${arg2}% of own base ATK for ${arg3} turn(s).\nOn attack, trigger: Souran's Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nOn attack, trigger: Souran gains 5 stacks of Tidefang.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 16.54,
+                        "arg3": 1,
+                        "arg4": 74.4,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, gain 1 stack of Gale Breath.\nWhen own Gale Breath = ${arg1} stack(s), when defending, trigger: Remove Gale Breath from self.\nGrant Buddy in Position 4 for 1 turn:\nATK +${arg2}% of own base ATK for ${arg3} turn(s).\nOn attack, trigger: Souran's Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nOn attack, trigger: Souran gains 5 stacks of Tidefang.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 17.6,
+                        "arg3": 1,
+                        "arg4": 79.2,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, gain 1 stack of Gale Breath.\nWhen own Gale Breath = ${arg1} stack(s), when defending, trigger: Remove Gale Breath from self.\nGrant Buddy in Position 4 for 1 turn:\nATK +${arg2}% of own base ATK for ${arg3} turn(s).\nOn attack, trigger: Souran's Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nOn attack, trigger: Souran gains 5 stacks of Tidefang.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 18.67,
+                        "arg3": 1,
+                        "arg4": 84,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, gain 1 stack of Gale Breath.\nWhen own Gale Breath = ${arg1} stack(s), when defending, trigger: Remove Gale Breath from self.\nGrant Buddy in Position 4 for 1 turn:\nATK +${arg2}% of own base ATK for ${arg3} turn(s).\nOn attack, trigger: Souran's Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nOn attack, trigger: Souran gains 5 stacks of Tidefang.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 19.74,
+                        "arg3": 1,
+                        "arg4": 88.8,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, gain 1 stack of Gale Breath.\nWhen own Gale Breath = ${arg1} stack(s), when defending, trigger: Remove Gale Breath from self.\nGrant Buddy in Position 4 for 1 turn:\nATK +${arg2}% of own base ATK for ${arg3} turn(s).\nOn attack, trigger: Souran's Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nOn attack, trigger: Souran gains 5 stacks of Tidefang.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 20.8,
+                        "arg3": 1,
+                        "arg4": 93.6,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, gain 1 stack of Gale Breath.\nWhen own Gale Breath = ${arg1} stack(s), when defending, trigger: Remove Gale Breath from self.\nGrant Buddy in Position 4 for 1 turn:\nATK +${arg2}% of own base ATK for ${arg3} turn(s).\nOn attack, trigger: Souran's Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nOn attack, trigger: Souran gains 5 stacks of Tidefang.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 21.87,
+                        "arg3": 1,
+                        "arg4": 98.4,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, gain 1 stack of Gale Breath.\nWhen own Gale Breath = ${arg1} stack(s), when defending, trigger: Remove Gale Breath from self.\nGrant Buddy in Position 4 for 1 turn:\nATK +${arg2}% of own base ATK for ${arg3} turn(s).\nOn attack, trigger: Souran's Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nOn attack, trigger: Souran gains 5 stacks of Tidefang.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 22.94,
+                        "arg3": 1,
+                        "arg4": 103.2,
+                        "arg5": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, gain 1 stack of Gale Breath.\nWhen own Gale Breath = ${arg1} stack(s), when defending, trigger: Remove Gale Breath from self.\nGrant Buddy in Position 4 for 1 turn:\nATK +${arg2}% of own base ATK for ${arg3} turn(s).\nOn attack, trigger: Souran's Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nOn attack, trigger: Souran gains 5 stacks of Tidefang.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 24,
+                        "arg3": 1,
+                        "arg4": 108,
+                        "arg5": 2
+                    },
+                    "materials": {},
+                    "description": "On EX Skill, gain 1 stack of Gale Breath.\nWhen own Gale Breath = ${arg1} stack(s), when defending, trigger: Remove Gale Breath from self.\nGrant Buddy in Position 4 for 1 turn:\nATK +${arg2}% of own base ATK for ${arg3} turn(s).\nOn attack, trigger: Souran's Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nOn attack, trigger: Souran gains 5 stacks of Tidefang.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Echo of the Fray",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 9,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On EX Skill, gain 5 stacks of Tidefang.\nWhen taking an action, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 9.67,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, gain 5 stacks of Tidefang.\nWhen taking an action, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 10.34,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, gain 5 stacks of Tidefang.\nWhen taking an action, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 11,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, gain 5 stacks of Tidefang.\nWhen taking an action, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 11.67,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, gain 5 stacks of Tidefang.\nWhen taking an action, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 37,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, gain 5 stacks of Tidefang.\nWhen taking an action, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 39,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, gain 5 stacks of Tidefang.\nWhen taking an action, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 41,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, gain 5 stacks of Tidefang.\nWhen taking an action, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 43,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, gain 5 stacks of Tidefang.\nWhen taking an action, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 45,
+                        "arg3": 3
+                    },
+                    "materials": {},
+                    "description": "On EX Skill, gain 5 stacks of Tidefang.\nWhen taking an action, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10426,
+            "name": "Stormfang Slash",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 100.2,
+                        "arg2": 5,
+                        "arg3": 50,
+                        "arg4": 30
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Tidefang ≧ ${arg2} stack(s), on Basic Attack, there is a(n) ${arg3}% chance to trigger: Deal damage ${arg4}% of own ATK to target(s) and gain 2 stacks of Tidefang.",
+                    "cd": 2
+                },
+                "1": {
+                    "params": {
+                        "arg1": 107.63,
+                        "arg2": 5,
+                        "arg3": 50,
+                        "arg4": 32.23
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Tidefang ≧ ${arg2} stack(s), on Basic Attack, there is a(n) ${arg3}% chance to trigger: Deal damage ${arg4}% of own ATK to target(s) and gain 2 stacks of Tidefang.",
+                    "cd": 2
+                },
+                "2": {
+                    "params": {
+                        "arg1": 115.05,
+                        "arg2": 5,
+                        "arg3": 50,
+                        "arg4": 34.45
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Tidefang ≧ ${arg2} stack(s), on Basic Attack, there is a(n) ${arg3}% chance to trigger: Deal damage ${arg4}% of own ATK to target(s) and gain 2 stacks of Tidefang.",
+                    "cd": 2
+                },
+                "3": {
+                    "params": {
+                        "arg1": 122.47,
+                        "arg2": 5,
+                        "arg3": 50,
+                        "arg4": 36.67
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Tidefang ≧ ${arg2} stack(s), on Basic Attack, there is a(n) ${arg3}% chance to trigger: Deal damage ${arg4}% of own ATK to target(s) and gain 2 stacks of Tidefang.",
+                    "cd": 2
+                },
+                "4": {
+                    "params": {
+                        "arg1": 129.89,
+                        "arg2": 5,
+                        "arg3": 50,
+                        "arg4": 38.89
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Tidefang ≧ ${arg2} stack(s), on Basic Attack, there is a(n) ${arg3}% chance to trigger: Deal damage ${arg4}% of own ATK to target(s) and gain 2 stacks of Tidefang.",
+                    "cd": 2
+                },
+                "5": {
+                    "params": {
+                        "arg1": 137.32,
+                        "arg2": 5,
+                        "arg3": 50,
+                        "arg4": 41.12
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Tidefang ≧ ${arg2} stack(s), on Basic Attack, there is a(n) ${arg3}% chance to trigger: Deal damage ${arg4}% of own ATK to target(s) and gain 2 stacks of Tidefang.",
+                    "cd": 2
+                },
+                "6": {
+                    "params": {
+                        "arg1": 144.74,
+                        "arg2": 5,
+                        "arg3": 50,
+                        "arg4": 43.34
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Tidefang ≧ ${arg2} stack(s), on Basic Attack, there is a(n) ${arg3}% chance to trigger: Deal damage ${arg4}% of own ATK to target(s) and gain 2 stacks of Tidefang.",
+                    "cd": 2
+                },
+                "7": {
+                    "params": {
+                        "arg1": 152.16,
+                        "arg2": 5,
+                        "arg3": 50,
+                        "arg4": 45.56
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Tidefang ≧ ${arg2} stack(s), on Basic Attack, there is a(n) ${arg3}% chance to trigger: Deal damage ${arg4}% of own ATK to target(s) and gain 2 stacks of Tidefang.",
+                    "cd": 2
+                },
+                "8": {
+                    "params": {
+                        "arg1": 159.58,
+                        "arg2": 5,
+                        "arg3": 50,
+                        "arg4": 47.78
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Tidefang ≧ ${arg2} stack(s), on Basic Attack, there is a(n) ${arg3}% chance to trigger: Deal damage ${arg4}% of own ATK to target(s) and gain 2 stacks of Tidefang.",
+                    "cd": 2
+                },
+                "9": {
+                    "params": {
+                        "arg1": 167,
+                        "arg2": 5,
+                        "arg3": 50,
+                        "arg4": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Tidefang ≧ ${arg2} stack(s), on Basic Attack, there is a(n) ${arg3}% chance to trigger: Deal damage ${arg4}% of own ATK to target(s) and gain 2 stacks of Tidefang.",
+                    "cd": 2
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

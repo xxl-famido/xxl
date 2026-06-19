@@ -1,0 +1,297 @@
+[
+    {
+        "LimitLv": 0,
+        "BreakLv": 5,
+        "RuneMaxRank": 1,
+        "RequireItemDatas": []
+    },
+    {
+        "LimitLv": 5,
+        "BreakLv": 10,
+        "RuneMaxRank": 1,
+        "RequireItemDatas": [
+            {
+                "id": 1,
+                "count": 2500
+            },
+            {
+                "id": 31001,
+                "count": 3
+            },
+            {
+                "id": 31101,
+                "count": 3
+            }
+        ]
+    },
+    {
+        "LimitLv": 10,
+        "BreakLv": 15,
+        "RuneMaxRank": 2,
+        "RequireItemDatas": [
+            {
+                "id": 1,
+                "count": 5000
+            },
+            {
+                "id": 31001,
+                "count": 3
+            },
+            {
+                "id": 31101,
+                "count": 3
+            },
+            {
+                "id": 31201,
+                "count": 3
+            },
+            {
+                "id": 31301,
+                "count": 3
+            }
+        ]
+    },
+    {
+        "LimitLv": 15,
+        "BreakLv": 20,
+        "RuneMaxRank": 2,
+        "RequireItemDatas": [
+            {
+                "id": 1,
+                "count": 7500
+            },
+            {
+                "id": 31001,
+                "count": 5
+            },
+            {
+                "id": 31101,
+                "count": 5
+            },
+            {
+                "id": 31201,
+                "count": 5
+            },
+            {
+                "id": 31301,
+                "count": 5
+            }
+        ]
+    },
+    {
+        "LimitLv": 20,
+        "BreakLv": 25,
+        "RuneMaxRank": 3,
+        "RequireItemDatas": [
+            {
+                "id": 1,
+                "count": 10000
+            },
+            {
+                "id": 31002,
+                "count": 3
+            },
+            {
+                "id": 31102,
+                "count": 3
+            },
+            {
+                "id": 31202,
+                "count": 3
+            },
+            {
+                "id": 31302,
+                "count": 3
+            }
+        ]
+    },
+    {
+        "LimitLv": 25,
+        "BreakLv": 30,
+        "RuneMaxRank": 3,
+        "RequireItemDatas": [
+            {
+                "id": 1,
+                "count": 15000
+            },
+            {
+                "id": 31002,
+                "count": 5
+            },
+            {
+                "id": 31102,
+                "count": 5
+            },
+            {
+                "id": 31202,
+                "count": 5
+            },
+            {
+                "id": 31302,
+                "count": 5
+            }
+        ]
+    },
+    {
+        "LimitLv": 30,
+        "BreakLv": 35,
+        "RuneMaxRank": 4,
+        "RequireItemDatas": [
+            {
+                "id": 1,
+                "count": 20000
+            },
+            {
+                "id": 31003,
+                "count": 3
+            },
+            {
+                "id": 31103,
+                "count": 3
+            },
+            {
+                "id": 31203,
+                "count": 3
+            },
+            {
+                "id": 31303,
+                "count": 3
+            }
+        ]
+    },
+    {
+        "LimitLv": 35,
+        "BreakLv": 40,
+        "RuneMaxRank": 4,
+        "RequireItemDatas": [
+            {
+                "id": 1,
+                "count": 25000
+            },
+            {
+                "id": 31003,
+                "count": 5
+            },
+            {
+                "id": 31103,
+                "count": 5
+            },
+            {
+                "id": 31203,
+                "count": 5
+            },
+            {
+                "id": 31303,
+                "count": 5
+            }
+        ]
+    },
+    {
+        "LimitLv": 40,
+        "BreakLv": 45,
+        "RuneMaxRank": 5,
+        "RequireItemDatas": [
+            {
+                "id": 1,
+                "count": 30000
+            },
+            {
+                "id": 31004,
+                "count": 3
+            },
+            {
+                "id": 31104,
+                "count": 3
+            },
+            {
+                "id": 31204,
+                "count": 3
+            },
+            {
+                "id": 31304,
+                "count": 3
+            }
+        ]
+    },
+    {
+        "LimitLv": 45,
+        "BreakLv": 50,
+        "RuneMaxRank": 5,
+        "RequireItemDatas": [
+            {
+                "id": 1,
+                "count": 35000
+            },
+            {
+                "id": 31004,
+                "count": 5
+            },
+            {
+                "id": 31104,
+                "count": 5
+            },
+            {
+                "id": 31204,
+                "count": 5
+            },
+            {
+                "id": 31304,
+                "count": 5
+            }
+        ]
+    },
+    {
+        "LimitLv": 50,
+        "BreakLv": 55,
+        "RuneMaxRank": 6,
+        "RequireItemDatas": [
+            {
+                "id": 1,
+                "count": 40000
+            },
+            {
+                "id": 31005,
+                "count": 3
+            },
+            {
+                "id": 31105,
+                "count": 3
+            },
+            {
+                "id": 31205,
+                "count": 3
+            },
+            {
+                "id": 31305,
+                "count": 3
+            }
+        ]
+    },
+    {
+        "LimitLv": 55,
+        "BreakLv": 60,
+        "RuneMaxRank": 6,
+        "RequireItemDatas": [
+            {
+                "id": 1,
+                "count": 50000
+            },
+            {
+                "id": 31005,
+                "count": 5
+            },
+            {
+                "id": 31105,
+                "count": 5
+            },
+            {
+                "id": 31205,
+                "count": 5
+            },
+            {
+                "id": 31305,
+                "count": 5
+            }
+        ]
+    }
+]

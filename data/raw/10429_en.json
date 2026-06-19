@@ -1,0 +1,1750 @@
+{
+    "info": {
+        "id": 10429,
+        "name": "Lin Yuzhan",
+        "feature": "Blossom Burst / Chain Explosion ",
+        "rarity": 4,
+        "class": 1,
+        "element": 1,
+        "baseHP": 2333,
+        "sign": "sign_J",
+        "baseATK": 535,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Greetings! I'm Lin Yuzhan.\nLet me light up the sky!\"",
+    "interactions": {
+        "0": [
+            "Whoa! Why so passionate all of a sudden? Hehe, trying to see if I'm hiding any gunpowder on me?",
+            "You really like feeling me up... Be careful. One wrong move and things might \"go off,\" you know? ",
+            "I heard there are magic fireworks now... Do they mix magic ingredients with gunpowder?",
+            "You know, when someone you're used to suddenly wears something completely different, that contrast is really exciting."
+        ],
+        "1": [
+            "Eh? There's nothing special here... but I've got plenty of good stuff in my workshop. ",
+            "If you keep touching me like that... My heart feels like it might give out..."
+        ],
+        "2": [
+            "You smell gunpowder? Oh... I think I got some in my hair..."
+        ],
+        "3": [
+            "Hey, hey, hey! Not there!",
+            "Wah?! Wait, wait, not there! You're quite bold, aren't you?",
+            "Heh... the vibe really makes me want to talk dirty. So... what's your favorite position? "
+        ],
+        "98": [
+            "Try that again, and I'll give you a taste of firecrackers loaded with five times the powder!"
+        ],
+        "99": [
+            "Ngh... I miscalculated... Should I have used a more powerful formula after all...?"
+        ],
+        "100": [
+            "Ah, it's you. What kind of fireworks are you in the mood for today~? Or... is there something you need blown up?",
+            "Back when I was in Seiran Wakoku... I used to lock myself in my room just to come up with the most innovative firework designs."
+        ]
+    },
+    "story": {
+        "1": "Having returned from Seiran Wakoku, Lin Yuzhan is preparing to settle back in Section Hunk. He is a firework designer who specializes in crafting all kinds of fireworks and firecrackers.\n\nFriendly and straightforward by nature, he greets everyone with a genuine smile. Because he loves seeing people light up with joy, he fell in love with this craft that brings emotion and wonder to others.\n\nOnce he starts working on fireworks, Lin Yuzhan shows an astonishing level of focus, as if the rest of the world simply fades away.",
+        "2": "Lin Yuzhan seems to genuinely enjoy the thunderous crack of explosives. Coupled with his reflexive mindset of \"just blow it up and be done with it,\" one can't help but wonder whether there's some latent radical streak buried deep inside him. Thankfully, he channels that enthusiasm into the art of creating beautiful fireworks.\nAs a fireworks designer, Lin Yuzhan knows explosives inside and out. Which also means that if he ever takes a wrong turn, the consequences could be truly terrifying.",
+        "3": "His studio is always piled high with vividly colored explosive materials and all kinds of detonating devices. If you ever get close to his workspace, remember this one rule: never touch anything just because it looks pretty. No one understands better than him which of those dazzling objects are dangerously explosive.",
+        "4": "When Lin Yuzhan runs into a tough situation, he'll still wear his usual bright, cheerful smile, yet sometimes let slip some alarming remarks in an almost casual tone—like \"Or we could just blow it up.\" or \"Explosives are like medicine. Use them right, and they work wonders!\"—all while lightly swinging his firework launcher as if it were nothing.\nThe scary part is that, judging by his tone, Lin Yuzhan doesn't seem to be joking at all. In that sense, he carries a subtle but unmistakable aura of a dangerous individual."
+    },
+    "hookUp": {
+        "cards": [
+            80011,
+            80136,
+            80024
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 1,
+                    "text": "Magic scales, huh...? Magic fireworks are quite popular these days. "
+                },
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 1,
+                    "text": "What would happen if I put it in firework gunpowder?"
+                },
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 1,
+                    "text": "If it could cast a faint, ambiguous light... It would be quite captivating, wouldn't it?"
+                },
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 1,
+                    "text": "Why don't we... give it a try on a quiet night? I promise I'll let you see the most beautiful fireworks."
+                },
+                {
+                    "boundId": 80011,
+                    "speakerPosition": 0,
+                    "text": "He is surprisingly good at flirting..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80136,
+                    "speakerPosition": 1,
+                    "text": "Oh~ You say you want to try on this uniform?"
+                },
+                {
+                    "boundId": 80136,
+                    "speakerPosition": 1,
+                    "text": "The thrill of exploring each other... it really gets my heart racing."
+                },
+                {
+                    "boundId": 80136,
+                    "speakerPosition": 1,
+                    "text": "Let me play a different role for you next time if we have a chance."
+                },
+                {
+                    "boundId": 80136,
+                    "speakerPosition": 1,
+                    "text": "For example, playing as a teacher showing you how to set off the most intense \"fireworks.\""
+                },
+                {
+                    "boundId": 80136,
+                    "speakerPosition": 0,
+                    "text": "I can't believe he just uttered such seductive words with that innocent look..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80024,
+                    "speakerPosition": 1,
+                    "text": "Haha... I've met some guys who like this position too."
+                },
+                {
+                    "boundId": 80024,
+                    "speakerPosition": 1,
+                    "text": "Lifting the person up, legs wide open and wrapped around you... that feeling of control is addictive."
+                },
+                {
+                    "boundId": 80024,
+                    "speakerPosition": 1,
+                    "text": "With their full weight supported by you, they can feel your cock hitting the deepest part..."
+                },
+                {
+                    "boundId": 80024,
+                    "speakerPosition": 1,
+                    "text": "And their butt opens up more naturally... so you can pound them at angles you usually can't."
+                },
+                {
+                    "boundId": 80024,
+                    "speakerPosition": 1,
+                    "text": "Just imagining it... is so exciting. Hehe~ "
+                },
+                {
+                    "boundId": 80024,
+                    "speakerPosition": 0,
+                    "text": "Why are you so experienced at this?"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Eh? This...?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Hmm... it doesn't feel right. Want me to blow it up for you?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Wait, no!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Hmm? Sorry, I don't really get this..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Lin Yuzhan doesn't seem very interested..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Will there ever be a need for gunpowder in this Playroom?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Absolutely not."
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Firecracker Attack",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32101,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32111,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32111,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32121,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32131,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32141,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Dragon Eggs Firework",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60,
+                        "arg2": 30
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 54
+                        },
+                        {
+                            "id": 32102,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nRemove Gunpowder from locked target.",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45,
+                        "arg2": 32.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 63
+                        },
+                        {
+                            "id": 32102,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nRemove Gunpowder from locked target.",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89,
+                        "arg2": 34.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 63
+                        },
+                        {
+                            "id": 32112,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nRemove Gunpowder from locked target.",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34,
+                        "arg2": 36.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 72
+                        },
+                        {
+                            "id": 32112,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nRemove Gunpowder from locked target.",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78,
+                        "arg2": 38.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 72
+                        },
+                        {
+                            "id": 32122,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nRemove Gunpowder from locked target.",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23,
+                        "arg2": 41.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 81
+                        },
+                        {
+                            "id": 32122,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nRemove Gunpowder from locked target.",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67,
+                        "arg2": 43.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 81
+                        },
+                        {
+                            "id": 32132,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nRemove Gunpowder from locked target.",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12,
+                        "arg2": 45.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 90
+                        },
+                        {
+                            "id": 32132,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nRemove Gunpowder from locked target.",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56,
+                        "arg2": 47.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32141,
+                            "count": 90
+                        },
+                        {
+                            "id": 32142,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nRemove Gunpowder from locked target.",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nRemove Gunpowder from locked target.",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Ember Ignition",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nOn Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) the same number of times as target's stack(s) of Gunpowder.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nOn Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) the same number of times as target's stack(s) of Gunpowder.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nOn Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) the same number of times as target's stack(s) of Gunpowder.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nOn Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) the same number of times as target's stack(s) of Gunpowder.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nOn Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) the same number of times as target's stack(s) of Gunpowder.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nOn Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) the same number of times as target's stack(s) of Gunpowder.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nOn Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) the same number of times as target's stack(s) of Gunpowder.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nOn Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) the same number of times as target's stack(s) of Gunpowder.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nOn Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) the same number of times as target's stack(s) of Gunpowder.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15
+                    },
+                    "materials": {},
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nOn Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) the same number of times as target's stack(s) of Gunpowder.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Gunpowder Refill",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When defending, trigger: Triggered skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Triggered skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Triggered skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Triggered skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Triggered skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Triggered skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Triggered skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Triggered skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Triggered skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 2
+                    },
+                    "materials": {},
+                    "description": "When defending, trigger: Triggered skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "The Best Fireworks",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When locked target's Gunpowder ≧ ${arg1} stack(s), trigger: Own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target's Gunpowder ≧ ${arg1} stack(s), trigger: Own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target's Gunpowder ≧ ${arg1} stack(s), trigger: Own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target's Gunpowder ≧ ${arg1} stack(s), trigger: Own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target's Gunpowder ≧ ${arg1} stack(s), trigger: Own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target's Gunpowder ≧ ${arg1} stack(s), trigger: Own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target's Gunpowder ≧ ${arg1} stack(s), trigger: Own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target's Gunpowder ≧ ${arg1} stack(s), trigger: Own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target's Gunpowder ≧ ${arg1} stack(s), trigger: Own damage dealt +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 30
+                    },
+                    "materials": {},
+                    "description": "When locked target's Gunpowder ≧ ${arg1} stack(s), trigger: Own damage dealt +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10429,
+            "name": "Dragon Eggs Firework",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60,
+                        "arg2": 30,
+                        "arg3": 18,
+                        "arg4": 50,
+                        "arg5": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nSigil Passive:\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to all enemies the same number of times as target's stack(s) of Gunpowder.\nOn EX Skill, trigger: Remove Gunpowder from locked target.\nExcept self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg4}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg5}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45,
+                        "arg2": 32.23,
+                        "arg3": 19.34,
+                        "arg4": 50,
+                        "arg5": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nSigil Passive:\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to all enemies the same number of times as target's stack(s) of Gunpowder.\nOn EX Skill, trigger: Remove Gunpowder from locked target.\nExcept self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg4}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg5}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89,
+                        "arg2": 34.45,
+                        "arg3": 20.67,
+                        "arg4": 50,
+                        "arg5": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nSigil Passive:\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to all enemies the same number of times as target's stack(s) of Gunpowder.\nOn EX Skill, trigger: Remove Gunpowder from locked target.\nExcept self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg4}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg5}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34,
+                        "arg2": 36.67,
+                        "arg3": 22,
+                        "arg4": 50,
+                        "arg5": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nSigil Passive:\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to all enemies the same number of times as target's stack(s) of Gunpowder.\nOn EX Skill, trigger: Remove Gunpowder from locked target.\nExcept self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg4}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg5}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78,
+                        "arg2": 38.89,
+                        "arg3": 23.34,
+                        "arg4": 50,
+                        "arg5": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nSigil Passive:\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to all enemies the same number of times as target's stack(s) of Gunpowder.\nOn EX Skill, trigger: Remove Gunpowder from locked target.\nExcept self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg4}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg5}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23,
+                        "arg2": 41.12,
+                        "arg3": 24.67,
+                        "arg4": 50,
+                        "arg5": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nSigil Passive:\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to all enemies the same number of times as target's stack(s) of Gunpowder.\nOn EX Skill, trigger: Remove Gunpowder from locked target.\nExcept self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg4}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg5}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67,
+                        "arg2": 43.34,
+                        "arg3": 26,
+                        "arg4": 50,
+                        "arg5": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nSigil Passive:\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to all enemies the same number of times as target's stack(s) of Gunpowder.\nOn EX Skill, trigger: Remove Gunpowder from locked target.\nExcept self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg4}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg5}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12,
+                        "arg2": 45.56,
+                        "arg3": 27.34,
+                        "arg4": 50,
+                        "arg5": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nSigil Passive:\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to all enemies the same number of times as target's stack(s) of Gunpowder.\nOn EX Skill, trigger: Remove Gunpowder from locked target.\nExcept self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg4}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg5}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56,
+                        "arg2": 47.78,
+                        "arg3": 28.67,
+                        "arg4": 50,
+                        "arg5": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nSigil Passive:\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to all enemies the same number of times as target's stack(s) of Gunpowder.\nOn EX Skill, trigger: Remove Gunpowder from locked target.\nExcept self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg4}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg5}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 50,
+                        "arg3": 30,
+                        "arg4": 50,
+                        "arg5": 50
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nDeal damage ${arg2}% of own ATK to all enemies.\nSigil Passive:\nOn EX Skill, trigger: Deal damage ${arg3}% of own ATK to all enemies the same number of times as target's stack(s) of Gunpowder.\nOn EX Skill, trigger: Remove Gunpowder from locked target.\nExcept self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg4}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg5}% chance to trigger: Target(s) gains/gain 1 stack of Gunpowder, up to 3 stacks.",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true
+    }
+}

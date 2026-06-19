@@ -1,0 +1,1819 @@
+{
+    "info": {
+        "id": 10402,
+        "name": "Shin Rirang",
+        "feature": "Multi-Buff / Single-Target Burst",
+        "rarity": 4,
+        "class": 1,
+        "element": 2,
+        "baseHP": 2379,
+        "sign": "sign_V",
+        "baseATK": 525,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Please allow me to demonstrate\nthe fruits of my years of training.\"",
+    "interactions": {
+        "0": [
+            "When Yuhyun and I were kids, we used to compare who was stronger... haha.",
+            "Moon... bamboo... fish... blossom, birds, and breeze... Hmm, I could write something poetic with these.",
+            "Uh, your face is so close to my feet. Won't it smell?",
+            "Hah... hah... Go too soft, and it's kinda ticklish..."
+        ],
+        "1": [
+            "Huh? Why did you suddenly bury your face in... Ahh...! Please stop sucking like that—!",
+            "Would you like to feel the Qi within me? Then place your palm firmly on my chest."
+        ],
+        "2": [
+            "When I was little, I'd scratch my head with my foot after waking up... Woogyu would then say it was dirty...",
+            "Sniff~ What's that behind your back? Smells familiar... spices, maybe...?"
+        ],
+        "3": [
+            "Uh, don't poke it like that...!",
+            "Ugh... I got careless... actually giving you the chance to do that."
+        ],
+        "98": [
+            "No manners, no wit, no courage—that's why you've been defeated."
+        ],
+        "99": [
+            "I've been slacking off in my training... Master would never let this slide."
+        ],
+        "100": [
+            "\"Hi! Freezing or not, iced coffee is a must!\" That's a greeting I just learned. Hmm? Did I use it wrong...?",
+            "This place feels like my training ground—time just slips away fast."
+        ]
+    },
+    "story": {
+        "1": "Shin Rirang is a wolf Beastfolk from the rural area of Dongyeo City, where he grew up alongside Choi Yuhyun and Byun Woogyu. The 3 of them are childhood friends that share a tight bond like that between family members.\nShin Rirang has a calm and sincere personality, like a warm flame burning quietly. His heart-felt words always manage to warm those around him unknowingly. He also has a strong sense of justice that rivals that of Choi Yuhyun. However, despite appearing perfect, he has a bad habit of doing everything with his feet instead of his hands. He is so good with his feet that he has trouble switching back to using his hands.",
+        "2": "To pursue the pinnacle of martial arts and push his physical limits, Shin Rirang left his hometown at a young age to remote mountain valleys in search of a master. The martial arts he practice mainly focus on leg-based offense and defense, a traditional style with a long history in Dongyeo City. His smooth, swift leg techniques give off an impressive and stylish vibe. He also possesses a unique ability called Qi. It's a form of energy that can be understood as a type of magic. When he's excited or emotional, his Qi would flow from his blue fur and glow faintly.",
+        "3": "One of Shin Rirang's hobbies is poetry and literature. He enjoys reading beautiful poems and collections, often drafting down elegant lines and keeping them in his small diary. Despite his warrior-like appearance, there is a surprisingly soft and romantic side to him. Perhaps because of his love for poetry, he's also quite interested in nature—things like flowing water, whistling wind, glowing moon, and flying birds, things that are the recurring themes of poems. Activities like hiking or stargazing are probably things he also enjoys.",
+        "4": "Recently, in the bustling district of Dongyeo City, Shin Rirang's been spotted looking somewhat confused, as though he's often in a state of bewilderment. Upon reflection, it does make sense—Dongyeo City is a place where information and trends change rapidly. Since he is from a rural area, a lot of the things in the city are likely his first encounter, which can make him feel quite disoriented. Having spent so many years training in the mountains, his knowledge seems a bit outdated. \nSometimes, he would quietly listen to how people communicate in the bustling districts. When he stumbles over new words or phrases he's picked up and tries to use them, it creates an almost adorable contrast to his otherwise composed and cool demeanor."
+    },
+    "hookUp": {
+        "cards": [
+            80129,
+            80086,
+            80075
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 1,
+                    "text": "Um... Why are you lifting my leg...?"
+                },
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 1,
+                    "text": "...! No, i-it's dirty there... Don't sniff it...!"
+                },
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 1,
+                    "text": "Ahh, err... your tongue is slurping on my pads..."
+                },
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 0,
+                    "text": "Rirang's pads... smell like popcorn..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80086,
+                    "speakerPosition": 1,
+                    "text": "You..."
+                },
+                {
+                    "boundId": 80086,
+                    "speakerPosition": 1,
+                    "text": "How dare you hold that cucumber like it's nothing...?"
+                },
+                {
+                    "boundId": 80086,
+                    "speakerPosition": 1,
+                    "text": "(Sobs) Y-you shameless bastard!"
+                },
+                {
+                    "boundId": 80086,
+                    "speakerPosition": 0,
+                    "text": "How is this trick working on everyone from Dongyeo City?"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "Is that... a feather?"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "Um... haa... ahh... Wait... hahaha!"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "You... hahhh... D-don't tickle my paws like this!"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "Hahaha... Ahaa... ah.. aw—"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "—Aw, Awooooooo~~~!"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 0,
+                    "text": "No way? Does it feel that good?"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "As the seasons shift and turn, lost moments never return. The sorrow of longing, like waves, it yearns…"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "The beautiful memories we shared... inscribed in the sunset sky, like a poem of farewell..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "...? Am I being completely ignored right now?"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Tears fall like snowflakes, humming our farewell song..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Floating on... floating on... Though we may never meet again, this feeling will linger on."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Enough with the poetry already!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Your reappearance, like the sunset of that day as memories bloom, becoming the path to that irreplaceable past."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Sing on, sing on... until the song of love reaches the end of the sky."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "How about it?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Ahh... it's so... beautiful..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Eh? Hold on... this doesn't seem quite right?!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Starfall",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32101,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32111,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32111,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32121,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32131,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32141,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Whirlwind Kick",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 120
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 54
+                        },
+                        {
+                            "id": 32102,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 128.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 63
+                        },
+                        {
+                            "id": 32102,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 137.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 63
+                        },
+                        {
+                            "id": 32112,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 146.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 72
+                        },
+                        {
+                            "id": 32112,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 155.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 72
+                        },
+                        {
+                            "id": 32122,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 164.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 81
+                        },
+                        {
+                            "id": 32122,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 173.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 81
+                        },
+                        {
+                            "id": 32132,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 182.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 90
+                        },
+                        {
+                            "id": 32132,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 191.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32141,
+                            "count": 90
+                        },
+                        {
+                            "id": 32142,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 200
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Qi Surge: Wolf",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 36,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 48
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 38.67,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 51.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 41.34,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 55.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 44,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 58.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 46.67,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 62.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 49.34,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 65.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 52,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 69.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).\r\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Deal damage ${arg5}% of own ATK to target(s).\r",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 54.67,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 72.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).\r\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Deal damage ${arg5}% of own ATK to target(s).\r",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 57.34,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 76.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 60,
+                        "arg3": 1,
+                        "arg4": 50,
+                        "arg5": 80
+                    },
+                    "materials": {},
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: Triggered skill effect +${arg2}% for ${arg3} turn(s).\nOn EX Skill, there is a(n) ${arg4}% chance to trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Counter Kicks",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60,
+                        "arg2": 15,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When taking a Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) and own damage dealt +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45,
+                        "arg2": 16.12,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When taking a Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) and own damage dealt +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89,
+                        "arg2": 17.23,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When taking a Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) and own damage dealt +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34,
+                        "arg2": 18.34,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When taking a Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) and own damage dealt +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78,
+                        "arg2": 19.45,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When taking a Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) and own damage dealt +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23,
+                        "arg2": 20.56,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When taking a Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) and own damage dealt +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67,
+                        "arg2": 21.67,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When taking a Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) and own damage dealt +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12,
+                        "arg2": 22.78,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When taking a Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) and own damage dealt +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56,
+                        "arg2": 23.89,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When taking a Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) and own damage dealt +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 25,
+                        "arg3": 2
+                    },
+                    "materials": {},
+                    "description": "When taking a Basic Attack, trigger: Deal damage ${arg1}% of own ATK to target(s) and own damage dealt +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Zephyr of the Moon",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1.8,
+                        "arg2": 30,
+                        "arg3": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On attack, trigger: Own ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1.94,
+                        "arg2": 30,
+                        "arg3": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On attack, trigger: Own ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 2.07,
+                        "arg2": 30,
+                        "arg3": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On attack, trigger: Own ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 2.2,
+                        "arg2": 30,
+                        "arg3": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On attack, trigger: Own ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 2.34,
+                        "arg2": 30,
+                        "arg3": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On attack, trigger: Own ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 2.47,
+                        "arg2": 30,
+                        "arg3": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On attack, trigger: Own ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 2.6,
+                        "arg2": 30,
+                        "arg3": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On attack, trigger: Own ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 2.74,
+                        "arg2": 30,
+                        "arg3": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On attack, trigger: Own ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 2.87,
+                        "arg2": 30,
+                        "arg3": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On attack, trigger: Own ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 30,
+                        "arg3": 10
+                    },
+                    "materials": {},
+                    "description": "On attack, trigger: Own ATK +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10402,
+            "name": "Whirlwind Kick",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 120,
+                        "arg2": 50,
+                        "arg3": 18,
+                        "arg4": 1,
+                        "arg5": 50,
+                        "arg6": 24
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive (triggers after Qi Surge: Wolf): \nOn EX Skill, there is a(n) ${arg2}% chance to trigger: Triggered skill effect +${arg3}% for ${arg4} turn(s).\nOn EX Skill, there is a(n) ${arg5}% chance to trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 128.89,
+                        "arg2": 50,
+                        "arg3": 19.34,
+                        "arg4": 1,
+                        "arg5": 50,
+                        "arg6": 25.78
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive (triggers after Qi Surge: Wolf): \nOn EX Skill, there is a(n) ${arg2}% chance to trigger: Triggered skill effect +${arg3}% for ${arg4} turn(s).\nOn EX Skill, there is a(n) ${arg5}% chance to trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 137.78,
+                        "arg2": 50,
+                        "arg3": 20.67,
+                        "arg4": 1,
+                        "arg5": 50,
+                        "arg6": 27.56
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive (triggers after Qi Surge: Wolf): \nOn EX Skill, there is a(n) ${arg2}% chance to trigger: Triggered skill effect +${arg3}% for ${arg4} turn(s).\nOn EX Skill, there is a(n) ${arg5}% chance to trigger: Deal damage ${arg6}% of own ATK to target(s).\n",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 146.67,
+                        "arg2": 50,
+                        "arg3": 22,
+                        "arg4": 1,
+                        "arg5": 50,
+                        "arg6": 29.34
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive (triggers after Qi Surge: Wolf): \nOn EX Skill, there is a(n) ${arg2}% chance to trigger: Triggered skill effect +${arg3}% for ${arg4} turn(s).\nOn EX Skill, there is a(n) ${arg5}% chance to trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 155.56,
+                        "arg2": 50,
+                        "arg3": 23.34,
+                        "arg4": 1,
+                        "arg5": 50,
+                        "arg6": 31.12
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive (triggers after Qi Surge: Wolf): \nOn EX Skill, there is a(n) ${arg2}% chance to trigger: Triggered skill effect +${arg3}% for ${arg4} turn(s).\nOn EX Skill, there is a(n) ${arg5}% chance to trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 164.45,
+                        "arg2": 50,
+                        "arg3": 24.67,
+                        "arg4": 1,
+                        "arg5": 50,
+                        "arg6": 32.89
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive (triggers after Qi Surge: Wolf): \nOn EX Skill, there is a(n) ${arg2}% chance to trigger: Triggered skill effect +${arg3}% for ${arg4} turn(s).\nOn EX Skill, there is a(n) ${arg5}% chance to trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 173.34,
+                        "arg2": 50,
+                        "arg3": 26,
+                        "arg4": 1,
+                        "arg5": 50,
+                        "arg6": 34.67
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive (triggers after Qi Surge: Wolf): \nOn EX Skill, there is a(n) ${arg2}% chance to trigger: Triggered skill effect +${arg3}% for ${arg4} turn(s).\nOn EX Skill, there is a(n) ${arg5}% chance to trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 182.23,
+                        "arg2": 50,
+                        "arg3": 27.34,
+                        "arg4": 1,
+                        "arg5": 50,
+                        "arg6": 36.45
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive (triggers after Qi Surge: Wolf): \nOn EX Skill, there is a(n) ${arg2}% chance to trigger: Triggered skill effect +${arg3}% for ${arg4} turn(s).\nOn EX Skill, there is a(n) ${arg5}% chance to trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 191.12,
+                        "arg2": 50,
+                        "arg3": 28.67,
+                        "arg4": 1,
+                        "arg5": 50,
+                        "arg6": 38.23
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive (triggers after Qi Surge: Wolf): \nOn EX Skill, there is a(n) ${arg2}% chance to trigger: Triggered skill effect +${arg3}% for ${arg4} turn(s).\nOn EX Skill, there is a(n) ${arg5}% chance to trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 200,
+                        "arg2": 50,
+                        "arg3": 30,
+                        "arg4": 1,
+                        "arg5": 50,
+                        "arg6": 40
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive (triggers after Qi Surge: Wolf): \nOn EX Skill, there is a(n) ${arg2}% chance to trigger: Triggered skill effect +${arg3}% for ${arg4} turn(s).\nOn EX Skill, there is a(n) ${arg5}% chance to trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

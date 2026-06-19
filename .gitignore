@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+_site/
+10턴_상세로그.txt
+.DS_Store
+*.txt
+!requirements*.txt

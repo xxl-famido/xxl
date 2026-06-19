@@ -1,0 +1,1769 @@
+{
+    "info": {
+        "id": 10412,
+        "name": "Tayangsuyi",
+        "feature": "EX Damage Boost / ATK Boost",
+        "rarity": 4,
+        "class": 1,
+        "element": 1,
+        "baseHP": 2475,
+        "sign": "sign_J",
+        "baseATK": 504,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Another weakling waiting\nto be plowed by me, ahaha!\"",
+    "interactions": {
+        "0": [
+            "Hah! I'm the reigning champ—why would I be scared of you scrawny lot?",
+            "Hey! You look like you can throw a punch! Wanna fight? If you refuse, you're nothing but a wimp!",
+            "Put some effort into it! Don't underestimate my body!"
+        ],
+        "1": [
+            "Hahaha! Get a touch of my champion pecs!",
+            "Oho...? Going straight for my chest? What a rookie move!"
+        ],
+        "2": [
+            "Hahaha! If you want to admire me this way, I won't stop you. Go on!"
+        ],
+        "3": [
+            "Hehe... Extra large and mighty, right? Up for a few rounds with me...?",
+            "Hey, hands off! I'm a top all the way. Don't try anything funny!",
+            "Listen up... D-don't even think about laying a finger on my ass...",
+            "For such a weakling, you're surprisingly good with your feet, huh?"
+        ],
+        "98": [
+            "Hmph... Pathetic. Hey! Aren't there any stronger ones?"
+        ],
+        "99": [
+            "No way...! I'm the reigning champ! How could I possibly be subdued?!"
+        ],
+        "100": [
+            "Well, if you really want it that bad, it's not like I couldn't \"train\" you a little...!",
+            "How's that? My build is getting you horny, isn't it?"
+        ]
+    },
+    "story": {
+        "1": "Tayangsuyi is a standout figure from the traditional wrestling games held on Rodney Volcanoes. These games, which serve as both a physical display of power and a tribute to the ancestral spirits and the volcano gods, have seen Tayangsuyi reign as the undisputed champion for many years.",
+        "2": "Tayansuyi has absolute confidence in his strength and tends to look down on those opponents he deems weaker than himself, showing them no respect whatsoever. However, if he encounters someone stronger and worthy of his recognition, he will dedicate himself obsessively to them. His fiery temper is ever-present, and he is known to provoke anyone who seems like they might be able to fight well. The brashness often leads to trouble for both the individual and those around them. However, he isn't really an evil man—if you don't like his behavior, it's best to simply avoid him.",
+        "3": "Since Tanyangsuyi's personality is so straightforward, getting on his good side is pretty easy. Either you match his strength or even surpass him, or you worship him as an idol—either one pleases him. That said, he's more interested in the first type, since there are a whole lot of people who fall into the second category. If you come to the Volcanoes to challenge him, he'll gladly accept. However, if you lose, you'll definitely get mocked in return. Treating him like an idol and praising him will please him greatly. Maybe it is due to the fact that he's a canine Beastfolk, then again, a Tayangsuyi like this can be surprisingly adorable, too.",
+        "4": "There's also an amusing side to Tanyangsuyi, which is that he loves to flaunt his strength, including showing off his prowess in certain steamy affairs. When it comes to roles, he will repeatedly emphasize that he'll be the top. He also has a strong aversion to anyone touching his rear—for he always believes that it should be the other way around. This characteristic, while somewhat aggressive, seems to attract certain people who are drawn to being dominated or taken roughly. Despite his dominant nature, this side of Tayangsuyi might unexpectedly come off as endearing to those who appreciate such intensity."
+    },
+    "hookUp": {
+        "cards": [
+            80113,
+            80124,
+            80026
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80113,
+                    "speakerPosition": 1,
+                    "text": "Ugh...! Ah...!"
+                },
+                {
+                    "boundId": 80113,
+                    "speakerPosition": 1,
+                    "text": "No, no, not enough! Again—!!!"
+                },
+                {
+                    "boundId": 80113,
+                    "speakerPosition": 1,
+                    "text": "My strong total top body can take any of your strafes!"
+                },
+                {
+                    "boundId": 80113,
+                    "speakerPosition": 1,
+                    "text": "Hahaha—! Are you hooked on me? Want to get fucked by me?!"
+                },
+                {
+                    "boundId": 80113,
+                    "speakerPosition": 1,
+                    "text": "—Ughahh!!!"
+                },
+                {
+                    "boundId": 80113,
+                    "speakerPosition": 0,
+                    "text": "People who are a bit of a masochist... seem to have an inexplicable masculine charm to them."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80124,
+                    "speakerPosition": 1,
+                    "text": "Ughahhhh—!!!"
+                },
+                {
+                    "boundId": 80124,
+                    "speakerPosition": 1,
+                    "text": "What are you doing? I'm a total top! Don't you dare touch my hole!"
+                },
+                {
+                    "boundId": 80124,
+                    "speakerPosition": 1,
+                    "text": "S-stop it! Ahh—!"
+                },
+                {
+                    "boundId": 80124,
+                    "speakerPosition": 1,
+                    "text": "Um... umm...! Ah—!"
+                },
+                {
+                    "boundId": 80124,
+                    "speakerPosition": 1,
+                    "text": "C-can't believe I sound like a slutty bottom... hmm—!"
+                },
+                {
+                    "boundId": 80124,
+                    "speakerPosition": 1,
+                    "text": "I'm going to fuck you till you collapse after this! Damn you—!"
+                },
+                {
+                    "boundId": 80124,
+                    "speakerPosition": 0,
+                    "text": "Total tops' holes are more worthy of conquering than total bottoms♡"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 1,
+                    "text": "Hm... ngh...!"
+                },
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 1,
+                    "text": "Yea... Just like that, keep going... uhh...! Serve my cock nicely...!"
+                },
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 1,
+                    "text": "Ha... Haaa... How's that...? Feel the might of my cock?"
+                },
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 1,
+                    "text": "Imaging getting absolutely ruined by my fat cock? Ahahaha—!"
+                },
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 1,
+                    "text": "Ugh...! W-wait... I'm about to cum if you keep... Nghahhhh!"
+                },
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 0,
+                    "text": "I can deal with you with only my feet, you horny dog."
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Such a noob~! You think you can beat me with that weak stuff?!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "This damn crazy dog...!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "My body's rock solid! Got anything tougher?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Tayangsuyi is strong indeed. No wonder he's the wrestling champion."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "If I can take your best shot, you'll have to let me fuck you... we had a deal, right?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I'd rather die than let you fuck me...!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "I'll Fight All Ten—!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32101,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32111,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32111,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32121,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32131,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32141,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "King Slam",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 132
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 54
+                        },
+                        {
+                            "id": 32102,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nRemove Battle Spirit from self.",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 141.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 63
+                        },
+                        {
+                            "id": 32102,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nRemove Battle Spirit from self.",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 151.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 63
+                        },
+                        {
+                            "id": 32112,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nRemove Battle Spirit from self.",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 161.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 72
+                        },
+                        {
+                            "id": 32112,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nRemove Battle Spirit from self.",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 171.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 72
+                        },
+                        {
+                            "id": 32122,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nRemove Battle Spirit from self.",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 180.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 81
+                        },
+                        {
+                            "id": 32122,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nRemove Battle Spirit from self.",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 190.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 81
+                        },
+                        {
+                            "id": 32132,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nRemove Battle Spirit from self.",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 200.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 90
+                        },
+                        {
+                            "id": 32132,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nRemove Battle Spirit from self.",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 210.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32141,
+                            "count": 90
+                        },
+                        {
+                            "id": 32142,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nRemove Battle Spirit from self.",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 220
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nRemove Battle Spirit from self.",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Volcano Wardance",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 32,
+                        "arg2": 32,
+                        "arg3": 6,
+                        "arg4": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Except self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg1}% chance to trigger: Tayansuyi gains Battle Spirit.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg2}% chance to trigger: Tayansuyi gains Battle Spirit.\n\nBattle Spirit:\nEX Skill effect +${arg3}%, up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 34,
+                        "arg2": 34,
+                        "arg3": 6,
+                        "arg4": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg1}% chance to trigger: Tayansuyi gains Battle Spirit.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg2}% chance to trigger: Tayansuyi gains Battle Spirit.\n\nBattle Spirit:\nEX Skill effect +${arg3}%, up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 36,
+                        "arg2": 36,
+                        "arg3": 6,
+                        "arg4": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg1}% chance to trigger: Tayansuyi gains Battle Spirit.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg2}% chance to trigger: Tayansuyi gains Battle Spirit.\n\nBattle Spirit:\nEX Skill effect +${arg3}%, up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 38,
+                        "arg2": 38,
+                        "arg3": 6,
+                        "arg4": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg1}% chance to trigger: Tayansuyi gains Battle Spirit.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg2}% chance to trigger: Tayansuyi gains Battle Spirit.\n\nBattle Spirit:\nEX Skill effect +${arg3}%, up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 40,
+                        "arg2": 40,
+                        "arg3": 6,
+                        "arg4": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg1}% chance to trigger: Tayansuyi gains Battle Spirit.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg2}% chance to trigger: Tayansuyi gains Battle Spirit.\n\nBattle Spirit:\nEX Skill effect +${arg3}%, up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 42,
+                        "arg2": 42,
+                        "arg3": 6,
+                        "arg4": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg1}% chance to trigger: Tayansuyi gains Battle Spirit.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg2}% chance to trigger: Tayansuyi gains Battle Spirit.\n\nBattle Spirit:\nEX Skill effect +${arg3}%, up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 44,
+                        "arg2": 44,
+                        "arg3": 6,
+                        "arg4": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg1}% chance to trigger: Tayansuyi gains Battle Spirit.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg2}% chance to trigger: Tayansuyi gains Battle Spirit.\n\nBattle Spirit:\nEX Skill effect +${arg3}%, up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 46,
+                        "arg2": 46,
+                        "arg3": 6,
+                        "arg4": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg1}% chance to trigger: Tayansuyi gains Battle Spirit.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg2}% chance to trigger: Tayansuyi gains Battle Spirit.\n\nBattle Spirit:\nEX Skill effect +${arg3}%, up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 48,
+                        "arg2": 48,
+                        "arg3": 6,
+                        "arg4": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg1}% chance to trigger: Tayansuyi gains Battle Spirit.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg2}% chance to trigger: Tayansuyi gains Battle Spirit.\n\nBattle Spirit:\nEX Skill effect +${arg3}%, up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 50,
+                        "arg3": 6,
+                        "arg4": 9
+                    },
+                    "materials": {},
+                    "description": "Except self, when all of own Fighter Buddies use a Basic Attack, there is a(n) ${arg1}% chance to trigger: Tayansuyi gains Battle Spirit.\nExcept self, when all of own Vandal Buddies use a Basic Attack, there is a(n) ${arg2}% chance to trigger: Tayansuyi gains Battle Spirit.\n\nBattle Spirit:\nEX Skill effect +${arg3}%, up to ${arg4} stack(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Hype Cheers",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 72,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When defending, trigger: Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 77.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 82.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 88,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 93.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 98.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 104,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 109.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 114.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 120,
+                        "arg2": 2
+                    },
+                    "materials": {},
+                    "description": "When defending, trigger: Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Fighter's Spirit",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 1,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Except self, when all of own Buddies use an EX Skill, trigger: Tayansuyi's EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 1,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, when all of own Buddies use an EX Skill, trigger: Tayansuyi's EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 1,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, when all of own Buddies use an EX Skill, trigger: Tayansuyi's EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 1,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, when all of own Buddies use an EX Skill, trigger: Tayansuyi's EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 1,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, when all of own Buddies use an EX Skill, trigger: Tayansuyi's EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 1,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, when all of own Buddies use an EX Skill, trigger: Tayansuyi's EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 1,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, when all of own Buddies use an EX Skill, trigger: Tayansuyi's EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 1,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, when all of own Buddies use an EX Skill, trigger: Tayansuyi's EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 1,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, when all of own Buddies use an EX Skill, trigger: Tayansuyi's EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 1,
+                        "arg3": 3
+                    },
+                    "materials": {},
+                    "description": "Except self, when all of own Buddies use an EX Skill, trigger: Tayansuyi's EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10412,
+            "name": "King Slam",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 132,
+                        "arg2": 9,
+                        "arg3": 12
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Battle Spirit = ${arg2} stack(s), own damage dealt +${arg3}%.",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 141.78,
+                        "arg2": 9,
+                        "arg3": 12.89
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Battle Spirit = ${arg2} stack(s), own damage dealt +${arg3}%.",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 151.56,
+                        "arg2": 9,
+                        "arg3": 13.78
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Battle Spirit = ${arg2} stack(s), own damage dealt +${arg3}%.",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 161.34,
+                        "arg2": 9,
+                        "arg3": 14.67
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Battle Spirit = ${arg2} stack(s), own damage dealt +${arg3}%.",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 171.12,
+                        "arg2": 9,
+                        "arg3": 15.56
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Battle Spirit = ${arg2} stack(s), own damage dealt +${arg3}%.",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 180.89,
+                        "arg2": 9,
+                        "arg3": 16.45
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Battle Spirit = ${arg2} stack(s), own damage dealt +${arg3}%.",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 190.67,
+                        "arg2": 9,
+                        "arg3": 17.34
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Battle Spirit = ${arg2} stack(s), own damage dealt +${arg3}%.",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 200.45,
+                        "arg2": 9,
+                        "arg3": 18.23
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Battle Spirit = ${arg2} stack(s), own damage dealt +${arg3}%.",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 210.23,
+                        "arg2": 9,
+                        "arg3": 19.12
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Battle Spirit = ${arg2} stack(s), own damage dealt +${arg3}%.",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 220,
+                        "arg2": 9,
+                        "arg3": 20
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nWhen own Battle Spirit = ${arg2} stack(s), own damage dealt +${arg3}%.",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

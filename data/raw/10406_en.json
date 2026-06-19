@@ -1,0 +1,1784 @@
+{
+    "info": {
+        "id": 10406,
+        "name": "Léo von Narcis",
+        "feature": "HoT / Damage Reduction",
+        "rarity": 4,
+        "class": 3,
+        "element": 1,
+        "baseHP": 2246,
+        "sign": "sign_J",
+        "baseATK": 556,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"It's a great honor\nfor you to befriend me~\"",
+    "interactions": {
+        "0": [
+            "Hmm? You've seen my glass empty, why haven't you refilled it yet?",
+            "Every morning... I wake up to my own stunning mane~♪",
+            "I'm picky about candles... I-I mean scented ones! Don't get me wrong!",
+            "Hah... hah? You say I look so good it deserves a photo shoot? Really...?"
+        ],
+        "1": [
+            "Hey, you there! Capture my dashing looks while you can~♪",
+            "Ah, ah! Take your hands off... Ah...♡"
+        ],
+        "2": [
+            "How dare you! My head is not something you can just touch so casually!",
+            "W-wait, what's that pacifier thing in your hand...? Hah... I'm not a baby!"
+        ],
+        "3": [
+            "Ugh, ah... my body... is not for you to toy with like that!",
+            "Ah...! Y-you insolent fool!"
+        ],
+        "98": [
+            "Father, are you watching? I can do it as long as I make up my mind!"
+        ],
+        "99": [
+            "I-I give up! Stop it already—!"
+        ],
+        "100": [
+            "My relationship with my brothers isn't that good. If nothing urgent comes up, we don't usually see each other...",
+            "Where's my service?! I'm so fed up waiting!"
+        ]
+    },
+    "story": {
+        "1": "As a member of a prestigious house on Rodney Volcanoes, Léo von Narcis from the Narcis family believes that he was born superior, enjoying praise and support from those around him. Although he doesn't really know what the others think, at least he himself believes so.",
+        "2": "Compared to his older brother and younger brother, Léo is quite a narcissistic person. He loves to flaunt his mane to others and flirts with people frequently, completely ignoring the awkward silence in the room with cringe-worthy lines. Although he often hosts parties on Rodney Volcanoes, his flirting skills always seem unimpressive.",
+        "3": "Léo has huge mood swings. He easily gets carried away with pride after being praised and quickly falls into despair when criticized. However, anyone who knows Léo understands that he's just someone who appears arrogant on the surface but, in reality, is actually simple and a bit of a failure deep down. While he sometimes puts on a lofty attitude, he doesn't have any ill intentions and often ends up getting slapped in the face by karma.",
+        "4": "Lion Beastfolks are with both high status and great physical abilities. Léo, on the contrary, due to his prestigious background, has never experienced much hardship and can easily be overpowered. However, every time he faces danger, he is always able to escape unscathed, relying on his good luck."
+    },
+    "hookUp": {
+        "cards": [
+            80114,
+            80117,
+            80105
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80114,
+                    "speakerPosition": 1,
+                    "text": "Oh...is this the trick you mentioned?"
+                },
+                {
+                    "boundId": 80114,
+                    "speakerPosition": 1,
+                    "text": "W-what are you doing?"
+                },
+                {
+                    "boundId": 80114,
+                    "speakerPosition": 1,
+                    "text": "Oh! Haah... What's this warm, tingly feeling? Eek~! It's happening again!"
+                },
+                {
+                    "boundId": 80114,
+                    "speakerPosition": 0,
+                    "text": "I want to tease this lion... This surely isn't my fault, right?"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80117,
+                    "speakerPosition": 1,
+                    "text": "S-such an embarrassing pose...."
+                },
+                {
+                    "boundId": 80117,
+                    "speakerPosition": 1,
+                    "text": "What? You're saying the curves of my hips look... captivating?"
+                },
+                {
+                    "boundId": 80117,
+                    "speakerPosition": 1,
+                    "text": "You've got good taste. I'm quite confident with my body's contours."
+                },
+                {
+                    "boundId": 80117,
+                    "speakerPosition": 0,
+                    "text": "Just a few compliments and he's already on cloud nine."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80105,
+                    "speakerPosition": 1,
+                    "text": "Mmmph..."
+                },
+                {
+                    "boundId": 80105,
+                    "speakerPosition": 1,
+                    "text": "Oooh~"
+                },
+                {
+                    "boundId": 80105,
+                    "speakerPosition": 1,
+                    "text": "Mmm~"
+                },
+                {
+                    "boundId": 80105,
+                    "speakerPosition": 0,
+                    "text": "He seems to be enjoying himself quite a lot, hmph..."
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "These little tricks? They're nowhere near enough for me."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Stupid lion, I'll make sure you can't even speak later."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "DON'T YOU DARE!!!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I thought he was just a sickly cat, but his roar was surely deafening..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Is that all? My schedule is tight. I'm leaving."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "You're a big fat cat who's too hard to please!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Witness My Splendor!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 29.7,
+                        "arg2": 30.15,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32301,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.\nHeal own Buddy with the lowest HP% by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 31.9,
+                        "arg2": 32.39,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32301,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.\nHeal own Buddy with the lowest HP% by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 34.1,
+                        "arg2": 34.62,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32311,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.\nHeal own Buddy with the lowest HP% by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 36.3,
+                        "arg2": 36.85,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32311,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.\nHeal own Buddy with the lowest HP% by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 38.5,
+                        "arg2": 39.09,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32321,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.\nHeal own Buddy with the lowest HP% by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 40.7,
+                        "arg2": 41.32,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.\nHeal own Buddy with the lowest HP% by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 42.9,
+                        "arg2": 43.55,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.\nHeal own Buddy with the lowest HP% by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 45.1,
+                        "arg2": 45.79,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32331,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.\nHeal own Buddy with the lowest HP% by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 47.3,
+                        "arg2": 48.02,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32341,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.\nHeal own Buddy with the lowest HP% by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 49.5,
+                        "arg2": 50.25,
+                        "arg3": 2
+                    },
+                    "materials": {},
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.\nHeal own Buddy with the lowest HP% by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Party Time, Everyone!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 29.7,
+                        "arg2": 30.15,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 54
+                        },
+                        {
+                            "id": 32302,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 31.9,
+                        "arg2": 32.39,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32301,
+                            "count": 63
+                        },
+                        {
+                            "id": 32302,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 34.1,
+                        "arg2": 34.62,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32311,
+                            "count": 63
+                        },
+                        {
+                            "id": 32312,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 36.3,
+                        "arg2": 36.85,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32311,
+                            "count": 72
+                        },
+                        {
+                            "id": 32312,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 38.5,
+                        "arg2": 39.09,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 72
+                        },
+                        {
+                            "id": 32322,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 40.7,
+                        "arg2": 41.32,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 81
+                        },
+                        {
+                            "id": 32322,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 42.9,
+                        "arg2": 43.55,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32331,
+                            "count": 81
+                        },
+                        {
+                            "id": 32332,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 45.1,
+                        "arg2": 45.79,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32331,
+                            "count": 90
+                        },
+                        {
+                            "id": 32332,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 47.3,
+                        "arg2": 48.02,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32341,
+                            "count": 90
+                        },
+                        {
+                            "id": 32342,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 49.5,
+                        "arg2": 50.25,
+                        "arg3": 2
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "AoE HP Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Party King Léo",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 22.5,
+                        "arg2": 2,
+                        "arg3": 3,
+                        "arg4": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Heal own Buddy with the lowest HP% by ${arg1}% of own ATK each turn for ${arg2} turn(s), and damage taken -${arg3}% for own Buddy with the lowest HP% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 24.17,
+                        "arg2": 2,
+                        "arg3": 3.23,
+                        "arg4": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Heal own Buddy with the lowest HP% by ${arg1}% of own ATK each turn for ${arg2} turn(s), and damage taken -${arg3}% for own Buddy with the lowest HP% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 25.84,
+                        "arg2": 2,
+                        "arg3": 3.45,
+                        "arg4": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Heal own Buddy with the lowest HP% by ${arg1}% of own ATK each turn for ${arg2} turn(s), and damage taken -${arg3}% for own Buddy with the lowest HP% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 27.5,
+                        "arg2": 2,
+                        "arg3": 3.67,
+                        "arg4": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Heal own Buddy with the lowest HP% by ${arg1}% of own ATK each turn for ${arg2} turn(s), and damage taken -${arg3}% for own Buddy with the lowest HP% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 29.17,
+                        "arg2": 2,
+                        "arg3": 3.89,
+                        "arg4": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Heal own Buddy with the lowest HP% by ${arg1}% of own ATK each turn for ${arg2} turn(s), and damage taken -${arg3}% for own Buddy with the lowest HP% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 30.84,
+                        "arg2": 2,
+                        "arg3": 4.12,
+                        "arg4": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Heal own Buddy with the lowest HP% by ${arg1}% of own ATK each turn for ${arg2} turn(s), and damage taken -${arg3}% for own Buddy with the lowest HP% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 32.5,
+                        "arg2": 2,
+                        "arg3": 4.34,
+                        "arg4": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Heal own Buddy with the lowest HP% by ${arg1}% of own ATK each turn for ${arg2} turn(s), and damage taken -${arg3}% for own Buddy with the lowest HP% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 34.17,
+                        "arg2": 2,
+                        "arg3": 4.56,
+                        "arg4": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Heal own Buddy with the lowest HP% by ${arg1}% of own ATK each turn for ${arg2} turn(s), and damage taken -${arg3}% for own Buddy with the lowest HP% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 35.84,
+                        "arg2": 2,
+                        "arg3": 4.78,
+                        "arg4": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Heal own Buddy with the lowest HP% by ${arg1}% of own ATK each turn for ${arg2} turn(s), and damage taken -${arg3}% for own Buddy with the lowest HP% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 37.5,
+                        "arg2": 2,
+                        "arg3": 5,
+                        "arg4": 2
+                    },
+                    "materials": {},
+                    "description": "On Basic Attack, trigger: Heal own Buddy with the lowest HP% by ${arg1}% of own ATK each turn for ${arg2} turn(s), and damage taken -${arg3}% for own Buddy with the lowest HP% for ${arg4} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Rose de Léon",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When defending, all of own Buddies' HoT received +${arg1}% each turn for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, all of own Buddies' HoT received +${arg1}% each turn for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, all of own Buddies' HoT received +${arg1}% each turn for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, all of own Buddies' HoT received +${arg1}% each turn for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, all of own Buddies' HoT received +${arg1}% each turn for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, all of own Buddies' HoT received +${arg1}% each turn for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, all of own Buddies' HoT received +${arg1}% each turn for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, all of own Buddies' HoT received +${arg1}% each turn for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, all of own Buddies' HoT received +${arg1}% each turn for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 2
+                    },
+                    "materials": {},
+                    "description": "When defending, all of own Buddies' HoT received +${arg1}% each turn for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "All Eyes on Me",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 28.8,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Own ATK +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 30.94,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Own ATK +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 33.07,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Own ATK +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 35.2,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Own ATK +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 37.34,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Own ATK +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 39.47,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Own ATK +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 41.6,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Own ATK +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 43.74,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Own ATK +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 45.87,
+                        "arg3": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Own ATK +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 48,
+                        "arg3": 2
+                    },
+                    "materials": {},
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Own ATK +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10406,
+            "name": "Party Time, Everyone!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 29.7,
+                        "arg2": 30.15,
+                        "arg3": 2,
+                        "arg4": 4.5
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).\nSigil Passive:\nWhen all of own Buddies are with HoT effect, own damage taken -${arg4}%.",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 31.9,
+                        "arg2": 32.39,
+                        "arg3": 2,
+                        "arg4": 4.84
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).\nSigil Passive:\nWhen all of own Buddies are with HoT effect, own damage taken -${arg4}%.",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 34.1,
+                        "arg2": 34.62,
+                        "arg3": 2,
+                        "arg4": 5.17
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).\nSigil Passive:\nWhen all of own Buddies are with HoT effect, own damage taken -${arg4}%.",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 36.3,
+                        "arg2": 36.85,
+                        "arg3": 2,
+                        "arg4": 5.5
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).\nSigil Passive:\nWhen all of own Buddies are with HoT effect, own damage taken -${arg4}%.",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 38.5,
+                        "arg2": 39.09,
+                        "arg3": 2,
+                        "arg4": 5.84
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).\nSigil Passive:\nWhen all of own Buddies are with HoT effect, own damage taken -${arg4}%.",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 40.7,
+                        "arg2": 41.32,
+                        "arg3": 2,
+                        "arg4": 6.17
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).\nSigil Passive:\nWhen all of own Buddies are with HoT effect, own damage taken -${arg4}%.",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 42.9,
+                        "arg2": 43.55,
+                        "arg3": 2,
+                        "arg4": 6.5
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).\nSigil Passive:\nWhen all of own Buddies are with HoT effect, own damage taken -${arg4}%.",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 45.1,
+                        "arg2": 45.79,
+                        "arg3": 2,
+                        "arg4": 6.84
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).\nSigil Passive:\nWhen all of own Buddies are with HoT effect, own damage taken -${arg4}%.",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 47.3,
+                        "arg2": 48.02,
+                        "arg3": 2,
+                        "arg4": 7.17
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).\nSigil Passive:\nWhen all of own Buddies are with HoT effect, own damage taken -${arg4}%.",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 49.5,
+                        "arg2": 50.25,
+                        "arg3": 2,
+                        "arg4": 7.5
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nHeal all of own Buddies by ${arg2}% of own ATK each turn for ${arg3} turn(s).\nSigil Passive:\nWhen all of own Buddies are with HoT effect, own damage taken -${arg4}%.",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

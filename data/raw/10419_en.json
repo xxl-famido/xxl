@@ -1,0 +1,1775 @@
+{
+    "info": {
+        "id": 10419,
+        "name": "Orem",
+        "feature": "Iron Barrier / Offensive Guard",
+        "rarity": 4,
+        "class": 2,
+        "element": 2,
+        "baseHP": 2808,
+        "sign": "sign_J",
+        "baseATK": 444,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Ocean Patrol Officer, Orem.\nI'll follow your command.\"",
+    "interactions": {
+        "0": [
+            "Today I'll have to patrol the Draconic Depths, inspect the fleet, and train the new recruits, huh...",
+            "Honestly, over 80% of the recent violation reports in these waters are probably that guy's doing!",
+            "Hah... hah... With both ends at the same time... I won't be able to take it."
+        ],
+        "1": [
+            "Envy of my pecs? Join the Navy and train like us, you can have them, too. So? Wanna sign up?",
+            "I'm pretty proud of these pecs. After all, to uphold discipline, one needs a strong body first!",
+            "I heard that aquatic Beastfolks get off on mild burns... J-just something I heard!"
+        ],
+        "2": [
+            "Mistake eyespots for actual eyes? But hey, if I doze off during class, I won't get caught, right? Hah!"
+        ],
+        "3": [
+            "Ngh...! If you want to play, wait until I'm off duty. Then I'll give you my full attention...",
+            "Heh... Keep being naughty like that, and I won't go so easy on you.",
+            "I keep losing socks back at the camp lately... I wonder why..."
+        ],
+        "98": [
+            "Evildoers, no matter where you hide, you'll never escape the grasp of the Draconic Depths Navy."
+        ],
+        "99": [
+            "Tch... Log the battle intel and keep tracking—do not let the target escape the combat zone!"
+        ],
+        "100": [
+            "Haaah~ The weather's so nice today... I wish I could go to the amusement park with my family...",
+            "Compared to ring toss at the night market, this is way more fun."
+        ]
+    },
+    "story": {
+        "1": "Like Capt. Locke, Orem, an orca Beastfolk, also attended the Naval Academy funded by the Draconic Depths. The two of them were trainees in the same class, but their paths differed. Capt. Locke ultimately turned to piracy, while Orem became an Ocean Patrol Officer in the realm of WOOFIA.",
+        "2": "During their time at the academy, their relationship was somewhat like that of a delinquent and a disciplinary officer, but to be honest, they weren't that close. Both of them instinctively felt they wouldn't get along, so neither really made an effort to talk to the other. In that sense, they might be unexpectedly in tune...\nThe relationship remained the same until it was almost their graduation, when they were assigned to the same team for a cadet training exercise, giving them more chances to interact. But it seems it was around this time that Capt. Locke started getting fed up with Orem and gave up on his plans of becoming an Ocean Patrol Officer.",
+        "3": "It almost feels as if fate is deliberately messing with Orem. Whether Capt. Locke was a pirate or served as a captain under the Draconic Depths, Orem always ends up being the one dealing with him. Although Capt. Locke feels that they are mutually hostile, upon closer inspection, it's not like Orem truly hates or despises him. Rather, it is because of his position that he has to treat Capt. Locke professionally. For Orem, Capt. Locke is just an unruly brat. As for why it is always him... Considering his superiors are those at the Draconic Depths, maybe they really are doing it on purpose...",
+        "4": "In private, Orem actually has a playful and open side, much more easygoing than he appears to be while on duty. He enjoys games that most people don't find interesting, such as ring toss, goldfish scooping, bumper cars at night markets, and so on. He also seems to like outdoor sports like basketball, giving off a surprisingly energetic vibe. However, because he's very strict about keeping work and personal life separate, whenever he returns to the navy after taking some time off, it always takes him a bit of time to adjust his playful mindset back to professional mode."
+    },
+    "hookUp": {
+        "cards": [
+            80114,
+            80072,
+            80013
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80114,
+                    "speakerPosition": 1,
+                    "text": "Ugh... Ah!"
+                },
+                {
+                    "boundId": 80114,
+                    "speakerPosition": 1,
+                    "text": "This feels different from what I imagined..."
+                },
+                {
+                    "boundId": 80114,
+                    "speakerPosition": 1,
+                    "text": "Rather than the burn or the sting, it's more surprising when it lands on the skin."
+                },
+                {
+                    "boundId": 80114,
+                    "speakerPosition": 1,
+                    "text": "Doesn't feel bad at all..."
+                },
+                {
+                    "boundId": 80114,
+                    "speakerPosition": 0,
+                    "text": "If the wax drips a little lower, you'd be saying something very different..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80072,
+                    "speakerPosition": 1,
+                    "text": "Haa... haa—!"
+                },
+                {
+                    "boundId": 80072,
+                    "speakerPosition": 1,
+                    "text": "My cloaca and my ass at the same time... Uwahhh!"
+                },
+                {
+                    "boundId": 80072,
+                    "speakerPosition": 1,
+                    "text": "T-this is so embarrassing... Ngh, nghaaah!"
+                },
+                {
+                    "boundId": 80072,
+                    "speakerPosition": 1,
+                    "text": "But... it also feels... so good..."
+                },
+                {
+                    "boundId": 80072,
+                    "speakerPosition": 0,
+                    "text": "The double-headed dragon is very popular for being able to take care of both ends..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 0,
+                    "text": "(Presses a socked foot against Orem.)"
+                },
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 1,
+                    "text": "Ugh... you...!"
+                },
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 1,
+                    "text": "D-don't rub your foot against my face...!"
+                },
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 1,
+                    "text": "It's warm and damp... and kinda sticky!"
+                },
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 1,
+                    "text": "This scent... G-get it away... Mmm... haaah—"
+                },
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 0,
+                    "text": "Some people really do love keeping freshly worn socks for later use."
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "......"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Orem remains silent, but it seems he isn't exactly thrilled..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "This works, too... It's just that I find it a bit... particular."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I can really tell he's mastered the art of polite speech through his work."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "It's not quite what I expected, but I'll try to go along with it..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I'll have to find something he actually enjoys."
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Blade of Discipline",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32201,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32201,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32211,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32211,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32221,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32231,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32241,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Flank Defense",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 12,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 54
+                        },
+                        {
+                            "id": 32202,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 12.89,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32201,
+                            "count": 63
+                        },
+                        {
+                            "id": 32202,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 13.78,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32211,
+                            "count": 63
+                        },
+                        {
+                            "id": 32212,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 14.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32211,
+                            "count": 72
+                        },
+                        {
+                            "id": 32212,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 15.56,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 72
+                        },
+                        {
+                            "id": 32222,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 16.45,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 81
+                        },
+                        {
+                            "id": 32222,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 17.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32231,
+                            "count": 81
+                        },
+                        {
+                            "id": 32232,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 18.23,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32231,
+                            "count": 90
+                        },
+                        {
+                            "id": 32232,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 19.12,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32241,
+                            "count": 90
+                        },
+                        {
+                            "id": 32242,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 20,
+                        "arg2": 2
+                    },
+                    "materials": {},
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "Water HP Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 7.2,
+                        "arg2": 3.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 18
+                        },
+                        {
+                            "id": 32203,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Water Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 7.74,
+                        "arg2": 3.87
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32201,
+                            "count": 21
+                        },
+                        {
+                            "id": 32203,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Water Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 8.27,
+                        "arg2": 4.14
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32211,
+                            "count": 21
+                        },
+                        {
+                            "id": 32213,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Water Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 8.8,
+                        "arg2": 4.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32211,
+                            "count": 24
+                        },
+                        {
+                            "id": 32213,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Water Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 9.34,
+                        "arg2": 4.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32221,
+                            "count": 24
+                        },
+                        {
+                            "id": 32223,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Water Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 9.87,
+                        "arg2": 4.94
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 27
+                        },
+                        {
+                            "id": 32223,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Water Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 10.4,
+                        "arg2": 5.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32231,
+                            "count": 27
+                        },
+                        {
+                            "id": 32233,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Water Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 10.94,
+                        "arg2": 5.47
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 30
+                        },
+                        {
+                            "id": 32233,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Water Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 11.47,
+                        "arg2": 5.74
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32241,
+                            "count": 30
+                        },
+                        {
+                            "id": 32243,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Water Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 12,
+                        "arg2": 6
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' Max. HP +${arg1}%.\nAll of own Water Buddies' Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Ship Command: Hold!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 19.2,
+                        "arg3": 3,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 18
+                        },
+                        {
+                            "id": 32203,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Barrier granted by self +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 20.63,
+                        "arg3": 3,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32201,
+                            "count": 21
+                        },
+                        {
+                            "id": 32203,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Barrier granted by self +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 22.05,
+                        "arg3": 3,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32211,
+                            "count": 21
+                        },
+                        {
+                            "id": 32213,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Barrier granted by self +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 23.47,
+                        "arg3": 3,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32211,
+                            "count": 24
+                        },
+                        {
+                            "id": 32213,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Barrier granted by self +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 24.89,
+                        "arg3": 3,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32221,
+                            "count": 24
+                        },
+                        {
+                            "id": 32223,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Barrier granted by self +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 26.32,
+                        "arg3": 3,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 27
+                        },
+                        {
+                            "id": 32223,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Barrier granted by self +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 27.74,
+                        "arg3": 3,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32231,
+                            "count": 27
+                        },
+                        {
+                            "id": 32233,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Barrier granted by self +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 29.16,
+                        "arg3": 3,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 30
+                        },
+                        {
+                            "id": 32233,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Barrier granted by self +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 30.58,
+                        "arg3": 3,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32241,
+                            "count": 30
+                        },
+                        {
+                            "id": 32243,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Barrier granted by self +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 32,
+                        "arg3": 3,
+                        "arg4": 1
+                    },
+                    "materials": {},
+                    "description": "On Basic Attack, there is a(n) ${arg1}% chance to trigger: Barrier granted by self +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Defense Armor: Barbs",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 9,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 18
+                        },
+                        {
+                            "id": 32203,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: All of own Buddies' EX Skill damage taken -${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 9.67,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32201,
+                            "count": 21
+                        },
+                        {
+                            "id": 32203,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: All of own Buddies' EX Skill damage taken -${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 10.34,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32211,
+                            "count": 21
+                        },
+                        {
+                            "id": 32213,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: All of own Buddies' EX Skill damage taken -${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 11,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32211,
+                            "count": 24
+                        },
+                        {
+                            "id": 32213,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: All of own Buddies' EX Skill damage taken -${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 11.67,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32221,
+                            "count": 24
+                        },
+                        {
+                            "id": 32223,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: All of own Buddies' EX Skill damage taken -${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 12.34,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 27
+                        },
+                        {
+                            "id": 32223,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: All of own Buddies' EX Skill damage taken -${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 13,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32231,
+                            "count": 27
+                        },
+                        {
+                            "id": 32233,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: All of own Buddies' EX Skill damage taken -${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 13.67,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 30
+                        },
+                        {
+                            "id": 32233,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: All of own Buddies' EX Skill damage taken -${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 14.34,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32241,
+                            "count": 30
+                        },
+                        {
+                            "id": 32243,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: All of own Buddies' EX Skill damage taken -${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 15,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "On EX Skill, there is a(n) ${arg1}% chance to trigger: All of own Buddies' EX Skill damage taken -${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 18
+                        },
+                        {
+                            "id": 32203,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32201,
+                            "count": 21
+                        },
+                        {
+                            "id": 32203,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32211,
+                            "count": 21
+                        },
+                        {
+                            "id": 32213,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32211,
+                            "count": 24
+                        },
+                        {
+                            "id": 32213,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32221,
+                            "count": 24
+                        },
+                        {
+                            "id": 32223,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 27
+                        },
+                        {
+                            "id": 32223,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32231,
+                            "count": 27
+                        },
+                        {
+                            "id": 32233,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 30
+                        },
+                        {
+                            "id": 32233,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32241,
+                            "count": 30
+                        },
+                        {
+                            "id": 32243,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Against the Waves",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 30
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32201,
+                            "count": 18
+                        },
+                        {
+                            "id": 32203,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When all of own Buddies are with Barrier, when taking a Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s). Will not trigger if the Barrier disappears due to being hit.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 32.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32201,
+                            "count": 21
+                        },
+                        {
+                            "id": 32203,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When all of own Buddies are with Barrier, when taking a Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s). Will not trigger if the Barrier disappears due to being hit.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 34.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32211,
+                            "count": 21
+                        },
+                        {
+                            "id": 32213,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When all of own Buddies are with Barrier, when taking a Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s). Will not trigger if the Barrier disappears due to being hit.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 36.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32211,
+                            "count": 24
+                        },
+                        {
+                            "id": 32213,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When all of own Buddies are with Barrier, when taking a Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s). Will not trigger if the Barrier disappears due to being hit.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 38.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32221,
+                            "count": 24
+                        },
+                        {
+                            "id": 32223,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When all of own Buddies are with Barrier, when taking a Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s). Will not trigger if the Barrier disappears due to being hit.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 41.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32221,
+                            "count": 27
+                        },
+                        {
+                            "id": 32223,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When all of own Buddies are with Barrier, when taking a Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s). Will not trigger if the Barrier disappears due to being hit.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 43.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32231,
+                            "count": 27
+                        },
+                        {
+                            "id": 32233,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When all of own Buddies are with Barrier, when taking a Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s). Will not trigger if the Barrier disappears due to being hit.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 45.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32231,
+                            "count": 30
+                        },
+                        {
+                            "id": 32233,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When all of own Buddies are with Barrier, when taking a Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s). Will not trigger if the Barrier disappears due to being hit.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 47.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32241,
+                            "count": 30
+                        },
+                        {
+                            "id": 32243,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When all of own Buddies are with Barrier, when taking a Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s). Will not trigger if the Barrier disappears due to being hit.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "When all of own Buddies are with Barrier, when taking a Basic Attack, there is a(n) ${arg1}% chance to trigger: Deal damage ${arg2}% of own ATK to target(s). Will not trigger if the Barrier disappears due to being hit.",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10419,
+            "name": "Flank Defense",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 2,
+                        "arg3": 15
+                    },
+                    "materials": {},
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s). \nSigil Passive:\nWhen all of own Buddies are with Barrier, on attack, trigger: Deal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 16.12,
+                        "arg2": 2,
+                        "arg3": 16.12
+                    },
+                    "materials": {},
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s). \nSigil Passive:\nWhen all of own Buddies are with Barrier, on attack, trigger: Deal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 17.23,
+                        "arg2": 2,
+                        "arg3": 17.23
+                    },
+                    "materials": {},
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s). \nSigil Passive:\nWhen all of own Buddies are with Barrier, on attack, trigger: Deal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 18.34,
+                        "arg2": 2,
+                        "arg3": 18.34
+                    },
+                    "materials": {},
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s). \nSigil Passive:\nWhen all of own Buddies are with Barrier, on attack, trigger: Deal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 19.45,
+                        "arg2": 2,
+                        "arg3": 19.45
+                    },
+                    "materials": {},
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s). \nSigil Passive:\nWhen all of own Buddies are with Barrier, on attack, trigger: Deal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 20.56,
+                        "arg2": 2,
+                        "arg3": 20.56
+                    },
+                    "materials": {},
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s). \nSigil Passive:\nWhen all of own Buddies are with Barrier, on attack, trigger: Deal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 21.67,
+                        "arg2": 2,
+                        "arg3": 21.67
+                    },
+                    "materials": {},
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s). \nSigil Passive:\nWhen all of own Buddies are with Barrier, on attack, trigger: Deal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 22.78,
+                        "arg2": 2,
+                        "arg3": 22.78
+                    },
+                    "materials": {},
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s). \nSigil Passive:\nWhen all of own Buddies are with Barrier, on attack, trigger: Deal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 23.89,
+                        "arg2": 2,
+                        "arg3": 23.89
+                    },
+                    "materials": {},
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s). \nSigil Passive:\nWhen all of own Buddies are with Barrier, on attack, trigger: Deal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 25,
+                        "arg2": 2,
+                        "arg3": 25
+                    },
+                    "materials": {},
+                    "description": "Grant a Barrier ${arg1}% of own Max. HP to all of own Buddies for ${arg2} turn(s). \nSigil Passive:\nWhen all of own Buddies are with Barrier, on attack, trigger: Deal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true
+    }
+}

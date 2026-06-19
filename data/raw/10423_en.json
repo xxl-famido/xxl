@@ -1,0 +1,1880 @@
+{
+    "info": {
+        "id": 10423,
+        "name": "Mountain Lord Lee Taeho",
+        "feature": "Follow-up Attack / Stances Swap",
+        "rarity": 4,
+        "class": 1,
+        "element": 4,
+        "baseHP": 2736,
+        "sign": "sign_J",
+        "baseATK": 603,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Look at you—been waiting all this time for me?\nHeh, aren't you just adorable?\"",
+    "interactions": {
+        "0": [
+            "Ah~ Maybe I'll go find some tasty rice cakes?",
+            "Haaah... Although I often wander down the mountain, I still prefer it up here.",
+            "What was that..? You want to teach me some secret code?"
+        ],
+        "1": [
+            "...Haven't had enough? Tsk, just why are you so obsessed with my chest hair?",
+            "Purrrr... Wait. Hey, you didn't hear a thing! Damn it... It's all that stupid cat's fault..."
+        ],
+        "2": [
+            "My eyes... Curious about them? Heh, makes sense—it's your first time seeing such captivating eyes, isn't it?",
+            "There's a scent in the air that stirs me up..."
+        ],
+        "3": [
+            "Haah...! I told you...! Keep that up, and I really am gonna get... hard~",
+            "Heh, you've got some nerve, don't you? So... do you like what you just touched?",
+            "Why is there a basket of ingredients over there...?!"
+        ],
+        "98": [
+            "Hmm... Is that all you've got? That's barely even a warm-up."
+        ],
+        "99": [
+            "...This is bad. These guys are not easy to deal with."
+        ],
+        "100": [
+            "Heh! A tiger's blocking your path~ If you want to get through... Hmm~ Let's say you'll have to pay a little toll~",
+            "...What's wrong? We've come all the way here, and you're still gonna keep me waiting?"
+        ]
+    },
+    "story": {
+        "1": "Crossing over from a world of suffering and sorrow, Lee Taeho carries the weight of a single, burning wish—to save his homeland. Yet to those who pass him by, all they ever seem to see is that easygoing smile and that air of nonchalance. He tucks sincerity behind jokes and masking his wounds with mischief, quietly shielding the people and things he cares about from the hardship—his warmth is the kind that is easy to miss.",
+        "2": "Lee Taeho and his junior brother Shin Rirang share the same master, both having inherited the art known as Qi. He always masks his concern behind teasing and antics, making it impossible to tell whether his words are said in jest or in earnest. Yet that seemingly undependable silhouette somehow always becomes the strongest pillar for everyone when it matters most. Because he knows all too well the weight of loss, he refuses to let the same regret befall anyone he holds dear.\nThat silver-tongued, grinning demeanor isn't something he shows to just anyone—he is the type who becomes less serious the more he cares, and nowhere is it more apparent than with Shin Rirang.",
+        "3": "Lee Taeho has a peculiar condition—unless he regularly inhales the scent of a special variety of garlic, he loses control and reverts to his true tiger form. Because of this, he habitually wears a small golden locket around his neck, containing a specially made garlic tablet, to maintain his Beastfolk appearance. His favorite food is rice cake—ask him why, and he will just laugh and say, \"Isn't it only natural for a tiger to love rice cake~?\" That's just the kind of person Lee Taeho is. No matter what, he can always laugh it off.",
+        "4": "In the final moments before leaving that world, the Mountain Lord made a pact with a mysterious entity to save his homeland—to seek out the legendary Flower of Rebirth. Setting out alone on a journey across worlds with no end in sight, what he wishes to save is not only his already shattered homeland but also the cherished person whose fate might equally be hurtling toward ruin. That legendary flower said to reverse life and death has yet to bloom in his hand—still, Lee Taeho presses on, carrying the bonds forged between two worlds, stepping toward a destination that might forever remain out of reach, never once stopping his strides."
+    },
+    "hookUp": {
+        "cards": [
+            80001,
+            80086,
+            80092
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80001,
+                    "speakerPosition": 1,
+                    "text": "...Go over to your place to see your silly cat?"
+                },
+                {
+                    "boundId": 80001,
+                    "speakerPosition": 1,
+                    "text": "I'll pass... I happen to know the silliest cat in the world."
+                },
+                {
+                    "boundId": 80001,
+                    "speakerPosition": 0,
+                    "text": "......"
+                },
+                {
+                    "boundId": 80001,
+                    "speakerPosition": 1,
+                    "text": "Oh...? Is that supposed to be a come-on?"
+                },
+                {
+                    "boundId": 80001,
+                    "speakerPosition": 0,
+                    "text": "......"
+                },
+                {
+                    "boundId": 80001,
+                    "speakerPosition": 1,
+                    "text": "Why are you the one blushing instead...? You're such a funny one..."
+                },
+                {
+                    "boundId": 80001,
+                    "speakerPosition": 1,
+                    "text": "...Fine. Then I'll gladly accept your \"invitation.\" You'd better be ready."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80086,
+                    "speakerPosition": 1,
+                    "text": "Cucumber, huh...?"
+                },
+                {
+                    "boundId": 80086,
+                    "speakerPosition": 1,
+                    "text": "What are you thinking? Posing seductively with that cucumber before someone from Dongyeo."
+                },
+                {
+                    "boundId": 80086,
+                    "speakerPosition": 1,
+                    "text": "Do you genuinely not know, or are you just playing dumb?"
+                },
+                {
+                    "boundId": 80086,
+                    "speakerPosition": 1,
+                    "text": "Heh, in that case... I guess I'll have to show you what I'm really made of—"
+                },
+                {
+                    "boundId": 80086,
+                    "speakerPosition": 1,
+                    "text": "......"
+                },
+                {
+                    "boundId": 80086,
+                    "speakerPosition": 1,
+                    "text": "Hold on... Don't tell me you've tried this trick on everyone from Dongyeo City..."
+                },
+                {
+                    "boundId": 80086,
+                    "speakerPosition": 0,
+                    "text": "Caught me~☆"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 1,
+                    "text": "Hey, I'm a tiger! A tiger! Why are you handing me catnip...? I'm not some cute kitty!"
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 1,
+                    "text": "(...Sniff.)"
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 1,
+                    "text": "I-I am not sniffing it! The wind just happened to blow my way!"
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 1,
+                    "text": "Mmm... haah~~~"
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 1,
+                    "text": "Tsk, fine... I'll admit it's not bad..."
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 1,
+                    "text": "Gulp... I kinda... Wait, no! I am not nuzzling your hand—it was your hand that came up to my face!"
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 1,
+                    "text": "Hey! Put it away while I still have my sanity, or I can't guarantee what might happen next!"
+                },
+                {
+                    "boundId": 80092,
+                    "speakerPosition": 0,
+                    "text": "Eh~? And just what might happen?"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Don't tell me you're deliberately picking things I'm not interested in, just to keep me longer..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "I'm a busy guy, so quit playing these little tricks."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "You caught me..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Heh... Want to take another guess? Come a little closer, and I'll give you a little hint~"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I get the feeling I'm about to get devoured any second now..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Oh—this? Heh, I don't really get it, but you look adorable picking it out so carefully."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I got rejected but somehow got flirted with as well."
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Mountain Lord's Aura",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32101,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32111,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32111,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32121,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32131,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32141,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 1
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Rippling Moonlight",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18,
+                        "arg2": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 54
+                        },
+                        {
+                            "id": 32102,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 1
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34,
+                        "arg2": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 63
+                        },
+                        {
+                            "id": 32102,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 1
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67,
+                        "arg2": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 63
+                        },
+                        {
+                            "id": 32112,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 1
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22,
+                        "arg2": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 72
+                        },
+                        {
+                            "id": 32112,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 1
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34,
+                        "arg2": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 72
+                        },
+                        {
+                            "id": 32122,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 1
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67,
+                        "arg2": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 81
+                        },
+                        {
+                            "id": 32122,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 1
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26,
+                        "arg2": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 81
+                        },
+                        {
+                            "id": 32132,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 1
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34,
+                        "arg2": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 90
+                        },
+                        {
+                            "id": 32132,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 1
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67,
+                        "arg2": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32141,
+                            "count": 90
+                        },
+                        {
+                            "id": 32142,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 1
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 6
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 1
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Tiger's Flow",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 1,
+                        "arg3": 2,
+                        "arg4": 30,
+                        "arg5": 2,
+                        "arg6": 30
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On turn ${arg1}, trigger: Own EX Skill CD -${arg2} turn(s).\nAt the start of battle, gain Lunar Pounce.\nWhen own Lunar Pounce = 1 stack, on EX Skill, trigger: Transform Lunar Pounce into Solar Flight.\nWhen own Lunar Pounce = 1 stack, when defending, trigger: Grant all of own Buddies 1 stack of Five-Peak Myriad for 5 turns, up to 6 stacks.\nWhen own Solar Flight = 1 stack, on EX Skill, trigger: Transform Solar Flight into Lunar Pounce.\nWhen own Solar Flight = 1 stack, on Basic Attack, trigger: Gain 1 stack of Qi Surge: Tiger for 5 turns, up to 6 stacks.\nGrant all of own Buddies: When own Five-Peak Myriad ≧ ${arg3} stack(s), when attacked, trigger: Deal damage ${arg4}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg5} stack(s), on Basic Attack, trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 1,
+                        "arg3": 2,
+                        "arg4": 32.23,
+                        "arg5": 2,
+                        "arg6": 32.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On turn ${arg1}, trigger: Own EX Skill CD -${arg2} turn(s).\nAt the start of battle, gain Lunar Pounce.\nWhen own Lunar Pounce = 1 stack, on EX Skill, trigger: Transform Lunar Pounce into Solar Flight.\nWhen own Lunar Pounce = 1 stack, when defending, trigger: Grant all of own Buddies 1 stack of Five-Peak Myriad for 5 turns, up to 6 stacks.\nWhen own Solar Flight = 1 stack, on EX Skill, trigger: Transform Solar Flight into Lunar Pounce.\nWhen own Solar Flight = 1 stack, on Basic Attack, trigger: Gain 1 stack of Qi Surge: Tiger for 5 turns, up to 6 stacks.\nGrant all of own Buddies: When own Five-Peak Myriad ≧ ${arg3} stack(s), when attacked, trigger: Deal damage ${arg4}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg5} stack(s), on Basic Attack, trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 1,
+                        "arg3": 2,
+                        "arg4": 34.45,
+                        "arg5": 2,
+                        "arg6": 34.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On turn ${arg1}, trigger: Own EX Skill CD -${arg2} turn(s).\nAt the start of battle, gain Lunar Pounce.\nWhen own Lunar Pounce = 1 stack, on EX Skill, trigger: Transform Lunar Pounce into Solar Flight.\nWhen own Lunar Pounce = 1 stack, when defending, trigger: Grant all of own Buddies 1 stack of Five-Peak Myriad for 5 turns, up to 6 stacks.\nWhen own Solar Flight = 1 stack, on EX Skill, trigger: Transform Solar Flight into Lunar Pounce.\nWhen own Solar Flight = 1 stack, on Basic Attack, trigger: Gain 1 stack of Qi Surge: Tiger for 5 turns, up to 6 stacks.\nGrant all of own Buddies: When own Five-Peak Myriad ≧ ${arg3} stack(s), when attacked, trigger: Deal damage ${arg4}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg5} stack(s), on Basic Attack, trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 1,
+                        "arg3": 2,
+                        "arg4": 36.67,
+                        "arg5": 2,
+                        "arg6": 36.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On turn ${arg1}, trigger: Own EX Skill CD -${arg2} turn(s).\nAt the start of battle, gain Lunar Pounce.\nWhen own Lunar Pounce = 1 stack, on EX Skill, trigger: Transform Lunar Pounce into Solar Flight.\nWhen own Lunar Pounce = 1 stack, when defending, trigger: Grant all of own Buddies 1 stack of Five-Peak Myriad for 5 turns, up to 6 stacks.\nWhen own Solar Flight = 1 stack, on EX Skill, trigger: Transform Solar Flight into Lunar Pounce.\nWhen own Solar Flight = 1 stack, on Basic Attack, trigger: Gain 1 stack of Qi Surge: Tiger for 5 turns, up to 6 stacks.\nGrant all of own Buddies: When own Five-Peak Myriad ≧ ${arg3} stack(s), when attacked, trigger: Deal damage ${arg4}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg5} stack(s), on Basic Attack, trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 1,
+                        "arg3": 2,
+                        "arg4": 38.89,
+                        "arg5": 2,
+                        "arg6": 38.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On turn ${arg1}, trigger: Own EX Skill CD -${arg2} turn(s).\nAt the start of battle, gain Lunar Pounce.\nWhen own Lunar Pounce = 1 stack, on EX Skill, trigger: Transform Lunar Pounce into Solar Flight.\nWhen own Lunar Pounce = 1 stack, when defending, trigger: Grant all of own Buddies 1 stack of Five-Peak Myriad for 5 turns, up to 6 stacks.\nWhen own Solar Flight = 1 stack, on EX Skill, trigger: Transform Solar Flight into Lunar Pounce.\nWhen own Solar Flight = 1 stack, on Basic Attack, trigger: Gain 1 stack of Qi Surge: Tiger for 5 turns, up to 6 stacks.\nGrant all of own Buddies: When own Five-Peak Myriad ≧ ${arg3} stack(s), when attacked, trigger: Deal damage ${arg4}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg5} stack(s), on Basic Attack, trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 1,
+                        "arg3": 2,
+                        "arg4": 41.12,
+                        "arg5": 2,
+                        "arg6": 41.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On turn ${arg1}, trigger: Own EX Skill CD -${arg2} turn(s).\nAt the start of battle, gain Lunar Pounce.\nWhen own Lunar Pounce = 1 stack, on EX Skill, trigger: Transform Lunar Pounce into Solar Flight.\nWhen own Lunar Pounce = 1 stack, when defending, trigger: Grant all of own Buddies 1 stack of Five-Peak Myriad for 5 turns, up to 6 stacks.\nWhen own Solar Flight = 1 stack, on EX Skill, trigger: Transform Solar Flight into Lunar Pounce.\nWhen own Solar Flight = 1 stack, on Basic Attack, trigger: Gain 1 stack of Qi Surge: Tiger for 5 turns, up to 6 stacks.\nGrant all of own Buddies: When own Five-Peak Myriad ≧ ${arg3} stack(s), when attacked, trigger: Deal damage ${arg4}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg5} stack(s), on Basic Attack, trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 1,
+                        "arg3": 2,
+                        "arg4": 43.34,
+                        "arg5": 2,
+                        "arg6": 43.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On turn ${arg1}, trigger: Own EX Skill CD -${arg2} turn(s).\nAt the start of battle, gain Lunar Pounce.\nWhen own Lunar Pounce = 1 stack, on EX Skill, trigger: Transform Lunar Pounce into Solar Flight.\nWhen own Lunar Pounce = 1 stack, when defending, trigger: Grant all of own Buddies 1 stack of Five-Peak Myriad for 5 turns, up to 6 stacks.\nWhen own Solar Flight = 1 stack, on EX Skill, trigger: Transform Solar Flight into Lunar Pounce.\nWhen own Solar Flight = 1 stack, on Basic Attack, trigger: Gain 1 stack of Qi Surge: Tiger for 5 turns, up to 6 stacks.\nGrant all of own Buddies: When own Five-Peak Myriad ≧ ${arg3} stack(s), when attacked, trigger: Deal damage ${arg4}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg5} stack(s), on Basic Attack, trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 1,
+                        "arg3": 2,
+                        "arg4": 45.56,
+                        "arg5": 2,
+                        "arg6": 45.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On turn ${arg1}, trigger: Own EX Skill CD -${arg2} turn(s).\nAt the start of battle, gain Lunar Pounce.\nWhen own Lunar Pounce = 1 stack, on EX Skill, trigger: Transform Lunar Pounce into Solar Flight.\nWhen own Lunar Pounce = 1 stack, when defending, trigger: Grant all of own Buddies 1 stack of Five-Peak Myriad for 5 turns, up to 6 stacks.\nWhen own Solar Flight = 1 stack, on EX Skill, trigger: Transform Solar Flight into Lunar Pounce.\nWhen own Solar Flight = 1 stack, on Basic Attack, trigger: Gain 1 stack of Qi Surge: Tiger for 5 turns, up to 6 stacks.\nGrant all of own Buddies: When own Five-Peak Myriad ≧ ${arg3} stack(s), when attacked, trigger: Deal damage ${arg4}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg5} stack(s), on Basic Attack, trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 1,
+                        "arg3": 2,
+                        "arg4": 47.78,
+                        "arg5": 2,
+                        "arg6": 47.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On turn ${arg1}, trigger: Own EX Skill CD -${arg2} turn(s).\nAt the start of battle, gain Lunar Pounce.\nWhen own Lunar Pounce = 1 stack, on EX Skill, trigger: Transform Lunar Pounce into Solar Flight.\nWhen own Lunar Pounce = 1 stack, when defending, trigger: Grant all of own Buddies 1 stack of Five-Peak Myriad for 5 turns, up to 6 stacks.\nWhen own Solar Flight = 1 stack, on EX Skill, trigger: Transform Solar Flight into Lunar Pounce.\nWhen own Solar Flight = 1 stack, on Basic Attack, trigger: Gain 1 stack of Qi Surge: Tiger for 5 turns, up to 6 stacks.\nGrant all of own Buddies: When own Five-Peak Myriad ≧ ${arg3} stack(s), when attacked, trigger: Deal damage ${arg4}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg5} stack(s), on Basic Attack, trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 1,
+                        "arg3": 2,
+                        "arg4": 50,
+                        "arg5": 2,
+                        "arg6": 50
+                    },
+                    "materials": {},
+                    "description": "On turn ${arg1}, trigger: Own EX Skill CD -${arg2} turn(s).\nAt the start of battle, gain Lunar Pounce.\nWhen own Lunar Pounce = 1 stack, on EX Skill, trigger: Transform Lunar Pounce into Solar Flight.\nWhen own Lunar Pounce = 1 stack, when defending, trigger: Grant all of own Buddies 1 stack of Five-Peak Myriad for 5 turns, up to 6 stacks.\nWhen own Solar Flight = 1 stack, on EX Skill, trigger: Transform Solar Flight into Lunar Pounce.\nWhen own Solar Flight = 1 stack, on Basic Attack, trigger: Gain 1 stack of Qi Surge: Tiger for 5 turns, up to 6 stacks.\nGrant all of own Buddies: When own Five-Peak Myriad ≧ ${arg3} stack(s), when attacked, trigger: Deal damage ${arg4}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg5} stack(s), on Basic Attack, trigger: Deal damage ${arg6}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Flying Birds",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 24,
+                        "arg3": 4,
+                        "arg4": 24
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 25.78,
+                        "arg3": 4,
+                        "arg4": 25.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 27.56,
+                        "arg3": 4,
+                        "arg4": 27.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 29.34,
+                        "arg3": 4,
+                        "arg4": 29.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 31.12,
+                        "arg3": 4,
+                        "arg4": 31.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 32.89,
+                        "arg3": 4,
+                        "arg4": 32.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 34.67,
+                        "arg3": 4,
+                        "arg4": 34.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 36.45,
+                        "arg3": 4,
+                        "arg4": 36.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 38.23,
+                        "arg3": 4,
+                        "arg4": 38.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 40,
+                        "arg3": 4,
+                        "arg4": 40
+                    },
+                    "materials": {},
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Hilltop Pups",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 6,
+                        "arg2": 18,
+                        "arg3": 6,
+                        "arg4": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\r\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 6,
+                        "arg2": 19.34,
+                        "arg3": 6,
+                        "arg4": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\r\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).\"",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 6,
+                        "arg2": 20.67,
+                        "arg3": 6,
+                        "arg4": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\r\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 6,
+                        "arg2": 22,
+                        "arg3": 6,
+                        "arg4": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\r\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).\"",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 6,
+                        "arg2": 23.34,
+                        "arg3": 6,
+                        "arg4": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\r\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).\"\r",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 6,
+                        "arg2": 24.67,
+                        "arg3": 6,
+                        "arg4": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\r\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).\"",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 6,
+                        "arg2": 26,
+                        "arg3": 6,
+                        "arg4": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).\"",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 6,
+                        "arg2": 27.34,
+                        "arg3": 6,
+                        "arg4": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\r\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).\"",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 6,
+                        "arg2": 28.67,
+                        "arg3": 6,
+                        "arg4": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\r\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).\"\r",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 6,
+                        "arg2": 30,
+                        "arg3": 6,
+                        "arg4": 30
+                    },
+                    "materials": {},
+                    "description": "Grant all of own Buddies: When own Five-Peak Myriad ≧ ${arg1} stack(s), when attacked, trigger: Deal damage ${arg2}% of own ATK to target(s).\r\nWhen own Qi Surge: Tiger ≧ ${arg3} stack(s), on Basic Attack, trigger: Deal damage ${arg4}% of own ATK to target(s).\"",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10423,
+            "name": "Rippling Moonlight",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 36,
+                        "arg2": 6,
+                        "arg3": 4,
+                        "arg4": 2,
+                        "arg5": 30
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nEvery ${arg3} turn(s), trigger: Own ATK +${arg4}%, up to ${arg5} stack(s).\nWhen taking an action, trigger: Gain 1 action (only once per turn).",
+                    "cd": 1
+                },
+                "1": {
+                    "params": {
+                        "arg1": 38.67,
+                        "arg2": 6,
+                        "arg3": 4,
+                        "arg4": 2,
+                        "arg5": 30
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nEvery ${arg3} turn(s), trigger: Own ATK +${arg4}%, up to ${arg5} stack(s).\nWhen taking an action, trigger: Gain 1 action (only once per turn).",
+                    "cd": 1
+                },
+                "2": {
+                    "params": {
+                        "arg1": 41.34,
+                        "arg2": 6,
+                        "arg3": 4,
+                        "arg4": 2,
+                        "arg5": 30
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nEvery ${arg3} turn(s), trigger: Own ATK +${arg4}%, up to ${arg5} stack(s).\nWhen taking an action, trigger: Gain 1 action (only once per turn).",
+                    "cd": 1
+                },
+                "3": {
+                    "params": {
+                        "arg1": 44,
+                        "arg2": 6,
+                        "arg3": 4,
+                        "arg4": 2,
+                        "arg5": 30
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nEvery ${arg3} turn(s), trigger: Own ATK +${arg4}%, up to ${arg5} stack(s).\nWhen taking an action, trigger: Gain 1 action (only once per turn).",
+                    "cd": 1
+                },
+                "4": {
+                    "params": {
+                        "arg1": 46.67,
+                        "arg2": 6,
+                        "arg3": 3,
+                        "arg4": 2,
+                        "arg5": 30
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nEvery ${arg3} turn(s), trigger: Own ATK +${arg4}%, up to ${arg5} stack(s).\nWhen taking an action, trigger: Gain 1 action (only once per turn).",
+                    "cd": 1
+                },
+                "5": {
+                    "params": {
+                        "arg1": 49.34,
+                        "arg2": 6,
+                        "arg3": 3,
+                        "arg4": 2,
+                        "arg5": 30
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nEvery ${arg3} turn(s), trigger: Own ATK +${arg4}%, up to ${arg5} stack(s).\nWhen taking an action, trigger: Gain 1 action (only once per turn).",
+                    "cd": 1
+                },
+                "6": {
+                    "params": {
+                        "arg1": 52,
+                        "arg2": 6,
+                        "arg3": 3,
+                        "arg4": 2,
+                        "arg5": 30
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nEvery ${arg3} turn(s), trigger: Own ATK +${arg4}%, up to ${arg5} stack(s).\nWhen taking an action, trigger: Gain 1 action (only once per turn).",
+                    "cd": 1
+                },
+                "7": {
+                    "params": {
+                        "arg1": 54.67,
+                        "arg2": 6,
+                        "arg3": 2,
+                        "arg4": 2,
+                        "arg5": 30
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nEvery ${arg3} turn(s), trigger: Own ATK +${arg4}%, up to ${arg5} stack(s).\nWhen taking an action, trigger: Gain 1 action (only once per turn).",
+                    "cd": 1
+                },
+                "8": {
+                    "params": {
+                        "arg1": 57.34,
+                        "arg2": 6,
+                        "arg3": 2,
+                        "arg4": 2,
+                        "arg5": 30
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nEvery ${arg3} turn(s), trigger: Own ATK +${arg4}%, up to ${arg5} stack(s).\nWhen taking an action, trigger: Gain 1 action (only once per turn).",
+                    "cd": 1
+                },
+                "9": {
+                    "params": {
+                        "arg1": 60,
+                        "arg2": 6,
+                        "arg3": 1,
+                        "arg4": 2,
+                        "arg5": 30
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nSigil Passive:\nEvery ${arg3} turn(s), trigger: Own ATK +${arg4}%, up to ${arg5} stack(s).\nWhen taking an action, trigger: Gain 1 action (only once per turn).",
+                    "cd": 1
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true
+    }
+}

@@ -1,0 +1,1915 @@
+{
+    "info": {
+        "id": 10425,
+        "name": "Haniya",
+        "feature": "Holy Wrath / Smite Evil",
+        "rarity": 4,
+        "class": 4,
+        "element": 1,
+        "baseHP": 2500,
+        "sign": "sign_J",
+        "baseATK": 499,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Such insolence...!\nRein in that blasphemous gaze.\"",
+    "interactions": {
+        "0": [
+            "The mission comes first. Everything else can wait.",
+            "There's still a lot for me to learn here.",
+            "In total darkness, my senses will be more than enough to guide me."
+        ],
+        "1": [
+            "You've been staring for a while... couldn't help yourself and reached out, did you?",
+            "Haah... this is bad... What is this feeling...?",
+            "You're saying WOOFIA people have a habit of leaving marks on others?"
+        ],
+        "2": [
+            "Mm... is touching someone's head a form of communication unique to WOOFIA people?"
+        ],
+        "3": [
+            "Does this really help you better understand \"desire\"?",
+            "Hmph... hm... laying your hands on a holy being... Do you realize the consequences?",
+            "I can sense it... the presence of something divine."
+        ],
+        "98": [
+            "An opponent like this is no challenge for me."
+        ],
+        "99": [
+            "Guh... I let my guard down..."
+        ],
+        "100": [
+            "This place is even more chaotic than the Celestial Court... yet somehow more interesting.",
+            "So this is called a bean bag? ...It's surprisingly comfortable."
+        ]
+    },
+    "story": {
+        "1": "Meticulous, efficient, laser-focused, and always getting the job done, these are the qualities that keep Haniya consistently at the top of the mission rankings in the Celestial Court.\nUnlike the absent-minded and chronically underperforming Baiel, Haniya is regarded as a once-in-five-centuries prodigy with talent across the board.\nAfter the upper ranks of the Celestial Court sense mysterious disturbances of energy in WOOFIA, Haniya is assigned by the Principal Celestial Officer to travel there with Baiel and investigate.",
+        "2": "Haniya is not good at showing his emotions, and there is always an air of pride in the way he carries himself.\nBecause of that, despite his excellent grades, he never truly finds his way into any social circle within the Celestial Court.\nAs a result, the only person regularly seen by Haniya's side in the Celestial Court is probably Baiel, who has always admired him.\nStill, for a top student as strict with himself as Haniya, the tearful, scatterbrained, constantly mistake-prone Baiel is basically a hell-level trial personally arranged for him by the Celestial Court...",
+        "3": "Haniya cannot understand why he has to babysit an underachiever like Baiel.\nBut after the argument at the start of the mission, the split, and the reunion that follows, Haniya finally comes to acknowledge Baiel and decides to complete the mission with him.\nThat said, if Haniya wants the mission to go smoothly and keep his record as the top student, he will absolutely keep pushing Baiel as hard as he can, so the two of them can once again complete the mission flawlessly.",
+        "4": "Faced with a powerful enemy on this mission that seems capable of influencing other people's desires, Haniya does not dare let his guard down for even a moment.\nIn order to understand this thing called desire as quickly as possible, he actively gathers information and throws himself into hands-on practice, treating it like a profound field of study he has never truly mastered before.\nHis attitude is so serious and earnest that plenty of people who originally want to take advantage of these opportunities to \"study\" with him and cop a feel end up backing out in fear instead.\nJust how many more bumps are waiting for Haniya on his path to mastering desire? Stay tuned."
+    },
+    "hookUp": {
+        "cards": [
+            80075,
+            80125,
+            80142
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "T-this is...!"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "You're actually using something sacred to toy with me...?"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "Ha... haah... it's so ticklish... and hot..."
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "This immorality... actually... feels so good...!"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "This isn't right... it shouldn't be like this...!"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 0,
+                    "text": "This feather took quite some effort to get. A real rarity."
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 0,
+                    "text": "So, Haniya, stop holding back and just enjoy it."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80125,
+                    "speakerPosition": 1,
+                    "text": "Mm...!"
+                },
+                {
+                    "boundId": 80125,
+                    "speakerPosition": 1,
+                    "text": "What are you... doing...?"
+                },
+                {
+                    "boundId": 80125,
+                    "speakerPosition": 1,
+                    "text": "Hah...! This kind of sucking... and these dark red bruises..."
+                },
+                {
+                    "boundId": 80125,
+                    "speakerPosition": 1,
+                    "text": "A mark...?"
+                },
+                {
+                    "boundId": 80125,
+                    "speakerPosition": 1,
+                    "text": "Come here. Let me try it on you as well."
+                },
+                {
+                    "boundId": 80125,
+                    "speakerPosition": 0,
+                    "text": "Haniya's smooth, fair skin... is now covered in dark red hickeys."
+                },
+                {
+                    "boundId": 80125,
+                    "speakerPosition": 0,
+                    "text": "Just looking at it... is enough to stir excitement."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 1,
+                    "text": "In the darkness... being touched all over by people whose faces I can't see..."
+                },
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 1,
+                    "text": "I've never experienced it, but..."
+                },
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 1,
+                    "text": "It might be... worth trying..."
+                },
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 1,
+                    "text": "This is all... to deepen my understanding of desire."
+                },
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 0,
+                    "text": "Yeah~ yeah~"
+                },
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 0,
+                    "text": "But Haniya should turn off that halo."
+                },
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 0,
+                    "text": "Otherwise, he'll end up like a bug lamp in a dark room."
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Are you trying to brush me off?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Seems I've been underestimated."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Keep this up... and wear down my patience..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "You won't like what happens next."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Haah... I can't breathe... this pressure...!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "If this is all you're capable of, then I won't waste any more time here."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Wait... give me one more chance!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "It seems I won't be learning anything more from you."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "I expected more."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "What a disappointment."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "It's not over yet! I have more to offer!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Mortal Sentence",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 12,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32401,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Target(s) gains/gain Judgment (1 stack max. at the same time).\nAll of own Buddies' ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 12.89,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32401,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Target(s) gains/gain Judgment (1 stack max. at the same time).\nAll of own Buddies' ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 13.78,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32411,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Target(s) gains/gain Judgment (1 stack max. at the same time).\nAll of own Buddies' ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 14.67,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32411,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Target(s) gains/gain Judgment (1 stack max. at the same time).\nAll of own Buddies' ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 15.56,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32421,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Target(s) gains/gain Judgment (1 stack max. at the same time).\nAll of own Buddies' ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 16.45,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Target(s) gains/gain Judgment (1 stack max. at the same time).\nAll of own Buddies' ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 17.33,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Target(s) gains/gain Judgment (1 stack max. at the same time).\nAll of own Buddies' ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 18.22,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32431,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Target(s) gains/gain Judgment (1 stack max. at the same time).\nAll of own Buddies' ATK +${arg1}% for ${arg2} turn(s)",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 19.11,
+                        "arg2": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32441,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Target(s) gains/gain Judgment (1 stack max. at the same time).\nAll of own Buddies' ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 20,
+                        "arg2": 1
+                    },
+                    "materials": {},
+                    "description": "Target(s) gains/gain Judgment (1 stack max. at the same time).\nAll of own Buddies' ATK +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Holy Resolve",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 1,
+                        "arg3": 18,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 54
+                        },
+                        {
+                            "id": 32402,
+                            "count": 24
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 1,
+                        "arg3": 19.34,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32401,
+                            "count": 63
+                        },
+                        {
+                            "id": 32402,
+                            "count": 27
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 1,
+                        "arg3": 20.67,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32411,
+                            "count": 63
+                        },
+                        {
+                            "id": 32412,
+                            "count": 27
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 1,
+                        "arg3": 22,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32411,
+                            "count": 72
+                        },
+                        {
+                            "id": 32412,
+                            "count": 33
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 1,
+                        "arg3": 23.34,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 72
+                        },
+                        {
+                            "id": 32422,
+                            "count": 33
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 1,
+                        "arg3": 24.67,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 81
+                        },
+                        {
+                            "id": 32422,
+                            "count": 39
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 1,
+                        "arg3": 26,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32431,
+                            "count": 81
+                        },
+                        {
+                            "id": 32432,
+                            "count": 39
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 1,
+                        "arg3": 27.34,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32431,
+                            "count": 90
+                        },
+                        {
+                            "id": 32432,
+                            "count": 45
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 1,
+                        "arg3": 28.67,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32441,
+                            "count": 90
+                        },
+                        {
+                            "id": 32442,
+                            "count": 45
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 1,
+                        "arg3": 30,
+                        "arg4": 1
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "AoE ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Celetial Law",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 18,
+                        "arg3": 3,
+                        "arg4": 18,
+                        "arg5": 1,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Haniya gains 1 stack of Holy Wrath, up to 3 stacks.\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Holy Wrath = ${arg3} stack(s), on EX Skill, trigger: All of own Buddies' Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nWhen own Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Remove Holy Wrath from self.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 19.34,
+                        "arg3": 3,
+                        "arg4": 19.34,
+                        "arg5": 1,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Haniya gains 1 stack of Holy Wrath, up to 3 stacks.\nExcept self, grant all of own Buddies: When locked target's Judgment = ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Holy Wrath = ${arg3} stack(s), on EX Skill, trigger: All of own Buddies' Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nWhen own Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Remove Holy Wrath from self.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 20.67,
+                        "arg3": 3,
+                        "arg4": 20.67,
+                        "arg5": 1,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Haniya gains 1 stack of Holy Wrath, up to 3 stacks.\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Holy Wrath = ${arg3} stack(s), on EX Skill, trigger: All of own Buddies' Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nWhen own Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Remove Holy Wrath from self.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 22,
+                        "arg3": 3,
+                        "arg4": 22,
+                        "arg5": 1,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Haniya gains 1 stack of Holy Wrath, up to 3 stacks.\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Holy Wrath = ${arg3} stack(s), on EX Skill, trigger: All of own Buddies' Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nWhen own Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Remove Holy Wrath from self.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 23.34,
+                        "arg3": 3,
+                        "arg4": 23.34,
+                        "arg5": 1,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Haniya gains 1 stack of Holy Wrath, up to 3 stacks.\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Holy Wrath = ${arg3} stack(s), on EX Skill, trigger: All of own Buddies' Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nWhen own Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Remove Holy Wrath from self.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 24.67,
+                        "arg3": 3,
+                        "arg4": 24.67,
+                        "arg5": 1,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Haniya gains 1 stack of Holy Wrath, up to 3 stacks.\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Holy Wrath = ${arg3} stack(s), on EX Skill, trigger: All of own Buddies' Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nWhen own Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Remove Holy Wrath from self.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 26,
+                        "arg3": 3,
+                        "arg4": 26,
+                        "arg5": 1,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Haniya gains 1 stack of Holy Wrath, up to 3 stacks.\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Holy Wrath = ${arg3} stack(s), on EX Skill, trigger: All of own Buddies' Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nWhen own Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Remove Holy Wrath from self.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 27.34,
+                        "arg3": 3,
+                        "arg4": 27.34,
+                        "arg5": 1,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Haniya gains 1 stack of Holy Wrath, up to 3 stacks.\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Holy Wrath = ${arg3} stack(s), on EX Skill, trigger: All of own Buddies' Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nWhen own Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Remove Holy Wrath from self.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 28.67,
+                        "arg3": 3,
+                        "arg4": 28.67,
+                        "arg5": 1,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Haniya gains 1 stack of Holy Wrath, up to 3 stacks.\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Holy Wrath = ${arg3} stack(s), on EX Skill, trigger: All of own Buddies' Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nWhen own Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Remove Holy Wrath from self.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 30,
+                        "arg3": 3,
+                        "arg4": 30,
+                        "arg5": 1,
+                        "arg6": 3
+                    },
+                    "materials": {},
+                    "description": "Except self, all of own Buddies gain: When attacked, trigger: Haniya gains 1 stack of Holy Wrath, up to 3 stacks.\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen own Holy Wrath = ${arg3} stack(s), on EX Skill, trigger: All of own Buddies' Triggered Skill effect +${arg4}% for ${arg5} turn(s).\nWhen own Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Remove Holy Wrath from self.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Retribution",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 9,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When own Holy Wrath ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg2}% for ${arg3} turn(s).\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg4} stack(s), on attack, trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 9.67,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When own Holy Wrath ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg2}% for ${arg3} turn(s).\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg4} stack(s), on attack, trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 10.34,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When own Holy Wrath ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg2}% for ${arg3} turn(s).\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg4} stack(s), on attack, trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 11,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When own Holy Wrath ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg2}% for ${arg3} turn(s).\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg4} stack(s), on attack, trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 11.67,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When own Holy Wrath ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg2}% for ${arg3} turn(s).\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg4} stack(s), on attack, trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 12.34,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When own Holy Wrath ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg2}% for ${arg3} turn(s).\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg4} stack(s), on attack, trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 13,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When own Holy Wrath ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg2}% for ${arg3} turn(s).\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg4} stack(s), on attack, trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 13.67,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When own Holy Wrath ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg2}% for ${arg3} turn(s).\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg4} stack(s), on attack, trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 14.34,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When own Holy Wrath ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg2}% for ${arg3} turn(s).\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg4} stack(s), on attack, trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 15,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 30
+                    },
+                    "materials": {},
+                    "description": "When own Holy Wrath ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg2}% for ${arg3} turn(s).\nExcept self, all of own Buddies gain: When locked target's Judgment = ${arg4} stack(s), on attack, trigger: Deal damage ${arg5}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Final Verdict",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 48
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 51.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 55.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 58.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 62.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 65.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 69.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 72.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 76.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 80
+                    },
+                    "materials": {},
+                    "description": "On EX Skill, trigger: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10425,
+            "name": "Holy Resolve",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 1,
+                        "arg3": 18,
+                        "arg4": 1,
+                        "arg5": 1,
+                        "arg6": 3,
+                        "arg7": 60
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).\nSigil Passive:\nOn turn ${arg5}, trigger: Gain 3 stacks of Holy Wrath, up to 3 stacks.\nWhen Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 1,
+                        "arg3": 19.34,
+                        "arg4": 1,
+                        "arg5": 1,
+                        "arg6": 3,
+                        "arg7": 64.45
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).\nSigil Passive:\nOn turn ${arg5}, trigger: Gain 3 stacks of Holy Wrath, up to 3 stacks.\nWhen Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 1,
+                        "arg3": 20.67,
+                        "arg4": 1,
+                        "arg5": 1,
+                        "arg6": 3,
+                        "arg7": 68.89
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).\nSigil Passive:\nOn own turn ${arg5}, trigger: Gain 3 stacks of Holy Wrath, up to 3 stacks.\nWhen Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 1,
+                        "arg3": 22,
+                        "arg4": 1,
+                        "arg5": 1,
+                        "arg6": 3,
+                        "arg7": 73.34
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).\nSigil Passive:\nOn turn ${arg5}, trigger: Gain 3 stacks of Holy Wrath, up to 3 stacks.\nWhen Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 1,
+                        "arg3": 23.34,
+                        "arg4": 1,
+                        "arg5": 1,
+                        "arg6": 3,
+                        "arg7": 77.78
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).\nSigil Passive:\nOn turn ${arg5}, trigger: Gain 3 stacks of Holy Wrath, up to 3 stacks.\nWhen Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 1,
+                        "arg3": 24.67,
+                        "arg4": 1,
+                        "arg5": 1,
+                        "arg6": 3,
+                        "arg7": 82.23
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).\nSigil Passive:\nOn turn ${arg5}, trigger: Gain 3 stacks of Holy Wrath, up to 3 stacks.\nWhen Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 1,
+                        "arg3": 26,
+                        "arg4": 1,
+                        "arg5": 1,
+                        "arg6": 3,
+                        "arg7": 86.67
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).\nSigil Passive:\nOn turn ${arg5}, trigger: Gain 3 stacks of Holy Wrath, up to 3 stacks.\nWhen Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 1,
+                        "arg3": 27.34,
+                        "arg4": 1,
+                        "arg5": 1,
+                        "arg6": 3,
+                        "arg7": 91.12
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).\nSigil Passive:\nOn turn ${arg5}, trigger: Gain 3 stacks of Holy Wrath, up to 3 stacks.\nWhen Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 1,
+                        "arg3": 28.67,
+                        "arg4": 1,
+                        "arg5": 1,
+                        "arg6": 3,
+                        "arg7": 95.56
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).\nSigil Passive:\nOn turn ${arg5}, trigger: Gain 3 stacks of Holy Wrath, up to 3 stacks.\nWhen Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 1,
+                        "arg3": 30,
+                        "arg4": 1,
+                        "arg5": 1,
+                        "arg6": 3,
+                        "arg7": 100
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}% for ${arg2} turn(s).\nAll of own Buddies' Triggered Skill effect +${arg3}% for ${arg4} turn(s).\nSigil Passive:\nOn turn ${arg5}, trigger: Gain 3 stacks of Holy Wrath, up to 3 stacks.\nWhen Holy Wrath = ${arg6} stack(s), on EX Skill, trigger: Deal damage ${arg7}% of own ATK to target(s).",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true
+    }
+}

@@ -1,0 +1,1919 @@
+{
+    "info": {
+        "id": 10422,
+        "name": "Water-loving Paul",
+        "feature": "Water Damage Boost",
+        "rarity": 4,
+        "class": 5,
+        "element": 2,
+        "baseHP": 2625,
+        "sign": "sign_E",
+        "baseATK": 476,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Blessing each other by splashing?\nCompletely fine by me~\"",
+    "interactions": {
+        "0": [
+            "Not bad, right? Though it's hot as hell, I still wanted to wear something different for the company trip~",
+            "Haha~ It's so hot here, but playing with water is so much fun. Come join us!",
+            "I really want to slip away to a cool, dark room... I... I don't mind if it gets a little crowded~",
+            "Hey~ why don't we get a few more people to join the fun? The more the merrier, right? Hehe~",
+            "I think I overdid it... I'm aching all over... I'd love to lie down and get a good massage~"
+        ],
+        "1": [
+            "Haa~ Wet fur feels cool, doesn't it?",
+            "Mm... Soaked fur actually feels pretty good, huh? Want to keep touching? I don't mind at all~"
+        ],
+        "2": [
+            "Woah! Not on my face, hahaha!"
+        ],
+        "3": [
+            "N-not now...! This is the peak hour in Sindara... There are so many people around...!",
+            "Oh? Someone's getting bold~ Then I won't hold back either~ Come on! Let's get wet together~!"
+        ],
+        "98": [
+            "Haha! Victory is mine~! So refreshing~!"
+        ],
+        "99": [
+            "Waaah—! I yield, I yield...! Stop splashing already!"
+        ],
+        "100": [
+            "Are you here on vacation too? Let's take a stroll together then~!",
+            "Hoo... It's much cooler here... This weather is killing me..."
+        ]
+    },
+    "story": {
+        "1": "The moment he steps out of Sindara Airport, the wave of heat rushing at him nearly suffocates Paul the Bear. It is not just the temperature. The air is thick with humidity, as if the moisture tries to worm its way into his fur, trapping the sweat and leaving his whole body sticky and miserable.\nHe stands at the airport entrance like an iceberg only a second away from melting into a puddle, sweat seeping out nonstop and soaking the new floral shirt he just bought. Thankfully, Saeng appears the very next moment and blasts him with a jet of water, washing away the oppressive heat clinging to his body.",
+        "2": "Once the island's welcome ritual is over, Paul the Bear immediately digs out his carefully prepared supplies from his luggage—cooling patches.\nThe moment he learned that the destination of the Proud Shark's Annual Company Trip was the tropical island of Sindara, he promptly ordered a huge stash of cooling patches and handheld fans strong enough to whip up a gale.\nBut because the cooling patches feel just that good, he almost uses them all up before the trip even begins. In the end, to keep himself from collapsing from heatstroke, he has no choice but to dash into a duty-free shop for a refill before boarding.\nThroughout the company trip, hidden beneath Paul the Bear's pristine white fur where no one can see, his body is already covered with cooling pads.",
+        "3": "With the cooling patches doing their job, Sindara's unbearable heat is no longer a problem. Paul the Bear is finally able to shop in the island market under the blazing sun while staying cool and comfortable. At last, he has the peace of mind to admire the brightly colored tropical fruit desserts. He can even move easily among the boat vendors, picking out local specialties and souvenirs without worrying that the sweltering heat will ruin his vacation.\nBacked by his cooling patches and handheld fan, Paul the Bear's trip seems to be going smoothly. But before long, something completely unexpected happens...",
+        "4": "After going through Sindara's local \"welcoming rituals\" one after another, the cooling patches stuck all over Paul the Bear's body gradually start losing their grip and peeling off one by one. The moment he loses the protection of those lifesavers, Sindara's stifling heat, which had been kept at bay until now, comes crashing down on him all over again.\nEven though Paul the Bear is thrown straight back into his sweaty nightmare, he has no intention of giving up! There has to be a way! One way or another, Paul the Bear is going to turn this feverish trial into the best tropical vacation ever!"
+    },
+    "hookUp": {
+        "cards": [
+            80142,
+            80135,
+            80138
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 1,
+                    "text": "It's so dark here... I can't see anything. Where are you?"
+                },
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 1,
+                    "text": "Hm...? Got you! It's you, isn't it? Hehe, you feel so warm."
+                },
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 1,
+                    "text": "Is that...? Ah, did I touch somewhere I shouldn't? Sorry, sorry. It's just so dark here."
+                },
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 1,
+                    "text": "But... since I already did... why don't we just keep going? Hehe~!"
+                },
+                {
+                    "boundId": 80142,
+                    "speakerPosition": 0,
+                    "text": "The way Paul the Bear keeps touching me... He's just a horny bear, isn't he?"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80135,
+                    "speakerPosition": 1,
+                    "text": "Hehe, it's different when there are more people."
+                },
+                {
+                    "boundId": 80135,
+                    "speakerPosition": 1,
+                    "text": "Think about it... when you are surrounded, who should you take care of first?"
+                },
+                {
+                    "boundId": 80135,
+                    "speakerPosition": 1,
+                    "text": "Ah, but if everyone just piles in together, you don't have to worry, right?"
+                },
+                {
+                    "boundId": 80135,
+                    "speakerPosition": 1,
+                    "text": "Things are going to heat up with so many people... For a treat like this, I'm going to work hard~"
+                },
+                {
+                    "boundId": 80135,
+                    "speakerPosition": 0,
+                    "text": "Paul the Bear is usually so laid-back, but his eyes light up when it comes to something like this. "
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80138,
+                    "speakerPosition": 1,
+                    "text": "Oil massage? Are you going to give me a massage? Hehe~ Thanks~"
+                },
+                {
+                    "boundId": 80138,
+                    "speakerPosition": 1,
+                    "text": "It feels incredible to have all this slick oil all over me."
+                },
+                {
+                    "boundId": 80138,
+                    "speakerPosition": 1,
+                    "text": "There... Harder...! Hng, ngh...!"
+                },
+                {
+                    "boundId": 80138,
+                    "speakerPosition": 1,
+                    "text": "Let me return the favor next time. I will take care of every inch of you~"
+                },
+                {
+                    "boundId": 80138,
+                    "speakerPosition": 0,
+                    "text": "Getting a massage from those furry paws... Just the thought of it feels like heaven already..."
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "This? Hmm... I don't think this is quite right."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Or is it that you're trying to get creative with this? I'm not sure I can keep up..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Looks like this won't do..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Eh.... what are you going to do with this?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Paul the Bear tilts his head, looking confused."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Hmm... if there's nothing else..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "I'll head back to the freezer for now..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "He is so done with it that he wishes to return to the freezer..."
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Wet Blessing",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32501,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32501,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32511,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32511,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32521,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32531,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32541,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Water Burst",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 120
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 54
+                        },
+                        {
+                            "id": 32502,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 128.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32501,
+                            "count": 63
+                        },
+                        {
+                            "id": 32502,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 137.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32511,
+                            "count": 63
+                        },
+                        {
+                            "id": 32512,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 146.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32511,
+                            "count": 72
+                        },
+                        {
+                            "id": 32512,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 155.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 72
+                        },
+                        {
+                            "id": 32522,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 164.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 81
+                        },
+                        {
+                            "id": 32522,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 173.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32531,
+                            "count": 81
+                        },
+                        {
+                            "id": 32532,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 182.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32531,
+                            "count": 90
+                        },
+                        {
+                            "id": 32532,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 191.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32541,
+                            "count": 90
+                        },
+                        {
+                            "id": 32542,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 200
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "Water ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 7.2,
+                        "arg2": 3.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Water Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 7.74,
+                        "arg2": 3.87
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Water Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 8.27,
+                        "arg2": 4.14
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Water Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 8.8,
+                        "arg2": 4.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Water Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 9.34,
+                        "arg2": 4.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Water Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 9.87,
+                        "arg2": 4.94
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Water Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 10.4,
+                        "arg2": 5.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Water Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 10.94,
+                        "arg2": 5.47
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Water Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 11.47,
+                        "arg2": 5.74
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Water Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 12,
+                        "arg2": 6
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Water Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Wet Party",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 27,
+                        "arg2": 50,
+                        "arg3": 4.5,
+                        "arg4": 3,
+                        "arg5": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Splashing Blessing for 30 turns, up to 4 stacks.\nWhen locked target(s) is/are with Splashing Blessing, own EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Remove Splashing Blessing from locked target(s).\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on Basic Attack, there is a(n) ${arg2}% chance to trigger: Target Water damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 29,
+                        "arg2": 50,
+                        "arg3": 4.84,
+                        "arg4": 3,
+                        "arg5": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Splashing Blessing for 30 turns, up to 4 stacks.\nWhen locked target(s) is/are with Splashing Blessing, own EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Remove Splashing Blessing from locked target(s).\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on Basic Attack, there is a(n) ${arg2}% chance to trigger: Target Water damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 31,
+                        "arg2": 50,
+                        "arg3": 5.17,
+                        "arg4": 3,
+                        "arg5": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Splashing Blessing for 30 turns, up to 4 stacks.\nWhen locked target(s) is/are with Splashing Blessing, own EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Remove Splashing Blessing from locked target(s).\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on Basic Attack, there is a(n) ${arg2}% chance to trigger: Target Water damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 50,
+                        "arg3": 5.5,
+                        "arg4": 3,
+                        "arg5": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Splashing Blessing for 30 turns, up to 4 stacks.\nWhen locked target(s) is/are with Splashing Blessing, own EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Remove Splashing Blessing from locked target(s).\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on Basic Attack, there is a(n) ${arg2}% chance to trigger: Target Water damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 35,
+                        "arg2": 50,
+                        "arg3": 5.84,
+                        "arg4": 3,
+                        "arg5": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Splashing Blessing for 30 turns, up to 4 stacks.\nWhen locked target(s) is/are with Splashing Blessing, own EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Remove Splashing Blessing from locked target(s).\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on Basic Attack, there is a(n) ${arg2}% chance to trigger: Target Water damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 37,
+                        "arg2": 50,
+                        "arg3": 6.17,
+                        "arg4": 3,
+                        "arg5": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Splashing Blessing for 30 turns, up to 4 stacks.\nWhen locked target(s) is/are with Splashing Blessing, own EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Remove Splashing Blessing from locked target(s).\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on Basic Attack, there is a(n) ${arg2}% chance to trigger: Target Water damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 39,
+                        "arg2": 50,
+                        "arg3": 6.5,
+                        "arg4": 3,
+                        "arg5": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Splashing Blessing for 30 turns, up to 4 stacks.\nWhen locked target(s) is/are with Splashing Blessing, own EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Remove Splashing Blessing from locked target(s).\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on Basic Attack, there is a(n) ${arg2}% chance to trigger: Target Water damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 41,
+                        "arg2": 50,
+                        "arg3": 6.84,
+                        "arg4": 3,
+                        "arg5": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Splashing Blessing for 30 turns, up to 4 stacks.\nWhen locked target(s) is/are with Splashing Blessing, own EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Remove Splashing Blessing from locked target(s).\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on Basic Attack, there is a(n) ${arg2}% chance to trigger: Target Water damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 43,
+                        "arg2": 50,
+                        "arg3": 7.17,
+                        "arg4": 3,
+                        "arg5": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Splashing Blessing for 30 turns, up to 4 stacks.\nWhen locked target(s) is/are with Splashing Blessing, own EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Remove Splashing Blessing from locked target(s).\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on Basic Attack, there is a(n) ${arg2}% chance to trigger: Target Water damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 45,
+                        "arg2": 50,
+                        "arg3": 7.5,
+                        "arg4": 3,
+                        "arg5": 3
+                    },
+                    "materials": {},
+                    "description": "On Basic Attack, trigger: Target(s) gains/gain 1 stack of Splashing Blessing for 30 turns, up to 4 stacks.\nWhen locked target(s) is/are with Splashing Blessing, own EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Remove Splashing Blessing from locked target(s).\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on Basic Attack, there is a(n) ${arg2}% chance to trigger: Target Water damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Proud Shark Gun",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 5,
+                        "arg2": 4,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 6,
+                        "arg6": 3,
+                        "arg7": 2,
+                        "arg8": 6,
+                        "arg9": 3,
+                        "arg10": 3,
+                        "arg11": 30
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On EX Skill, trigger the same number of times as the target's stack(s) of Splashing Blessing: Gain 1 stack of Water Bullet for ${arg1} turn(s), up to ${arg2} stack(s).\nOn Basic Attack, trigger: Remove ${arg3} stack(s) of the following effect from self: Water Bullet.\nWhen own Water Bullet ≧ ${arg4} stack(s), on Basic Attack, trigger: Target Water damage taken +${arg5}% for ${arg6} turn(s).\nWhen own Water Bullet ≧ ${arg7} stack(s), on Basic Attack, trigger: Target damage taken +${arg8}% for ${arg9} turn(s).\nWhen own Water Bullet ≧ ${arg10} stack(s), on Basic Attack, trigger: Deal damage ${arg11}% of own ATK to all enemies.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 5,
+                        "arg2": 4,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 6.45,
+                        "arg6": 3,
+                        "arg7": 2,
+                        "arg8": 6.45,
+                        "arg9": 3,
+                        "arg10": 3,
+                        "arg11": 32.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger the same number of times as the target's stack(s) of Splashing Blessing: Gain 1 stack of Water Bullet for ${arg1} turn(s), up to ${arg2} stack(s).\nOn Basic Attack, trigger: Remove ${arg3} stack(s) of the following effect from self: Water Bullet.\nWhen own Water Bullet ≧ ${arg4} stack(s), on Basic Attack, trigger: Target Water damage taken +${arg5}% for ${arg6} turn(s).\nWhen own Water Bullet ≧ ${arg7} stack(s), on Basic Attack, trigger: Target damage taken +${arg8}% for ${arg9} turn(s).\nWhen own Water Bullet ≧ ${arg10} stack(s), on Basic Attack, trigger: Deal damage ${arg11}% of own ATK to all enemies.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 5,
+                        "arg2": 4,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 6.89,
+                        "arg6": 3,
+                        "arg7": 2,
+                        "arg8": 6.89,
+                        "arg9": 3,
+                        "arg10": 3,
+                        "arg11": 34.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, trigger the same number of times as the target's stack(s) of Splashing Blessing: Gain 1 stack of Water Bullet for ${arg1} turn(s), up to ${arg2} stack(s).\nOn Basic Attack, trigger: Remove ${arg3} stack(s) of the following effect from self: Water Bullet.\nWhen own Water Bullet ≧ ${arg4} stack(s), on Basic Attack, trigger: Target Water damage taken +${arg5}% for ${arg6} turn(s).\nWhen own Water Bullet ≧ ${arg7} stack(s), on Basic Attack, trigger: Target damage taken +${arg8}% for ${arg9} turn(s).\nWhen own Water Bullet ≧ ${arg10} stack(s), on Basic Attack, trigger: Deal damage ${arg11}% of own ATK to all enemies.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 5,
+                        "arg2": 4,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 7.34,
+                        "arg6": 3,
+                        "arg7": 2,
+                        "arg8": 7.34,
+                        "arg9": 3,
+                        "arg10": 3,
+                        "arg11": 36.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger the same number of times as the target's stack(s) of Splashing Blessing: Gain 1 stack of Water Bullet for ${arg1} turn(s), up to ${arg2} stack(s).\nOn Basic Attack, trigger: Remove ${arg3} stack(s) of the following effect from self: Water Bullet.\nWhen own Water Bullet ≧ ${arg4} stack(s), on Basic Attack, trigger: Target Water damage taken +${arg5}% for ${arg6} turn(s).\nWhen own Water Bullet ≧ ${arg7} stack(s), on Basic Attack, trigger: Target damage taken +${arg8}% for ${arg9} turn(s).\nWhen own Water Bullet ≧ ${arg10} stack(s), on Basic Attack, trigger: Deal damage ${arg11}% of own ATK to all enemies.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 5,
+                        "arg2": 4,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 7.78,
+                        "arg6": 3,
+                        "arg7": 2,
+                        "arg8": 7.78,
+                        "arg9": 3,
+                        "arg10": 3,
+                        "arg11": 38.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, trigger the same number of times as the target's stack(s) of Splashing Blessing: Gain 1 stack of Water Bullet for ${arg1} turn(s), up to ${arg2} stack(s).\nOn Basic Attack, trigger: Remove ${arg3} stack(s) of the following effect from self: Water Bullet.\nWhen own Water Bullet ≧ ${arg4} stack(s), on Basic Attack, trigger: Target Water damage taken +${arg5}% for ${arg6} turn(s).\nWhen own Water Bullet ≧ ${arg7} stack(s), on Basic Attack, trigger: Target damage taken +${arg8}% for ${arg9} turn(s).\nWhen own Water Bullet ≧ ${arg10} stack(s), on Basic Attack, trigger: Deal damage ${arg11}% of own ATK to all enemies.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 5,
+                        "arg2": 4,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 8.23,
+                        "arg6": 3,
+                        "arg7": 2,
+                        "arg8": 8.23,
+                        "arg9": 3,
+                        "arg10": 3,
+                        "arg11": 41.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger the same number of times as the target's stack(s) of Splashing Blessing: Gain 1 stack of Water Bullet for ${arg1} turn(s), up to ${arg2} stack(s).\nOn Basic Attack, trigger: Remove ${arg3} stack(s) of the following effect from self: Water Bullet.\nWhen own Water Bullet ≧ ${arg4} stack(s), on Basic Attack, trigger: Target Water damage taken +${arg5}% for ${arg6} turn(s).\nWhen own Water Bullet ≧ ${arg7} stack(s), on Basic Attack, trigger: Target damage taken +${arg8}% for ${arg9} turn(s).\nWhen own Water Bullet ≧ ${arg10} stack(s), on Basic Attack, trigger: Deal damage ${arg11}% of own ATK to all enemies.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 5,
+                        "arg2": 4,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 8.67,
+                        "arg6": 3,
+                        "arg7": 2,
+                        "arg8": 8.67,
+                        "arg9": 3,
+                        "arg10": 3,
+                        "arg11": 43.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, trigger the same number of times as the target's stack(s) of Splashing Blessing: Gain 1 stack of Water Bullet for ${arg1} turn(s), up to ${arg2} stack(s).\nOn Basic Attack, trigger: Remove ${arg3} stack(s) of the following effect from self: Water Bullet.\nWhen own Water Bullet ≧ ${arg4} stack(s), on Basic Attack, trigger: Target Water damage taken +${arg5}% for ${arg6} turn(s).\nWhen own Water Bullet ≧ ${arg7} stack(s), on Basic Attack, trigger: Target damage taken +${arg8}% for ${arg9} turn(s).\nWhen own Water Bullet ≧ ${arg10} stack(s), on Basic Attack, trigger: Deal damage ${arg11}% of own ATK to all enemies.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 5,
+                        "arg2": 4,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 9.12,
+                        "arg6": 3,
+                        "arg7": 2,
+                        "arg8": 9.12,
+                        "arg9": 3,
+                        "arg10": 3,
+                        "arg11": 45.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger the same number of times as the target's stack(s) of Splashing Blessing: Gain 1 stack of Water Bullet for ${arg1} turn(s), up to ${arg2} stack(s).\nOn Basic Attack, trigger: Remove ${arg3} stack(s) of the following effect from self: Water Bullet.\nWhen own Water Bullet ≧ ${arg4} stack(s), on Basic Attack, trigger: Target Water damage taken +${arg5}% for ${arg6} turn(s).\nWhen own Water Bullet ≧ ${arg7} stack(s), on Basic Attack, trigger: Target damage taken +${arg8}% for ${arg9} turn(s).\nWhen own Water Bullet ≧ ${arg10} stack(s), on Basic Attack, trigger: Deal damage ${arg11}% of own ATK to all enemies.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 5,
+                        "arg2": 4,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 9.56,
+                        "arg6": 3,
+                        "arg7": 2,
+                        "arg8": 9.56,
+                        "arg9": 3,
+                        "arg10": 3,
+                        "arg11": 47.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, trigger the same number of times as the target's stack(s) of Splashing Blessing: Gain 1 stack of Water Bullet for ${arg1} turn(s), up to ${arg2} stack(s).\nOn Basic Attack, trigger: Remove ${arg3} stack(s) of the following effect from self: Water Bullet.\nWhen own Water Bullet ≧ ${arg4} stack(s), on Basic Attack, trigger: Target Water damage taken +${arg5}% for ${arg6} turn(s).\nWhen own Water Bullet ≧ ${arg7} stack(s), on Basic Attack, trigger: Target damage taken +${arg8}% for ${arg9} turn(s).\nWhen own Water Bullet ≧ ${arg10} stack(s), on Basic Attack, trigger: Deal damage ${arg11}% of own ATK to all enemies.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 5,
+                        "arg2": 4,
+                        "arg3": 1,
+                        "arg4": 1,
+                        "arg5": 10,
+                        "arg6": 3,
+                        "arg7": 2,
+                        "arg8": 10,
+                        "arg9": 3,
+                        "arg10": 3,
+                        "arg11": 50
+                    },
+                    "materials": {},
+                    "description": "On EX Skill, trigger the same number of times as the target's stack(s) of Splashing Blessing: Gain 1 stack of Water Bullet for ${arg1} turn(s), up to ${arg2} stack(s).\nOn Basic Attack, trigger: Remove ${arg3} stack(s) of the following effect from self: Water Bullet.\nWhen own Water Bullet ≧ ${arg4} stack(s), on Basic Attack, trigger: Target Water damage taken +${arg5}% for ${arg6} turn(s).\nWhen own Water Bullet ≧ ${arg7} stack(s), on Basic Attack, trigger: Target damage taken +${arg8}% for ${arg9} turn(s).\nWhen own Water Bullet ≧ ${arg10} stack(s), on Basic Attack, trigger: Deal damage ${arg11}% of own ATK to all enemies.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Echoes of the Carnival",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 70,
+                        "arg3": 1,
+                        "arg4": 3,
+                        "arg5": 9,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When own Water Bullet = ${arg1} stack(s), on Basic Attack, there is a(n) ${arg2}% chance to trigger: Gain ${arg3} stack(s) of the following effect: Water Bullet.\nGrant all of own Buddies: When the number of Water Buddies ≧ ${arg4}, on EX Skill, trigger: All enemies Water damage taken +${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 70,
+                        "arg3": 1,
+                        "arg4": 3,
+                        "arg5": 9.67,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When own Water Bullet = ${arg1} stack(s), on Basic Attack, there is a(n) ${arg2}% chance to trigger: Gain ${arg3} stack(s) of the following effect: Water Bullet.\nGrant all of own Buddies: When the number of Water Buddies ≧ ${arg4}, on EX Skill, trigger: All enemies Water damage taken +${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 70,
+                        "arg3": 1,
+                        "arg4": 3,
+                        "arg5": 10.34,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When own Water Bullet = ${arg1} stack(s), on Basic Attack, there is a(n) ${arg2}% chance to trigger: Gain ${arg3} stack(s) of the following effect: Water Bullet.\nGrant all of own Buddies: When the number of Water Buddies ≧ ${arg4}, on EX Skill, trigger: All enemies Water damage taken +${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 70,
+                        "arg3": 1,
+                        "arg4": 3,
+                        "arg5": 11,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When own Water Bullet = ${arg1} stack(s), on Basic Attack, there is a(n) ${arg2}% chance to trigger: Gain ${arg3} stack(s) of the following effect: Water Bullet.\nGrant all of own Buddies: When the number of Water Buddies ≧ ${arg4}, on EX Skill, trigger: All enemies Water damage taken +${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 70,
+                        "arg3": 1,
+                        "arg4": 3,
+                        "arg5": 11.67,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When own Water Bullet = ${arg1} stack(s), on Basic Attack, there is a(n) ${arg2}% chance to trigger: Gain ${arg3} stack(s) of the following effect: Water Bullet.\nGrant all of own Buddies: When the number of Water Buddies ≧ ${arg4}, on EX Skill, trigger: All enemies Water damage taken +${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 70,
+                        "arg3": 1,
+                        "arg4": 3,
+                        "arg5": 12.34,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When own Water Bullet = ${arg1} stack(s), on Basic Attack, there is a(n) ${arg2}% chance to trigger: Gain ${arg3} stack(s) of the following effect: Water Bullet.\nGrant all of own Buddies: When the number of Water Buddies ≧ ${arg4}, on EX Skill, trigger: All enemies Water damage taken +${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 70,
+                        "arg3": 1,
+                        "arg4": 3,
+                        "arg5": 13,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When own Water Bullet = ${arg1} stack(s), on Basic Attack, there is a(n) ${arg2}% chance to trigger: Gain ${arg3} stack(s) of the following effect: Water Bullet.\nGrant all of own Buddies: When the number of Water Buddies ≧ ${arg4}, on EX Skill, trigger: All enemies Water damage taken +${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 70,
+                        "arg3": 1,
+                        "arg4": 3,
+                        "arg5": 13.67,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When own Water Bullet = ${arg1} stack(s), on Basic Attack, there is a(n) ${arg2}% chance to trigger: Gain ${arg3} stack(s) of the following effect: Water Bullet.\nGrant all of own Buddies: When the number of Water Buddies ≧ ${arg4}, on EX Skill, trigger: All enemies Water damage taken +${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 70,
+                        "arg3": 1,
+                        "arg4": 3,
+                        "arg5": 14.34,
+                        "arg6": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When own Water Bullet = ${arg1} stack(s), on Basic Attack, there is a(n) ${arg2}% chance to trigger: Gain ${arg3} stack(s) of the following effect: Water Bullet.\nGrant all of own Buddies: When the number of Water Buddies ≧ ${arg4}, on EX Skill, trigger: All enemies Water damage taken +${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 70,
+                        "arg3": 1,
+                        "arg4": 3,
+                        "arg5": 15,
+                        "arg6": 3
+                    },
+                    "materials": {},
+                    "description": "When own Water Bullet = ${arg1} stack(s), on Basic Attack, there is a(n) ${arg2}% chance to trigger: Gain ${arg3} stack(s) of the following effect: Water Bullet.\nGrant all of own Buddies: When the number of Water Buddies ≧ ${arg4}, on EX Skill, trigger: All enemies Water damage taken +${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10422,
+            "name": "Water Burst",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 132,
+                        "arg2": 50,
+                        "arg3": 1,
+                        "arg4": 8,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nExcept self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg2}% chance to trigger: Target(s) gains/gain ${arg3} stack(s) of the following effect: Splashing Blessing.\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on attack, trigger: Target damage taken +${arg4}% for ${arg5} turn(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 141.78,
+                        "arg2": 50,
+                        "arg3": 1,
+                        "arg4": 8,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nExcept self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg2}% chance to trigger: Target(s) gains/gain ${arg3} stack(s) of the following effect: Splashing Blessing.\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on attack, trigger: Target damage taken +${arg4}% for ${arg5} turn(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 151.56,
+                        "arg2": 50,
+                        "arg3": 1,
+                        "arg4": 8,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nExcept self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg2}% chance to trigger: Target(s) gains/gain ${arg3} stack(s) of the following effect: Splashing Blessing.\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on attack, trigger: Target damage taken +${arg4}% for ${arg5} turn(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 161.34,
+                        "arg2": 50,
+                        "arg3": 1,
+                        "arg4": 8,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nExcept self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg2}% chance to trigger: Target(s) gains/gain ${arg3} stack(s) of the following effect: Splashing Blessing.\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on attack, trigger: Target damage taken +${arg4}% for ${arg5} turn(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 171.12,
+                        "arg2": 50,
+                        "arg3": 1,
+                        "arg4": 8,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nExcept self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg2}% chance to trigger: Target(s) gains/gain ${arg3} stack(s) of the following effect: Splashing Blessing.\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on attack, trigger: Target damage taken +${arg4}% for ${arg5} turn(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 180.89,
+                        "arg2": 50,
+                        "arg3": 1,
+                        "arg4": 8,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nExcept self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg2}% chance to trigger: Target(s) gains/gain ${arg3} stack(s) of the following effect: Splashing Blessing.\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on attack, trigger: Target damage taken +${arg4}% for ${arg5} turn(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 190.67,
+                        "arg2": 50,
+                        "arg3": 1,
+                        "arg4": 8,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nExcept self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg2}% chance to trigger: Target(s) gains/gain ${arg3} stack(s) of the following effect: Splashing Blessing.\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on attack, trigger: Target damage taken +${arg4}% for ${arg5} turn(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 200.45,
+                        "arg2": 50,
+                        "arg3": 1,
+                        "arg4": 8,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nExcept self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg2}% chance to trigger: Target(s) gains/gain ${arg3} stack(s) of the following effect: Splashing Blessing.\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on attack, trigger: Target damage taken +${arg4}% for ${arg5} turn(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 210.23,
+                        "arg2": 50,
+                        "arg3": 1,
+                        "arg4": 8,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nExcept self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg2}% chance to trigger: Target(s) gains/gain ${arg3} stack(s) of the following effect: Splashing Blessing.\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on attack, trigger: Target damage taken +${arg4}% for ${arg5} turn(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 220,
+                        "arg2": 50,
+                        "arg3": 1,
+                        "arg4": 8,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nExcept self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg2}% chance to trigger: Target(s) gains/gain ${arg3} stack(s) of the following effect: Splashing Blessing.\nGrant all of own Buddies: When locked target(s) is/are with Splashing Blessing, on attack, trigger: Target damage taken +${arg4}% for ${arg5} turn(s).",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

@@ -1,0 +1,1810 @@
+{
+    "info": {
+        "id": 10403,
+        "name": "Golden Ryder",
+        "feature": "Basic Attack Boost / Follow-up Hit",
+        "rarity": 4,
+        "class": 1,
+        "element": 1,
+        "baseHP": 2427,
+        "sign": "sign_V",
+        "baseATK": 514,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"You looking to ride a rickshaw,\nor ride m— Just kidding~ Haha!\"",
+    "interactions": {
+        "0": [
+            "Rodd always forgets to adjust his pants before a race, and then that thing'd start swinging back and forth! Haha~ It's funny!",
+            "Don't you find Rodd's angry face amusing...? Hehe~♪",
+            "Psst, Equinians love a good spanking. Don't tell Rodd that I spilled—!"
+        ],
+        "1": [
+            "Sure! Go ahead and grope all you want! We're friends, after all!",
+            "Hmm... Looks like Rodd's pecs are indeed bigger... Ah! But my XX is OO inches longer than his~!"
+        ],
+        "2": [
+            "Eh? Are you complimenting me? Hehe... Thanks~!",
+            "This scent...? You brought this for me? You're my number-one fan, haha!"
+        ],
+        "3": [
+            "Whoa~ Over here, Mr. Police! There's a pervert here~",
+            "My cheeks are firm, aren't they? Hehe~ The hips and legs are us Equinians' strength after all!",
+            "My shoulders are extra sore today. Can you give them a thorough rub? Haha~"
+        ],
+        "98": [
+            "Once again, first place—!"
+        ],
+        "99": [
+            "Wahhh—! Rodd~ They bullied me!"
+        ],
+        "100": [
+            "Today, I'll charge forward with all my might, too—!",
+            "Rodd locks himself in a tiny room like this before races to clear his head. Interesting, huh~?"
+        ]
+    },
+    "story": {
+        "1": "Golden Ryder, the Equinian, is actually called Delkon. His nickname, Golden Ryder, is usually used during races, while his actual name is less known. He grew up alongside Rodd, and their relationship is... well, it's hard to say for sure. They get along, but every time they talk, they end up quarreling.",
+        "2": "In the Equinian community, Delkon is responsible for the rickshaw business. The service originally started in the Seiran Wakoku area, but recently became available in Section Hunk as well. If you want to meet him, all you have to do is make an appointment online... Though it's notoriously hard to get a reservation. If you manage to get onto a rickshaw pulled by him without a reservation, it'd surely be quite a pleasant surprise!",
+        "3": "Delkon's muscular physique and outgoing personality have earned him a large fan base. But his biggest flaw is that he's widely recognized as extremely unable to read the room. For example, in an Equinian racing event, if Jet Black and he are in the same race, he will always stay just a little bit ahead of Jet Black, effortlessly chatting away with him. Instead of treating it like a race, it comes off more like he's seeing the other as a mere pacemaker. No wonder Jet Black seems to hold a bit of a grudge against him, as he's genuinely trying to win the race...\nIf you ask Delkon about his relationship with Jet Black, he'll tell you that they're super close friends. But if you ask Jet Black, you'll hear him go off in an unusual, angry rant about Delkon. Oh well, it looks like one of those love-hate relationships, right? They don't exactly hate each other, but their dynamics can be quite heated sometimes.",
+        "4": "While at work, Delkon is the type who would happily chat about racing with customers, unlike Rodd. His enthusiastic personality makes it easy for him to have enjoyable interactions with others. As for his inability to read the room... well, that's up to each person's tolerance.\nWant some trivia about him? Like Rodd, he's quite well-known, so you can find plenty about him online. For example, he enjoys eating grilled meat a lot."
+    },
+    "hookUp": {
+        "cards": [
+            80119,
+            80087,
+            80121
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 1,
+                    "text": "Heh~ You really know your stuff, don't you?"
+                },
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 1,
+                    "text": "Most Equinians love being smacked on the ass... but..."
+                },
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 1,
+                    "text": "Rodd enjoys it more than anyone else, you know~"
+                },
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 1,
+                    "text": "Whoa! I didn't mean to~!!!"
+                },
+                {
+                    "boundId": 80119,
+                    "speakerPosition": 0,
+                    "text": "Damn... I don't even know where to start with this..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80087,
+                    "speakerPosition": 1,
+                    "text": "Wow~! Is this for me?"
+                },
+                {
+                    "boundId": 80087,
+                    "speakerPosition": 1,
+                    "text": "Hahaha~ How did you know that I love carrots!"
+                },
+                {
+                    "boundId": 80087,
+                    "speakerPosition": 1,
+                    "text": "Mm! This carrot is pretty sweet!"
+                },
+                {
+                    "boundId": 80087,
+                    "speakerPosition": 1,
+                    "text": "(Munch, munch)"
+                },
+                {
+                    "boundId": 80087,
+                    "speakerPosition": 1,
+                    "text": "So, when are we starting? Is it a massage?"
+                },
+                {
+                    "boundId": 80087,
+                    "speakerPosition": 0,
+                    "text": "That was meant to stuff you up... Oh well, forget it."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80121,
+                    "speakerPosition": 1,
+                    "text": "Ugh... um... not bad!"
+                },
+                {
+                    "boundId": 80121,
+                    "speakerPosition": 1,
+                    "text": "Pulling rickshaws always puts a lot of strain on my legs... Mmm...!"
+                },
+                {
+                    "boundId": 80121,
+                    "speakerPosition": 1,
+                    "text": "No wonder so many people recommend this massage parlor!"
+                },
+                {
+                    "boundId": 80121,
+                    "speakerPosition": 0,
+                    "text": "......"
+                },
+                {
+                    "boundId": 80121,
+                    "speakerPosition": 1,
+                    "text": "Wait... it is a massage parlor... right?"
+                },
+                {
+                    "boundId": 80121,
+                    "speakerPosition": 0,
+                    "text": "...You'll pay for this."
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Wow! This is totally useless!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Damn it!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Huh~? I don't want this!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Are you actually being picky?!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "What is this... Uh?! Why is it gone...?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Because that's just how this world works, you idiot!!!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Keep Up With Me!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32101,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32111,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32111,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32121,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32131,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32141,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "First Place is Easy!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 3,
+                        "arg3": 30,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 54
+                        },
+                        {
+                            "id": 32102,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 32.23,
+                        "arg2": 3,
+                        "arg3": 32.23,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 63
+                        },
+                        {
+                            "id": 32102,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 34.45,
+                        "arg2": 3,
+                        "arg3": 34.45,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 63
+                        },
+                        {
+                            "id": 32112,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 36.67,
+                        "arg2": 3,
+                        "arg3": 36.67,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 72
+                        },
+                        {
+                            "id": 32112,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 38.89,
+                        "arg2": 3,
+                        "arg3": 38.89,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 72
+                        },
+                        {
+                            "id": 32122,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 41.12,
+                        "arg2": 3,
+                        "arg3": 41.12,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 81
+                        },
+                        {
+                            "id": 32122,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 43.34,
+                        "arg2": 3,
+                        "arg3": 43.34,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 81
+                        },
+                        {
+                            "id": 32132,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 45.56,
+                        "arg2": 3,
+                        "arg3": 45.56,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 90
+                        },
+                        {
+                            "id": 32132,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 47.78,
+                        "arg2": 3,
+                        "arg3": 47.78,
+                        "arg4": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32141,
+                            "count": 90
+                        },
+                        {
+                            "id": 32142,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 3,
+                        "arg3": 50,
+                        "arg4": 3
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "I'm Going All Out!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 6,
+                        "arg3": 2,
+                        "arg4": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "At the start of battle, gain 6 stacks of Blazing Stride.\nOn attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nBlazing Stride: Own Basic Attack damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 6.45,
+                        "arg3": 2,
+                        "arg4": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "At the start of battle, gain 6 stacks of Blazing Stride.\nOn attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nBlazing Stride: Own Basic Attack damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 6.89,
+                        "arg3": 2,
+                        "arg4": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "At the start of battle, gain 6 stacks of Blazing Stride.\nOn attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nBlazing Stride: Own Basic Attack damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 7.34,
+                        "arg3": 2,
+                        "arg4": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "At the start of battle, gain 6 stacks of Blazing Stride.\nOn attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nBlazing Stride: Own Basic Attack damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 7.78,
+                        "arg3": 2,
+                        "arg4": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "At the start of battle, gain 6 stacks of Blazing Stride.\nOn attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nBlazing Stride: Own Basic Attack damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 8.23,
+                        "arg3": 2,
+                        "arg4": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "At the start of battle, gain 6 stacks of Blazing Stride.\nOn attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nBlazing Stride: Own Basic Attack damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 8.67,
+                        "arg3": 2,
+                        "arg4": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "At the start of battle, gain 6 stacks of Blazing Stride.\nOn attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nBlazing Stride: Own Basic Attack damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 9.12,
+                        "arg3": 2,
+                        "arg4": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "At the start of battle, gain 6 stacks of Blazing Stride.\nOn attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nBlazing Stride: Own Basic Attack damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 9.56,
+                        "arg3": 2,
+                        "arg4": 6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "At the start of battle, gain 6 stacks of Blazing Stride.\nOn attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nBlazing Stride: Own Basic Attack damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 10,
+                        "arg3": 2,
+                        "arg4": 6
+                    },
+                    "materials": {},
+                    "description": "At the start of battle, gain 6 stacks of Blazing Stride.\nOn attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nBlazing Stride: Own Basic Attack damage dealt +${arg2}% for ${arg3} turn(s), up to ${arg4} stack(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "I'm Fired Up—!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 12,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When attacked, trigger: Gain 1 stack of Blazing Stride, and own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 12.89,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When attacked, trigger: Gain 1 stack of Blazing Stride, and own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 13.78,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When attacked, trigger: Gain 1 stack of Blazing Stride, and own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 14.67,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When attacked, trigger: Gain 1 stack of Blazing Stride, and own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 15.56,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When attacked, trigger: Gain 1 stack of Blazing Stride, and own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 16.45,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When attacked, trigger: Gain 1 stack of Blazing Stride, and own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 17.34,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When attacked, trigger: Gain 1 stack of Blazing Stride, and own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 18.23,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When attacked, trigger: Gain 1 stack of Blazing Stride, and own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 19.12,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When attacked, trigger: Gain 1 stack of Blazing Stride, and own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 20,
+                        "arg2": 2
+                    },
+                    "materials": {},
+                    "description": "When attacked, trigger: Gain 1 stack of Blazing Stride, and own damage dealt +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "The Fiercest Race",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 30,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nOn EX Skill, gain: On Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s), for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 32.23,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nOn EX Skill, gain: On Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s), for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 34.45,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nOn EX Skill, gain: On Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s), for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 36.67,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nOn EX Skill, gain: On Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s), for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 38.89,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nOn EX Skill, gain: On Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s), for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 41.12,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nOn EX Skill, gain: On Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s), for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 43.34,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nOn EX Skill, gain: On Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s), for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 45.56,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nOn EX Skill, gain: On Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s), for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 47.78,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nOn EX Skill, gain: On Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s), for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 50,
+                        "arg3": 3
+                    },
+                    "materials": {},
+                    "description": "On attack, there is a(n) ${arg1}% chance to trigger: Gain 1 stack of Blazing Stride.\nOn EX Skill, gain: On Basic Attack, trigger: Deal damage ${arg2}% of own ATK to target(s), for ${arg3} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10403,
+            "name": "First Place is Easy!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 3,
+                        "arg3": 60,
+                        "arg4": 3,
+                        "arg5": 33
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).\nSigil Passive:\nOn attack, there is a(n) ${arg5}% chance to trigger: Gain 1 stack of Blazing Stride.",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 32.23,
+                        "arg2": 3,
+                        "arg3": 64.45,
+                        "arg4": 3,
+                        "arg5": 33
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).\nSigil Passive:\nOn attack, there is a(n) ${arg5}% chance to trigger: Gain 1 stack of Blazing Stride.",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 34.45,
+                        "arg2": 3,
+                        "arg3": 68.89,
+                        "arg4": 3,
+                        "arg5": 33
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).\nSigil Passive:\nOn attack, there is a(n) ${arg5}% chance to trigger: Gain 1 stack of Blazing Stride.",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 36.67,
+                        "arg2": 3,
+                        "arg3": 73.34,
+                        "arg4": 3,
+                        "arg5": 33
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).\nSigil Passive:\nOn attack, there is a(n) ${arg5}% chance to trigger: Gain 1 stack of Blazing Stride.",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 38.89,
+                        "arg2": 3,
+                        "arg3": 77.78,
+                        "arg4": 3,
+                        "arg5": 33
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).\nSigil Passive:\nOn attack, there is a(n) ${arg5}% chance to trigger: Gain 1 stack of Blazing Stride.",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 41.12,
+                        "arg2": 3,
+                        "arg3": 82.23,
+                        "arg4": 3,
+                        "arg5": 33
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).\nSigil Passive:\nOn attack, there is a(n) ${arg5}% chance to trigger: Gain 1 stack of Blazing Stride.",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 43.34,
+                        "arg2": 3,
+                        "arg3": 86.67,
+                        "arg4": 3,
+                        "arg5": 33
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).\nSigil Passive:\nOn attack, there is a(n) ${arg5}% chance to trigger: Gain 1 stack of Blazing Stride.",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 45.56,
+                        "arg2": 3,
+                        "arg3": 91.12,
+                        "arg4": 3,
+                        "arg5": 33
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).\nSigil Passive:\nOn attack, there is a(n) ${arg5}% chance to trigger: Gain 1 stack of Blazing Stride.",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 47.78,
+                        "arg2": 3,
+                        "arg3": 95.56,
+                        "arg4": 3,
+                        "arg5": 33
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).\nSigil Passive:\nOn attack, there is a(n) ${arg5}% chance to trigger: Gain 1 stack of Blazing Stride.",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 3,
+                        "arg3": 100,
+                        "arg4": 3,
+                        "arg5": 33
+                    },
+                    "materials": {},
+                    "description": "Own Basic Attack damage dealt +${arg1}% for ${arg2} turn(s).\nOn Basic Attack, trigger: Deal damage ${arg3}% of own ATK to target(s), for ${arg4} turn(s).\nSigil Passive:\nOn attack, there is a(n) ${arg5}% chance to trigger: Gain 1 stack of Blazing Stride.",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true
+    }
+}

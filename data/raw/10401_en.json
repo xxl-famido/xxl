@@ -1,0 +1,1815 @@
+{
+    "info": {
+        "id": 10401,
+        "name": "Hellhound Anuberus",
+        "feature": "Multi-Built-in Damage Buff",
+        "rarity": 4,
+        "class": 5,
+        "element": 5,
+        "baseHP": 2791,
+        "sign": "sign_V",
+        "baseATK": 592,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Yay hey hey~\" \"Nee hee hee~\"\n\"Both of you, quiet down!!!\"",
+    "interactions": {
+        "0": [
+            "What should I get for dinner...? Koshari? Or just a rice pudding?",
+            "Do you have any recommendations for the latest anime or games? I'm getting tired of the games I'm playing.",
+            "Hah... haha, your touch feels ticklish—reminds me of that jerk, Benu."
+        ],
+        "1": [
+            "Your heart needs to lose weight, doesn't it? It's so fat it can feed an alligator. Just kidding. It's a joke from the elders back home.",
+            "Ah, hey! Don't fondle like that! Blackey and Whitey will...!",
+            "Stop... stop, sniffing like that will drive me nuts."
+        ],
+        "2": [
+            "...Back in the old days, if you dared to play with the head of us Anubis in such a casual way, you would have been in trouble."
+        ],
+        "3": [
+            "Hey hey... can't keep your hands off me? I prefer the front over the back!",
+            "Oh...? Teasing me like that. Do you want to see my thick, black obelisk?",
+            "How's that? My balls feel pretty great, don't they?"
+        ],
+        "98": [
+            "Put your hands behind your back and stay there... or I'll mummify every one of you!"
+        ],
+        "99": [
+            "Guh....! These guys... how dare they break in?"
+        ],
+        "100": [
+            "Though my hometown is a bit remote, there is a vast reed plain. If you wish, let me take you there.",
+            "Compared to my usual games, this feels way more thrilling..."
+        ]
+    },
+    "story": {
+        "1": "Anuberus is a new-generation being born from the integration of Netherworld affairs of various regions—a hybrid of Cerberus and Anubis. He belongs to the Discipline Division of the Department of Management of the Dead, and his regular duties include guarding the entrance to the \"Club Zone\" that leads to the Netherworld.\nHowever, since the Netherworld is always dim and dark, this essentially means he works nearly 24 hours a day, and it sounds like an incredibly exhausting and daunting job.",
+        "2": "Anuberus has 3 heads, each with its distinct personality and thoughts. While they are all called Anuberus, in order to better address them, people prefer to use nicknames based on the color of their ears—Yelloy, Blackey, and Whitey. It may sound informal, but it's quite convenient when they refer to each other. The 3 heads can coordinate independently and freely decide who controls the body at any given time, though only 1 head can be in charge at a time.",
+        "3": "Although they each have their own shifts standing guard, Blackey is too complacent while Whitey is too much of a troublemaker, so Yelloy usually ends up handling the entrance duty. He's hardworking and patient, but even when he gets tired of long shifts and hands over the duty to Blackey or Whitey, he can't fully relax, as he still worries about them. That's why whenever he has his time off, he treasures it and stays home all day to rest.\nAs kids, they all loved playing in the cemetery, with no major differences in interests or preferences. However, as they grew up, Yelloy developed a stronger fondness for staying at home, playing video games, watching anime, and reading comics—habits that Whitey and Blackey find difficult to understand, as such things weren't popular in their hometown.",
+        "4": "Though the 3 heads have different personalities, their food preferences surprisingly align. Anuberus is a big fan of meat, enjoys extremely sweet desserts, and loves date candy. They're the type of person who could skip a main meal but cannot resist sweets. They once stockpiled huge amounts of canned black tea and coke and always kept rice puddings in the fridge.\nAdditionally, Anuberus is strongly averse to classical music (it makes him drowsy). As for shared hobbies, they all like anime character figures, but more specifically, they enjoy the \"process\" of maintaining and preserving them, as they can't stand having anything rotting or yellowing."
+    },
+    "hookUp": {
+        "cards": [
+            80075,
+            80122,
+            80128
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "This thing is... Bennu's?"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "No... this doesn't feel quite the same."
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "......!"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "—!"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "~ ~ ~"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "As you can see, Whitey is very ticklish, and this feather that looks like Bennu's is still warm."
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "Ah, hey! Not my nipples...! That feels hot and tickles... ugh... ahhaha!"
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 1,
+                    "text": "—That's what he said."
+                },
+                {
+                    "boundId": 80075,
+                    "speakerPosition": 0,
+                    "text": "So this is Whitey's sensitive spot... Alright~ alright!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80122,
+                    "speakerPosition": 1,
+                    "text": "Um...!"
+                },
+                {
+                    "boundId": 80122,
+                    "speakerPosition": 1,
+                    "text": "Rubbing my balls like this... hmm."
+                },
+                {
+                    "boundId": 80122,
+                    "speakerPosition": 1,
+                    "text": "Not bad... Are you doing this because you want me?"
+                },
+                {
+                    "boundId": 80122,
+                    "speakerPosition": 1,
+                    "text": "If you underestimate my \"obelisk,\" you'll pay the price!"
+                },
+                {
+                    "boundId": 80122,
+                    "speakerPosition": 1,
+                    "text": "Prepare to see what I can do to you... Hah...!"
+                },
+                {
+                    "boundId": 80122,
+                    "speakerPosition": 0,
+                    "text": "Yelloy's black hanging balls are so alluring, just like two big, fat medjool dates♡"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 1,
+                    "text": "—!"
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 1,
+                    "text": "~ ~ ~!"
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 1,
+                    "text": "Licking the armpits... Not my thing, but Blackey loves it."
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 1,
+                    "text": "...Surprised? Though it is the same body, it feels differently for the three of us."
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 1,
+                    "text": "~ ~ ~♡"
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 1,
+                    "text": "Wowieee—! Wonderful, good job!"
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 1,
+                    "text": "...That's what Blackey said."
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 0,
+                    "text": "As for Anuberus... Exploring his body is like exploring three people at once... and Blackey likes the armpit."
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "He clearly has the power to create these strange objects, but his skill in actually handling them is quite mediocre."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "~ ~ ~!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Blackey is also laughing at you."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Ah..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "The day-offs given by human resources are very precious. If you have nothing new, I'll be leaving..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "~ ~ ~ !"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Shut up...! I'm going straight home, who wants to get laid at the graveyard?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I can't believe they started chatting amongst themselves...!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "...?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "...?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "~ ~ ~!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "To put it simply, they're laughing at you..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Just you wait and see..."
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Cyclone of Batons",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32501,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32501,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32511,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32511,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32521,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32531,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32541,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Nee Hee~ We're Here!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 48
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 54
+                        },
+                        {
+                            "id": 32502,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 51.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32501,
+                            "count": 63
+                        },
+                        {
+                            "id": 32502,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 55.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32511,
+                            "count": 63
+                        },
+                        {
+                            "id": 32512,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 58.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32511,
+                            "count": 72
+                        },
+                        {
+                            "id": 32512,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 62.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 72
+                        },
+                        {
+                            "id": 32522,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 65.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 81
+                        },
+                        {
+                            "id": 32522,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 69.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32531,
+                            "count": 81
+                        },
+                        {
+                            "id": 32532,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 72.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32531,
+                            "count": 90
+                        },
+                        {
+                            "id": 32532,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 76.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32541,
+                            "count": 90
+                        },
+                        {
+                            "id": 32542,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 80
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "Dark ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 7.2,
+                        "arg2": 3.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Dark Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 7.74,
+                        "arg2": 3.87
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Dark Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 8.27,
+                        "arg2": 4.14
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Dark Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 8.8,
+                        "arg2": 4.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Dark Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 9.34,
+                        "arg2": 4.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Dark Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 9.87,
+                        "arg2": 4.94
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Dark Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 10.4,
+                        "arg2": 5.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Dark Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 10.94,
+                        "arg2": 5.47
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Dark Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 11.47,
+                        "arg2": 5.74
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Dark Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 12,
+                        "arg2": 6
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Dark Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Discipline Division",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 32,
+                        "arg2": 2,
+                        "arg3": 4.5,
+                        "arg4": 3,
+                        "arg5": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When taking an action, there is a(n) ${arg1}% chance to awaken \"Blackey\" or \"Whitey\" for ${arg2} turn(s).\nWith \"Blackey\" or \"Whitey,\" on attack, trigger: Target Dark damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 34,
+                        "arg2": 2,
+                        "arg3": 4.84,
+                        "arg4": 3,
+                        "arg5": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When taking an action, there is a(n) ${arg1}% chance to awaken \"Blackey\" or \"Whitey\" for ${arg2} turn(s).\nWith \"Blackey\" or \"Whitey,\" on attack, trigger: Target Dark damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 36,
+                        "arg2": 2,
+                        "arg3": 5.17,
+                        "arg4": 3,
+                        "arg5": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When taking an action, there is a(n) ${arg1}% chance to awaken \"Blackey\" or \"Whitey\" for ${arg2} turn(s).\nWith \"Blackey\" or \"Whitey,\" on attack, trigger: Target Dark damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 38,
+                        "arg2": 2,
+                        "arg3": 5.5,
+                        "arg4": 3,
+                        "arg5": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When taking an action, there is a(n) ${arg1}% chance to awaken \"Blackey\" or \"Whitey\" for ${arg2} turn(s).\nWith \"Blackey\" or \"Whitey,\" on attack, trigger: Target Dark damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 40,
+                        "arg2": 2,
+                        "arg3": 5.84,
+                        "arg4": 3,
+                        "arg5": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When taking an action, there is a(n) ${arg1}% chance to awaken \"Blackey\" or \"Whitey\" for ${arg2} turn(s).\nWith \"Blackey\" or \"Whitey,\" on attack, trigger: Target Dark damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 42,
+                        "arg2": 2,
+                        "arg3": 6.17,
+                        "arg4": 3,
+                        "arg5": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When taking an action, there is a(n) ${arg1}% chance to awaken \"Blackey\" or \"Whitey\" for ${arg2} turn(s).\nWith \"Blackey\" or \"Whitey,\" on attack, trigger: Target Dark damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 44,
+                        "arg2": 2,
+                        "arg3": 6.5,
+                        "arg4": 3,
+                        "arg5": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When taking an action, there is a(n) ${arg1}% chance to awaken \"Blackey\" or \"Whitey\" for ${arg2} turn(s).\nWith \"Blackey\" or \"Whitey,\" on attack, trigger: Target Dark damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 46,
+                        "arg2": 2,
+                        "arg3": 6.84,
+                        "arg4": 3,
+                        "arg5": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When taking an action, there is a(n) ${arg1}% chance to awaken \"Blackey\" or \"Whitey\" for ${arg2} turn(s).\nWith \"Blackey\" or \"Whitey,\" on attack, trigger: Target Dark damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 48,
+                        "arg2": 2,
+                        "arg3": 7.17,
+                        "arg4": 3,
+                        "arg5": 4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When taking an action, there is a(n) ${arg1}% chance to awaken \"Blackey\" or \"Whitey\" for ${arg2} turn(s).\nWith \"Blackey\" or \"Whitey,\" on attack, trigger: Target Dark damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 2,
+                        "arg3": 7.5,
+                        "arg4": 3,
+                        "arg5": 4
+                    },
+                    "materials": {},
+                    "description": "When taking an action, there is a(n) ${arg1}% chance to awaken \"Blackey\" or \"Whitey\" for ${arg2} turn(s).\nWith \"Blackey\" or \"Whitey,\" on attack, trigger: Target Dark damage taken +${arg3}% for ${arg4} turn(s), up to ${arg5} stack(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Nether Heart Scale",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 30
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "With \"Blackey\" or \"Whitey,\" on attack, trigger: Target(s) gains/gain 1 stack of Hellhound for 3 turns, up to 4 stacks.\nOn EX Skill, trigger the same number of times as the enemies' total stack(s) of Hellhound: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 32.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "With \"Blackey\" or \"Whitey,\" on attack, trigger: Target(s) gains/gain 1 stack of Hellhound for 3 turns, up to 4 stacks.\nOn EX Skill, trigger the same number of times as the enemies' total stack(s) of Hellhound: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 34.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "With \"Blackey\" or \"Whitey,\" on attack, trigger: Target(s) gains/gain 1 stack of Hellhound for 3 turns, up to 4 stacks.\nOn EX Skill, trigger the same number of times as the enemies' total stack(s) of Hellhound: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 36.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "With \"Blackey\" or \"Whitey,\" on attack, trigger: Target(s) gains/gain 1 stack of Hellhound for 3 turns, up to 4 stacks.\nOn EX Skill, trigger the same number of times as the enemies' total stack(s) of Hellhound: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 38.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "With \"Blackey\" or \"Whitey,\" on attack, trigger: Target(s) gains/gain 1 stack of Hellhound for 3 turns, up to 4 stacks.\nOn EX Skill, trigger the same number of times as the enemies' total stack(s) of Hellhound: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 41.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "With \"Blackey\" or \"Whitey,\" on attack, trigger: Target(s) gains/gain 1 stack of Hellhound for 3 turns, up to 4 stacks.\nOn EX Skill, trigger the same number of times as the enemies' total stack(s) of Hellhound: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 43.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "With \"Blackey\" or \"Whitey,\" on attack, trigger: Target(s) gains/gain 1 stack of Hellhound for 3 turns, up to 4 stacks.\nOn EX Skill, trigger the same number of times as the enemies' total stack(s) of Hellhound: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 45.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "With \"Blackey\" or \"Whitey,\" on attack, trigger: Target(s) gains/gain 1 stack of Hellhound for 3 turns, up to 4 stacks.\nOn EX Skill, trigger the same number of times as the enemies' total stack(s) of Hellhound: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 47.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "With \"Blackey\" or \"Whitey,\" on attack, trigger: Target(s) gains/gain 1 stack of Hellhound for 3 turns, up to 4 stacks.\nOn EX Skill, trigger the same number of times as the enemies' total stack(s) of Hellhound: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50
+                    },
+                    "materials": {},
+                    "description": "With \"Blackey\" or \"Whitey,\" on attack, trigger: Target(s) gains/gain 1 stack of Hellhound for 3 turns, up to 4 stacks.\nOn EX Skill, trigger the same number of times as the enemies' total stack(s) of Hellhound: Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Mute OFF",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 16.2,
+                        "arg2": 16.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "With Blackey, own EX Skill effect +${arg1}%.\nWith Whitey, own EX Skill effect +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 17.4,
+                        "arg2": 17.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "With Blackey, own EX Skill effect +${arg1}%.\nWith Whitey, own EX Skill effect +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 18.6,
+                        "arg2": 18.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "With Blackey, own EX Skill effect +${arg1}%.\nWith Whitey, own EX Skill effect +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 19.8,
+                        "arg2": 19.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "With Blackey, own EX Skill effect +${arg1}%.\nWith Whitey, own EX Skill effect +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 21,
+                        "arg2": 21
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "With Blackey, own EX Skill effect +${arg1}%.\nWith Whitey, own EX Skill effect +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 22.2,
+                        "arg2": 22.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "With Blackey, own EX Skill effect +${arg1}%.\nWith Whitey, own EX Skill effect +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 23.4,
+                        "arg2": 23.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "With Blackey, own EX Skill effect +${arg1}%.\nWith Whitey, own EX Skill effect +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 24.6,
+                        "arg2": 24.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "With Blackey, own EX Skill effect +${arg1}%.\nWith Whitey, own EX Skill effect +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 25.8,
+                        "arg2": 25.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "With Blackey, own EX Skill effect +${arg1}%.\nWith Whitey, own EX Skill effect +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 27,
+                        "arg2": 27
+                    },
+                    "materials": {},
+                    "description": "With Blackey, own EX Skill effect +${arg1}%.\nWith Whitey, own EX Skill effect +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10401,
+            "name": "Nee Hee~ We're Here!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 48,
+                        "arg2": 18
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.\nSigil Passive:\nWith Blackey or Whitey, on attack, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 51.56,
+                        "arg2": 19.34
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.\nSigil Passive:\nWith Blackey or Whitey, on attack, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 55.12,
+                        "arg2": 20.67
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.\nSigil Passive:\nWith Blackey or Whitey, on attack, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 58.67,
+                        "arg2": 22
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.\nSigil Passive:\nWith Blackey or Whitey, on attack, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 62.23,
+                        "arg2": 23.34
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.\nSigil Passive:\nWith Blackey or Whitey, on attack, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 65.78,
+                        "arg2": 24.67
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.\nSigil Passive:\nWith Blackey or Whitey, on attack, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 69.34,
+                        "arg2": 26
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.\nSigil Passive:\nWith Blackey or Whitey, on attack, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 72.89,
+                        "arg2": 27.34
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.\nSigil Passive:\nWith Blackey or Whitey, on attack, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 76.45,
+                        "arg2": 28.67
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.\nSigil Passive:\nWith Blackey or Whitey, on attack, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 80,
+                        "arg2": 30
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to enemies in Positions 1, 3, and 5. If no target exists, attack 1 random enemy instead.\nSigil Passive:\nWith Blackey or Whitey, on attack, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true
+    }
+}

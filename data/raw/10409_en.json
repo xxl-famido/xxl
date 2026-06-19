@@ -1,0 +1,1824 @@
+{
+    "info": {
+        "id": 10409,
+        "name": "Capt. Locke",
+        "feature": "Low HP Follow-Up Damage",
+        "rarity": 4,
+        "class": 1,
+        "element": 2,
+        "baseHP": 2310,
+        "sign": "sign_V",
+        "baseATK": 540,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Kahaha! Set sail, lads—!\nThe Proud Shark, full speed—!\"",
+    "interactions": {
+        "0": [
+            "What's the Proud Shark gonna rig up next...? Oh! A sky-piercin' giant drill sounds like a fine catch, kahahaha—!",
+            "Oho...? Darin' to tease yer captain, eh? Ye've got some serious stones!"
+        ],
+        "1": [
+            "These pecs look like a ragin' ocean storm, don't they? Kahahaha!",
+            "Ye've got some grip there, kid! Fancy signin' on to work me ship, eh?"
+        ],
+        "2": [
+            "Hmm? Eyein' me fins, are ye...? Go on then, cop a feel and be damn grateful for it! Kahaha—!"
+        ],
+        "3": [
+            "Gah! Keep yer hands off there...! I'm startin' to think ye're tired o' breathin'!",
+            "Oi, flirtin' with me, are ye? I'll take that challenge. Let's haul back to me quarters for a proper romp, kahahaha!",
+            "Me twin cocks have got yer competitive streak fired up? Let's have a duel, ha!",
+            "Starin' at me junk all day? Come taste it yerself! Gahaha~",
+            "Gah? Wanna see me with just one? You hit yer head or something?"
+        ],
+        "98": [
+            "Kahaha—! Time for the victory jig! Captain Shark, doo-doo-doo-doo-doo-doo~!"
+        ],
+        "99": [
+            "Gah...! Damn it... that stinkin' orca's gonna show me up...!"
+        ],
+        "100": [
+            "I ain't some dockside run-of-the-mill top... I'm a top-tier V with two fine batons! Kahahaha—!",
+            "Usually, I'm the one goin' after that musky scent, but switchin' it up feels kinda nice."
+        ]
+    },
+    "story": {
+        "1": "Capt. Locke is a shark Beastfolk from the Draconic Depths. He serves as the captain of the armed warship, the Proud Shark. His formal name is written as Capt. Locke, and when pronounced, there should be a slight pause between \"Capt.\" and \"Locke.\" However, most people, including himself, find it a bit tedious and simply call him \"Captlocke\" or Captain Locke. Although he is affiliated with the Draconic Depths, it seems that he isn't particularly fond of the dragon Beastfolks.",
+        "2": "With the Proud Shark, Capt. Locke takes on various adventures across the seas. However, he sometimes carries out cargo delivery tasks or hosts cruise parties upon request from the dragon Beastfolks of the Draconic Depths. The cruise parties hosted aboard the Proud Shark are renowned throughout WOOFIA, and tickets for these events often sell out in a frenzy. From the experiences shared by attendees, it is considered a once-in-a-lifetime must-do experience.",
+        "3": "Capt. Locke's personality is just as wild as he appears. He is not the type of disciplined captain that only follows the rules. To be blunt, he can even be described as a bit chaotic. It's not uncommon to see him causing a ruckus on social media with some bizarre incident he caused in the Draconic Depths. Although he may not realize it himself, his unruly and carefree personality seems to make him quite popular among his crew, quite a unique charm exclusive to Captain Locke.",
+        "4": "Capt. Locke has a noticeable speech quirk where he often laughs with a \"kaha\" or \"gaha\" sound. While distinctive, it also comes across as quite sarcastic to others. This may be linked to his past as a pirate. Though he graduated from a formal military academy, he never pursued a position as an ocean patrol officer or anything related to the Draconic Depths. Instead, he ended up becoming a pirate, likely due to some unresolved issues with his academy peer, Patrol Officer, Orem. To be fair, while Capt. Locke is undeniably striking and charismatic as a captain, his personality is much better suited for a pirate."
+    },
+    "hookUp": {
+        "cards": [
+            80130,
+            80133,
+            80081
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80130,
+                    "speakerPosition": 1,
+                    "text": "Eh? Ye think ye got the guts for a proper sword fight with ol' me?"
+                },
+                {
+                    "boundId": 80130,
+                    "speakerPosition": 1,
+                    "text": "Kahahaha—!!"
+                },
+                {
+                    "boundId": 80130,
+                    "speakerPosition": 1,
+                    "text": "Gaha—! Bold little thing, I'll give ye that!"
+                },
+                {
+                    "boundId": 80130,
+                    "speakerPosition": 1,
+                    "text": "But d'ye honestly reckon ye can take on both o' me beauties?"
+                },
+                {
+                    "boundId": 80130,
+                    "speakerPosition": 1,
+                    "text": "Let's see if ye can last a measly 10 seconds... Ha!"
+                },
+                {
+                    "boundId": 80130,
+                    "speakerPosition": 0,
+                    "text": "Agh... ahhh! I'm double-teamed...! Ughahh!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80133,
+                    "speakerPosition": 1,
+                    "text": "Gahahh—!"
+                },
+                {
+                    "boundId": 80133,
+                    "speakerPosition": 1,
+                    "text": "Ye little slut... Ye definitely have yer eye on my doublet."
+                },
+                {
+                    "boundId": 80133,
+                    "speakerPosition": 1,
+                    "text": "Can't blame ye~ It's nothing new that my shafts are so captivating!"
+                },
+                {
+                    "boundId": 80133,
+                    "speakerPosition": 1,
+                    "text": "If ye like 'em so much, suck 'em as if yer life depends on it... Ghahaha!"
+                },
+                {
+                    "boundId": 80133,
+                    "speakerPosition": 0,
+                    "text": "Left, right, left, right, right, left... What a delight...!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 1,
+                    "text": "Kahaaa! This cock ring... not bad!"
+                },
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 1,
+                    "text": "It trusses up my 2 big cocks all nice 'n tight."
+                },
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 1,
+                    "text": "My cocks be lookin' even larger and thicker like this!"
+                },
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 1,
+                    "text": "Who should I fuck with this girthy meat...?"
+                },
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 1,
+                    "text": "Infatuated lovers? Newly wedded husbands?"
+                },
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 1,
+                    "text": "Kahahaha— !! I almost came just thinkin' about it!"
+                },
+                {
+                    "boundId": 80081,
+                    "speakerPosition": 0,
+                    "text": "What an awful personality..."
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Kahahaha! That's it?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "What an awful laugh..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "...Gah?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Though he didn't even say anything, it seems to piss me off more...!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "This is 'bout as demotivatin' as seein' that orca jerk..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I—I've got something better that I haven't shown you...!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Hunting Strike",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32101,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32111,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32111,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32121,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32131,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32141,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Wild Cannons",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 120
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 54
+                        },
+                        {
+                            "id": 32102,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 128.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 63
+                        },
+                        {
+                            "id": 32102,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 137.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 63
+                        },
+                        {
+                            "id": 32112,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 146.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 72
+                        },
+                        {
+                            "id": 32112,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 155.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 72
+                        },
+                        {
+                            "id": 32122,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 164.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 81
+                        },
+                        {
+                            "id": 32122,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 173.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 81
+                        },
+                        {
+                            "id": 32132,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 182.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 90
+                        },
+                        {
+                            "id": 32132,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 191.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32141,
+                            "count": 90
+                        },
+                        {
+                            "id": 32142,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 200
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Shark Chase",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 9,
+                        "arg3": 3,
+                        "arg4": 50,
+                        "arg5": 25
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When locked target HP < ${arg1}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg4}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg5}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 9.67,
+                        "arg3": 3,
+                        "arg4": 50,
+                        "arg5": 25
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target HP < ${arg1}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg4}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg5}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 10.34,
+                        "arg3": 3,
+                        "arg4": 50,
+                        "arg5": 25
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target HP < ${arg1}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg4}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg5}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 11,
+                        "arg3": 3,
+                        "arg4": 50,
+                        "arg5": 25
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target HP < ${arg1}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg4}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg5}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 11.67,
+                        "arg3": 3,
+                        "arg4": 50,
+                        "arg5": 25
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target HP < ${arg1}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg4}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg5}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 12.34,
+                        "arg3": 3,
+                        "arg4": 50,
+                        "arg5": 25
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target HP < ${arg1}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg4}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg5}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 13,
+                        "arg3": 3,
+                        "arg4": 50,
+                        "arg5": 25
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target HP < ${arg1}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg4}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg5}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 13.67,
+                        "arg3": 3,
+                        "arg4": 50,
+                        "arg5": 25
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target HP < ${arg1}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg4}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg5}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 14.34,
+                        "arg3": 3,
+                        "arg4": 50,
+                        "arg5": 25
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target HP < ${arg1}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg4}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg5}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 75,
+                        "arg2": 15,
+                        "arg3": 3,
+                        "arg4": 50,
+                        "arg5": 25
+                    },
+                    "materials": {},
+                    "description": "When locked target HP < ${arg1}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg4}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).\nWhen locked target HP < ${arg5}%, own damage dealt +${arg2}%, up to ${arg3} stack(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Raging Seas",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 2,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When attacked, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 3.23,
+                        "arg2": 2,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When attacked, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 3.45,
+                        "arg2": 2,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When attacked, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 3.67,
+                        "arg2": 2,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When attacked, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 3.89,
+                        "arg2": 2,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When attacked, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 4.12,
+                        "arg2": 2,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When attacked, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 4.34,
+                        "arg2": 2,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When attacked, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 4.56,
+                        "arg2": 2,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When attacked, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 4.78,
+                        "arg2": 2,
+                        "arg3": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When attacked, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 5,
+                        "arg2": 2,
+                        "arg3": 3
+                    },
+                    "materials": {},
+                    "description": "When attacked, trigger: Own damage dealt +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Bloodthirst",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 60,
+                        "arg3": 25,
+                        "arg4": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When own Bloodthirst Mark ≧ ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen locked target HP < ${arg3}%, on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 64.45,
+                        "arg3": 25,
+                        "arg4": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When own Bloodthirst Mark ≧ ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen locked target HP < ${arg3}%, on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 68.89,
+                        "arg3": 25,
+                        "arg4": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When own Bloodthirst Mark ≧ ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen locked target HP < ${arg3}%, on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 73.34,
+                        "arg3": 25,
+                        "arg4": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When own Bloodthirst Mark ≧ ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen locked target HP < ${arg3}%, on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 77.78,
+                        "arg3": 25,
+                        "arg4": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When own Bloodthirst Mark ≧ ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen locked target HP < ${arg3}%, on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 82.23,
+                        "arg3": 25,
+                        "arg4": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When own Bloodthirst Mark ≧ ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen locked target HP < ${arg3}%, on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 86.67,
+                        "arg3": 25,
+                        "arg4": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When own Bloodthirst Mark ≧ ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen locked target HP < ${arg3}%, on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 91.12,
+                        "arg3": 25,
+                        "arg4": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When own Bloodthirst Mark ≧ ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen locked target HP < ${arg3}%, on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 95.56,
+                        "arg3": 25,
+                        "arg4": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When own Bloodthirst Mark ≧ ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen locked target HP < ${arg3}%, on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 100,
+                        "arg3": 25,
+                        "arg4": 100
+                    },
+                    "materials": {},
+                    "description": "When own Bloodthirst Mark ≧ ${arg1} stack(s), on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).\nWhen locked target HP < ${arg3}%, on EX Skill, trigger: Deal damage ${arg4}% of own ATK to target.",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10409,
+            "name": "Wild Cannons",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 120,
+                        "arg2": 50,
+                        "arg3": 5,
+                        "arg4": 2,
+                        "arg5": 2,
+                        "arg6": 20.25
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, when hitting target(s) with HP ≧ ${arg2}%, trigger: Gain 1 stack of Bloodthirst Mark for ${arg3} turn(s), up to ${arg4} stack(s).\nWhen own Bloodthirst Mark ≧ ${arg5} stack(s), own EX Skill effect +${arg6}%.",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 128.89,
+                        "arg2": 50,
+                        "arg3": 5,
+                        "arg4": 2,
+                        "arg5": 2,
+                        "arg6": 21.75
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, when hitting target(s) with HP ≧ ${arg2}%, trigger: Gain 1 stack of Bloodthirst Mark for ${arg3} turn(s), up to ${arg4} stack(s).\nWhen own Bloodthirst Mark ≧ ${arg5} stack(s), own EX Skill effect +${arg6}%.",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 137.78,
+                        "arg2": 50,
+                        "arg3": 5,
+                        "arg4": 2,
+                        "arg5": 2,
+                        "arg6": 23.25
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, when hitting target(s) with HP ≧ ${arg2}%, trigger: Gain 1 stack of Bloodthirst Mark for ${arg3} turn(s), up to ${arg4} stack(s).\nWhen own Bloodthirst Mark ≧ ${arg5} stack(s), own EX Skill effect +${arg6}%.",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 146.67,
+                        "arg2": 50,
+                        "arg3": 5,
+                        "arg4": 2,
+                        "arg5": 2,
+                        "arg6": 24.75
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, when hitting target(s) with HP ≧ ${arg2}%, trigger: Gain 1 stack of Bloodthirst Mark for ${arg3} turn(s), up to ${arg4} stack(s).\nWhen own Bloodthirst Mark ≧ ${arg5} stack(s), own EX Skill effect +${arg6}%.",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 155.56,
+                        "arg2": 50,
+                        "arg3": 5,
+                        "arg4": 2,
+                        "arg5": 2,
+                        "arg6": 26.25
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, when hitting target(s) with HP ≧ ${arg2}%, trigger: Gain 1 stack of Bloodthirst Mark for ${arg3} turn(s), up to ${arg4} stack(s).\nWhen own Bloodthirst Mark ≧ ${arg5} stack(s), own EX Skill effect +${arg6}%.",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 164.45,
+                        "arg2": 50,
+                        "arg3": 5,
+                        "arg4": 2,
+                        "arg5": 2,
+                        "arg6": 27.75
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, when hitting target(s) with HP ≧ ${arg2}%, trigger: Gain 1 stack of Bloodthirst Mark for ${arg3} turn(s), up to ${arg4} stack(s).\nWhen own Bloodthirst Mark ≧ ${arg5} stack(s), own EX Skill effect +${arg6}%.",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 173.34,
+                        "arg2": 50,
+                        "arg3": 5,
+                        "arg4": 2,
+                        "arg5": 2,
+                        "arg6": 29.25
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, when hitting target(s) with HP ≧ ${arg2}%, trigger: Gain 1 stack of Bloodthirst Mark for ${arg3} turn(s), up to ${arg4} stack(s).\nWhen own Bloodthirst Mark ≧ ${arg5} stack(s), own EX Skill effect +${arg6}%.",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 182.23,
+                        "arg2": 50,
+                        "arg3": 5,
+                        "arg4": 2,
+                        "arg5": 2,
+                        "arg6": 30.75
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, when hitting target(s) with HP ≧ ${arg2}%, trigger: Gain 1 stack of Bloodthirst Mark for ${arg3} turn(s), up to ${arg4} stack(s).\nWhen own Bloodthirst Mark ≧ ${arg5} stack(s), own EX Skill effect +${arg6}%.",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 191.12,
+                        "arg2": 50,
+                        "arg3": 5,
+                        "arg4": 2,
+                        "arg5": 2,
+                        "arg6": 32.25
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, when hitting target(s) with HP ≧ ${arg2}%, trigger: Gain 1 stack of Bloodthirst Mark for ${arg3} turn(s), up to ${arg4} stack(s).\nWhen own Bloodthirst Mark ≧ ${arg5} stack(s), own EX Skill effect +${arg6}%.",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 200,
+                        "arg2": 50,
+                        "arg3": 5,
+                        "arg4": 2,
+                        "arg5": 2,
+                        "arg6": 33.75
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nSigil Passive:\nOn Basic Attack, when hitting target(s) with HP ≧ ${arg2}%, trigger: Gain 1 stack of Bloodthirst Mark for ${arg3} turn(s), up to ${arg4} stack(s).\nWhen own Bloodthirst Mark ≧ ${arg5} stack(s), own EX Skill effect +${arg6}%.",
+                    "cd": 3
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

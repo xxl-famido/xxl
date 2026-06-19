@@ -1,0 +1,1257 @@
+"""Minimal deterministic turn-based combat engine (target-dummy mode).
+
+Implements the core damage path:
+  - fixed alternating turns: ally phase (slot order) then enemy phase, up to a
+    turn cap (<= 30, the in-game max).
+  - action selection: fatal when its cooldown is ready, else basic attack.
+  - damage = ATK_eff x skill% x (1 + dmg_dealt%) x (1 + target dmg_taken%).
+  - buffs/debuffs with durations and named stacks; on-attack/basic/ex triggers
+    and stack-gated triggers fire registered sub-effects.
+
+Buff combination rule (flagged for validation): ATK% and base-ATK% buffs are
+summed (additive) on top of base ATK; dmg-dealt% and dmg-taken% are separate
+multiplicative channels. Confirm against one observed in-game hit (see plan).
+"""
+from __future__ import annotations
+
+import random
+from collections import Counter
+from dataclasses import dataclass, field
+
+from .effects import (
+    BARRIER, BUFF, CC, CD_MOD, COND_DMG, DAMAGE, DEBUFF, EXTRA_ACTION, HEAL,
+    MARKER, STACK, TRANSFORM, TRIGGER, STAT_ATK, STAT_BASE_ATK, STAT_ATK_FLAT,
+    STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_BASIC_DMG_DEALT, STAT_EX_EFFECT,
+    STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, Effect,
+)
+from .kit import ResolvedKit
+from .names import kr, stat_kr
+
+# action-specific outgoing-effect channel for each action type
+_ACTION_EFF = {
+    "basic": STAT_BASIC_DMG_DEALT,
+    "ex": STAT_EX_EFFECT,
+    "trigger": STAT_TRIGGERED_EFFECT,
+}
+
+# rotation token -> action; 평/공 = basic, 궁 = fatal, 방 = defend
+_TOKEN_ACTION = {
+    "평": "basic", "공": "basic", "b": "basic", "B": "basic",
+    "궁": "fatal", "f": "fatal", "F": "fatal",
+    "방": "defend", "d": "defend", "D": "defend",
+}
+
+
+def parse_rotation(spec: str) -> tuple[list[str], list[str]]:
+    """Parse a rotation like '평평방궁|평방궁' -> (prefix actions, loop actions).
+
+    Tokens before '|' run once; tokens after '|' repeat. With no '|', the whole
+    sequence is the prefix and its last action repeats once exhausted.
+    """
+    def toks(part: str) -> list[str]:
+        return [_TOKEN_ACTION[c] for c in part.strip() if c in _TOKEN_ACTION]
+    if "|" in spec:
+        head, tail = spec.split("|", 1)
+        return toks(head), toks(tail)
+    return toks(spec), []
+
+
+# Rule (user-confirmed): any "trigger:" damage is a triggered skill (발동) and
+# gets triggerEff (발동효과), regardless of which event fired it. The one
+# exception is 이태호's 내기혼신 (Qi Surge: Tiger) extra hit on basic attack,
+# which is judged as a basic attack (평타뎀, not 발동효과).
+BASIC_JUDGED_STACKS = {"Qi Surge: Tiger"}
+
+
+def _half_turns(duration: int) -> int:
+    """Convert a skill 'N turn' duration to half-turns (ally + enemy phases).
+
+    A buff ticks once per phase, so 'N turns' = 2N half-turns from creation;
+    the creating phase (ally vs enemy) sets the asymmetric expiry naturally.
+    """
+    return duration * 2 if duration > 0 else duration
+
+
+@dataclass
+class Buff:
+    stat: str
+    value: float
+    turns: int          # remaining half-turns; -1 = permanent
+    src: str = ""       # action label that applied it (basic/fatal/trigger/passive)
+    key: int = 0        # effect-object id — same skill line refreshes; different lines coexist
+    element: int = 0    # element-specific dmg-taken: only matching-element hits get it (0 = any)
+    owner: int = 0      # source char id (for the buff-source drill-down)
+    src_skill: str = "" # source KR skill name
+
+
+@dataclass
+class Subscription:
+    event: str
+    effects: list[Effect]
+    chance: float = 100.0
+    gate_stack: str | None = None
+    gate_count: int = 0
+    param: int = 0          # every_turn period / on_turn turn number
+    pos: int = 0            # required position (1-based) for position_periodic
+    grantor: "Unit | None" = None   # who granted this sub (for buddy-granted triggers)
+    target_gate_stack: str | None = None   # require the attack target to hold this stack
+    target_gate_count: int = 0
+    repeat_stack: str | None = None        # fire N times = enemies' total stacks of this
+    need_team_barrier: bool = False        # only fire while ALL allies hold a barrier (오렘)
+
+
+# site class/element name -> game id (ERoleKind / EProp)
+# 전사 fighter=Atk / 수호 tank=Def / 치료 healer=Heal / 보조 support=Buff / 방해 vandal=Debuff
+CLASS_ID = {"fighter": 1, "tank": 2, "healer": 3, "support": 4, "vandal": 5}
+ELEMENT_ID = {"fire": 1, "water": 2, "wood": 3, "light": 4, "dark": 5}
+_ELNAME = {1: "불", 2: "물", 3: "나무", 4: "빛", 5: "어둠"}
+
+
+@dataclass
+class Unit:
+    name: str
+    side: str                       # "ally" | "enemy"
+    slot: int                       # battle position (0-4): dummy targets front, position passives
+    base_atk: int
+    max_hp: int
+    hp: int
+    is_dummy: bool = False
+    priority: int = 0               # action order among allies (lower = acts first)
+    kind: int = 0                   # ERoleKind (1 Atk/Fighter .. 5 Debuff/Vandal)
+    element: int = 0                # EProp (1 Fire 2 Water 3 Wood 4 Light 5 Dark)
+    fatal_cd: int = 0               # cooldown length of the fatal
+    cd_remaining: int = 0           # turns until fatal is ready (0 = ready)
+    extra_actions: int = 0          # pending extra actions this turn
+    extra_granted: bool = False     # "gain action (once per turn)" already used
+    base_actions: int = 1           # rotation-driven actions per turn (이태호 = 2)
+    extra_basic: bool = False       # 이태호: actions beyond base_actions = forced 평타, no token
+    turn_acts: int = 0              # actions taken this turn (reset each turn)
+    hold_fatal_stacks: set = field(default_factory=set)  # skip fatal while holding these
+    feeds_position: int = 0          # fatal grants an extra action to this position's ally
+    is_fed_carry: bool = False       # a feeder resets my CD -> fatal on every CD-ready action
+    target_cond_dmg: list = field(default_factory=list)  # [(stack, +dmg%)] if target holds stack
+    rotation_prefix: list = field(default_factory=list)  # explicit action sequence
+    rotation_loop: list = field(default_factory=list)
+    action_idx: int = 0
+    buffs: list[Buff] = field(default_factory=list)
+    stacks: dict[str, int] = field(default_factory=dict)
+    stack_turns: dict[str, int] = field(default_factory=dict)  # remaining half-turns; -1 = permanent
+    gate_snap: dict | None = None   # stacks snapshot at action start (target-gate사 pre-action state)
+    subs: list[Subscription] = field(default_factory=list)
+    damage_dealt: float = 0.0       # running total this battle
+    healing_done: float = 0.0       # total heal output (incl. overheal; for comparison)
+    barrier_done: float = 0.0       # total barrier granted
+    barrier: float = 0.0            # current shield amount
+    taunt_turns: int = 0            # 조롱: >0이면 적이 이 아군을 강제 타격 (쿠모야마)
+    hots: list = field(default_factory=list)  # [target, per_turn, turns_left] heal-over-time
+    dots: list = field(default_factory=list)  # [target, pct, turns_left, owner, src_skill] 지속딜(DoT)
+    cond_buffs: list = field(default_factory=list)  # (stack,stat,value,owner,skill,scaled,thresh) while stacks≥thresh
+    stack_caps: dict = field(default_factory=dict)  # stack_name -> max count (from its definition line)
+
+    @property
+    def alive(self) -> bool:
+        return self.hp > 0
+
+    def _cond_val(self, val: float, n: int, scaled: bool) -> float:
+        return val * n if scaled else val      # scaled = value per stack (열화질보 평타뎀+10%×N)
+
+    def _sum(self, stat: str) -> float:
+        total = sum(b.value for b in self.buffs if b.stat == stat)
+        # conditional self-buffs active only while their required stack count ≥ threshold
+        for req, st, val, owner, skill, scaled, thresh in self.cond_buffs:
+            n = self.stacks.get(req, 0)
+            if st == stat and n >= thresh:
+                total += self._cond_val(val, n, scaled)
+        return total
+
+    def _comp(self, stat: str, element: int = 0) -> list:
+        """Components of a stat for the damage breakdown: [{v, by(charId), skill}]."""
+        out = []
+        for b in self.buffs:
+            if b.stat == stat and (b.element == 0 or b.element == element):
+                out.append({"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill,
+                            "el": _ELNAME.get(b.element, "") if b.element else ""})
+        for req, st, val, owner, skill, scaled, thresh in self.cond_buffs:
+            n = self.stacks.get(req, 0)
+            if st == stat and n >= thresh:
+                out.append({"v": round(self._cond_val(val, n, scaled), 2), "by": owner,
+                            "skill": skill, "cond": kr(req)})
+        return out
+
+    def base_atk_eff(self) -> float:
+        """기초 ATK = base × (1 + Sum base-ATK%).  Only base-ATK% buffs count;
+        regular ATK% buffs do NOT. Used by "ATK +X% of own base ATK" buffs."""
+        return self.base_atk * (1 + self._sum(STAT_BASE_ATK) / 100)
+
+    def atk_eff(self) -> float:
+        """Aggregated ATK (confirmed in-game rule).
+
+        base-ATK% and ATK% are distinct channels that multiply; flat ATK adds
+        last::
+
+            ATK = base x (1 + Sum base-ATK%) x (1 + Sum ATK%) + Sum flat
+        """
+        atk_rate = self._sum(STAT_ATK) / 100
+        flat = self._sum(STAT_ATK_FLAT)
+        return self.base_atk_eff() * (1 + atk_rate) + flat
+
+    def outgoing_mult(self, action: str, target: "Unit | None" = None) -> float:
+        """Attacker-side multiplier: damage-dealt% x action-effect% (separate channels).
+
+        Includes conditional damage-dealt% that applies only while the attack
+        target holds a required status (e.g. Command Callout / 전술 호령).
+        """
+        dd = self._sum(STAT_DMG_DEALT)
+        for entry in self.target_cond_dmg:
+            if _tcd_active(entry, target):
+                dd += entry[1]
+        m = 1 + dd / 100
+        eff_channel = _ACTION_EFF.get(action)
+        if eff_channel:
+            m *= 1 + self._sum(eff_channel) / 100
+        return m
+
+    def incoming_mult(self, attacker_element: int = 0) -> float:
+        """Target-side multiplier from damage-taken% debuffs. Element-tagged ones
+        (e.g. 아누비로스's 'Dark damage taken +7.5%') only apply to that element's
+        attacker; generic ones (element 0) apply to all."""
+        total = sum(b.value for b in self.buffs if b.stat == STAT_DMG_TAKEN
+                    and (b.element == 0 or b.element == attacker_element))
+        return max(0.0, 1 + total / 100)
+
+    def support_mult(self, action: str) -> float:
+        """Heal/barrier scale with the action-effect channel only (평타뎀/EX효과/
+        발동효과) — healers receive 보통공격뎀증·필살기효과 on their heal/barrier.
+        Damage-dealt% (주는딜) is damage-specific and does NOT apply."""
+        eff_channel = _ACTION_EFF.get(action)
+        return 1 + self._sum(eff_channel) / 100 if eff_channel else 1.0
+
+    def support_detail(self, action: str) -> str:
+        eff_stat = _ACTION_EFF.get(action, "")
+        eff = self._sum(eff_stat) if eff_stat else 0
+        if eff:
+            label = {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과"}.get(action, "효과")
+            return f"{label}+{eff:.0f}%"
+        return "버프없음"
+
+    def outgoing_detail(self, action: str, target: "Unit | None") -> str:
+        """Human-readable breakdown of the outgoing-damage channels."""
+        parts = []
+        dd = self._sum(STAT_DMG_DEALT)
+        if dd:
+            parts.append(f"주는딜+{dd:.0f}%")
+        for entry in self.target_cond_dmg:
+            if _tcd_active(entry, target):
+                stack = entry[0]
+                label = kr(stack) if stack else (f"HP<{entry[5]:g}%" if entry[4] == "lt" else f"HP≥{entry[5]:g}%")
+                parts.append(f"{label}+{entry[1]:.0f}%")
+        eff_stat = _ACTION_EFF.get(action, "")
+        eff = self._sum(eff_stat) if eff_stat else 0
+        if eff:
+            label = {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과"}.get(action, "효과")
+            parts.append(f"{label}+{eff:.0f}%")
+        return ", ".join(parts) if parts else "버프없음"
+
+
+@dataclass
+class LogEvent:
+    turn: int
+    actor: str
+    text: str
+    amount: float = 0.0
+    action_id: int = 0       # groups events from one _take_action call
+    actor_id: int = 0        # source char id (for the icon)
+    detail: dict | None = None   # structured damage breakdown (for the drill-down)
+    src_id: int = 0          # the skill-owner char id (for buff/stack source click)
+    src_skill: str = ""      # the source KR skill name
+    action_kind: str = ""    # 행동 종류: 필살기 / 보통공격 / 방어 / 패시브 / 피격 (그룹 라벨)
+    atk_by: str = ""         # 피격 그룹: 공격한 적(더미) 이름
+
+
+@dataclass
+class BattleState:
+    allies: list[Unit]
+    enemies: list[Unit]
+    turn: int = 0
+    max_turn: int = 30
+    log: list[LogEvent] = field(default_factory=list)
+    rng: random.Random = field(default_factory=lambda: random.Random(0))
+    unapplied: Counter = field(default_factory=Counter)   # parsed-but-not-applied effects
+    enemy_hits: int = 0          # allies the enemy hits per turn (0 = all, by slot order)
+    turn_orders: dict = field(default_factory=dict)   # {turn:[slot,...]} per-turn action-order override
+    cur_action: int = 0          # incremented per _take_action; stamped on each event
+    cur_actor_id: int = 0
+    cur_action_kind: str = ""    # 필살기 / 보통공격 / 방어 / 패시브 / 피격 — 현재 행동 종류
+    cur_atk_by: str = ""         # 피격 그룹: 현재 공격 중인 적(더미) 이름
+    force_proc: bool = False      # 확률 100% 모드: 모든 확률 판정을 무조건 성공으로
+    hp_schedule: bool = False     # 카라트 등 HP게이트 캐릭 동반 시 더미 HP% 4등분 스케줄
+    turn_basics: set = field(default_factory=set)   # 이번 턴 평타한 아군 char_id (다양수이 협동)
+    turn_exes: set = field(default_factory=set)     # 이번 턴 필살 쓴 아군 char_id
+    coord_fired: set = field(default_factory=set)   # 이번 턴 이미 발동한 협동 트리거 id
+
+    def team(self, unit: Unit) -> list[Unit]:
+        return self.allies if unit.side == "ally" else self.enemies
+
+    def foes(self, unit: Unit) -> list[Unit]:
+        return self.enemies if unit.side == "ally" else self.allies
+
+    def record(self, actor: str, text: str, amount: float = 0.0, detail: dict | None = None,
+               src_id: int = 0, src_skill: str = "") -> None:
+        self.log.append(LogEvent(self.turn, actor, text, amount, self.cur_action,
+                                 self.cur_actor_id, detail, src_id, src_skill,
+                                 self.cur_action_kind, self.cur_atk_by))
+
+
+def _self_extra_actions(kit: ResolvedKit) -> int:
+    """Count self 'gain N action (once per turn)' grants (이태호 = 1 -> 2 actions/turn)."""
+    total = 0
+
+    def walk(effs):
+        nonlocal total
+        for e in effs:
+            if e.kind == EXTRA_ACTION and e.target == "self" and "once per turn" in (e.raw or "").lower():
+                total += int(e.magnitude)
+            walk(e.sub_effects)
+    for sl in [kit.basic, kit.fatal, *kit.passives]:
+        walk(sl.effects)
+    return min(total, 3)
+
+
+def make_unit_from_kit(kit: ResolvedKit, slot: int, priority: int | None = None) -> Unit:
+    self_extra = _self_extra_actions(kit)   # 이태호: 1 -> base 2 actions, extras forced 평타
+    return Unit(
+        name=kit.name, side="ally", slot=slot, priority=slot if priority is None else priority,
+        base_atk=kit.atk, max_hp=kit.hp, hp=kit.hp,
+        kind=kit.kind, element=kit.element,
+        # ultimate gauge starts empty: fatal must charge fatal_cd turns first
+        fatal_cd=kit.fatal.cd, cd_remaining=kit.fatal.cd,
+        base_actions=1 + self_extra, extra_basic=self_extra > 0,
+    )
+
+
+def _kit_has_hp_gate(kit) -> bool:
+    """True if any of this kit's effects gate on the target's HP% (카라트)."""
+    def walk(effs):
+        for e in effs:
+            if e.target_hp_op or (e.kind == COND_DMG and e.target_hp_op):
+                return True
+            if walk(e.sub_effects):
+                return True
+        return False
+    return any(walk(sl.effects) for sl in [kit.basic, kit.fatal, *kit.passives])
+
+
+def _hp_sched_pct(turn: int, max_turn: int) -> float:
+    """카라트용 더미 HP% 스케줄: 전체 턴 4등분 — Q1 ≥75%(게이트0)·Q2 50~75%(1)·
+    Q3 25~50%(2)·Q4 <25%(3+추가타). 각 구간 중앙값을 쓴다."""
+    q = (turn - 1) / max(1, max_turn)
+    if q < 0.25:
+        return 0.875
+    if q < 0.50:
+        return 0.625
+    if q < 0.75:
+        return 0.375
+    return 0.125
+
+
+def make_dummy(slot: int, hp: int = 10**9) -> Unit:
+    return Unit(name=f"더미{slot+1}", side="enemy", slot=slot,
+                base_atk=0, max_hp=hp, hp=hp, is_dummy=True)
+
+
+# ---- effect resolution --------------------------------------------------
+
+def _resolve_targets(effect: Effect, caster: Unit, state: BattleState,
+                     current_target: Unit | None, grantor: Unit | None = None) -> list[Unit]:
+    t = effect.target
+    if t == "self":
+        return [caster]
+    if t == "grantor":          # "X's base ATK ..." granted to a buddy -> buffs X
+        return [grantor or caster]
+    if t == "allies":
+        return [u for u in state.team(caster) if u.alive]
+    if t.startswith("allies_"):
+        living = [u for u in state.team(caster) if u.alive]
+        sub = t.split("_", 1)[1]
+        if sub in CLASS_ID:
+            return [u for u in living if u.kind == CLASS_ID[sub]]
+        if sub in ELEMENT_ID:
+            return [u for u in living if u.element == ELEMENT_ID[sub]]
+        return living
+    if t == "ally_lowest_hp":
+        living = [u for u in state.team(caster) if u.alive]
+        return [min(living, key=lambda u: u.hp / u.max_hp)] if living else []
+    if t.startswith("position_"):    # ally at a specific battle position (1-based slot)
+        slot = int(t.split("_", 1)[1]) - 1
+        return [u for u in state.team(caster) if u.alive and u.slot == slot]
+    if t == "all_enemies":
+        return [u for u in state.foes(caster) if u.alive]
+    if t == "target":
+        # 리카노 조롱(적): 적이 조롱 보유 시 단일 타격은 그 적으로 딜집중
+        taunted = next((u for u in state.foes(caster) if u.alive and u.taunt_turns > 0), None)
+        if taunted:
+            return [taunted]
+        if current_target and current_target.alive:
+            return [current_target]
+        foes = [u for u in state.foes(caster) if u.alive]
+        return [foes[0]] if foes else []
+    if t == "positions":        # one hit per position; empty -> front enemy (random fallback)
+        foes = sorted([u for u in state.foes(caster) if u.alive], key=lambda u: u.slot)
+        if not foes:
+            return []
+        # 조롱(딜집중): 적이 조롱 보유 시 모든 포지션 타격이 그 적에 집중된다
+        taunted = next((u for u in foes if u.taunt_turns > 0), None)
+        if taunted:
+            return [taunted] * len(effect.positions)
+        out = []
+        for p in effect.positions:
+            at = next((u for u in foes if u.slot == p - 1), None)
+            out.append(at if at else foes[0])
+        return out
+    return []
+
+
+ROLE_KR = {1: "전사", 2: "수호", 3: "치유", 4: "보조", 5: "방해"}
+_ROLE_WORD = {"fighter": "전사", "vandal": "방해", "support": "보조", "healer": "치유", "tank": "수호"}
+_ELEM_WORD = {"fire": "불속성", "water": "물속성", "wood": "나무속성", "light": "빛속성", "dark": "어둠속성"}
+
+
+def _who(targets: list, caster: Unit, state: "BattleState", effect: "Effect | None" = None) -> str:
+    """Label a log line's recipients by the effect's TARGET FILTER when it has one
+    (e.g. '아군 전사', '아군 방해', '아군 전체'), else a single name or count."""
+    if not targets:
+        return "—"
+    tgt = effect.target if effect else ""
+    if tgt == "self":
+        return "자신"
+    if tgt == "allies":
+        return "아군 전체"
+    if tgt.startswith("allies_"):
+        suffix = tgt.split("_", 1)[1]
+        word = _ROLE_WORD.get(suffix) or _ELEM_WORD.get(suffix)
+        if word:
+            return f"아군 {word}"
+        if suffix == "lowest_hp":
+            return "최저HP 아군"
+    if len(targets) == 1:
+        return "자신" if targets[0] is caster else targets[0].name
+    if all(t.side == "enemy" for t in targets):
+        return f"적 {len(targets)}명"
+    living = [a for a in state.allies if a.alive]
+    if all(t.side == "ally" for t in targets) and len(targets) >= len(living):
+        return "아군 전체"
+    roles: list[str] = []
+    for t in targets:
+        r = ROLE_KR.get(t.kind, "")
+        if r and r not in roles:
+            roles.append(r)
+    return f"아군 {'·'.join(roles)}" if roles else f"아군 {len(targets)}명"
+
+
+def _hp_ok(unit: "Unit | None", op: str, val: float) -> bool:
+    """True if the unit's HP% satisfies the gate (op 'lt'/'ge', val %). No unit -> False."""
+    if unit is None or unit.max_hp <= 0:
+        return False
+    pct = unit.hp / unit.max_hp * 100
+    return pct < val if op == "lt" else pct >= val
+
+
+def _tcd_active(entry: tuple, target: "Unit | None") -> bool:
+    """A conditional-주는딜 entry is live when its stack and/or target-HP gate hold."""
+    stack, _bonus, _owner, _skill, hp_op, hp_val = entry
+    if stack is not None and (target is None or target.stacks.get(stack, 0) <= 0):
+        return False
+    if hp_op is not None and not _hp_ok(target, hp_op, hp_val):
+        return False
+    return True
+
+
+def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: str,
+                src_id: int, src_skill: str, state: "BattleState") -> None:
+    """Compute, apply and log one damage hit. Shared by direct DAMAGE and DoT ticks."""
+    atk = caster.atk_eff()
+    eff_stat = _ACTION_EFF.get(action, "")
+    out = caster.outgoing_mult(action, tgt)
+    inc = tgt.incoming_mult(caster.element)
+    dmg = round(atk * pct / 100 * out * inc, 2)
+    tgt.hp -= dmg
+    caster.damage_dealt += dmg
+    dealt = caster._comp(STAT_DMG_DEALT)
+    for entry in caster.target_cond_dmg:
+        if _tcd_active(entry, tgt):
+            stk, bonus, owner, skill, hp_op, hp_val = entry
+            cond_kr = kr(stk) if stk else (f"HP<{hp_val:g}%" if hp_op == "lt" else f"HP≥{hp_val:g}%")
+            dealt.append({"v": bonus, "by": owner, "skill": skill, "cond": cond_kr})
+    taken = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill,
+              "el": _ELNAME.get(b.element, "전체")}
+             for b in tgt.buffs if b.stat == STAT_DMG_TAKEN
+             and (b.element == 0 or b.element == caster.element)]
+    struct = {
+        "act": act_kr, "target": tgt.name, "final": dmg,
+        "base": caster.base_atk, "atkTotal": round(atk, 2),
+        "baseAtk": caster._comp(STAT_BASE_ATK), "atk": caster._comp(STAT_ATK),
+        "flat": caster._comp(STAT_ATK_FLAT),
+        "skillPct": pct, "skillId": src_id, "skillName": src_skill,
+        "dealt": dealt,
+        "effLabel": {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과", "dot": "지속딜"}.get(action, ""),
+        "eff": caster._comp(eff_stat) if eff_stat else [],
+        "taken": taken,
+    }
+    detail = caster.outgoing_detail(action, tgt)
+    state.record(caster.name,
+                 f"{act_kr} → {tgt.name} {dmg:,.2f} = "
+                 f"{atk:,.2f}ATK × {pct:g}% × {out:.4f}[{detail}] × {inc:.4f}in",
+                 amount=dmg, detail=struct)
+
+
+def apply_effect(effect: Effect, caster: Unit, state: BattleState,
+                 current_target: Unit | None, source: str,
+                 grantor: Unit | None = None) -> None:
+    kind = effect.kind
+    if kind == MARKER:
+        return
+    if kind == "UNPARSED":
+        state.unapplied[f"미파싱: {effect.raw[:60]}"] += 1
+        return
+    # 카라트 HP 게이트: 대상 HP%가 임계를 못 넘으면 이 효과(추가타·표지 빌드 등)는 발동 안 함.
+    # COND_DMG는 게이트를 저장만 하고 데미지 시점에 평가하므로 여기서 막지 않는다.
+    if effect.target_hp_op and kind != COND_DMG \
+            and not _hp_ok(current_target, effect.target_hp_op, effect.target_hp_val):
+        return
+
+    if kind == TRIGGER:
+        cond = effect.condition
+        if cond == "on_battle_start":
+            for sub in effect.sub_effects:
+                apply_effect(sub, caster, state, current_target, source, grantor)
+        elif cond == "grant_allies":
+            # buddies GAIN the sub-trigger; it buffs the grantor (caster) when it fires
+            exclude_self = "Except self" in (effect.raw or "")
+            for ally in state.team(caster):
+                if exclude_self and ally is caster:
+                    continue
+                for sub in effect.sub_effects:
+                    apply_effect(sub, ally, state, current_target, source, grantor=caster)
+        elif cond and cond.startswith("enemy_gate:"):
+            # enemy-count gate (vs the current dummy count): apply inner only if met
+            _, op, n = cond.split(":")
+            alive = len([e for e in state.foes(caster) if e.alive])
+            if {"ge": alive >= int(n), "le": alive <= int(n), "eq": alive == int(n)}[op]:
+                for sub in effect.sub_effects:
+                    apply_effect(sub, caster, state, current_target, source, grantor)
+        elif cond and cond.startswith("team_elem_gate:"):
+            _, elem, n = cond.split(":")
+            cnt = sum(1 for a in state.allies if a.alive and a.element == ELEMENT_ID.get(elem, 0))
+            if cnt >= int(n):
+                for sub in effect.sub_effects:
+                    apply_effect(sub, caster, state, current_target, source, grantor)
+        elif cond == "repeat":
+            # fire the body N times = a stack count (own / target / enemies)
+            src, _, name = (effect.repeat_stack or "").partition(":")
+            if src == "own":
+                n = caster.stacks.get(name, 0)
+            elif src == "target":
+                # count = max(pre-action snapshot, current live). The snapshot ignores a
+                # same-action REMOVAL (포르베어 필살이 물보라 제거 후에도 4 카운트); live picks
+                # up a same-action ADDITION (임욱잠 평타가 화약 +1 후 그만큼 연발).
+                snap = current_target.gate_snap if current_target and current_target.gate_snap is not None else {}
+                live = current_target.stacks if current_target else {}
+                n = max(snap.get(name, 0), live.get(name, 0))
+            else:
+                n = sum(u.stacks.get(name, 0) for u in state.enemies)
+            for _ in range(n):
+                for sub in effect.sub_effects:
+                    apply_effect(sub, caster, state, current_target, source, grantor)
+        elif cond and cond.endswith(tuple("0123456789")) and effect.stack_name:
+            # event-less "When own X ≧ N, ..." gate. A static self-buff becomes a DYNAMIC
+            # conditional buff (active whenever X ≥ N — 카라트 호혈표지≥2 → 필살효과+33.75%);
+            # other subs keep the fire-once-if-already-met behavior.
+            thresh = effect.max_stacks
+            met = caster.stacks.get(effect.stack_name, 0) >= thresh
+            for sub in effect.sub_effects:
+                if sub.kind == BUFF and sub.target == "self" and not sub.condition:
+                    entry = (effect.stack_name, sub.stat, sub.magnitude, sub.owner,
+                             sub.src_skill, False, thresh)
+                    if entry not in caster.cond_buffs:
+                        caster.cond_buffs.append(entry)
+                elif met:
+                    apply_effect(sub, caster, state, current_target, source, grantor)
+        else:
+            # avoid duplicate registration when the same grant re-fires (e.g. 멍 re-ults
+            # at T1 then T4): refresh, don't stack a second identical subscription.
+            dup = any(s.event == (cond or "") and s.effects is effect.sub_effects
+                      and s.grantor is grantor for s in caster.subs)
+            if not dup:
+                caster.subs.append(Subscription(
+                    event=cond or "", effects=effect.sub_effects,
+                    chance=effect.chance,
+                    gate_stack=effect.stack_name, gate_count=effect.max_stacks,
+                    param=effect.trigger_param, pos=effect.trigger_pos, grantor=grantor,
+                    target_gate_stack=effect.target_stack, target_gate_count=effect.target_count,
+                    repeat_stack=effect.repeat_stack, need_team_barrier=effect.team_barrier))
+        return
+
+    targets = _resolve_targets(effect, caster, state, current_target, grantor)
+    # effect-level override ("counts as EX Skill damage") wins over the source
+    action = effect.force_action or {"fatal": "ex", "ex": "ex", "trigger": "trigger"}.get(source, "basic")
+    # display label follows the effective action channel, so force_action="basic"
+    # (세엔 "보통공격 시 추가 데미지") shows 평타 and draws 평타뎀, not 발동효과
+    act_kr = {"basic": "평타", "ex": "필살", "trigger": "발동"}.get(action, "발동")
+
+    if effect.condition and effect.condition.startswith("while:"):
+        # conditional self-buff: active only while the named stack is held (flat)
+        req = effect.condition.split(":", 1)[1]
+        entry = (req, effect.stat, effect.magnitude, effect.owner, effect.src_skill, False, 1)
+        if entry not in caster.cond_buffs:
+            caster.cond_buffs.append(entry)
+        return
+
+    if effect.condition and effect.condition.startswith("stack_cap:"):
+        name = effect.condition.split(":", 1)[1]      # stack lifetime/cap definition only
+        caster.stack_caps[name] = max(caster.stack_caps.get(name, 0), effect.max_stacks)
+        return
+
+    if effect.condition and effect.condition.startswith("per_stack:"):
+        # named-stack definition: each stack confers `magnitude` of `stat`, capped at
+        # max_stacks (열화질보 N중첩 -> 평타뎀 +10%×N). Also fixes the stack's cap so
+        # every "+1 stack" op respects it (not the per-op max_stacks=1).
+        req = effect.condition.split(":", 1)[1]
+        caster.stack_caps[req] = max(caster.stack_caps.get(req, 0), effect.max_stacks)
+        entry = (req, effect.stat, effect.magnitude, effect.owner, effect.src_skill, True, 1)
+        if entry not in caster.cond_buffs:
+            caster.cond_buffs.append(entry)
+        return
+
+    if effect.condition and effect.condition.startswith("team_elem:"):
+        # team-composition gate: ≥N allies of an element -> apply this buff to all
+        # allies (else skip). Static vs a dummy, so evaluated once at passive install.
+        _, elem, n = effect.condition.split(":")
+        elem_id = ELEMENT_ID.get(elem, 0)
+        if sum(1 for a in state.allies if a.alive and a.element == elem_id) < int(n):
+            return                          # condition not met -> no buff
+        # met -> fall through to the BUFF branch (target=allies)
+
+    if kind == TRANSFORM:
+        n = caster.stacks.get(effect.stack_name or "", 0)
+        if n > 0 and effect.into_stack:
+            caster.stacks[effect.into_stack] = caster.stacks.get(effect.into_stack, 0) + n
+            caster.stacks[effect.stack_name] = 0
+            state.record(caster.name, f"{act_kr} → {kr(effect.stack_name)} → {kr(effect.into_stack)} 전환", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+        return
+
+    if kind == EXTRA_ACTION:
+        for tgt in targets:
+            if tgt is caster:
+                if not caster.extra_granted:   # self "(only once per turn)"
+                    caster.extra_actions += int(effect.magnitude)
+                    caster.extra_granted = True
+            else:                              # granted to another ally (e.g. 임부언 -> P1)
+                tgt.extra_actions += int(effect.magnitude)
+        if targets:
+            state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 추가 행동 +{int(effect.magnitude)}", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+        return
+
+    if kind == COND_DMG:
+        tgt_unit = grantor if effect.target == "grantor" else caster
+        tgt_unit.target_cond_dmg.append((effect.stack_name, effect.magnitude, effect.owner,
+                                         effect.src_skill, effect.target_hp_op, effect.target_hp_val))
+        return
+
+    if kind == DAMAGE:
+        if effect.each_turn and effect.duration > 0:
+            # 지속딜(DoT): 매 턴 _tick_dots 가 같은 공식으로 한 번씩 적용한다 (지속 채널 = 평타뎀/EX효과
+            # 안 받고 주는딜·받뎀만). 부여 시점엔 등록만. 같은 스킬의 DoT는 갱신(인스턴스 1개),
+            # 다른 스킬의 DoT는 공존한다 (모이루 평타↔방어 도트, 최유희 도트 등 — 각각 별개 스킬).
+            for tgt in targets:
+                same = next((e for e in caster.dots if e[0] is tgt
+                             and e[3] == effect.owner and e[4] == effect.src_skill), None)
+                if same:
+                    same[1] = effect.magnitude          # 같은 스킬 재적용 -> 남은 턴만 갱신
+                    same[2] = int(effect.duration)
+                else:
+                    caster.dots.append([tgt, effect.magnitude, int(effect.duration),
+                                        effect.owner, effect.src_skill])
+                state.record(caster.name,
+                             f"{act_kr} 지속딜 → {tgt.name} {effect.magnitude:g}%/턴 ×{effect.duration}턴",
+                             amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+            return
+        for tgt in targets:
+            _record_hit(caster, tgt, effect.magnitude, action, act_kr,
+                        effect.owner, effect.src_skill, state)
+    elif kind in (BUFF, DEBUFF):
+        for tgt in targets:
+            if effect.of_base_atk:
+                # "+X% of own base ATK": base ATK includes the caster's base-ATK%
+                # buffs (not regular ATK% buffs), snapshotted at grant time
+                stat = STAT_ATK_FLAT
+                val = effect.magnitude / 100 * caster.base_atk_eff()
+            else:
+                stat, val = (effect.stat or "?"), effect.magnitude
+            # dedup by effect-OBJECT identity: the SAME skill line re-applied
+            # refreshes; DIFFERENT lines coexist even when text/value is
+            # identical (defend +30% base-ATK vs fatal +30% base-ATK are
+            # separate skills -> both apply). Only "up to N stacks" effects
+            # stack to N copies.
+            ekey = id(effect)
+            same = [b for b in tgt.buffs if b.key == ekey]
+            if same and len(same) >= max(1, effect.max_stacks):
+                for b in same:
+                    b.value = val                            # update to new snapshot
+                    b.turns = _half_turns(effect.duration)   # refresh (at stack cap)
+            else:
+                tgt.buffs.append(Buff(stat, val, _half_turns(effect.duration),
+                                      src=source, key=ekey, element=effect.element,
+                                      owner=effect.owner, src_skill=effect.src_skill))
+        if source != "passive" and targets:           # show buff/debuff actions in the log
+            atk_calc = None
+            if effect.of_base_atk or stat == STAT_ATK_FLAT:
+                vl = f"고정ATK {val:+,.0f}"
+                if effect.of_base_atk:                 # 고정ATK = base × (1+기초ATK%) × 부여%
+                    atk_calc = {"calc": "flatAtk", "base": caster.base_atk,
+                                "baseAtk": caster._comp(STAT_BASE_ATK),
+                                "pct": effect.magnitude, "val": round(val, 2)}
+            else:
+                el = ({1: "불 ", 2: "물 ", 3: "나무 ", 4: "빛 ", 5: "어둠 "}.get(effect.element, "")
+                      if stat == STAT_DMG_TAKEN else "")
+                vl = f"{el}{stat_kr(stat)} {effect.magnitude:+g}%"
+            dur = f" {effect.duration}턴" if effect.duration > 0 else ""
+            kind_kr = "디버프" if kind == DEBUFF else "버프"
+            state.record(caster.name, f"{act_kr} {kind_kr} → {_who(targets, caster, state, effect)} {vl}{dur}",
+                         amount=0, detail=atk_calc, src_id=effect.owner, src_skill=effect.src_skill)
+    elif kind == STACK:
+        # "awaken X or Y" -> each status rolls independently at the effect's chance
+        names = [effect.stack_name or "?"]
+        if effect.awaken_with:
+            names.append(effect.awaken_with)
+        fired: list[str] = []            # names that actually activated (independent rolls)
+        for tgt in targets:
+            for name in names:
+                if not state.force_proc and effect.awaken_with and effect.chance < 100 \
+                        and state.rng.random() * 100 >= effect.chance:
+                    continue
+                if name not in fired:
+                    fired.append(name)
+                if effect.magnitude <= -9000:    # "remove X from self" -> clear all
+                    tgt.stacks[name] = 0
+                    tgt.stack_turns.pop(name, None)
+                    continue
+                cur = tgt.stacks.get(name, 0)
+                delta = int(effect.magnitude) if effect.magnitude else 1
+                # any op that DEFINES a cap (max_stacks>1, e.g. 물보라 '최대 4중첩')
+                # registers it, so later bare "+1 stack" ops (max_stacks=1) don't clamp
+                # the stack back down to 1 (열화질보·물보라).
+                if effect.max_stacks > 1:
+                    tgt.stack_caps[name] = max(tgt.stack_caps.get(name, 0), effect.max_stacks)
+                cap = max(tgt.stack_caps.get(name, 0), effect.max_stacks)
+                tgt.stacks[name] = max(0, min(cur + delta, cap))
+                # set/refresh lifetime (no duration -> permanent state stack)
+                tgt.stack_turns[name] = _half_turns(effect.duration) if effect.duration > 0 else -1
+        if source != "passive" and targets and fired:
+            who = _who(targets, caster, state, effect)
+            amt = "제거" if effect.magnitude <= -9000 else f"{(int(effect.magnitude) or 1):+d}중첩"
+            # awaken (흑구/백구 등) = 각각 독립 확률 → 활성화된 것만 따로 한 줄씩
+            labels = [kr(n) for n in fired] if effect.awaken_with else ["·".join(kr(n) for n in fired)]
+            for label in labels:
+                state.record(caster.name, f"{act_kr} → {who} {label} {amt}",
+                             amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+    elif kind == CD_MOD:
+        for tgt in targets:
+            tgt.cd_remaining = max(0, tgt.cd_remaining + int(effect.magnitude))
+        if targets:
+            state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 필살 CD {int(effect.magnitude):+d}", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+    elif kind == HEAL:
+        atk = caster.atk_eff()
+        mult = caster.support_mult(action)
+        detail = caster.support_detail(action)
+        base_per = round(atk * effect.magnitude / 100 * mult, 2)
+        for tgt in targets:
+            raw = tgt.max_hp * effect.magnitude / 100 if effect.of_max_hp else base_per  # %최대HP 힐
+            per = round(raw * (1 + tgt._sum(STAT_HEAL_RECV) / 100), 2)   # 받는 회복량 증가
+            if effect.duration and effect.duration > 0:     # heal-over-time
+                caster.hots.append([tgt, per, effect.duration])
+                state.record(caster.name,
+                             f"{act_kr} 지속힐 → {tgt.name} {per:,.2f}/턴 ×{effect.duration}턴 "
+                             f"= {atk:,.2f}ATK × {effect.magnitude:g}% × {mult:.4f}[{detail}]")
+            else:
+                tgt.hp = min(tgt.max_hp, tgt.hp + per)
+                caster.healing_done += per
+                state.record(caster.name,
+                             f"{act_kr} 힐 → {tgt.name} {per:,.2f} = "
+                             f"{atk:,.2f}ATK × {effect.magnitude:g}% × {mult:.4f}[{detail}]",
+                             amount=per)
+    elif kind == BARRIER:
+        atk = caster.atk_eff()
+        mult = caster.support_mult(action)
+        detail = caster.support_detail(action)
+        amt = round(atk * effect.magnitude / 100 * mult, 2)
+        for tgt in targets:
+            tgt.barrier += amt
+            caster.barrier_done += amt
+            state.record(caster.name,
+                         f"{act_kr} 베리어 → {tgt.name} {amt:,.2f} = "
+                         f"{atk:,.2f}ATK × {effect.magnitude:g}% × {mult:.4f}[{detail}]",
+                         amount=amt)
+    elif kind == CC:
+        if effect.stat == "taunt":     # 조롱: 이 유닛(들)이 상대편의 공격을 강제로 끌어온다
+            for tgt in targets:
+                # 적에게 건 조롱(리카노=딜집중)은 다음 아군 턴까지 유지(+1) — 디버퍼가 공격자보다
+                # 늦게 행동해도 적용된다. 자신에게 건 조롱(쿠모야마=어그로)은 그 턴 적 페이즈용.
+                extra = 1 if tgt.side != caster.side else 0
+                tgt.taunt_turns = max(tgt.taunt_turns, max(1, effect.duration) + extra)
+            if targets:
+                state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 조롱 {effect.duration}턴",
+                             amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+        else:
+            # other crowd-control (기절/마비 등): not damage-relevant in dummy mode
+            state.unapplied[f"미모델링({kind})"] += 1
+
+
+def _team_has_barrier(caster: Unit, state: BattleState) -> bool:
+    """True if every living ally currently holds a barrier (오렘 충격역류 발동 조건).
+    Any source's barrier counts — 기리안 방어 쉴드 등 포함."""
+    return all(u.barrier > 0 for u in state.team(caster) if u.alive)
+
+
+def _fire_subs(caster: Unit, event: str, state: BattleState,
+               current_target: Unit | None) -> None:
+    # snapshot which gated subs qualify BEFORE firing, so same-event triggers
+    # (e.g. transform A->B and B->A) don't chain-cancel within one event.
+    ready = [s for s in list(caster.subs)
+             if s.event == event and _qualifies(s, caster, current_target)
+             and (not s.need_team_barrier or _team_has_barrier(caster, state))]
+    for sub in ready:
+        if not state.force_proc and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+            continue
+        # triggered damage is 발동 by default; 내기혼신 (Qi Surge) is judged basic
+        src = "basic" if sub.gate_stack in BASIC_JUDGED_STACKS else "trigger"
+        reps = _repeat_count(sub, state) if sub.repeat_stack else _gate_reps(caster, sub.gate_stack)
+        for _ in range(reps):
+            for eff in sub.effects:
+                apply_effect(eff, caster, state, current_target, source=src,
+                             grantor=sub.grantor)
+
+
+def _gate_ok(caster: Unit, gate_stack: str | None, gate_count: int) -> bool:
+    if not gate_stack:
+        return True
+    if "|" in gate_stack:            # OR-gate: hold any of the listed stacks
+        return any(caster.stacks.get(s, 0) > 0 for s in gate_stack.split("|"))
+    return caster.stacks.get(gate_stack, 0) >= gate_count
+
+
+def _qualifies(sub: "Subscription", caster: Unit, target: Unit | None) -> bool:
+    # target-gate reads the PRE-action snapshot when set, so a stack the SAME action
+    # applies (e.g. 바드 필살이 각흔 부여) doesn't satisfy its own gate that turn.
+    tgt_stacks = (target.gate_snap if target is not None and target.gate_snap is not None
+                  else (target.stacks if target is not None else {}))
+    return (_gate_ok(caster, sub.gate_stack, sub.gate_count)
+            and (not sub.target_gate_stack
+                 or tgt_stacks.get(sub.target_gate_stack, 0) >= sub.target_gate_count))
+
+
+def _repeat_count(sub: "Subscription", state: BattleState) -> int:
+    """Fire count = enemies' total stacks of sub.repeat_stack (0 -> no fire)."""
+    return sum(u.stacks.get(sub.repeat_stack, 0) for u in state.enemies)
+
+
+def _gate_reps(caster: Unit, gate_stack: str | None) -> int:
+    """OR-gate effects fire once per held stack (e.g. 흑구+백구 = Hellhound +2)."""
+    if gate_stack and "|" in gate_stack:
+        return sum(1 for s in gate_stack.split("|") if caster.stacks.get(s, 0) > 0)
+    return 1
+
+
+def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
+                 current_target: Unit | None) -> None:
+    """Resolve attack-triggered subs across `events` in two passes: all non-damage
+    effects (buffs/stacks/transforms this attack grants) first, then all triggered
+    damages. Conditional damage thus sees the fully-buffed ATK from the same attack.
+
+    Gates are snapshotted and chances rolled ONCE up-front (before any effect), so
+    buff-pass state changes don't retroactively gate the damage pass.
+    """
+    fired: list[tuple[Subscription, str]] = []
+    for event in events:
+        for sub in [s for s in list(caster.subs)
+                    if s.event == event and _qualifies(s, caster, current_target)
+                    and (not s.need_team_barrier or _team_has_barrier(caster, state))]:
+            if not state.force_proc and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+                continue
+            src = "basic" if sub.gate_stack in BASIC_JUDGED_STACKS else "trigger"
+            fired.append((sub, src))
+    for want_damage in (False, True):
+        for sub, src in fired:
+            if want_damage and sub.repeat_stack:
+                reps = _repeat_count(sub, state)        # EX multi-hit by enemy stacks
+            else:
+                reps = _gate_reps(caster, sub.gate_stack)  # OR-gate: once per held dog
+            for _ in range(reps):
+                for eff in sub.effects:
+                    if (eff.kind == DAMAGE) == want_damage:
+                        apply_effect(eff, caster, state, current_target, source=src,
+                                     grantor=sub.grantor)
+
+
+def _fire_time_subs(unit: Unit, state: BattleState) -> None:
+    """Fire time-based triggers: every_turn / on_turn / position_periodic."""
+    state.cur_action += 1
+    state.cur_actor_id = getattr(unit._kit, "char_id", 0)
+    state.cur_action_kind = "패시브"
+    foes = [u for u in state.foes(unit) if u.alive]
+    target = foes[0] if foes else None
+    for sub in list(unit.subs):
+        if sub.event == "every_turn":
+            fire = sub.param > 0 and state.turn % sub.param == 0
+        elif sub.event == "on_turn":
+            fire = state.turn == sub.param
+        elif sub.event == "position_periodic":
+            in_pos = sub.pos == 0 or (unit.slot + 1) == sub.pos
+            fire = in_pos and state.turn % max(1, sub.param) == 0
+        else:
+            continue
+        if not fire:
+            continue
+        if not state.force_proc and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+            continue
+        for eff in sub.effects:
+            apply_effect(eff, unit, state, target, source="trigger")
+
+
+def _next_token(unit: Unit) -> str | None:
+    """Next action token from the rotation, or None if no rotation is set."""
+    if not unit.rotation_prefix and not unit.rotation_loop:
+        return None
+    i = unit.action_idx
+    unit.action_idx += 1
+    if i < len(unit.rotation_prefix):
+        return unit.rotation_prefix[i]
+    if unit.rotation_loop:
+        return unit.rotation_loop[(i - len(unit.rotation_prefix)) % len(unit.rotation_loop)]
+    return unit.rotation_prefix[-1] if unit.rotation_prefix else None
+
+
+def _take_action(unit: Unit, state: BattleState) -> None:
+    state.cur_action += 1            # each action gets a fresh id (for log grouping)
+    state.cur_actor_id = getattr(unit._kit, "char_id", 0) if not unit.is_dummy else 0
+    state.cur_action_kind = ""       # set below once the action (fatal/basic/defend) is known
+    foes = [u for u in state.foes(unit) if u.alive]
+    # target the front foe = lowest battle position (slot), not list order
+    target = min(foes, key=lambda u: u.slot) if foes else None
+    if unit.is_dummy:
+        # enemy phase: the enemy lands N hits, each on a DISTINCT random ally
+        # (no ally hit twice), firing their defensive subs (쿼터백/성노 counters).
+        # N=0 -> all allies. Order kept by slot for deterministic sub firing.
+        living = [u for u in state.foes(unit) if u.alive]
+        n = state.enemy_hits if state.enemy_hits > 0 else len(living)
+        taunters = [u for u in living if u.taunt_turns > 0]
+        if taunters:
+            # 조롱: 모든 타격이 조롱한 탱커(들)에게 강제로 — 탱커가 피격·반격을 흡수
+            chosen = [taunters[i % len(taunters)] for i in range(n)]
+        else:
+            n = min(n, len(living))
+            chosen = state.rng.sample(living, n) if n < len(living) else living
+        for ally in sorted(chosen, key=lambda u: u.slot):
+            # 피격 단위로 그룹: "더미N → [피격 아군]" 헤더 + 그로 인한 반격·버프·스택을 그 아래에.
+            state.cur_action += 1
+            state.cur_actor_id = getattr(ally._kit, "char_id", 0)
+            state.cur_action_kind = "피격"
+            state.cur_atk_by = unit.name
+            state.record(ally.name, f"{unit.name}에게 피격", amount=0)   # 헤더(반응 없어도 표시)
+            _fire_subs(ally, "on_attacked", state, unit)
+            _fire_subs(ally, "on_take_basic", state, unit)
+        state.cur_atk_by = ""
+        return
+
+    kit_basic, kit_fatal = unit._kit.basic, unit._kit.fatal  # type: ignore[attr-defined]
+    unit.turn_acts += 1
+    # 이태호: actions beyond his base 2 (e.g. 임부언이 준 3번째) = 무조건 평타, 토큰 소비 안 함
+    forced_basic = unit.extra_basic and unit.turn_acts > unit.base_actions
+    token = "basic" if forced_basic else _next_token(unit)
+
+    if token == "defend":
+        state.cur_action_kind = "방어"
+        state.record(unit.name, "defend (방어)")
+        _fire_subs(unit, "on_defend", state, target)
+        _fire_subs(unit, "on_action", state, target)
+        return
+
+    if not forced_basic and unit.is_fed_carry and bool(kit_fatal.effects):
+        # a feeder (e.g. 임부언) resets this carry's CD mid-turn -> fatal on every
+        # CD-ready action (natural + the granted bonus), ignoring the rotation
+        use_fatal = unit.cd_remaining <= 0
+    elif token == "fatal":
+        use_fatal = unit.cd_remaining <= 0 and bool(kit_fatal.effects)
+    elif token == "basic":
+        use_fatal = False
+    else:  # no rotation -> default policy: fatal if ready, unless holding it
+        holding = any(unit.stacks.get(s, 0) > 0 for s in unit.hold_fatal_stacks)
+        use_fatal = unit.cd_remaining <= 0 and bool(kit_fatal.effects) and not holding
+
+    cid = getattr(unit._kit, "char_id", 0)
+    if use_fatal:
+        skill, label, event = kit_fatal, "fatal", "on_ex"
+        unit.cd_remaining = unit.fatal_cd
+        state.cur_action_kind = "필살기"
+        state.turn_exes.add(cid)            # 다양수이 협동: 이 아군이 이번 턴 필살 사용
+    else:
+        skill, label, event = kit_basic, "basic", "on_basic_attack"
+        state.cur_action_kind = "보통공격"
+        state.turn_basics.add(cid)          # 이 아군이 이번 턴 평타 사용
+
+    # snapshot the target's stacks BEFORE this action's own effects, so a stack the
+    # action applies (바드 필살 -> 각흔) doesn't satisfy its own target-gate this turn.
+    if target is not None:
+        target.gate_snap = dict(target.stacks)
+    before = len(state.log)
+    for eff in skill.effects:
+        apply_effect(eff, unit, state, target, source=label)
+    # make a fatal cast visible even when it deals no direct damage (only buffs
+    # / on-EX triggers), e.g. 하니엘's 성결 -> 종판/성노 fire as 발동 afterwards
+    if label == "fatal" and len(state.log) == before:
+        state.record(unit.name, "필살 시전 (직접딜 없음 → 버프/발동)")
+    # resolve attack procs from the action-specific event then generic on-attack,
+    # buffs/stacks first and triggered damages last, so the 발동 damage sees the
+    # fully-buffed ATK this same attack granted (e.g. 파미도 Strategic flat)
+    _fire_attack(unit, (event, "on_attack"), state, target)
+    _fire_subs(unit, "on_action", state, target)   # may grant an extra action
+    if target is not None:
+        target.gate_snap = None
+
+
+def _tick_buffs(state: BattleState) -> None:
+    """Tick one half-turn (called after the ally phase and the enemy phase).
+
+    Decrements buff and stack lifetimes; expires those that reach 0.
+    """
+    for unit in state.allies + state.enemies:
+        kept: list[Buff] = []
+        for b in unit.buffs:
+            if b.turns < 0:
+                kept.append(b)
+            else:
+                b.turns -= 1
+                if b.turns > 0:
+                    kept.append(b)
+        unit.buffs = kept
+        for name in list(unit.stack_turns):
+            t = unit.stack_turns[name]
+            if t < 0:
+                continue                 # permanent state stack
+            unit.stack_turns[name] = t - 1
+            if unit.stack_turns[name] <= 0:
+                unit.stacks[name] = 0
+                del unit.stack_turns[name]
+
+
+def _tick_hots(state: BattleState) -> None:
+    """Apply heal-over-time once per turn and decrement their remaining turns."""
+    for u in state.allies + state.enemies:
+        kept = []
+        for entry in u.hots:
+            tgt, per, turns = entry
+            if tgt.alive:
+                tgt.hp = min(tgt.max_hp, tgt.hp + per)
+                u.healing_done += per
+                state.record(u.name, f"지속힐 → {tgt.name} {per:,.2f}")
+            entry[2] = turns - 1
+            if entry[2] > 0:
+                kept.append(entry)
+        u.hots = kept
+
+
+def _tick_dots(state: BattleState) -> None:
+    """Apply 지속딜(DoT) once per turn, recomputed with current ATK/buffs/받뎀, then
+    decrement remaining turns. Uses the 'dot' channel (주는딜·받뎀만, 평타뎀/EX효과 제외)."""
+    for u in state.allies + state.enemies:
+        if not u.dots:
+            continue
+        state.cur_action += 1                          # group this unit's DoT ticks together
+        state.cur_actor_id = getattr(u._kit, "char_id", 0)
+        state.cur_action_kind = "지속딜"
+        kept = []
+        for entry in u.dots:
+            tgt, pct, turns, src_id, src_skill = entry
+            if tgt.alive:
+                _record_hit(u, tgt, pct, "dot", "지속", src_id, src_skill, state)
+            entry[2] = turns - 1
+            if entry[2] > 0:
+                kept.append(entry)
+        u.dots = kept
+
+
+def _install_passives(unit: Unit, state: BattleState) -> None:
+    """Apply always-on passive effects and register triggers at battle start."""
+    for psv in unit._kit.passives:  # type: ignore[attr-defined]
+        for eff in psv.effects:
+            apply_effect(eff, unit, state, None, source="passive")
+
+
+def _compute_hold_fatal(unit: Unit) -> None:
+    """Detect stacks where using fatal is counter-productive.
+
+    A "hold" stack is one the fatal would transform away (an on-EX transform
+    whose source it is) AND that enables value on basic attack (gates an
+    on-basic trigger). e.g. 이태호's Solar Flight: fatal flips it back to Lunar
+    Pounce, but while held each basic farms Qi Surge -> hold fatal, spam basic.
+    """
+    transform_src: set = set()
+    basic_gated: set = set()
+    for sub in unit.subs:
+        if sub.event == "on_ex":
+            for eff in sub.effects:
+                if eff.kind == TRANSFORM and eff.stack_name:
+                    transform_src.add(eff.stack_name)
+        if sub.event == "on_basic_attack" and sub.gate_stack:
+            basic_gated.add(sub.gate_stack)
+    unit.hold_fatal_stacks = transform_src & basic_gated
+    # fatal that grants an extra action to a fixed position feeds that carry
+    for eff in unit._kit.fatal.effects:  # type: ignore[attr-defined]
+        if eff.kind == EXTRA_ACTION and (eff.target or "").startswith("position_"):
+            unit.feeds_position = int(eff.target.split("_")[1])
+
+
+def _eff_priority(unit: Unit, allies: list[Unit]) -> float:
+    """Action order = the unit's priority, with one generic rule: a unit whose
+    fatal feeds an extra action to a carry (feeds_position; e.g. 임부언 -> 아누비로스)
+    defers to act right AFTER that carry on its own fatal turns, so the carry's
+    own ult lands first and the granted bonus becomes a second ult (double-ult).
+    Any per-turn order override the user sets takes precedence over this."""
+    if unit.feeds_position and unit.cd_remaining <= 0 and unit._kit.fatal.effects:  # type: ignore[attr-defined]
+        carry = next((a for a in allies if a.alive and a.slot == unit.feeds_position - 1), None)
+        if carry is not None and carry is not unit:
+            return carry.priority + 1e-4
+    return unit.priority
+
+
+def _mark_fed_carries(allies: list[Unit]) -> None:
+    """One-time: mark carries that a feeder (e.g. 임부언) keeps CD-resetting, so they
+    fatal on every CD-ready action (natural + the granted bonus)."""
+    for u in allies:
+        if u.feeds_position:
+            carry = next((a for a in allies if a.slot == u.feeds_position - 1), None)
+            # 이태호(extra_basic): fed action stays a 평타, not a forced fatal
+            if carry is not None and carry is not u and not carry.extra_basic:
+                carry.is_fed_carry = True
+
+
+_ROLE_KIND = {"Fighter": 1, "Vandal": 5}   # 전사=1, 방해=5 (역할 협동 게이트)
+
+
+def _check_coordination(allies: list[Unit], state: BattleState) -> None:
+    """다양수이 협동 트리거: 자신 제외 [역할] 동료 전원이 이번 턴 [행동]을 마치면 1회 발동."""
+    for u in allies:
+        if not u.alive:
+            continue
+        for sub in u.subs:
+            if not sub.event.startswith("all_acted:") or id(sub) in state.coord_fired:
+                continue
+            _, role, action = sub.event.split(":")
+            acted = state.turn_basics if action == "basic" else state.turn_exes
+            kind = _ROLE_KIND.get(role)        # None = 모든 역할
+            peers = [a for a in allies if a is not u and a.alive
+                     and (kind is None or a.kind == kind)]
+            if not peers or not all(getattr(a._kit, "char_id", 0) in acted for a in peers):
+                continue
+            state.coord_fired.add(id(sub))      # 이번 턴 1회만
+            if not state.force_proc and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+                continue
+            state.cur_action += 1
+            state.cur_actor_id = getattr(u._kit, "char_id", 0)
+            state.cur_action_kind = "패시브"
+            for eff in sub.effects:
+                apply_effect(eff, u, state, None, "trigger", grantor=sub.grantor)
+
+
+def _ally_phase(allies: list[Unit], state: BattleState) -> None:
+    """Run the ally phase as a queue so granted extra actions act right after the
+    action that granted them (self-grants like 이태호, or 임부언 -> 아누비로스)."""
+    override = state.turn_orders.get(state.turn) if state.turn_orders else None
+    if override:
+        bypos = {u.slot: u for u in allies if u.alive}
+        queue = [bypos[s] for s in override if s in bypos]
+        queue += [u for u in sorted(allies, key=lambda x: _eff_priority(x, allies))
+                  if u.alive and u not in queue]   # any not listed -> base order, appended
+    else:
+        queue = sorted([u for u in allies if u.alive], key=lambda u: _eff_priority(u, allies))
+    guard = 0
+    while queue and guard < 50:
+        guard += 1
+        u = queue.pop(0)
+        if not u.alive:
+            continue
+        _take_action(u, state)
+        _check_coordination(allies, state)   # 다양수이: 역할 동료 전원 행동 완료 시 발동
+        # any ally now holding pending extra actions acts next (priority order)
+        pending = [v for v in sorted(allies, key=lambda x: x.priority)
+                   if v.alive and v.extra_actions > 0]
+        for v in pending:
+            v.extra_actions -= 1
+        queue[0:0] = pending
+
+
+def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
+             seed: int = 0, rotations: list[str | None] | None = None,
+             slots: list[int] | None = None,
+             priorities: list[float] | None = None,
+             enemy_hits: int = 0, turn_orders: dict | None = None,
+             force_proc: bool = False) -> BattleState:
+    """Run a target-dummy battle and return the final state (with log).
+
+    rotations: optional per-ally action strings (e.g. '평평방궁|평방궁').
+    slots:     battle positions (0-based); dummy targets the lowest slot.
+    priorities: action order (lower acts first); defaults to slot.
+    """
+    allies = []
+    for i, kit in enumerate(kits[:5]):
+        slot = slots[i] if slots and i < len(slots) else i
+        prio = priorities[i] if priorities and i < len(priorities) else slot
+        u = make_unit_from_kit(kit, slot, priority=prio)
+        u._kit = kit  # type: ignore[attr-defined]
+        if rotations and i < len(rotations) and rotations[i]:
+            u.rotation_prefix, u.rotation_loop = parse_rotation(rotations[i])
+        allies.append(u)
+    enemies = [make_dummy(i) for i in range(max(1, min(n_dummies, 5)))]
+    state = BattleState(allies=allies, enemies=enemies, max_turn=max_turn,
+                        rng=random.Random(seed), enemy_hits=enemy_hits,
+                        turn_orders=turn_orders or {}, force_proc=force_proc,
+                        hp_schedule=any(_kit_has_hp_gate(u._kit) for u in allies))
+
+    for u in allies:
+        _install_passives(u, state)
+    for u in allies:
+        _compute_hold_fatal(u)
+    _mark_fed_carries(allies)
+
+    while state.turn < state.max_turn:
+        state.turn += 1
+        state.turn_basics.clear()           # 다양수이 협동: 턴별 행동 집계 리셋
+        state.turn_exes.clear()
+        state.coord_fired.clear()
+        if state.hp_schedule:               # 카라트: 전체 턴을 4등분해 더미 HP%를 단계적으로 낮춘다
+            pct = _hp_sched_pct(state.turn, state.max_turn)
+            for e in enemies:
+                e.hp = e.max_hp * pct
+        for u in allies:
+            if u.alive:
+                _fire_time_subs(u, state)   # on_turn-1 CD cut etc. before actions
+            u.extra_actions = 0             # reset BEFORE the phase so cross-ally
+            u.extra_granted = False         # grants (e.g. 임부언 -> P1) survive
+            u.turn_acts = 0                 # actions-taken counter (이태호 3rd = forced 평타)
+        # --- ally phase (queue: priority order + granted extra actions) ---
+        _ally_phase(allies, state)
+        _tick_buffs(state)                   # half-turn tick (after ally phase)
+        # --- enemy phase ---
+        for u in sorted(enemies, key=lambda x: x.slot):
+            if u.alive:
+                _take_action(u, state)
+        _tick_buffs(state)                   # half-turn tick (after enemy phase)
+        _tick_hots(state)                    # heal-over-time (once per turn)
+        _tick_dots(state)                    # 지속딜(DoT) (once per turn)
+        # fatal cooldown charges one step at turn end
+        for u in allies:
+            if u.alive and u.cd_remaining > 0:
+                u.cd_remaining -= 1
+        for u in allies + enemies:           # 조롱 지속시간 감소 (아군 어그로·적 딜집중 둘 다)
+            if u.taunt_turns > 0:
+                u.taunt_turns -= 1
+    return state

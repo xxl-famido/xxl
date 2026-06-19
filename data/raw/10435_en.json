@@ -1,0 +1,1856 @@
+{
+    "info": {
+        "id": 10435,
+        "name": "Croklein",
+        "feature": "Gourmet Healing / AoE Buffs",
+        "rarity": 4,
+        "class": 3,
+        "element": 1,
+        "baseHP": 2193,
+        "sign": "sign_D",
+        "baseATK": 569,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Welcome in. \nI've got tonight's meal ready for you.\"",
+    "interactions": {
+        "0": [
+            "Cooking and hauling ingredients every day... I guess I've built up quite the physique without even noticing.",
+            "These burn scars? Don't worry about it, they're nothing for a chef.",
+            "Ahh... truth is, my scales... they're actually really sensitive......"
+        ],
+        "1": [
+            "A lot of customers come specifically to see my tattoos.",
+            "This necklace was a gift from my friend Croc Nile. It's something I treasure deeply."
+        ],
+        "2": [
+            "Thanks for the encouragement... you just gave me a burst of inspiration for a new menu!",
+            "Sniff... the snack you have there seems to have a really interesting flavor. Mind if I ask you for the recipe?"
+        ],
+        "3": [
+            "Mm... make a reservation first, and maybe I'll let you have your way.",
+            "Ahh... my tail... that feels so good......",
+            "You mean you want to enjoy my \"omakase\" from behind?"
+        ],
+        "98": [
+            "Let's celebrate! The food is ready."
+        ],
+        "99": [
+            "When it comes to things you're not used to... just keep practicing. You've got this!"
+        ],
+        "100": [
+            "Hungry? I made your favorite dish.",
+            "I never knew a cold plunge could be used like this... might have to get one for my diner."
+        ]
+    },
+    "story": {
+        "1": "Croklein is the owner, chef, and the one and only staff memeber of Crok's Midnight Diner, tucked away in a dark alley of Section Hunk. Despite his cold and intimidating appearance, he is actually a kind-hearted crocodile Beastfolk. In this tiny diner, you can enjoy delicacies from all over WOOFIA. No matter what you're craving, you can find almost anything on the menu.\n\nOther than his culinary talent, Croklein excels at reading his customers' needs and providing them with off-menu dishes. With a naturally nurturing soul, he quietly and swiftly tends to both the appetites and the spirits of everyone who walks through his door.",
+        "2": "Croklein served as a head chef in the military when he was young, often working alone deep into the night to manage the heavy workload. One night, a recruit sneaked into the kitchen in search of something to eat. Croklein wanted to dirve him away at first, but after listening to the young soldier's story, he invited the recruit to stay and prepared a delicious meal for him.\n\nThis incident changed everything. Seeing the joy on the soldier's face, Croklein realized the beauty of helping others through cooking. A dream settled in his heart—he wanted everyone who tasted his food to wear that same blissful satisfaction.",
+        "3": "Word of Croklein preparing secret midnight meals for restless recruits spread through the camp quickly. Within days, soldiers began seeking him out for a late-night snack. When the authorities discovered this, they reassigned him to another unit. Shortly after, Croklein decided to take an early discharge to make his own way in the world. However, because of his naturally intimidating appearance, he was unwelcome in most kitchens. Unable to settle in one place for long, he wandered from town to town. Yet, this constant roaming allows him to master various culinary styles from every corner of WOOFIA.\n\nEventually, Croklein met a tavern owner named Racles on Rodney Volcanoes. With Racles's encouragement and guidance, Croklein finally found the courage to open a tiny midnight diner in Section Hunk, serving as its owner, chef, and sole employee.",
+        "4": "Crok's Midnight Diner is a small, once-unknown diner tucked away in one of Section Hunk's back alleys. However, through Croklein's kind heart and his hospitality, raving reviews slowly turns the diner into a local legend. Now, travelers from around the globe come here just to get a taste of a meal crafted from his hands.\n\nRumor has it that beyond the standard late-night menu, Croklein occasionally offers an irresistible Omakase service during the day—dishes made specifically for the customer. What exactly does he serve in the Omakase service? You'll just have to seize the opportunity, book a seat with Croklein, and taste it for yourself to find out."
+    },
+    "hookUp": {
+        "cards": [
+            80120,
+            80021,
+            80091
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 1,
+                    "text": "Ahh... this spot is sensitive..."
+                },
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 1,
+                    "text": "I want more..."
+                },
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 1,
+                    "text": "You can go... a little faster."
+                },
+                {
+                    "boundId": 80120,
+                    "speakerPosition": 0,
+                    "text": "Croklein's ass is completely up in the air! True swamp cat behavior."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80021,
+                    "speakerPosition": 1,
+                    "text": "Mm...!"
+                },
+                {
+                    "boundId": 80021,
+                    "speakerPosition": 1,
+                    "text": "Do you like being squeezed between these solid back muscles?"
+                },
+                {
+                    "boundId": 80021,
+                    "speakerPosition": 1,
+                    "text": "Then leave it to me."
+                },
+                {
+                    "boundId": 80021,
+                    "speakerPosition": 0,
+                    "text": "So this is the omakase experience at Crok's? Absolutely insane."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80091,
+                    "speakerPosition": 1,
+                    "text": "This flavor is something else. What did you make it with?"
+                },
+                {
+                    "boundId": 80091,
+                    "speakerPosition": 1,
+                    "text": "Can I have a few more pieces?"
+                },
+                {
+                    "boundId": 80091,
+                    "speakerPosition": 1,
+                    "text": "I want to learn how to make this too...!"
+                },
+                {
+                    "boundId": 80091,
+                    "speakerPosition": 0,
+                    "text": "It's the essence. I added the essence."
+                },
+                {
+                    "boundId": 80091,
+                    "speakerPosition": 0,
+                    "text": "No, wait! This is not going on the menu!"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Customers can have some pretty unusual requests sometimes."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "I don't really get it, but I respect it......"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I'm getting a very real sense that I'm about to be blacklisted—!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "If you ever need help, just let me know."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "That sounded like a customer service line... Clearly not that interested."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "We're still open tonight, so if you're done, I'll head back to prep."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Ah... now you've got me hungry too..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Wait... don't just leave!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Appetizer",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 90
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32301,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 96.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32301,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 103.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32311,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 110
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32311,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 116.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32321,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 123.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 130
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 136.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32331,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 143.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32341,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 150
+                    },
+                    "materials": {},
+                    "description": "Heal own Buddy with the lowest HP% by ${arg1}% of own ATK.",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Homemade Dish",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 75
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 54
+                        },
+                        {
+                            "id": 32302,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.",
+                    "cd": 2
+                },
+                "1": {
+                    "params": {
+                        "arg1": 80.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32301,
+                            "count": 63
+                        },
+                        {
+                            "id": 32302,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.",
+                    "cd": 2
+                },
+                "2": {
+                    "params": {
+                        "arg1": 86.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32311,
+                            "count": 63
+                        },
+                        {
+                            "id": 32312,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.",
+                    "cd": 2
+                },
+                "3": {
+                    "params": {
+                        "arg1": 91.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32311,
+                            "count": 72
+                        },
+                        {
+                            "id": 32312,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.",
+                    "cd": 2
+                },
+                "4": {
+                    "params": {
+                        "arg1": 97.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 72
+                        },
+                        {
+                            "id": 32322,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.",
+                    "cd": 2
+                },
+                "5": {
+                    "params": {
+                        "arg1": 102.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 81
+                        },
+                        {
+                            "id": 32322,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.",
+                    "cd": 2
+                },
+                "6": {
+                    "params": {
+                        "arg1": 108.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32331,
+                            "count": 81
+                        },
+                        {
+                            "id": 32332,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.",
+                    "cd": 2
+                },
+                "7": {
+                    "params": {
+                        "arg1": 113.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32331,
+                            "count": 90
+                        },
+                        {
+                            "id": 32332,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.",
+                    "cd": 2
+                },
+                "8": {
+                    "params": {
+                        "arg1": 119.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32341,
+                            "count": 90
+                        },
+                        {
+                            "id": 32342,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.",
+                    "cd": 2
+                },
+                "9": {
+                    "params": {
+                        "arg1": 125
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.",
+                    "cd": 2
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "AoE HP Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Comfort Food Recipe",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 0.9,
+                        "arg2": 4,
+                        "arg3": 10,
+                        "arg4": 1.8,
+                        "arg5": 3,
+                        "arg6": 10,
+                        "arg7": 1.2,
+                        "arg8": 3,
+                        "arg9": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.\nOn EX Skill, trigger the same number of times as own stack(s) of Stir-Fry: All of own Buddies' EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Slow Cook: All of own Buddies' healing received +${arg4}% for ${arg5} turn(s), up to ${arg6} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Secret Spices: All of own Buddies' damage dealt +${arg7}% for ${arg8} turn(s), up to ${arg9} stack(s).\nOn EX Skill, trigger: Remove Stir-Fry, Slow Cook, and Secret Spices from self.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 0.97,
+                        "arg2": 4,
+                        "arg3": 10,
+                        "arg4": 1.94,
+                        "arg5": 3,
+                        "arg6": 10,
+                        "arg7": 1.29,
+                        "arg8": 3,
+                        "arg9": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.\nOn EX Skill, trigger the same number of times as own stack(s) of Stir-Fry: All of own Buddies' EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Slow Cook: All of own Buddies' healing received +${arg4}% for ${arg5} turn(s), up to ${arg6} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Secret Spices: All of own Buddies' damage dealt +${arg7}% for ${arg8} turn(s), up to ${arg9} stack(s).\nOn EX Skill, trigger: Remove Stir-Fry, Slow Cook, and Secret Spices from self.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1.03,
+                        "arg2": 4,
+                        "arg3": 10,
+                        "arg4": 2.07,
+                        "arg5": 3,
+                        "arg6": 10,
+                        "arg7": 1.38,
+                        "arg8": 3,
+                        "arg9": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.\nOn EX Skill, trigger the same number of times as own stack(s) of Stir-Fry: All of own Buddies' EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Slow Cook: All of own Buddies' healing received +${arg4}% for ${arg5} turn(s), up to ${arg6} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Secret Spices: All of own Buddies' damage dealt +${arg7}% for ${arg8} turn(s), up to ${arg9} stack(s).\nOn EX Skill, trigger: Remove Stir-Fry, Slow Cook, and Secret Spices from self.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1.1,
+                        "arg2": 4,
+                        "arg3": 10,
+                        "arg4": 2.2,
+                        "arg5": 3,
+                        "arg6": 10,
+                        "arg7": 1.47,
+                        "arg8": 3,
+                        "arg9": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.\nOn EX Skill, trigger the same number of times as own stack(s) of Stir-Fry: All of own Buddies' EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Slow Cook: All of own Buddies' healing received +${arg4}% for ${arg5} turn(s), up to ${arg6} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Secret Spices: All of own Buddies' damage dealt +${arg7}% for ${arg8} turn(s), up to ${arg9} stack(s).\nOn EX Skill, trigger: Remove Stir-Fry, Slow Cook, and Secret Spices from self.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1.17,
+                        "arg2": 4,
+                        "arg3": 10,
+                        "arg4": 2.34,
+                        "arg5": 3,
+                        "arg6": 10,
+                        "arg7": 1.56,
+                        "arg8": 3,
+                        "arg9": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.\nOn EX Skill, trigger the same number of times as own stack(s) of Stir-Fry: All of own Buddies' EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Slow Cook: All of own Buddies' healing received +${arg4}% for ${arg5} turn(s), up to ${arg6} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Secret Spices: All of own Buddies' damage dealt +${arg7}% for ${arg8} turn(s), up to ${arg9} stack(s).\nOn EX Skill, trigger: Remove Stir-Fry, Slow Cook, and Secret Spices from self.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1.23,
+                        "arg2": 4,
+                        "arg3": 10,
+                        "arg4": 2.47,
+                        "arg5": 3,
+                        "arg6": 10,
+                        "arg7": 1.65,
+                        "arg8": 3,
+                        "arg9": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.\nOn EX Skill, trigger the same number of times as own stack(s) of Stir-Fry: All of own Buddies' EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Slow Cook: All of own Buddies' healing received +${arg4}% for ${arg5} turn(s), up to ${arg6} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Secret Spices: All of own Buddies' damage dealt +${arg7}% for ${arg8} turn(s), up to ${arg9} stack(s).\nOn EX Skill, trigger: Remove Stir-Fry, Slow Cook, and Secret Spices from self.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1.3,
+                        "arg2": 4,
+                        "arg3": 10,
+                        "arg4": 2.6,
+                        "arg5": 3,
+                        "arg6": 10,
+                        "arg7": 1.74,
+                        "arg8": 3,
+                        "arg9": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.\nOn EX Skill, trigger the same number of times as own stack(s) of Stir-Fry: All of own Buddies' EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Slow Cook: All of own Buddies' healing received +${arg4}% for ${arg5} turn(s), up to ${arg6} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Secret Spices: All of own Buddies' damage dealt +${arg7}% for ${arg8} turn(s), up to ${arg9} stack(s).\nOn EX Skill, trigger: Remove Stir-Fry, Slow Cook, and Secret Spices from self.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1.37,
+                        "arg2": 4,
+                        "arg3": 10,
+                        "arg4": 2.74,
+                        "arg5": 3,
+                        "arg6": 10,
+                        "arg7": 1.83,
+                        "arg8": 3,
+                        "arg9": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.\nOn EX Skill, trigger the same number of times as own stack(s) of Stir-Fry: All of own Buddies' EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Slow Cook: All of own Buddies' healing received +${arg4}% for ${arg5} turn(s), up to ${arg6} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Secret Spices: All of own Buddies' damage dealt +${arg7}% for ${arg8} turn(s), up to ${arg9} stack(s).\nOn EX Skill, trigger: Remove Stir-Fry, Slow Cook, and Secret Spices from self.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1.43,
+                        "arg2": 4,
+                        "arg3": 10,
+                        "arg4": 2.87,
+                        "arg5": 3,
+                        "arg6": 10,
+                        "arg7": 1.92,
+                        "arg8": 3,
+                        "arg9": 10
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When taking an action, trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.\nOn EX Skill, trigger the same number of times as own stack(s) of Stir-Fry: All of own Buddies' EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Slow Cook: All of own Buddies' healing received +${arg4}% for ${arg5} turn(s), up to ${arg6} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Secret Spices: All of own Buddies' damage dealt +${arg7}% for ${arg8} turn(s), up to ${arg9} stack(s).\nOn EX Skill, trigger: Remove Stir-Fry, Slow Cook, and Secret Spices from self.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1.5,
+                        "arg2": 4,
+                        "arg3": 10,
+                        "arg4": 3,
+                        "arg5": 3,
+                        "arg6": 10,
+                        "arg7": 2,
+                        "arg8": 3,
+                        "arg9": 10
+                    },
+                    "materials": {},
+                    "description": "When taking an action, trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.\nOn EX Skill, trigger the same number of times as own stack(s) of Stir-Fry: All of own Buddies' EX Skill effect +${arg1}% for ${arg2} turn(s), up to ${arg3} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Slow Cook: All of own Buddies' healing received +${arg4}% for ${arg5} turn(s), up to ${arg6} stack(s).\nOn EX Skill, trigger the same number of times as own stack(s) of Secret Spices: All of own Buddies' damage dealt +${arg7}% for ${arg8} turn(s), up to ${arg9} stack(s).\nOn EX Skill, trigger: Remove Stir-Fry, Slow Cook, and Secret Spices from self.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Prepping",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 50,
+                        "arg3": 50
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg1}% chance to trigger: Croklein gains 1 stack of Stir-Fry.\nExcept self, all of own Buddies gain: When defending, there is a(n) ${arg2}% chance to trigger: Croklein gains 1 stack of Slow Cook.\nExcept self, all of own Buddies gain: On EX Skill, there is a(n) ${arg3}% chance to trigger: Croklein gains 1 stack of Secret Spices.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 55.55,
+                        "arg2": 55.55,
+                        "arg3": 55.55
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg1}% chance to trigger: Croklein gains 1 stack of Stir-Fry.\nExcept self, all of own Buddies gain: When defending, there is a(n) ${arg2}% chance to trigger: Croklein gains 1 stack of Slow Cook.\nExcept self, all of own Buddies gain: On EX Skill, there is a(n) ${arg3}% chance to trigger: Croklein gains 1 stack of Secret Spices.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 61.11,
+                        "arg2": 61.11,
+                        "arg3": 61.11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg1}% chance to trigger: Croklein gains 1 stack of Stir-Fry.\nExcept self, all of own Buddies gain: When defending, there is a(n) ${arg2}% chance to trigger: Croklein gains 1 stack of Slow Cook.\nExcept self, all of own Buddies gain: On EX Skill, there is a(n) ${arg3}% chance to trigger: Croklein gains 1 stack of Secret Spices.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 66.66,
+                        "arg2": 66.66,
+                        "arg3": 66.66
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg1}% chance to trigger: Croklein gains 1 stack of Stir-Fry.\nExcept self, all of own Buddies gain: When defending, there is a(n) ${arg2}% chance to trigger: Croklein gains 1 stack of Slow Cook.\nExcept self, all of own Buddies gain: On EX Skill, there is a(n) ${arg3}% chance to trigger: Croklein gains 1 stack of Secret Spices.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 72.22,
+                        "arg2": 72.22,
+                        "arg3": 72.22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg1}% chance to trigger: Croklein gains 1 stack of Stir-Fry.\nExcept self, all of own Buddies gain: When defending, there is a(n) ${arg2}% chance to trigger: Croklein gains 1 stack of Slow Cook.\nExcept self, all of own Buddies gain: On EX Skill, there is a(n) ${arg3}% chance to trigger: Croklein gains 1 stack of Secret Spices.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 77.77,
+                        "arg2": 77.77,
+                        "arg3": 77.77
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg1}% chance to trigger: Croklein gains 1 stack of Stir-Fry.\nExcept self, all of own Buddies gain: When defending, there is a(n) ${arg2}% chance to trigger: Croklein gains 1 stack of Slow Cook.\nExcept self, all of own Buddies gain: On EX Skill, there is a(n) ${arg3}% chance to trigger: Croklein gains 1 stack of Secret Spices.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 83.33,
+                        "arg2": 83.33,
+                        "arg3": 83.33
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg1}% chance to trigger: Croklein gains 1 stack of Stir-Fry.\nExcept self, all of own Buddies gain: When defending, there is a(n) ${arg2}% chance to trigger: Croklein gains 1 stack of Slow Cook.\nExcept self, all of own Buddies gain: On EX Skill, there is a(n) ${arg3}% chance to trigger: Croklein gains 1 stack of Secret Spices.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 88.88,
+                        "arg2": 88.88,
+                        "arg3": 88.88
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg1}% chance to trigger: Croklein gains 1 stack of Stir-Fry.\nExcept self, all of own Buddies gain: When defending, there is a(n) ${arg2}% chance to trigger: Croklein gains 1 stack of Slow Cook.\nExcept self, all of own Buddies gain: On EX Skill, there is a(n) ${arg3}% chance to trigger: Croklein gains 1 stack of Secret Spices.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 94.44,
+                        "arg2": 94.44,
+                        "arg3": 94.44
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: On Basic Attack, there is a(n) ${arg1}% chance to trigger: Croklein gains 1 stack of Stir-Fry.\nExcept self, all of own Buddies gain: When defending, there is a(n) ${arg2}% chance to trigger: Croklein gains 1 stack of Slow Cook.\nExcept self, all of own Buddies gain: On EX Skill, there is a(n) ${arg3}% chance to trigger: Croklein gains 1 stack of Secret Spices.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {},
+                    "materials": {},
+                    "description": "Except self, all of own Buddies gain: On Basic Attack, trigger: Croklein gains 1 stack of Stir-Fry.\nExcept self, all of own Buddies gain: When defending, trigger: Croklein gains 1 stack of Slow Cook.\nExcept self, all of own Buddies gain: On EX Skill, trigger: Croklein gains 1 stack of Secret Spices.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Golden Ratio",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 3,
+                        "arg3": 2,
+                        "arg4": 4,
+                        "arg5": 12.5,
+                        "arg6": 3,
+                        "arg7": 3,
+                        "arg8": 15,
+                        "arg9": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When own Stir-Fry ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' damage taken -${arg2}% for ${arg3} turn(s).\nWhen own Slow Cook ≧ ${arg4} stack(s), on EX Skill, trigger: Heal all of own Buddies by ${arg5}% of own ATK each turn for ${arg6} turn(s).\nWhen own Secret Spices ≧ ${arg7} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg8}% of own base ATK for ${arg9} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 3.23,
+                        "arg3": 2,
+                        "arg4": 4,
+                        "arg5": 13.43,
+                        "arg6": 3,
+                        "arg7": 3,
+                        "arg8": 16.12,
+                        "arg9": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When own Stir-Fry ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' damage taken -${arg2}% for ${arg3} turn(s).\nWhen own Slow Cook ≧ ${arg4} stack(s), on EX Skill, trigger: Heal all of own Buddies by ${arg5}% of own ATK each turn for ${arg6} turn(s).\nWhen own Secret Spices ≧ ${arg7} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg8}% of own base ATK for ${arg9} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 3.45,
+                        "arg3": 2,
+                        "arg4": 4,
+                        "arg5": 14.36,
+                        "arg6": 3,
+                        "arg7": 3,
+                        "arg8": 17.23,
+                        "arg9": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When own Stir-Fry ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' damage taken -${arg2}% for ${arg3} turn(s).\nWhen own Slow Cook ≧ ${arg4} stack(s), on EX Skill, trigger: Heal all of own Buddies by ${arg5}% of own ATK each turn for ${arg6} turn(s).\nWhen own Secret Spices ≧ ${arg7} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg8}% of own base ATK for ${arg9} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 3.67,
+                        "arg3": 2,
+                        "arg4": 4,
+                        "arg5": 15.28,
+                        "arg6": 3,
+                        "arg7": 3,
+                        "arg8": 18.34,
+                        "arg9": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When own Stir-Fry ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' damage taken -${arg2}% for ${arg3} turn(s).\nWhen own Slow Cook ≧ ${arg4} stack(s), on EX Skill, trigger: Heal all of own Buddies by ${arg5}% of own ATK each turn for ${arg6} turn(s).\nWhen own Secret Spices ≧ ${arg7} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg8}% of own base ATK for ${arg9} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 3.89,
+                        "arg3": 2,
+                        "arg4": 4,
+                        "arg5": 16.21,
+                        "arg6": 3,
+                        "arg7": 3,
+                        "arg8": 19.45,
+                        "arg9": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When own Stir-Fry ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' damage taken -${arg2}% for ${arg3} turn(s).\nWhen own Slow Cook ≧ ${arg4} stack(s), on EX Skill, trigger: Heal all of own Buddies by ${arg5}% of own ATK each turn for ${arg6} turn(s).\nWhen own Secret Spices ≧ ${arg7} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg8}% of own base ATK for ${arg9} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 4.12,
+                        "arg3": 2,
+                        "arg4": 4,
+                        "arg5": 17.13,
+                        "arg6": 3,
+                        "arg7": 3,
+                        "arg8": 20.56,
+                        "arg9": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When own Stir-Fry ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' damage taken -${arg2}% for ${arg3} turn(s).\nWhen own Slow Cook ≧ ${arg4} stack(s), on EX Skill, trigger: Heal all of own Buddies by ${arg5}% of own ATK each turn for ${arg6} turn(s).\nWhen own Secret Spices ≧ ${arg7} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg8}% of own base ATK for ${arg9} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 4.34,
+                        "arg3": 2,
+                        "arg4": 4,
+                        "arg5": 18.06,
+                        "arg6": 3,
+                        "arg7": 3,
+                        "arg8": 21.67,
+                        "arg9": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When own Stir-Fry ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' damage taken -${arg2}% for ${arg3} turn(s).\nWhen own Slow Cook ≧ ${arg4} stack(s), on EX Skill, trigger: Heal all of own Buddies by ${arg5}% of own ATK each turn for ${arg6} turn(s).\nWhen own Secret Spices ≧ ${arg7} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg8}% of own base ATK for ${arg9} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 4.56,
+                        "arg3": 2,
+                        "arg4": 4,
+                        "arg5": 18.99,
+                        "arg6": 3,
+                        "arg7": 3,
+                        "arg8": 22.78,
+                        "arg9": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When own Stir-Fry ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' damage taken -${arg2}% for ${arg3} turn(s).\nWhen own Slow Cook ≧ ${arg4} stack(s), on EX Skill, trigger: Heal all of own Buddies by ${arg5}% of own ATK each turn for ${arg6} turn(s).\nWhen own Secret Spices ≧ ${arg7} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg8}% of own base ATK for ${arg9} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 4.78,
+                        "arg3": 2,
+                        "arg4": 4,
+                        "arg5": 19.91,
+                        "arg6": 3,
+                        "arg7": 3,
+                        "arg8": 23.89,
+                        "arg9": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When own Stir-Fry ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' damage taken -${arg2}% for ${arg3} turn(s).\nWhen own Slow Cook ≧ ${arg4} stack(s), on EX Skill, trigger: Heal all of own Buddies by ${arg5}% of own ATK each turn for ${arg6} turn(s).\nWhen own Secret Spices ≧ ${arg7} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg8}% of own base ATK for ${arg9} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 4,
+                        "arg2": 5,
+                        "arg3": 2,
+                        "arg4": 4,
+                        "arg5": 20.84,
+                        "arg6": 3,
+                        "arg7": 3,
+                        "arg8": 25,
+                        "arg9": 2
+                    },
+                    "materials": {},
+                    "description": "When own Stir-Fry ≧ ${arg1} stack(s), on EX Skill, trigger: All of own Buddies' damage taken -${arg2}% for ${arg3} turn(s).\nWhen own Slow Cook ≧ ${arg4} stack(s), on EX Skill, trigger: Heal all of own Buddies by ${arg5}% of own ATK each turn for ${arg6} turn(s).\nWhen own Secret Spices ≧ ${arg7} stack(s), on EX Skill, trigger: All of own Buddies' ATK +${arg8}% of own base ATK for ${arg9} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10435,
+            "name": "Homemade Dish",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nSigil Passive:\nWhen taking an action, there is a(n) ${arg2}% chance to trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.",
+                    "cd": 2
+                },
+                "1": {
+                    "params": {
+                        "arg1": 96.67,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nSigil Passive:\nWhen taking an action, there is a(n) ${arg2}% chance to trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.",
+                    "cd": 2
+                },
+                "2": {
+                    "params": {
+                        "arg1": 103.34,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nSigil Passive:\nWhen taking an action, there is a(n) ${arg2}% chance to trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.",
+                    "cd": 2
+                },
+                "3": {
+                    "params": {
+                        "arg1": 110,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nSigil Passive:\nWhen taking an action, there is a(n) ${arg2}% chance to trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.",
+                    "cd": 2
+                },
+                "4": {
+                    "params": {
+                        "arg1": 116.67,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nSigil Passive:\nWhen taking an action, there is a(n) ${arg2}% chance to trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.",
+                    "cd": 2
+                },
+                "5": {
+                    "params": {
+                        "arg1": 123.34,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nSigil Passive:\nWhen taking an action, there is a(n) ${arg2}% chance to trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.",
+                    "cd": 2
+                },
+                "6": {
+                    "params": {
+                        "arg1": 130,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nSigil Passive:\nWhen taking an action, there is a(n) ${arg2}% chance to trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.",
+                    "cd": 2
+                },
+                "7": {
+                    "params": {
+                        "arg1": 136.67,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nSigil Passive:\nWhen taking an action, there is a(n) ${arg2}% chance to trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.",
+                    "cd": 2
+                },
+                "8": {
+                    "params": {
+                        "arg1": 143.34,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nSigil Passive:\nWhen taking an action, there is a(n) ${arg2}% chance to trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.",
+                    "cd": 2
+                },
+                "9": {
+                    "params": {
+                        "arg1": 150,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Heal all of own Buddies by ${arg1}% of own ATK.\nSigil Passive:\nWhen taking an action, there is a(n) ${arg2}% chance to trigger: Gain 1 stack of Stir-Fry, Slow Cook, and Secret Spices for 30 turns, up to 10 stacks.",
+                    "cd": 2
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true
+    }
+}

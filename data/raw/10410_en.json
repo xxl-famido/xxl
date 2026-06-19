@@ -1,0 +1,1805 @@
+{
+    "info": {
+        "id": 10410,
+        "name": "Boss Ren",
+        "feature": "Position 1 Boost/CD Reduction",
+        "rarity": 4,
+        "class": 4,
+        "element": 2,
+        "baseHP": 2990,
+        "sign": "5",
+        "baseATK": 417,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Anything unrelated to 'Pets,'\nplease contact my secretary.\"",
+    "interactions": {
+        "0": [
+            "In the Northern Trade Union, if you don't know a trick or two, you won't be able to survive.",
+            "Hobby...? I do have some know-how in disciplining dogs. Would you like a demonstration?",
+            "Asking for trouble? You know what to do.",
+            "My boots are looking a bit dirty."
+        ],
+        "1": [
+            "I do not appear like a busy entrepreneur? Hmph. Of course not. As one hailing from Section Hunk, this kind of build is only natural.",
+            "No hands. Use your tongue."
+        ],
+        "2": [
+            "Hmm...? Looks like it's time to remind you of the rules for interacting with your master.",
+            "Your mouth is feeling empty? It depends on if you behave, heh."
+        ],
+        "3": [
+            "You want a reward from your master? Get on your knees.",
+            "If you keep being that handsy, I'll have to tie those hands up and teach you a proper lesson."
+        ],
+        "98": [
+            "Is that all you've got? I'm disappointed."
+        ],
+        "99": [
+            "Gah..."
+        ],
+        "100": [
+            "Reward and punishment can go hand in hand. If you don't understand, allow me to show you.",
+            "Being the one disciplined for once... bet that's a fresh thrill for you."
+        ]
+    },
+    "story": {
+        "1": "Boss Ren's actually name is Ren Fuyan, a renowned entrepreneur from Section Hunk and one of the big three from the Northern Trade Union. He rarely appears in public except for important events, and most of his affairs seem to be handled by his trusted secretaries. The following description about Boss Ren comes from one of the few interviews he has agreed to give:\n\"On the day of the interview, as Boss Ren walked into the studio, his suit, tightly stretched by his well-built, muscular frame, immediately drew everyone's attention. His calm and composed movements exuded strength and elegance.\"",
+        "2": "Upon meeting, Boss Ren radiated an aura of dominance and authority that seemed to naturally make others fall to their knees. Despite the lack of smile on his face during the conversation, which made the atmosphere less lighthearted compared to interviews with other entrepreneurs, his demeanor alone conveyed an air of sophistication and politeness that captivated the interview team.",
+        "3": "When asked how he maintained such a strong and fit physique despite being nearly to his fifties and at the peak of his career, Boss Ren stated that although he had reached the top as one of the 3 major business leaders of the Northern Trade Union, he never forgot his roots in Section Hunk and still pursued physical training and discipline in his daily life.",
+        "4": "\"When mentioned the recent rumors about Boss Ren privately raising many dogs, he chuckled and mentioned that, now that he was getting older, he had been considering adopting a well-behaved dog to keep him company. However, due to his high standards and the desire to personally train the dog, the process hadn't gone as smoothly as he had hoped.\"\nWe wish Boss Ren continuous success in his business and hope he finds the perfect dog for him soon."
+    },
+    "hookUp": {
+        "cards": [
+            80104,
+            80105,
+            80129
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80104,
+                    "speakerPosition": 1,
+                    "text": "Very well, good boy."
+                },
+                {
+                    "boundId": 80104,
+                    "speakerPosition": 1,
+                    "text": "You know how to fetch your own toys? Fast learner."
+                },
+                {
+                    "boundId": 80104,
+                    "speakerPosition": 1,
+                    "text": "Sit. It's time for your rewards."
+                },
+                {
+                    "boundId": 80104,
+                    "speakerPosition": 0,
+                    "text": "Ouch! Ah—f-feels so good...! Ha... hahh..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80105,
+                    "speakerPosition": 1,
+                    "text": "This is your reward for being well-behaved today."
+                },
+                {
+                    "boundId": 80105,
+                    "speakerPosition": 1,
+                    "text": "Hmm... It suits you."
+                },
+                {
+                    "boundId": 80105,
+                    "speakerPosition": 1,
+                    "text": "Enjoy it, bitch."
+                },
+                {
+                    "boundId": 80105,
+                    "speakerPosition": 0,
+                    "text": "(S-sobs...)"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 1,
+                    "text": "Do you think licking my boots clean is enough?"
+                },
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 1,
+                    "text": "Remove my boots."
+                },
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 1,
+                    "text": "Hands-free, put that mouth of yours to good use."
+                },
+                {
+                    "boundId": 80129,
+                    "speakerPosition": 0,
+                    "text": "M-my pleasure!"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Seems like... you don't know how to serve your master."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Uh... W-what did I do wrong!?"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "I don't need a stupid dog that can't learn new tricks. Get lost."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Arf... Sobs..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "I expected too much from you."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Unable to satisfy my master is my fault... Please forgive me, master! Sob..."
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Tailored Domination",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 13.5,
+                        "arg2": 1,
+                        "arg3": 45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32401,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 14.5,
+                        "arg2": 1,
+                        "arg3": 48.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32401,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 15.5,
+                        "arg2": 1,
+                        "arg3": 51.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32411,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 16.5,
+                        "arg2": 1,
+                        "arg3": 55
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32411,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 17.5,
+                        "arg2": 1,
+                        "arg3": 58.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32421,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 18.5,
+                        "arg2": 1,
+                        "arg3": 61.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\r\nDeal damage ${arg3}% of own ATK to target(s).\r",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 19.5,
+                        "arg2": 1,
+                        "arg3": 65
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 20.5,
+                        "arg2": 1,
+                        "arg3": 68.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32431,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 21.5,
+                        "arg2": 1,
+                        "arg3": 71.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32441,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 22.5,
+                        "arg2": 1,
+                        "arg3": 75
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\r\nDeal damage ${arg3}% of own ATK to target(s).\r",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Absolute Obedience",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 54
+                        },
+                        {
+                            "id": 32402,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32401,
+                            "count": 63
+                        },
+                        {
+                            "id": 32402,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\r\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\r",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32411,
+                            "count": 63
+                        },
+                        {
+                            "id": 32412,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\r\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\r",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32411,
+                            "count": 72
+                        },
+                        {
+                            "id": 32412,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\r\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\r",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 72
+                        },
+                        {
+                            "id": 32422,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\r\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\r",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 81
+                        },
+                        {
+                            "id": 32422,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\r\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\r",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32431,
+                            "count": 81
+                        },
+                        {
+                            "id": 32432,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\r\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\r",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32431,
+                            "count": 90
+                        },
+                        {
+                            "id": 32432,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\r\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\r",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32441,
+                            "count": 90
+                        },
+                        {
+                            "id": 32442,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\r\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\r",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 3
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "AoE ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}%",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": " Discipline",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 13.5,
+                        "arg2": 1,
+                        "arg3": 50,
+                        "arg4": 21.6,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\nOn attack, there is a(n) ${arg3}% chance to trigger: Buddy in Position 1 ATK +${arg4}% of own base ATK for ${arg5} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 14.5,
+                        "arg2": 1,
+                        "arg3": 50,
+                        "arg4": 23.2,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\r\nOn attack, there is a(n) ${arg3}% chance to trigger: Buddy in Position 1 ATK +${arg4}% of own base ATK for ${arg5} turn(s).\r",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 15.5,
+                        "arg2": 1,
+                        "arg3": 50,
+                        "arg4": 24.8,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\r\nOn attack, there is a(n) ${arg3}% chance to trigger: Buddy in Position 1 ATK +${arg4}% of own base ATK for ${arg5} turn(s).\r",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 16.5,
+                        "arg2": 1,
+                        "arg3": 50,
+                        "arg4": 26.4,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\r\nOn attack, there is a(n) ${arg3}% chance to trigger: Buddy in Position 1 ATK +${arg4}% of own base ATK for ${arg5} turn(s).\r",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 17.5,
+                        "arg2": 1,
+                        "arg3": 50,
+                        "arg4": 28,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\r\nOn attack, there is a(n) ${arg3}% chance to trigger: Buddy in Position 1 ATK +${arg4}% of own base ATK for ${arg5} turn(s).\r",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 18.5,
+                        "arg2": 1,
+                        "arg3": 50,
+                        "arg4": 29.6,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\r\nOn attack, there is a(n) ${arg3}% chance to trigger: Buddy in Position 1 ATK +${arg4}% of own base ATK for ${arg5} turn(s).\r",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 19.5,
+                        "arg2": 1,
+                        "arg3": 50,
+                        "arg4": 31.2,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\r\nOn attack, there is a(n) ${arg3}% chance to trigger: Buddy in Position 1 ATK +${arg4}% of own base ATK for ${arg5} turn(s).\r",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 20.5,
+                        "arg2": 1,
+                        "arg3": 50,
+                        "arg4": 32.8,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\r\nOn attack, there is a(n) ${arg3}% chance to trigger: Buddy in Position 1 ATK +${arg4}% of own base ATK for ${arg5} turn(s).\r",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 21.5,
+                        "arg2": 1,
+                        "arg3": 50,
+                        "arg4": 34.4,
+                        "arg5": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\r\nOn attack, there is a(n) ${arg3}% chance to trigger: Buddy in Position 1 ATK +${arg4}% of own base ATK for ${arg5} turn(s).\r",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 22.5,
+                        "arg2": 1,
+                        "arg3": 50,
+                        "arg4": 36,
+                        "arg5": 1
+                    },
+                    "materials": {},
+                    "description": "On attack, trigger: Buddy in Position 1 ATK +${arg1}% of own base ATK for ${arg2} turn(s).\nOn attack, there is a(n) ${arg3}% chance to trigger: Buddy in Position 1 ATK +${arg4}% of own base ATK for ${arg5} turn(s).\n",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Permission to Breathe",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 6,
+                        "arg2": 1,
+                        "arg3": 3,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When defending, trigger: Buddy in Position 1 damage taken -${arg1}% for ${arg2} turn(s).\nWhen defending, trigger: All of own Buddies damage taken -${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 6.45,
+                        "arg2": 1,
+                        "arg3": 3.23,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Buddy in Position 1 damage taken -${arg1}% for ${arg2} turn(s).\nWhen defending, trigger: All of own Buddies damage taken -${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 6.89,
+                        "arg2": 1,
+                        "arg3": 3.45,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When defending, trigger: Buddy in Position 1 damage taken -${arg1}% for ${arg2} turn(s).\nWhen defending, trigger: All of own Buddies damage taken -${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 7.34,
+                        "arg2": 1,
+                        "arg3": 3.67,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Buddy in Position 1 damage taken -${arg1}% for ${arg2} turn(s).\nWhen defending, trigger: All of own Buddies damage taken -${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 7.78,
+                        "arg2": 1,
+                        "arg3": 3.89,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When defending, trigger: Buddy in Position 1 damage taken -${arg1}% for ${arg2} turn(s).\nWhen defending, trigger: All of own Buddies damage taken -${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 8.23,
+                        "arg2": 1,
+                        "arg3": 4.12,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Buddy in Position 1 damage taken -${arg1}% for ${arg2} turn(s).\nWhen defending, trigger: All of own Buddies damage taken -${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 8.67,
+                        "arg2": 1,
+                        "arg3": 4.34,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When defending, trigger: Buddy in Position 1 damage taken -${arg1}% for ${arg2} turn(s).\nWhen defending, trigger: All of own Buddies damage taken -${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 9.12,
+                        "arg2": 1,
+                        "arg3": 4.56,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Buddy in Position 1 damage taken -${arg1}% for ${arg2} turn(s).\nWhen defending, trigger: All of own Buddies damage taken -${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 9.56,
+                        "arg2": 1,
+                        "arg3": 4.78,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When defending, trigger: Buddy in Position 1 damage taken -${arg1}% for ${arg2} turn(s).\nWhen defending, trigger: All of own Buddies damage taken -${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 10,
+                        "arg2": 1,
+                        "arg3": 5,
+                        "arg4": 1
+                    },
+                    "materials": {},
+                    "description": "When defending, trigger: Buddy in Position 1 damage taken -${arg1}% for ${arg2} turn(s).\nWhen defending, trigger: All of own Buddies damage taken -${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Supreme Reward",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 4.5,
+                        "arg2": 1,
+                        "arg3": 4.5,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32401,
+                            "count": 18
+                        },
+                        {
+                            "id": 32403,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 damage dealt +${arg1}% for ${arg2} turn(s).\nOn EX Skill, trigger: All of own Buddies damage dealt +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 4.84,
+                        "arg2": 1,
+                        "arg3": 4.84,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32401,
+                            "count": 21
+                        },
+                        {
+                            "id": 32403,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 damage dealt +${arg1}% for ${arg2} turn(s).\nOn EX Skill, trigger: All of own Buddies damage dealt +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 5.17,
+                        "arg2": 1,
+                        "arg3": 5.17,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32411,
+                            "count": 21
+                        },
+                        {
+                            "id": 32413,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 damage dealt +${arg1}% for ${arg2} turn(s).\nOn EX Skill, trigger: All of own Buddies damage dealt +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 5.5,
+                        "arg2": 1,
+                        "arg3": 5.5,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32411,
+                            "count": 24
+                        },
+                        {
+                            "id": 32413,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 damage dealt +${arg1}% for ${arg2} turn(s).\nOn EX Skill, trigger: All of own Buddies damage dealt +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 5.84,
+                        "arg2": 1,
+                        "arg3": 5.84,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32421,
+                            "count": 24
+                        },
+                        {
+                            "id": 32423,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 damage dealt +${arg1}% for ${arg2} turn(s).\nOn EX Skill, trigger: All of own Buddies damage dealt +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 6.17,
+                        "arg2": 1,
+                        "arg3": 6.17,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32421,
+                            "count": 27
+                        },
+                        {
+                            "id": 32423,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 damage dealt +${arg1}% for ${arg2} turn(s).\nOn EX Skill, trigger: All of own Buddies damage dealt +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 6.5,
+                        "arg2": 1,
+                        "arg3": 6.5,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32431,
+                            "count": 27
+                        },
+                        {
+                            "id": 32433,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 damage dealt +${arg1}% for ${arg2} turn(s).\nOn EX Skill, trigger: All of own Buddies damage dealt +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 6.84,
+                        "arg2": 1,
+                        "arg3": 6.84,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32431,
+                            "count": 30
+                        },
+                        {
+                            "id": 32433,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 damage dealt +${arg1}% for ${arg2} turn(s).\nOn EX Skill, trigger: All of own Buddies damage dealt +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 7.17,
+                        "arg2": 1,
+                        "arg3": 7.17,
+                        "arg4": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32441,
+                            "count": 30
+                        },
+                        {
+                            "id": 32443,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On attack, trigger: Buddy in Position 1 damage dealt +${arg1}% for ${arg2} turn(s).\nOn EX Skill, trigger: All of own Buddies damage dealt +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 7.5,
+                        "arg2": 1,
+                        "arg3": 7.5,
+                        "arg4": 1
+                    },
+                    "materials": {},
+                    "description": "On attack, trigger: Buddy in Position 1 damage dealt +${arg1}% for ${arg2} turn(s).\nOn EX Skill, trigger: All of own Buddies damage dealt +${arg3}% for ${arg4} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10410,
+            "name": "Absolute Obedience",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 3,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\nBuddy in Position 1 gain ${arg3} action(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 3,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\nBuddy in Position 1 gain ${arg3} action(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 3,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\nBuddy in Position 1 gain ${arg3} action(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 3,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\nBuddy in Position 1 gain ${arg3} action(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 3,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\nBuddy in Position 1 gain ${arg3} action(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 3,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\nBuddy in Position 1 gain ${arg3} action(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 3,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\nBuddy in Position 1 gain ${arg3} action(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 3,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\nBuddy in Position 1 gain ${arg3} action(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 2,
+                        "arg2": 3,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\nBuddy in Position 1 gain ${arg3} action(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 3,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Buddy in Position 1 EX Skill CD -${arg1} turn(s).\nGrant Buddy in Position 1 Immunity to EX Skill CD changes for ${arg2} turn(s).\nBuddy in Position 1 gain ${arg3} action(s).",
+                    "cd": 3
+                }
+            },
+            "type": 0
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true
+    }
+}

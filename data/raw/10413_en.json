@@ -1,0 +1,1659 @@
+{
+    "info": {
+        "id": 10413,
+        "name": "Baade",
+        "feature": "Focused Assault / Persistent Damage",
+        "rarity": 4,
+        "class": 1,
+        "element": 1,
+        "baseHP": 2288,
+        "sign": "sign_E",
+        "baseATK": 546,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"For my family, I'd go\ndown the deepest mine.\"",
+    "interactions": {
+        "0": [
+            "I can't afford to fall here... not until my children are grown!",
+            "I think of my kids at work. Though we don't see each other often, their innocent smiles are the greatest motivation for me to keep pushing."
+        ],
+        "1": [
+            "This necklace? Haha, my eldest son made it. Talented, isn't he? I'm so proud of him!",
+            "Quit staring at my chest... What kind of dirty thoughts are you having?!",
+            "Mm... maybe we could try it here..."
+        ],
+        "2": [
+            "This headlamp has been with me since I started working... It's got plenty of stories, haha!",
+            "Sometimes, when seeing a pacifier, I wanna..."
+        ],
+        "3": [
+            "Whoa...! Aren't you a bit too bold?",
+            "Ugh... Don't mess around like that. You're distracting me from my work!",
+            "Hmm? I should try the advanced model? A crowbar?!"
+        ],
+        "98": [
+            "You worthless trash... Stay away from my precious kids! Not a single step closer—!"
+        ],
+        "99": [
+            "No... I can't fall here... If I do, then my kids..."
+        ],
+        "100": [
+            "Don't go into the mines without proper gear. The air alone can mess up your body.",
+            "I've been in the mines lately... Taking a break sounds nice. Sorry, I'm rambling again."
+        ]
+    },
+    "story": {
+        "1": "In the Northern Lands, Baade is a foreman working under Damian's mining business, mainly responsible for gathering minerals. He is a black hare Beastfolk, who originally had a bold and sometimes even rough personality, however, after becoming a father, he seemed to soften and become more sensitive. Perhaps this is a testament to how devoted he has been to his kids.",
+        "2": "With 6 children to raise, Baade entered the work field at a young age. To provide a better life for his children, Baade devoted most of his time to work. As a result, he ended up hardly having any time to be with his children, emotionally distancing himself more and more from them. Subsequently, it became even more difficult for him to express his feelings to them properly. However, if given the chance to talk about his children, you can still sense how deeply he adores them.",
+        "3": "When it comes to things Baade likes, it's always his children. So, instead of giving him what he enjoys, it'd be better to give him what his children would enjoy... Although Baade might not even know what they actually prefer.",
+        "4": "Due to overworking, Baade has accumulated many old injuries. Emotional distress has also caused his condition to deteriorate over time. Although Damian continues to apply the unique elven aromatherapy for Baade, it doesn't seem to be a sustainable solution. Naturally, it has started to worry those around him."
+    },
+    "hookUp": {
+        "cards": [
+            80105,
+            80062,
+            80126
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80105,
+                    "speakerPosition": 1,
+                    "text": "Never thought you'd like it this way."
+                },
+                {
+                    "boundId": 80105,
+                    "speakerPosition": 1,
+                    "text": "Good, it seems like we are a match."
+                },
+                {
+                    "boundId": 80105,
+                    "speakerPosition": 0,
+                    "text": "Baade likes ball gags, huh? Then we can try \"that\" next."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80062,
+                    "speakerPosition": 1,
+                    "text": "Umm... This kind of toy, I have never tried it before."
+                },
+                {
+                    "boundId": 80062,
+                    "speakerPosition": 1,
+                    "text": "Though it's a bit embarrassing, I'm actually quite curious about what this thing feels like..."
+                },
+                {
+                    "boundId": 80062,
+                    "speakerPosition": 0,
+                    "text": "There's a different side of Baade..."
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80126,
+                    "speakerPosition": 1,
+                    "text": "Nipples... My ex used to like to tease me like this..."
+                },
+                {
+                    "boundId": 80126,
+                    "speakerPosition": 1,
+                    "text": "It's a bit itchy, but not bad."
+                },
+                {
+                    "boundId": 80126,
+                    "speakerPosition": 0,
+                    "text": "Baade seems quite happy..."
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Oh... You seem to still be learning."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "This reaction... I'm probably getting looked down upon..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Is that all you've got? Can you even handle this?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Umm...?"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Tch..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Baade doesn't seem interested..."
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Jet Pickaxe",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 64.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32101,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 68.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32111,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 73.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32111,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 77.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32121,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 82.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 86.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 91.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32131,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 95.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32141,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 100
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Chisel Strike",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 100.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 54
+                        },
+                        {
+                            "id": 32102,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.",
+                    "cd": 2
+                },
+                "1": {
+                    "params": {
+                        "arg1": 107.63
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32101,
+                            "count": 63
+                        },
+                        {
+                            "id": 32102,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.",
+                    "cd": 2
+                },
+                "2": {
+                    "params": {
+                        "arg1": 115.05
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 63
+                        },
+                        {
+                            "id": 32112,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.",
+                    "cd": 2
+                },
+                "3": {
+                    "params": {
+                        "arg1": 122.47
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32111,
+                            "count": 72
+                        },
+                        {
+                            "id": 32112,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.",
+                    "cd": 2
+                },
+                "4": {
+                    "params": {
+                        "arg1": 129.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 72
+                        },
+                        {
+                            "id": 32122,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.",
+                    "cd": 2
+                },
+                "5": {
+                    "params": {
+                        "arg1": 137.32
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 81
+                        },
+                        {
+                            "id": 32122,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.",
+                    "cd": 2
+                },
+                "6": {
+                    "params": {
+                        "arg1": 144.74
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 81
+                        },
+                        {
+                            "id": 32132,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.",
+                    "cd": 2
+                },
+                "7": {
+                    "params": {
+                        "arg1": 152.16
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32131,
+                            "count": 90
+                        },
+                        {
+                            "id": 32132,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.",
+                    "cd": 2
+                },
+                "8": {
+                    "params": {
+                        "arg1": 159.58
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32141,
+                            "count": 90
+                        },
+                        {
+                            "id": 32142,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.",
+                    "cd": 2
+                },
+                "9": {
+                    "params": {
+                        "arg1": 167
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.",
+                    "cd": 2
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 18
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 19.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 20.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 23.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 24.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 26
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 27.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 28.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 30
+                    },
+                    "materials": {},
+                    "description": "Own ATK +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Loving Lullaby",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 27
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own EX Skill effect +${arg1}%.\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Remove Chisel Marks from target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 29
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own EX Skill effect +${arg1}%.\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Remove Chisel Marks from target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 31
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own EX Skill effect +${arg1}%.\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Remove Chisel Marks from target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 33
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own EX Skill effect +${arg1}%.\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Remove Chisel Marks from target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 35
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own EX Skill effect +${arg1}%.\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Remove Chisel Marks from target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 37
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own EX Skill effect +${arg1}%.\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Remove Chisel Marks from target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 39
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own EX Skill effect +${arg1}%.\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Remove Chisel Marks from target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 41
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own EX Skill effect +${arg1}%.\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Remove Chisel Marks from target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 43
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own EX Skill effect +${arg1}%.\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Remove Chisel Marks from target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 45
+                    },
+                    "materials": {},
+                    "description": "When locked target(s) is/are with Chisel Marks, own EX Skill effect +${arg1}%.\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Remove Chisel Marks from target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Mining Instinct",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 36
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own Basic Attack damage +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 38.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own Basic Attack damage +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 41.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own Basic Attack damage +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 44
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own Basic Attack damage +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 46.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own Basic Attack damage +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 49.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own Basic Attack damage +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 52
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own Basic Attack damage +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 54.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own Basic Attack damage +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 57.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, own Basic Attack damage +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 60
+                    },
+                    "materials": {},
+                    "description": "When locked target(s) is/are with Chisel Marks, own Basic Attack damage +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "Focused Smash",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 27,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32101,
+                            "count": 18
+                        },
+                        {
+                            "id": 32103,
+                            "count": 8
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, on Basic Attack, trigger: Own EX Skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 29,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32101,
+                            "count": 21
+                        },
+                        {
+                            "id": 32103,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, on Basic Attack, trigger: Own EX Skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 31,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32111,
+                            "count": 21
+                        },
+                        {
+                            "id": 32113,
+                            "count": 9
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, on Basic Attack, trigger: Own EX Skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 33,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32111,
+                            "count": 24
+                        },
+                        {
+                            "id": 32113,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, on Basic Attack, trigger: Own EX Skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 35,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32121,
+                            "count": 24
+                        },
+                        {
+                            "id": 32123,
+                            "count": 11
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, on Basic Attack, trigger: Own EX Skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 37,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32121,
+                            "count": 27
+                        },
+                        {
+                            "id": 32123,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, on Basic Attack, trigger: Own EX Skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 39,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32131,
+                            "count": 27
+                        },
+                        {
+                            "id": 32133,
+                            "count": 13
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, on Basic Attack, trigger: Own EX Skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 41,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32131,
+                            "count": 30
+                        },
+                        {
+                            "id": 32133,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, on Basic Attack, trigger: Own EX Skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 43,
+                        "arg2": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32141,
+                            "count": 30
+                        },
+                        {
+                            "id": 32143,
+                            "count": 15
+                        }
+                    ],
+                    "description": "When locked target(s) is/are with Chisel Marks, on Basic Attack, trigger: Own EX Skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 45,
+                        "arg2": 2
+                    },
+                    "materials": {},
+                    "description": "When locked target(s) is/are with Chisel Marks, on Basic Attack, trigger: Own EX Skill effect +${arg1}% for ${arg2} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10413,
+            "name": "Chisel Strike",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 100.2,
+                        "arg2": 104.85
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.\nSigil Passive:\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "1": {
+                    "params": {
+                        "arg1": 107.63,
+                        "arg2": 112.62
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.\nSigil Passive:\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "2": {
+                    "params": {
+                        "arg1": 115.05,
+                        "arg2": 120.39
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.\nSigil Passive:\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "3": {
+                    "params": {
+                        "arg1": 122.47,
+                        "arg2": 128.15
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.\nSigil Passive:\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "4": {
+                    "params": {
+                        "arg1": 129.89,
+                        "arg2": 135.92
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.\nSigil Passive:\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "5": {
+                    "params": {
+                        "arg1": 137.32,
+                        "arg2": 143.69
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.\nSigil Passive:\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "6": {
+                    "params": {
+                        "arg1": 144.74,
+                        "arg2": 151.45
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.\nSigil Passive:\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "7": {
+                    "params": {
+                        "arg1": 152.16,
+                        "arg2": 159.22
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.\nSigil Passive:\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "8": {
+                    "params": {
+                        "arg1": 159.58,
+                        "arg2": 166.99
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.\nSigil Passive:\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 2
+                },
+                "9": {
+                    "params": {
+                        "arg1": 167,
+                        "arg2": 174.75
+                    },
+                    "materials": {},
+                    "description": "Deal damage ${arg1}% of own ATK to target(s).\nTarget(s) gains/gain Chisel Marks.\nSigil Passive:\nWhen locked target(s) is/are with Chisel Marks, on EX Skill, trigger: Deal damage ${arg2}% of own ATK to target(s).",
+                    "cd": 2
+                }
+            },
+            "type": 1
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true
+    }
+}

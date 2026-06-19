@@ -1,0 +1,1811 @@
+{
+    "info": {
+        "id": 10428,
+        "name": "Ricano",
+        "feature": "Weakening EX / Taunting Mark",
+        "rarity": 4,
+        "class": 5,
+        "element": 1,
+        "baseHP": 2625,
+        "sign": "sign_V",
+        "baseATK": 476,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Arf! Do you also want a\nphoto with Star Pup?\"",
+    "interactions": {
+        "0": [
+            "Sometimes I worry, maybe everyone only likes Star Pup... Never mind! I'm just talking to myself.",
+            "Wearing the costume gets really hot and exhausting... but seeing everyone smile makes it all worth it.",
+            "L-last time... when Famido came up from behind... it felt... really nice...",
+            "If... I mean, just if... falling asleep in the arms of someone you like would probably feel really cozy..."
+        ],
+        "1": [
+            "Arf~! I may not be as big as Famido, but I'm pretty confident about my chest!",
+            "Woah... Most people also get handsy when we take photos together, arf..."
+        ],
+        "2": [
+            "Whoa~! W-wait... not there... ugh... um... can you keep touching...?",
+            "Famido always tosses his socks everywhere after working out! And then I..."
+        ],
+        "3": [
+            "Woah! Not here... there are people watching!",
+            "Ungh... No... If I got a reaction here... It's going to be obvious..."
+        ],
+        "98": [
+            "And~ showtime success~☆"
+        ],
+        "99": [
+            "Ugh... that hurts... I won't skip rehearsal next time..."
+        ],
+        "100": [
+            "Arf! Here is a big hug for you~☆",
+            "This spot feels kinda special... guess trying it once in a while is okay."
+        ]
+    },
+    "story": {
+        "1": "Ricano is a Husky Beastfolk who, like Famido, comes from the Northern Ruins. He is also a member of the student council at NTUU. He serves as the performer for the campus mascot, Star Pup. His physical abilities are astounding, even in the heavy mascot costume, he can effortlessly perform difficult maneuvers like tumbles and jumps, making him very popular among students and faculty. Whether it's for club activities, intercollegiate competitions, or other large-scale events, Ricano/Star Pup can always be seen, full of energy, and always manages to hype up the crowd in no time.\n\nThanks to Ricano's ingenuity, the Star Pup costume is even equipped with a voice changer, overcoming the limitation of silent mascots and making his portrayal of Star Pup even more lively.",
+        "2": "Ricano is Famido's junior and roommate. In their freshman year, they were assigned to the same dorm room by chance. Having been responsible for taking care of his younger brother since he was a child, Ricano has excellent housekeeping skills. After moving in with Famido, perhaps out of affection or simply because he just can't stand it, he naturally takes on most of the daily chores for his clueless senior, handling everything from laundry and cooking to cleaning the room. This has even become a hot topic on campus, with everyone speculating about their relationship... Of course, Famido's admirers are not happy about this.",
+        "3": "Because he often makes appearances at various club events, Ricano is extremely popular and knows people from every department on campus. His handsome looks, cheerful smile, and humorous personality allow him to navigate crowds effortlessly, and he has attracted many admirers. Although he seems to welcome any romantic attention that comes his way, the only person he truly cares about, from start to finish, is Famido.\n\nHe always subtly shows his affection in small details: preparing a taste of their northern hometown cuisine for Famido's birthday, or canceling all his activities to stay in the dorm and take care of Famido when he's sick... But the oblivious Famido never notices, simply tossing a \"Thanks\" after a meal before rushing off to practice. The thin veil of ambiguity between them is as transparent as rice paper, yet neither is willing to be the one to break it.",
+        "4": "As a child, Ricano was ostracized by his peers for being introverted, which led him to develop the habit of hiding his vulnerability behind a smile. Despite this, the joy he brings to others is not a facade, he genuinely wants to make people happy. Only when he's alone with Famido does he let down his guard, revealing a world-weary and sometimes tired side, complaining to him about the tediousness of school life. Famido always retorts with a half-annoyed \"You're just too nice.\"\n\nIf you want to get truly closer to Ricano, it's best to quietly listen and offer companionship during those moments when he drops his smile and shows his true self. Being able to see past the smile and into his heart means you have become someone truly important and trusted by him."
+    },
+    "hookUp": {
+        "cards": [
+            80013,
+            80021,
+            80134
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 1,
+                    "text": "Sniff, sniff—"
+                },
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 1,
+                    "text": "This smell... it's so familiar... ngh! It's Famido's socks!"
+                },
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 1,
+                    "text": "Where did you even get these from, wait..."
+                },
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 1,
+                    "text": "Hey, stop it! Don't shove them right up to my nose!"
+                },
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 1,
+                    "text": "Wah... ngh..."
+                },
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 0,
+                    "text": "This is something I just found in your bag..."
+                },
+                {
+                    "boundId": 80013,
+                    "speakerPosition": 0,
+                    "text": "But... looks like you kinda like it~"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80021,
+                    "speakerPosition": 1,
+                    "text": "Ugh..."
+                },
+                {
+                    "boundId": 80021,
+                    "speakerPosition": 1,
+                    "text": "What are you doing coming up from behind...? Ngh!"
+                },
+                {
+                    "boundId": 80021,
+                    "speakerPosition": 1,
+                    "text": "Hah... haha... stop... get away..."
+                },
+                {
+                    "boundId": 80021,
+                    "speakerPosition": 0,
+                    "text": "Look at his tail wagging like it's about to take off... guess he really likes it."
+                },
+                {
+                    "boundId": 80021,
+                    "speakerPosition": 0,
+                    "text": "So you like it from behind, huh!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80134,
+                    "speakerPosition": 1,
+                    "text": "Wah!"
+                },
+                {
+                    "boundId": 80134,
+                    "speakerPosition": 1,
+                    "text": "This feeling... being held so tightly..."
+                },
+                {
+                    "boundId": 80134,
+                    "speakerPosition": 1,
+                    "text": "Hah... so comfy... purrr... purr..."
+                },
+                {
+                    "boundId": 80134,
+                    "speakerPosition": 0,
+                    "text": "He actually fell asleep."
+                },
+                {
+                    "boundId": 80134,
+                    "speakerPosition": 0,
+                    "text": "But Ricano looks pretty cute when he's sleeping~"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Whoa~ this feels kind of special!"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "It's actually pretty nice... Want to try a little more?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Hey... don't just enjoy yourself..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Is there anything else?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Wait, I still need to go watch the football team practice."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Damn it, next round I'll make sure you don't have time to daydream!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "It... does feel kind of nice."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "But maybe we should try something different?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Ugh... so halfhearted... damn it."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "His eyes are already drifting somewhere else."
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Hype Up!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 3.75,
+                        "arg2": 2,
+                        "arg3": 45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32501,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 4.03,
+                        "arg2": 2,
+                        "arg3": 48.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32501,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 4.31,
+                        "arg2": 2,
+                        "arg3": 51.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32511,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 4.59,
+                        "arg2": 2,
+                        "arg3": 55
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32511,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 4.87,
+                        "arg2": 2,
+                        "arg3": 58.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32521,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 5.14,
+                        "arg2": 2,
+                        "arg3": 61.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 5.42,
+                        "arg2": 2,
+                        "arg3": 65
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 5.7,
+                        "arg2": 2,
+                        "arg3": 68.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32531,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 5.98,
+                        "arg2": 2,
+                        "arg3": 71.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32541,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 6.25,
+                        "arg2": 2,
+                        "arg3": 75
+                    },
+                    "materials": {},
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Star Pup☆Call Out",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 2,
+                        "arg3": 90
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 54
+                        },
+                        {
+                            "id": 32502,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 2,
+                        "arg3": 96.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32501,
+                            "count": 63
+                        },
+                        {
+                            "id": 32502,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 2,
+                        "arg3": 103.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32511,
+                            "count": 63
+                        },
+                        {
+                            "id": 32512,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 2,
+                        "arg3": 110
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32511,
+                            "count": 72
+                        },
+                        {
+                            "id": 32512,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 2,
+                        "arg3": 116.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 72
+                        },
+                        {
+                            "id": 32522,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 2,
+                        "arg3": 123.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 81
+                        },
+                        {
+                            "id": 32522,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 2,
+                        "arg3": 130
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32531,
+                            "count": 81
+                        },
+                        {
+                            "id": 32532,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 2,
+                        "arg3": 136.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32531,
+                            "count": 90
+                        },
+                        {
+                            "id": 32532,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 2,
+                        "arg3": 143.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32541,
+                            "count": 90
+                        },
+                        {
+                            "id": 32542,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 2,
+                        "arg3": 150
+                    },
+                    "materials": {},
+                    "description": "Target damage taken +${arg1}% for ${arg2} turn(s).\nDeal damage ${arg3}% of own ATK to target(s).",
+                    "cd": 3
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "Fire ATK Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 7.2,
+                        "arg2": 3.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 7.74,
+                        "arg2": 3.87
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 8.27,
+                        "arg2": 4.14
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 8.8,
+                        "arg2": 4.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 9.34,
+                        "arg2": 4.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 9.87,
+                        "arg2": 4.94
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 10.4,
+                        "arg2": 5.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 10.94,
+                        "arg2": 5.47
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 11.47,
+                        "arg2": 5.74
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 12,
+                        "arg2": 6
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' ATK +${arg1}%.\nAll of own Fire Buddies' ATK +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Flawless Idol",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 8.28,
+                        "arg2": 7.2,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Target damage taken +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 8.9,
+                        "arg2": 7.74,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Target damage taken +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 9.51,
+                        "arg2": 8.27,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Target damage taken +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 10.12,
+                        "arg2": 8.8,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Target damage taken +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 10.74,
+                        "arg2": 9.34,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Target damage taken +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 11.35,
+                        "arg2": 9.87,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Target damage taken +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 11.96,
+                        "arg2": 10.4,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Target damage taken +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 12.58,
+                        "arg2": 10.94,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Target damage taken +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 13.19,
+                        "arg2": 11.47,
+                        "arg3": 1
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Target damage taken +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 13.8,
+                        "arg2": 12,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' EX Skill effect +${arg1}%.\nOn EX Skill, trigger: Target damage taken +${arg2}% for ${arg3} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Captivating Charisma",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 30
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "On EX Skill, deal damage ${arg1}% of own ATK to random target(s). This effect counts as EX Skill damage.\nOn EX Skill, deal damage ${arg2}% of own ATK to random target(s). This effect counts as EX Skill damage.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 32.23,
+                        "arg2": 32.23
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, deal damage ${arg1}% of own ATK to random target(s). This effect counts as EX Skill damage.\nOn EX Skill, deal damage ${arg2}% of own ATK to random target(s). This effect counts as EX Skill damage.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 34.45,
+                        "arg2": 34.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "On EX Skill, deal damage ${arg1}% of own ATK to random target(s). This effect counts as EX Skill damage.\nOn EX Skill, deal damage ${arg2}% of own ATK to random target(s). This effect counts as EX Skill damage.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 36.67,
+                        "arg2": 36.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, deal damage ${arg1}% of own ATK to random target(s). This effect counts as EX Skill damage.\nOn EX Skill, deal damage ${arg2}% of own ATK to random target(s). This effect counts as EX Skill damage.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 38.89,
+                        "arg2": 38.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "On EX Skill, deal damage ${arg1}% of own ATK to random target(s). This effect counts as EX Skill damage.\nOn EX Skill, deal damage ${arg2}% of own ATK to random target(s). This effect counts as EX Skill damage.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 41.12,
+                        "arg2": 41.12
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, deal damage ${arg1}% of own ATK to random target(s). This effect counts as EX Skill damage.\nOn EX Skill, deal damage ${arg2}% of own ATK to random target(s). This effect counts as EX Skill damage.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 43.34,
+                        "arg2": 43.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "On EX Skill, deal damage ${arg1}% of own ATK to random target(s). This effect counts as EX Skill damage.\nOn EX Skill, deal damage ${arg2}% of own ATK to random target(s). This effect counts as EX Skill damage.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 45.56,
+                        "arg2": 45.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, deal damage ${arg1}% of own ATK to random target(s). This effect counts as EX Skill damage.\nOn EX Skill, deal damage ${arg2}% of own ATK to random target(s). This effect counts as EX Skill damage.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 47.78,
+                        "arg2": 47.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "On EX Skill, deal damage ${arg1}% of own ATK to random target(s). This effect counts as EX Skill damage.\nOn EX Skill, deal damage ${arg2}% of own ATK to random target(s). This effect counts as EX Skill damage.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "On EX Skill, deal damage ${arg1}% of own ATK to random target(s). This effect counts as EX Skill damage.\nOn EX Skill, deal damage ${arg2}% of own ATK to random target(s). This effect counts as EX Skill damage.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "The One and Only Star",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 10.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32501,
+                            "count": 18
+                        },
+                        {
+                            "id": 32503,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When locked target(s) is/are with Taunt, own damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 11.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32501,
+                            "count": 21
+                        },
+                        {
+                            "id": 32503,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When locked target(s) is/are with Taunt, own damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 12.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32511,
+                            "count": 21
+                        },
+                        {
+                            "id": 32513,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When locked target(s) is/are with Taunt, own damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 13.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32511,
+                            "count": 24
+                        },
+                        {
+                            "id": 32513,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When locked target(s) is/are with Taunt, own damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 14
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32521,
+                            "count": 24
+                        },
+                        {
+                            "id": 32523,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When locked target(s) is/are with Taunt, own damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 14.8
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32521,
+                            "count": 27
+                        },
+                        {
+                            "id": 32523,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When locked target(s) is/are with Taunt, own damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 15.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32531,
+                            "count": 27
+                        },
+                        {
+                            "id": 32533,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When locked target(s) is/are with Taunt, own damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 16.4
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32531,
+                            "count": 30
+                        },
+                        {
+                            "id": 32533,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When locked target(s) is/are with Taunt, own damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 17.2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32541,
+                            "count": 30
+                        },
+                        {
+                            "id": 32543,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Except self, all of own Buddies gain: When locked target(s) is/are with Taunt, own damage dealt +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 18
+                    },
+                    "materials": {},
+                    "description": "Except self, all of own Buddies gain: When locked target(s) is/are with Taunt, own damage dealt +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10428,
+            "name": "Star Pup☆Call Out",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 11.25,
+                        "arg3": 2,
+                        "arg4": 105
+                    },
+                    "materials": {},
+                    "description": "Target(s) gains/gain Taunt for ${arg1} turn(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nDeal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "1": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 12.09,
+                        "arg3": 2,
+                        "arg4": 112.78
+                    },
+                    "materials": {},
+                    "description": "Target(s) gains/gain Taunt for ${arg1} turn(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nDeal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "2": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 12.92,
+                        "arg3": 2,
+                        "arg4": 120.56
+                    },
+                    "materials": {},
+                    "description": "Target(s) gains/gain Taunt for ${arg1} turn(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nDeal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "3": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 13.75,
+                        "arg3": 2,
+                        "arg4": 128.34
+                    },
+                    "materials": {},
+                    "description": "Target(s) gains/gain Taunt for ${arg1} turn(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nDeal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "4": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 14.59,
+                        "arg3": 2,
+                        "arg4": 136.12
+                    },
+                    "materials": {},
+                    "description": "Target(s) gains/gain Taunt for ${arg1} turn(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nDeal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "5": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 15.42,
+                        "arg3": 2,
+                        "arg4": 143.89
+                    },
+                    "materials": {},
+                    "description": "Target(s) gains/gain Taunt for ${arg1} turn(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nDeal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "6": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 16.25,
+                        "arg3": 2,
+                        "arg4": 151.67
+                    },
+                    "materials": {},
+                    "description": "Target(s) gains/gain Taunt for ${arg1} turn(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nDeal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "7": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 17.09,
+                        "arg3": 2,
+                        "arg4": 159.45
+                    },
+                    "materials": {},
+                    "description": "Target(s) gains/gain Taunt for ${arg1} turn(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nDeal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "8": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 17.92,
+                        "arg3": 2,
+                        "arg4": 167.23
+                    },
+                    "materials": {},
+                    "description": "Target(s) gains/gain Taunt for ${arg1} turn(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nDeal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 3
+                },
+                "9": {
+                    "params": {
+                        "arg1": 1,
+                        "arg2": 18.75,
+                        "arg3": 2,
+                        "arg4": 175
+                    },
+                    "materials": {},
+                    "description": "Target(s) gains/gain Taunt for ${arg1} turn(s).\nTarget damage taken +${arg2}% for ${arg3} turn(s).\nDeal damage ${arg4}% of own ATK to target(s).",
+                    "cd": 3
+                }
+            },
+            "type": 0
+        }
+    },
+    "skins": {
+        "0": true,
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true
+    }
+}
