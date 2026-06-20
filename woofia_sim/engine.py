@@ -927,8 +927,36 @@ def _is_poisoned(tgt: "Unit | None", state: BattleState) -> bool:
     return any(e[0] is tgt for u in state.allies + state.enemies for e in u.dots)
 
 
+def _ready_subs(caster: Unit, event: str, state: BattleState,
+                current_target: Unit | None) -> list[tuple[Subscription, str]]:
+    """Subs that fire for `event` now: gate/barrier/once-qualified and chance rolled.
+    Side effects: rolls the RNG and disarms once-subs (so call exactly once per event).
+    Returns [(sub, src)]; the caller applies effects (allows damage/buff phase split)."""
+    # snapshot which gated subs qualify BEFORE firing, so same-event triggers
+    # (e.g. transform A->B and B->A) don't chain-cancel within one event.
+    ready = [s for s in list(caster.subs)
+             if s.event == event and _qualifies(s, caster, current_target)
+             and (not s.need_team_barrier or _team_has_barrier(caster, state))
+             and (not s.need_self_barrier or caster.barrier > 0)   # 자기 배리어 보유 시만 (오렘 충격역류)
+             and (not s.once or s.armed)           # once-sub: 장전된 동안만
+             and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]
+    out: list[tuple[Subscription, str]] = []
+    for sub in ready:
+        if not state.force_proc and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+            continue
+        if sub.once:
+            sub.armed = False                       # 1회 발동 후 소진 (다음 재발동에 재장전)
+        # triggered damage is 발동 by default; 내기혼신 (Qi Surge) is judged basic
+        src = "basic" if sub.gate_stack in BASIC_JUDGED_STACKS else "trigger"
+        out.append((sub, src))
+    return out
+
+
 def _fire_subs(caster: Unit, event: str, state: BattleState,
                current_target: Unit | None) -> None:
+    # Sequential per-sub (roll → apply → next roll) — preserves seeded RNG order even
+    # when an earlier sub's effects roll (apply_effect effect-chance). _ready_subs is
+    # only for the simultaneous-AoE 2-pass where rolling all up-front IS the intent.
     # snapshot which gated subs qualify BEFORE firing, so same-event triggers
     # (e.g. transform A->B and B->A) don't chain-cancel within one event.
     ready = [s for s in list(caster.subs)
@@ -989,12 +1017,23 @@ def _gate_reps(caster: Unit, gate_stack: str | None) -> int:
 
 def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
                  current_target: Unit | None) -> None:
-    """Resolve attack-triggered subs across `events` in two passes: all non-damage
-    effects (buffs/stacks/transforms this attack grants) first, then all triggered
-    damages. Conditional damage thus sees the fully-buffed ATK from the same attack.
+    """Resolve attack-triggered subs across `events` in TWO passes, ordered to match
+    the confirmed in-game rule (파미도/리카노/세숭/멍/제트블랙/신리랑, 오차 0):
+
+    Pass 1 interleaves 발동효과(STAT_TRIGGERED_EFFECT) buffs and triggered (발동)
+    DAMAGES in firing order (= subscription install order = 일반 패시브 → 도장
+    패시브). 발동효과 is the triggered damage's OWN effect channel, so a proc sees
+    only the 발동효과 granted by subs that fired BEFORE it — accumulating in sequence
+    (신리랑: 패시브 +60 → 80% proc[+60] → 도장 +30 → 40% proc[+90]; 제트블랙 Still
+    Mind +24 → Full Support proc[+24], 1턴차부터).
+
+    Pass 2 applies everything else (ATK/기초ATK/고정ATK such as 전술판독 +30%, 받뎀
+    such as 리카노 사이드라인 +12%, stacks). These land AFTER all procs, so a proc
+    never sees same-action ATK/받뎀 grants — only carried-over buffs and this skill's
+    body effects (applied earlier, before this call).
 
     Gates are snapshotted and chances rolled ONCE up-front (before any effect), so
-    buff-pass state changes don't retroactively gate the damage pass.
+    later state changes don't retroactively gate the damage pass.
     """
     fired: list[tuple[Subscription, str]] = []
     for event in events:
@@ -1007,15 +1046,24 @@ def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
                 continue
             src = "basic" if sub.gate_stack in BASIC_JUDGED_STACKS else "trigger"
             fired.append((sub, src))
-    for want_damage in (False, True):
+    # 2-패스 순서 (인게임 확정):
+    #   Pass 1 — 발동효과(발동딜 자신의 효과 채널) 버프 + 발동딜(DAMAGE)을 발동 순서대로
+    #            인라인 적용. 발동효과는 "그 딜보다 앞서 발동한 분"만 반영된다(순차 누적).
+    #            예) 신리랑: 패시브 발동효과+60 → 80%딜(60%만) → 도장 발동효과+30 → 40%딜(90%).
+    #            (발동 순서 = subs 설치순서 = 일반 패시브 → 도장 패시브)
+    #   Pass 2 — ATK·기초ATK·고정ATK(전술판독)·받뎀(리카노 사이드라인) 등 나머지는 모든 발동딜 뒤.
+    def _inline(eff: Effect) -> bool:
+        return eff.kind == DAMAGE or (eff.kind in (BUFF, DEBUFF)
+                                      and eff.stat == STAT_TRIGGERED_EFFECT)
+    for inline_pass in (True, False):
         for sub, src in fired:
-            if want_damage and sub.repeat_stack:
+            if inline_pass and sub.repeat_stack:
                 reps = _repeat_count(sub, state)        # EX multi-hit by enemy stacks
             else:
                 reps = _gate_reps(caster, sub.gate_stack)  # OR-gate: once per held dog
             for _ in range(reps):
                 for eff in sub.effects:
-                    if (eff.kind == DAMAGE) == want_damage:
+                    if _inline(eff) == inline_pass:
                         apply_effect(eff, caster, state, current_target, source=src,
                                      grantor=sub.grantor)
 
@@ -1028,13 +1076,15 @@ def _fire_time_subs(unit: Unit, state: BattleState) -> None:
     foes = [u for u in state.foes(unit) if u.alive]
     target = foes[0] if foes else None
     for sub in list(unit.subs):
+        # 매 턴 반복형(every_turn/position_periodic)은 전투 시작 턴(1턴)엔 발동 안 함 —
+        # 게임은 1턴=기준(0중첩), 다음 아군턴(2턴)부터 누적. on_turn(전투시작 1회성)은 1턴 유지.
         if sub.event == "every_turn":
-            fire = sub.param > 0 and state.turn % sub.param == 0
+            fire = sub.param > 0 and state.turn > 1 and state.turn % sub.param == 0
         elif sub.event == "on_turn":
             fire = state.turn == sub.param
         elif sub.event == "position_periodic":
             in_pos = sub.pos == 0 or (unit.slot + 1) == sub.pos
-            fire = in_pos and state.turn % max(1, sub.param) == 0
+            fire = in_pos and state.turn > 1 and state.turn % max(1, sub.param) == 0
         else:
             continue
         if not fire:
@@ -1071,19 +1121,51 @@ def _take_action(unit: Unit, state: BattleState) -> None:
         # N=0 -> all allies. Order kept by slot for deterministic sub firing.
         living = [u for u in state.foes(unit) if u.alive]
         if state.enemy_aoe:
-            # 전체공격: 아군 전체를 1회씩 동시 피격 (조롱 집중 없음 → 반격은 아군당 1회)
-            chosen = living
+            # 전체공격: 아군 전체가 1회 "동시" 피격. 동시 타격이므로 한 아군의 반격(발동딜)은
+            # 같은 AoE가 만드는 버프/스택(예: 파미도 쿼터백 지휘선 기초ATK)을 미리 받지 않아야
+            # 한다. 그래서 모든 피격 반응을 모은 뒤, 반격(DAMAGE) 먼저 → 버프/스택 나중 2-패스.
+            # (순차 피격인 일반 공격은 누적이 맞으므로 아래 else 경로에서 종전대로 처리)
+            # 수집: 아군별 피격 헤더를 찍고(각자 고유 action_id), 그 아군의 반응 구독을 모은다.
+            # action_id를 함께 저장해, 2-패스로 적용할 때도 각 반응이 "그 아군 피격 그룹" 아래에
+            # 표시되도록 한다(표시는 캐릭터별 묶음, 계산은 딜 먼저 2-패스 — 둘을 분리).
+            reactions: list[tuple[Unit, Subscription, str, int]] = []
+            for ally in sorted(living, key=lambda u: u.slot):
+                state.cur_action += 1
+                state.cur_actor_id = getattr(ally._kit, "char_id", 0)
+                state.cur_action_kind = "피격"
+                state.cur_atk_by = unit.name
+                state.record(ally.name, f"{unit.name}에게 피격", amount=0)   # 헤더(반응 없어도 표시)
+                aid = state.cur_action
+                for ev in ("on_attacked", "on_take_basic"):
+                    for sub, src in _ready_subs(ally, ev, state, unit):
+                        reactions.append((ally, sub, src, aid))
+            last_aid = state.cur_action
+            for want_damage in (True, False):          # 반격(딜) = AoE 前 상태로 / 버프·스택은 뒤
+                for ally, sub, src, aid in reactions:
+                    state.cur_action = aid              # 표시: 해당 아군 피격 그룹으로 복원
+                    state.cur_actor_id = getattr(ally._kit, "char_id", 0)
+                    state.cur_action_kind = "피격"
+                    state.cur_atk_by = unit.name
+                    reps = (_repeat_count(sub, state) if (want_damage and sub.repeat_stack)
+                            else _gate_reps(ally, sub.gate_stack))
+                    for _ in range(reps):
+                        for eff in sub.effects:
+                            if (eff.kind == DAMAGE) == want_damage:
+                                apply_effect(eff, ally, state, unit, source=src,
+                                             grantor=sub.grantor)
+            state.cur_action = last_aid                 # 그룹 카운터 단조 유지
+            state.cur_atk_by = ""
+            return
+        n = state.enemy_hits if state.enemy_hits > 0 else len(living)
+        taunters = [u for u in living if u.taunt_turns > 0]
+        if taunters:
+            # 조롱: 모든 타격이 조롱한 탱커(들)에게 강제로 — 탱커가 피격·반격을 흡수
+            chosen = [taunters[i % len(taunters)] for i in range(n)]
         else:
-            n = state.enemy_hits if state.enemy_hits > 0 else len(living)
-            taunters = [u for u in living if u.taunt_turns > 0]
-            if taunters:
-                # 조롱: 모든 타격이 조롱한 탱커(들)에게 강제로 — 탱커가 피격·반격을 흡수
-                chosen = [taunters[i % len(taunters)] for i in range(n)]
-            else:
-                n = min(n, len(living))
-                chosen = state.rng.sample(living, n) if n < len(living) else living
+            n = min(n, len(living))
+            chosen = state.rng.sample(living, n) if n < len(living) else living
         for ally in sorted(chosen, key=lambda u: u.slot):
-            # 피격 단위로 그룹: "더미N → [피격 아군]" 헤더 + 그로 인한 반격·버프·스택을 그 아래에.
+            # 순차 피격: 피격 단위로 그룹 + 그로 인한 반격·버프·스택을 누적 처리(정상).
             state.cur_action += 1
             state.cur_actor_id = getattr(ally._kit, "char_id", 0)
             state.cur_action_kind = "피격"
