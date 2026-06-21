@@ -8,6 +8,7 @@ chosen skill level, with the rune (도장) toggle selecting ultimate vs sigil.
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
@@ -16,6 +17,7 @@ from .effects import MARKER, Effect, parse_skill_level
 from .stats import Investment, scale_atk_hp
 
 _DATA_DIR = Path(__file__).resolve().parents[1] / "data"
+DISPLAY_LANG = os.environ.get("WOOFIA_LANG", "tw").lower().replace("-", "_")
 
 PASSIVE_SLOTS = ("passive0", "passive1", "passive2", "passive3", "passive4")
 MAX_SKILL_LEVEL = 10
@@ -26,6 +28,14 @@ def _load() -> tuple[dict, dict]:
     chars = json.loads((_DATA_DIR / "chars.json").read_text(encoding="utf-8"))
     skills = json.loads((_DATA_DIR / "skills.json").read_text(encoding="utf-8"))
     return chars, skills
+
+
+def _lang(obj: dict, base: str, fallback: str = "") -> str:
+    for lang in (DISPLAY_LANG, "kr", "en"):
+        val = obj.get(f"{base}_{lang}")
+        if val:
+            return val
+    return fallback
 
 
 @dataclass
@@ -56,12 +66,12 @@ class ResolvedKit:
     passives: list[ResolvedSkill] = field(default_factory=list)
 
 
-def _tag(effects: list[Effect], owner: int, skill_kr: str) -> None:
-    """Stamp each effect (recursively) with its source char + KR skill name."""
+def _tag(effects: list[Effect], owner: int, skill_name: str) -> None:
+    """Stamp each effect recursively with its source character and display skill name."""
     for e in effects:
         e.owner = owner
-        e.src_skill = skill_kr
-        _tag(e.sub_effects, owner, skill_kr)
+        e.src_skill = skill_name
+        _tag(e.sub_effects, owner, skill_name)
 
 
 def _resolve_slot(slot: str, slot_data: dict, level: int, owner: int = 0) -> ResolvedSkill:
@@ -69,11 +79,11 @@ def _resolve_slot(slot: str, slot_data: dict, level: int, owner: int = 0) -> Res
     levels = slot_data.get("levels", {})
     entry = levels.get(str(idx)) or levels.get(str(len(levels) - 1)) or {}
     effects = parse_skill_level(entry.get("desc_en", ""), entry.get("params", {}))
-    skill_kr = slot_data.get("name_kr") or slot_data.get("name_en", slot)
-    _tag(effects, owner, skill_kr)
+    skill_name = _lang(slot_data, "name", slot)
+    _tag(effects, owner, skill_name)
     return ResolvedSkill(
         slot=slot,
-        name=slot_data.get("name_en", slot),
+        name=skill_name,
         cd=int(entry.get("cd", 0)),
         effects=effects,
     )
@@ -134,7 +144,7 @@ def resolve_kit(
 
     return ResolvedKit(
         char_id=char_id,
-        name=meta.get("name_kr") or meta.get("name_en") or key,
+        name=_lang(meta, "name", key),
         atk=atk,
         hp=hp,
         rarity=meta["rarity"],

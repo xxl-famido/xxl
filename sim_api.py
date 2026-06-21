@@ -12,6 +12,7 @@ from woofia_sim.kit import resolve_kit
 from woofia_sim.stats import Investment
 
 DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+API_LANG = os.environ.get("WOOFIA_LANG", "tw").lower().replace("-", "_")
 
 """Local web server for the WOOFIA simulator dashboard.
 
@@ -32,9 +33,9 @@ ELEMENT = {0: ("무", "none"), 1: ("불", "fire"), 2: ("물", "water"),
 ROLE = {1: "전사", 2: "수호", 3: "치유", 4: "보조", 5: "방해"}
 SLOTS = ["basicAtk", "ultimate", "sigil", "passive0", "passive1",
          "passive2", "passive3", "passive4"]
-SLOT_KR = {"basicAtk": "평타", "ultimate": "필살기", "sigil": "룬 필살기",
-           "passive0": "패시브1", "passive1": "패시브2", "passive2": "패시브3",
-           "passive3": "패시브4", "passive4": "패시브5"}
+SLOT_LABEL = {"basicAtk": "普攻", "ultimate": "必殺技", "sigil": "符文必殺技",
+              "passive0": "被動1", "passive1": "被動2", "passive2": "被動3",
+              "passive3": "被動4", "passive4": "被動5"}
 
 _chars = json.load(open(os.path.join(DATA, "chars.json"), encoding="utf-8"))
 _skills = json.load(open(os.path.join(DATA, "skills.json"), encoding="utf-8"))
@@ -42,6 +43,14 @@ _CHAR_IDS = sorted(int(k) for k in _chars)   # chars.json의 모든 캐릭터 (X
 
 _INV = Investment(level=60, evo=5, compat=5)
 _meta_cache: list | None = None
+
+
+def _lang(obj: dict, base: str, fallback: str = "") -> str:
+    for lang in (API_LANG, "kr", "en"):
+        val = obj.get(f"{base}_{lang}")
+        if val:
+            return val
+    return fallback
 
 
 def _actions_per_turn(kit) -> int:
@@ -99,7 +108,7 @@ def char_meta(cid: int) -> dict:
     el_kr, el_key = ELEMENT.get(kit.element, ELEMENT[0])
     cd = kit.fatal.cd
     first_fatal = 1 if (cd + _turn1_cd_delta(kit)) <= 0 else cd + 1   # 첫 필살 사용 가능 턴
-    return {"id": cid, "name": c.get("name_kr", str(cid)),
+    return {"id": cid, "name": _lang(c, "name", str(cid)),
             "element": el_kr, "elementKey": el_key, "role": ROLE.get(kit.kind, "?"),
             "atk": round(kit.atk), "hp": round(kit.hp),
             "priority": round(default_priority(cid, kit.kind, 1), 2),
@@ -132,9 +141,9 @@ def char_skills(cid: int) -> dict:
             if not e:
                 continue
             levels.append({"cd": e.get("cd", 0),
-                           "kr": resolve_placeholders(e.get("desc_kr", ""), e.get("params", {}))})
-        out.append({"slot": slot, "slotKr": SLOT_KR.get(slot, slot),
-                    "name": sd.get("name_kr", ""), "levels": levels})
+                           "kr": resolve_placeholders(_lang(e, "desc"), e.get("params", {}))})
+        out.append({"slot": slot, "slotKr": SLOT_LABEL.get(slot, slot),
+                    "name": _lang(sd, "name", slot), "levels": levels})
     return {"id": cid, "skills": out}
 
 

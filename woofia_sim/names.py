@@ -1,73 +1,72 @@
-"""English stack/status names -> Korean, for display.
+"""English stack/status names -> Traditional Chinese, for display.
 
 The parser captures stack names from the English skill text (desc_en); this map
-(extracted from the aligned Korean text, then curated) renders them in Korean
-for logs. Unmapped names fall through unchanged.
+(extracted from localized text, then curated) renders them in Traditional
+Chinese for logs. Unmapped names fall through unchanged.
 """
 from __future__ import annotations
 
-STACK_KR: dict[str, str] = {
-    "Arcane Focus": "마도 집중",
-    "Battle Spirit": "전의",
-    "Blackey": "흑구",
-    "Whitey": "백구",
-    "Afterglow": "추말",
-    "Divine Rune": "서인",
-    "Blazing Stride": "열화질보",
-    "Bloodthirst Mark": "호혈표지",
-    "Chisel Marks": "각흔",
-    "Command Callout": "전술 호령",
-    "Discount Coupon": "할인 쿠폰",
-    "Divine Rune": "서인",
-    "Dragon's Ire": "용의 분노",
-    "Dragonforce": "용족의 위압",
-    "Energy Charge": "체력응축",
-    "Five-Peak Myriad": "오봉만상",
-    "Gale Breath": "란의 기운",
-    "Gunpowder": "화약",
-    "Hellhound": "지옥의 사냥개",
-    "Holy Wrath": "성노",
-    "Hooked": "입질",
-    "Judgment": "심판",
-    "Lunar Pounce": "월지호비",
-    "Pursuit": "추격",
-    "Qi Surge: Tiger": "내기혼신·호",
-    "Reduced Damage Output": "주는 데미지 감소",
-    "Secret Spices": "비법 향신료",
-    "Slow Cook": "약한 불에 끓이기",
-    "Solar Flight": "일지어천",
-    "Splashing Blessing": "물보라의 축복",
-    "Stir-Fry": "센 불에 볶기",
-    "Strategic Insight": "전술 판독",
-    "Taunt": "조롱",
-    "Tidefang": "해일의 송곳니",
-    "Water Bullet": "상어 수탄",
+STACK_ZH: dict[str, str] = {
+    "Arcane Focus": "魔導集中",
+    "Battle Spirit": "戰意",
+    "Blackey": "黑狗",
+    "Whitey": "白狗",
+    "Afterglow": "餘暉",
+    "Divine Rune": "聖印",
+    "Blazing Stride": "烈火疾步",
+    "Bloodthirst Mark": "嗜血標記",
+    "Chisel Marks": "刻痕",
+    "Command Callout": "戰術號令",
+    "Discount Coupon": "折扣券",
+    "Dragon's Ire": "龍之憤怒",
+    "Dragonforce": "龍族威壓",
+    "Energy Charge": "體力凝聚",
+    "Five-Peak Myriad": "五峰萬象",
+    "Gale Breath": "嵐之氣息",
+    "Gunpowder": "火藥",
+    "Hellhound": "地獄獵犬",
+    "Holy Wrath": "聖怒",
+    "Hooked": "上鉤",
+    "Judgment": "審判",
+    "Lunar Pounce": "月之虎飛",
+    "Pursuit": "追擊",
+    "Qi Surge: Tiger": "內氣混身·虎",
+    "Reduced Damage Output": "造成傷害降低",
+    "Secret Spices": "祕傳香辛料",
+    "Slow Cook": "文火慢燉",
+    "Solar Flight": "日之御天",
+    "Splashing Blessing": "水花祝福",
+    "Stir-Fry": "猛火快炒",
+    "Strategic Insight": "戰術判讀",
+    "Taunt": "嘲諷",
+    "Tidefang": "海潮尖牙",
+    "Water Bullet": "鯊魚水彈",
 }
 
 
 def kr(name: str | None) -> str:
-    """Return the Korean stack name, or the original if unmapped/empty."""
+    """Return the localized stack name, or the original if unmapped/empty."""
     if not name:
         return name or ""
-    return STACK_KR.get(name, name)
+    return STACK_ZH.get(name, name)
 
 
-# buff stat channel -> short Korean label (for buff-based "stacks" e.g. 쿼터백)
-STAT_KR_LABEL: dict[str, str] = {
-    "base_atk_pct": "기초ATK",
+# buff stat channel -> short localized label
+STAT_ZH_LABEL: dict[str, str] = {
+    "base_atk_pct": "基礎ATK",
     "atk_pct": "ATK",
-    "atk_flat": "고정ATK",
-    "max_hp_pct": "최대HP",
-    "base_max_hp_pct": "기초최대HP",
-    "dmg_dealt_pct": "주는딜",
-    "basic_eff_pct": "평타뎀",
-    "ex_eff_pct": "EX효과",
-    "trigger_eff_pct": "발동효과",
-    "dmg_taken_pct": "받는딜",
-    "dot_taken_pct": "받는 지속딜",
-    "dot_dealt_pct": "지속딜 증가",
+    "atk_flat": "固定ATK",
+    "max_hp_pct": "最大HP",
+    "base_max_hp_pct": "基礎最大HP",
+    "dmg_dealt_pct": "造成傷害",
+    "basic_eff_pct": "普攻傷害",
+    "ex_eff_pct": "EX效果",
+    "trigger_eff_pct": "觸發效果",
+    "dmg_taken_pct": "受到傷害",
+    "dot_taken_pct": "受到持續傷害",
+    "dot_dealt_pct": "持續傷害增加",
 }
 
 
 def stat_kr(stat: str | None) -> str:
-    return STAT_KR_LABEL.get(stat or "", stat or "?")
+    return STAT_ZH_LABEL.get(stat or "", stat or "?")

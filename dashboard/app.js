@@ -47,7 +47,12 @@ const ELEMENT_ZH = { '불': '火', '물': '水', '나무': '木', '빛': '光', 
 const roleLabel = r => ROLE_ZH[r] || r || '';
 const elementLabel = e => ELEMENT_ZH[e] || e || '';
 const actionLabel = a => ({ '평': '普攻', '궁': '必殺', '방': '防禦' }[a] || a);
-const kindLabel = k => ({ '필살기': '必殺技', '보통공격': '普通攻擊', '패시브': '被動', '방어': '防禦', '지속딜': '持續傷害', '피격': '受擊' }[k] || k);
+const kindLabel = k => ({
+  '必殺技': '必殺技', '普通攻擊': '普通攻擊', '被動': '被動', '防禦': '防禦',
+  '持續傷害': '持續傷害', '持續治療': '持續治療', '受擊': '受擊',
+  '필살기': '必殺技', '보통공격': '普通攻擊', '패시브': '被動', '방어': '防禦',
+  '지속딜': '持續傷害', '피격': '受擊'
+}[k] || k);
 const skillSlotLabel = s => ({ '평타': '普攻', '필살기': '必殺技', '패시브': '被動', '궁': '必殺', '도장': '印章' }[s] || s);
 
 let CHARS = {};                       // id -> meta
@@ -1453,8 +1458,8 @@ function renderLog(d) {
 function renderActions(evs) {
   const acts = {};
   evs.forEach(l => (acts[l.act] ||= []).push(l));
-  const isHit = l => l.detail && l.detail.act && !l.detail.kind;   // 데미지 hit만 (힐/베리어는 버프라인으로)
-  const KCLASS = { '필살기': 'fatal', '보통공격': 'basic', '패시브': 'passive', '방어': 'defend', '지속딜': 'dot' };
+  const isHit = l => l.detail && l.detail.act && !l.detail.kind;
+  const KCLASS = { '必殺技': 'fatal', '普通攻擊': 'basic', '被動': 'passive', '防禦': 'defend', '持續傷害': 'dot', '持續治療': 'heal' };
   const ally = [], hitg = [];   // 아군 행동 그룹 / 적 피격 그룹(중첩용)
   let hitTotal = 0;
   Object.keys(acts).map(Number).sort((a, b) => a - b).forEach(aid => {
@@ -1463,9 +1468,9 @@ function renderActions(evs) {
     const hits = lines.filter(isHit), nd = lines.filter(l => !isHit(l));
     const kind = id ? (lines.find(l => l.kind)?.kind || '') : '';
     const kindText = kindLabel(kind);
-    if (kind === '피격') {        // "더미N → [피격 아군]" — 적의 공격 묶음 안에 들어감
+    if (kind === '受擊') {
       const atkBy = lines.find(l => l.atkBy)?.atkBy || '敵';
-      const body = nd.filter(l => !l.text.endsWith('에게 피격'));
+      const body = nd.filter(l => !l.text.endsWith('造成受擊') && !l.text.endsWith('에게 피격'));
       const pic = `<img class="ai el-${c ? c.elementKey : 'none'}" src="${icon(id)}" alt="">`;
       hitTotal += total;
       hitg.push(`<div class="act hitgrp">
@@ -1494,11 +1499,10 @@ function renderActions(evs) {
   return html;
 }
 function renderND(l) {
-  // 색: 힐=초록(heal) · 베리어=회색(bar) · 버프/디버프=빨강(buf/deb)
-  const cls = l.text.includes('베리어') ? 'bar'
-    : l.text.includes('힐') ? 'heal'
-    : l.text.includes('디버프') ? 'deb'
-    : l.text.includes('버프') ? 'buf' : '';
+  const cls = l.text.includes('護盾') ? 'bar'
+    : l.text.includes('治療') ? 'heal'
+    : l.text.includes('減益') ? 'deb'
+    : l.text.includes('增益') ? 'buf' : '';
   const text = l.text.replace(/^\S+\s/, '');
   // 고정ATK 버프 → 누르면 ATK 계산식 (각 기초ATK% 칩은 출처로 이어짐)
   if (l.detail && l.detail.calc === 'flatAtk') {

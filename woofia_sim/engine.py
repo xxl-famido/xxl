@@ -239,16 +239,16 @@ class Unit:
         eff_stat = _ACTION_EFF.get(action, "")
         eff = self._sum(eff_stat) if eff_stat else 0
         if eff:
-            label = {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과"}.get(action, "효과")
+            label = {"basic": "普攻傷害", "ex": "EX效果", "trigger": "觸發效果"}.get(action, "效果")
             return f"{label}+{eff:.0f}%"
-        return "버프없음"
+        return "無增益"
 
     def outgoing_detail(self, action: str, target: "Unit | None") -> str:
         """Human-readable breakdown of the outgoing-damage channels."""
         parts = []
         dd = self._sum(STAT_DMG_DEALT)
         if dd:
-            parts.append(f"주는딜+{dd:.0f}%")
+            parts.append(f"造成傷害+{dd:.0f}%")
         for entry in self.target_cond_dmg:
             if _tcd_active(entry, target):
                 stack = entry[0]
@@ -257,9 +257,9 @@ class Unit:
         eff_stat = _ACTION_EFF.get(action, "")
         eff = self._sum(eff_stat) if eff_stat else 0
         if eff:
-            label = {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과"}.get(action, "효과")
+            label = {"basic": "普攻傷害", "ex": "EX效果", "trigger": "觸發效果"}.get(action, "效果")
             parts.append(f"{label}+{eff:.0f}%")
-        return ", ".join(parts) if parts else "버프없음"
+        return ", ".join(parts) if parts else "無增益"
 
 
 @dataclass
@@ -367,7 +367,7 @@ def _hp_sched_pct(turn: int, max_turn: int) -> float:
 
 
 def make_dummy(slot: int, hp: int = 10**9) -> Unit:
-    return Unit(name=f"더미{slot+1}", side="enemy", slot=slot,
+    return Unit(name=f"木樁{slot+1}", side="enemy", slot=slot,
                 base_atk=0, max_hp=hp, hp=hp, is_dummy=True)
 
 
@@ -423,9 +423,9 @@ def _resolve_targets(effect: Effect, caster: Unit, state: BattleState,
     return []
 
 
-ROLE_KR = {1: "전사", 2: "수호", 3: "치유", 4: "보조", 5: "방해"}
-_ROLE_WORD = {"fighter": "전사", "vandal": "방해", "support": "보조", "healer": "치유", "tank": "수호"}
-_ELEM_WORD = {"fire": "불속성", "water": "물속성", "wood": "나무속성", "light": "빛속성", "dark": "어둠속성"}
+ROLE_KR = {1: "戰士", 2: "守護", 3: "治療", 4: "輔助", 5: "干擾"}
+_ROLE_WORD = {"fighter": "戰士", "vandal": "干擾", "support": "輔助", "healer": "治療", "tank": "守護"}
+_ELEM_WORD = {"fire": "火屬性", "water": "水屬性", "wood": "木屬性", "light": "光屬性", "dark": "暗屬性"}
 
 
 def _who(targets: list, caster: Unit, state: "BattleState", effect: "Effect | None" = None) -> str:
@@ -435,29 +435,29 @@ def _who(targets: list, caster: Unit, state: "BattleState", effect: "Effect | No
         return "—"
     tgt = effect.target if effect else ""
     if tgt == "self":
-        return "자신"
+        return "自身"
     if tgt == "allies":
-        return "아군 전체"
+        return "我方全體"
     if tgt.startswith("allies_"):
         suffix = tgt.split("_", 1)[1]
         word = _ROLE_WORD.get(suffix) or _ELEM_WORD.get(suffix)
         if word:
-            return f"아군 {word}"
+            return f"我方{word}"
         if suffix == "lowest_hp":
-            return "최저HP 아군"
+            return "最低HP我方"
     if len(targets) == 1:
-        return "자신" if targets[0] is caster else targets[0].name
+        return "自身" if targets[0] is caster else targets[0].name
     if all(t.side == "enemy" for t in targets):
-        return f"적 {len(targets)}명"
+        return f"敵方{len(targets)}名"
     living = [a for a in state.allies if a.alive]
     if all(t.side == "ally" for t in targets) and len(targets) >= len(living):
-        return "아군 전체"
+        return "我方全體"
     roles: list[str] = []
     for t in targets:
         r = ROLE_KR.get(t.kind, "")
         if r and r not in roles:
             roles.append(r)
-    return f"아군 {'·'.join(roles)}" if roles else f"아군 {len(targets)}명"
+    return f"我方{'·'.join(roles)}" if roles else f"我方{len(targets)}名"
 
 
 def _hp_ok(unit: "Unit | None", op: str, val: float) -> bool:
@@ -578,7 +578,7 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
         "baseAtk": baseAtk, "atk": atkC, "flat": flat,
         "skillPct": pct, "skillId": src_id, "skillName": src_skill,
         "dealt": dealt,
-        "effLabel": {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과", "dot": "지속딜"}.get(action, ""),
+            "effLabel": {"basic": "普攻傷害", "ex": "EX效果", "trigger": "觸發效果", "dot": "持續傷害"}.get(action, ""),
         "eff": eff,
         "takenG": taken_g, "takenP": taken_p,
         "dotDealt": dot_dealt, "dotTaken": dot_taken,
@@ -625,7 +625,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                     apply_effect(sub, ally, state, current_target, source, grantor=caster)
                 if idx == 0:
                     for ev in state.log[before:]:
-                        ev.text = ev.text.replace("자신", "아군 전체", 1)
+                        ev.text = ev.text.replace("自身", "我方全體", 1)
                 else:
                     del state.log[before:]
         elif cond and cond.startswith("enemy_gate:"):
@@ -697,7 +697,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
     action = effect.force_action or {"fatal": "ex", "ex": "ex", "trigger": "trigger"}.get(source, "basic")
     # display label follows the effective action channel, so force_action="basic"
     # (세엔 "보통공격 시 추가 데미지") shows 평타 and draws 평타뎀, not 발동효과
-    act_kr = {"basic": "평타", "ex": "필살", "trigger": "발동"}.get(action, "발동")
+    act_kr = {"basic": "普攻", "ex": "必殺", "trigger": "觸發"}.get(action, "觸發")
 
     if effect.condition and effect.condition.startswith("while:"):
         # conditional self-buff: active only while the named stack is held (flat)
@@ -737,7 +737,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         if n > 0 and effect.into_stack:
             caster.stacks[effect.into_stack] = caster.stacks.get(effect.into_stack, 0) + n
             caster.stacks[effect.stack_name] = 0
-            state.record(caster.name, f"{act_kr} → {kr(effect.stack_name)} → {kr(effect.into_stack)} 전환", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+            state.record(caster.name, f"{act_kr} → {kr(effect.stack_name)} → {kr(effect.into_stack)} 轉換", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
         return
 
     if kind == EXTRA_ACTION:
@@ -783,7 +783,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                     caster.dots.append([tgt, effect.magnitude, int(effect.duration),
                                         effect.owner, effect.src_skill, snap])
                 state.record(caster.name,
-                             f"{act_kr} 지속딜 → {tgt.name} {effect.magnitude:g}%/턴 ×{effect.duration}턴",
+                             f"{act_kr} 持續傷害 → {tgt.name} {effect.magnitude:g}%/回合 ×{effect.duration}回合",
                              amount=0, src_id=effect.owner, src_skill=effect.src_skill)
             return
         for tgt in targets:
@@ -816,17 +816,17 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         if source != "passive" and targets:           # show buff/debuff actions in the log
             atk_calc = None
             if effect.of_base_atk or stat == STAT_ATK_FLAT:
-                vl = f"고정ATK {val:+,.0f}"
+                vl = f"固定ATK {val:+,.0f}"
                 if effect.of_base_atk:                 # 고정ATK = base × (1+기초ATK%) × 부여%
                     atk_calc = {"calc": "flatAtk", "base": caster.base_atk,
                                 "baseAtk": caster._comp(STAT_BASE_ATK),
                                 "pct": effect.magnitude, "val": round(val, 2)}
             else:
-                el = ({1: "불 ", 2: "물 ", 3: "나무 ", 4: "빛 ", 5: "어둠 "}.get(effect.element, "")
+                el = ({1: "火", 2: "水", 3: "木", 4: "光", 5: "暗"}.get(effect.element, "")
                       if stat == STAT_DMG_TAKEN else "")
                 vl = f"{el}{stat_kr(stat)} {effect.magnitude:+g}%"
-            dur = f" {effect.duration}턴" if effect.duration > 0 else ""
-            kind_kr = "디버프" if kind == DEBUFF else "버프"
+            dur = f" {effect.duration}回合" if effect.duration > 0 else ""
+            kind_kr = "減益" if kind == DEBUFF else "增益"
             state.record(caster.name, f"{act_kr} {kind_kr} → {_who(targets, caster, state, effect)} {vl}{dur}",
                          amount=0, detail=atk_calc, src_id=effect.owner, src_skill=effect.src_skill)
     elif kind == STACK:
@@ -875,7 +875,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                     tgt.stack_turns[name] = -1
         if source != "passive" and targets and fired:
             who = _who(targets, caster, state, effect)
-            amt = "제거" if effect.magnitude <= -9000 else f"{(int(effect.magnitude) or 1):+d}중첩"
+            amt = "移除" if effect.magnitude <= -9000 else f"{(int(effect.magnitude) or 1):+d}層"
             # awaken (흑구/백구 등) = 각각 독립 확률 → 활성화된 것만 따로 한 줄씩
             labels = [kr(n) for n in fired] if effect.awaken_with else ["·".join(kr(n) for n in fired)]
             for label in labels:
@@ -885,7 +885,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         for tgt in targets:
             tgt.cd_remaining = max(0, tgt.cd_remaining + int(effect.magnitude))
         if targets:
-            state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 필살 CD {int(effect.magnitude):+d}", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+            state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 必殺 CD {int(effect.magnitude):+d}", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
     elif kind == HEAL:
         atk = caster.atk_eff()
         mult = caster.support_mult(action)
@@ -920,13 +920,13 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                 else:
                     caster.hots.append([tgt, per, effect.duration, struct])
                 state.record(caster.name,
-                             f"{act_kr} 지속힐 → {tgt.name} +{per:,.0f}/턴 ({effect.duration}턴)",
+                             f"{act_kr} 持續治療 → {tgt.name} +{per:,.0f}/回合 ({effect.duration}回合)",
                              src_id=effect.owner, src_skill=effect.src_skill,
                              detail={**struct, "hot": effect.duration})
             else:
                 tgt.hp = min(tgt.max_hp, tgt.hp + per)
                 caster.healing_done += per
-                state.record(caster.name, f"{act_kr} 힐 → {tgt.name} +{per:,.0f}",
+                state.record(caster.name, f"{act_kr} 治療 → {tgt.name} +{per:,.0f}",
                              amount=per, src_id=effect.owner, src_skill=effect.src_skill, detail=struct)
     elif kind == BARRIER:
         # 베리어 기준값: of_max_hp면 최대HP%, 아니면 ATK% (오렘 = 자신 최대 HP의 X%)
@@ -943,11 +943,11 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             "skillPct": effect.magnitude, "skillId": effect.owner, "skillName": effect.src_skill,
             "eff": caster._comp(eff_stat) if eff_stat else [], **basef,
         }
-        dur = f" ({effect.duration}턴)" if effect.duration and effect.duration > 0 else ""
+        dur = f" ({effect.duration}回合)" if effect.duration and effect.duration > 0 else ""
         for tgt in targets:
             tgt.barrier += amt
             caster.barrier_done += amt
-            state.record(caster.name, f"{act_kr} 베리어 → {tgt.name} +{amt:,.0f}{dur}",
+            state.record(caster.name, f"{act_kr} 護盾 → {tgt.name} +{amt:,.0f}{dur}",
                          amount=amt, src_id=effect.owner, src_skill=effect.src_skill,
                          detail={**struct, "target": tgt.name})
     elif kind == CC:
@@ -958,7 +958,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                 # 딜집중)가 다음 턴까지 잘못 적용됐다. 행동 순서는 우선순위로 조절.
                 tgt.taunt_turns = max(tgt.taunt_turns, max(1, effect.duration))
             if targets:
-                state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 조롱 {effect.duration}턴",
+                state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 嘲諷 {effect.duration}回合",
                              amount=0, src_id=effect.owner, src_skill=effect.src_skill)
         else:
             # other crowd-control (기절/마비 등): not damage-relevant in dummy mode
@@ -1130,7 +1130,7 @@ def _fire_time_subs(unit: Unit, state: BattleState) -> None:
     """Fire time-based triggers: every_turn / on_turn / position_periodic."""
     state.cur_action += 1
     state.cur_actor_id = getattr(unit._kit, "char_id", 0)
-    state.cur_action_kind = "패시브"
+    state.cur_action_kind = "被動"
     foes = [u for u in state.foes(unit) if u.alive]
     target = foes[0] if foes else None
     for sub in list(unit.subs):
@@ -1192,9 +1192,9 @@ def _take_action(unit: Unit, state: BattleState) -> None:
             for ally in sorted(living, key=lambda u: u.slot):
                 state.cur_action += 1
                 state.cur_actor_id = getattr(ally._kit, "char_id", 0)
-                state.cur_action_kind = "피격"
+                state.cur_action_kind = "受擊"
                 state.cur_atk_by = unit.name
-                state.record(ally.name, f"{unit.name}에게 피격", amount=0)   # 헤더(반응 없어도 표시)
+                state.record(ally.name, f"{unit.name} 造成受擊", amount=0)   # header, shown even without reactions
                 aid = state.cur_action
                 for ev in ("on_attacked", "on_take_basic"):
                     for sub, src in _ready_subs(ally, ev, state, unit):
@@ -1204,7 +1204,7 @@ def _take_action(unit: Unit, state: BattleState) -> None:
                 for ally, sub, src, aid in reactions:
                     state.cur_action = aid              # 표시: 해당 아군 피격 그룹으로 복원
                     state.cur_actor_id = getattr(ally._kit, "char_id", 0)
-                    state.cur_action_kind = "피격"
+                    state.cur_action_kind = "受擊"
                     state.cur_atk_by = unit.name
                     reps = (_repeat_count(sub, state) if (want_damage and sub.repeat_stack)
                             else _gate_reps(ally, sub.gate_stack))
@@ -1228,9 +1228,9 @@ def _take_action(unit: Unit, state: BattleState) -> None:
             # 순차 피격: 피격 단위로 그룹 + 그로 인한 반격·버프·스택을 누적 처리(정상).
             state.cur_action += 1
             state.cur_actor_id = getattr(ally._kit, "char_id", 0)
-            state.cur_action_kind = "피격"
+            state.cur_action_kind = "受擊"
             state.cur_atk_by = unit.name
-            state.record(ally.name, f"{unit.name}에게 피격", amount=0)   # 헤더(반응 없어도 표시)
+            state.record(ally.name, f"{unit.name} 造成受擊", amount=0)   # header, shown even without reactions
             _fire_subs(ally, "on_attacked", state, unit)
             _fire_subs(ally, "on_take_basic", state, unit)
         state.cur_atk_by = ""
@@ -1243,8 +1243,8 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     token = "basic" if forced_basic else _next_token(unit)
 
     if token == "defend":
-        state.cur_action_kind = "방어"
-        state.record(unit.name, "defend (방어)")
+        state.cur_action_kind = "防禦"
+        state.record(unit.name, "防禦")
         _fire_subs(unit, "on_defend", state, target)
         _fire_subs(unit, "on_action", state, target)
         return
@@ -1270,11 +1270,11 @@ def _take_action(unit: Unit, state: BattleState) -> None:
         skill, label, event = kit_fatal, "fatal", "on_ex"
         unit.cd_remaining = unit.fatal_cd
         unit.auto_fatal_pending = False     # 궁 발동했으니 폴백 예약 해제
-        state.cur_action_kind = "필살기"
+        state.cur_action_kind = "必殺技"
         state.turn_exes.add(cid)            # 다양수이 협동: 이 아군이 이번 턴 필살 사용
     else:
         skill, label, event = kit_basic, "basic", "on_basic_attack"
-        state.cur_action_kind = "보통공격"
+        state.cur_action_kind = "普通攻擊"
         state.turn_basics.add(cid)          # 이 아군이 이번 턴 평타 사용
 
     # snapshot the target's stacks BEFORE this action's own effects, so a stack the
@@ -1290,7 +1290,7 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     # make a fatal cast visible even when it deals no direct damage (only buffs
     # / on-EX triggers), e.g. 하니엘's 성결 -> 종판/성노 fire as 발동 afterwards
     if label == "fatal" and len(state.log) == before:
-        state.record(unit.name, "필살 시전 (직접딜 없음 → 버프/발동)")
+        state.record(unit.name, "必殺施放（無直接傷害 → 增益/觸發）")
     # resolve attack procs from the action-specific event then generic on-attack,
     # buffs/stacks first and triggered damages last, so the 발동 damage sees the
     # fully-buffed ATK this same attack granted (e.g. 파미도 Strategic flat)
@@ -1342,7 +1342,7 @@ def _tick_hots(state: BattleState) -> None:
             continue
         state.cur_action += 1                          # group this unit's HoT ticks together
         state.cur_actor_id = getattr(u._kit, "char_id", 0)   # 직전 행동 컨텍스트 상속 방지
-        state.cur_action_kind = "지속힐"
+        state.cur_action_kind = "持續治療"
         kept = []
         for entry in u.hots:
             tgt, per, turns = entry[0], entry[1], entry[2]
@@ -1350,7 +1350,7 @@ def _tick_hots(state: BattleState) -> None:
             if tgt.alive:
                 tgt.hp = min(tgt.max_hp, tgt.hp + per)
                 u.healing_done += per
-                state.record(u.name, f"지속힐 → {tgt.name} {per:,.2f}",
+                state.record(u.name, f"持續治療 → {tgt.name} {per:,.2f}",
                              src_id=(calc or {}).get("skillId", 0),
                              src_skill=(calc or {}).get("skillName", ""),
                              detail=calc)
@@ -1368,7 +1368,7 @@ def _tick_dots(state: BattleState) -> None:
             continue
         state.cur_action += 1                          # group this unit's DoT ticks together
         state.cur_actor_id = getattr(u._kit, "char_id", 0)
-        state.cur_action_kind = "지속딜"
+        state.cur_action_kind = "持續傷害"
         kept = []
         for entry in u.dots:
             tgt, pct, turns, src_id, src_skill, snap = entry
@@ -1445,7 +1445,7 @@ def _check_coordination(allies: list[Unit], state: BattleState) -> None:
                 continue
             state.cur_action += 1
             state.cur_actor_id = getattr(u._kit, "char_id", 0)
-            state.cur_action_kind = "패시브"
+            state.cur_action_kind = "被動"
             for eff in sub.effects:
                 apply_effect(eff, u, state, None, "trigger", grantor=sub.grantor)
 
