@@ -1329,15 +1329,18 @@ function notifyUpdate() {        // 새 배포 감지 시 기존 접속자에게
 // 배포 감지: version.json을 주기적으로 확인. 내가 로드한 버전과 달라지면(=그새 새 배포) 알림.
 // 새로 접속한 사람은 이미 최신이라 차이가 없어 알림이 안 뜬다. (로컬은 version.json 없음 → 무시)
 (function watchDeploy() {
-  let loaded = null;
-  const check = () => fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
-    .then(r => r.ok ? r.json() : null).then(v => {
-      const cur = v && v.updated; if (!cur) return;
-      if (loaded === null) loaded = cur;          // 최초 = 기준
-      else if (cur !== loaded) notifyUpdate();
-    }).catch(() => { });
+  let loaded = null, busy = false;
+  const check = () => {
+    if (busy) return; busy = true;
+    fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : null).then(v => {
+        const cur = v && v.updated;
+        if (cur) { if (loaded === null) loaded = cur; else if (cur !== loaded) notifyUpdate(); }
+      }).catch(() => { }).finally(() => { busy = false; });
+  };
   check();
-  setInterval(check, 120000);                     // 2분마다
+  setInterval(check, 60000);                       // 1분마다
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) check(); });  // 탭 복귀 시 즉시
 })();
 
 // ── run simulation ──
