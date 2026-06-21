@@ -161,6 +161,7 @@ def run_sim(cfg: dict) -> dict:
     # 그 외 N = 개별 N회 / 미지정("") = 0 = all (기존 폴백 유지)
     enemy_hits = -1 if _eh == "0" else (0 if enemy_aoe else int(_eh or 0))
     dummy_element = int(cfg.get("dummyElement", 0) or 0)   # 더미 속성 (0무·1불·2물·3나무·4빛·5어둠)
+    hp10 = bool(cfg.get("hp10", False))                    # 체력 10% 모드 (더미 HP 고정, 카라트 저HP 게이트)
     # 평균 모드: 확률(난수) 판정은 시드마다 달라지므로 N회(다른 시드) 돌려 평균을 낸다.
     # 100% 모드는 결정론(모든 발동 성공)이라 1회면 충분.
     runs = 1 if force else max(1, min(int(cfg.get("runs", 50) or 50), 500))
@@ -174,7 +175,7 @@ def run_sim(cfg: dict) -> dict:
     for s in range(runs):
         res = run_team(specs, n_dummies=n_dummies, max_turn=turns, enemy_hits=enemy_hits,
                        turn_orders=torders, force_proc=force, seed=s, enemy_aoe=enemy_aoe,
-                       dummy_element=dummy_element)
+                       dummy_element=dummy_element, hp10=hp10)
         st = res.state
         states.append(st)
         run_totals.append(res.total_damage)

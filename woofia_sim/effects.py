@@ -82,6 +82,7 @@ class Effect:
     sub_effects: list["Effect"] = field(default_factory=list)
     once: bool = False                         # "This effect can only trigger 1 time" — 발동마다 1회만
     self_barrier: bool = False                 # 발동 조건: 자신(발동 유닛)이 배리어 보유 (오렘 충격역류)
+    consume_gate: bool = False                 # 게이트를 행동시작 스냅샷 기준으로 (소모 트리거, 던컨 마도집중)
 
     @property
     def parsed(self) -> bool:
@@ -1044,4 +1045,18 @@ def parse_skill_level(desc: str, params: dict) -> list[Effect]:
                 eff.stack_name = pending_def
                 pending_def = None
             out.append(eff)
+    # 후처리: "When own X ≧ N, [효과]. On attack, remove X from self" 패턴(던컨 마도집중 등)에서
+    # 제거 절이 문장 분리로 ≥N 게이트를 잃고 매 공격마다 발동(생기자마자 제거)하던 것을 교정한다.
+    # 제거 트리거에 X≥N 게이트를 물리고, 같은 행동이 막 올린 스택이 자기 제거를 유발하지 않도록
+    # 행동시작 스냅샷 기준(consume_gate)으로 판정한다.
+    gates = {e.stack_name: e.max_stacks for e in out
+             if e.kind == TRIGGER and e.stack_name
+             and e.condition == f"{e.stack_name}>={e.max_stacks}"}
+    if gates:
+        for e in out:
+            if e.kind == TRIGGER and e.condition == "on_attack" and not e.stack_name:
+                rem = next((s for s in e.sub_effects if s.kind == STACK
+                            and s.magnitude <= -9000 and s.stack_name in gates), None)
+                if rem:
+                    e.stack_name, e.max_stacks, e.consume_gate = rem.stack_name, gates[rem.stack_name], True
     return out

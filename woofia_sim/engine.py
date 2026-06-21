@@ -102,6 +102,7 @@ class Subscription:
     need_self_barrier: bool = False        # only fire while THIS unit holds a barrier (오렘 충격역류 부여분)
     once: bool = False                     # "1회만 적용" — fires once per arm (모이루 보호막)
     armed: bool = True                     # once-sub: True until it fires; re-armed on re-grant
+    consume_gate: bool = False             # 게이트를 행동시작 스냅샷(act_snap)으로 판정 (소모 트리거)
 
 
 # site class/element name -> game id (ERoleKind / EProp)
@@ -142,6 +143,7 @@ class Unit:
     stacks: dict[str, int] = field(default_factory=dict)
     stack_turns: dict[str, int] = field(default_factory=dict)  # remaining half-turns; -1 = permanent
     gate_snap: dict | None = None   # stacks snapshot at action start (target-gate사 pre-action state)
+    act_snap: dict | None = None    # actor's OWN stacks snapshot at action start (consume-gate용)
     subs: list[Subscription] = field(default_factory=list)
     damage_dealt: float = 0.0       # running total this battle
     healing_done: float = 0.0       # total heal output (incl. overheal; for comparison)
@@ -292,6 +294,7 @@ class BattleState:
     cur_atk_by: str = ""         # 피격 그룹: 현재 공격 중인 적(더미) 이름
     force_proc: bool = False      # 확률 100% 모드: 모든 확률 판정을 무조건 성공으로
     hp_schedule: bool = False     # 카라트 등 HP게이트 캐릭 동반 시 더미 HP% 4등분 스케줄
+    hp10: bool = False            # 체력 10% 모드: 더미 HP를 매 턴 10%로 고정 (저HP 게이트 전부 발동)
     dummy_element: int = 0        # 더미 속성 (EProp: 0무·1불·2물·3나무·4빛·5어둠) — 상성 배율용
     turn_basics: set = field(default_factory=set)   # 이번 턴 평타한 아군 char_id (다양수이 협동)
     turn_exes: set = field(default_factory=set)     # 이번 턴 필살 쓴 아군 char_id
@@ -682,7 +685,8 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                     param=effect.trigger_param, pos=effect.trigger_pos, grantor=grantor,
                     target_gate_stack=effect.target_stack, target_gate_count=effect.target_count,
                     repeat_stack=effect.repeat_stack, need_team_barrier=effect.team_barrier,
-                    need_self_barrier=effect.self_barrier, once=once))
+                    need_self_barrier=effect.self_barrier, once=once,
+                    consume_gate=effect.consume_gate))
             elif once:
                 dup.armed = True            # 재발동(예: 다음 EX) 시 once 보호막 재장전
         return
@@ -1033,7 +1037,14 @@ def _qualifies(sub: "Subscription", caster: Unit, target: Unit | None) -> bool:
         target_ok = True
     else:
         target_ok = tgt_stacks.get(sub.target_gate_stack, 0) >= sub.target_gate_count
-    return _gate_ok(caster, sub.gate_stack, sub.gate_count) and target_ok
+    # 소모 트리거(던컨 마도집중 제거)는 행동시작 스냅샷으로 게이트 판정 — 같은 행동이 막
+    # 올린 스택이 자기 제거를 유발하지 않게 (≥N을 '행동 시작 시점'에 들고 있었어야 소모).
+    if sub.consume_gate and sub.gate_stack:
+        snap = caster.act_snap if caster.act_snap is not None else caster.stacks
+        self_ok = snap.get(sub.gate_stack, 0) >= sub.gate_count
+    else:
+        self_ok = _gate_ok(caster, sub.gate_stack, sub.gate_count)
+    return self_ok and target_ok
 
 
 def _repeat_count(sub: "Subscription", state: BattleState) -> int:
@@ -1256,6 +1267,9 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     # action applies (바드 필살 -> 각흔) doesn't satisfy its own target-gate this turn.
     if target is not None:
         target.gate_snap = dict(target.stacks)
+    # snapshot the actor's OWN stacks too — consume-on-attack gates (던컨 마도집중 소모)
+    # read this so a stack the same action just gained doesn't trigger its own removal.
+    unit.act_snap = dict(unit.stacks)
     before = len(state.log)
     for eff in skill.effects:
         apply_effect(eff, unit, state, target, source=label)
@@ -1268,6 +1282,7 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     # fully-buffed ATK this same attack granted (e.g. 파미도 Strategic flat)
     _fire_attack(unit, (event, "on_attack"), state, target)
     _fire_subs(unit, "on_action", state, target)   # may grant an extra action
+    unit.act_snap = None
     if target is not None:
         target.gate_snap = None
 
@@ -1447,7 +1462,7 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
              priorities: list[float] | None = None,
              enemy_hits: int = 0, turn_orders: dict | None = None,
              force_proc: bool = False, enemy_aoe: bool = False,
-             dummy_element: int = 0) -> BattleState:
+             dummy_element: int = 0, hp10: bool = False) -> BattleState:
     """Run a target-dummy battle and return the final state (with log).
 
     rotations: optional per-ally action strings (e.g. '평평방궁|평방궁').
@@ -1470,7 +1485,7 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
                         rng=random.Random(seed), enemy_hits=enemy_hits, enemy_aoe=enemy_aoe,
                         turn_orders=turn_orders or {}, force_proc=force_proc,
                         hp_schedule=any(_kit_has_hp_gate(u._kit) for u in allies),
-                        dummy_element=dummy_element)
+                        dummy_element=dummy_element, hp10=hp10)
 
     for u in allies:
         _install_passives(u, state)
@@ -1483,11 +1498,11 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
         state.turn_basics.clear()           # 다양수이 협동: 턴별 행동 집계 리셋
         state.turn_exes.clear()
         state.coord_fired.clear()
-        if state.hp_schedule:               # 카라트 등 HP게이트 캐릭 동반 시 더미 HP% 조절
-            # 확률 100% 모드: 더미 HP를 <25%로 고정 → 카라트 저HP 게이트(주는딜 +15%×3 ·
-            # 추가타 100%, HP<75/<50/<25)를 매 턴 전부 발동. (피의 표식은 HP≥50 조건이라 미발동)
-            # 평소: 전체 턴 4등분해 HP%를 단계적으로 낮춘다(빌드→덤프 현실 반영).
-            pct = 0.10 if state.force_proc else _hp_sched_pct(state.turn, state.max_turn)
+        if state.hp10:                      # 체력 10% 모드: 더미 HP 10% 고정 → 카라트 저HP 게이트
+            for e in enemies:               # (주는딜 +15%×3·추가타 100%, HP<75/<50/<25) 매 턴 전부 발동
+                e.hp = e.max_hp * 0.10
+        elif state.hp_schedule:             # 카라트 등 HP게이트 캐릭: HP%를 4등분 스케줄로 단계 감소
+            pct = _hp_sched_pct(state.turn, state.max_turn)
             for e in enemies:
                 e.hp = e.max_hp * pct
         for u in allies:

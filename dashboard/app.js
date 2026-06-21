@@ -70,7 +70,7 @@ function snapshot() {
     team: team.map(s => s ? JSON.parse(JSON.stringify(s)) : null),
     turns: +$('#turns').value, dummies: $('#dummies').dataset.val, enemyHits: $('#enemyHits').dataset.val,
     dummyElement: $('#dummyElement').dataset.val,
-    runs: +$('#runs').value, forceProc, turnOverrides: JSON.parse(JSON.stringify(turnOverrides)),
+    runs: +$('#runs').value, forceProc, hp10, turnOverrides: JSON.parse(JSON.stringify(turnOverrides)),
   };
 }
 function saveRecord(snap, data) {
@@ -104,6 +104,7 @@ function restoreRecord(rec) {
   const rr = $('#runs'); if (rr) { rr.value = s.runs ?? 50; rr.dispatchEvent(new Event('input')); }
   setSeg('dummies', s.dummies); setSeg('enemyHits', s.enemyHits);
   setSeg('dummyElement', s.dummyElement ?? 0);
+  hp10 = !!s.hp10; $('#hp10Btn').classList.toggle('on', hp10);
   $('#forceProc').classList.toggle('on', forceProc); syncRunsField();
   buildFilters(); renderRoster(); renderTeam(); renderPrio();
   if (rec.data) { lastResult = rec.data; renderResults(rec.data); }   // 구버전 기록(결과 내장)
@@ -331,12 +332,16 @@ function bindSettings() {
   });
   $('#forceProc').onclick = () => {
     forceProc = !forceProc; $('#forceProc').classList.toggle('on', forceProc); syncRunsField();
-    if (forceProc) toast('확률 100% 모드 ON<br>· 모든 확률형 스킬 100% 강제<br>· 더미 체력 10% 고정');
-    else toast('확률 100% 모드 OFF');
+    toast(forceProc ? '확률 100% 모드 ON<br>· 모든 확률형 스킬 100% 강제' : '확률 100% 모드 OFF');
+  };
+  $('#hp10Btn').onclick = () => {
+    hp10 = !hp10; $('#hp10Btn').classList.toggle('on', hp10);
+    toast(hp10 ? '체력 10% 모드 ON<br>· 더미 체력 10% 고정 (카라트 등 저HP 게이트 발동)' : '체력 10% 모드 OFF');
   };
   $('#runBtn').onclick = () => run(true);
 }
 let forceProc = false;   // 확률 100% 모드
+let hp10 = false;        // 체력 10% 모드 (더미 HP 고정)
 
 // ── char detail modal ──
 async function openModal(i) {
@@ -564,13 +569,13 @@ async function run(save = true) {
   const unplanned = picked.find(s => (CHARS[s.id].actionsPerTurn || 1) > 1 && !s.usePlan);
   if (unplanned) toast(`주의 — ${CHARS[unplanned.id].name}의 턴별 행동을 설정하는 걸 추천드립니다`);
   const hpSchedChar = picked.find(s => CHARS[s.id].hpSchedule);   // 카라트: 적 HP 의존
-    if (hpSchedChar && !forceProc) toast(`${CHARS[hpSchedChar.id].name} 동반 — 적 HP%가 진행 턴을 4등분해 단계적으로 감소합니다 (앞 1/4 ≥75% → 막 1/4 &lt;25%)`);
+    if (hpSchedChar && !hp10) toast(`${CHARS[hpSchedChar.id].name} 동반 — 적 HP%가 진행 턴을 4등분해 단계적으로 감소합니다 (앞 1/4 ≥75% → 막 1/4 &lt;25%)`);
   const btn = $('#runBtn'); btn.classList.add('busy'); btn.querySelector('span').innerHTML = '<span class="spin"></span>계산 중…';
   const cfg = {
     team: picked.map(s => ({ id: s.id, position: s.position, skill: s.skill, rune: s.rune, rotation: s.rotation || null, priority: s.priority, sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0 })),
     turns: +$('#turns').value, dummies: +$('#dummies').dataset.val, enemyHits: $('#enemyHits').dataset.val,
     dummyElement: +$('#dummyElement').dataset.val,
-    turnOrders: turnOverrides, forceProc, runs: +$('#runs').value,
+    turnOrders: turnOverrides, forceProc, hp10, runs: +$('#runs').value,
   };
   try {
     const data = await API.simulate(cfg);
