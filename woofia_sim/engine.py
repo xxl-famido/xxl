@@ -953,10 +953,10 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
     elif kind == CC:
         if effect.stat == "taunt":     # 조롱: 이 유닛(들)이 상대편의 공격을 강제로 끌어온다
             for tgt in targets:
-                # 적에게 건 조롱(리카노=딜집중)은 다음 아군 턴까지 유지(+1) — 디버퍼가 공격자보다
-                # 늦게 행동해도 적용된다. 자신에게 건 조롱(쿠모야마=어그로)은 그 턴 적 페이즈용.
-                extra = 1 if tgt.side != caster.side else 0
-                tgt.taunt_turns = max(tgt.taunt_turns, max(1, effect.duration) + extra)
+                # 조롱은 명시 지속시간만큼만(게임 정확: 1턴). 이전엔 적-조롱에 +1해 다음 아군 턴까지
+                # 끌었으나, 1턴 조롱이 2턴처럼 작동해 조롱 게이트 효과(리카노 빛나는스타 +18% 주는딜,
+                # 딜집중)가 다음 턴까지 잘못 적용됐다. 행동 순서는 우선순위로 조절.
+                tgt.taunt_turns = max(tgt.taunt_turns, max(1, effect.duration))
             if targets:
                 state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 조롱 {effect.duration}턴",
                              amount=0, src_id=effect.owner, src_skill=effect.src_skill)
