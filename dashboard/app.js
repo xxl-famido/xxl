@@ -94,9 +94,12 @@ function snapshot() {
     runs: +$('#runs').value, forceProc, hp10, turnOverrides: JSON.parse(JSON.stringify(turnOverrides)),
   };
 }
+function makeLabel(team, turns, total) {   // 팀에서 라벨 재생성 (공유 코드에선 라벨을 빼고 이걸로 복원)
+  const names = (team || []).filter(Boolean).map(t => (CHARS[t.id] || t || {}).name || (t && t.id) || '?').join('·');
+  return `${names} · ${turns}턴 · ${fmtShort(total || 0)}`;
+}
 function saveRecord(snap, data) {
-  const names = data.team.map(t => (CHARS[t.id] || t).name).join('·');
-  const label = `${names} · ${data.meta.turns}턴 · ${fmtShort(data.meta.total)}`;
+  const label = makeLabel(data.team, data.meta.turns, data.meta.total);
   // 결과(data)는 저장하지 않는다 — 전투로그 포함 시 1건이 ~750KB라 localStorage(~5MB)가 금방 초과돼
   // setItem이 조용히 실패(새 기록 미저장)했음. 설정(snap)만 저장하고, 복원 시 재실행(시드 고정 = 동일 결과).
   simHistory.unshift({ id: Date.now(), label, snap, total: data.meta.total || 0 });
@@ -209,27 +212,74 @@ function openHistMenu(btn, r) {
     if (!m.contains(ev.target) && ev.target !== btn) { m.remove(); document.removeEventListener('click', h); }
   }), 0);
 }
-const b64encode = s => btoa(unescape(encodeURIComponent(s)));   // UTF-8 안전 (한글 포함)
-const b64decode = s => decodeURIComponent(escape(atob(s)));
-// deflate 압축 코드 ('!' 접두) — base64보다 훨씬 짧음. 미지원 브라우저는 평문 base64 폴백.
-async function compressCode(str) {
-  if (typeof CompressionStream === 'undefined') return b64encode(str);
-  const cs = new CompressionStream('deflate');
-  const w = cs.writable.getWriter(); w.write(new TextEncoder().encode(str)); w.close();
-  const buf = new Uint8Array(await new Response(cs.readable).arrayBuffer());
-  let bin = ''; for (const b of buf) bin += String.fromCharCode(b);
-  return '!' + btoa(bin);
+// ── 공유 코드 코덱 ──
+// 전처리(조사 기반): 위치배열 + 기본값생략 + 비트팩 + id delta + 파생값 제거(label·rotation) + 토큰 ASCII화
+// → deflate → base64url.  '#'=축약형 / '*'=전체JSON(미지원 필드 시 안전 폴백)
+const CID0 = 10000, _TK = '평궁방';
+const _encPlan = p => (p || []).map(x => _TK.indexOf(x)).join('');   // 평/궁/방 → 0/1/2 (3바이트→1바이트)
+const _decPlan = s => [...String(s)].map(c => _TK[+c]);
+const _trimDef = (a, D) => { while (a.length > 1 && JSON.stringify(a[a.length - 1]) === JSON.stringify(D[a.length - 1])) a.pop(); return a; };
+function packSlot(s) {
+  if (!s) return 0;
+  const flags = (s.rune ? 1 : 0) | (s.sealOn ? 2 : 0) | (s.usePlan ? 4 : 0);   // rotation은 plan에서 파생 → 미저장
+  return _trimDef([s.id - CID0, flags, s.skill ?? 10, s.priority ?? 0, s.sealAtk || 0, s.sealHp || 0, _encPlan(s.plan)],
+    [null, 1, 10, 0, 0, 0, '']);
 }
-async function decompressCode(code) {
+function unpackSlot(a) {
+  if (!a) return null;
+  const [idD, flags = 1, skill = 10, priority = 0, sealAtk = 0, sealHp = 0, plan = ''] = a;
+  const s = { id: idD + CID0, skill, rune: !!(flags & 1) };
+  if (priority) s.priority = priority;
+  if (sealAtk) s.sealAtk = sealAtk;           // seal 값은 sealOn 플래그와 독립
+  if (sealHp) s.sealHp = sealHp;
+  if (flags & 2) s.sealOn = true;
+  if (flags & 4) { s.usePlan = true; s.plan = _decPlan(plan); s.rotation = s.plan.join(''); } else s.rotation = '';
+  return s;
+}
+function packSnap(s) {
+  const flags = (s.forceProc ? 1 : 0) | (s.hp10 ? 2 : 0);
+  const to = s.turnOverrides && Object.keys(s.turnOverrides).length ? s.turnOverrides : 0;
+  return _trimDef([s.team.map(packSlot), +s.turns, +s.dummies, s.enemyHits, +s.dummyElement, +s.runs, flags, to],
+    [null, 30, 1, 'all', 0, 50, 0, 0]);
+}
+function unpackSnap(a) {
+  const [team, turns = 30, dummies = 1, enemyHits = 'all', dummyElement = 0, runs = 50, flags = 0, to = 0] = a;
+  return { team: team.map(unpackSlot), turns, dummies, enemyHits, dummyElement, runs, forceProc: !!(flags & 1), hp10: !!(flags & 2), turnOverrides: to || {} };
+}
+function packRecords(arr) {                   // label은 팀에서 재생성 가능 → 미저장
+  return arr.map(r => _trimDef([r.id, r.name || '', r.total || 0, (r.locked ? 1 : 0) | (r.pinned ? 2 : 0), packSnap(r.snap)],
+    [null, '', 0, 0, null]));
+}
+function unpackRecords(arr) {
+  return arr.map(a => { const [id, name = '', total = 0, flags = 0, snap] = a;
+    const sn = unpackSnap(snap), r = { id, label: makeLabel(sn.team, sn.turns, total), snap: sn, total };
+    if (name) r.name = name; if (flags & 1) r.locked = true; if (flags & 2) r.pinned = true; return r; });
+}
+// 누락 ≈ 0/""/false/[]/{} 동등, 숫자/문자 느슨 비교(==), label은 재생성이라 제외 — 다르면(미지원 필드) 폴백
+const _isEmpty = x => x == null || x === 0 || x === '' || x === false || (Array.isArray(x) && !x.length) || (typeof x === 'object' && !Object.keys(x).length);
+function looseEq(a, b) {
+  if (a == b) return true;
+  if (_isEmpty(a) && _isEmpty(b)) return true;
+  if (typeof a !== 'object' || typeof b !== 'object' || !a || !b) return a == b;
+  for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) { if (k === 'label') continue; if (!looseEq(a[k], b[k])) return false; }
+  return true;
+}
+const _bytesToB64url = bytes => { let s = ''; for (const b of bytes) s += String.fromCharCode(b); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+const _b64urlToBytes = s => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const bin = atob(s), a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return a; };
+async function _deflate(str) { const cs = new CompressionStream('deflate'); const w = cs.writable.getWriter(); w.write(new TextEncoder().encode(str)); w.close(); return new Uint8Array(await new Response(cs.readable).arrayBuffer()); }
+async function _inflate(bytes) { const ds = new DecompressionStream('deflate'); const w = ds.writable.getWriter(); w.write(bytes); w.close(); return new TextDecoder().decode(await new Response(ds.readable).arrayBuffer()); }
+async function compressCode(records) {       // records 배열 → 최단 코드
+  let body, tag;
+  try {
+    if (records.every(r => looseEq(r, unpackRecords(packRecords([r]))[0]))) { body = JSON.stringify(packRecords(records)); tag = '#'; }
+    else { body = JSON.stringify(records); tag = '*'; }
+  } catch { body = JSON.stringify(records); tag = '*'; }
+  return tag + _bytesToB64url(await _deflate(body));
+}
+async function decompressCode(code) {        // 코드 → records JSON 문자열
   code = code.trim();
-  if (code[0] === '!') {                              // 압축 코드
-    const bin = atob(code.slice(1)), bytes = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    const ds = new DecompressionStream('deflate');
-    const w = ds.writable.getWriter(); w.write(bytes); w.close();
-    return new TextDecoder().decode(await new Response(ds.readable).arrayBuffer());
-  }
-  try { return b64decode(code); } catch { return code; }   // 구버전: 평문 base64 / 생 JSON
+  const tag = code[0], json = await _inflate(_b64urlToBytes(code.slice(1)));
+  return tag === '#' ? JSON.stringify(unpackRecords(JSON.parse(json))) : json;
 }
 function importRecords(arr) {                 // 공통 머지 (성공 시 true)
   if (!Array.isArray(arr)) { toast('가져오기 실패 — 형식이 올바르지 않아요'); return false; }
@@ -245,7 +295,7 @@ async function openExportPop() {
   const ids = selectedHistIds();
   const out = simHistory.filter(r => ids.has(r.id));     // 선택분만
   if (!out.length) return toast('내보낼 기록을 먼저 선택하세요');
-  const code = await compressCode(JSON.stringify(out));
+  const code = await compressCode(out);
   document.querySelector('.iopop')?.remove();
   const pop = document.createElement('div'); pop.className = 'iopop';
   pop.innerHTML = `<div class="io-card"><button class="mc-close" data-ioclose>×</button>
