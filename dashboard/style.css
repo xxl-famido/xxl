@@ -480,12 +480,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
   background:rgba(11,11,11,.7);border:1px solid var(--line);border-radius:7px;padding:4px 9px;
   font-variant-numeric:tabular-nums;pointer-events:none;backdrop-filter:blur(3px)}
 /* ── 조합 비교 ── */
-.cmp-fab{position:fixed;right:12px;bottom:76px;z-index:31;font:inherit;font-size:12px;font-weight:700;
+.cmp-fab{position:fixed;right:12px;bottom:112px;z-index:31;font:inherit;font-size:12px;font-weight:700;
   color:#0d0c0a;background:linear-gradient(135deg,var(--gold),var(--gold-d));border:none;border-radius:9px;
   padding:8px 14px;cursor:pointer;box-shadow:0 4px 16px rgba(232,184,75,.32);transition:.14s}
 .cmp-fab:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(232,184,75,.45)}
 /* 가이드 — 비교(골드)·업데이트(회색)와 구분되는 물색 */
-.guide-fab{position:fixed;right:12px;bottom:40px;z-index:31;font:inherit;font-size:12px;font-weight:700;
+.guide-fab{position:fixed;right:12px;bottom:76px;z-index:31;font:inherit;font-size:12px;font-weight:700;
   color:#06121d;background:linear-gradient(135deg,var(--water),#3a93db);border:none;border-radius:9px;
   padding:8px 14px;cursor:pointer;box-shadow:0 4px 16px rgba(84,182,255,.30);transition:.14s}
 .guide-fab:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(84,182,255,.45)}

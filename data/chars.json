@@ -9,7 +9,13 @@
   "element": 5,
   "baseATK": 592,
   "baseHP": 2791,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "冥界衛犬阿努比洛斯",
+  "feature_cn": "地獄獵犬、三首獵襲",
+  "name_sc": "冥界卫犬阿努比洛斯",
+  "feature_sc": "地狱猎犬、三首猎袭",
+  "name_ja": "冥界番犬アヌビロス",
+  "feature_ja": "3つ首多段攻撃"
  },
  "10402": {
   "id": 10402,
@@ -21,7 +27,13 @@
   "element": 2,
   "baseATK": 525,
   "baseHP": 2379,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "申里狼",
+  "feature_cn": "單體爆發、三重極限",
+  "name_sc": "申里狼",
+  "feature_sc": "单体爆发、三重极限",
+  "name_ja": "シン・リラン",
+  "feature_ja": "多重バフ、単体ダメージ強化"
  },
  "10403": {
   "id": 10403,
@@ -33,7 +45,13 @@
   "element": 1,
   "baseATK": 514,
   "baseHP": 2427,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "金鳴連駕",
+  "feature_cn": "普攻特化、烈火追擊",
+  "name_sc": "金鸣连驾",
+  "feature_sc": "普攻特化、烈火追击",
+  "name_ja": "ゴールデンライダー",
+  "feature_ja": "通常攻撃特化、烈火の如く追撃"
  },
  "10404": {
   "id": 10404,
@@ -45,7 +63,13 @@
   "element": 2,
   "baseATK": 550,
   "baseHP": 2268,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "孟叔",
+  "feature_cn": "全體治療、範圍治療",
+  "name_sc": "孟叔",
+  "feature_sc": "全体治疗、范围治疗",
+  "name_ja": "孟さん",
+  "feature_ja": "全体治療、範囲治療"
  },
  "10405": {
   "id": 10405,
@@ -57,7 +81,13 @@
   "element": 3,
   "baseATK": 470,
   "baseHP": 2652,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "彼亞諾斯",
+  "feature_cn": "全體增傷、爆發輔助",
+  "name_sc": "彼亚诺斯",
+  "feature_sc": "全体增伤、爆发辅助",
+  "name_ja": "ビアノックス",
+  "feature_ja": "全体ダメージ増加、爆発サポート"
  },
  "10406": {
   "id": 10406,
@@ -69,7 +99,13 @@
   "element": 1,
   "baseATK": 556,
   "baseHP": 2246,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "里歐",
+  "feature_cn": "持續治療、減傷輔助",
+  "name_sc": "里欧",
+  "feature_sc": "持续治疗、减伤辅助",
+  "name_ja": "リオ",
+  "feature_ja": "継続治療、ダメージ軽減"
  },
  "10407": {
   "id": 10407,
@@ -81,7 +117,13 @@
   "element": 2,
   "baseATK": 510,
   "baseHP": 2450,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "塔蘭迪歐",
+  "feature_cn": "全體降攻，復仇輸出",
+  "name_sc": "塔兰迪欧",
+  "feature_sc": "全体降攻，复仇输出",
+  "name_ja": "タイランティノ",
+  "feature_ja": "全体ATK減少、復仇アタッカー"
  },
  "10408": {
   "id": 10408,
@@ -93,7 +135,13 @@
   "element": 1,
   "baseATK": 515,
   "baseHP": 2427,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "貪狼",
+  "feature_cn": "群體昏睡、夢境爆發",
+  "name_sc": "贪狼",
+  "feature_sc": "群体昏睡、梦境爆发",
+  "name_ja": "貪狼",
+  "feature_ja": "睡眠付与、ダメージ増加"
  },
  "10409": {
   "id": 10409,
@@ -105,7 +153,13 @@
   "element": 2,
   "baseATK": 540,
   "baseHP": 2310,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "卡‧拉特",
+  "feature_cn": "殘血追擊、死咬不放",
+  "name_sc": "卡‧拉特",
+  "feature_sc": "残血追击、死咬不放",
+  "name_ja": "カアフ・ラット",
+  "feature_ja": "低HP追撃、喰らい付く"
  },
  "10410": {
   "id": 10410,
@@ -117,7 +171,13 @@
   "element": 2,
   "baseATK": 417,
   "baseHP": 2990,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "任富言",
+  "feature_cn": "首位強化、強驅必殺",
+  "name_sc": "任富言",
+  "feature_sc": "首位强化、强驱必杀",
+  "name_ja": "任富言",
+  "feature_ja": "ポジション1強化、CD減少"
  },
  "10411": {
   "id": 10411,
@@ -129,7 +189,13 @@
   "element": 3,
   "baseATK": 525,
   "baseHP": 2380,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "卡夫卡",
+  "feature_cn": "機率麻痺、傷害加深",
+  "name_sc": "卡夫卡",
+  "feature_sc": "概率麻痹、伤害加深",
+  "name_ja": "カフカ",
+  "feature_ja": "確率麻痺、ダメージ増加"
  },
  "10412": {
   "id": 10412,
@@ -141,7 +207,13 @@
   "element": 1,
   "baseATK": 504,
   "baseHP": 2475,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "答揚速亦",
+  "feature_cn": "必殺強化、攻擊特化",
+  "name_sc": "答扬速亦",
+  "feature_sc": "必杀强化、攻击特化",
+  "name_ja": "答揚速亦",
+  "feature_ja": "必殺強化、攻撃特化"
  },
  "10413": {
   "id": 10413,
@@ -153,7 +225,13 @@
   "element": 1,
   "baseATK": 546,
   "baseHP": 2288,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "巴德",
+  "feature_cn": "集中攻擊、滴水穿石",
+  "name_sc": "巴德",
+  "feature_sc": "集中攻击、滴水穿石",
+  "name_ja": "バーデ",
+  "feature_ja": "集中攻撃、点滴穿石"
  },
  "10414": {
   "id": 10414,
@@ -165,7 +243,13 @@
   "element": 3,
   "baseATK": 440,
   "baseHP": 2835,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "雲山",
+  "feature_cn": "反擊輸出、守護隊友",
+  "name_sc": "云山",
+  "feature_sc": "反击输出、守护队友",
+  "name_ja": "雲山",
+  "feature_ja": "反撃アタッカー、仲間を守る"
  },
  "10415": {
   "id": 10415,
@@ -177,7 +261,13 @@
   "element": 3,
   "baseATK": 545,
   "baseHP": 2291,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "奇里葉",
+  "feature_cn": "治療護盾、復活奇蹟",
+  "name_sc": "奇里叶",
+  "feature_sc": "治疗护盾、复活奇迹",
+  "name_ja": "キリエ",
+  "feature_ja": "治療バリア、奇跡的復活"
  },
  "10416": {
   "id": 10416,
@@ -189,7 +279,13 @@
   "element": 3,
   "baseATK": 520,
   "baseHP": 2403,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "崔鼬玄",
+  "feature_cn": "靈活適應、滿血增傷",
+  "name_sc": "崔鼬玄",
+  "feature_sc": "灵活适应、满血增伤",
+  "name_ja": "チェ・ユヒョン",
+  "feature_ja": "臨機応変、HP満タンダメ増加"
  },
  "10417": {
   "id": 10417,
@@ -201,7 +297,13 @@
   "element": 3,
   "baseATK": 475,
   "baseHP": 2626,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "旺",
+  "feature_cn": "全隊追擊、多段傷害",
+  "name_sc": "旺",
+  "feature_sc": "全队追击、多段伤害",
+  "name_ja": "ワン",
+  "feature_ja": "全隊追撃、多段ダメージ"
  },
  "10418": {
   "id": 10418,
@@ -213,7 +315,13 @@
   "element": 2,
   "baseATK": 494,
   "baseHP": 2524,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "噴射布萊克",
+  "feature_cn": "觸發強化、湧流爆衝",
+  "name_sc": "喷射布莱克",
+  "feature_sc": "触发强化、涌流爆冲",
+  "name_ja": "ジェットブラック",
+  "feature_ja": "誘発強化、凝集爆発"
  },
  "10419": {
   "id": 10419,
@@ -225,7 +333,13 @@
   "element": 2,
   "baseATK": 444,
   "baseHP": 2808,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "奧雷姆",
+  "feature_cn": "防禦護盾、攻守結合",
+  "name_sc": "奥雷姆",
+  "feature_sc": "防御护盾、攻守结合",
+  "name_ja": "オレム",
+  "feature_ja": "防御バリア、攻守両道"
  },
  "10421": {
   "id": 10421,
@@ -237,7 +351,13 @@
   "element": 3,
   "baseATK": 556,
   "baseHP": 2245,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "法米多",
+  "feature_cn": "中線突擊、戰術先鋒",
+  "name_sc": "法米多",
+  "feature_sc": "中线突击、战术先锋",
+  "name_ja": "ファミド",
+  "feature_ja": "センター突撃、戦術先鋒"
  },
  "10422": {
   "id": 10422,
@@ -249,7 +369,13 @@
   "element": 2,
   "baseATK": 476,
   "baseHP": 2625,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "歡水的波勒佩爾",
+  "feature_cn": "水屬易傷、水箭轟炸",
+  "name_sc": "欢水的波勒佩尔",
+  "feature_sc": "水属易伤、水箭轰炸",
+  "name_ja": "水遊びするポラベア",
+  "feature_ja": "水属性ダメージ増加、水鉄砲炸裂"
  },
  "10423": {
   "id": 10423,
@@ -261,7 +387,13 @@
   "element": 4,
   "baseATK": 603,
   "baseHP": 2736,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "五峰山君李泰虎",
+  "feature_cn": "普攻追擊，雙型轉換",
+  "name_sc": "五峰山君李泰虎",
+  "feature_sc": "普攻追击，双型转换",
+  "name_ja": "五峰山君イ・テホ",
+  "feature_ja": "通常攻撃で追撃、2つの態勢転換"
  },
  "10424": {
   "id": 10424,
@@ -273,7 +405,13 @@
   "element": 3,
   "baseATK": 495,
   "baseHP": 2525,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "魯特尼希",
+  "feature_cn": "巧取智奪、妨輔兼修",
+  "name_sc": "鲁特尼希",
+  "feature_sc": "巧取智夺、妨辅兼修",
+  "name_ja": "ラトニックス",
+  "feature_ja": "機転吸収、妨害支援"
  },
  "10425": {
   "id": 10425,
@@ -285,7 +423,13 @@
   "element": 1,
   "baseATK": 499,
   "baseHP": 2500,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "哈尼耶",
+  "feature_cn": "聖怒裁決、觸發懲惡",
+  "name_sc": "哈尼耶",
+  "feature_sc": "圣怒裁决、触发惩恶",
+  "name_ja": "ハニエ",
+  "feature_ja": "聖なる怒り、誘発懲罰"
  },
  "10426": {
   "id": 10426,
@@ -297,7 +441,13 @@
   "element": 3,
   "baseATK": 561,
   "baseHP": 2225,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "蒼嵐",
+  "feature_cn": "雙刃亂舞、汛牙連擊",
+  "name_sc": "苍岚",
+  "feature_sc": "双刃乱舞、汛牙连击",
+  "name_ja": "蒼嵐",
+  "feature_ja": "双刃乱舞、牙連撃"
  },
  "10427": {
   "id": 10427,
@@ -309,7 +459,13 @@
   "element": 1,
   "baseATK": 499,
   "baseHP": 2500,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "鄧肯‧查拉斯",
+  "feature_cn": "狙敵三殺、強攻增幅",
+  "name_sc": "邓肯‧查拉斯",
+  "feature_sc": "狙敌三杀、强攻增幅",
+  "name_ja": "ダンカン・チャールズ",
+  "feature_ja": "狙撃三連撃、特攻ブースト"
  },
  "10428": {
   "id": 10428,
@@ -321,7 +477,13 @@
   "element": 1,
   "baseATK": 476,
   "baseHP": 2625,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "瑞卡諾",
+  "feature_cn": "必殺易傷、點名嘲諷",
+  "name_sc": "瑞卡诺",
+  "feature_sc": "必杀易伤、点名嘲讽",
+  "name_ja": "リカノ",
+  "feature_ja": "必殺ダメージ増加、タゲ集中付与"
  },
  "10429": {
   "id": 10429,
@@ -333,7 +495,13 @@
   "element": 1,
   "baseATK": 535,
   "baseHP": 2333,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "林煜嶄",
+  "feature_cn": "火藥散花、連鎖引爆",
+  "name_sc": "林煜崭",
+  "feature_sc": "火药散花、连锁引爆",
+  "name_ja": "林煜嶄",
+  "feature_ja": "火薬散華、連鎖起爆"
  },
  "10430": {
   "id": 10430,
@@ -345,7 +513,13 @@
   "element": 2,
   "baseATK": 561,
   "baseHP": 2225,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "泉之助",
+  "feature_cn": "快癒搓背、免疫健體",
+  "name_sc": "泉之助",
+  "feature_sc": "快愈搓背、免疫健体",
+  "name_ja": "泉之助",
+  "feature_ja": "背中流しで免疫力アップ"
  },
  "10431": {
   "id": 10431,
@@ -357,7 +531,13 @@
   "element": 4,
   "baseATK": 592,
   "baseHP": 2791,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "降祐之夕歲崇",
+  "feature_cn": "瑞印觸發、穩健強擊",
+  "name_sc": "降祐之夕岁崇",
+  "feature_sc": "瑞印触发、稳健强击",
+  "name_ja": "福を賜る除夜の歳崇",
+  "feature_ja": "瑞印誘発、穏健な強撃"
  },
  "10432": {
   "id": 10432,
@@ -369,7 +549,13 @@
   "element": 2,
   "baseATK": 540,
   "baseHP": 2310,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "絢",
+  "feature_cn": "沁涼破防、水彈連發",
+  "name_sc": "绚",
+  "feature_sc": "沁凉破防、水弹连发",
+  "name_ja": "セーン",
+  "feature_ja": "防御突破、水鉄砲連射"
  },
  "10433": {
   "id": 10433,
@@ -381,7 +567,13 @@
   "element": 1,
   "baseATK": 515,
   "baseHP": 2427,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "渡邊一羽",
+  "feature_cn": "咬鈎易傷、擊殺再動",
+  "name_sc": "渡边一羽",
+  "feature_sc": "咬钩易伤、击杀再动",
+  "name_ja": "渡辺一羽",
+  "feature_ja": "ダメージ増加、行動回数回復"
  },
  "10435": {
   "id": 10435,
@@ -393,7 +585,13 @@
   "element": 1,
   "baseATK": 569,
   "baseHP": 2193,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "庫克萊恩",
+  "feature_cn": "珍饈療癒、全面增益",
+  "name_sc": "库克莱恩",
+  "feature_sc": "珍馐疗愈、全面增益",
+  "name_ja": "クロックライン",
+  "feature_ja": "珍味で癒し、全面バフ"
  },
  "10436": {
   "id": 10436,
@@ -405,7 +603,13 @@
   "element": 3,
   "baseATK": 532,
   "baseHP": 2347,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "莫伊魯",
+  "feature_cn": "毒素侵蝕、破防一擊",
+  "name_sc": "莫伊鲁",
+  "feature_sc": "毒素侵蚀、破防一击",
+  "name_ja": "モイル",
+  "feature_ja": "毒素侵食、防御を砕く一撃"
  },
  "10303": {
   "id": 10303,
@@ -417,6 +621,12 @@
   "element": 3,
   "baseATK": 498,
   "baseHP": 2261,
-  "hasRune": true
+  "hasRune": true,
+  "name_cn": "崔鼬熙",
+  "feature_cn": "中毒追擊、中毒擴散",
+  "name_sc": "崔鼬熙",
+  "feature_sc": "中毒追击、中毒扩散",
+  "name_ja": "チェ・ユヒ",
+  "feature_ja": "毒追撃、毒拡散"
  }
 }
