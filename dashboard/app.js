@@ -839,6 +839,9 @@ function bindCompare() {
     $('#cmpModal').hidden = false; runCompare();
   };
   $('#cmpModal').onclick = e => { if (e.target.dataset.cclose !== undefined) $('#cmpModal').hidden = true; };
+  // 가이드 모달
+  $('#guideBtn').onclick = () => { $('#guideModal').querySelector('.guide-body').scrollTop = 0; $('#guideModal').hidden = false; };
+  $('#guideModal').onclick = e => { if (e.target.dataset.gclose !== undefined) $('#guideModal').hidden = true; };
   $('#cmpA').onchange = () => { cmpManual = false; runCompare(); };   // 새 기록 = 자동매칭 다시
   $('#cmpB').onchange = () => { cmpManual = false; runCompare(); };
   // 공통 전투 설정 — 변경은 상태만 갱신, 재계산은 '비교하기' 버튼으로 (매번 재실행 방지)
@@ -1310,7 +1313,7 @@ $('#modal').onclick = e => { if (e.target.dataset.close !== undefined) $('#modal
 document.addEventListener('keydown', e => { if (e.key === 'Escape') {
   const sub = document.querySelector('.iopop, .swappop, .sealpop, .planpop, .priopop'); if (sub) { sub.remove(); return; }   // 위 팝업부터 닫기
   const ci = document.querySelector('.cmpinfo'); if (ci) { ci.remove(); return; }
-  $('#modal').hidden = true; $('#histModal').hidden = true; $('#cmpModal').hidden = true;
+  $('#modal').hidden = true; $('#histModal').hidden = true; $('#cmpModal').hidden = true; $('#guideModal').hidden = true;
 } });
 
 function toast(msg) {
