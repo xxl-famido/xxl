@@ -106,6 +106,7 @@
     function close() { modal.classList.remove('open'); }
 
     fab.addEventListener('click', open);
+    document.addEventListener('woofia:lang', render);   // 언어 전환 시 즉시 갱신 (i18n.js 가 발행)
     modal.addEventListener('click', e => { if (e.target.dataset.fclose !== undefined) close(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 

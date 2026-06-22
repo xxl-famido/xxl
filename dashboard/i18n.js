@@ -2027,6 +2027,7 @@
     if (lang !== 'kr') { await loadNames(lang); if (prev !== 'kr') restoreAll(); translateAll(); }
     else restoreAll();
     syncMenu(); closeMenu();
+    document.dispatchEvent(new CustomEvent('woofia:lang', { detail: lang }));   // 외부 모듈(feedback 등) 갱신용
   }
 
   /* ── UI: "Language" 버튼 + 선택 메뉴 (좌측 하단) ── */
