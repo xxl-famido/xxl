@@ -155,6 +155,8 @@ class Unit:
     cond_buffs: list = field(default_factory=list)  # (stack,stat,value,owner,skill,scaled,thresh) while stacks≥thresh
     stack_caps: dict = field(default_factory=dict)  # stack_name -> max count (from its definition line)
     stack_dur: dict = field(default_factory=dict)   # stack_name -> 고유 수명(턴). 한 번이라도 duration>0로 정의되면 타이머 스택
+    ran_p4_src: object = None        # 란(10426) P4 시너지: 이 동료가 공격하면 되먹일 란 유닛
+    ran_p4_turns: int = 0            # 그 피드백 창의 남은 half-turns
 
     @property
     def alive(self) -> bool:
@@ -1166,6 +1168,43 @@ def _next_token(unit: Unit) -> str | None:
     return unit.rotation_prefix[-1] if unit.rotation_prefix else None
 
 
+def _ran_p4_synergy(ran: "Unit", state: "BattleState") -> None:
+    """란 '허물 매미 교전': 방어(란의 기운 보유) 시 포지션4 동료에게 ATK +24%(란 기초ATK 기준, 1턴)
+    부여 + 그 동료의 공격이 란을 되먹이도록 표시. (멀티라인 위치부여+이름지목 피드백이라 특수처리)"""
+    p4 = next((u for u in state.allies if u.alive and u.slot == 3 and u is not ran), None)
+    if p4 is None:
+        return
+    flat = round(ran.base_atk * 0.24)
+    K = 104260024
+    p4.buffs = [b for b in p4.buffs if b.key != K]
+    p4.buffs.append(Buff(stat=STAT_ATK_FLAT, value=flat, turns=_half_turns(1), src="trigger",
+                         key=K, owner=10426, src_skill="허물 매미 교전"))
+    p4.ran_p4_src = ran
+    p4.ran_p4_turns = _half_turns(1)         # 정확히 1턴 — P4 동료는 란 방어 이후 같은 턴에 공격해야 발동(순서는 우선순위로)
+    state.record(ran.name, f"발동 → P4 {p4.name} ATK +{flat:,.0f} · 공격연계 부여 (허물 매미 교전)",
+                 src_id=10426, src_skill="허물 매미 교전")
+
+
+def _ran_p4_feedback(p4: "Unit", state: "BattleState") -> None:
+    """포지션4 동료가 공격 시 란에게 되먹임: 발동 스킬 효과 +108%(2턴) + 해일의 송곳니 +5."""
+    ran = p4.ran_p4_src
+    if ran is None or not getattr(ran, "alive", False):
+        p4.ran_p4_src = None
+        p4.ran_p4_turns = 0
+        return
+    K = 104260108
+    ran.buffs = [b for b in ran.buffs if b.key != K]
+    ran.buffs.append(Buff(stat=STAT_TRIGGERED_EFFECT, value=108.0, turns=_half_turns(2), src="trigger",
+                          key=K, owner=10426, src_skill="허물 매미 교전"))
+    cap = ran.stack_caps.get("Tidefang", 16) or 16
+    ran.stacks["Tidefang"] = min(ran.stacks.get("Tidefang", 0) + 5, cap)
+    ran.stack_turns.setdefault("Tidefang", -1)
+    state.record(p4.name, "발동 → 란 발동 스킬 효과 +108% 2턴 · 해일의 송곳니 +5 (허물 매미 교전)",
+                 src_id=10426, src_skill="허물 매미 교전")
+    p4.ran_p4_src = None             # 부여당 1회(다음 공격)로 제한 — 창 닫기
+    p4.ran_p4_turns = 0
+
+
 def _take_action(unit: Unit, state: BattleState) -> None:
     state.cur_action += 1            # each action gets a fresh id (for log grouping)
     state.cur_actor_id = getattr(unit._kit, "char_id", 0) if not unit.is_dummy else 0
@@ -1245,8 +1284,12 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     if token == "defend":
         state.cur_action_kind = "방어"
         state.record(unit.name, "defend (방어)")
+        # 란(허물 매미 교전): 방어 전 란의 기운 보유 여부 — on_defend가 제거하기 전에 캡처
+        ran_had_gale = getattr(unit._kit, "char_id", 0) == 10426 and unit.stacks.get("Gale Breath", 0) >= 1
         _fire_subs(unit, "on_defend", state, target)
         _fire_subs(unit, "on_action", state, target)
+        if ran_had_gale:
+            _ran_p4_synergy(unit, state)
         return
 
     if not forced_basic and unit.is_fed_carry and bool(kit_fatal.effects):
@@ -1276,6 +1319,10 @@ def _take_action(unit: Unit, state: BattleState) -> None:
         skill, label, event = kit_basic, "basic", "on_basic_attack"
         state.cur_action_kind = "보통공격"
         state.turn_basics.add(cid)          # 이 아군이 이번 턴 평타 사용
+
+    # 란 P4 시너지: 이 동료(포지션4)가 공격(평타/궁)하면 란에게 되먹임
+    if unit.ran_p4_src is not None and unit.ran_p4_turns > 0:
+        _ran_p4_feedback(unit, state)
 
     # snapshot the target's stacks BEFORE this action's own effects, so a stack the
     # action applies (바드 필살 -> 각흔) doesn't satisfy its own target-gate this turn.
@@ -1307,6 +1354,10 @@ def _tick_buffs(state: BattleState) -> None:
     Decrements buff and stack lifetimes; expires those that reach 0.
     """
     for unit in state.allies + state.enemies:
+        if unit.ran_p4_turns > 0:                 # 란 P4 피드백 창 감소
+            unit.ran_p4_turns -= 1
+            if unit.ran_p4_turns <= 0:
+                unit.ran_p4_src = None
         kept: list[Buff] = []
         for b in unit.buffs:
             if b.turns < 0:
