@@ -1990,13 +1990,13 @@
     const nf = R.nameField, df = nf.replace('name_', 'desc_');
     const pairs = [];
     try {
-      const chars = await fetch('data/chars.json', { cache: 'force-cache' }).then(r => r.json());
+      const chars = await fetch('data/chars.json', { cache: 'no-cache' }).then(r => r.json());
       (Array.isArray(chars) ? chars : Object.values(chars)).forEach(c => {
         if (c && c.name_kr && c[nf]) pairs.push([c.name_kr.trim(), c[nf]]);
       });
     } catch (e) { /* names stay Korean */ }
     try {
-      const skills = await fetch('data/skills.json', { cache: 'force-cache' }).then(r => r.json());
+      const skills = await fetch('data/skills.json', { cache: 'no-cache' }).then(r => r.json());
       Object.values(skills).forEach(slots => Object.values(slots).forEach(sd => {
         if (!sd) return;
         if (sd.name_kr && sd[nf]) pairs.push([sd.name_kr.trim(), sd[nf]]);
