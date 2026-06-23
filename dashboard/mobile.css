@@ -1,0 +1,148 @@
+/* ──────────────────────────────────────────────────────────────
+   XXL WOOFIA 전투 시뮬레이터 · 모바일 세로(Portrait) 전용 오버라이드
+   ──────────────────────────────────────────────────────────────
+   기준 단말  : iPhone 16 Pro (CSS 뷰포트 402 × 874pt)
+   적용 범위  : index.html (메인 시뮬레이터)만. boss.html 제외.
+   격리 원칙  : 모든 규칙을 @media (max-width:480px) 안에만 둔다.
+               → 481px 이상(데스크탑·태블릿)에서는 이 파일 전체가
+                 비활성(inert)이므로 기존 style.css 동작에 영향 0.
+               문제가 생기면 index.html 의 <link> 한 줄만 제거하면
+               원상복구된다. style.css 는 일절 수정하지 않음.
+   설계 방향  : 레이아웃·간격·폰트 위주 (터치 전용 UX는 범위 외).
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+
+  /* ── 안전영역(노치/홈 인디케이터) 토대 ── */
+  body { overflow-x: hidden; }
+
+  /* ── topbar ── */
+  .topbar {
+    padding: 11px 14px;
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+    gap: 10px;
+  }
+  .brand { gap: 6px; min-width: 0; }
+  .logo-mark { font-size: 13px; padding: 3px 7px; }
+  .logo-word { font-size: 18px; }
+  .logo-sub  { display: none; }              /* 좁은 폭에서 기록 셀렉트 공간 확보 */
+  .topbar-hist { gap: 6px; }
+  #history { font-size: 12px; padding: 7px 9px; padding-right: 26px; }
+
+  /* ── 전체 레이아웃 ── */
+  .wrap {
+    padding: 14px 12px 130px;               /* 하단 FAB 가림 방지 여백 */
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    gap: 14px;
+  }
+  .panel { padding: 14px; border-radius: 12px; }
+  .panel-head { margin-bottom: 13px; }
+  .panel-head h2 { font-size: 16px; }
+  .hint { font-size: 11.5px; }
+
+  /* settings 패널 헤더: 제목과 확률버튼이 좁은 폭에서 겹치지 않게 */
+  .settings .panel-head { flex-wrap: wrap; }
+
+  /* ── 팀 슬롯 ── */
+  .team-slots { gap: 7px; margin-bottom: 18px; }
+  .slot .nm { font-size: 10px; }
+
+  /* ── 로스터 ── */
+  .roster { grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: 7px; }
+
+  /* ── 세그먼트 버튼(특히 아군 피격 7개) ── */
+  .seg { gap: 4px; }
+  .seg button { font-size: 11.5px; padding: 7px 0; min-width: 0; }
+
+  /* ── 행동 우선순위 ── */
+  .prio li { gap: 8px; padding: 6px 7px; font-size: 12px; }
+  .prio .pic { width: 22px; height: 22px; }
+  .turn-chips button { width: 24px; height: 24px; font-size: 10.5px; }
+
+  /* 실행 버튼 */
+  .btn-run { font-size: 15px; padding: 14px; }
+
+  /* ── 결과: 히어로 통계(총딜/DPS/턴) ── */
+  .hero-stats { gap: 8px; margin-bottom: 18px; }
+  .hero-num { padding: 11px 10px; min-width: 0; }
+  .hero-num label { font-size: 11px; margin-bottom: 4px; }
+  .hero-num label em { font-size: 9.5px; }
+  .hero-num b { font-size: 16px; }           /* 큰 데미지 수치가 3열에 들어오도록 축소 */
+  .hero-num .hero-range { font-size: 10px; }
+
+  /* ── 결과: 랭킹 막대 ── */
+  .rbar { grid-template-columns: 20px 30px 1fr auto; gap: 8px; }
+  .rbar .pic { width: 30px; height: 30px; }
+  .rbar .track { height: 26px; }
+  .rbar .lab { left: 9px; font-size: 11.5px; gap: 6px; }
+  .rbar .lab .role { font-size: 10.5px; }
+  .rbar .val { font-size: 12.5px; min-width: 76px; }
+  .rbar .val small { font-size: 10px; }
+
+  /* ── 결과: 차트 ── */
+  .chart-card, .log-card { padding: 13px; }
+  .chart { height: 124px; }
+  /* 차트 툴팁이 화면 밖으로 안 나가게(터치 환경 대비 최대폭 제한) */
+  .chart .tip { min-width: 120px; max-width: 76vw; white-space: normal; }
+
+  /* ── 결과: 전투 로그 ── */
+  .log .turn-h { padding: 10px 12px; gap: 12px; }
+  .log .turn-h .tn-num { left: 12px; }
+  .log .turn-h .tn-caret { right: 12px; }
+  .log .turn-h .sum { gap: 12px; }
+  .log .turn-b { padding: 2px 10px 10px; }
+  .log .line .who { min-width: 78px; }
+  .log .line { font-size: 11.5px; }
+  .act-h .an { font-size: 12px; }
+  .formula { font-size: 11.5px; }
+
+  /* ── 캐릭터 상세 모달 ── */
+  .modal { padding: 10px; }
+  .modal-card { width: 96vw; padding: 16px; max-height: 90vh; }
+  .mc-top { gap: 12px; margin-bottom: 14px; }
+  .mc-top img { width: 60px; height: 60px; }
+  .mc-top .info h2 { font-size: 17px; }
+  .mc-stats { gap: 8px; }
+  .mc-stats .s { padding: 9px 10px; }
+  .mc-stats .s b { font-size: 15px; }
+  .mc-close { top: 12px; right: 12px; }
+  .planner { grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); max-height: 220px; }
+
+  /* ── 기록 관리 모달 ── */
+  .hist-card { width: 96vw; padding: 16px; max-height: 88vh; }
+  .hist-tools { flex-wrap: wrap; gap: 6px; }
+  .hist-tools .hsel-count { margin-left: 0; }
+  .hist-list { max-height: 48vh; }
+  .hist-item .hi-date { display: none; }     /* 좁은 폭에서 이름 가독성 우선 */
+
+  /* ── 가이드 모달 ── */
+  .guide-card { width: 96vw; max-height: 90vh; }
+  .guide-head { padding: 16px 18px; }
+  .guide-body { padding: 6px 18px 20px; }
+
+  /* ── 조합 비교 모달: 좌우 2단 → 세로 1단 ── */
+  .cmp-wrap {
+    flex-direction: column;
+    align-items: stretch;
+    width: 96vw;
+    max-height: 92vh;
+    overflow-y: auto;
+    gap: 12px;
+  }
+  .cmp-card    { width: 100%; max-height: none; padding: 18px; }
+  .cmp-setcard { width: 100%; max-height: none; padding: 18px; }
+  .cmp-body { overflow: visible; }
+  .cmp-row, .cmp-colhead { grid-template-columns: 1fr 96px 1fr; gap: 7px; }
+  .cmp-cell img { width: 32px; height: 32px; }
+  .cmp-cell .cc-n { font-size: 12px; }
+
+  /* ── 우하단 플로팅 버튼(비교/가이드)·업데이트 표기: 홈 인디케이터 회피 ── */
+  .cmp-fab    { right: 10px; bottom: calc(108px + env(safe-area-inset-bottom)); padding: 8px 12px; font-size: 11.5px; }
+  .guide-fab  { right: 10px; bottom: calc(74px  + env(safe-area-inset-bottom)); padding: 8px 12px; font-size: 11.5px; }
+  .last-update{ right: 10px; bottom: calc(10px  + env(safe-area-inset-bottom)); }
+
+  /* ── 토스트류 안전영역 보정 ── */
+  #toast { bottom: calc(26px + env(safe-area-inset-bottom)); }
+}
