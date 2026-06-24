@@ -74,6 +74,7 @@ class CharSpec:
     skill_level: int = 10
     rune: bool = True     # 도장 해제 (ultimate -> sigil 룬필살기)
     rotation: str | None = None  # 행동 지정 '평평방궁|평방궁' (None=기본정책)
+    fed_action: str | None = None  # 이태호 전용: 임부언 fed 추가행동 토큰(평/궁/방). None=기본 평타
     position: int | None = None  # 전열 위치 1~5 (None=리스트 순서). 더미는 최소 position 타격
     priority: int | None = None  # 행동 순서 (None=position). 낮을수록 먼저 행동
     atk_bonus: int = 0           # 도장 강화: 기본 ATK 가산
@@ -117,10 +118,12 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
     # rotation: 지정 시 그대로, 아니면 kit 기반 자동(1턴차 CD감소 패시브 반영)
     rotations = [s.rotation if s.rotation is not None else auto_rotation(kit)
                  for s, kit in zip(specs, kits)]
+    fed_actions = [s.fed_action for s in specs]   # 이태호 임부언 fed 추가행동 토큰(None=기본 평타)
     state = simulate(kits, n_dummies=n_dummies, max_turn=max_turn, seed=seed,
                      rotations=rotations, slots=slots, priorities=priorities,
                      enemy_hits=enemy_hits, turn_orders=turn_orders, force_proc=force_proc,
-                     enemy_aoe=enemy_aoe, dummy_element=dummy_element, hp10=hp10)
+                     enemy_aoe=enemy_aoe, dummy_element=dummy_element, hp10=hp10,
+                     fed_actions=fed_actions)
     names = [u.name for u in state.allies]
     per_char = {u.name: u.damage_dealt for u in state.allies}
     total = sum(per_char.values())

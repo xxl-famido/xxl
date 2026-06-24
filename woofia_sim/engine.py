@@ -129,7 +129,8 @@ class Unit:
     extra_actions: int = 0          # pending extra actions this turn
     extra_granted: bool = False     # "gain action (once per turn)" already used
     base_actions: int = 1           # rotation-driven actions per turn (이태호 = 2)
-    extra_basic: bool = False       # 이태호: actions beyond base_actions = forced 평타, no token
+    extra_basic: bool = False       # 이태호: actions beyond base_actions = 평타(기본) 또는 fed_action 지정
+    fed_action: str = "평"          # 이태호 전용: 임부언 fed 추가행동 토큰(평/궁/방). 기본 평타=종전 동작
     turn_acts: int = 0              # actions taken this turn (reset each turn)
     auto_fatal_pending: bool = False  # 지정 궁이 쿨 미충족으로 불발 → 쿨 차는 대로 자동 발동 예약
     hold_fatal_stacks: set = field(default_factory=set)  # skip fatal while holding these
@@ -1277,9 +1278,10 @@ def _take_action(unit: Unit, state: BattleState) -> None:
 
     kit_basic, kit_fatal = unit._kit.basic, unit._kit.fatal  # type: ignore[attr-defined]
     unit.turn_acts += 1
-    # 이태호: actions beyond his base 2 (e.g. 임부언이 준 3번째) = 무조건 평타, 토큰 소비 안 함
+    # 이태호: base 2회 초과 행동(예: 임부언이 준 3번째)은 메인 로테이션을 소비하지 않고
+    # fed_action 지정 토큰을 사용(기본 '평'=평타 → 종전 동작과 동일). 임부언 궁의 CD-3로 '궁' 재발동 가능.
     forced_basic = unit.extra_basic and unit.turn_acts > unit.base_actions
-    token = "basic" if forced_basic else _next_token(unit)
+    token = _TOKEN_ACTION.get(unit.fed_action, "basic") if forced_basic else _next_token(unit)
 
     if token == "defend":
         state.cur_action_kind = "방어"
@@ -1536,7 +1538,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
              priorities: list[float] | None = None,
              enemy_hits: int = 0, turn_orders: dict | None = None,
              force_proc: bool = False, enemy_aoe: bool = False,
-             dummy_element: int = 0, hp10: bool = False) -> BattleState:
+             dummy_element: int = 0, hp10: bool = False,
+             fed_actions: list[str | None] | None = None) -> BattleState:
     """Run a target-dummy battle and return the final state (with log).
 
     rotations: optional per-ally action strings (e.g. '평평방궁|평방궁').
@@ -1551,6 +1554,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
         u._kit = kit  # type: ignore[attr-defined]
         if rotations and i < len(rotations) and rotations[i]:
             u.rotation_prefix, u.rotation_loop = parse_rotation(rotations[i])
+        if fed_actions and i < len(fed_actions) and fed_actions[i]:
+            u.fed_action = fed_actions[i]    # 이태호 임부언 fed 추가행동 토큰(평/궁/방)
         allies.append(u)
     enemies = [make_dummy(i) for i in range(max(1, min(n_dummies, 5)))]
     for e in enemies:

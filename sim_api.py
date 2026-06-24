@@ -145,6 +145,7 @@ def run_sim(cfg: dict) -> dict:
             int(m["id"]), skill_level=int(m.get("skill", 10)),
             rune=bool(m.get("rune", True)), position=int(m["position"]),
             rotation=(m.get("rotation") or None),
+            fed_action=(m.get("fedAction") or None),   # 이태호 임부언 fed 추가행동(평/궁/방)
             priority=(float(m["priority"]) if m.get("priority") not in (None, "") else None),
             atk_bonus=int(m.get("sealAtk", 0) or 0), hp_bonus=int(m.get("sealHp", 0) or 0)))
     turns = int(cfg.get("turns", 30))
