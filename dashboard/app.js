@@ -765,7 +765,10 @@ function openPrioPop(side) {                // 비교군별 행동 우선순위 
     $('#prChips').innerHTML = Array.from({ length: turns }, (_, i) => { const t = i + 1;
       return `<button class="${ov[t] ? 'has' : ''} ${selT.has(t) ? 'sel' : ''}" data-t="${t}">${t}</button>`; }).join('');
     $('#prChips').onclick = e => { const b = e.target.closest('button'); if (!b) return;
-      const t = +b.dataset.t; selT.has(t) ? selT.delete(t) : selT.add(t); renderChips(); };
+      const t = +b.dataset.t;
+      if (selT.has(t)) { selT.delete(t); if (ov[t]) { delete ov[t]; markCmpDirty(); } }   // 해제 = 완전 off (오버라이드까지 제거 → 재진입 시 재선택 방지)
+      else selT.add(t);
+      renderChips(); };
     renderEditor();
   }
   function renderEditor() {
@@ -1078,7 +1081,9 @@ function renderTurnChips() {
   }).join('');
   chips.onclick = e => {
     const b = e.target.closest('button'); if (!b) return;
-    const t = +b.dataset.t; selTurns.has(t) ? selTurns.delete(t) : selTurns.add(t);   // 토글
+    const t = +b.dataset.t;
+    if (selTurns.has(t)) { selTurns.delete(t); delete turnOverrides[t]; }   // 해제 = 완전 off (오버라이드까지 제거 → 재진입 시 재선택 방지)
+    else selTurns.add(t);
     renderTurnChips();
   };
   renderTurnEditor();
