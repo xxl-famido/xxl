@@ -4,6 +4,10 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const fmt = n => Math.round(n).toLocaleString('ko-KR');
 const icon = id => `icons/${id}.png`;
 
+// 배포 시 deploy.yml이 아래 자리표시자를 커밋시각(version.json.updated와 동일)으로 치환한다.
+// 미치환(로컬·구 빌드)이면 stale 비교를 건너뛴다. (watchDeploy에서 분리 리터럴로 주입 여부 판별)
+const BUILD_VERSION = '__BUILD_VERSION__';
+
 // ── API 브릿지: 로컬 개발(server.py, 8777)은 fetch / GitHub Pages 등 정적은 Pyodide 워커 ──
 const USE_PY = location.port !== '8777';
 const API = (() => {
@@ -1396,13 +1400,27 @@ function toast(msg) {
   t.innerHTML = `<span class="ti">⚠</span>${msg}`; t.classList.add('show');
   clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 5000);
 }
-function notifyUpdate() {        // 새 배포 감지 시 기존 접속자에게 띄우는 고정 알림(눌러서 새로고침)
+function notifyUpdate(stale) {   // 새 배포 감지(또는 stale=옛 캐시 사용 중) 시 고정 알림(눌러서 새로고침)
   if ($('#upToast')) return;
   const t = document.createElement('div');
   t.id = 'upToast'; t.className = 'up-toast';
-  t.innerHTML = `🔄 새 버전이 배포됐어요 — <b>눌러서 새로고침</b>`;
-  t.onclick = () => location.reload();
+  t.innerHTML = stale
+    ? `⚠️ 옛 버전을 쓰고 있어요 — <b>눌러서 새로고침</b>`
+    : `🔄 새 버전이 배포됐어요 — <b>눌러서 새로고침</b>`;
+  t.onclick = () => hardReload(t);
   document.body.appendChild(t);
+}
+// Ctrl+Shift+R 효과: 정적 자산을 HTTP 캐시 우회(cache:'reload')로 재다운로드 후 리로드.
+// (Pyodide Python 엔진은 sim-worker.js가 ?v=버전으로 자체 캐시버스팅하므로 제외)
+async function hardReload(toast) {
+  if (toast) { toast.style.pointerEvents = 'none'; toast.innerHTML = '🔄 새로고침 중…'; }
+  const bust = url => fetch(url, { cache: 'reload' }).catch(() => {});
+  try {
+    if (window.caches) { const ks = await caches.keys(); await Promise.all(ks.map(k => caches.delete(k))); }
+    await Promise.all([location.href, 'index.html', 'style.css', 'mobile.css',
+      'app.js', 'i18n.js', 'feedback.js', 'sim-worker.js'].map(bust));
+  } catch (e) { /* 캐시 우회 실패해도 아래 리로드는 진행 */ }
+  location.reload();
 }
 // 배포 감지: version.json을 주기적으로 확인. 내가 로드한 버전과 달라지면(=그새 새 배포) 알림.
 // 새로 접속한 사람은 이미 최신이라 차이가 없어 알림이 안 뜬다. (로컬은 version.json 없음 → 무시)
@@ -1413,7 +1431,13 @@ function notifyUpdate() {        // 새 배포 감지 시 기존 접속자에게
     fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
       .then(r => r.ok ? r.json() : null).then(v => {
         const cur = v && v.updated;
-        if (cur) { if (loaded === null) loaded = cur; else if (cur !== loaded) notifyUpdate(); }
+        if (!cur) return;
+        if (loaded === null) {
+          loaded = cur;
+          // 최초 로드: 실행 중인 코드의 빌드버전이 배포본보다 옛것이면 = F5로 옛 캐시 사용 중 → 알림
+          const NOT_BUILT = '__BUILD' + '_VERSION__';   // sed가 못 건드리게 분리(주입 여부 판별용)
+          if (BUILD_VERSION !== NOT_BUILT && BUILD_VERSION !== cur) notifyUpdate(true);
+        } else if (cur !== loaded) notifyUpdate();
       }).catch(() => { }).finally(() => { busy = false; });
   };
   check();
