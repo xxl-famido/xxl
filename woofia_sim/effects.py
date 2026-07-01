@@ -46,6 +46,7 @@ STAT_DOT_TAKEN = "dot_taken_pct"            # GetOtherDotBonusRate (target side)
 STAT_DOT_DEALT = "dot_dealt_pct"            # 지속 데미지 주는 증가 (caster side) — DoT 틱에만
 STAT_ATK_FLAT = "atk_flat"                  # flat ATK add (e.g. % of caster base ATK)
 STAT_HEAL_RECV = "heal_recv_pct"            # 받는 회복량 증가 (target side, heal/HoT received +x%)
+STAT_BAR_RECV = "bar_recv_pct"              # 받는 배리어 효과 증가 (target side, 수령 배리어 +x% — 다라완 파4)
 
 
 @dataclass
@@ -384,7 +385,10 @@ def _b_pos_grant_header(m):
 
 @_leaf(rf"^Barrier granted (?:by|to) self \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
 def _b_barrier_amp(m):
-    return Effect(MARKER, m.group(0))      # 베리어 수령량 증폭(+%) — 미모델(수령측 증폭, 다라완 파4/힐 시너지) §비고
+    # 받는 배리어 효과 증폭(+%) — 수령측(self) 버프. 다라완 파4: 힐 받으면 이후 얻는 배리어 +24% (2턴)
+    return Effect(BUFF, m.group(0), target="self", stat=STAT_BAR_RECV,
+                  magnitude=_f(m.group(1)), duration=_opt_dur(m, 2),
+                  max_stacks=int(_f(m.group(3))) if m.group(3) else 1)
 
 
 @_leaf(rf"^[Dd]eal damage {_NUM}% of Barrier to (.+?)(?:,? for {_NUM} {_TRN})?\.?$")

@@ -24,7 +24,7 @@ from .effects import (
     STAT_MAX_HP, STAT_BASE_MAX_HP,
     STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_DOT_TAKEN, STAT_DOT_DEALT,
     STAT_BASIC_DMG_DEALT, STAT_EX_EFFECT,
-    STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, Effect,
+    STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, STAT_BAR_RECV, Effect,
 )
 from .kit import ResolvedKit
 from .names import kr, stat_kr
@@ -158,6 +158,7 @@ class Unit:
     barrier_pre_hit: float | None = None  # 직전 피격 '전' 배리어 합 (배리어 소모 표시용). None=이번 피격에 소모 없음
     barrier_absorbed: float = 0.0         # 직전 피격에서 배리어가 흡수한 양
     taunt_turns: int = 0            # 조롱: >0이면 적이 이 아군을 강제 타격 (쿠모야마)
+    taunt_since: int = 0            # 조롱 획득 시점(state.cur_action 스냅) — 다수 조롱 시 먼저 건 캐릭터에 어그로 집중
     hots: list = field(default_factory=list)  # [target, per_turn, turns_left, calc] heal-over-time
     dots: list = field(default_factory=list)  # [target, pct, turns_left, owner, src_skill, cast_snapshot] 지속딜(DoT)
     cond_buffs: list = field(default_factory=list)  # (stack,stat,value,owner,skill,scaled,thresh) while stacks≥thresh
@@ -1015,6 +1016,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                 caster.healing_done += per
                 state.record(caster.name, f"{act_kr} 힐 → {tgt.name} +{per:,.0f}",
                              amount=per, src_id=effect.owner, src_skill=effect.src_skill, detail=struct)
+                _fire_subs(tgt, "on_heal_received", state, caster)   # 힐 수령 트리거(다라완 파4: 받는 배리어 +24%)
     elif kind == BARRIER:
         # 베리어 기준값: of_max_hp면 최대HP%(HP버프 반영), 아니면 ATK% (오렘·다라완파4 = 최대HP의 X%)
         base = caster.max_hp_eff() if effect.of_max_hp else caster.atk_eff()
@@ -1041,18 +1043,25 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         bt = _half_turns(effect.duration) if effect.duration and effect.duration > 0 else -1
         bsrc = effect.src_skill or act_kr    # 배리어 출처(스킬명) — 추적/구성 로그용
         for tgt in targets:
+            # 수령자측 배리어 증폭(다라완 파4: 힐 받으면 이후 얻는 배리어 +24%) — 부여 시점 값으로 곱연산
+            recv = tgt._sum(STAT_BAR_RECV)
+            amt_t = round(amt * (1 + recv / 100), 2) if recv else amt
+            tstruct = {**struct, "final": amt_t, "barRecv": round(recv, 2),
+                       "turn": state.turn, "actId": state.cur_action}
             # [금액, 타이머, 출처, 생성계산식(+생성 턴/액션ID)] — 재귀 드릴다운 + "추적" 점프용
-            tgt.barriers.append([amt, bt, bsrc, {**struct, "turn": state.turn, "actId": state.cur_action}])
-            caster.barrier_done += amt
-            state.record(caster.name, f"{act_kr} 베리어 → {tgt.name} +{amt:,.0f}{dur}",
-                         amount=amt, src_id=effect.owner, src_skill=effect.src_skill,
-                         detail={**struct, "target": tgt.name})
+            tgt.barriers.append([amt_t, bt, bsrc, tstruct])
+            caster.barrier_done += amt_t
+            state.record(caster.name, f"{act_kr} 베리어 → {tgt.name} +{amt_t:,.0f}{dur}",
+                         amount=amt_t, src_id=effect.owner, src_skill=effect.src_skill,
+                         detail={**tstruct, "target": tgt.name})
     elif kind == CC:
         if effect.stat == "taunt":     # 조롱: 이 유닛(들)이 상대편의 공격을 강제로 끌어온다
             for tgt in targets:
                 # 조롱은 명시 지속시간만큼만(게임 정확: 1턴). 이전엔 적-조롱에 +1해 다음 아군 턴까지
                 # 끌었으나, 1턴 조롱이 2턴처럼 작동해 조롱 게이트 효과(리카노 빛나는스타 +18% 주는딜,
                 # 딜집중)가 다음 턴까지 잘못 적용됐다. 행동 순서는 우선순위로 조절.
+                if tgt.taunt_turns <= 0:            # 새로 조롱 획득 → 건 시점 기록(연속 유지 중이면 최초 시점 보존)
+                    tgt.taunt_since = state.cur_action
                 tgt.taunt_turns = max(tgt.taunt_turns, max(1, effect.duration))
             if targets:
                 state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 조롱 {effect.duration}턴",
@@ -1391,8 +1400,10 @@ def _take_action(unit: Unit, state: BattleState) -> None:
         n = state.enemy_hits if state.enemy_hits > 0 else len(living)
         taunters = [u for u in living if u.taunt_turns > 0]
         if taunters:
-            # 조롱: 모든 타격이 조롱한 탱커(들)에게 강제로 — 탱커가 피격·반격을 흡수
-            chosen = [taunters[i % len(taunters)] for i in range(n)]
+            # 조롱: 모든 타격이 조롱한 탱커에게 강제로 — 탱커가 피격·반격을 흡수.
+            # 다수 조롱(쿠모야마+다라완 등) 시엔 먼저 건 캐릭터(가장 이른 taunt_since)에게 어그로 집중.
+            focus = min(taunters, key=lambda u: (u.taunt_since, u.slot))
+            chosen = [focus] * n
         else:
             n = min(n, len(living))
             chosen = state.rng.sample(living, n) if n < len(living) else living
@@ -1557,6 +1568,7 @@ def _tick_hots(state: BattleState) -> None:
                              src_id=(calc or {}).get("skillId", 0),
                              src_skill=(calc or {}).get("skillName", ""),
                              detail=calc)
+                _fire_subs(tgt, "on_heal_received", state, u)   # 지속힐 수령도 트리거(다라완 파4)
             entry[2] = turns - 1
             if entry[2] > 0:
                 kept.append(entry)
