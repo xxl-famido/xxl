@@ -1732,8 +1732,8 @@ function renderND(l) {
     const eff = (d.eff || []).length ? ' × ' + chan('효과', d.eff) : '';
     const effB = (d.effBasic || []).length ? ' × ' + chan('평타뎀', d.effBasic) : '';   // 평타 배리어=보통공격 강화
     const recv = d.healRecv ? ` × <span class="chan-static">받는회복 +${d.healRecv}%</span>` : '';
-    // 수령자측 배리어 증폭(다라완 파4: 힐 받으면 이후 얻는 배리어 +24%)
-    const brc = d.barRecv ? ` × <span class="chan-static" title="받는 배리어 효과 증가 — 다라완 파4(치료 받으면 +24%, 2턴)">받는배리어 +${d.barRecv}%</span>` : '';
+    // 수령자측 배리어 증폭(다라완 파4) — 클릭 시 출처 스킬로 이어짐
+    const brc = (d.barRecvComp || []).length ? ' × ' + chan('받는배리어', d.barRecvComp) : '';
     return `<div class="ndl ${cls} fatk">
       <div class="ndl-h">${text}<span class="ndl-caret">▾</span></div>
       <div class="ndl-calc"><b>${fmt(d.final)}</b> = ${inner} × ${pctEl}${eff}${effB}${recv}${brc}</div></div>`;
@@ -1764,8 +1764,8 @@ function barrierCalcHtml(d) {
     : `<span class="sk">${d.skillPct}% 계수</span>`;
   const eff = (d.eff || []).length ? ' × ' + chan('발동효과', d.eff) : '';
   const effB = (d.effBasic || []).length ? ' × ' + chan('평타뎀', d.effBasic) : '';   // 평타 배리어=보통공격 강화
-  // 수령자측 배리어 증폭 (다라완 파4: 힐 받으면 이후 얻는 배리어 +24%)
-  const brc = d.barRecv ? ` × <span class="chan-static" title="받는 배리어 효과 증가 — 다라완 파4(치료 받으면 +24%, 2턴)">받는배리어 +${d.barRecv}%</span>` : '';
+  // 수령자측 배리어 증폭 (다라완 파4) — 클릭 시 출처 스킬로 이어짐
+  const brc = (d.barRecvComp || []).length ? ' × ' + chan('받는배리어', d.barRecvComp) : '';
   return `<b>${fmt(d.final)}</b> = ${inner} × ${pctEl}${eff}${effB}${brc}`;
 }
 // 배리어 비례 딜의 "총 배리어 → 출처별 구성 → 각 배리어 생성식" 재귀 드릴다운(꼬리에 꼬리)

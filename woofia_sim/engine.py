@@ -1046,7 +1046,9 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             # 수령자측 배리어 증폭(다라완 파4: 힐 받으면 이후 얻는 배리어 +24%) — 부여 시점 값으로 곱연산
             recv = tgt._sum(STAT_BAR_RECV)
             amt_t = round(amt * (1 + recv / 100), 2) if recv else amt
-            tstruct = {**struct, "final": amt_t, "barRecv": round(recv, 2),
+            bar_recv_comp = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill}
+                             for b in tgt.buffs if b.stat == STAT_BAR_RECV]   # 클릭 시 출처 스킬용
+            tstruct = {**struct, "final": amt_t, "barRecv": round(recv, 2), "barRecvComp": bar_recv_comp,
                        "turn": state.turn, "actId": state.cur_action}
             # [금액, 타이머, 출처, 생성계산식(+생성 턴/액션ID)] — 재귀 드릴다운 + "추적" 점프용
             tgt.barriers.append([amt_t, bt, bsrc, tstruct])
