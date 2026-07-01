@@ -1732,9 +1732,11 @@ function renderND(l) {
     const eff = (d.eff || []).length ? ' × ' + chan('효과', d.eff) : '';
     const effB = (d.effBasic || []).length ? ' × ' + chan('평타뎀', d.effBasic) : '';   // 평타 배리어=보통공격 강화
     const recv = d.healRecv ? ` × <span class="chan-static">받는회복 +${d.healRecv}%</span>` : '';
+    // 수령자측 배리어 증폭(다라완 파4: 힐 받으면 이후 얻는 배리어 +24%)
+    const brc = d.barRecv ? ` × <span class="chan-static" title="받는 배리어 효과 증가 — 다라완 파4(치료 받으면 +24%, 2턴)">받는배리어 +${d.barRecv}%</span>` : '';
     return `<div class="ndl ${cls} fatk">
       <div class="ndl-h">${text}<span class="ndl-caret">▾</span></div>
-      <div class="ndl-calc"><b>${fmt(d.final)}</b> = ${inner} × ${pctEl}${eff}${effB}${recv}</div></div>`;
+      <div class="ndl-calc"><b>${fmt(d.final)}</b> = ${inner} × ${pctEl}${eff}${effB}${recv}${brc}</div></div>`;
   }
   const clk = l.srcId ? ` clk" data-sid="${l.srcId}" data-sn="${(l.srcSkill || '').replace(/"/g, '&quot;')}` : '';
   return `<div class="ndl ${cls}${clk}">${text}</div>`;
