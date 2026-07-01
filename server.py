@@ -13,6 +13,7 @@ import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from sim_api import all_meta, char_skills, run_sim
+from boss_api import list_bosses, run_boss, boss_chars   # 길드 보스전 — 별도 엔진(boss_sim)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DASH = os.path.join(HERE, "dashboard")
@@ -38,6 +39,16 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(200, all_meta())
         if path.startswith("/api/char/"):
             return self._send(200, char_skills(int(path.rsplit("/", 1)[1])))
+        if path == "/api/bosses":
+            return self._send(200, list_bosses())
+        if path == "/api/boss/chars":
+            return self._send(200, boss_chars())
+        if path.startswith("/data/"):   # i18n.js 이름맵(chars/skills.json) — 배포 시엔 Actions가 _site/data로 복사
+            dp = os.path.normpath(os.path.join(HERE, path.lstrip("/")))
+            if dp.startswith(os.path.join(HERE, "data")) and os.path.isfile(dp):
+                with open(dp, "rb") as f:
+                    return self._send(200, f.read(), "application/json; charset=utf-8")
+            return self._send(404, {"error": "not found"})
         rel = "index.html" if path in ("/", "") else path.lstrip("/")
         fp = os.path.normpath(os.path.join(DASH, rel))
         if fp.startswith(DASH) and os.path.isfile(fp):
@@ -49,11 +60,12 @@ class Handler(BaseHTTPRequestHandler):
         return self._send(404, {"error": "not found"})
 
     def do_POST(self):
-        if self.path == "/api/simulate":
+        if self.path in ("/api/simulate", "/api/boss"):
             n = int(self.headers.get("Content-Length", 0))
             cfg = json.loads(self.rfile.read(n) or b"{}")
             try:
-                return self._send(200, run_sim(cfg))
+                fn = run_boss if self.path == "/api/boss" else run_sim
+                return self._send(200, fn(cfg))
             except Exception as e:
                 import traceback
                 traceback.print_exc()

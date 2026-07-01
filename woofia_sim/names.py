@@ -23,6 +23,7 @@ STACK_KR: dict[str, str] = {
     "Dragonforce": "용족의 위압",
     "Energy Charge": "체력응축",
     "Five-Peak Myriad": "오봉만상",
+    "Wavetime": "파도 체이싱",
     "Gale Breath": "란의 기운",
     "Gunpowder": "화약",
     "Hellhound": "지옥의 사냥개",

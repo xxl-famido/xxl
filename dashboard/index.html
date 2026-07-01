@@ -73,6 +73,12 @@
         <button data-v="0">0</button><button data-v="1">1</button><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button><button data-v="5" class="on">5</button><button data-v="all">전체</button>
       </div>
     </label>
+    <label class="field" id="incomingField"><span>피격 데미지 <em>(더미가 아군 피격 시 아군 최대HP의 %만큼 데미지 · 배리어가 먼저 흡수 · 아군은 체력 1 미만으로 안 내려감)</em></span>
+      <div class="row">
+        <button class="proc-btn" id="incomingBtn" title="켜면 더미의 아군 피격이 아군 최대HP의 지정%만큼 데미지를 줍니다. 배리어가 먼저 소모되고, 아군은 전투불능(HP 1 미만)이 되지 않습니다 — 배리어 탱커(다라완 등)의 실전 성능 검증용">💥 끔</button>
+        <input type="range" id="incoming" min="1" max="99" value="30"><b id="incomingVal">30%</b>
+      </div>
+    </label>
 
     <div class="field">
       <span>행동 우선순위 <em>(드래그로 순서 변경)</em></span>
@@ -272,6 +278,11 @@
       <label class="cmp-set-f"><span>아군 피격 횟수</span>
         <div class="seg" id="cmpHits" data-val="all">
           <button data-v="0">0</button><button data-v="1">1</button><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button><button data-v="5">5</button><button data-v="all" class="on">전체</button>
+        </div></label>
+      <label class="cmp-set-f" id="cmpIncomingField"><span>피격 데미지</span>
+        <div class="row">
+          <button class="proc-btn" id="cmpIncomingBtn" title="켜면 더미의 아군 피격이 아군 최대HP의 지정%만큼 데미지를 줍니다. 배리어가 먼저 소모되고, 아군은 전투불능(HP 1 미만)이 되지 않습니다 — 배리어 탱커(다라완 등)의 실전 성능 검증용">💥 끔</button>
+          <input type="range" id="cmpIncoming" min="1" max="99" value="30"><b id="cmpIncomingVal">30%</b>
         </div></label>
       <button class="cmp-run" id="cmpRun">비교하기</button>
     </div>

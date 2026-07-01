@@ -20,7 +20,8 @@ from dataclasses import dataclass, field
 
 from .effects import (
     BARRIER, BUFF, CC, CD_MOD, COND_DMG, DAMAGE, DEBUFF, EXTRA_ACTION, HEAL,
-    MARKER, STACK, TRANSFORM, TRIGGER, STAT_ATK, STAT_BASE_ATK, STAT_ATK_FLAT,
+    MARKER, ENTER_DEFENSE, STACK, TRANSFORM, TRIGGER, STAT_ATK, STAT_BASE_ATK, STAT_ATK_FLAT,
+    STAT_MAX_HP, STAT_BASE_MAX_HP,
     STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_DOT_TAKEN, STAT_DOT_DEALT,
     STAT_BASIC_DMG_DEALT, STAT_EX_EFFECT,
     STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, Effect,
@@ -130,7 +131,8 @@ class Unit:
     extra_granted: bool = False     # "gain action (once per turn)" already used
     base_actions: int = 1           # rotation-driven actions per turn (이태호 = 2)
     extra_basic: bool = False       # 이태호: actions beyond base_actions = 평타(기본) 또는 fed_action 지정
-    fed_action: str = "평"          # 이태호 전용: 임부언 fed 추가행동 토큰(평/궁/방). 기본 평타=종전 동작
+    fed_action: str = "평"          # 이태호 전용: 임부언 fed 추가행동 토큰(평/궁/방). 기본 평타=종전 동작(단일값 폴백)
+    fed_schedule: dict = field(default_factory=dict)  # 이태호: 턴별 fed 토큰 {turn: 평/궁/방} — 임부언 궁 턴마다 개별 지정
     turn_acts: int = 0              # actions taken this turn (reset each turn)
     auto_fatal_pending: bool = False  # 지정 궁이 쿨 미충족으로 불발 → 쿨 차는 대로 자동 발동 예약
     hold_fatal_stacks: set = field(default_factory=set)  # skip fatal while holding these
@@ -145,11 +147,16 @@ class Unit:
     stack_turns: dict[str, int] = field(default_factory=dict)  # remaining half-turns; -1 = permanent
     gate_snap: dict | None = None   # stacks snapshot at action start (target-gate사 pre-action state)
     act_snap: dict | None = None    # actor's OWN stacks snapshot at action start (consume-gate용)
+    barrier_snap: float | None = None  # 행동 시작 시 배리어 합 스냅샷 — 자기공격 배리어게이트가 "행동 전" 상태로 판정
+                                       #  (평타가 부여한 배리어로 그 평타의 "배리어 보유 시" 추가타를 만족시키지 않게)
     subs: list[Subscription] = field(default_factory=list)
     damage_dealt: float = 0.0       # running total this battle
     healing_done: float = 0.0       # total heal output (incl. overheal; for comparison)
     barrier_done: float = 0.0       # total barrier granted
-    barrier: float = 0.0            # current shield amount
+    barriers: list = field(default_factory=list)  # [[amount, half_turns, source], ...] 개별 만료(버프처럼 각자 수명). 합산=barrier 프로퍼티
+    defending: bool = False  # 이번 턴 방어 상태(방어 액션 또는 다라완 필살 Enter Defense) → 받는 데미지 50% 감소
+    barrier_pre_hit: float | None = None  # 직전 피격 '전' 배리어 합 (배리어 소모 표시용). None=이번 피격에 소모 없음
+    barrier_absorbed: float = 0.0         # 직전 피격에서 배리어가 흡수한 양
     taunt_turns: int = 0            # 조롱: >0이면 적이 이 아군을 강제 타격 (쿠모야마)
     hots: list = field(default_factory=list)  # [target, per_turn, turns_left, calc] heal-over-time
     dots: list = field(default_factory=list)  # [target, pct, turns_left, owner, src_skill, cast_snapshot] 지속딜(DoT)
@@ -165,6 +172,29 @@ class Unit:
 
     def _cond_val(self, val: float, n: int, scaled: bool) -> float:
         return val * n if scaled else val      # scaled = value per stack (열화질보 평타뎀+10%×N)
+
+    @property
+    def barrier(self) -> float:
+        """현재 유효 배리어 = 만료되지 않은 모든 인스턴스 합. (개별 [amount, half_turns, source])"""
+        return sum(b[0] for b in self.barriers if b[0] > 0)
+
+    def absorb_damage(self, dmg: float) -> tuple[float, float]:
+        """피격 데미지 흡수: 배리어(오래된 인스턴스부터) 먼저 소모 → 남은 건 HP.
+        전투불능 방지 — HP는 1 미만으로 내려가지 않음. 반환 (배리어흡수량, HP감소량)."""
+        remaining, absorbed = dmg, 0.0
+        for b in self.barriers:
+            if remaining <= 0:
+                break
+            if b[0] <= 0:
+                continue
+            a = min(b[0], remaining)
+            b[0] -= a; remaining -= a; absorbed += a
+        self.barriers = [b for b in self.barriers if b[0] > 0]
+        to_hp = 0.0
+        if remaining > 0:
+            to_hp = min(remaining, max(0.0, self.hp - 1))   # 체력 1 이하로 안 내려감
+            self.hp -= to_hp
+        return absorbed, to_hp
 
     def _sum(self, stat: str) -> float:
         total = sum(b.value for b in self.buffs if b.stat == stat)
@@ -188,6 +218,12 @@ class Unit:
                 out.append({"v": round(self._cond_val(val, n, scaled), 2), "by": owner,
                             "skill": skill, "cond": kr(req)})
         return out
+
+    def max_hp_eff(self) -> float:
+        """유효 최대 HP = base × (1 + Σ 기초MaxHP%) × (1 + Σ MaxHP%). ATK 공식 미러.
+        데미지 시뮬은 HP버프를 대개 무시하지만, 배리어/힐이 MaxHP% 기준일 때(다라완 파4·오렘)
+        HP버프가 배리어 크기=딜에 영향 → 여기서만 반영."""
+        return self.max_hp * (1 + self._sum(STAT_BASE_MAX_HP) / 100) * (1 + self._sum(STAT_MAX_HP) / 100)
 
     def base_atk_eff(self) -> float:
         """기초 ATK = base × (1 + Sum base-ATK%).  Only base-ATK% buffs count;
@@ -299,6 +335,7 @@ class BattleState:
     force_proc: bool = False      # 확률 100% 모드: 모든 확률 판정을 무조건 성공으로
     hp_schedule: bool = False     # 카라트 등 HP게이트 캐릭 동반 시 더미 HP% 4등분 스케줄
     hp10: bool = False            # 체력 10% 모드: 더미 HP를 매 턴 10%로 고정 (저HP 게이트 전부 발동)
+    incoming_hp_pct: int = 0      # >0이면 더미가 아군 피격 시 아군 최대HP의 n% 데미지(배리어 흡수, HP 1하한)
     dummy_element: int = 0        # 더미 속성 (EProp: 0무·1불·2물·3나무·4빛·5어둠) — 상성 배율용
     turn_basics: set = field(default_factory=set)   # 이번 턴 평타한 아군 char_id (다양수이 협동)
     turn_exes: set = field(default_factory=set)     # 이번 턴 필살 쓴 아군 char_id
@@ -383,6 +420,8 @@ def _resolve_targets(effect: Effect, caster: Unit, state: BattleState,
         return [caster]
     if t == "grantor":          # "X's base ATK ..." granted to a buddy -> buffs X
         return [grantor or caster]
+    if t == "self_and_grantor":  # "to self and <grantor>" — 실행자 + 부여자 둘 다 (다라완 파2: 아군 방어→자신+다라완 배리어)
+        return [caster] + ([grantor] if grantor and grantor is not caster else [])
     if t == "allies":
         return [u for u in state.team(caster) if u.alive]
     if t.startswith("allies_"):
@@ -535,14 +574,32 @@ def _element_mult(atk_el: int, def_el: int) -> float:
 
 def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: str,
                 src_id: int, src_skill: str, state: "BattleState",
-                snap: dict | None = None) -> None:
+                snap: dict | None = None, base_override: float | None = None,
+                base_label: str = "ATK", barrier_comp: list | None = None,
+                barrier_pre: float | None = None, barrier_consumed: float = 0.0,
+                ex_effect: bool = False) -> None:
     """Compute, apply and log one damage hit. Shared by direct DAMAGE and DoT ticks.
-    snap(있으면, DoT): 시전자 측(ATK·주는딜·지속딜증가)을 부여 시점 값으로 고정."""
+    snap(있으면, DoT): 시전자 측(ATK·주는딜·지속딜증가)을 부여 시점 값으로 고정.
+    base_override: ATK 대신 다른 기준값으로 딜(다라완 = 현재 배리어). ATK 채널은 미적용."""
     if snap is not None:                      # DoT: 시전 시점 스냅샷 사용 (시전자 측 고정)
         atk, out = snap["atk"], snap["out"]
         dealt, dot_dealt = list(snap["dealt"]), snap["dotDealt"]
         base, baseAtk, atkC, flat = snap["base"], snap["baseAtk"], snap["atkC"], snap["flat"]
         detail, eff = snap["detail"], []
+    elif base_override is not None:           # 배리어 등 비-ATK 기준: ATK 채널(기초ATK%/ATK%/고정) 미적용
+        atk = base_override
+        out = caster.outgoing_mult(action, tgt)     # 주는딜·발동효과·조롱 대상조건 주는딜 모두 여전히 적용
+        dealt = caster._comp(STAT_DMG_DEALT)
+        for entry in caster.target_cond_dmg:        # 대상조건 주는딜(리카노 조롱 +18% 등) — out엔 이미 반영, 분해표시에도 추가
+            if _tcd_active(entry, tgt):
+                stk, bonus, owner, skill, hp_op, hp_val = entry
+                cond_kr = kr(stk) if stk else (f"HP<{hp_val:g}%" if hp_op == "lt" else f"HP≥{hp_val:g}%")
+                dealt.append({"v": bonus, "by": owner, "skill": skill, "cond": cond_kr})
+        dot_dealt = []
+        base, baseAtk, atkC, flat = round(base_override, 2), [], [], []
+        eff_stat = _ACTION_EFF.get(action, "")
+        eff = caster._comp(eff_stat) if eff_stat else []
+        detail = caster.outgoing_detail(action, tgt)
     else:
         atk = caster.atk_eff()
         out = caster.outgoing_mult(action, tgt)
@@ -558,6 +615,11 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
         eff_stat = _ACTION_EFF.get(action, "")
         eff = caster._comp(eff_stat) if eff_stat else []
         detail = caster.outgoing_detail(action, tgt)
+    # '필살기 효과'(리카노 등 아군 필살기효과 증가)를 받는 발동딜에만 ex_effect=True.
+    # ※ 다라완 배리어 반격은 이 효과를 받지 않음(사용자 실측 확인) → 호출부에서 ex_effect=False.
+    ex_eff = caster._comp(STAT_EX_EFFECT) if ex_effect else []
+    if ex_eff:
+        out *= 1 + sum(c["v"] for c in ex_eff) / 100
     inc = tgt.incoming_mult(caster.element)
     # 지속(도트) 받는증가는 대상측이라 틱 시점 현재값 (모이루 받는지속딜 +50% 후속 적용 반영)
     dot_taken = ([{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill}
@@ -577,19 +639,22 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
                and b.element != 0 and b.element == caster.element]
     struct = {
         "act": act_kr, "target": tgt.name, "final": dmg,
-        "base": base, "atkTotal": round(atk, 2),
+        "base": base, "atkTotal": round(atk, 2), "baseLabel": base_label,
+        "barrierComp": barrier_comp,
+        "barrierPre": round(barrier_pre, 2) if barrier_pre is not None else None,
+        "barrierConsumed": round(barrier_consumed, 2),
         "baseAtk": baseAtk, "atk": atkC, "flat": flat,
         "skillPct": pct, "skillId": src_id, "skillName": src_skill,
         "dealt": dealt,
         "effLabel": {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과", "dot": "지속딜"}.get(action, ""),
-        "eff": eff,
+        "eff": eff, "effEx": ex_eff,
         "takenG": taken_g, "takenP": taken_p,
         "dotDealt": dot_dealt, "dotTaken": dot_taken,
         "elemMult": elem,
     }
     state.record(caster.name,
                  f"{act_kr} → {tgt.name} {dmg:,.2f} = "
-                 f"{atk:,.2f}ATK × {pct:g}% × {out:.4f}[{detail}] × {inc:.4f}in"
+                 f"{atk:,.2f}{base_label} × {pct:g}% × {out:.4f}[{detail}] × {inc:.4f}in"
                  + (f" × {elem:g}[{'상성' if elem > 1 else '역상성'}]" if elem != 1.0 else ""),
                  amount=dmg, detail=struct)
 
@@ -599,6 +664,10 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                  grantor: Unit | None = None) -> None:
     kind = effect.kind
     if kind == MARKER:
+        return
+    if kind == ENTER_DEFENSE:            # 다라완 필살: 방어 상태 전환 → 이번 턴 받는 데미지 50% 감소
+        caster.defending = True          # (일반 방어와 달리 on_defend 트리거는 발동하지 않음 — 설명 명시)
+        state.record(caster.name, "방어 상태 전환 (받는 데미지 50%↓)", amount=0)
         return
     if kind == "UNPARSED":
         state.unapplied[f"미파싱: {effect.raw[:60]}"] += 1
@@ -789,9 +858,24 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                              f"{act_kr} 지속딜 → {tgt.name} {effect.magnitude:g}%/턴 ×{effect.duration}턴",
                              amount=0, src_id=effect.owner, src_skill=effect.src_skill)
             return
+        bo = caster.barrier if effect.of_barrier else None      # 다라완: 현재 배리어 수치 기준
+        bl = "배리어" if effect.of_barrier else "ATK"
+        comp = None
+        if effect.of_barrier:
+            # ★ 구성 = 실제 배리어 인스턴스 각각을 그대로 (합산·재계산 X). 같은 스킬(파도 차징)이라도
+            #   방어한 아군마다 그 아군 ATK로 개별 계산된 값이므로, 저장된 생성계산식/현재값을 그대로 가져온다.
+            comp = [{"src": b[2], "v": round(b[0], 2),
+                     "orig": round((b[3] or {}).get("final", b[0]), 2), "detail": b[3],
+                     "turn": (b[3] or {}).get("turn"), "actId": (b[3] or {}).get("actId")}
+                    for b in caster.barriers if b[0] > 0]
+        # 피격으로 배리어가 소모됐으면 반격 기준값을 "기존 배리어 − 소모"로 표시
+        bpre = caster.barrier_pre_hit if effect.of_barrier else None
+        bcons = caster.barrier_absorbed if (effect.of_barrier and bpre is not None) else 0.0
         for tgt in targets:
             _record_hit(caster, tgt, effect.magnitude, action, act_kr,
-                        effect.owner, effect.src_skill, state)
+                        effect.owner, effect.src_skill, state, base_override=bo,
+                        base_label=bl, barrier_comp=comp, barrier_pre=bpre, barrier_consumed=bcons,
+                        ex_effect=False)   # 배리어 반격은 리카노 등 아군 필살기효과 증가를 받지 않음(사용자 실측 확인)
     elif kind in (BUFF, DEBUFF):
         for tgt in targets:
             if effect.of_base_atk:
@@ -897,8 +981,8 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         for tgt in targets:
             # of_max_hp면 대상 최대HP의 X%(시전자 ATK 무관), 아니면 ATK% × 효과배율
             if effect.of_max_hp:
-                raw = tgt.max_hp * effect.magnitude / 100
-                basef = {"baseLabel": f"{tgt.name} 최대HP", "baseTotal": round(tgt.max_hp, 2)}
+                raw = tgt.max_hp_eff() * effect.magnitude / 100
+                basef = {"baseLabel": f"{tgt.name} 최대HP", "baseTotal": round(tgt.max_hp_eff(), 2)}
             else:
                 raw = atk * effect.magnitude / 100 * mult
                 basef = _atk_chan_fields(caster)       # base × 기초ATK% × ATK% + 고정 풀분해
@@ -932,23 +1016,33 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                 state.record(caster.name, f"{act_kr} 힐 → {tgt.name} +{per:,.0f}",
                              amount=per, src_id=effect.owner, src_skill=effect.src_skill, detail=struct)
     elif kind == BARRIER:
-        # 베리어 기준값: of_max_hp면 최대HP%, 아니면 ATK% (오렘 = 자신 최대 HP의 X%)
-        base = caster.max_hp if effect.of_max_hp else caster.atk_eff()
+        # 베리어 기준값: of_max_hp면 최대HP%(HP버프 반영), 아니면 ATK% (오렘·다라완파4 = 최대HP의 X%)
+        base = caster.max_hp_eff() if effect.of_max_hp else caster.atk_eff()
         base_lbl = "최대HP" if effect.of_max_hp else "ATK"
-        mult = caster.support_mult(action)
+        # 배리어는 부여 방식 무관하게 '발동효과'로 증가 (사용자 인게임 확인).
+        # ★ 단, 평타(보통공격)로 얻는 배리어만 예외적으로 '보통공격 강화'(평타뎀)도 추가 적용
+        #   (멍 패시브 등 — 평타로 생긴 배리어라 보통공격 증뎀 버프를 받음). 두 채널은 곱연산.
+        eff_comps = caster._comp(STAT_TRIGGERED_EFFECT)
+        mult = 1 + caster._sum(STAT_TRIGGERED_EFFECT) / 100
+        basic_comps = []
+        if action == "basic":
+            mult *= 1 + caster._sum(STAT_BASIC_DMG_DEALT) / 100
+            basic_comps = caster._comp(STAT_BASIC_DMG_DEALT)
         amt = round(base * effect.magnitude / 100 * mult, 2)
-        eff_stat = _ACTION_EFF.get(action, "")
         # 드릴다운: ATK 기반은 base×기초ATK%×ATK%+고정 풀분해, HP 기반은 정적 최대HP
-        basef = {"baseLabel": "최대HP", "baseTotal": round(caster.max_hp, 2)} if effect.of_max_hp \
+        basef = {"baseLabel": "최대HP", "baseTotal": round(caster.max_hp_eff(), 2)} if effect.of_max_hp \
             else _atk_chan_fields(caster)
         struct = {
             "kind": "barrier", "act": act_kr, "final": round(amt, 2),
             "skillPct": effect.magnitude, "skillId": effect.owner, "skillName": effect.src_skill,
-            "eff": caster._comp(eff_stat) if eff_stat else [], **basef,
+            "eff": eff_comps, "effBasic": basic_comps, **basef,   # 발동효과 + (평타배리어면)보통공격뎀
         }
         dur = f" ({effect.duration}턴)" if effect.duration and effect.duration > 0 else ""
+        bt = _half_turns(effect.duration) if effect.duration and effect.duration > 0 else -1
+        bsrc = effect.src_skill or act_kr    # 배리어 출처(스킬명) — 추적/구성 로그용
         for tgt in targets:
-            tgt.barrier += amt
+            # [금액, 타이머, 출처, 생성계산식(+생성 턴/액션ID)] — 재귀 드릴다운 + "추적" 점프용
+            tgt.barriers.append([amt, bt, bsrc, {**struct, "turn": state.turn, "actId": state.cur_action}])
             caster.barrier_done += amt
             state.record(caster.name, f"{act_kr} 베리어 → {tgt.name} +{amt:,.0f}{dur}",
                          amount=amt, src_id=effect.owner, src_skill=effect.src_skill,
@@ -1098,10 +1192,13 @@ def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
     """
     fired: list[tuple[Subscription, str]] = []
     for event in events:
+        # 자기공격 트리거의 배리어게이트는 '행동 전' 배리어(barrier_snap)로 판정 — 이 공격이 부여한
+        # 배리어가 같은 공격의 "배리어 보유 시" 게이트를 즉석에서 만족시키지 않도록 (오렘 도장 등).
+        bsnap = caster.barrier_snap if caster.barrier_snap is not None else caster.barrier
         for sub in [s for s in list(caster.subs)
                     if s.event == event and _qualifies(s, caster, current_target)
                     and (not s.need_team_barrier or _team_has_barrier(caster, state))
-                    and (not s.need_self_barrier or caster.barrier > 0)
+                    and (not s.need_self_barrier or bsnap > 0)
                     and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]:
             if not state.force_proc and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
                 continue
@@ -1206,6 +1303,40 @@ def _ran_p4_feedback(p4: "Unit", state: "BattleState") -> None:
     p4.ran_p4_turns = 0
 
 
+def _apply_incoming(ally: Unit, attacker: Unit, state: BattleState) -> None:
+    """피격 데미지 모드: 아군 최대HP의 n%를 데미지로 (배리어 먼저 흡수, HP 1하한).
+    반격 발동 '전에' 호출 → 배리어 비례 딜(다라완)·배리어 게이트(오렘)가 소모 후 값으로 판정."""
+    ally.barrier_pre_hit = None
+    if state.incoming_hp_pct <= 0:
+        return
+    pre = ally.barrier
+    raw = ally.max_hp_eff() * state.incoming_hp_pct / 100   # 체퍼뎀(최대HP n%)
+    defended = ally.defending                               # 방어 상태면 받는 데미지 50% 감소
+    # 정상 공격과 동일하게 곱연산 채널을 모두 적용:
+    #   방어 50%↓ × 아군 받는뎀 증감(배리어 보유 -10% 등, 속성 받뎀 포함) × 공격자 주는뎀 증감(다라완 sigil -24% 등)
+    taken_mult = ally.incoming_mult(attacker.element)
+    dealt_mult = max(0.0, 1 + attacker._sum(STAT_DMG_DEALT) / 100)
+    dmg = raw * (0.5 if defended else 1.0) * taken_mult * dealt_mult
+    absorbed, to_hp = ally.absorb_damage(dmg)
+    if absorbed > 0:                         # 배리어 소모 발생 → 반격의 "기존 배리어 − 소모" 표시용
+        ally.barrier_pre_hit = pre
+        ally.barrier_absorbed = absorbed
+    # 각 감소 채널을 UI에 개별 표기 (방어 −50% 옆에 받는뎀 −10%·주는뎀 −24% 등)
+    taken_g = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill}
+               for b in ally.buffs if b.stat == STAT_DMG_TAKEN and b.element == 0]
+    taken_p = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill, "el": _ELNAME.get(b.element, "")}
+               for b in ally.buffs if b.stat == STAT_DMG_TAKEN and b.element != 0 and b.element == attacker.element]
+    dealt = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill}
+             for b in attacker.buffs if b.stat == STAT_DMG_DEALT]
+    dtail = " (방어 -50%)" if defended else ""
+    tail = f" (배리어 흡수 {absorbed:,.0f}" + (f" · HP -{to_hp:,.0f}" if to_hp else "") + ")"
+    state.record(ally.name, f"{attacker.name} 피격 데미지 {dmg:,.0f}{dtail}{tail}", amount=0,
+                 detail={"kind": "incoming", "dmg": round(dmg, 2), "raw": round(raw, 2),
+                         "defended": defended, "absorbed": round(absorbed, 2), "hpLost": round(to_hp, 2),
+                         "preBar": round(pre, 2), "remainBar": round(pre - absorbed, 2),
+                         "taken": taken_g, "takenP": taken_p, "dealt": dealt})
+
+
 def _take_action(unit: Unit, state: BattleState) -> None:
     state.cur_action += 1            # each action gets a fresh id (for log grouping)
     state.cur_actor_id = getattr(unit._kit, "char_id", 0) if not unit.is_dummy else 0
@@ -1235,6 +1366,7 @@ def _take_action(unit: Unit, state: BattleState) -> None:
                 state.cur_action_kind = "피격"
                 state.cur_atk_by = unit.name
                 state.record(ally.name, f"{unit.name}에게 피격", amount=0)   # 헤더(반응 없어도 표시)
+                _apply_incoming(ally, unit, state)   # 피격 데미지(배리어 흡수) — 반격 게이트 판정 전
                 aid = state.cur_action
                 for ev in ("on_attacked", "on_take_basic"):
                     for sub, src in _ready_subs(ally, ev, state, unit):
@@ -1271,6 +1403,7 @@ def _take_action(unit: Unit, state: BattleState) -> None:
             state.cur_action_kind = "피격"
             state.cur_atk_by = unit.name
             state.record(ally.name, f"{unit.name}에게 피격", amount=0)   # 헤더(반응 없어도 표시)
+            _apply_incoming(ally, unit, state)   # 피격 데미지(배리어 흡수) — 반격 발동 전
             _fire_subs(ally, "on_attacked", state, unit)
             _fire_subs(ally, "on_take_basic", state, unit)
         state.cur_atk_by = ""
@@ -1281,10 +1414,16 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     # 이태호: base 2회 초과 행동(예: 임부언이 준 3번째)은 메인 로테이션을 소비하지 않고
     # fed_action 지정 토큰을 사용(기본 '평'=평타 → 종전 동작과 동일). 임부언 궁의 CD-3로 '궁' 재발동 가능.
     forced_basic = unit.extra_basic and unit.turn_acts > unit.base_actions
-    token = _TOKEN_ACTION.get(unit.fed_action, "basic") if forced_basic else _next_token(unit)
+    if forced_basic:
+        # 임부언 추가행동: 이번 턴 지정 토큰(fed_schedule) 우선, 없으면 단일 fed_action(구호환)
+        fed_tok = unit.fed_schedule.get(state.turn, unit.fed_action)
+        token = _TOKEN_ACTION.get(fed_tok, "basic")
+    else:
+        token = _next_token(unit)
 
     if token == "defend":
         state.cur_action_kind = "방어"
+        unit.defending = True            # 방어 상태 → 이번 턴 받는 데미지 50% 감소
         state.record(unit.name, "defend (방어)")
         # 란(허물 매미 교전): 방어 전 란의 기운 보유 여부 — on_defend가 제거하기 전에 캡처
         ran_had_gale = getattr(unit._kit, "char_id", 0) == 10426 and unit.stacks.get("Gale Breath", 0) >= 1
@@ -1333,6 +1472,7 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     # snapshot the actor's OWN stacks too — consume-on-attack gates (던컨 마도집중 소모)
     # read this so a stack the same action just gained doesn't trigger its own removal.
     unit.act_snap = dict(unit.stacks)
+    unit.barrier_snap = unit.barrier    # 행동 전 배리어 — 자기공격 트리거의 배리어게이트 판정 기준
     before = len(state.log)
     for eff in skill.effects:
         apply_effect(eff, unit, state, target, source=label)
@@ -1346,6 +1486,7 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     _fire_attack(unit, (event, "on_attack"), state, target)
     _fire_subs(unit, "on_action", state, target)   # may grant an extra action
     unit.act_snap = None
+    unit.barrier_snap = None
     if target is not None:
         target.gate_snap = None
 
@@ -1369,6 +1510,15 @@ def _tick_buffs(state: BattleState) -> None:
                 if b.turns > 0:
                     kept.append(b)
         unit.buffs = kept
+        # 배리어 인스턴스: 각자 하프턴 감소, 0이면 만료 제거 (turns<0 = 영구)
+        if unit.barriers:
+            kept_b = []
+            for b in unit.barriers:
+                if b[1] < 0:
+                    kept_b.append(b)
+                elif b[1] - 1 > 0:
+                    kept_b.append([b[0], b[1] - 1, b[2], b[3]])
+            unit.barriers = kept_b
         for name in list(unit.stack_turns):
             t = unit.stack_turns[name]
             if isinstance(t, list):      # 타이머 스택: 중첩마다 개별 만료
@@ -1539,7 +1689,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
              enemy_hits: int = 0, turn_orders: dict | None = None,
              force_proc: bool = False, enemy_aoe: bool = False,
              dummy_element: int = 0, hp10: bool = False,
-             fed_actions: list[str | None] | None = None) -> BattleState:
+             fed_actions: list[str | None] | None = None,
+             incoming_hp_pct: int = 0) -> BattleState:
     """Run a target-dummy battle and return the final state (with log).
 
     rotations: optional per-ally action strings (e.g. '평평방궁|평방궁').
@@ -1555,7 +1706,11 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
         if rotations and i < len(rotations) and rotations[i]:
             u.rotation_prefix, u.rotation_loop = parse_rotation(rotations[i])
         if fed_actions and i < len(fed_actions) and fed_actions[i]:
-            u.fed_action = fed_actions[i]    # 이태호 임부언 fed 추가행동 토큰(평/궁/방)
+            fa = fed_actions[i]              # 이태호 임부언 fed 추가행동: dict={turn:토큰}(턴별) 또는 str(단일, 구호환)
+            if isinstance(fa, dict):
+                u.fed_schedule = {int(k): v for k, v in fa.items() if v}
+            else:
+                u.fed_action = fa
         allies.append(u)
     enemies = [make_dummy(i) for i in range(max(1, min(n_dummies, 5)))]
     for e in enemies:
@@ -1564,7 +1719,7 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
                         rng=random.Random(seed), enemy_hits=enemy_hits, enemy_aoe=enemy_aoe,
                         turn_orders=turn_orders or {}, force_proc=force_proc,
                         hp_schedule=any(_kit_has_hp_gate(u._kit) for u in allies),
-                        dummy_element=dummy_element, hp10=hp10)
+                        dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct)
 
     for u in allies:
         _install_passives(u, state)
@@ -1590,6 +1745,7 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
             u.extra_actions = 0             # reset BEFORE the phase so cross-ally
             u.extra_granted = False         # grants (e.g. 임부언 -> P1) survive
             u.turn_acts = 0                 # actions-taken counter (이태호 3rd = forced 평타)
+            u.defending = False             # 방어 상태 리셋 — 이번 턴 방어/Enter Defense 시 다시 설정
         # --- ally phase (queue: priority order + granted extra actions) ---
         _ally_phase(allies, state)
         _tick_buffs(state)                   # half-turn tick (after ally phase)

@@ -29,6 +29,7 @@ COND_DMG = "COND_DMG"       # +dmg-dealt% while the attack target holds a status
 CD_MOD = "CD_MOD"           # EX-skill cooldown change
 TRIGGER = "TRIGGER"         # conditional wrapper holding sub-effects
 MARKER = "MARKER"           # section header / non-mechanical note
+ENTER_DEFENSE = "ENTER_DEFENSE"  # 자신을 방어 상태로 전환(다라완 필살) — 받는 데미지 50% 감소
 UNPARSED = "UNPARSED"       # no template matched -> flagged
 
 # buff stat channels
@@ -58,6 +59,7 @@ class Effect:
     magnitude: float = 0.0                    # percent value (e.g. 135.0)
     of_base_atk: bool = False                 # magnitude is % of caster base ATK
     of_max_hp: bool = False                   # barrier/heal scales off Max HP
+    of_barrier: bool = False                  # DAMAGE scales off caster's CURRENT barrier (다라완)
     duration: int = -1                        # turns; -1 = permanent
     max_stacks: int = 1
     chance: float = 100.0                     # trigger probability %
@@ -131,6 +133,7 @@ _TRIGGER_PATTERNS: tuple[tuple[re.Pattern, str, str], ...] = (
     (re.compile(rf"^When attacked, there is a(?:\(n\))? {_NUM}% chance to trigger: (.+)$"), "on_attacked", "chance"),
     (re.compile(r"^When attacked, trigger: (.+)$"), "on_attacked", "plain"),
     (re.compile(r"^When taking a Basic Attack, trigger: (.+)$"), "on_take_basic", "plain"),
+    (re.compile(r"^Upon receiving healing, trigger: (.+)$"), "on_heal_received", "plain"),  # 다라완 파4(내부 배리어-amp 미모델)
     (re.compile(rf"^When defending, there is a(?:\(n\))? {_NUM}% chance to trigger: (.+)$"), "on_defend", "chance"),
     (re.compile(r"^When defending, (?:trigger: )?(.+)$"), "on_defend", "plain"),
     (re.compile(rf"^On turn {_NUM}, trigger: (.+)$"), "on_turn", "param"),
@@ -179,7 +182,7 @@ def _apply_hp_gate(eff: "Effect", op: str, val: float) -> None:
 _GATE = re.compile(rf"^When (?:own )?(.+?) (?:≧|=) {_NUM} {_STK}[,:]\s*(on attack|on Basic Attack|on EX Skill|[Ww]hen attacked|[Ww]hen defending|[Ww]hen taking an action)?,?\s*(?:there is a(?:\(n\))? {_NUM}% chance to )?(?:trigger: )?(.+)$")
 
 # gate on the attack TARGET's stack, e.g. "When locked target's Judgment = 1 stack(s), on EX Skill, trigger: ..."
-_TGATE = re.compile(rf"^When (?:locked target's|target) (.+?) (?:≧|=) {_NUM} {_STK},\s*(on attack|on Basic Attack|on EX Skill|[Ww]hen attacked|[Ww]hen defending|[Ww]hen taking an action)?,?\s*(?:trigger: )?(.+)$")
+_TGATE = re.compile(rf"^When (?:locked target's|target's|target) (.+?) (?:≧|=) {_NUM} {_STK},\s*(on attack|on Basic Attack|on EX Skill|[Ww]hen attacked|[Ww]hen defending|[Ww]hen taking an action)?,?\s*(?:trigger: )?(.+)$")
 # target HAS a named status (presence, ≥1): "When locked target(s) is/are with Chisel Marks, [on X,] [trigger: ]Y"
 _TWITH = re.compile(r"^When locked target\(s\) (?:is/are|is|are) with (.+?),\s*(on attack|on Basic Attack|on EX Skill|[Ww]hen attacked|[Ww]hen defending|[Ww]hen taking an action)?,?\s*(?:trigger: )?(.+)$")
 # enemy-count gate (evaluated vs the current dummy count): "When enemy alive ≧ 5, <effect>"
@@ -379,9 +382,23 @@ def _b_pos_grant_header(m):
     return Effect(MARKER, m.group(0))      # 멀티라인 grant 헤더(본문은 다음 줄들에서 파싱) §비고
 
 
-@_leaf(rf"^Barrier granted by self \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
+@_leaf(rf"^Barrier granted (?:by|to) self \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
 def _b_barrier_amp(m):
-    return Effect(MARKER, m.group(0))      # 베리어 부여량 증폭 — 미모델(방어 보조) §비고
+    return Effect(MARKER, m.group(0))      # 베리어 수령량 증폭(+%) — 미모델(수령측 증폭, 다라완 파4/힐 시너지) §비고
+
+
+@_leaf(rf"^[Dd]eal damage {_NUM}% of Barrier to (.+?)(?:,? for {_NUM} {_TRN})?\.?$")
+def _b_barrier_damage(m):
+    # 다라완 필살 반격: 현재 배리어 수치의 N%를 데미지로 (ATK 무관). "for N turns"는 트리거 창.
+    return Effect(DAMAGE, m.group(0), target=_target(m.group(2)),
+                  magnitude=_f(m.group(1)), of_barrier=True)
+
+
+@_leaf(r"^Enter Defense \(skill effects triggered by Defense won'?t be triggered\)\.?$")
+def _b_enter_defense(m):
+    # 다라완 필살: 방어상태 전환 → 받는 데미지 50% 감소. 단 일반 방어와 달리 "방어 시"(on_defend)
+    # 트리거는 봉인하므로 defending 플래그만 세우고 on_defend는 발동하지 않는다.
+    return Effect(ENTER_DEFENSE, m.group(0))
 
 
 @_leaf(rf"^All of own Buddies' Chance to be (?:Paralyzed|put to Sleep) -{_NUM}%(?: for {_NUM} {_TRN})?\.?$")
@@ -389,7 +406,7 @@ def _b_cc_resist(m):
     return Effect(MARKER, m.group(0))      # CC 저항 — 더미전 무관
 
 
-@_leaf(rf"^Gain a Barrier {_NUM}% of own (ATK|Max\. HP) for {_NUM} turns?(?:\. This effect can only trigger 1 time)?\.?$")
+@_leaf(rf"^[Gg]ain a Barrier {_NUM}% of own (ATK|Max\. HP) for {_NUM} {_TRN}(?:\. This effect can only trigger 1 time)?\.?$")
 def _b_gain_barrier(m):
     return Effect(BARRIER, m.group(0), target="self", magnitude=_f(m.group(1)),
                   of_max_hp="HP" in m.group(2), duration=int(m.group(3)),
@@ -614,8 +631,9 @@ def _b_bare_stack(m):
                   max_stacks=int(m.group(4)) if m.group(4) else int(_f(m.group(1))))
 
 
-@_leaf(rf"^(.+?) gains?(?:/gain)? {_NUM} {_STK} of (.+?)(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
+@_leaf(rf"^(.+?) gains?(?:/gain)? {_NUM} {_STK} of (.+?)(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?(?:, for \d+(?:\.\d+)? {_TRN})?\.?$")
 def _b_stack_gain_other(m):
+    # 끝의 ", for N turn(s)" = 트리거 창(비캡처) — 이게 없으면 스택명이 "X for 2 turn(s),"로 오염됨 (다라완 Wavetime)
     return Effect(STACK, m.group(0), target=_target(m.group(1)), stack_name=_stk(m.group(3)),
                   magnitude=_f(m.group(2)), duration=_opt_dur(m, 4),
                   max_stacks=int(m.group(5)) if m.group(5) else int(_f(m.group(2))))
@@ -724,6 +742,9 @@ def _target(text: str) -> str:
         return "allies"
     if "allies" in t:                 # "all allies" / "all of own allies" (룬 힐·베리어)
         return "allies"
+    # "self and <named grantor>" (다라완 파2: 방어한 아군 자신 + 다라완 둘 다에게)
+    if re.match(r"^self and [A-Z][A-Za-z. ]+$", raw.strip()):
+        return "self_and_grantor"
     if "self" in t or t in ("themselves", "themself", "itself"):
         return "self"
     # a named character (e.g. "Haniya", "Famido", "Jet Black", "Capt. Locke") = the

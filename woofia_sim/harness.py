@@ -74,7 +74,7 @@ class CharSpec:
     skill_level: int = 10
     rune: bool = True     # 도장 해제 (ultimate -> sigil 룬필살기)
     rotation: str | None = None  # 행동 지정 '평평방궁|평방궁' (None=기본정책)
-    fed_action: str | None = None  # 이태호 전용: 임부언 fed 추가행동 토큰(평/궁/방). None=기본 평타
+    fed_action: "str | dict | None" = None  # 이태호 전용: 임부언 fed 추가행동 — dict={turn:토큰}(턴별) 또는 str(단일). None=기본 평타
     position: int | None = None  # 전열 위치 1~5 (None=리스트 순서). 더미는 최소 position 타격
     priority: int | None = None  # 행동 순서 (None=position). 낮을수록 먼저 행동
     atk_bonus: int = 0           # 도장 강화: 기본 ATK 가산
@@ -100,7 +100,8 @@ class TeamResult:
 def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
              seed: int = 0, enemy_hits: int = 0, turn_orders: dict | None = None,
              force_proc: bool = False, enemy_aoe: bool = False,
-             dummy_element: int = 0, hp10: bool = False) -> TeamResult:
+             dummy_element: int = 0, hp10: bool = False,
+             incoming_hp_pct: int = 0) -> TeamResult:
     """Resolve the team (list order = position 1..N) and simulate."""
     specs = specs[:5]
     kits = [resolve_kit(s.char_id, s.investment(), s.skill_level, s.rune) for s in specs]
@@ -123,7 +124,7 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
                      rotations=rotations, slots=slots, priorities=priorities,
                      enemy_hits=enemy_hits, turn_orders=turn_orders, force_proc=force_proc,
                      enemy_aoe=enemy_aoe, dummy_element=dummy_element, hp10=hp10,
-                     fed_actions=fed_actions)
+                     fed_actions=fed_actions, incoming_hp_pct=incoming_hp_pct)
     names = [u.name for u in state.allies]
     per_char = {u.name: u.damage_dealt for u in state.allies}
     total = sum(per_char.values())

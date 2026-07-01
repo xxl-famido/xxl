@@ -628,5 +628,23 @@
   "feature_sc": "中毒追击、中毒扩散",
   "name_ja": "チェ・ユヒ",
   "feature_ja": "毒追撃、毒拡散"
+ },
+ "10438": {
+  "id": 10438,
+  "name_en": "Wave Charger Dallawan",
+  "name_kr": "파도를 타는 젖소 다라완",
+  "feature": "Fire Guardian / Barrier / Taunt",
+  "rarity": 4,
+  "class": 2,
+  "element": 1,
+  "baseATK": 440,
+  "baseHP": 2835,
+  "hasRune": true,
+  "name_cn": "浪尖奔牛達拉萬",
+  "feature_cn": "火屬性守護、護盾、嘲諷",
+  "name_sc": "浪尖奔牛达拉万",
+  "feature_sc": "火属性守护、护盾、嘲讽",
+  "name_ja": "波の奔牛ダラワン",
+  "feature_ja": "火属性守護、バリア、挑発"
  }
 }

@@ -145,7 +145,7 @@ def run_sim(cfg: dict) -> dict:
             int(m["id"]), skill_level=int(m.get("skill", 10)),
             rune=bool(m.get("rune", True)), position=int(m["position"]),
             rotation=(m.get("rotation") or None),
-            fed_action=(m.get("fedAction") or None),   # 이태호 임부언 fed 추가행동(평/궁/방)
+            fed_action=(m.get("fedActions") or m.get("fedAction") or None),   # 이태호 임부언 fed 추가행동: 턴별 dict{turn:토큰}(신) 또는 단일 str(구)
             priority=(float(m["priority"]) if m.get("priority") not in (None, "") else None),
             atk_bonus=int(m.get("sealAtk", 0) or 0), hp_bonus=int(m.get("sealHp", 0) or 0)))
     turns = int(cfg.get("turns", 30))
@@ -163,6 +163,9 @@ def run_sim(cfg: dict) -> dict:
     enemy_hits = -1 if _eh == "0" else (0 if enemy_aoe else int(_eh or 0))
     dummy_element = int(cfg.get("dummyElement", 0) or 0)   # 더미 속성 (0무·1불·2물·3나무·4빛·5어둠)
     hp10 = bool(cfg.get("hp10", False))                    # 체력 10% 모드 (더미 HP 고정, 카라트 저HP 게이트)
+    # 피격 데미지 모드: 더미가 아군 피격 시 아군 최대HP의 n%(1~99) 데미지. 0/미지정=끔.
+    inc = cfg.get("incomingHpPct")
+    incoming_hp_pct = max(0, min(99, int(inc))) if inc not in (None, "", False) else 0
     # 평균 모드: 확률(난수) 판정은 시드마다 달라지므로 N회(다른 시드) 돌려 평균을 낸다.
     # 100% 모드는 결정론(모든 발동 성공)이라 1회면 충분.
     runs = 1 if force else max(1, min(int(cfg.get("runs", 50) or 50), 500))
@@ -176,7 +179,7 @@ def run_sim(cfg: dict) -> dict:
     for s in range(runs):
         res = run_team(specs, n_dummies=n_dummies, max_turn=turns, enemy_hits=enemy_hits,
                        turn_orders=torders, force_proc=force, seed=s, enemy_aoe=enemy_aoe,
-                       dummy_element=dummy_element, hp10=hp10)
+                       dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct)
         st = res.state
         states.append(st)
         run_totals.append(res.total_damage)
