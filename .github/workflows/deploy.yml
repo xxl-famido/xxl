@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false   # 진행 중 Pages 배포를 취소하면 게시가 stuck될 수 있어 false (GitHub 권장)
 
 jobs:
   deploy:
@@ -21,7 +21,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Assemble static site (frontend + Python engine + data)
         run: |
@@ -36,9 +36,9 @@ jobs:
           # 실행 중인 코드가 자기 버전을 알도록 app.js에 빌드버전 주입 (stale 캐시 감지용)
           sed -i "s|__BUILD_VERSION__|$VER|" _site/app.js
 
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
