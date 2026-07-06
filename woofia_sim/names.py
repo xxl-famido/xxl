@@ -41,6 +41,7 @@ STACK_KR: dict[str, str] = {
     "Stir-Fry": "센 불에 볶기",
     "Strategic Insight": "전술 판독",
     "Taunt": "조롱",
+    "Sleep": "수면",
     "Tidefang": "해일의 송곳니",
     "Water Bullet": "상어 수탄",
 }

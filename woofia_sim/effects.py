@@ -46,7 +46,7 @@ STAT_DOT_TAKEN = "dot_taken_pct"            # GetOtherDotBonusRate (target side)
 STAT_DOT_DEALT = "dot_dealt_pct"            # 지속 데미지 주는 증가 (caster side) — DoT 틱에만
 STAT_ATK_FLAT = "atk_flat"                  # flat ATK add (e.g. % of caster base ATK)
 STAT_HEAL_RECV = "heal_recv_pct"            # 받는 회복량 증가 (target side, heal/HoT received +x%)
-STAT_BAR_RECV = "bar_recv_pct"              # 받는 배리어 효과 증가 (target side, 수령 배리어 +x% — 다라완 파4)
+STAT_BAR_RECV = "bar_recv_pct"              # 받는 배리어 효과 증가 (수령자 side, beShieldBonus — 오렘 파1·다라완 파4 모두)
 
 
 @dataclass
@@ -86,6 +86,7 @@ class Effect:
     once: bool = False                         # "This effect can only trigger 1 time" — 발동마다 1회만
     self_barrier: bool = False                 # 발동 조건: 자신(발동 유닛)이 배리어 보유 (오렘 충격역류)
     consume_gate: bool = False                 # 게이트를 행동시작 스냅샷 기준으로 (소모 트리거, 던컨 마도집중)
+    barrier_self_amp: bool = False             # 이 '받는 배리어+X%' 버프가 새로 붙는 순간 자기 보유 배리어 소급증폭 (오렘 파1 eff6002 "granted by self")
 
     @property
     def parsed(self) -> bool:
@@ -348,11 +349,27 @@ def _b_dot_dealt(m):                          # 지속(도트) 데미지 전용 
                   max_stacks=int(m.group(3)) if m.group(3) else 1)
 
 
-# 수면 부여 + 적 받뎀증 — 더미는 수면 무관, 받뎀증만 유효 (수면은 마커성 스택)
-@_leaf(rf"^There is a(?:\(n\))? {_NUM}% chance to put all enemies to Sleep and their damage taken \+{_NUM}%, for {_NUM} {_TRN}\.?$")
+# 수면 부여 + 받뎀증(sleepBonusDamage) — 게임: 수면 대상은 피격 시 받뎀 +Y%, 그리고 "데미지를 받으면
+# 효과 해제"(RemoveSleepState). 즉 받뎀 +Y%는 첫 피격 1회만 적용되고 각성한다(2턴 상시 아님).
+# CC(stat="sleep")로 두어 엔진이 Sleep 상태를 부여하고 첫 직접피격에 소비한다. magnitude=받뎀 +Y%.
+@_leaf(rf"^There is a(?:\(n\))? {_NUM}% chance to put all enemies to Sleep and their damage taken \+{_NUM}%, for {_NUM} {_TRN}\.?(?: Remove the effect when damage is taken\.?)?$")
 def _b_sleep_taken(m):
-    return Effect(DEBUFF, m.group(0), target="all_enemies", stat=STAT_DMG_TAKEN,
+    return Effect(CC, m.group(0), target="all_enemies", stat="sleep",
                   magnitude=_f(m.group(2)), duration=int(_f(m.group(3))), chance=_f(m.group(1)))
+
+
+# "데미지를 받으면 효과 해제" — 수면의 각성 조건. CC(sleep)가 첫 피격 소비로 이미 구현하므로 마커.
+@_leaf(r"^Remove the effect when damage is taken\.?$")
+def _b_sleep_remove_note(m):
+    return Effect(MARKER, m.group(0))
+
+
+# 수면만 부여(받뎀증 없음) — 탐랑 도장OFF 필살. 수면 자체는 딜 무관이나 아군 '수면 시 주는딜+X%'
+# (탐랑 파2 COND_DMG stack=Sleep) 게이트를 열어준다. 역시 첫 피격에 각성.
+@_leaf(rf"^There is a(?:\(n\))? {_NUM}% chance to put all enemies to Sleep for {_NUM} {_TRN}\.?$")
+def _b_sleep_plain(m):
+    return Effect(CC, m.group(0), target="all_enemies", stat="sleep",
+                  magnitude=0.0, duration=int(_f(m.group(2))), chance=_f(m.group(1)))
 
 
 @_leaf(rf"^(?:[Oo]wn )?damage dealt \+{_NUM}%(?: for {_NUM} {_TRN})?\.?$")
@@ -383,12 +400,18 @@ def _b_pos_grant_header(m):
     return Effect(MARKER, m.group(0))      # 멀티라인 grant 헤더(본문은 다음 줄들에서 파싱) §비고
 
 
-@_leaf(rf"^Barrier granted (?:by|to) self \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
+@_leaf(rf"^Barrier granted (by|to) self \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
 def _b_barrier_amp(m):
-    # 받는 배리어 효과 증폭(+%) — 수령측(self) 버프. 다라완 파4: 힐 받으면 이후 얻는 배리어 +24% (2턴)
+    # 수령자(self)측 '받는 배리어' 증폭(beShieldBonus). 오렘 파1(eff 6002, "granted by self")·
+    # 다라완 파4(eff 8003, "granted to self") 모두 자신이 보유/수령하는 배리어에만 +X%(사용자 인게임).
+    # "granted by self"가 로컬라이즈상 부여자처럼 읽히나 실제는 오렘 자신의 배리어 증폭이라 수령자측이
+    # 맞다. 부여 시점에 tgt(=self) 기준으로만 적용되므로 오렘이 남에게 준 배리어엔 안 붙는다.
+    #  · "by self"(오렘 eff6002)만 추가로 '발동 순간 자기 보유 배리어 소급 +X%' 컴포넌트 보유
+    #    → barrier_self_amp=True. "to self"(다라완 eff8003)는 소급 없음(향후 받는 배리어만).
     return Effect(BUFF, m.group(0), target="self", stat=STAT_BAR_RECV,
-                  magnitude=_f(m.group(1)), duration=_opt_dur(m, 2),
-                  max_stacks=int(_f(m.group(3))) if m.group(3) else 1)
+                  magnitude=_f(m.group(2)), duration=_opt_dur(m, 3),
+                  max_stacks=int(_f(m.group(4))) if m.group(4) else 1,
+                  barrier_self_amp=(m.group(1) == "by"))
 
 
 @_leaf(rf"^[Dd]eal damage {_NUM}% of Barrier to (.+?)(?:,? for {_NUM} {_TRN})?\.?$")

@@ -166,6 +166,7 @@ class Unit:
     stack_dur: dict = field(default_factory=dict)   # stack_name -> 고유 수명(턴). 한 번이라도 duration>0로 정의되면 타이머 스택
     ran_p4_src: object = None        # 란(10426) P4 시너지: 이 동료가 공격하면 되먹일 란 유닛
     ran_p4_turns: int = 0            # 그 피드백 창의 남은 half-turns
+    sleep_dmg: float = 0.0           # 수면(Sleep) 상태에서 받는 데미지 +x%(sleepBonusDamage). 첫 직접피격에 소비(각성)
 
     @property
     def alive(self) -> bool:
@@ -628,9 +629,16 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
     dot_mult = ((1 + sum(c["v"] for c in dot_dealt) / 100) *
                 (1 + sum(c["v"] for c in dot_taken) / 100))
     elem = _element_mult(caster.element, tgt.element)   # 속성 상성 (상성×1.5/역상성×0.75/무·무관×1.0)
-    dmg = round(atk * pct / 100 * out * inc * dot_mult * elem, 2)
+    # 수면(Sleep): 직접 피격만 sleepBonusDamage(+x%)를 받고 각성(효과 해제). DoT 틱(snap)은 수면 무관.
+    asleep = snap is None and tgt.stacks.get("Sleep", 0) > 0
+    sleep_bonus = tgt.sleep_dmg if asleep else 0.0
+    dmg = round(atk * pct / 100 * out * inc * dot_mult * elem * (1 + sleep_bonus / 100), 2)
     tgt.hp -= dmg
     caster.damage_dealt += dmg
+    if asleep:                     # "데미지를 받으면 효과 해제" — 첫 직접피격에 각성(받뎀증·수면 게이트 종료)
+        tgt.stacks.pop("Sleep", None)
+        tgt.stack_turns.pop("Sleep", None)
+        tgt.sleep_dmg = 0.0
     # 받뎀증은 별개 곱연산 채널 2개: 일반(element 0) / 속성(공격자 속성과 일치)
     taken_g = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill}
                for b in tgt.buffs if b.stat == STAT_DMG_TAKEN and b.element == 0]
@@ -650,6 +658,7 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
         "effLabel": {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과", "dot": "지속딜"}.get(action, ""),
         "eff": eff, "effEx": ex_eff,
         "takenG": taken_g, "takenP": taken_p,
+        "sleepBonus": round(sleep_bonus, 2),   # 수면 대상 추가 피해 +x%(첫 직접피격 1회)
         "dotDealt": dot_dealt, "dotTaken": dot_taken,
         "elemMult": elem,
     }
@@ -901,6 +910,23 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                 tgt.buffs.append(Buff(stat, val, _half_turns(effect.duration),
                                       src=source, key=ekey, element=effect.element,
                                       owner=effect.owner, src_skill=effect.src_skill))
+            # 오렘 파1(eff 6002, "Barrier granted by self +X%"): '받는 배리어 +X%' 버프를 두는 순간,
+            # 부여 시점에 이 보너스를 아직 못 받은(barRecv≤0) 자기 보유 배리어에만 +X%를 1회 소급.
+            # barRecv 태그로 (a)이미 소급된 배리어 재소급 (b)부여 시점 recv와의 이중적용 을 모두 방지
+            # → 매 평타 복리 없음. (다라완 eff8003은 barrier_self_amp=False라 소급 안 함.)
+            if effect.barrier_self_amp:
+                amped = 0
+                for b in tgt.barriers:
+                    st = b[3] if len(b) > 3 and isinstance(b[3], dict) else None
+                    if st is not None and st.get("barRecv", 0) <= 0:
+                        b[0] = round(b[0] * (1 + effect.magnitude / 100), 2)
+                        st["barRecv"] = effect.magnitude
+                        st["final"] = b[0]
+                        amped += 1
+                if amped:
+                    state.record(caster.name,
+                                 f"{act_kr} → {tgt.name} 기존 배리어 소급 +{effect.magnitude:g}%",
+                                 amount=0, src_id=effect.owner, src_skill=effect.src_skill)
         if source != "passive" and targets:           # show buff/debuff actions in the log
             atk_calc = None
             if effect.of_base_atk or stat == STAT_ATK_FLAT:
@@ -1021,15 +1047,14 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         # 베리어 기준값: of_max_hp면 최대HP%(HP버프 반영), 아니면 ATK% (오렘·다라완파4 = 최대HP의 X%)
         base = caster.max_hp_eff() if effect.of_max_hp else caster.atk_eff()
         base_lbl = "최대HP" if effect.of_max_hp else "ATK"
-        # 배리어는 부여 방식 무관하게 '발동효과'로 증가 (사용자 인게임 확인).
-        # ★ 단, 평타(보통공격)로 얻는 배리어만 예외적으로 '보통공격 강화'(평타뎀)도 추가 적용
-        #   (멍 패시브 등 — 평타로 생긴 배리어라 보통공격 증뎀 버프를 받음). 두 채널은 곱연산.
-        eff_comps = caster._comp(STAT_TRIGGERED_EFFECT)
-        mult = 1 + caster._sum(STAT_TRIGGERED_EFFECT) / 100
-        basic_comps = []
-        if action == "basic":
-            mult *= 1 + caster._sum(STAT_BASIC_DMG_DEALT) / 100
-            basic_comps = caster._comp(STAT_BASIC_DMG_DEALT)
+        # 배리어는 '그것을 부여한 행동'의 효과 채널로만 증폭된다(힐과 동일 규칙, support_mult):
+        #   평타 배리어 → 평타뎀(멍 패시브 등) / 필살 배리어 → EX효과(오렘·쿠모야마) /
+        #   트리거 배리어 → 발동효과(다라완 파2·모이루). 이전엔 부여 방식과 무관하게 발동효과를
+        #   하드코딩해서 오렘·쿠모야마의 필살 배리어가 발동효과를 잘못 받았다(사용자 실측: 오렘
+        #   쉴드는 발동효과 버프에 반응하지 않음). "베리어=발동효과"는 트리거 배리어에만 맞는 규칙.
+        eff_stat = _ACTION_EFF.get(action, "")
+        eff_comps = caster._comp(eff_stat) if eff_stat else []
+        mult = caster.support_mult(action)
         amt = round(base * effect.magnitude / 100 * mult, 2)
         # 드릴다운: ATK 기반은 base×기초ATK%×ATK%+고정 풀분해, HP 기반은 정적 최대HP
         basef = {"baseLabel": "최대HP", "baseTotal": round(caster.max_hp_eff(), 2)} if effect.of_max_hp \
@@ -1037,7 +1062,9 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         struct = {
             "kind": "barrier", "act": act_kr, "final": round(amt, 2),
             "skillPct": effect.magnitude, "skillId": effect.owner, "skillName": effect.src_skill,
-            "eff": eff_comps, "effBasic": basic_comps, **basef,   # 발동효과 + (평타배리어면)보통공격뎀
+            "eff": eff_comps,   # 부여 행동에 맞는 효과 채널(평타뎀/EX효과/발동효과)
+            "effLabel": {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과"}.get(action, "효과"),
+            **basef,
         }
         dur = f" ({effect.duration}턴)" if effect.duration and effect.duration > 0 else ""
         bt = _half_turns(effect.duration) if effect.duration and effect.duration > 0 else -1
@@ -1067,6 +1094,16 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                 tgt.taunt_turns = max(tgt.taunt_turns, max(1, effect.duration))
             if targets:
                 state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 조롱 {effect.duration}턴",
+                             amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+        elif effect.stat == "sleep":   # 수면(탐랑): Sleep 상태 + 받뎀 +x%. 첫 직접피격에 각성(_record_hit에서 소비)
+            for tgt in targets:
+                tgt.stacks["Sleep"] = 1
+                tgt.stack_turns["Sleep"] = _half_turns(effect.duration)
+                tgt.sleep_dmg = effect.magnitude
+            if targets:
+                extra = f" (받뎀 +{effect.magnitude:g}%)" if effect.magnitude else ""
+                state.record(caster.name,
+                             f"{act_kr} → {_who(targets, caster, state, effect)} 수면 {effect.duration}턴{extra}",
                              amount=0, src_id=effect.owner, src_skill=effect.src_skill)
         else:
             # other crowd-control (기절/마비 등): not damage-relevant in dummy mode
