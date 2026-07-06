@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import random
 from collections import defaultdict
 
 from woofia_sim.engine import _kit_has_hp_gate
@@ -169,6 +170,11 @@ def run_sim(cfg: dict) -> dict:
     # 평균 모드: 확률(난수) 판정은 시드마다 달라지므로 N회(다른 시드) 돌려 평균을 낸다.
     # 100% 모드는 결정론(모든 발동 성공)이라 1회면 충분.
     runs = 1 if force else max(1, min(int(cfg.get("runs", 50) or 50), 500))
+    # 확률 모드는 매 실행마다 랜덤 시드 베이스로 진행 → 같은 설정도 매번 다른 전개(사용자 요청).
+    # 100% 모드(force)는 시드 무관 결정론이라 영향 없음(재현이 필요하면 100% 모드 사용).
+    # cfg["seed"](정수)를 주면 그 값으로 고정 재현 가능(선택). 미지정이면 엔트로피 랜덤.
+    _seed = cfg.get("seed")
+    seed_base = int(_seed) if _seed is not None and _seed != "" else random.randrange(1 << 31)
 
     states, run_totals, run_dps = [], [], []
     char_dmg: dict[int, float] = defaultdict(float)
@@ -178,7 +184,7 @@ def run_sim(cfg: dict) -> dict:
     dps_sum = 0.0
     for s in range(runs):
         res = run_team(specs, n_dummies=n_dummies, max_turn=turns, enemy_hits=enemy_hits,
-                       turn_orders=torders, force_proc=force, seed=s, enemy_aoe=enemy_aoe,
+                       turn_orders=torders, force_proc=force, seed=seed_base + s, enemy_aoe=enemy_aoe,
                        dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct)
         st = res.state
         states.append(st)
