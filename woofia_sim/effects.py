@@ -509,10 +509,12 @@ def _b_shield(m):
                   duration=int(m.group(4)))
 
 
-@_leaf(rf"^(Own|[A-Z][\w' ]*?'s) base ATK \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
+@_leaf(rf"^(Own|All of own Buddies'|[A-Z][\w' ]*?'s) base ATK \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
 def _b_self_base_atk(m):
-    # "Own base ATK" -> self; "Famido's base ATK" (named) -> the grantor
-    tgt = "self" if m.group(1) == "Own" else "grantor"
+    # "Own base ATK" -> self; "All of own Buddies' base ATK" -> 팀 전체(투명인간);
+    # "Famido's base ATK" (named) -> the grantor
+    who = m.group(1)
+    tgt = "self" if who == "Own" else ("allies" if who == "All of own Buddies'" else "grantor")
     return Effect(BUFF, m.group(0), target=tgt, stat=STAT_BASE_ATK,
                   magnitude=_f(m.group(2)), duration=_opt_dur(m, 3),
                   max_stacks=int(m.group(4)) if m.group(4) else 1)
@@ -613,6 +615,14 @@ def _b_target_dmg_dealt(m):
                   magnitude=-_f(m.group(1)), duration=int(m.group(2)))
 
 
+# 투명인간: 단일 대상 ATK 다운 (적 전체판은 _b_enemy_atk_down)
+@_leaf(rf"^Target ATK -{_NUM}% for {_NUM} {_TRN}(?:, up to {_NUM} {_STK})?\.?$")
+def _b_target_atk_down(m):
+    return Effect(DEBUFF, m.group(0), target="target", stat=STAT_ATK,
+                  magnitude=-_f(m.group(1)), duration=int(m.group(2)),
+                  max_stacks=int(m.group(3)) if m.group(3) else 1)
+
+
 @_leaf(rf"^There is a\(n\) {_NUM}% chance to Paralyze (.+?) for {_NUM} turn\(s\)\.?$")
 def _b_paralyze(m):
     return Effect(CC, m.group(0), target=_target(m.group(2)), stat="paralyze",
@@ -677,6 +687,15 @@ def _b_mark_apply(m):
 def _b_stack_remove_n(m):
     # remove N stacks of a named effect from self (partial, not clear-all)
     return Effect(STACK, m.group(0), target="self", stack_name=_stk(m.group(2)), magnitude=-_f(m.group(1)))
+
+
+# 부분 제거 "Remove N stack(s) of X from Y" (투명인간 네온 표식 3 소모) — 전량 제거보다 먼저 매칭.
+# 아래 _b_stack_remove의 `(.+?)`가 "3 stack(s) of Neon Mark"를 통째로 스택명으로 먹는 걸 막는다.
+# (위 _b_stack_remove_n은 "...of the following effect from self:" 표현 전용이라 별개)
+@_leaf(rf"^[Rr]emove {_NUM} {_STK} of (.+?) from (self|locked target\(s\)|locked target|target.*?)\.?$")
+def _b_stack_remove_n_from(m):
+    return Effect(STACK, m.group(0), target=_target(m.group(3)),
+                  stack_name=_stk(m.group(2)), magnitude=-_f(m.group(1)))
 
 
 @_leaf(r"^[Rr]emove (.+?) from (self|locked target\(s\)|locked target|target.*?)\.?$")
@@ -779,6 +798,14 @@ def _target(text: str) -> str:
     if re.match(r"^[A-Z][A-Za-z.]*(?: [A-Z][A-Za-z.]*)*$", text.strip()):
         return "grantor"
     return f"raw:{text.strip()}"
+
+
+# 기리안 도장: "Revive a random Buddy and heal N% of his HP." 가 문장 분리되며 앞 절만 남는다.
+# 부활은 더미전(아군 사망 없음)에서 의미 없어 no-op. 아래 _b_bare_status보다 먼저 잡지 않으면
+# 상태이상 이름으로 오인돼 'Revive a random Buddy' 유령 스택이 생기고 로그에도 노출된다.
+@_leaf(r"^Revive a random Buddy$")
+def _b_revive_marker(m):
+    return Effect(MARKER, m.group(0))
 
 
 # registered LAST: a bare status name like "Afterglow" / "Afterglow for 2 turn(s)"
@@ -1107,4 +1134,18 @@ def parse_skill_level(desc: str, params: dict) -> list[Effect]:
                             and s.magnitude <= -9000 and s.stack_name in gates), None)
                 if rem:
                     e.stack_name, e.max_stacks, e.consume_gate = rem.stack_name, gates[rem.stack_name], True
+    # 후처리: 트리거 줄 '바로 다음'의 트리거 없는 스택 소모는 그 트리거에 속한 소모 효과다.
+    # 게임 설명이 한 트리거의 효과를 두 줄로 쪼갠 형태 — 투명인간 passive1:
+    #   "목표물 네온 표식 ≧3, 필살기 발동 시 120% 딜"  /  다음 줄 "네온 표식 3중첩 감소"
+    # 트리거가 명시된 제거(모이루 "방어 시 ... 추격 제거")는 이미 자기 트리거를 가지므로 해당 없음.
+    # 이게 없으면 소모가 패시브 상시효과로 새어 전투 시작 1회 no-op → 스택이 영원히 안 깎인다.
+    absorbed: set[int] = set()
+    for i in range(1, len(out)):
+        eff, prev = out[i], out[i - 1]
+        if (eff.kind == STACK and eff.magnitude < 0 and eff.stack_name
+                and prev.kind == TRIGGER and prev.target_stack == eff.stack_name):
+            prev.sub_effects.append(eff)
+            absorbed.add(i)
+    if absorbed:
+        out = [e for i, e in enumerate(out) if i not in absorbed]
     return out

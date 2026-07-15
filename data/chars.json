@@ -646,5 +646,20 @@
   "feature_sc": "火属性守护、护盾、嘲讽",
   "name_ja": "波の奔牛ダラワン",
   "feature_ja": "火属性守護、バリア、挑発"
+ },
+ "10437": {
+  "id": 10437,
+  "name_en": "Invisible Man",
+  "name_kr": "투명인간",
+  "feature": "Wood Disruptor / Neon Mark / ATK Down",
+  "rarity": 4,
+  "class": 5,
+  "element": 3,
+  "baseATK": 530,
+  "baseHP": 2358,
+  "hasRune": true,
+  "name_cn": "透明人",
+  "name_sc": "透明人",
+  "name_ja": "透明人間"
  }
 }

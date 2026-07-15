@@ -24,6 +24,12 @@ STACK_KR: dict[str, str] = {
     "Energy Charge": "체력응축",
     "Five-Peak Myriad": "오봉만상",
     "Wavetime": "파도 체이싱",
+    "Neon Mark": "네온 표식",
+    "Loosened Up": "근육 활동",
+    "Paralysis Immunity": "마비 면역",
+    "Poisoned": "중독",
+    # 최유현: 영어는 3스택을 한 이름으로 합쳐 표기(엔진도 단일 스택으로 모델). 한국어 원문은 3개 분리.
+    "Stir-Fry, Slow Cook, and Secret Spices": "센 불에 볶기·약한 불에 끓이기·비법 향신료",
     "Gale Breath": "란의 기운",
     "Gunpowder": "화약",
     "Hellhound": "지옥의 사냥개",

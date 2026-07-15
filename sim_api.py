@@ -62,9 +62,14 @@ def _actions_per_turn(kit) -> int:
     return 1 + min(extra, 3)
 
 
-def _cd_defend_reduce(kit) -> int:
-    """방어 시 자신 필살 CD를 줄이는 메커니즘(히토하 고정 1 · 모이루 추격 수만큼)의 최대 감소량.
-    on_defend 아래의 자신 EX CD_MOD(mag<0)를 찾고, repeat(own:스택)로 감싸였으면 그 스택 캡을 곱한다."""
+def _cd_defend_info(kit) -> dict:
+    """방어 시 자신 필살 CD를 줄이는 메커니즘의 상세.
+
+    반환: {"max": 최대감소량, "perStack": 스택당 감소량, "cap": 스택 캡, "stack": 스택명}
+    히토하처럼 고정이면 perStack=0/cap=0/stack=None (max만 유효).
+    모이루처럼 repeat(own:추격)로 감싸인 경우 스택당 감소량과 캡을 분리해 준다 —
+    UI 플래너가 '아군 평타 수 → 실제 추격 중첩'으로 CD를 추정하려면 곱한 값(max)만으론 부족하다.
+    """
     from woofia_sim.effects import CD_MOD, STACK
     caps: dict[str, int] = {}
 
@@ -76,7 +81,7 @@ def _cd_defend_reduce(kit) -> int:
     for sl in [kit.basic, kit.fatal, *kit.passives]:
         collect(sl.effects)
 
-    best = 0
+    best = {"max": 0, "perStack": 0, "cap": 0, "stack": None}
 
     def walk(effs, under_defend, rep_stack):
         nonlocal best
@@ -87,7 +92,10 @@ def _cd_defend_reduce(kit) -> int:
                 rs = e.repeat_stack.split(":")[-1]
             if e.kind == CD_MOD and e.target == "self" and e.magnitude < 0 and d:
                 per = int(round(-e.magnitude))
-                best = max(best, per * (caps.get(rs, 1) if rs else 1))
+                cap = caps.get(rs, 1) if rs else 1
+                if per * cap > best["max"]:
+                    best = {"max": per * cap, "perStack": per if rs else 0,
+                            "cap": cap if rs else 0, "stack": rs}
             walk(e.sub_effects, d, rs)
     for sl in [kit.basic, kit.fatal, *kit.passives]:
         walk(sl.effects, False, None)
@@ -108,7 +116,11 @@ def char_meta(cid: int) -> dict:
             "actionsPerTurn": _actions_per_turn(kit),
             # 도장강화 한계: XL(rarity 3)=18000, XXL은 빛/어둠 23000 / 그 외 20000
             "sealLimit": 18000 if c.get("rarity") == 3 else (23000 if kit.element in (4, 5) else 20000),
-            "cdDefendReduce": _cd_defend_reduce(kit),  # 방어 시 필살 CD 감소량 (히토하 1)
+            # 방어 시 필살 CD 감소: max=최대감소량(히토하 1 · 모이루 3). 모이루처럼 스택 기반이면
+            # perStack/cap이 실려, UI 플래너가 '아군 평타 수 → 실제 추격 중첩'으로 CD를 추정한다.
+            "cdDefendReduce": _cd_defend_info(kit)["max"],
+            "cdDefendPerStack": _cd_defend_info(kit)["perStack"],
+            "cdDefendStackCap": _cd_defend_info(kit)["cap"],
             "hpSchedule": _kit_has_hp_gate(kit)}  # 적 HP% 의존 (카라트) → 더미 HP 스케줄
 
 
