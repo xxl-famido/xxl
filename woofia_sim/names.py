@@ -25,6 +25,7 @@ STACK_KR: dict[str, str] = {
     "Five-Peak Myriad": "오봉만상",
     "Wavetime": "파도 체이싱",
     "Neon Mark": "네온 표식",
+    "Encirclement": "합위",
     "Loosened Up": "근육 활동",
     "Paralysis Immunity": "마비 면역",
     "Poisoned": "중독",

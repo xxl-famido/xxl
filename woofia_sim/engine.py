@@ -426,6 +426,11 @@ def _resolve_targets(effect: Effect, caster: Unit, state: BattleState,
         return [caster] + ([grantor] if grantor and grantor is not caster else [])
     if t == "allies":
         return [u for u in state.team(caster) if u.alive]
+    if t == "adjacent":              # 욱영: '자신과 인접한 동료' = 시전자 + 슬롯 ±1 아군.
+        # 영어는 "Adjacent Buddies"로 self를 누락하나 한국어 원문은 전 효과에서 "자신과 인접한 동료"로
+        # 일관되게 self 포함(네온 표식 EN 누락과 동일 케이스). self + 슬롯±1로 모델링.
+        return [u for u in state.team(caster)
+                if u.alive and (u is caster or abs(u.slot - caster.slot) == 1)]
     if t.startswith("allies_"):
         living = [u for u in state.team(caster) if u.alive]
         sub = t.split("_", 1)[1]
@@ -451,6 +456,9 @@ def _resolve_targets(effect: Effect, caster: Unit, state: BattleState,
             return [current_target]
         foes = [u for u in state.foes(caster) if u.alive]
         return [foes[0]] if foes else []
+    if t == "edge_enemies":     # 욱영: 적군 가장 왼쪽·오른쪽 (슬롯 최소·최대). 적 1명이면 그 1명만.
+        foes = sorted([u for u in state.foes(caster) if u.alive], key=lambda u: u.slot)
+        return [] if not foes else ([foes[0]] if len(foes) == 1 else [foes[0], foes[-1]])
     if t == "positions":        # one hit per position; empty -> front enemy (random fallback)
         foes = sorted([u for u in state.foes(caster) if u.alive], key=lambda u: u.slot)
         if not foes:
@@ -482,6 +490,10 @@ def _who(targets: list, caster: Unit, state: "BattleState", effect: "Effect | No
         return "자신"
     if tgt == "allies":
         return "아군 전체"
+    if tgt == "adjacent":            # 욱영: 자신+인접 동료
+        return "자신+인접"
+    if tgt == "edge_enemies":        # 욱영: 좌우 끝 적
+        return "좌우 끝 적"
     if tgt.startswith("allies_"):
         suffix = tgt.split("_", 1)[1]
         word = _ROLE_WORD.get(suffix) or _ELEM_WORD.get(suffix)
@@ -699,8 +711,11 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             # 아군 수만큼 "자신 X" 로그가 반복되므로, 첫 아군 로그를 "아군 전체"로 합치고
             # 나머지 아군은 동일 효과라 로그를 생략한다(트리거 설치는 로그가 없어 무영향).
             exclude_self = "Except self" in (effect.raw or "")
-            recipients = [a for a in state.team(caster)
-                          if not (exclude_self and a is caster)]
+            if effect.target == "adjacent":       # 욱영 협동체포: 자신+인접 동료에게만 설치
+                recipients = _resolve_targets(effect, caster, state, current_target, grantor)
+            else:
+                recipients = [a for a in state.team(caster)
+                              if not (exclude_self and a is caster)]
             for idx, ally in enumerate(recipients):
                 before = len(state.log)
                 for sub in effect.sub_effects:

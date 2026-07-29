@@ -224,7 +224,7 @@ _GATE_EVENT = {
 }
 
 # "Grant all of own Buddies: <sub-effect>" — delegates a sub-effect to allies.
-_GRANT = re.compile(r"^(?:Grant all of own (?:Buddies|members)|Except self, all of own Buddies gain|For all of own Buddies)[,:]? ?(.+)$")
+_GRANT = re.compile(r"^(?:Grant all of own (?:Buddies|members)|Grant adjacent Buddies|Except self, all of own Buddies gain|For all of own Buddies)[,:]? ?(.+)$")
 
 # team-composition gate: "For all of own Buddies, when the number of Wood Buddies ≧ 3,
 # trigger: Own damage dealt +15%." -> all allies get +X% damage dealt while the team
@@ -540,9 +540,10 @@ def _b_dmg_dealt(m):
                   max_stacks=int(m.group(4)) if m.group(4) else 1)
 
 
-@_leaf(rf"^(Own|All of own Buddies') Basic Attack damage dealt \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
+@_leaf(rf"^(Own|All of own Buddies'|Adjacent Buddies') Basic Attack damage dealt \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
 def _b_basic_dmg(m):
-    tgt = "self" if m.group(1) == "Own" else "allies"
+    g1 = m.group(1)
+    tgt = "self" if g1 == "Own" else ("adjacent" if g1.startswith("Adjacent") else "allies")
     return Effect(BUFF, m.group(0), target=tgt, stat=STAT_BASIC_DMG_DEALT,
                   magnitude=_f(m.group(2)), duration=_opt_dur(m, 3),
                   max_stacks=int(m.group(4)) if m.group(4) else 1)
@@ -554,10 +555,10 @@ def _b_self_dmg_taken(m):
                   magnitude=-_f(m.group(1)), duration=int(m.group(2)))
 
 
-@_leaf(rf"^All of own ((?:(?:Fighter|Vandal|Support|Healer|Tank|Fire|Water|Wood|Light|Dark) )?Buddies)' ATK \+{_NUM}%(?: of own base ATK)?(?: for {_NUM} {_TRN})?\.?$")
+@_leaf(rf"^(All of own (?:(?:Fighter|Vandal|Support|Healer|Tank|Fire|Water|Wood|Light|Dark) )?Buddies|Adjacent Buddies)' ATK \+{_NUM}%(?: of own base ATK)?(?: for {_NUM} {_TRN})?\.?$")
 def _b_team_atk(m):
-    of_base = "of own base ATK" in m.group(0)
-    return Effect(BUFF, m.group(0), target=_target("all of own " + m.group(1)),
+    of_base = "of own base ATK" in m.group(0)   # 욱영 추적신호: 인접 동료 ATK += (욱영 기초ATK의 N%)
+    return Effect(BUFF, m.group(0), target=_target(m.group(1)),
                   stat=STAT_BASE_ATK if of_base else STAT_ATK, of_base_atk=of_base,
                   magnitude=_f(m.group(2)), duration=_opt_dur(m, 3))
 
@@ -650,6 +651,11 @@ def _b_cd(m):
 @_leaf(r"^[Gg]ain (\d+) actions?(?: \(only once per turn\))?\.?$")
 def _b_gain_action(m):
     return Effect(EXTRA_ACTION, m.group(0), target="self", magnitude=float(m.group(1)))
+
+
+@_leaf(r"^Adjacent Buddies gain (\d+) action(?:\(s\)|s)?\.?$")   # 욱영 도장: 인접 동료 행동 횟수 회복
+def _b_adjacent_gain_action(m):
+    return Effect(EXTRA_ACTION, m.group(0), target="adjacent", magnitude=float(m.group(1)))
 
 
 @_leaf(rf"^[Gg]ain {_NUM} {_STK} of (.+?)(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
@@ -773,6 +779,8 @@ def _target(text: str) -> str:
         return "target"
     if "all enemies" in t:
         return "all_enemies"
+    if "leftmost and rightmost" in t and "enem" in t:   # 욱영: 적군 가장 왼쪽·오른쪽
+        return "edge_enemies"
     if t in ("target", "target(s)", "the target", "locked target", "locked target(s)",
              "random target", "random target(s)", "a random enemy target",
              "random enemy target"):
@@ -784,6 +792,8 @@ def _target(text: str) -> str:
                  "fire", "water", "wood", "light", "dark"):
         if f"{word} buddies" in t:
             return f"allies_{word}"
+    if "adjacent" in t and ("buddies" in t or "buddy" in t):   # 욱영: 인접 동료(슬롯 ±1)
+        return "adjacent"
     if "buddies" in t:
         return "allies"
     if "allies" in t:                 # "all allies" / "all of own allies" (룬 힐·베리어)
@@ -879,7 +889,8 @@ def parse_line(line: str) -> Effect:
         body = grm.group(1)
         inner = parse_line(body[:1].upper() + body[1:])
         if inner.parsed:
-            return Effect(TRIGGER, line, condition="grant_allies", target="allies",
+            gt = "adjacent" if "adjacent buddies" in line.lower() else "allies"   # 욱영 협동체포
+            return Effect(TRIGGER, line, condition="grant_allies", target=gt,
                           sub_effects=[inner])
     # "At the start of battle, <sub>" (non-trigger form, e.g. gain stacks)
     if line.startswith("At the start of battle, ") and "trigger:" not in line:
@@ -1102,13 +1113,16 @@ def parse_skill_level(desc: str, params: dict) -> list[Effect]:
         # split a line into sentences, but keep "This effect ..." qualifiers
         # attached to the clause they modify (e.g. "...counts as EX Skill damage")
         sentences: list[str] = []
-        # split on sentence boundaries ". " before a capital, but not after the
-        # "Max." abbreviation (e.g. "Own base Max. HP +15%")
-        for s in re.split(r"(?<=[)%\w])(?<!Max)\. (?=[A-Z])", line):
-            if s.startswith("This effect") and sentences:
-                sentences[-1] = sentences[-1] + ". " + s
-            else:
-                sentences.append(s)
+        # "X, then deal damage Y" (욱영 평타/궁 = 목표딜 후 좌우끝 적딜) — 연쇄절을 먼저 분리해야
+        # 앞 데미지의 타겟 캡처가 뒤 절을 통째로 먹지 않는다.
+        for chunk in re.split(r", then (?=[Dd]eal )", line):
+            # split on sentence boundaries ". " before a capital, but not after the
+            # "Max." abbreviation (e.g. "Own base Max. HP +15%")
+            for s in re.split(r"(?<=[)%\w])(?<!Max)\. (?=[A-Z])", chunk):
+                if s.startswith("This effect") and sentences:
+                    sentences[-1] = sentences[-1] + ". " + s
+                else:
+                    sentences.append(s)
         for s in sentences:
             eff = parse_line(s)
             # "StackName:" header followed by a self-buff body -> a per-stack definition

@@ -40134,5 +40134,799 @@
     }
    }
   }
+ },
+ "10439": {
+  "basicAtk": {
+   "name_kr": "영혼 갈취",
+   "name_en": "Soul Reap",
+   "name_cn": "勾魂",
+   "name_sc": "勾魂",
+   "name_ja": "魂を引き寄せる",
+   "levels": {
+    "0": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "목표물에게 ATK 36%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 18%의 데미지를 줌",
+     "desc_en": "Deal damage 36% of own ATK to target(s), then deal damage 18% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力36%對當前目標造成傷害，再以攻擊力18%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力36%对当前目标造成伤害，再以攻击力18%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの36%で対象にダメージを与え、さらにATKの18%で一番左と一番右の対象にダメージを与える。"
+    },
+    "1": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "목표물에게 ATK 38.67%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 19.34%의 데미지를 줌",
+     "desc_en": "Deal damage 38.67% of own ATK to target(s), then deal damage 19.34% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力38.67%對當前目標造成傷害，再以攻擊力19.34%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力38.67%对当前目标造成伤害，再以攻击力19.34%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの38.67%で対象にダメージを与え、さらにATKの19.34%で一番左と一番右の対象にダメージを与える。"
+    },
+    "2": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "목표물에게 ATK 41.34%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 20.67%의 데미지를 줌",
+     "desc_en": "Deal damage 41.34% of own ATK to target(s), then deal damage 20.67% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力41.34%對當前目標造成傷害，再以攻擊力20.67%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力41.34%对当前目标造成伤害，再以攻击力20.67%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの41.34%で対象にダメージを与え、さらにATKの20.67%で一番左と一番右の対象にダメージを与える。"
+    },
+    "3": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "목표물에게 ATK 44%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 22%의 데미지를 줌",
+     "desc_en": "Deal damage 44% of own ATK to target(s), then deal damage 22% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力44%對當前目標造成傷害，再以攻擊力22%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力44%对当前目标造成伤害，再以攻击力22%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの44%で対象にダメージを与え、さらにATKの22%で一番左と一番右の対象にダメージを与える。"
+    },
+    "4": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "목표물에게 ATK 46.67%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 23.34%의 데미지를 줌",
+     "desc_en": "Deal damage 46.67% of own ATK to target(s), then deal damage 23.34% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力46.67%對當前目標造成傷害，再以攻擊力23.34%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力46.67%对当前目标造成伤害，再以攻击力23.34%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの46.67%で対象にダメージを与え、さらにATKの23.34%で一番左と一番右の対象にダメージを与える。"
+    },
+    "5": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "목표물에게 ATK 49.34%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 24.67%의 데미지를 줌",
+     "desc_en": "Deal damage 49.34% of own ATK to target(s), then deal damage 24.67% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力49.34%對當前目標造成傷害，再以攻擊力24.67%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力49.34%对当前目标造成伤害，再以攻击力24.67%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの49.34%で対象にダメージを与え、さらにATKの24.67%で一番左と一番右の対象にダメージを与える。"
+    },
+    "6": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "목표물에게 ATK 52%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 26%의 데미지를 줌",
+     "desc_en": "Deal damage 52% of own ATK to target(s), then deal damage 26% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力52%對當前目標造成傷害，再以攻擊力26%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力52%对当前目标造成伤害，再以攻击力26%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの52%で対象にダメージを与え、さらにATKの26%で一番左と一番右の対象にダメージを与える。"
+    },
+    "7": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "목표물에게 ATK 54.67%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 27.34%의 데미지를 줌",
+     "desc_en": "Deal damage 54.67% of own ATK to target(s), then deal damage 27.34% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力54.67%對當前目標造成傷害，再以攻擊力27.34%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力54.67%对当前目标造成伤害，再以攻击力27.34%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの54.67%で対象にダメージを与え、さらにATKの27.34%で一番左と一番右の対象にダメージを与える。"
+    },
+    "8": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "목표물에게 ATK 57.34%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 28.67%의 데미지를 줌",
+     "desc_en": "Deal damage 57.34% of own ATK to target(s), then deal damage 28.67% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力57.34%對當前目標造成傷害，再以攻擊力28.67%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力57.34%对当前目标造成伤害，再以攻击力28.67%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの57.34%で対象にダメージを与え、さらにATKの28.67%で一番左と一番右の対象にダメージを与える。"
+    },
+    "9": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "목표물에게 ATK 60%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 30%의 데미지를 줌",
+     "desc_en": "Deal damage 60% of own ATK to target(s), then deal damage 30% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力60%對當前目標造成傷害，再以攻擊力30%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力60%对当前目标造成伤害，再以攻击力30%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの60%で対象にダメージを与え、さらにATKの30%で一番左と一番右の対象にダメージを与える。"
+    }
+   }
+  },
+  "ultimate": {
+   "name_kr": "천라지망",
+   "name_en": "Dragnet",
+   "name_cn": "天羅地網",
+   "name_sc": "天罗地网",
+   "name_ja": "包囲網",
+   "levels": {
+    "0": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 84%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 36%의 데미지를 줌",
+     "desc_en": "Deal damage 84% of own ATK to target(s), then deal damage 36% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力84%對當前目標造成傷害，再以攻擊力36%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力84%对当前目标造成伤害，再以攻击力36%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの84%で対象にダメージを与え、さらにATKの36%で一番左と一番右の対象にダメージを与える。"
+    },
+    "1": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 90.23%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 38.67%의 데미지를 줌",
+     "desc_en": "Deal damage 90.23% of own ATK to target(s), then deal damage 38.67% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力90.23%對當前目標造成傷害，再以攻擊力38.67%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力90.23%对当前目标造成伤害，再以攻击力38.67%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの90.23%で対象にダメージを与え、さらにATKの38.67%で一番左と一番右の対象にダメージを与える。"
+    },
+    "2": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 96.45%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 41.34%의 데미지를 줌",
+     "desc_en": "Deal damage 96.45% of own ATK to target(s), then deal damage 41.34% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力96.45%對當前目標造成傷害，再以攻擊力41.34%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力96.45%对当前目标造成伤害，再以攻击力41.34%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの96.45%で対象にダメージを与え、さらにATKの41.34%で一番左と一番右の対象にダメージを与える。"
+    },
+    "3": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 102.67%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 44%의 데미지를 줌",
+     "desc_en": "Deal damage 102.67% of own ATK to target(s), then deal damage 44% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力102.67%對當前目標造成傷害，再以攻擊力44%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力102.67%对当前目标造成伤害，再以攻击力44%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの102.67%で対象にダメージを与え、さらにATKの44%で一番左と一番右の対象にダメージを与える。"
+    },
+    "4": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 108.89%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 46.67%의 데미지를 줌",
+     "desc_en": "Deal damage 108.89% of own ATK to target(s), then deal damage 46.67% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力108.89%對當前目標造成傷害，再以攻擊力46.67%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力108.89%对当前目标造成伤害，再以攻击力46.67%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの108.89%で対象にダメージを与え、さらにATKの46.67%で一番左と一番右の対象にダメージを与える。"
+    },
+    "5": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 115.12%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 49.34%의 데미지를 줌",
+     "desc_en": "Deal damage 115.12% of own ATK to target(s), then deal damage 49.34% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力115.12%對當前目標造成傷害，再以攻擊力49.34%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力115.12%对当前目标造成伤害，再以攻击力49.34%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの115.12%で対象にダメージを与え、さらにATKの49.34%で一番左と一番右の対象にダメージを与える。"
+    },
+    "6": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 121.34%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 52%의 데미지를 줌",
+     "desc_en": "Deal damage 121.34% of own ATK to target(s), then deal damage 52% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力121.34%對當前目標造成傷害，再以攻擊力52%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力121.34%对当前目标造成伤害，再以攻击力52%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの121.34%で対象にダメージを与え、さらにATKの52%で一番左と一番右の対象にダメージを与える。"
+    },
+    "7": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 127.56%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 54.67%의 데미지를 줌",
+     "desc_en": "Deal damage 127.56% of own ATK to target(s), then deal damage 54.67% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力127.56%對當前目標造成傷害，再以攻擊力54.67%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力127.56%对当前目标造成伤害，再以攻击力54.67%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの127.56%で対象にダメージを与え、さらにATKの54.67%で一番左と一番右の対象にダメージを与える。"
+    },
+    "8": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 133.78%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 57.34%의 데미지를 줌",
+     "desc_en": "Deal damage 133.78% of own ATK to target(s), then deal damage 57.34% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力133.78%對當前目標造成傷害，再以攻擊力57.34%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力133.78%对当前目标造成伤害，再以攻击力57.34%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの133.78%で対象にダメージを与え、さらにATKの57.34%で一番左と一番右の対象にダメージを与える。"
+    },
+    "9": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 140%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 60%의 데미지를 줌",
+     "desc_en": "Deal damage 140% of own ATK to target(s), then deal damage 60% of own ATK to the leftmost and rightmost enemies.",
+     "desc_cn": "以攻擊力140%對當前目標造成傷害，再以攻擊力60%對敵方最左邊與最右邊的角色造成傷害",
+     "desc_sc": "以攻击力140%对当前目标造成伤害，再以攻击力60%对敌方最左边与最右边的角色造成伤害",
+     "desc_ja": "ATKの140%で対象にダメージを与え、さらにATKの60%で一番左と一番右の対象にダメージを与える。"
+    }
+   }
+  },
+  "sigil": {
+   "name_kr": "천라지망",
+   "name_en": "Dragnet",
+   "name_cn": "天羅地網",
+   "name_sc": "天罗地网",
+   "name_ja": "包囲網",
+   "levels": {
+    "0": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 84%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 36%의 데미지를 줌\n도장 패시브 효과:\n필살기 시, \"자신과 인접한 동료의 행동 횟수를 1회 회복\" 발동\n필살기 시, \"자신과 인접한 동료의 보통 공격 데미지 27% 증가 (1턴)\" 발동",
+     "desc_en": "Deal damage 84% of own ATK to target(s), then deal damage 36% of own ATK to the leftmost and rightmost enemies.\nSigil Passive:\nOn EX Skill, trigger: Adjacent Buddies gain 1 action(s).\nOn EX Skill, trigger: Adjacent Buddies' Basic Attack damage dealt +27% for 1 turn(s).",
+     "desc_cn": "以攻擊力84%對當前目標造成傷害，再以攻擊力36%對敵方最左邊與最右邊的角色造成傷害\n符紋被動效果：\n必殺時，必定觸發「使自身相鄰夥伴的行動次數恢復1次」\n必殺時，必定觸發「使自身相鄰夥伴普攻傷害增加27%，持續1回合」",
+     "desc_sc": "以攻击力84%对当前目标造成伤害，再以攻击力36%对敌方最左边与最右边的角色造成伤害\n符纹被动效果：\n必杀时，必定触发「使自身相邻伙伴的行动次数恢复1次」\n必杀时，必定触发「使自身相邻伙伴普攻伤害增加27%，持续1回合」",
+     "desc_ja": "ATKの84%で対象にダメージを与え、さらにATKの36%で一番左と一番右の対象にダメージを与える。\n符紋のパッシブ効果：\n必殺技を発動する時「自分の隣りにいる仲間の行動回数を1回回復させる」を誘発する。\n必殺技を発動する時「自分の隣りにいる仲間の通常攻撃ダメージを27%増加させる(1ターン)」を誘発する。"
+    },
+    "1": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 90.23%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 38.67%의 데미지를 줌\n도장 패시브 효과:\n필살기 시, \"자신과 인접한 동료의 행동 횟수를 1회 회복\" 발동\n필살기 시, \"자신과 인접한 동료의 보통 공격 데미지 29% 증가 (1턴)\" 발동",
+     "desc_en": "Deal damage 90.23% of own ATK to target(s), then deal damage 38.67% of own ATK to the leftmost and rightmost enemies.\nSigil Passive:\nOn EX Skill, trigger: Adjacent Buddies gain 1 action(s).\nOn EX Skill, trigger: Adjacent Buddies' Basic Attack damage dealt +29% for 1 turn(s).",
+     "desc_cn": "以攻擊力90.23%對當前目標造成傷害，再以攻擊力38.67%對敵方最左邊與最右邊的角色造成傷害\n符紋被動效果：\n必殺時，必定觸發「使自身相鄰夥伴的行動次數恢復1次」\n必殺時，必定觸發「使自身相鄰夥伴普攻傷害增加29%，持續1回合」",
+     "desc_sc": "以攻击力90.23%对当前目标造成伤害，再以攻击力38.67%对敌方最左边与最右边的角色造成伤害\n符纹被动效果：\n必杀时，必定触发「使自身相邻伙伴的行动次数恢复1次」\n必杀时，必定触发「使自身相邻伙伴普攻伤害增加29%，持续1回合」",
+     "desc_ja": "ATKの90.23%で対象にダメージを与え、さらにATKの38.67%で一番左と一番右の対象にダメージを与える。\n符紋のパッシブ効果：\n必殺技を発動する時「自分の隣りにいる仲間の行動回数を1回回復させる」を誘発する。\n必殺技を発動する時「自分の隣りにいる仲間の通常攻撃ダメージを29%増加させる(1ターン)」を誘発する。"
+    },
+    "2": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 96.45%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 41.34%의 데미지를 줌\n도장 패시브 효과:\n필살기 시, \"자신과 인접한 동료의 행동 횟수를 1회 회복\" 발동\n필살기 시, \"자신과 인접한 동료의 보통 공격 데미지 31% 증가 (1턴)\" 발동",
+     "desc_en": "Deal damage 96.45% of own ATK to target(s), then deal damage 41.34% of own ATK to the leftmost and rightmost enemies.\nSigil Passive:\nOn EX Skill, trigger: Adjacent Buddies gain 1 action(s).\nOn EX Skill, trigger: Adjacent Buddies' Basic Attack damage dealt +31% for 1 turn(s).",
+     "desc_cn": "以攻擊力96.45%對當前目標造成傷害，再以攻擊力41.34%對敵方最左邊與最右邊的角色造成傷害\n符紋被動效果：\n必殺時，必定觸發「使自身相鄰夥伴的行動次數恢復1次」\n必殺時，必定觸發「使自身相鄰夥伴普攻傷害增加31%，持續1回合」",
+     "desc_sc": "以攻击力96.45%对当前目标造成伤害，再以攻击力41.34%对敌方最左边与最右边的角色造成伤害\n符纹被动效果：\n必杀时，必定触发「使自身相邻伙伴的行动次数恢复1次」\n必杀时，必定触发「使自身相邻伙伴普攻伤害增加31%，持续1回合」",
+     "desc_ja": "ATKの96.45%で対象にダメージを与え、さらにATKの41.34%で一番左と一番右の対象にダメージを与える。\n符紋のパッシブ効果：\n必殺技を発動する時「自分の隣りにいる仲間の行動回数を1回回復させる」を誘発する。\n必殺技を発動する時「自分の隣りにいる仲間の通常攻撃ダメージを31%増加させる(1ターン)」を誘発する。"
+    },
+    "3": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 102.67%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 44%의 데미지를 줌\n도장 패시브 효과:\n필살기 시, \"자신과 인접한 동료의 행동 횟수를 1회 회복\" 발동\n필살기 시, \"자신과 인접한 동료의 보통 공격 데미지 33% 증가 (1턴)\" 발동",
+     "desc_en": "Deal damage 102.67% of own ATK to target(s), then deal damage 44% of own ATK to the leftmost and rightmost enemies.\nSigil Passive:\nOn EX Skill, trigger: Adjacent Buddies gain 1 action(s).\nOn EX Skill, trigger: Adjacent Buddies' Basic Attack damage dealt +33% for 1 turn(s).",
+     "desc_cn": "以攻擊力102.67%對當前目標造成傷害，再以攻擊力44%對敵方最左邊與最右邊的角色造成傷害\n符紋被動效果：\n必殺時，必定觸發「使自身相鄰夥伴的行動次數恢復1次」\n必殺時，必定觸發「使自身相鄰夥伴普攻傷害增加33%，持續1回合」",
+     "desc_sc": "以攻击力102.67%对当前目标造成伤害，再以攻击力44%对敌方最左边与最右边的角色造成伤害\n符纹被动效果：\n必杀时，必定触发「使自身相邻伙伴的行动次数恢复1次」\n必杀时，必定触发「使自身相邻伙伴普攻伤害增加33%，持续1回合」",
+     "desc_ja": "ATKの102.67%で対象にダメージを与え、さらにATKの44%で一番左と一番右の対象にダメージを与える。\n符紋のパッシブ効果：\n必殺技を発動する時「自分の隣りにいる仲間の行動回数を1回回復させる」を誘発する。\n必殺技を発動する時「自分の隣りにいる仲間の通常攻撃ダメージを33%増加させる(1ターン)」を誘発する。"
+    },
+    "4": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 108.89%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 46.67%의 데미지를 줌\n도장 패시브 효과:\n필살기 시, \"자신과 인접한 동료의 행동 횟수를 1회 회복\" 발동\n필살기 시, \"자신과 인접한 동료의 보통 공격 데미지 35% 증가 (1턴)\" 발동",
+     "desc_en": "Deal damage 108.89% of own ATK to target(s), then deal damage 46.67% of own ATK to the leftmost and rightmost enemies.\nSigil Passive:\nOn EX Skill, trigger: Adjacent Buddies gain 1 action(s).\nOn EX Skill, trigger: Adjacent Buddies' Basic Attack damage dealt +35% for 1 turn(s).",
+     "desc_cn": "以攻擊力108.89%對當前目標造成傷害，再以攻擊力46.67%對敵方最左邊與最右邊的角色造成傷害\n符紋被動效果：\n必殺時，必定觸發「使自身相鄰夥伴的行動次數恢復1次」\n必殺時，必定觸發「使自身相鄰夥伴普攻傷害增加35%，持續1回合」",
+     "desc_sc": "以攻击力108.89%对当前目标造成伤害，再以攻击力46.67%对敌方最左边与最右边的角色造成伤害\n符纹被动效果：\n必杀时，必定触发「使自身相邻伙伴的行动次数恢复1次」\n必杀时，必定触发「使自身相邻伙伴普攻伤害增加35%，持续1回合」",
+     "desc_ja": "ATKの108.89%で対象にダメージを与え、さらにATKの46.67%で一番左と一番右の対象にダメージを与える。\n符紋のパッシブ効果：\n必殺技を発動する時「自分の隣りにいる仲間の行動回数を1回回復させる」を誘発する。\n必殺技を発動する時「自分の隣りにいる仲間の通常攻撃ダメージを35%増加させる(1ターン)」を誘発する。"
+    },
+    "5": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 115.12%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 49.34%의 데미지를 줌\n도장 패시브 효과:\n필살기 시, \"자신과 인접한 동료의 행동 횟수를 1회 회복\" 발동\n필살기 시, \"자신과 인접한 동료의 보통 공격 데미지 37% 증가 (1턴)\" 발동",
+     "desc_en": "Deal damage 115.12% of own ATK to target(s), then deal damage 49.34% of own ATK to the leftmost and rightmost enemies.\nSigil Passive:\nOn EX Skill, trigger: Adjacent Buddies gain 1 action(s).\nOn EX Skill, trigger: Adjacent Buddies' Basic Attack damage dealt +37% for 1 turn(s).",
+     "desc_cn": "以攻擊力115.12%對當前目標造成傷害，再以攻擊力49.34%對敵方最左邊與最右邊的角色造成傷害\n符紋被動效果：\n必殺時，必定觸發「使自身相鄰夥伴的行動次數恢復1次」\n必殺時，必定觸發「使自身相鄰夥伴普攻傷害增加37%，持續1回合」",
+     "desc_sc": "以攻击力115.12%对当前目标造成伤害，再以攻击力49.34%对敌方最左边与最右边的角色造成伤害\n符纹被动效果：\n必杀时，必定触发「使自身相邻伙伴的行动次数恢复1次」\n必杀时，必定触发「使自身相邻伙伴普攻伤害增加37%，持续1回合」",
+     "desc_ja": "ATKの115.12%で対象にダメージを与え、さらにATKの49.34%で一番左と一番右の対象にダメージを与える。\n符紋のパッシブ効果：\n必殺技を発動する時「自分の隣りにいる仲間の行動回数を1回回復させる」を誘発する。\n必殺技を発動する時「自分の隣りにいる仲間の通常攻撃ダメージを37%増加させる(1ターン)」を誘発する。"
+    },
+    "6": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 121.34%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 52%의 데미지를 줌\n도장 패시브 효과:\n필살기 시, \"자신과 인접한 동료의 행동 횟수를 1회 회복\" 발동\n필살기 시, \"자신과 인접한 동료의 보통 공격 데미지 39% 증가 (1턴)\" 발동",
+     "desc_en": "Deal damage 121.34% of own ATK to target(s), then deal damage 52% of own ATK to the leftmost and rightmost enemies.\nSigil Passive:\nOn EX Skill, trigger: Adjacent Buddies gain 1 action(s).\nOn EX Skill, trigger: Adjacent Buddies' Basic Attack damage dealt +39% for 1 turn(s).",
+     "desc_cn": "以攻擊力121.34%對當前目標造成傷害，再以攻擊力52%對敵方最左邊與最右邊的角色造成傷害\n符紋被動效果：\n必殺時，必定觸發「使自身相鄰夥伴的行動次數恢復1次」\n必殺時，必定觸發「使自身相鄰夥伴普攻傷害增加39%，持續1回合」",
+     "desc_sc": "以攻击力121.34%对当前目标造成伤害，再以攻击力52%对敌方最左边与最右边的角色造成伤害\n符纹被动效果：\n必杀时，必定触发「使自身相邻伙伴的行动次数恢复1次」\n必杀时，必定触发「使自身相邻伙伴普攻伤害增加39%，持续1回合」",
+     "desc_ja": "ATKの121.34%で対象にダメージを与え、さらにATKの52%で一番左と一番右の対象にダメージを与える。\n符紋のパッシブ効果：\n必殺技を発動する時「自分の隣りにいる仲間の行動回数を1回回復させる」を誘発する。\n必殺技を発動する時「自分の隣りにいる仲間の通常攻撃ダメージを39%増加させる(1ターン)」を誘発する。"
+    },
+    "7": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 127.56%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 54.67%의 데미지를 줌\n도장 패시브 효과:\n필살기 시, \"자신과 인접한 동료의 행동 횟수를 1회 회복\" 발동\n필살기 시, \"자신과 인접한 동료의 보통 공격 데미지 41% 증가 (1턴)\" 발동",
+     "desc_en": "Deal damage 127.56% of own ATK to target(s), then deal damage 54.67% of own ATK to the leftmost and rightmost enemies.\nSigil Passive:\nOn EX Skill, trigger: Adjacent Buddies gain 1 action(s).\nOn EX Skill, trigger: Adjacent Buddies' Basic Attack damage dealt +41% for 1 turn(s).",
+     "desc_cn": "以攻擊力127.56%對當前目標造成傷害，再以攻擊力54.67%對敵方最左邊與最右邊的角色造成傷害\n符紋被動效果：\n必殺時，必定觸發「使自身相鄰夥伴的行動次數恢復1次」\n必殺時，必定觸發「使自身相鄰夥伴普攻傷害增加41%，持續1回合」",
+     "desc_sc": "以攻击力127.56%对当前目标造成伤害，再以攻击力54.67%对敌方最左边与最右边的角色造成伤害\n符纹被动效果：\n必杀时，必定触发「使自身相邻伙伴的行动次数恢复1次」\n必杀时，必定触发「使自身相邻伙伴普攻伤害增加41%，持续1回合」",
+     "desc_ja": "ATKの127.56%で対象にダメージを与え、さらにATKの54.67%で一番左と一番右の対象にダメージを与える。\n符紋のパッシブ効果：\n必殺技を発動する時「自分の隣りにいる仲間の行動回数を1回回復させる」を誘発する。\n必殺技を発動する時「自分の隣りにいる仲間の通常攻撃ダメージを41%増加させる(1ターン)」を誘発する。"
+    },
+    "8": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 133.78%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 57.34%의 데미지를 줌\n도장 패시브 효과:\n필살기 시, \"자신과 인접한 동료의 행동 횟수를 1회 회복\" 발동\n필살기 시, \"자신과 인접한 동료의 보통 공격 데미지 43% 증가 (1턴)\" 발동",
+     "desc_en": "Deal damage 133.78% of own ATK to target(s), then deal damage 57.34% of own ATK to the leftmost and rightmost enemies.\nSigil Passive:\nOn EX Skill, trigger: Adjacent Buddies gain 1 action(s).\nOn EX Skill, trigger: Adjacent Buddies' Basic Attack damage dealt +43% for 1 turn(s).",
+     "desc_cn": "以攻擊力133.78%對當前目標造成傷害，再以攻擊力57.34%對敵方最左邊與最右邊的角色造成傷害\n符紋被動效果：\n必殺時，必定觸發「使自身相鄰夥伴的行動次數恢復1次」\n必殺時，必定觸發「使自身相鄰夥伴普攻傷害增加43%，持續1回合」",
+     "desc_sc": "以攻击力133.78%对当前目标造成伤害，再以攻击力57.34%对敌方最左边与最右边的角色造成伤害\n符纹被动效果：\n必杀时，必定触发「使自身相邻伙伴的行动次数恢复1次」\n必杀时，必定触发「使自身相邻伙伴普攻伤害增加43%，持续1回合」",
+     "desc_ja": "ATKの133.78%で対象にダメージを与え、さらにATKの57.34%で一番左と一番右の対象にダメージを与える。\n符紋のパッシブ効果：\n必殺技を発動する時「自分の隣りにいる仲間の行動回数を1回回復させる」を誘発する。\n必殺技を発動する時「自分の隣りにいる仲間の通常攻撃ダメージを43%増加させる(1ターン)」を誘発する。"
+    },
+    "9": {
+     "params": {},
+     "cd": 3,
+     "desc_kr": "목표물에게 ATK 140%의 데미지를 줌, 또 적군의 가장 왼쪽과 가장 오른쪽 캐릭터에게 ATK 60%의 데미지를 줌\n도장 패시브 효과:\n필살기 시, \"자신과 인접한 동료의 행동 횟수를 1회 회복\" 발동\n필살기 시, \"자신과 인접한 동료의 보통 공격 데미지 45% 증가 (1턴)\" 발동",
+     "desc_en": "Deal damage 140% of own ATK to target(s), then deal damage 60% of own ATK to the leftmost and rightmost enemies.\nSigil Passive:\nOn EX Skill, trigger: Adjacent Buddies gain 1 action(s).\nOn EX Skill, trigger: Adjacent Buddies' Basic Attack damage dealt +45% for 1 turn(s).",
+     "desc_cn": "以攻擊力140%對當前目標造成傷害，再以攻擊力60%對敵方最左邊與最右邊的角色造成傷害\n符紋被動效果：\n必殺時，必定觸發「使自身相鄰夥伴的行動次數恢復1次」\n必殺時，必定觸發「使自身相鄰夥伴普攻傷害增加45%，持續1回合」",
+     "desc_sc": "以攻击力140%对当前目标造成伤害，再以攻击力60%对敌方最左边与最右边的角色造成伤害\n符纹被动效果：\n必杀时，必定触发「使自身相邻伙伴的行动次数恢复1次」\n必杀时，必定触发「使自身相邻伙伴普攻伤害增加45%，持续1回合」",
+     "desc_ja": "ATKの140%で対象にダメージを与え、さらにATKの60%で一番左と一番右の対象にダメージを与える。\n符紋のパッシブ効果：\n必殺技を発動する時「自分の隣りにいる仲間の行動回数を1回回復させる」を誘発する。\n必殺技を発動する時「自分の隣りにいる仲間の通常攻撃ダメージを45%増加させる(1ターン)」を誘発する。"
+    }
+   }
+  },
+  "passive0": {
+   "name_kr": "공격 강화IV",
+   "name_en": "ATK Boost IV",
+   "name_cn": "攻擊強化IV",
+   "name_sc": "攻击强化IV",
+   "name_ja": "ATK強化Ⅳ",
+   "levels": {
+    "0": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 ATK 18% 증가",
+     "desc_en": "Own ATK +18%.",
+     "desc_cn": "使自身攻擊力增加18%",
+     "desc_sc": "使自身攻击力增加18%",
+     "desc_ja": "自分のATKが18%増加する。"
+    },
+    "1": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 ATK 19.34% 증가",
+     "desc_en": "Own ATK +19.34%.",
+     "desc_cn": "使自身攻擊力增加19.34%",
+     "desc_sc": "使自身攻击力增加19.34%",
+     "desc_ja": "自分のATKが19.34%増加する。"
+    },
+    "2": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 ATK 20.67% 증가",
+     "desc_en": "Own ATK +20.67%.",
+     "desc_cn": "使自身攻擊力增加20.67%",
+     "desc_sc": "使自身攻击力增加20.67%",
+     "desc_ja": "自分のATKが20.67%増加する。"
+    },
+    "3": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 ATK 22% 증가",
+     "desc_en": "Own ATK +22%.",
+     "desc_cn": "使自身攻擊力增加22%",
+     "desc_sc": "使自身攻击力增加22%",
+     "desc_ja": "自分のATKが22%増加する。"
+    },
+    "4": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 ATK 23.34% 증가",
+     "desc_en": "Own ATK +23.34%.",
+     "desc_cn": "使自身攻擊力增加23.34%",
+     "desc_sc": "使自身攻击力增加23.34%",
+     "desc_ja": "自分のATKが23.34%増加する。"
+    },
+    "5": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 ATK 24.67% 증가",
+     "desc_en": "Own ATK +24.67%.",
+     "desc_cn": "使自身攻擊力增加24.67%",
+     "desc_sc": "使自身攻击力增加24.67%",
+     "desc_ja": "自分のATKが24.67%増加する。"
+    },
+    "6": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 ATK 26% 증가",
+     "desc_en": "Own ATK +26%.",
+     "desc_cn": "使自身攻擊力增加26%",
+     "desc_sc": "使自身攻击力增加26%",
+     "desc_ja": "自分のATKが26%増加する。"
+    },
+    "7": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 ATK 27.34% 증가",
+     "desc_en": "Own ATK +27.34%.",
+     "desc_cn": "使自身攻擊力增加27.34%",
+     "desc_sc": "使自身攻击力增加27.34%",
+     "desc_ja": "自分のATKが27.34%増加する。"
+    },
+    "8": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 ATK 28.67% 증가",
+     "desc_en": "Own ATK +28.67%.",
+     "desc_cn": "使自身攻擊力增加28.67%",
+     "desc_sc": "使自身攻击力增加28.67%",
+     "desc_ja": "自分のATKが28.67%増加する。"
+    },
+    "9": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 ATK 30% 증가",
+     "desc_en": "Own ATK +30%.",
+     "desc_cn": "使自身攻擊力增加30%",
+     "desc_sc": "使自身攻击力增加30%",
+     "desc_ja": "自分のATKが30%増加する。"
+    }
+   }
+  },
+  "passive1": {
+   "name_kr": "협동 체포",
+   "name_en": "Joint Soulhunt",
+   "name_cn": "協同緝拿",
+   "name_sc": "协同缉拿",
+   "name_ja": "協同捕縛",
+   "levels": {
+    "0": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신과 인접한 동료에게 부여: 공격할 때 60%의 확률로 \"욱영에게 【합위】 1중첩 부여, 최대 15중첩\" 발동\n 【합위】: 자신의 ATK 2% 증가",
+     "desc_en": "Grant adjacent Buddies: On attack, there is a(n) 60% chance to trigger: Xuying gains 1 stack of Encirclement, up to 15 stacks.\nEncirclement:\nOwn ATK +2%.",
+     "desc_cn": "使自身相鄰夥伴獲得：攻擊時，有60%機率觸發：「使旭影獲得1層「合圍」，最多15層」\n【合圍】：使自身攻擊力增加2%",
+     "desc_sc": "使自身相邻伙伴获得：攻击时，有60%概率触发：「使旭影获得1层「合围」，最多15层」\n【合围】：使自身攻击力增加2%",
+     "desc_ja": "自分の隣にいる仲間が攻撃をする時60%の確率で「旭影に「包囲」を1層付与する(最大15層)」を誘発する。\n「包囲」の効果：自分のATKが2%増加する。"
+    },
+    "1": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신과 인접한 동료에게 부여: 공격할 때 64.45%의 확률로 \"욱영에게 【합위】 1중첩 부여, 최대 15중첩\" 발동\n 【합위】: 자신의 ATK 2% 증가",
+     "desc_en": "Grant adjacent Buddies: On attack, there is a(n) 64.45% chance to trigger: Xuying gains 1 stack of Encirclement, up to 15 stacks.\nEncirclement:\nOwn ATK +2%.",
+     "desc_cn": "使自身相鄰夥伴獲得：攻擊時，有64.45%機率觸發：「使旭影獲得1層「合圍」，最多15層」\n【合圍】：使自身攻擊力增加2%",
+     "desc_sc": "使自身相邻伙伴获得：攻击时，有64.45%概率触发：「使旭影获得1层「合围」，最多15层」\n【合围】：使自身攻击力增加2%",
+     "desc_ja": "自分の隣にいる仲間が攻撃をする時64.45%の確率で「旭影に「包囲」を1層付与する(最大15層)」を誘発する。\n「包囲」の効果：自分のATKが2%増加する。"
+    },
+    "2": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신과 인접한 동료에게 부여: 공격할 때 68.89%의 확률로 \"욱영에게 【합위】 1중첩 부여, 최대 15중첩\" 발동\n 【합위】: 자신의 ATK 2% 증가",
+     "desc_en": "Grant adjacent Buddies: On attack, there is a(n) 68.89% chance to trigger: Xuying gains 1 stack of Encirclement, up to 15 stacks.\nEncirclement:\nOwn ATK +2%.",
+     "desc_cn": "使自身相鄰夥伴獲得：攻擊時，有68.89%機率觸發：「使旭影獲得1層「合圍」，最多15層」\n【合圍】：使自身攻擊力增加2%",
+     "desc_sc": "使自身相邻伙伴获得：攻击时，有68.89%概率触发：「使旭影获得1层「合围」，最多15层」\n【合围】：使自身攻击力增加2%",
+     "desc_ja": "自分の隣にいる仲間が攻撃をする時68.89%の確率で「旭影に「包囲」を1層付与する(最大15層)」を誘発する。\n「包囲」の効果：自分のATKが2%増加する。"
+    },
+    "3": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신과 인접한 동료에게 부여: 공격할 때 73.34%의 확률로 \"욱영에게 【합위】 1중첩 부여, 최대 15중첩\" 발동\n 【합위】: 자신의 ATK 2% 증가",
+     "desc_en": "Grant adjacent Buddies: On attack, there is a(n) 73.34% chance to trigger: Xuying gains 1 stack of Encirclement, up to 15 stacks.\nEncirclement:\nOwn ATK +2%.",
+     "desc_cn": "使自身相鄰夥伴獲得：攻擊時，有73.34%機率觸發：「使旭影獲得1層「合圍」，最多15層」\n【合圍】：使自身攻擊力增加2%",
+     "desc_sc": "使自身相邻伙伴获得：攻击时，有73.34%概率触发：「使旭影获得1层「合围」，最多15层」\n【合围】：使自身攻击力增加2%",
+     "desc_ja": "自分の隣にいる仲間が攻撃をする時73.34%の確率で「旭影に「包囲」を1層付与する(最大15層)」を誘発する。\n「包囲」の効果：自分のATKが2%増加する。"
+    },
+    "4": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신과 인접한 동료에게 부여: 공격할 때 77.78%의 확률로 \"욱영에게 【합위】 1중첩 부여, 최대 15중첩\" 발동\n 【합위】: 자신의 ATK 2% 증가",
+     "desc_en": "Grant adjacent Buddies: On attack, there is a(n) 77.78% chance to trigger: Xuying gains 1 stack of Encirclement, up to 15 stacks.\nEncirclement:\nOwn ATK +2%.",
+     "desc_cn": "使自身相鄰夥伴獲得：攻擊時，有77.78%機率觸發：「使旭影獲得1層「合圍」，最多15層」\n【合圍】：使自身攻擊力增加2%",
+     "desc_sc": "使自身相邻伙伴获得：攻击时，有77.78%概率触发：「使旭影获得1层「合围」，最多15层」\n【合围】：使自身攻击力增加2%",
+     "desc_ja": "自分の隣にいる仲間が攻撃をする時77.78%の確率で「旭影に「包囲」を1層付与する(最大15層)」を誘発する。\n「包囲」の効果：自分のATKが2%増加する。"
+    },
+    "5": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신과 인접한 동료에게 부여: 공격할 때 82.23%의 확률로 \"욱영에게 【합위】 1중첩 부여, 최대 15중첩\" 발동\n 【합위】: 자신의 ATK 2% 증가",
+     "desc_en": "Grant adjacent Buddies: On attack, there is a(n) 82.23% chance to trigger: Xuying gains 1 stack of Encirclement, up to 15 stacks.\nEncirclement:\nOwn ATK +2%.",
+     "desc_cn": "使自身相鄰夥伴獲得：攻擊時，有82.23%機率觸發：「使旭影獲得1層「合圍」，最多15層」\n【合圍】：使自身攻擊力增加2%",
+     "desc_sc": "使自身相邻伙伴获得：攻击时，有82.23%概率触发：「使旭影获得1层「合围」，最多15层」\n【合围】：使自身攻击力增加2%",
+     "desc_ja": "自分の隣にいる仲間が攻撃をする時82.23%の確率で「旭影に「包囲」を1層付与する(最大15層)」を誘発する。\n「包囲」の効果：自分のATKが2%増加する。"
+    },
+    "6": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신과 인접한 동료에게 부여: 공격할 때 86.67%의 확률로 \"욱영에게 【합위】 1중첩 부여, 최대 15중첩\" 발동\n 【합위】: 자신의 ATK 2% 증가",
+     "desc_en": "Grant adjacent Buddies: On attack, there is a(n) 86.67% chance to trigger: Xuying gains 1 stack of Encirclement, up to 15 stacks.\nEncirclement:\nOwn ATK +2%.",
+     "desc_cn": "使自身相鄰夥伴獲得：攻擊時，有86.67%機率觸發：「使旭影獲得1層「合圍」，最多15層」\n【合圍】：使自身攻擊力增加2%",
+     "desc_sc": "使自身相邻伙伴获得：攻击时，有86.67%概率触发：「使旭影获得1层「合围」，最多15层」\n【合围】：使自身攻击力增加2%",
+     "desc_ja": "自分の隣にいる仲間が攻撃をする時86.67%の確率で「旭影に「包囲」を1層付与する(最大15層)」を誘発する。\n「包囲」の効果：自分のATKが2%増加する。"
+    },
+    "7": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신과 인접한 동료에게 부여: 공격할 때 91.12%의 확률로 \"욱영에게 【합위】 1중첩 부여, 최대 15중첩\" 발동\n 【합위】: 자신의 ATK 2% 증가",
+     "desc_en": "Grant adjacent Buddies: On attack, there is a(n) 91.12% chance to trigger: Xuying gains 1 stack of Encirclement, up to 15 stacks.\nEncirclement:\nOwn ATK +2%.",
+     "desc_cn": "使自身相鄰夥伴獲得：攻擊時，有91.12%機率觸發：「使旭影獲得1層「合圍」，最多15層」\n【合圍】：使自身攻擊力增加2%",
+     "desc_sc": "使自身相邻伙伴获得：攻击时，有91.12%概率触发：「使旭影获得1层「合围」，最多15层」\n【合围】：使自身攻击力增加2%",
+     "desc_ja": "自分の隣にいる仲間が攻撃をする時91.12%の確率で「旭影に「包囲」を1層付与する(最大15層)」を誘発する。\n「包囲」の効果：自分のATKが2%増加する。"
+    },
+    "8": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신과 인접한 동료에게 부여: 공격할 때 95.56%의 확률로 \"욱영에게 【합위】 1중첩 부여, 최대 15중첩\" 발동\n 【합위】: 자신의 ATK 2% 증가",
+     "desc_en": "Grant adjacent Buddies: On attack, there is a(n) 95.56% chance to trigger: Xuying gains 1 stack of Encirclement, up to 15 stacks.\nEncirclement:\nOwn ATK +2%.",
+     "desc_cn": "使自身相鄰夥伴獲得：攻擊時，有95.56%機率觸發：「使旭影獲得1層「合圍」，最多15層」\n【合圍】：使自身攻擊力增加2%",
+     "desc_sc": "使自身相邻伙伴获得：攻击时，有95.56%概率触发：「使旭影获得1层「合围」，最多15层」\n【合围】：使自身攻击力增加2%",
+     "desc_ja": "自分の隣にいる仲間が攻撃をする時95.56%の確率で「旭影に「包囲」を1層付与する(最大15層)」を誘発する。\n「包囲」の効果：自分のATKが2%増加する。"
+    },
+    "9": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신과 인접한 동료에게 부여: 공격 시, \"욱영에게 【합위】 1중첩 부여, 최대 15중첩\" 발동\n 【합위】: 자신의 ATK 2% 증가",
+     "desc_en": "Grant adjacent Buddies: On attack, trigger: Xuying gains 1 stack of Encirclement, up to 15 stacks.\nEncirclement:\nOwn ATK +2%.",
+     "desc_cn": "使自身相鄰夥伴獲得：攻擊時，必定觸發「使旭影獲得1層「合圍」，最多15層」\n【合圍】：使自身攻擊力增加2%",
+     "desc_sc": "使自身相邻伙伴获得：攻击时，必定触发「使旭影获得1层「合围」，最多15层」\n【合围】：使自身攻击力增加2%",
+     "desc_ja": "自分の隣にいる仲間が攻撃をする時「旭影に「包囲」を1層付与する(最大15層)」を誘発する。\n「包囲」の効果：自分のATKが2%増加する。"
+    }
+   }
+  },
+  "passive2": {
+   "name_kr": "추적 신호",
+   "name_en": "Soulhunt Signal",
+   "name_cn": "追緝信號",
+   "name_sc": "追缉信号",
+   "name_ja": "捕縛の信号",
+   "levels": {
+    "0": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "보통 공격 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 7.2%이고, (2턴)\" 발동\n필살기 발동 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 18%이고, (1턴)\" 발동",
+     "desc_en": "On Basic Attack, trigger: Adjacent Buddies' ATK +7.2% of own base ATK for 2 turn(s).\nOn EX Skill, trigger: Adjacent Buddies' ATK +18% of own base ATK for 1 turn(s).",
+     "desc_cn": "普攻時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的7.2%，持續2回合」\n必殺時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的18%，持續1回合」",
+     "desc_sc": "普攻时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的7.2%，持续2回合」\n必杀时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的18%，持续1回合」",
+     "desc_ja": "通常攻撃をする時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの7.2%(2ターン)」を誘発する。\n必殺技を発動する時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの18%(1ターン)」を誘発する。"
+    },
+    "1": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "보통 공격 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 7.74%이고, (2턴)\" 발동\n필살기 발동 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 19.34%이고, (1턴)\" 발동",
+     "desc_en": "On Basic Attack, trigger: Adjacent Buddies' ATK +7.74% of own base ATK for 2 turn(s).\nOn EX Skill, trigger: Adjacent Buddies' ATK +19.34% of own base ATK for 1 turn(s).",
+     "desc_cn": "普攻時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的7.74%，持續2回合」\n必殺時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的19.34%，持續1回合」",
+     "desc_sc": "普攻时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的7.74%，持续2回合」\n必杀时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的19.34%，持续1回合」",
+     "desc_ja": "通常攻撃をする時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの7.74%(2ターン)」を誘発する。\n必殺技を発動する時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの19.34%(1ターン)」を誘発する。"
+    },
+    "2": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "보통 공격 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 8.27%이고, (2턴)\" 발동\n필살기 발동 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 20.67%이고, (1턴)\" 발동",
+     "desc_en": "On Basic Attack, trigger: Adjacent Buddies' ATK +8.27% of own base ATK for 2 turn(s).\nOn EX Skill, trigger: Adjacent Buddies' ATK +20.67% of own base ATK for 1 turn(s).",
+     "desc_cn": "普攻時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的8.27%，持續2回合」\n必殺時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的20.67%，持續1回合」",
+     "desc_sc": "普攻时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的8.27%，持续2回合」\n必杀时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的20.67%，持续1回合」",
+     "desc_ja": "通常攻撃をする時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの8.27%(2ターン)」を誘発する。\n必殺技を発動する時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの20.67%(1ターン)」を誘発する。"
+    },
+    "3": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "보통 공격 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 8.8%이고, (2턴)\" 발동\n필살기 발동 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 22%이고, (1턴)\" 발동",
+     "desc_en": "On Basic Attack, trigger: Adjacent Buddies' ATK +8.8% of own base ATK for 2 turn(s).\nOn EX Skill, trigger: Adjacent Buddies' ATK +22% of own base ATK for 1 turn(s).",
+     "desc_cn": "普攻時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的8.8%，持續2回合」\n必殺時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的22%，持續1回合」",
+     "desc_sc": "普攻时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的8.8%，持续2回合」\n必杀时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的22%，持续1回合」",
+     "desc_ja": "通常攻撃をする時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの8.8%(2ターン)」を誘発する。\n必殺技を発動する時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの22%(1ターン)」を誘発する。"
+    },
+    "4": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "보통 공격 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 9.34%이고, (2턴)\" 발동\n필살기 발동 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 23.34%이고, (1턴)\" 발동",
+     "desc_en": "On Basic Attack, trigger: Adjacent Buddies' ATK +9.34% of own base ATK for 2 turn(s).\nOn EX Skill, trigger: Adjacent Buddies' ATK +23.34% of own base ATK for 1 turn(s).",
+     "desc_cn": "普攻時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的9.34%，持續2回合」\n必殺時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的23.34%，持續1回合」",
+     "desc_sc": "普攻时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的9.34%，持续2回合」\n必杀时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的23.34%，持续1回合」",
+     "desc_ja": "通常攻撃をする時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの9.34%(2ターン)」を誘発する。\n必殺技を発動する時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの23.34%(1ターン)」を誘発する。"
+    },
+    "5": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "보통 공격 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 9.87%이고, (2턴)\" 발동\n필살기 발동 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 24.67%이고, (1턴)\" 발동",
+     "desc_en": "On Basic Attack, trigger: Adjacent Buddies' ATK +9.87% of own base ATK for 2 turn(s).\nOn EX Skill, trigger: Adjacent Buddies' ATK +24.67% of own base ATK for 1 turn(s).",
+     "desc_cn": "普攻時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的9.87%，持續2回合」\n必殺時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的24.67%，持續1回合」",
+     "desc_sc": "普攻时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的9.87%，持续2回合」\n必杀时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的24.67%，持续1回合」",
+     "desc_ja": "通常攻撃をする時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの9.87%(2ターン)」を誘発する。\n必殺技を発動する時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの24.67%(1ターン)」を誘発する。"
+    },
+    "6": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "보통 공격 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 10.4%이고, (2턴)\" 발동\n필살기 발동 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 26%이고, (1턴)\" 발동",
+     "desc_en": "On Basic Attack, trigger: Adjacent Buddies' ATK +10.4% of own base ATK for 2 turn(s).\nOn EX Skill, trigger: Adjacent Buddies' ATK +26% of own base ATK for 1 turn(s).",
+     "desc_cn": "普攻時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的10.4%，持續2回合」\n必殺時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的26%，持續1回合」",
+     "desc_sc": "普攻时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的10.4%，持续2回合」\n必杀时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的26%，持续1回合」",
+     "desc_ja": "通常攻撃をする時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの10.4%(2ターン)」を誘発する。\n必殺技を発動する時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの26%(1ターン)」を誘発する。"
+    },
+    "7": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "보통 공격 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 10.94%이고, (2턴)\" 발동\n필살기 발동 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 27.34%이고, (1턴)\" 발동",
+     "desc_en": "On Basic Attack, trigger: Adjacent Buddies' ATK +10.94% of own base ATK for 2 turn(s).\nOn EX Skill, trigger: Adjacent Buddies' ATK +27.34% of own base ATK for 1 turn(s).",
+     "desc_cn": "普攻時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的10.94%，持續2回合」\n必殺時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的27.34%，持續1回合」",
+     "desc_sc": "普攻时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的10.94%，持续2回合」\n必杀时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的27.34%，持续1回合」",
+     "desc_ja": "通常攻撃をする時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの10.94%(2ターン)」を誘発する。\n必殺技を発動する時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの27.34%(1ターン)」を誘発する。"
+    },
+    "8": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "보통 공격 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 11.47%이고, (2턴)\" 발동\n필살기 발동 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 28.67%이고, (1턴)\" 발동",
+     "desc_en": "On Basic Attack, trigger: Adjacent Buddies' ATK +11.47% of own base ATK for 2 turn(s).\nOn EX Skill, trigger: Adjacent Buddies' ATK +28.67% of own base ATK for 1 turn(s).",
+     "desc_cn": "普攻時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的11.47%，持續2回合」\n必殺時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的28.67%，持續1回合」",
+     "desc_sc": "普攻时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的11.47%，持续2回合」\n必杀时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的28.67%，持续1回合」",
+     "desc_ja": "通常攻撃をする時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの11.47%(2ターン)」を誘発する。\n必殺技を発動する時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの28.67%(1ターン)」を誘発する。"
+    },
+    "9": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "보통 공격 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 12%이고, (2턴)\" 발동\n필살기 발동 시 \"자신과 인접한 동료의 ATK 증가시키며, 증가량은 자신의 기초 ATK의 30%이고, (1턴)\" 발동",
+     "desc_en": "On Basic Attack, trigger: Adjacent Buddies' ATK +12% of own base ATK for 2 turn(s).\nOn EX Skill, trigger: Adjacent Buddies' ATK +30% of own base ATK for 1 turn(s).",
+     "desc_cn": "普攻時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的12%，持續2回合」\n必殺時，必定觸發「使自身相鄰夥伴的攻擊力增加，增加值為自身基礎攻擊力的30%，持續1回合」",
+     "desc_sc": "普攻时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的12%，持续2回合」\n必杀时，必定触发「使自身相邻伙伴的攻击力增加，增加值为自身基础攻击力的30%，持续1回合」",
+     "desc_ja": "通常攻撃をする時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの12%(2ターン)」を誘発する。\n必殺技を発動する時「自分の隣にいる仲間のATKを増加させる。増加値は自分の基礎ATKの30%(1ターン)」を誘発する。"
+    }
+   }
+  },
+  "passive3": {
+   "name_kr": "고강도 훈련 성과",
+   "name_en": "Ultra Training Gains",
+   "name_cn": "強效鍛鍊成果",
+   "name_sc": "强效锻炼成果",
+   "name_ja": "強力な鍛錬成果",
+   "levels": {
+    "0": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신 기초 ATK 9% 증가\n자신의 기초 최대 HP 9% 증가",
+     "desc_en": "Own base ATK +9%.\nOwn base Max. HP +9%.",
+     "desc_cn": "使自身基礎攻擊力增加9%\n使自身基礎最大生命值增加9%",
+     "desc_sc": "使自身基础攻击力增加9%\n使自身基础最大生命值增加9%",
+     "desc_ja": "自分の基礎ATKが9%増加する。\n自分の基礎最大HPが9%増加する。"
+    },
+    "1": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신 기초 ATK 9.67% 증가\n자신의 기초 최대 HP 9.67% 증가",
+     "desc_en": "Own base ATK +9.67%.\nOwn base Max. HP +9.67%.",
+     "desc_cn": "使自身基礎攻擊力增加9.67%\n使自身基礎最大生命值增加9.67%",
+     "desc_sc": "使自身基础攻击力增加9.67%\n使自身基础最大生命值增加9.67%",
+     "desc_ja": "自分の基礎ATKが9.67%増加する。\n自分の基礎最大HPが9.67%増加する。"
+    },
+    "2": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신 기초 ATK 10.34% 증가\n자신의 기초 최대 HP 10.34% 증가",
+     "desc_en": "Own base ATK +10.34%.\nOwn base Max. HP +10.34%.",
+     "desc_cn": "使自身基礎攻擊力增加10.34%\n使自身基礎最大生命值增加10.34%",
+     "desc_sc": "使自身基础攻击力增加10.34%\n使自身基础最大生命值增加10.34%",
+     "desc_ja": "自分の基礎ATKが10.34%増加する。\n自分の基礎最大HPが10.34%増加する。"
+    },
+    "3": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신 기초 ATK 11% 증가\n자신의 기초 최대 HP 11% 증가",
+     "desc_en": "Own base ATK +11%.\nOwn base Max. HP +11%.",
+     "desc_cn": "使自身基礎攻擊力增加11%\n使自身基礎最大生命值增加11%",
+     "desc_sc": "使自身基础攻击力增加11%\n使自身基础最大生命值增加11%",
+     "desc_ja": "自分の基礎ATKが11%増加する。\n自分の基礎最大HPが11%増加する。"
+    },
+    "4": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신 기초 ATK 11.67% 증가\n자신의 기초 최대 HP 11.67% 증가",
+     "desc_en": "Own base ATK +11.67%.\nOwn base Max. HP +11.67%.",
+     "desc_cn": "使自身基礎攻擊力增加11.67%\n使自身基礎最大生命值增加11.67%",
+     "desc_sc": "使自身基础攻击力增加11.67%\n使自身基础最大生命值增加11.67%",
+     "desc_ja": "自分の基礎ATKが11.67%増加する。\n自分の基礎最大HPが11.67%増加する。"
+    },
+    "5": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신 기초 ATK 12.34% 증가\n자신의 기초 최대 HP 12.34% 증가",
+     "desc_en": "Own base ATK +12.34%.\nOwn base Max. HP +12.34%.",
+     "desc_cn": "使自身基礎攻擊力增加12.34%\n使自身基礎最大生命值增加12.34%",
+     "desc_sc": "使自身基础攻击力增加12.34%\n使自身基础最大生命值增加12.34%",
+     "desc_ja": "自分の基礎ATKが12.34%増加する。\n自分の基礎最大HPが12.34%増加する。"
+    },
+    "6": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신 기초 ATK 13% 증가\n자신의 기초 최대 HP 13% 증가",
+     "desc_en": "Own base ATK +13%.\nOwn base Max. HP +13%.",
+     "desc_cn": "使自身基礎攻擊力增加13%\n使自身基礎最大生命值增加13%",
+     "desc_sc": "使自身基础攻击力增加13%\n使自身基础最大生命值增加13%",
+     "desc_ja": "自分の基礎ATKが13%増加する。\n自分の基礎最大HPが13%増加する。"
+    },
+    "7": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신 기초 ATK 13.67% 증가\n자신의 기초 최대 HP 13.67% 증가",
+     "desc_en": "Own base ATK +13.67%.\nOwn base Max. HP +13.67%.",
+     "desc_cn": "使自身基礎攻擊力增加13.67%\n使自身基礎最大生命值增加13.67%",
+     "desc_sc": "使自身基础攻击力增加13.67%\n使自身基础最大生命值增加13.67%",
+     "desc_ja": "自分の基礎ATKが13.67%増加する。\n自分の基礎最大HPが13.67%増加する。"
+    },
+    "8": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신 기초 ATK 14.34% 증가\n자신의 기초 최대 HP 14.34% 증가",
+     "desc_en": "Own base ATK +14.34%.\nOwn base Max. HP +14.34%.",
+     "desc_cn": "使自身基礎攻擊力增加14.34%\n使自身基礎最大生命值增加14.34%",
+     "desc_sc": "使自身基础攻击力增加14.34%\n使自身基础最大生命值增加14.34%",
+     "desc_ja": "自分の基礎ATKが14.34%増加する。\n自分の基礎最大HPが14.34%増加する。"
+    },
+    "9": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신 기초 ATK 15% 증가\n자신의 기초 최대 HP 15% 증가",
+     "desc_en": "Own base ATK +15%.\nOwn base Max. HP +15%.",
+     "desc_cn": "使自身基礎攻擊力增加15%\n使自身基礎最大生命值增加15%",
+     "desc_sc": "使自身基础攻击力增加15%\n使自身基础最大生命值增加15%",
+     "desc_ja": "自分の基礎ATKが15%増加する。\n自分の基礎最大HPが15%増加する。"
+    }
+   }
+  },
+  "passive4": {
+   "name_kr": "사방 포위",
+   "name_en": "Soul Siege",
+   "name_cn": "四方圍剿",
+   "name_sc": "四方围剿",
+   "name_ja": "包囲討伐",
+   "levels": {
+    "0": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 【합위】가 15중첩 이상일 경우, \"공격 시, 자신과 인접한 동료의 ATK 18% 증가, (3턴), 자신의【합위】중첩 수 15중첩 감소\" 발동",
+     "desc_en": "When own Encirclement ≧ 15 stack(s), on attack, trigger: Adjacent Buddies' ATK +18% for 3 turn(s), and remove 15 stack(s) of Encirclement from self.",
+     "desc_cn": "自身擁有的「合圍」層數≧15層時，開啟：「攻擊時，必定觸發「使自身相鄰夥伴攻擊力增加18%，持續3回合，並使自身「合圍」的層數減少15層」」",
+     "desc_sc": "自身拥有的「合围」层数≧15层时，开启：「攻击时，必定触发「使自身相邻伙伴攻击力增加18%，持续3回合，并使自身「合围」的层数减少15层」」",
+     "desc_ja": "自分が持っている「包囲」の層数が≧15層の場合「攻撃をする時「自分の隣りにいる仲間のATKを18%増加させ(3ターン)、自分の「包囲」の層数を15層減らす」を誘発する」を発動する。"
+    },
+    "1": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 【합위】가 15중첩 이상일 경우, \"공격 시, 자신과 인접한 동료의 ATK 19.34% 증가, (3턴), 자신의【합위】중첩 수 14중첩 감소\" 발동",
+     "desc_en": "When own Encirclement ≧ 15 stack(s), on attack, trigger: Adjacent Buddies' ATK +19.34% for 3 turn(s), and remove 14 stack(s) of Encirclement from self.",
+     "desc_cn": "自身擁有的「合圍」層數≧15層時，開啟：「攻擊時，必定觸發「使自身相鄰夥伴攻擊力增加19.34%，持續3回合，並使自身「合圍」的層數減少14層」」",
+     "desc_sc": "自身拥有的「合围」层数≧15层时，开启：「攻击时，必定触发「使自身相邻伙伴攻击力增加19.34%，持续3回合，并使自身「合围」的层数减少14层」」",
+     "desc_ja": "自分が持っている「包囲」の層数が≧15層の場合「攻撃をする時「自分の隣りにいる仲間のATKを19.34%増加させ(3ターン)、自分の「包囲」の層数を14層減らす」を誘発する」を発動する。"
+    },
+    "2": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 【합위】가 15중첩 이상일 경우, \"공격 시, 자신과 인접한 동료의 ATK 20.67% 증가, (3턴), 자신의【합위】중첩 수 13중첩 감소\" 발동",
+     "desc_en": "When own Encirclement ≧ 15 stack(s), on attack, trigger: Adjacent Buddies' ATK +20.67% for 3 turn(s), and remove 13 stack(s) of Encirclement from self.",
+     "desc_cn": "自身擁有的「合圍」層數≧15層時，開啟：「攻擊時，必定觸發「使自身相鄰夥伴攻擊力增加20.67%，持續3回合，並使自身「合圍」的層數減少13層」」",
+     "desc_sc": "自身拥有的「合围」层数≧15层时，开启：「攻击时，必定触发「使自身相邻伙伴攻击力增加20.67%，持续3回合，并使自身「合围」的层数减少13层」」",
+     "desc_ja": "自分が持っている「包囲」の層数が≧15層の場合「攻撃をする時「自分の隣りにいる仲間のATKを20.67%増加させ(3ターン)、自分の「包囲」の層数を13層減らす」を誘発する」を発動する。"
+    },
+    "3": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 【합위】가 15중첩 이상일 경우, \"공격 시, 자신과 인접한 동료의 ATK 22% 증가, (3턴), 자신의【합위】중첩 수 12중첩 감소\" 발동",
+     "desc_en": "When own Encirclement ≧ 15 stack(s), on attack, trigger: Adjacent Buddies' ATK +22% for 3 turn(s), and remove 12 stack(s) of Encirclement from self.",
+     "desc_cn": "自身擁有的「合圍」層數≧15層時，開啟：「攻擊時，必定觸發「使自身相鄰夥伴攻擊力增加22%，持續3回合，並使自身「合圍」的層數減少12層」」",
+     "desc_sc": "自身拥有的「合围」层数≧15层时，开启：「攻击时，必定触发「使自身相邻伙伴攻击力增加22%，持续3回合，并使自身「合围」的层数减少12层」」",
+     "desc_ja": "自分が持っている「包囲」の層数が≧15層の場合「攻撃をする時「自分の隣りにいる仲間のATKを22%増加させ(3ターン)、自分の「包囲」の層数を12層減らす」を誘発する」を発動する。"
+    },
+    "4": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 【합위】가 15중첩 이상일 경우, \"공격 시, 자신과 인접한 동료의 ATK 23.34% 증가, (3턴), 자신의【합위】중첩 수 11중첩 감소\" 발동",
+     "desc_en": "When own Encirclement ≧ 15 stack(s), on attack, trigger: Adjacent Buddies' ATK +23.34% for 3 turn(s), and remove 11 stack(s) of Encirclement from self.",
+     "desc_cn": "自身擁有的「合圍」層數≧15層時，開啟：「攻擊時，必定觸發「使自身相鄰夥伴攻擊力增加23.34%，持續3回合，並使自身「合圍」的層數減少11層」」",
+     "desc_sc": "自身拥有的「合围」层数≧15层时，开启：「攻击时，必定触发「使自身相邻伙伴攻击力增加23.34%，持续3回合，并使自身「合围」的层数减少11层」」",
+     "desc_ja": "自分が持っている「包囲」の層数が≧15層の場合「攻撃をする時「自分の隣りにいる仲間のATKを23.34%増加させ(3ターン)、自分の「包囲」の層数を11層減らす」を誘発する」を発動する。"
+    },
+    "5": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 【합위】가 15중첩 이상일 경우, \"공격 시, 자신과 인접한 동료의 ATK 24.67% 증가, (3턴), 자신의【합위】중첩 수 10중첩 감소\" 발동",
+     "desc_en": "When own Encirclement ≧ 15 stack(s), on attack, trigger: Adjacent Buddies' ATK +24.67% for 3 turn(s), and remove 10 stack(s) of Encirclement from self.",
+     "desc_cn": "自身擁有的「合圍」層數≧15層時，開啟：「攻擊時，必定觸發「使自身相鄰夥伴攻擊力增加24.67%，持續3回合，並使自身「合圍」的層數減少10層」」",
+     "desc_sc": "自身拥有的「合围」层数≧15层时，开启：「攻击时，必定触发「使自身相邻伙伴攻击力增加24.67%，持续3回合，并使自身「合围」的层数减少10层」」",
+     "desc_ja": "自分が持っている「包囲」の層数が≧15層の場合「攻撃をする時「自分の隣りにいる仲間のATKを24.67%増加させ(3ターン)、自分の「包囲」の層数を10層減らす」を誘発する」を発動する。"
+    },
+    "6": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 【합위】가 15중첩 이상일 경우, \"공격 시, 자신과 인접한 동료의 ATK 26% 증가, (3턴), 자신의【합위】중첩 수 9중첩 감소\" 발동",
+     "desc_en": "When own Encirclement ≧ 15 stack(s), on attack, trigger: Adjacent Buddies' ATK +26% for 3 turn(s), and remove 9 stack(s) of Encirclement from self.",
+     "desc_cn": "自身擁有的「合圍」層數≧15層時，開啟：「攻擊時，必定觸發「使自身相鄰夥伴攻擊力增加26%，持續3回合，並使自身「合圍」的層數減少9層」」",
+     "desc_sc": "自身拥有的「合围」层数≧15层时，开启：「攻击时，必定触发「使自身相邻伙伴攻击力增加26%，持续3回合，并使自身「合围」的层数减少9层」」",
+     "desc_ja": "自分が持っている「包囲」の層数が≧15層の場合「攻撃をする時「自分の隣りにいる仲間のATKを26%増加させ(3ターン)、自分の「包囲」の層数を9層減らす」を誘発する」を発動する。"
+    },
+    "7": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 【합위】가 15중첩 이상일 경우, \"공격 시, 자신과 인접한 동료의 ATK 27.34% 증가, (3턴), 자신의【합위】중첩 수 8중첩 감소\" 발동",
+     "desc_en": "When own Encirclement ≧ 15 stack(s), on attack, trigger: Adjacent Buddies' ATK +27.34% for 3 turn(s), and remove 8 stack(s) of Encirclement from self.",
+     "desc_cn": "自身擁有的「合圍」層數≧15層時，開啟：「攻擊時，必定觸發「使自身相鄰夥伴攻擊力增加27.34%，持續3回合，並使自身「合圍」的層數減少8層」」",
+     "desc_sc": "自身拥有的「合围」层数≧15层时，开启：「攻击时，必定触发「使自身相邻伙伴攻击力增加27.34%，持续3回合，并使自身「合围」的层数减少8层」」",
+     "desc_ja": "自分が持っている「包囲」の層数が≧15層の場合「攻撃をする時「自分の隣りにいる仲間のATKを27.34%増加させ(3ターン)、自分の「包囲」の層数を8層減らす」を誘発する」を発動する。"
+    },
+    "8": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 【합위】가 15중첩 이상일 경우, \"공격 시, 자신과 인접한 동료의 ATK 28.67% 증가, (3턴), 자신의【합위】중첩 수 7중첩 감소\" 발동",
+     "desc_en": "When own Encirclement ≧ 15 stack(s), on attack, trigger: Adjacent Buddies' ATK +28.67% for 3 turn(s), and remove 7 stack(s) of Encirclement from self.",
+     "desc_cn": "自身擁有的「合圍」層數≧15層時，開啟：「攻擊時，必定觸發「使自身相鄰夥伴攻擊力增加28.67%，持續3回合，並使自身「合圍」的層數減少7層」」",
+     "desc_sc": "自身拥有的「合围」层数≧15层时，开启：「攻击时，必定触发「使自身相邻伙伴攻击力增加28.67%，持续3回合，并使自身「合围」的层数减少7层」」",
+     "desc_ja": "自分が持っている「包囲」の層数が≧15層の場合「攻撃をする時「自分の隣りにいる仲間のATKを28.67%増加させ(3ターン)、自分の「包囲」の層数を7層減らす」を誘発する」を発動する。"
+    },
+    "9": {
+     "params": {},
+     "cd": 0,
+     "desc_kr": "자신의 【합위】가 15중첩 이상일 경우, \"공격 시, 자신과 인접한 동료의 ATK 30% 증가, (3턴), 자신의【합위】중첩 수 6중첩 감소\" 발동",
+     "desc_en": "When own Encirclement ≧ 15 stack(s), on attack, trigger: Adjacent Buddies' ATK +30% for 3 turn(s), and remove 6 stack(s) of Encirclement from self.",
+     "desc_cn": "自身擁有的「合圍」層數≧15層時，開啟：「攻擊時，必定觸發「使自身相鄰夥伴攻擊力增加30%，持續3回合，並使自身「合圍」的層數減少6層」」",
+     "desc_sc": "自身拥有的「合围」层数≧15层时，开启：「攻击时，必定触发「使自身相邻伙伴攻击力增加30%，持续3回合，并使自身「合围」的层数减少6层」」",
+     "desc_ja": "自分が持っている「包囲」の層数が≧15層の場合「攻撃をする時「自分の隣りにいる仲間のATKを30%増加させ(3ターン)、自分の「包囲」の層数を6層減らす」を誘発する」を発動する。"
+    }
+   }
+  }
  }
 }

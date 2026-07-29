@@ -661,5 +661,20 @@
   "name_cn": "透明人",
   "name_sc": "透明人",
   "name_ja": "透明人間"
+ },
+ "10439": {
+  "id": 10439,
+  "name_en": "Xuying",
+  "name_kr": "욱영",
+  "feature": "Wood Fighter / Adjacent-ally buffs / Encirclement / AoE flanks",
+  "rarity": 4,
+  "class": 1,
+  "element": 3,
+  "baseATK": 561,
+  "baseHP": 2225,
+  "hasRune": true,
+  "name_cn": "旭影",
+  "name_sc": "旭影",
+  "name_ja": "旭影"
  }
 }
