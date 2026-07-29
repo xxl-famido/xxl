@@ -132,6 +132,8 @@ class Unit:
     base_actions: int = 1           # rotation-driven actions per turn (이태호 = 2)
     extra_basic: bool = False       # 이태호: actions beyond base_actions = 평타(기본) 또는 fed_action 지정
     fed_action: str = "평"          # 이태호 전용: 임부언 fed 추가행동 토큰(평/궁/방). 기본 평타=종전 동작(단일값 폴백)
+    ally_ult_after: bool = False    # 욱영 전용 토글: ON이면 인접 아군이 욱영 궁 '전'엔 평타(궁 보류),
+                                    #   욱영 궁 '후' 회복 행동으로 궁 → 욱영 버프 받고 필살 (배터리 최적화)
     fed_schedule: dict = field(default_factory=dict)  # 이태호: 턴별 fed 토큰 {turn: 평/궁/방} — 임부언 궁 턴마다 개별 지정
     turn_acts: int = 0              # actions taken this turn (reset each turn)
     auto_fatal_pending: bool = False  # 지정 궁이 쿨 미충족으로 불발 → 쿨 차는 대로 자동 발동 예약
@@ -426,11 +428,9 @@ def _resolve_targets(effect: Effect, caster: Unit, state: BattleState,
         return [caster] + ([grantor] if grantor and grantor is not caster else [])
     if t == "allies":
         return [u for u in state.team(caster) if u.alive]
-    if t == "adjacent":              # 욱영: '자신과 인접한 동료' = 시전자 + 슬롯 ±1 아군.
-        # 영어는 "Adjacent Buddies"로 self를 누락하나 한국어 원문은 전 효과에서 "자신과 인접한 동료"로
-        # 일관되게 self 포함(네온 표식 EN 누락과 동일 케이스). self + 슬롯±1로 모델링.
-        return [u for u in state.team(caster)
-                if u.alive and (u is caster or abs(u.slot - caster.slot) == 1)]
+    if t == "adjacent":              # 욱영: '자신과 인접한 동료' = '자신에게 인접한 동료' = 슬롯 ±1 아군.
+        # 시전자 본인은 제외 (사용자 인게임 확인). 한국어 문법상 "자신과 인접한"이 "동료"를 수식.
+        return [u for u in state.team(caster) if u.alive and abs(u.slot - caster.slot) == 1]
     if t.startswith("allies_"):
         living = [u for u in state.team(caster) if u.alive]
         sub = t.split("_", 1)[1]
@@ -456,9 +456,11 @@ def _resolve_targets(effect: Effect, caster: Unit, state: BattleState,
             return [current_target]
         foes = [u for u in state.foes(caster) if u.alive]
         return [foes[0]] if foes else []
-    if t == "edge_enemies":     # 욱영: 적군 가장 왼쪽·오른쪽 (슬롯 최소·최대). 적 1명이면 그 1명만.
+    if t == "edge_enemies":     # 욱영: 적군 가장 왼쪽·오른쪽 (슬롯 최소·최대).
+        # 좌·우 끝은 별개 타격 인스턴스 — 적이 1명이면 그 적이 좌우끝 둘 다라 2회 맞는다
+        # (평타 60+30+30, 궁 140+60+60). 인게임 확인(사용자): 단일 적 2회 타격.
         foes = sorted([u for u in state.foes(caster) if u.alive], key=lambda u: u.slot)
-        return [] if not foes else ([foes[0]] if len(foes) == 1 else [foes[0], foes[-1]])
+        return [] if not foes else [foes[0], foes[-1]]
     if t == "positions":        # one hit per position; empty -> front enemy (random fallback)
         foes = sorted([u for u in state.foes(caster) if u.alive], key=lambda u: u.slot)
         if not foes:
@@ -490,8 +492,8 @@ def _who(targets: list, caster: Unit, state: "BattleState", effect: "Effect | No
         return "자신"
     if tgt == "allies":
         return "아군 전체"
-    if tgt == "adjacent":            # 욱영: 자신+인접 동료
-        return "자신+인접"
+    if tgt == "adjacent":            # 욱영: 인접 동료 (자신 제외)
+        return "인접 동료"
     if tgt == "edge_enemies":        # 욱영: 좌우 끝 적
         return "좌우 끝 적"
     if tgt.startswith("allies_"):
@@ -1400,6 +1402,18 @@ def _apply_incoming(ally: Unit, attacker: Unit, state: BattleState) -> None:
                          "taken": taken_g, "takenP": taken_p, "dealt": dealt})
 
 
+def _defer_ult_for_uk(unit: Unit, state: BattleState) -> bool:
+    """욱영 토글(ally_ult_after): 이 아군이, 궁을 쏘려 대기 중인 인접 욱영(토글 ON) 옆에 있으면 True.
+    → 궁을 보류하고 평타 → 욱영 궁 뒤 회복 행동에서 궁(욱영 버프 수령). 욱영이 궁을 이미 쏘면
+    (cd>0) False → 회복 행동에서 정상 궁. 인접 = 슬롯 ±1."""
+    return any(
+        u.alive and u.ally_ult_after and getattr(u._kit, "char_id", 0) == 10439
+        and u.turn_acts == 0 and u.cd_remaining <= 0     # 욱영이 아직 궁 안 쏨(곧 쏨)
+        and abs(u.slot - unit.slot) == 1
+        for u in state.team(unit) if u is not unit and hasattr(u, "_kit")
+    )
+
+
 def _take_action(unit: Unit, state: BattleState) -> None:
     state.cur_action += 1            # each action gets a fresh id (for log grouping)
     state.cur_actor_id = getattr(unit._kit, "char_id", 0) if not unit.is_dummy else 0
@@ -1498,6 +1512,17 @@ def _take_action(unit: Unit, state: BattleState) -> None:
             _ran_p4_synergy(unit, state)
         return
 
+    # 욱영 토글(ally_ult_after): 인접 욱영이 이번 턴 궁을 쏘려 대기 중(cd≤0, 아직 미행동)이면,
+    # 이 아군의 궁을 지금 쓰지 않고 '보류' → 평타. 욱영 궁 뒤 회복 행동에서 궁(욱영 버프 받고).
+    # rotation 지정 궁이면 인덱스를 되감아 회복 행동에서 재사용(임부언 fed carry는 is_fed_carry로
+    # 회복 행동에서 자동 궁이라 되감기 불필요). 욱영이 궁을 쏜 뒤엔 cd>0이라 보류 해제.
+    defer_uk = (not forced_basic and bool(kit_fatal.effects)
+                and unit.cd_remaining <= 0 and _defer_ult_for_uk(unit, state))
+    if defer_uk and token == "fatal":
+        unit.action_idx -= 1             # 궁 토큰 un-read → 회복 행동에서 재사용
+    if defer_uk:
+        token = "basic"
+
     if not forced_basic and unit.is_fed_carry and bool(kit_fatal.effects):
         # a feeder (e.g. 임부언) resets this carry's CD mid-turn -> fatal on every
         # CD-ready action (natural + the granted bonus), ignoring the rotation
@@ -1513,6 +1538,9 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     else:  # no rotation -> default policy: fatal if ready, unless holding it
         holding = any(unit.stacks.get(s, 0) > 0 for s in unit.hold_fatal_stacks)
         use_fatal = unit.cd_remaining <= 0 and bool(kit_fatal.effects) and not holding
+
+    if defer_uk:
+        use_fatal = False                # 보류: fed carry·폴백 모두 무시하고 이번 행동은 평타
 
     cid = getattr(unit._kit, "char_id", 0)
     if use_fatal:
@@ -1756,7 +1784,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
              force_proc: bool = False, enemy_aoe: bool = False,
              dummy_element: int = 0, hp10: bool = False,
              fed_actions: list[str | None] | None = None,
-             incoming_hp_pct: int = 0) -> BattleState:
+             incoming_hp_pct: int = 0,
+             ally_ult_afters: list[bool] | None = None) -> BattleState:
     """Run a target-dummy battle and return the final state (with log).
 
     rotations: optional per-ally action strings (e.g. '평평방궁|평방궁').
@@ -1777,6 +1806,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
                 u.fed_schedule = {int(k): v for k, v in fa.items() if v}
             else:
                 u.fed_action = fa
+        if ally_ult_afters and i < len(ally_ult_afters):
+            u.ally_ult_after = bool(ally_ult_afters[i])   # 욱영 토글
         allies.append(u)
     enemies = [make_dummy(i) for i in range(max(1, min(n_dummies, 5)))]
     for e in enemies:

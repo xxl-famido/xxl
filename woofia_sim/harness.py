@@ -22,6 +22,8 @@ SPECIAL_ROLE_RANK = {
     10401: 5.5,   # 아누비로스 = 방해지만 하이퍼캐리 → 딜러보다 늦게(팀 셋업 다 받고)
     10436: 5.6,   # 모이루 = 방해지만 '아군 평타 → 추격 중첩 → 방어로 필살CD 감소' 콤보라
                   #          평타 아군 뒤에 행동해야 방어 시 추격이 쌓여있음 (딜러·아누비로스보다 늦게)
+    10439: 5.7,   # 욱영 = 도장 '자신+인접 행동회복'이 '이미 행동한' 아군만 유효하므로 인접 아군
+                  #          둘 다보다 나중에 행동해야 양쪽 다 회복(배터리). 딜러·모이루보다 늦게.
 }
 
 
@@ -77,6 +79,7 @@ class CharSpec:
     rune: bool = True     # 도장 해제 (ultimate -> sigil 룬필살기)
     rotation: str | None = None  # 행동 지정 '평평방궁|평방궁' (None=기본정책)
     fed_action: "str | dict | None" = None  # 이태호 전용: 임부언 fed 추가행동 — dict={turn:토큰}(턴별) 또는 str(단일). None=기본 평타
+    ally_ult_after: bool = False   # 욱영 전용: ON이면 인접 아군이 욱영 궁 후 회복행동에서 궁 (배터리 최적화)
     position: int | None = None  # 전열 위치 1~5 (None=리스트 순서). 더미는 최소 position 타격
     priority: int | None = None  # 행동 순서 (None=position). 낮을수록 먼저 행동
     atk_bonus: int = 0           # 도장 강화: 기본 ATK 가산
@@ -122,11 +125,13 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
     rotations = [s.rotation if s.rotation is not None else auto_rotation(kit)
                  for s, kit in zip(specs, kits)]
     fed_actions = [s.fed_action for s in specs]   # 이태호 임부언 fed 추가행동 토큰(None=기본 평타)
+    ally_ult_afters = [s.ally_ult_after for s in specs]   # 욱영 토글
     state = simulate(kits, n_dummies=n_dummies, max_turn=max_turn, seed=seed,
                      rotations=rotations, slots=slots, priorities=priorities,
                      enemy_hits=enemy_hits, turn_orders=turn_orders, force_proc=force_proc,
                      enemy_aoe=enemy_aoe, dummy_element=dummy_element, hp10=hp10,
-                     fed_actions=fed_actions, incoming_hp_pct=incoming_hp_pct)
+                     fed_actions=fed_actions, incoming_hp_pct=incoming_hp_pct,
+                     ally_ult_afters=ally_ult_afters)
     names = [u.name for u in state.allies]
     per_char = {u.name: u.damage_dealt for u in state.allies}
     total = sum(per_char.values())

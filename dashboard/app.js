@@ -47,6 +47,7 @@ const SPECIAL = { 10421: 4.5, 10401: 5.5 };
 const PASSIVE_DEF_ID = 10421;   // 파미도 — 궁 직전 턴 방어로 패시브 활용 (전용 '패시브 방어' 버튼)
 const ULT3_ID = 10437;          // 투명인간 — 3턴궁 사이클(4·7·10…) 토글 (전용 '3턴궁' 버튼)
 const TAEHO_ID = 10423;         // 이태호 — 1포지션 + 임부언 동반 시 'fed 추가행동' 선택 노출
+const UK_ID = 10439;           // 욱영 — 인접 아군 필살을 욱영 궁 '후' 회복행동으로 미루는 토글(배터리)
 const IMBUEON_ID = 10410;       // 임부언 — 궁으로 P1에게 CD-3 + 추가행동 부여
 const EL_ORDER = ['fire', 'water', 'wood', 'light', 'dark'];
 const EL_KR = { fire: '불', water: '물', wood: '나무', light: '빛', dark: '어둠', none: '무' };
@@ -242,7 +243,7 @@ const _decFed = s => { const o = {}; String(s).replace(/(\d+)([궁방])/g, (_, t
 const _trimDef = (a, D) => { while (a.length > 1 && JSON.stringify(a[a.length - 1]) === JSON.stringify(D[a.length - 1])) a.pop(); return a; };
 function packSlot(s) {
   if (!s) return 0;
-  const flags = (s.rune ? 1 : 0) | (s.sealOn ? 2 : 0) | (s.usePlan ? 4 : 0);   // rotation은 plan에서 파생 → 미저장
+  const flags = (s.rune ? 1 : 0) | (s.sealOn ? 2 : 0) | (s.usePlan ? 4 : 0) | (s.allyUltAfter ? 8 : 0);   // rotation은 plan에서 파생 → 미저장
   return _trimDef([s.id - CID0, flags, s.skill ?? 10, s.priority ?? 0, s.sealAtk || 0, s.sealHp || 0, _encPlan(s.plan), _encFed(s.fedActions)],
     [null, 1, 10, 0, 0, 0, '', '']);   // 끝에 fed 스케줄 문자열(기본 '' → trim 생략)
 }
@@ -256,6 +257,7 @@ function unpackSlot(a) {
   if (flags & 2) s.sealOn = true;
   if (plan) s.plan = _decPlan(plan);          // 계획은 usePlan과 무관하게 보존 — 자동모드 유령 plan도 무손실 왕복 → 공유코드가 *(전체JSON)로 폴백하지 않고 #(축약)를 유지
   if (flags & 4) { s.usePlan = true; s.rotation = (s.plan || []).join(''); } else s.rotation = '';
+  if (flags & 8) s.allyUltAfter = true;       // 욱영 토글
   if (fed && typeof fed === 'string') { const fa = _decFed(fed); if (Object.keys(fa).length) s.fedActions = fa; }   // 구기록의 숫자 fed는 무시(단일 fed 폐지)
   return s;
 }
@@ -418,6 +420,7 @@ function cfgFromTeam(side, snap) {        // 편집된 팀 + 공통설정으로 
     team: picked.map(t => ({ id: t.id, position: t.position, skill: t.skill, rune: t.rune,
       rotation: t.usePlan ? ((t.plan && t.plan.length) ? t.plan.join('') : (t.rotation || null)) : null,
       fedActions: (t.usePlan && t.fedActions && Object.keys(t.fedActions).length) ? t.fedActions : null,
+      allyUltAfter: !!t.allyUltAfter,
       priority: t.priority, sealAtk: t.sealOn ? (t.sealAtk ?? 0) : 0, sealHp: t.sealOn ? (t.sealHp ?? 0) : 0 })),
     turns: +snap.turns, turnOrders: cmpTurnOv[side] || {},
     dummies: cmpCommon.dummies, enemyHits: cmpCommon.enemyHits, dummyElement: cmpCommon.dummyElement,
@@ -710,7 +713,7 @@ function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게�
       ? `매 턴 <b style="color:var(--gold)">${apt}회 행동</b> · 궁은 턴당 1회 (궁궁 불가) · 임부언 추가행동은 평타`
       : `필살 CD <b style="color:var(--gold)">${meta.fatalCd}턴</b> · 첫 사용 <b style="color:var(--gold)">${meta.firstFatal}턴</b> · 궁은 CD 안 찬 턴 비활성`;
     rules.innerHTML = `<span>${ruleTxt}</span><span class="plan-fill">
-      <button data-fill="평"${on ? '' : ' disabled'}>모두 평타</button><button data-fill="방"${on ? '' : ' disabled'}>모두 방어</button>${c.id === PASSIVE_DEF_ID ? `<button data-pdef${on ? '' : ' disabled'} title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>` : ''}${c.id === ULT3_ID ? `<button data-u3${on ? '' : ' disabled'} title="궁을 3턴 주기(4·7·10·13…)로 · 평타 3번으로 네온 표식 5중첩을 만들어 도장 AoE 발동 · 다시 누르면 기본 2턴궁으로 복원">3턴궁</button>` : ''}</span>`;
+      <button data-fill="평"${on ? '' : ' disabled'}>모두 평타</button><button data-fill="방"${on ? '' : ' disabled'}>모두 방어</button>${c.id === PASSIVE_DEF_ID ? `<button data-pdef${on ? '' : ' disabled'} title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>` : ''}${c.id === ULT3_ID ? `<button data-u3${on ? '' : ' disabled'} title="궁을 3턴 주기(4·7·10·13…)로 · 평타 3번으로 네온 표식 5중첩을 만들어 도장 AoE 발동 · 다시 누르면 기본 2턴궁으로 복원">3턴궁</button>` : ''}${c.id === UK_ID ? `<button data-ukafter${c.cfg.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군 먼저 필살, 회복은 평타(+45% 평타뎀)">아군 필살 나중</button>` : ''}</span>`;
     rules.querySelectorAll('[data-fill]').forEach(b => b.onclick = () => {
       c.cfg.plan = fillPlan(meta, b.dataset.fill, turns);     // apt 인식: 단일행동은 궁 cadence 유지, 이태호는 순수 채움
       c.cfg.rotation = c.cfg.plan.join(''); markCmpDirty(); renderPlanPop(c);
@@ -735,6 +738,11 @@ function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게�
         c.cfg.rotation = c.cfg.plan.join(''); markCmpDirty(); renderPlanPop(c);
       };
     }
+    const ukb = rules.querySelector('[data-ukafter]');       // 욱영: 인접 아군 필살 타이밍 토글
+    if (ukb) ukb.onclick = () => {
+      c.cfg.allyUltAfter = !c.cfg.allyUltAfter;
+      ukb.classList.toggle('on', c.cfg.allyUltAfter); markCmpDirty();
+    };
   }
   grid.className = 'pp-grid' + (on ? '' : ' off');
   grid.innerHTML = html;
@@ -1239,7 +1247,7 @@ async function openModal(i) {
           <span>${(c.actionsPerTurn || 1) > 1
             ? `매 턴 <b style="color:var(--gold)">${c.actionsPerTurn}회 행동</b> · <b style="color:var(--gold)">궁은 턴당 1회</b> (궁궁 불가, 궁평/평궁만) · 임부언 추가행동은 평타`
             : `필살 CD <b style="color:var(--gold)">${c.fatalCd}턴</b> · 첫 사용 <b style="color:var(--gold)">${c.firstFatal}턴</b> — <b style="color:var(--gold)">궁</b>은 CD 안 찬 턴엔 비활성`}</span>
-          <span class="plan-fill"><button data-fill="평">모두 평타</button><button data-fill="방">모두 방어</button>${c.id === PASSIVE_DEF_ID ? '<button data-pdef title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>' : ''}${c.id === ULT3_ID ? '<button data-u3 title="궁을 3턴 주기(4·7·10·13…)로 · 평타 3번으로 네온 표식 5중첩을 만들어 도장 AoE 발동 · 다시 누르면 기본 2턴궁으로 복원">3턴궁</button>' : ''}</span>
+          <span class="plan-fill"><button data-fill="평">모두 평타</button><button data-fill="방">모두 방어</button>${c.id === PASSIVE_DEF_ID ? '<button data-pdef title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>' : ''}${c.id === ULT3_ID ? '<button data-u3 title="궁을 3턴 주기(4·7·10·13…)로 · 평타 3번으로 네온 표식 5중첩을 만들어 도장 AoE 발동 · 다시 누르면 기본 2턴궁으로 복원">3턴궁</button>' : ''}${c.id === UK_ID ? `<button data-ukafter${s.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군이 먼저 필살, 회복 행동은 평타(도장 +45% 평타뎀 수령)">아군 필살 나중</button>` : ''}</span>
         </div>
         <div class="planner" id="planner"></div>
       </div>
@@ -1301,6 +1309,11 @@ async function openModal(i) {
     const isOn = s.plan && s.plan.join('') === target.join('');
     s.plan = isOn ? fillPlan(c, '평', 30) : target;   // 해제 시 기본(2턴궁 cadence)으로 복원
     s.rotation = s.plan.join(''); renderPlanner(s, c); syncPdef();
+  };
+  const ukBtn = $('.plan-fill [data-ukafter]', card);   // 욱영: 인접 아군 필살 타이밍 토글(불리언)
+  if (ukBtn) ukBtn.onclick = () => {
+    s.allyUltAfter = !s.allyUltAfter;
+    ukBtn.classList.toggle('on', s.allyUltAfter);
   };
   if (s.usePlan) { if (!s.plan) s.plan = defaultPlan(c); renderPlanner(s, c); }
   syncPdef();
@@ -1639,7 +1652,7 @@ async function run(save = true) {
     if (hpSchedChar && !hp10) toast(`${CHARS[hpSchedChar.id].name} 동반 — 적 HP%가 진행 턴을 4등분해 단계적으로 감소합니다 (앞 1/4 ≥75% → 막 1/4 &lt;25%)`);
   const btn = $('#runBtn'); btn.classList.add('busy'); btn.querySelector('span').innerHTML = '<span class="spin"></span>계산 중…';
   const cfg = {
-    team: picked.map(s => ({ id: s.id, position: s.position, skill: s.skill, rune: s.rune, rotation: s.rotation || null, fedActions: s.fedActions || null, priority: s.priority, sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0 })),
+    team: picked.map(s => ({ id: s.id, position: s.position, skill: s.skill, rune: s.rune, rotation: s.rotation || null, fedActions: s.fedActions || null, allyUltAfter: !!s.allyUltAfter, priority: s.priority, sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0 })),
     turns: +$('#turns').value, dummies: +$('#dummies').dataset.val, enemyHits: $('#enemyHits').dataset.val,
     dummyElement: +$('#dummyElement').dataset.val,
     turnOrders: turnOverrides, forceProc, hp10, runs: +$('#runs').value,

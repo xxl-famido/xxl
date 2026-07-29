@@ -159,6 +159,7 @@ def run_sim(cfg: dict) -> dict:
             rune=bool(m.get("rune", True)), position=int(m["position"]),
             rotation=(m.get("rotation") or None),
             fed_action=(m.get("fedActions") or m.get("fedAction") or None),   # 이태호 임부언 fed 추가행동: 턴별 dict{turn:토큰}(신) 또는 단일 str(구)
+            ally_ult_after=bool(m.get("allyUltAfter", False)),   # 욱영 토글
             priority=(float(m["priority"]) if m.get("priority") not in (None, "") else None),
             atk_bonus=int(m.get("sealAtk", 0) or 0), hp_bonus=int(m.get("sealHp", 0) or 0)))
     turns = int(cfg.get("turns", 30))
