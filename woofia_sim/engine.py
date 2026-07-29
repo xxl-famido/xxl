@@ -144,6 +144,7 @@ class Unit:
     rotation_prefix: list = field(default_factory=list)  # explicit action sequence
     rotation_loop: list = field(default_factory=list)
     action_idx: int = 0
+    uk_defer_pending: bool = False   # (욱영 ally_ult_after ON) 보류한 궁 토큰을 회복행동에서 재소비할지 표시
     buffs: list[Buff] = field(default_factory=list)
     stacks: dict[str, int] = field(default_factory=dict)
     stack_turns: dict[str, int] = field(default_factory=dict)  # remaining half-turns; -1 = permanent
@@ -1492,13 +1493,21 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     unit.turn_acts += 1
     # 이태호: base 2회 초과 행동(예: 임부언이 준 3번째)은 메인 로테이션을 소비하지 않고
     # fed_action 지정 토큰을 사용(기본 '평'=평타 → 종전 동작과 동일). 임부언 궁의 CD-3로 '궁' 재발동 가능.
-    forced_basic = unit.extra_basic and unit.turn_acts > unit.base_actions
+    is_bonus = unit.turn_acts > unit.base_actions      # 기본 행동 수 초과 = 외부에서 받은 추가행동
+    has_rotation = bool(unit.rotation_prefix or unit.rotation_loop)
+    forced_basic = unit.extra_basic and is_bonus
     if forced_basic:
         # 임부언 추가행동: 이번 턴 지정 토큰(fed_schedule) 우선, 없으면 단일 fed_action(구호환)
         fed_tok = unit.fed_schedule.get(state.turn, unit.fed_action)
         token = _TOKEN_ACTION.get(fed_tok, "basic")
+    elif is_bonus and has_rotation and not unit.uk_defer_pending:
+        # 고정 플랜이 있는 캐릭이 외부 grant(예: 욱영 '행동 회복')로 얻은 추가행동은 메인 플랜을
+        # 소비하지 않는다. 소비하면 action_idx가 앞당겨져 이후 모든 턴 계획이 밀린다(궁 턴에 방어를
+        # 쓰는 등). → 추가행동은 평타로 처리. (ally_ult_after ON의 보류-궁 재소비만 예외: 아래 else)
+        token = "basic"
     else:
         token = _next_token(unit)
+        unit.uk_defer_pending = False      # 보류했던 궁 토큰을 이 행동에서 소비 완료
 
     if token == "defend":
         state.cur_action_kind = "방어"
@@ -1520,6 +1529,7 @@ def _take_action(unit: Unit, state: BattleState) -> None:
                 and unit.cd_remaining <= 0 and _defer_ult_for_uk(unit, state))
     if defer_uk and token == "fatal":
         unit.action_idx -= 1             # 궁 토큰 un-read → 회복 행동에서 재사용
+        unit.uk_defer_pending = True     # 회복(추가)행동이 이 궁 토큰을 재소비하도록 표시
     if defer_uk:
         token = "basic"
 
