@@ -714,6 +714,15 @@ def _b_stack_remove_n_from(m):
                   stack_name=_stk(m.group(2)), magnitude=-_f(m.group(1)))
 
 
+# "Remove own damage dealt +N% ... from self" (세숭 궁 시 방어버프 소모) — 이건 named 스택이 아니라
+# BUFF(stat=주는딜)이라 스택 제거로는 안 지워진다. 아래 일반 _b_stack_remove가 버프 설명을 통째로
+# 스택명으로 먹는 걸 막기 위해 먼저 매칭 → stat 기준 자기 버프 제거 효과로 변환.
+@_leaf(rf"^[Rr]emove (?:own )?damage dealt \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?,? from (self)\.?$")
+def _b_remove_dmg_dealt(m):
+    return Effect(BUFF, m.group(0), target="self", stat=STAT_DMG_DEALT,
+                  magnitude=0.0, condition="remove_stat_buff")
+
+
 @_leaf(r"^[Rr]emove (.+?) from (self|locked target\(s\)|locked target|target.*?)\.?$")
 def _b_stack_remove(m):
     # "Remove X from self/target" clears all stacks of X (magnitude sentinel -9999)
@@ -853,7 +862,7 @@ def _split_clauses(text: str) -> list[str]:
 
 
 _PER_STACK = re.compile(
-    r"^(.+?): Own Basic Attack damage dealt \+(\d+(?:\.\d+)?)% for \d+ turn\(s\), up to (\d+) stack\(s\)\.?$")
+    r"^(.+?): Own Basic Attack damage dealt \+(\d+(?:\.\d+)?)% for (\d+) turn\(s\), up to (\d+) stack\(s\)\.?$")
 
 
 def parse_line(line: str) -> Effect:
@@ -875,8 +884,11 @@ def parse_line(line: str) -> Effect:
     # -> each stack confers basic-eff +N% (per-stack), and fixes the stack's cap to K.
     psm = _PER_STACK.match(line)
     if psm:
+        # "for N turn(s)" = 각 중첩의 개별 수명(골든 열화질보). 엔진이 stack_dur로 등록해
+        # 이후 gain을 타이머 스택으로 만든다(최대치서 gain 시 개별 갱신·오래된 것 밀어냄).
         return Effect(BUFF, line, target="self", stat=STAT_BASIC_DMG_DEALT,
-                      magnitude=_f(psm.group(2)), max_stacks=int(psm.group(3)),
+                      magnitude=_f(psm.group(2)), duration=int(psm.group(3)),
+                      max_stacks=int(psm.group(4)),
                       condition=f"per_stack:{_stk(psm.group(1))}")
     # team-element-count gate: ≥N of an element -> all allies get +X% damage dealt
     tem = _TEAM_ELEM_DMG.match(line)

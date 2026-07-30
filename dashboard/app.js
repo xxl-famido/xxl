@@ -43,7 +43,7 @@ function skillIconSrc(slot, charId) {
   return f ? `icons/skills/${f}.png` : '';
 }
 const ROLE_RANK = { '보조': 1, '방해': 2, '치유': 3, '수호': 4, '전사': 5 };
-const SPECIAL = { 10421: 4.5, 10401: 5.5 };
+const SPECIAL = { 10421: 4.5, 10401: 5.5, 10436: 5.6, 10439: 5.7 };   // 백엔드 SPECIAL_ROLE_RANK와 동기화(모이루·욱영은 아군 뒤 행동)
 const PASSIVE_DEF_ID = 10421;   // 파미도 — 궁 직전 턴 방어로 패시브 활용 (전용 '패시브 방어' 버튼)
 const ULT3_ID = 10437;          // 투명인간 — 3턴궁 사이클(4·7·10…) 토글 (전용 '3턴궁' 버튼)
 const TAEHO_ID = 10423;         // 이태호 — 1포지션 + 임부언 동반 시 'fed 추가행동' 선택 노출
@@ -1046,7 +1046,19 @@ function renderRoster() {
 function pick(id) {
   const at = team.findIndex(s => s && s.id === id);
   if (at >= 0) { team[at] = null; }            // toggle off
-  else { const empty = team.findIndex(s => !s); if (empty < 0) return; team[empty] = { id, skill: 10, rune: true, rotation: '' }; }
+  else {
+    // 임부언은 1번 자리 배치 금지 — P1에 있으면 자기 궁의 CD-3+추가행동이 자신에게 걸려
+    // 무한 자가피드가 되는데 인게임에선 불가능하므로 시스템적으로 차단(P1은 건너뛰고 배치).
+    let empty;
+    if (id === IMBUEON_ID) {
+      empty = team.findIndex((s, i) => !s && i !== 0);
+      if (empty < 0) { toast('임부언은 <b>1번 자리</b>에 배치할 수 없어요 — 2~5번 중 한 자리를 비워주세요'); return; }
+    } else {
+      empty = team.findIndex(s => !s);
+      if (empty < 0) return;
+    }
+    team[empty] = { id, skill: 10, rune: true, rotation: '' };
+  }
   renderRoster(); renderTeam(); renderPrio();
 }
 

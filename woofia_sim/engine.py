@@ -15,6 +15,7 @@ multiplicative channels. Confirm against one observed in-game hit (see plan).
 from __future__ import annotations
 
 import random
+import re
 from collections import Counter
 from dataclasses import dataclass, field
 
@@ -72,6 +73,17 @@ def _half_turns(duration: int) -> int:
     the creating phase (ally vs enemy) sets the asymmetric expiry naturally.
     """
     return duration * 2 if duration > 0 else duration
+
+
+def _split_stack_names(name: str) -> list[str]:
+    """Split a combined stack name "A, B, and C" into individual names (크로크라인의
+    Stir-Fry/Slow Cook/Secret Spices). 개별 이름을 참조하는 게이트·소비와 매칭되게 한다.
+    실제 리스트(대문자 시작 이름 + 'and' 접속)만 분리 — 숫자/% 포함 문자열(버프 설명 오파싱)은 그대로."""
+    if re.search(r"\band\b", name) and not re.search(r"[%\d]", name):
+        parts = [p.strip() for p in re.split(r",\s*and\s+|\s+and\s+|,\s+", name) if p.strip()]
+        if len(parts) >= 2:
+            return parts
+    return [name]
 
 
 @dataclass
@@ -825,6 +837,9 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         # every "+1 stack" op respects it (not the per-op max_stacks=1).
         req = effect.condition.split(":", 1)[1]
         caster.stack_caps[req] = max(caster.stack_caps.get(req, 0), effect.max_stacks)
+        if effect.duration > 0:
+            # 각 중첩의 고유 수명(골든 열화질보 2턴). 이후 dur=-1 gain도 native>0 경로로 타이머 스택이 됨
+            caster.stack_dur[req] = max(caster.stack_dur.get(req, 0), effect.duration)
         entry = (req, effect.stat, effect.magnitude, effect.owner, effect.src_skill, True, 1)
         if entry not in caster.cond_buffs:
             caster.cond_buffs.append(entry)
@@ -912,6 +927,18 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                         base_label=bl, barrier_comp=comp, barrier_pre=bpre, barrier_consumed=bcons,
                         ex_effect=False)   # 배리어 반격은 리카노 등 아군 필살기효과 증가를 받지 않음(사용자 실측 확인)
     elif kind in (BUFF, DEBUFF):
+        if effect.condition == "remove_stat_buff":
+            # 세숭 궁: 방어로 얻은 '주는딜 +15%(최대 2중첩)' 버프를 소모. named 스택이 아니라 Buff라
+            # stat+owner로 매칭해 자기 것만 제거(팀원이 준 같은 stat 버프는 owner가 달라 보존).
+            for tgt in targets:
+                before = len(tgt.buffs)
+                tgt.buffs = [b for b in tgt.buffs
+                             if not (b.stat == effect.stat and b.owner == effect.owner)]
+                if len(tgt.buffs) < before:
+                    state.record(caster.name,
+                                 f"{act_kr} → {tgt.name} {effect.stat} 자기버프 제거",
+                                 src_id=effect.owner, src_skill=effect.src_skill)
+            return
         for tgt in targets:
             if effect.of_base_atk:
                 # "+X% of own base ATK": base ATK includes the caster's base-ATK%
@@ -970,7 +997,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                          amount=0, detail=atk_calc, src_id=effect.owner, src_skill=effect.src_skill)
     elif kind == STACK:
         # "awaken X or Y" -> each status rolls independently at the effect's chance
-        names = [effect.stack_name or "?"]
+        names = _split_stack_names(effect.stack_name or "?")   # "A, B, and C" -> 개별 스택(크로크라인)
         if effect.awaken_with:
             names.append(effect.awaken_with)
         fired: list[str] = []            # names that actually activated (independent rolls)
@@ -1708,10 +1735,18 @@ def _tick_dots(state: BattleState) -> None:
 
 
 def _install_passives(unit: Unit, state: BattleState) -> None:
-    """Apply always-on passive effects and register triggers at battle start."""
+    """Apply always-on passive effects and register triggers at battle start.
+
+    Stack-definition effects (per_stack:/stack_cap:) are applied FIRST so a stack's
+    lifetime (stack_dur) is known before any battle-start gain fires — otherwise the
+    on_battle_start grant lands as a permanent stack (골든 열화질보 6중첩)."""
+    defs, rest = [], []
     for psv in unit._kit.passives:  # type: ignore[attr-defined]
         for eff in psv.effects:
-            apply_effect(eff, unit, state, None, source="passive")
+            (defs if (eff.condition or "").startswith(("per_stack:", "stack_cap:"))
+             else rest).append(eff)
+    for eff in defs + rest:
+        apply_effect(eff, unit, state, None, source="passive")
 
 
 def _compute_hold_fatal(unit: Unit) -> None:
