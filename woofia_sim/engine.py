@@ -75,6 +75,20 @@ def _half_turns(duration: int) -> int:
     return duration * 2 if duration > 0 else duration
 
 
+def _adjacent_allies(center: "Unit", state: "BattleState") -> list["Unit"]:
+    """욱영 '자신과 인접한 동료': 진형을 원형 링으로 보고 좌우 이웃을 반환(자신 제외).
+    양 끝이 이어져 P1은 {P2, P5}, P5는 {P4, P1} — 사용자 인게임 확인. 중간 위치는 슬롯 ±1과 동일.
+    (아군 2명뿐이면 이웃은 1명, 1명이면 없음.)"""
+    ring = sorted((u for u in state.team(center) if u.alive), key=lambda u: u.slot)
+    n = len(ring)
+    if n <= 1 or center not in ring:
+        return []
+    i = ring.index(center)
+    idxs = {(i - 1) % n, (i + 1) % n}
+    idxs.discard(i)
+    return [ring[j] for j in idxs]
+
+
 def _split_stack_names(name: str) -> list[str]:
     """Split a combined stack name "A, B, and C" into individual names (크로크라인의
     Stir-Fry/Slow Cook/Secret Spices). 개별 이름을 참조하는 게이트·소비와 매칭되게 한다.
@@ -443,9 +457,8 @@ def _resolve_targets(effect: Effect, caster: Unit, state: BattleState,
         return [caster] + ([grantor] if grantor and grantor is not caster else [])
     if t == "allies":
         return [u for u in state.team(caster) if u.alive]
-    if t == "adjacent":              # 욱영: '자신과 인접한 동료' = '자신에게 인접한 동료' = 슬롯 ±1 아군.
-        # 시전자 본인은 제외 (사용자 인게임 확인). 한국어 문법상 "자신과 인접한"이 "동료"를 수식.
-        return [u for u in state.team(caster) if u.alive and abs(u.slot - caster.slot) == 1]
+    if t == "adjacent":              # 욱영: '자신과 인접한 동료' — 원형 링 이웃(끝은 반대편 끝으로 감쌈), 자신 제외.
+        return _adjacent_allies(caster, state)
     if t.startswith("allies_"):
         living = [u for u in state.team(caster) if u.alive]
         sub = t.split("_", 1)[1]
@@ -1440,11 +1453,11 @@ def _apply_incoming(ally: Unit, attacker: Unit, state: BattleState) -> None:
 def _defer_ult_for_uk(unit: Unit, state: BattleState) -> bool:
     """욱영 토글(ally_ult_after): 이 아군이, 궁을 쏘려 대기 중인 인접 욱영(토글 ON) 옆에 있으면 True.
     → 궁을 보류하고 평타 → 욱영 궁 뒤 회복 행동에서 궁(욱영 버프 수령). 욱영이 궁을 이미 쏘면
-    (cd>0) False → 회복 행동에서 정상 궁. 인접 = 슬롯 ±1."""
+    (cd>0) False → 회복 행동에서 정상 궁. 인접 = 원형 링(끝은 반대편 끝으로 감쌈)."""
     return any(
-        u.alive and u.ally_ult_after and getattr(u._kit, "char_id", 0) == 10439
+        u.ally_ult_after and getattr(u._kit, "char_id", 0) == 10439
         and u.turn_acts == 0 and u.cd_remaining <= 0     # 욱영이 아직 궁 안 쏨(곧 쏨)
-        and abs(u.slot - unit.slot) == 1
+        and unit in _adjacent_allies(u, state)
         for u in state.team(unit) if u is not unit and hasattr(u, "_kit")
     )
 

@@ -43,7 +43,7 @@ function skillIconSrc(slot, charId) {
   return f ? `icons/skills/${f}.png` : '';
 }
 const ROLE_RANK = { '보조': 1, '방해': 2, '치유': 3, '수호': 4, '전사': 5 };
-const SPECIAL = { 10421: 4.5, 10401: 5.5, 10436: 5.6, 10439: 5.7 };   // 백엔드 SPECIAL_ROLE_RANK와 동기화(모이루·욱영은 아군 뒤 행동)
+const SPECIAL = { 10421: 4.5, 10401: 5.5, 10436: 5.6, 10439: 5.7, 10410: 6.0 };   // 백엔드 SPECIAL_ROLE_RANK와 동기화(모이루·욱영·임부언은 아군 뒤 행동)
 const PASSIVE_DEF_ID = 10421;   // 파미도 — 궁 직전 턴 방어로 패시브 활용 (전용 '패시브 방어' 버튼)
 const ULT3_ID = 10437;          // 투명인간 — 3턴궁 사이클(4·7·10…) 토글 (전용 '3턴궁' 버튼)
 const TAEHO_ID = 10423;         // 이태호 — 1포지션 + 임부언 동반 시 'fed 추가행동' 선택 노출
