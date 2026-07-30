@@ -104,6 +104,8 @@ class Subscription:
     once: bool = False                     # "1회만 적용" — fires once per arm (모이루 보호막)
     armed: bool = True                     # once-sub: True until it fires; re-armed on re-grant
     consume_gate: bool = False             # 게이트를 행동시작 스냅샷(act_snap)으로 판정 (소모 트리거)
+    expires: int = -1                      # 남은 하프턴 수명(-1=영구). "방어 시 2턴간 평타 추가딜"(던컨)
+                                           #   처럼 이벤트가 부여한 시한부 리스너. _tick_buffs가 감소·제거
 
 
 # site class/element name -> game id (ERoleKind / EProp)
@@ -776,6 +778,8 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             # avoid duplicate registration when the same grant re-fires (e.g. 멍 re-ults
             # at T1 then T4): refresh, don't stack a second identical subscription.
             once = effect.once or any(child.once for child in effect.sub_effects)
+            # 시한부 리스너: "for N turns"가 붙은 이벤트-트리거(던컨 방어→평타 추가딜 등)는 N턴 뒤 만료.
+            expires = _half_turns(effect.duration) if effect.duration > 0 else -1
             dup = next((s for s in caster.subs if s.event == (cond or "")
                         and s.effects is effect.sub_effects and s.grantor is grantor), None)
             if dup is None:
@@ -787,9 +791,12 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                     target_gate_stack=effect.target_stack, target_gate_count=effect.target_count,
                     repeat_stack=effect.repeat_stack, need_team_barrier=effect.team_barrier,
                     need_self_barrier=effect.self_barrier, once=once,
-                    consume_gate=effect.consume_gate))
-            elif once:
-                dup.armed = True            # 재발동(예: 다음 EX) 시 once 보호막 재장전
+                    consume_gate=effect.consume_gate, expires=expires))
+            else:
+                if once:
+                    dup.armed = True        # 재발동(예: 다음 EX) 시 once 보호막 재장전
+                if expires > 0:
+                    dup.expires = expires   # 재부여(재방어 등) 시 시한부 창 갱신
         return
 
     targets = _resolve_targets(effect, caster, state, current_target, grantor)
@@ -1501,10 +1508,11 @@ def _take_action(unit: Unit, state: BattleState) -> None:
         fed_tok = unit.fed_schedule.get(state.turn, unit.fed_action)
         token = _TOKEN_ACTION.get(fed_tok, "basic")
     elif is_bonus and has_rotation and not unit.uk_defer_pending:
-        # 고정 플랜이 있는 캐릭이 외부 grant(예: 욱영 '행동 회복')로 얻은 추가행동은 메인 플랜을
-        # 소비하지 않는다. 소비하면 action_idx가 앞당겨져 이후 모든 턴 계획이 밀린다(궁 턴에 방어를
-        # 쓰는 등). → 추가행동은 평타로 처리. (ally_ult_after ON의 보류-궁 재소비만 예외: 아래 else)
-        token = "basic"
+        # 고정 플랜이 있는 캐릭이 외부 grant로 얻은 추가행동은 메인 플랜을 소비하지 않는다. 소비하면
+        # action_idx가 앞당겨져 이후 모든 턴 계획이 밀린다(궁 턴에 방어를 쓰는 등). 임부언 fed carry는
+        # CD가 리셋돼 이 추가행동에서 궁을 쏘는 게 목적이므로 궁, 그 외(욱영 '행동 회복' 등)는 평타.
+        # (ally_ult_after ON의 보류-궁 재소비만 예외: 아래 else)
+        token = "fatal" if (unit.is_fed_carry and bool(kit_fatal.effects)) else "basic"
     else:
         token = _next_token(unit)
         unit.uk_defer_pending = False      # 보류했던 궁 토큰을 이 행동에서 소비 완료
@@ -1527,15 +1535,17 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     # 회복 행동에서 자동 궁이라 되감기 불필요). 욱영이 궁을 쏜 뒤엔 cd>0이라 보류 해제.
     defer_uk = (not forced_basic and bool(kit_fatal.effects)
                 and unit.cd_remaining <= 0 and _defer_ult_for_uk(unit, state))
-    if defer_uk and token == "fatal":
-        unit.action_idx -= 1             # 궁 토큰 un-read → 회복 행동에서 재사용
+    if defer_uk and token == "fatal" and not is_bonus:
+        unit.action_idx -= 1             # 궁 토큰 un-read → 회복 행동에서 재사용(자연행동만)
         unit.uk_defer_pending = True     # 회복(추가)행동이 이 궁 토큰을 재소비하도록 표시
     if defer_uk:
         token = "basic"
 
-    if not forced_basic and unit.is_fed_carry and bool(kit_fatal.effects):
+    if (not forced_basic and unit.is_fed_carry and bool(kit_fatal.effects)
+            and not (has_rotation and token == "basic")):
         # a feeder (e.g. 임부언) resets this carry's CD mid-turn -> fatal on every
-        # CD-ready action (natural + the granted bonus), ignoring the rotation
+        # CD-ready action (natural + the granted bonus). 단, 사용자가 짠 turn-by-turn 플랜의
+        # '평타' 자연행동은 존중한다(명시 플랜이 있으면 그 턴을 앞당겨 궁으로 바꾸지 않음).
         use_fatal = unit.cd_remaining <= 0
     elif token == "fatal":
         use_fatal = unit.cd_remaining <= 0 and bool(kit_fatal.effects)
@@ -1604,6 +1614,16 @@ def _tick_buffs(state: BattleState) -> None:
             unit.ran_p4_turns -= 1
             if unit.ran_p4_turns <= 0:
                 unit.ran_p4_src = None
+        if unit.subs:                             # 시한부 리스너(던컨 방어→평타 추가딜 등) 만료 처리
+            kept_s = []
+            for sub in unit.subs:
+                if sub.expires < 0:
+                    kept_s.append(sub)
+                else:
+                    sub.expires -= 1
+                    if sub.expires > 0:
+                        kept_s.append(sub)
+            unit.subs = kept_s
         kept: list[Buff] = []
         for b in unit.buffs:
             if b.turns < 0:

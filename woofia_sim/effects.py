@@ -125,6 +125,16 @@ _TRN = r"turn(?:\(s\)|s)?"           # turn | turn(s) | turns
 # not 발동효과). The "trigger:" forms keep the 발동 path (멍).
 _ON_BASIC_ADD = re.compile(r"^On Basic Attack, ([Dd]eal damage .+)$")
 _ON_EX_ADD = re.compile(r"^On EX Skill, ([Dd]eal damage .+)$")
+
+
+def _trig_window(body: str) -> int:
+    """A trailing 'for N turn(s)' on a DAMAGE-body trigger = how long the granted listener
+    stays active (a single hit can't hold a multi-turn duration). Returns N, or 0 if none.
+    'each turn for N' is a DoT (지속딜), NOT a trigger window — excluded."""
+    if re.search(r"each turn", body, re.IGNORECASE):
+        return 0
+    m = re.search(r"\bfor (\d+) turn(?:\(s\)|s)?", body, re.IGNORECASE)
+    return int(m.group(1)) if m else 0
 _TRIGGER_PATTERNS: tuple[tuple[re.Pattern, str, str], ...] = (
     (re.compile(rf"^On attack, there is a(?:\(n\))? {_NUM}% chance to trigger: (.+)$"), "on_attack", "chance"),
     (re.compile(r"^On attack, (?:trigger: )?(.+)$"), "on_attack", "plain"),
@@ -1049,13 +1059,17 @@ def parse_line(line: str) -> Effect:
         inner = parse_line(obm.group(1)[:1].upper() + obm.group(1)[1:])
         if inner.parsed and inner.kind == DAMAGE:
             inner.force_action = "basic"
-            return Effect(TRIGGER, line, condition="on_basic_attack", sub_effects=[inner])
+            win = _trig_window(obm.group(1))   # "for N turns" = 부여된 리스너 활성 창(던컨·세엔)
+            return Effect(TRIGGER, line, condition="on_basic_attack", sub_effects=[inner],
+                          duration=win if win else -1)
     oem = _ON_EX_ADD.match(line)
     if oem:
         inner = parse_line(oem.group(1)[:1].upper() + oem.group(1)[1:])
         if inner.parsed and inner.kind == DAMAGE:
             inner.force_action = "ex"
-            return Effect(TRIGGER, line, condition="on_ex", sub_effects=[inner])
+            win = _trig_window(oem.group(1))
+            return Effect(TRIGGER, line, condition="on_ex", sub_effects=[inner],
+                          duration=win if win else -1)
     # trigger prefixes (also try a capitalized line so lowercase split artifacts like
     # "when defending,..." / "when taking an action,..." still match the prefix list)
     cap = line[:1].upper() + line[1:]
@@ -1076,8 +1090,12 @@ def parse_line(line: str) -> Effect:
             if spec == "chance" and len(subs) == 1 and subs[0].awaken_with:
                 subs[0].chance = chance
                 chance = 100.0
+            # DAMAGE-only body with a trailing "for N turns" = the granted listener's active
+            # window (멍 필살·골든 등 순간딜 트리거). 버프 바디는 그 버프가 지속시간을 가지므로 제외.
+            win = _trig_window(g[-1]) if subs and all(s.kind == DAMAGE for s in subs) else 0
             return Effect(TRIGGER, line, condition=cond, chance=chance,
-                          trigger_param=param, trigger_pos=pos, sub_effects=subs)
+                          trigger_param=param, trigger_pos=pos, sub_effects=subs,
+                          duration=win if win else -1)
     # leaf actions
     for pat, build in _LEAF_BUILDERS:
         m = pat.match(line)
