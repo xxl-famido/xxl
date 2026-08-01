@@ -272,7 +272,7 @@ function promoteLegacySpec(s) {
   if (skill !== 10) SPEC_SLOTS.forEach(k => { s.spec.lv[k] = skill; });
   return s;
 }
-// 캐릭터 스펙 → "레벨.성급.진화.유대.스킬8자" (레벨 1~10을 36진수 한 자리로: 1~9, a=10).
+// 캐릭터 스펙 → "레벨.성급.진화.육성도.스킬8자" (레벨 1~10을 36진수 한 자리로: 1~9, a=10).
 // 꺼져 있으면 '' 라서 끝에서 잘려 나가고, 기존 공유코드 길이가 그대로 유지된다.
 const _encSpec = s => {
   if (!specOn(s)) return '';
@@ -1263,7 +1263,7 @@ function renderTeam() {
     // 풀육성이 아닌 슬롯은 한눈에 보이게 — 안 그러면 왜 딜이 낮은지 찾기 어렵다
     const inv = specInv(s);
     const badge = specOn(s)
-      ? `<span class="spec-badge" title="캐릭터 스펙 설정 사용 중 — 스타 ${inv.evo} · Lv${inv.level} · 유대 ${inv.compat}">★${inv.evo}</span>`
+      ? `<span class="spec-badge" title="캐릭터 스펙 설정 사용 중 — 스타 ${inv.evo} · Lv${inv.level} · 육성도 ${inv.compat}">★${inv.evo}</span>`
       : '';
     return `<div class="slot filled el-${c.elementKey}" data-i="${i}" style="--el:var(--${c.elementKey})">
       <span class="pos">P${i + 1}</span><button class="rm" data-rm="${i}">×</button>
@@ -1897,8 +1897,7 @@ function openAdvPop() {
     <button type="button" class="adv-x" data-advclose aria-label="닫기">✕</button>
   </div>
   <div class="adv-body ${advOn ? '' : 'off'}">
-    <div class="adv-hint">켜면 <b>행동 우선순위</b> · <b>특정 턴만 다르게</b> · 캐릭터별 <b>턴별 행동 계획</b>이 모두 이 화면으로 대체됩니다.
-      같은 캐릭터가 한 턴에 여러 번 행동할 수 있고, <b>추가</b> 표시는 앞선 필살기가 만들어 준 행동입니다.</div>
+    <div class="adv-hint">켜면 행동 우선순위 · 특정 턴만 다르게 · 캐릭터별 턴별 행동 계획이 모두 이 화면으로 대체됩니다. 같은 캐릭터가 한 턴에 여러 번 행동할 수 있고, ‘추가’ 표시는 앞선 필살기가 만들어 준 행동입니다.</div>
     <div class="adv-tools">
       <button type="button" class="btn-ghost sm" id="advCopy">복사</button>
       <button type="button" class="btn-ghost sm" id="advPaste">붙여넣기</button>
@@ -2225,7 +2224,7 @@ let incomingOn = false;  // 피격 데미지 모드 (더미→아군 최대HP n%
 
 // ══ 캐릭터 스펙 설정 ═══════════════════════════════════════════════════════
 // 슬롯마다 육성 상태를 따로 들고 간다. 꺼져 있으면(기본) 지금까지처럼 **풀육성**
-// (Lv60·★5·유대5·전 스킬 10·도장 해제)으로 계산하므로 기존 결과가 그대로다.
+// (Lv60·★5·육성도5·전 스킬 10·도장 해제)으로 계산하므로 기존 결과가 그대로다.
 // 성급이 무엇을 잠그는지는 게임 TCharacterStarData 규칙 → dashboard/spec.js.
 const SPEC_SLOTS = ['basicAtk', 'ultimate', 'sigil',
   'passive0', 'passive1', 'passive2', 'passive3', 'passive4'];
@@ -2394,7 +2393,7 @@ function renderSpec() {
         <span class="sw"></span>사용</label>
       <button type="button" class="mc-close" id="csClose" aria-label="닫기">×</button>
     </div>
-    <p class="cs-hint">끄면 <b>풀육성</b>(Lv60 · 스타5 · 유대5 · 전 스킬 10 · 도장 해제) 기준으로 계산합니다.</p>
+    <p class="cs-hint">끄면 풀육성(Lv60 · 스타5 · 육성도5 · 전 스킬 10 · 도장 해제) 기준으로 계산합니다.</p>
     <div class="cs-body${on ? '' : ' off'}" id="csBody">
       <div class="cs-read">
         <div class="cs-stat"><label>공격력</label><b class="num" id="csAtk">${fmt(atk)}</b></div>
@@ -2424,11 +2423,11 @@ function renderSpec() {
       </div>
 
       <div class="cs-grp${maxBond ? '' : ' na'}">
-        <div class="cs-lbl">유대 <b id="csBondV">${inv.compat}</b><em> / 5</em></div>
+        <div class="cs-lbl">육성도 <b id="csBondV">${inv.compat}</b><em> / 5</em></div>
         <div class="cs-pips bond" id="csBondPips">${pips(5, inv.compat, 'pip', '♥')}</div>
         <input type="range" id="csBond" min="0" max="5" value="${inv.compat}"
-          ${maxBond ? '' : 'disabled'} style="--p:${inv.compat / 5 * 100}%" aria-label="유대">
-        ${maxBond ? '' : '<div class="cs-note">이 희귀도는 유대 보정이 없어요</div>'}
+          ${maxBond ? '' : 'disabled'} style="--p:${inv.compat / 5 * 100}%" aria-label="육성도">
+        ${maxBond ? '' : '<div class="cs-note">이 희귀도는 육성도 보정이 없어요</div>'}
       </div>
 
       <div class="cs-grp cs-skills">
