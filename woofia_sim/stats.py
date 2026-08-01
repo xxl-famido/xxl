@@ -67,6 +67,40 @@ def _triangular(n: int) -> int:
     return n * (n + 1) // 2
 
 
+# ── 성급별 해금 (게임 ``TCharacterStarData``) ────────────────────────────────
+# 구조체는 성급마다 ``UnlockPassiveSkillCount`` / ``UnlockPassiveSkillLevelUpCount``
+# / ``CanUnlockRune`` 을 들고 있고, UI는 이 개수를 패시브 인덱스와 비교해 잠금을
+# 표시한다. 값은 인게임 확인(카라트 10409)으로 확정:
+#   ★0·★1  p0·p1 해방, 레벨업은 p0 만 (평타·필살기는 항상 가능)
+#   ★2     p1 레벨업 해금 · ★3 p2+도장 · ★4 p3 · ★5 p4
+# ``TCharData.starUpId`` 가 ★4 전원 401 / 최유희만 301 로 갈리지만, **두 표가 같다**는
+# 것을 인게임에서 확인했다(최유희도 ★5에서 마지막 패시브가 열림) → 희귀도 분기 없음.
+# 구조체에 ``EvolutionStep`` 이 따로 있지만 **성급 중간 단계에는 해금이 없고 스탯만 오른다**
+# (인게임 확인) → 해금 판정은 성급(evo)만 보면 된다.
+PASSIVE_COUNT = 5
+RUNE_UNLOCK_STAR = 3
+
+
+def unlocked_passives(evo: int) -> int:
+    """이 성급에서 효과가 발동하는 패시브 개수 (앞에서부터)."""
+    evo = max(0, min(evo, MAX_EVO))
+    return 2 if evo < 3 else evo
+
+
+def levelable_passives(evo: int) -> int:
+    """이 성급에서 레벨을 올릴 수 있는 패시브 개수 (앞에서부터).
+
+    해방은 됐지만 레벨업이 안 되는 패시브는 1레벨로 고정된다.
+    """
+    evo = max(0, min(evo, MAX_EVO))
+    return 1 if evo < 2 else evo
+
+
+def can_unlock_rune(evo: int) -> bool:
+    """도장(룬) 해제 가능 여부. ``sigil_cap`` 이 evo<3 에서 0인 것과 같은 경계다."""
+    return max(0, min(evo, MAX_EVO)) >= RUNE_UNLOCK_STAR
+
+
 @dataclass(frozen=True)
 class Investment:
     """A character's investment state — the five stat-determining inputs."""

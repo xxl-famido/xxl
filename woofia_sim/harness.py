@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from .effects import CD_MOD, TRIGGER
+from .effects import CD_MOD, DAMAGE, TRIGGER
 from .engine import BattleState, simulate
 from .kit import ResolvedKit, resolve_kit
 from .stats import Investment
@@ -58,6 +58,16 @@ def _turn1_cd_delta(kit: ResolvedKit) -> int:
     return total
 
 
+def _fatal_deals_damage(kit: ResolvedKit) -> bool:
+    """필살기 자체가 데미지를 내는가 (하위 효과 포함)."""
+    def walk(effs) -> bool:
+        for e in effs:
+            if e.kind == DAMAGE or walk(e.sub_effects or []):
+                return True
+        return False
+    return walk(kit.fatal.effects)
+
+
 def auto_rotation(kit: ResolvedKit) -> str:
     """kit 기반 표준 로테이션. 1턴차 CD 감소 패시브(예: 멍)를 반영해 첫 궁을
     T1로 당김. 멍(cd3, -3) -> 궁평평궁|평평궁, 리카노(cd3) -> 평평평궁|평평궁."""
@@ -66,6 +76,12 @@ def auto_rotation(kit: ResolvedKit) -> str:
         return "궁|평"
     cd = max(kit.fatal.cd, 1)
     loop = "평" * (cd - 1) + "궁"
+    # cd1이면 반복 구간이 '궁' 하나뿐이라 평타를 한 번도 하지 않는다. 필살기 자체에
+    # 데미지가 없는 캐릭터는 딜이 전부 '평타 시 발동' 조건이라 이 로테로는 0딜이 된다
+    # (이태호 도장 미해제). 그런 경우 필살은 발동 조건을 채우는 용도이므로 **최소 1회만**
+    # 쓰고 나머지는 평타로 간다. 로스터 전수 확인 결과 해당하는 건 이 한 경우뿐이다.
+    if "평" not in loop and not _fatal_deals_damage(kit):
+        return "궁|평"
     if cd + _turn1_cd_delta(kit) <= 0:        # 필살이 1턴에 준비됨
         return "궁" + loop + "|" + loop
     return "평" * cd + "궁" + "|" + loop
@@ -76,9 +92,13 @@ class CharSpec:
     char_id: int
     level: int = 60       # 최대 레벨
     evo: int = 5          # 별 (5성 풀돌)
+    pevo: int = 0         # 성급 안의 진화 단계 (상한 (evo+1)*5-1, ★5는 0)
     compat: int = 5       # 육성도 만렙 (+20%)
     skill_level: int = 10
-    rune: bool = True     # 도장 해제 (ultimate -> sigil 룬필살기)
+    # 슬롯별 스킬 레벨 {'basicAtk'|'ultimate'|'sigil'|'passive0'..: 1~10}.
+    # None이면 skill_level 을 전 슬롯에 적용(기존 동작).
+    skill_levels: dict | None = None
+    rune: bool = True     # 도장 해제 (ultimate -> sigil 룬필살기). ★3 미만이면 엔진이 강제로 끔
     rotation: str | None = None  # 행동 지정 '평평방궁|평방궁' (None=기본정책)
     fed_action: "str | dict | None" = None  # 이태호 전용: 임부언 fed 추가행동 — dict={turn:토큰}(턴별) 또는 str(단일). None=기본 평타
     ally_ult_after: bool = False   # 욱영 전용: ON이면 인접 아군이 욱영 궁 후 회복행동에서 궁 (배터리 최적화)
@@ -88,7 +108,12 @@ class CharSpec:
     hp_bonus: int = 0            # 도장 강화: 기본 HP 가산
 
     def investment(self) -> Investment:
-        return Investment(level=self.level, evo=self.evo, compat=self.compat)
+        return Investment(level=self.level, evo=self.evo, pevo=self.pevo,
+                          compat=self.compat)
+
+    def levels(self) -> "int | dict":
+        """resolve_kit 에 넘길 스킬 레벨 (슬롯별 dict 또는 단일 정수)."""
+        return self.skill_levels if self.skill_levels else self.skill_level
 
 
 @dataclass
@@ -108,10 +133,10 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
              seed: int = 0, enemy_hits: int = 0, turn_orders: dict | None = None,
              force_proc: bool = False, enemy_aoe: bool = False,
              dummy_element: int = 0, hp10: bool = False,
-             incoming_hp_pct: int = 0) -> TeamResult:
+             incoming_hp_pct: int = 0, turn_plans: dict | None = None) -> TeamResult:
     """Resolve the team (list order = position 1..N) and simulate."""
     specs = specs[:5]
-    kits = [resolve_kit(s.char_id, s.investment(), s.skill_level, s.rune) for s in specs]
+    kits = [resolve_kit(s.char_id, s.investment(), s.levels(), s.rune) for s in specs]
     for kit, s in zip(kits, specs):          # 도장 강화: 기본 ATK/HP 가산
         kit.atk += int(s.atk_bonus)
         kit.hp += int(s.hp_bonus)
@@ -133,7 +158,7 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
                      enemy_hits=enemy_hits, turn_orders=turn_orders, force_proc=force_proc,
                      enemy_aoe=enemy_aoe, dummy_element=dummy_element, hp10=hp10,
                      fed_actions=fed_actions, incoming_hp_pct=incoming_hp_pct,
-                     ally_ult_afters=ally_ult_afters)
+                     ally_ult_afters=ally_ult_afters, turn_plans=turn_plans)
     names = [u.name for u in state.allies]
     per_char = {u.name: u.damage_dealt for u in state.allies}
     total = sum(per_char.values())

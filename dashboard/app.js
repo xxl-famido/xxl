@@ -15,6 +15,7 @@ const API = (() => {
     chars: () => fetch('/api/chars').then(r => r.json()),
     char: id => fetch('/api/char/' + id).then(r => r.json()),
     simulate: cfg => fetch('/api/simulate', { method: 'POST', body: JSON.stringify(cfg) }).then(r => r.json()),
+    probe: cfg => fetch('/api/probe', { method: 'POST', body: JSON.stringify(cfg) }).then(r => r.json()),
   };
   const w = new Worker('sim-worker.js');
   let seq = 0; const cbs = {};
@@ -32,7 +33,9 @@ const API = (() => {
     const id = ++seq; cbs[id] = d => d.ok ? res(JSON.parse(d.result)) : rej(new Error(d.error));
     w.postMessage({ id, type, payload });
   }));
-  return { chars: () => call('chars'), char: id => call('char', id), simulate: cfg => call('simulate', JSON.stringify(cfg)) };
+  return { chars: () => call('chars'), char: id => call('char', id),
+    simulate: cfg => call('simulate', JSON.stringify(cfg)),
+    probe: cfg => call('probe', JSON.stringify(cfg)) };
 })();
 // 스킬 슬롯 → 아이콘. 평타=01, 공통공격강화+고유1=03, 고유2+고강도훈련+고유3=04, 궁=룬(캐릭별)
 const SKILL_ICON = { basicAtk: 'SkillIcon01', passive0: 'SkillIcon03', passive1: 'SkillIcon03',
@@ -103,6 +106,12 @@ function snapshot() {
     dummyElement: $('#dummyElement').dataset.val,
     runs: +$('#runs').value, forceProc, hp10, turnOverrides: JSON.parse(JSON.stringify(turnOverrides)),
     incomingOn, incomingPct: incomingOn ? +($('#incoming')?.value || 0) : 0,   // OFF면 0으로 저장 → 공유코드 기본값 트리밍 복원(슬라이더값은 복원 시 기본 유지)
+    advOn,
+    // 현재 턴 수를 넘는 계획은 버린다 — 남겨두면 나중에 턴을 늘렸을 때 옛 계획이
+    // 되살아나 기본값 대신 들어오고, 기록 용량도 헛되이 커진다.
+    turnPlans: Object.fromEntries(Object.entries(turnPlans)
+      .filter(([t]) => +t <= +$('#turns').value)
+      .map(([t, v]) => [t, JSON.parse(JSON.stringify(v))])),
   };
 }
 function makeLabel(team, turns, total) {   // 팀에서 라벨 재생성 (공유 코드에선 라벨을 빼고 이걸로 복원)
@@ -134,8 +143,16 @@ function setSeg(id, val) {
 function restoreRecord(rec) {
   activeRecId = rec.id;       // 이 기록을 UI에 로드 → 선택 상태로 추적
   const s = rec.snap;
-  team = s.team.map(x => x ? JSON.parse(JSON.stringify(x)) : null);
+  team = s.team.map(x => x ? promoteLegacySpec(JSON.parse(JSON.stringify(x))) : null);
   turnOverrides = JSON.parse(JSON.stringify(s.turnOverrides || {}));
+  advOn = !!s.advOn;                                            // 행동 고급 설정
+  turnPlans = JSON.parse(JSON.stringify(s.turnPlans || {}));
+  // 복원한 타임라인은 '그 기록의 편성' 기준이다. 지문을 다시 잡아야 이후 교체를 감지하고,
+  // 이전 세션의 지문이 남아 오경보를 내는 것도 막는다.
+  advTeamSig = Object.keys(turnPlans).length ? advTeamFingerprint() : '';
+  advTouched = new Set(Object.keys(turnPlans).map(Number));
+  advPrevBudget = {};
+  syncAdvLock();
   selTurns = autoSelOverrides(turnOverrides);   // 설정된 턴 오버라이드 자동 표시
   forceProc = !!s.forceProc;
   const tr = $('#turns'); tr.value = s.turns; tr.dispatchEvent(new Event('input'));
@@ -241,16 +258,87 @@ const _decPlan = s => [...String(s)].map(c => _TK[+c]);
 const _encFed = f => Object.keys(f || {}).filter(t => f[t] && f[t] !== '평').sort((a, b) => a - b).map(t => t + f[t]).join('');
 const _decFed = s => { const o = {}; String(s).replace(/(\d+)([궁방])/g, (_, t, k) => (o[t] = k, '')); return o; };
 const _trimDef = (a, D) => { while (a.length > 1 && JSON.stringify(a[a.length - 1]) === JSON.stringify(D[a.length - 1])) a.pop(); return a; };
+/** 스펙 설정 이전 기록 승격.
+ *
+ * 예전엔 스킬 레벨(전 슬롯 공통)과 도장 해제가 모달에 직접 있었다. 지금은 스펙
+ * 설정에만 있으므로, 기본값이 아니었던 기록은 **스펙을 켠 상태로 옮겨 담아야**
+ * 예전 결과가 그대로 재현된다. 안 그러면 조용히 풀육성으로 바뀐다.
+ */
+function promoteLegacySpec(s) {
+  if (!s || s.spec) return s;
+  const skill = s.skill ?? 10, rune = s.rune !== false;
+  if (skill === 10 && rune) return s;                 // 기본값이면 그대로 풀육성
+  s.spec = { on: true, ...SPEC_FULL, lv: {} };
+  if (skill !== 10) SPEC_SLOTS.forEach(k => { s.spec.lv[k] = skill; });
+  return s;
+}
+// 캐릭터 스펙 → "레벨.성급.진화.유대.스킬8자" (레벨 1~10을 36진수 한 자리로: 1~9, a=10).
+// 꺼져 있으면 '' 라서 끝에서 잘려 나가고, 기존 공유코드 길이가 그대로 유지된다.
+const _encSpec = s => {
+  if (!specOn(s)) return '';
+  const p = specOf(s);
+  const lv = SPEC_SLOTS.map(k => Math.max(1, Math.min(10, p.lv[k] ?? 10)).toString(36))
+    .join('').replace(/a+$/, '');            // 뒤쪽 10레벨은 기본값이라 생략
+  return [p.level, p.evo, p.pevo, p.compat, lv].join('.');
+};
+const _decSpec = str => {
+  // 스킬 레벨은 0~8자 — 뒤쪽 10(a)은 생략돼 오므로 다시 채운다
+  const m = /^(\d+)\.(\d+)\.(\d+)\.(\d+)\.([0-9a]{0,8})$/.exec(String(str || ''));
+  if (!m) return null;
+  const p = { on: true, level: +m[1], evo: +m[2], pevo: +m[3], compat: +m[4], lv: {} };
+  const lv = m[5].padEnd(SPEC_SLOTS.length, 'a');
+  SPEC_SLOTS.forEach((k, i) => { p.lv[k] = parseInt(lv[i], 36); });
+  return p;
+};
+
+// ── 고급 설정 타임라인 압축 (v2 전용) ──────────────────────────────────────
+// {턴: [{p,a}, ...]} 를 그대로 실으면 항목마다 `{"p":3,"a":"궁"}` 라 30턴이면 3KB가 넘는다.
+// 포지션(1~5) × 행동(평·궁·방) = 15가지뿐이라 **항목 하나를 한 글자**로 접고,
+// 턴은 1번부터 순서대로 '.' 로 잇는다. 빈 문자열=그 턴 미지정, '-'=그 턴은 아무도 행동 안 함
+// (둘은 의미가 달라 반드시 구분해야 한다).
+const _PT = '0123456789abcde';
+function _encTP(tp) {
+  const keys = Object.keys(tp || {}).map(Number).filter(t => t >= 1);
+  if (!keys.length) return '';
+  const out = [];
+  for (let t = 1; t <= Math.max(...keys); t++) {
+    const seq = tp[t];
+    if (seq === undefined) { out.push(''); continue; }
+    if (!seq.length) { out.push('-'); continue; }
+    let s = '';
+    for (const e of seq) {
+      const ai = _TK.indexOf(e.a), p = +e.p;
+      if (ai < 0 || !(p >= 1 && p <= 5)) return null;   // 표현 밖 → 호출부가 구형식으로 폴백
+      s += _PT[(p - 1) * 3 + ai];
+    }
+    out.push(s);
+  }
+  return out.join('.');
+}
+function _decTP(str) {
+  const o = {};
+  if (!str) return o;
+  String(str).split('.').forEach((s, i) => {
+    if (s === '') return;                               // 미지정 턴
+    o[i + 1] = s === '-' ? [] : [...s].map(c => {
+      const k = _PT.indexOf(c);
+      return { p: (k / 3 | 0) + 1, a: _TK[k % 3] };
+    });
+  });
+  return o;
+}
 function packSlot(s) {
   if (!s) return 0;
   const flags = (s.rune ? 1 : 0) | (s.sealOn ? 2 : 0) | (s.usePlan ? 4 : 0) | (s.allyUltAfter ? 8 : 0);   // rotation은 plan에서 파생 → 미저장
-  return _trimDef([s.id - CID0, flags, s.skill ?? 10, s.priority ?? 0, s.sealAtk || 0, s.sealHp || 0, _encPlan(s.plan), _encFed(s.fedActions)],
-    [null, 1, 10, 0, 0, 0, '', '']);   // 끝에 fed 스케줄 문자열(기본 '' → trim 생략)
+  return _trimDef([s.id - CID0, flags, s.skill ?? 10, s.priority ?? 0, s.sealAtk || 0, s.sealHp || 0, _encPlan(s.plan), _encFed(s.fedActions), _encSpec(s)],
+    [null, 1, 10, 0, 0, 0, '', '', '']);   // 끝에 스펙 문자열(기본 '' → trim 생략)
 }
 function unpackSlot(a) {
   if (!a) return null;
-  const [idD, flags = 1, skill = 10, priority = 0, sealAtk = 0, sealHp = 0, plan = '', fed = ''] = a;
+  const [idD, flags = 1, skill = 10, priority = 0, sealAtk = 0, sealHp = 0, plan = '', fed = '', spec = ''] = a;
   const s = { id: idD + CID0, skill, rune: !!(flags & 1) };
+  const dec = _decSpec(spec);
+  if (dec) s.spec = dec; else promoteLegacySpec(s);
   if (priority) s.priority = priority;
   if (sealAtk) s.sealAtk = sealAtk;           // seal 값은 sealOn 플래그와 독립
   if (sealHp) s.sealHp = sealHp;
@@ -262,23 +350,56 @@ function unpackSlot(a) {
   return s;
 }
 function packSnap(s) {
-  const flags = (s.forceProc ? 1 : 0) | (s.hp10 ? 2 : 0) | (s.incomingOn ? 4 : 0);
+  const flags = (s.forceProc ? 1 : 0) | (s.hp10 ? 2 : 0) | (s.incomingOn ? 4 : 0) | (s.advOn ? 8 : 0);
   const to = s.turnOverrides && Object.keys(s.turnOverrides).length ? s.turnOverrides : 0;
-  return _trimDef([s.team.map(packSlot), +s.turns, +s.dummies, s.enemyHits, +s.dummyElement, +s.runs, flags, to, +(s.incomingPct || 0)],
-    [null, 30, 1, 'all', 0, 50, 0, 0, 0]);
+  const tp = s.turnPlans && Object.keys(s.turnPlans).length ? s.turnPlans : 0;
+  return _trimDef([s.team.map(packSlot), +s.turns, +s.dummies, s.enemyHits, +s.dummyElement, +s.runs, flags, to, +(s.incomingPct || 0), tp],
+    [null, 30, 1, 'all', 0, 50, 0, 0, 0, 0]);
 }
 function unpackSnap(a) {
-  const [team, turns = 30, dummies = 1, enemyHits = 'all', dummyElement = 0, runs = 50, flags = 0, to = 0, incomingPct = 0] = a;
-  return { team: team.map(unpackSlot), turns, dummies, enemyHits, dummyElement, runs, forceProc: !!(flags & 1), hp10: !!(flags & 2), incomingOn: !!(flags & 4), incomingPct, turnOverrides: to || {} };
+  const [team, turns = 30, dummies = 1, enemyHits = 'all', dummyElement = 0, runs = 50, flags = 0, to = 0, incomingPct = 0, tp = 0] = a;
+  return { team: team.map(unpackSlot), turns, dummies, enemyHits, dummyElement, runs, forceProc: !!(flags & 1), hp10: !!(flags & 2), incomingOn: !!(flags & 4), incomingPct, turnOverrides: to || {},
+    advOn: !!(flags & 8), turnPlans: tp || {} };
 }
-function packRecords(arr) {                   // label은 팀에서 재생성 가능 → 미저장
-  return arr.map(r => _trimDef([r.id, r.name || '', r.total || 0, (r.locked ? 1 : 0) | (r.pinned ? 2 : 0), packSnap(r.snap)],
-    [null, '', 0, 0, null]));
+// ── v2 스냅샷: 타임라인만 접는다 ──────────────────────────────────────────
+// 슬롯 구조(packSlot)는 그대로 재사용한다. 달라지는 건 turnPlans 자리뿐이라,
+// 두 형식이 갈라지는 지점을 한 곳으로 묶어 두는 편이 오래 간다.
+function packSnapV2(s) {
+  const tpStr = _encTP(s.turnPlans);
+  if (tpStr === null) return null;            // 표현할 수 없는 항목 → 구형식으로
+  const flags = (s.forceProc ? 1 : 0) | (s.hp10 ? 2 : 0) | (s.incomingOn ? 4 : 0) | (s.advOn ? 8 : 0);
+  const to = s.turnOverrides && Object.keys(s.turnOverrides).length ? s.turnOverrides : 0;
+  return _trimDef([s.team.map(packSlot), +s.turns, +s.dummies, s.enemyHits, +s.dummyElement, +s.runs, flags, to, +(s.incomingPct || 0), tpStr],
+    [null, 30, 1, 'all', 0, 50, 0, 0, 0, '']);
 }
-function unpackRecords(arr) {
+function unpackSnapV2(a) {
+  const [team, turns = 30, dummies = 1, enemyHits = 'all', dummyElement = 0, runs = 50, flags = 0, to = 0, incomingPct = 0, tp = ''] = a;
+  return { team: team.map(unpackSlot), turns, dummies, enemyHits, dummyElement, runs,
+    forceProc: !!(flags & 1), hp10: !!(flags & 2), incomingOn: !!(flags & 4), incomingPct,
+    turnOverrides: to || {}, advOn: !!(flags & 8), turnPlans: _decTP(tp) };
+}
+function packRecords(arr, v2) {               // label은 팀에서 재생성 가능 → 미저장
+  const packSn = v2 ? packSnapV2 : packSnap;
+  const out = [];
+  for (const r of arr) {
+    const sn = packSn(r.snap);
+    if (sn === null) return null;             // v2로 접을 수 없는 기록이 하나라도 있으면 통째로 포기
+    out.push(_trimDef([r.id, r.name || '', r.total || 0, (r.locked ? 1 : 0) | (r.pinned ? 2 : 0), sn],
+      [null, '', 0, 0, null]));
+  }
+  return out;
+}
+function unpackRecords(arr, v2) {
+  const unpackSn = v2 ? unpackSnapV2 : unpackSnap;
   return arr.map(a => { const [id, name = '', total = 0, flags = 0, snap] = a;
-    const sn = unpackSnap(snap), r = { id, label: makeLabel(sn.team, sn.turns, total), snap: sn, total };
+    const sn = unpackSn(snap), r = { id, label: makeLabel(sn.team, sn.turns, total), snap: sn, total };
     if (name) r.name = name; if (flags & 1) r.locked = true; if (flags & 2) r.pinned = true; return r; });
+}
+/** 이 기록이 새 기능(캐릭터 스펙 · 행동 고급 설정)을 쓰고 있는가. */
+function _usesNewFeatures(r) {
+  const sn = (r && r.snap) || {};
+  if (sn.turnPlans && Object.keys(sn.turnPlans).length) return true;
+  return (sn.team || []).some(t => t && t.spec && t.spec.on);
 }
 // 누락 ≈ 0/""/false/[]/{} 동등, 숫자/문자 느슨 비교(==), label은 재생성이라 제외 — 다르면(미지원 필드) 폴백
 const _isEmpty = x => x == null || x === 0 || x === '' || x === false || (Array.isArray(x) && !x.length) || (typeof x === 'object' && !Object.keys(x).length);
@@ -293,18 +414,33 @@ const _bytesToB64url = bytes => { let s = ''; for (const b of bytes) s += String
 const _b64urlToBytes = s => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const bin = atob(s), a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return a; };
 async function _deflate(str) { const cs = new CompressionStream('deflate'); const w = cs.writable.getWriter(); w.write(new TextEncoder().encode(str)); w.close(); return new Uint8Array(await new Response(cs.readable).arrayBuffer()); }
 async function _inflate(bytes) { const ds = new DecompressionStream('deflate'); const w = ds.writable.getWriter(); w.write(bytes); w.close(); return new TextDecoder().decode(await new Response(ds.readable).arrayBuffer()); }
+// 형식 선택 — 새 기능(스펙·고급 설정)을 안 쓰면 **예전과 완전히 같은 '#' 코드**가 나오고,
+// 쓰는 순간에만 타임라인을 접은 '$'로 간다. 어느 쪽이든 왕복 자기검증에 실패하면 '*'(전체 JSON).
+function _tryPack(records, v2) {
+  const packed = packRecords(records, v2);
+  if (packed === null) return null;
+  const back = unpackRecords(JSON.parse(JSON.stringify(packed)), v2);
+  return records.every((r, i) => looseEq(r, back[i])) ? packed : null;
+}
 async function compressCode(records) {       // records 배열 → 최단 코드
-  let body, tag;
+  let body = null, tag = '*';
   try {
-    if (records.every(r => looseEq(r, unpackRecords(packRecords([r]))[0]))) { body = JSON.stringify(packRecords(records)); tag = '#'; }
-    else { body = JSON.stringify(records); tag = '*'; }
-  } catch { body = JSON.stringify(records); tag = '*'; }
+    // 새 기능을 쓰면 v2 우선, 접히지 않으면 구형식으로 물러난다(구형식도 타임라인을 담을 수 있다)
+    const order = records.some(_usesNewFeatures) ? [true, false] : [false];
+    for (const v2 of order) {
+      const packed = _tryPack(records, v2);
+      if (packed) { body = JSON.stringify(packed); tag = v2 ? '$' : '#'; break; }
+    }
+  } catch { body = null; }
+  if (body === null) { body = JSON.stringify(records); tag = '*'; }
   return tag + _bytesToB64url(await _deflate(body));
 }
 async function decompressCode(code) {        // 코드 → records JSON 문자열
   code = code.trim();
   const tag = code[0], json = await _inflate(_b64urlToBytes(code.slice(1)));
-  return tag === '#' ? JSON.stringify(unpackRecords(JSON.parse(json))) : json;
+  if (tag === '#') return JSON.stringify(unpackRecords(JSON.parse(json), false));
+  if (tag === '$') return JSON.stringify(unpackRecords(JSON.parse(json), true));
+  return json;                                // '*' = 전체 JSON
 }
 function importRecords(arr) {                 // 공통 머지 (성공 시 true)
   if (!Array.isArray(arr)) { toast('가져오기 실패 — 형식이 올바르지 않아요'); return false; }
@@ -397,6 +533,8 @@ let cmpLoaded = { a: null, b: null };    // 현재 로드된 기록 id
 let cmpDmg = { a: {}, b: {} };           // 마지막 시뮬 캐릭별 데미지 (id→dmg)
 let cmpPending = false;                  // 편집 후 재계산 대기 상태
 let cmpTurnOv = { a: {}, b: {} };        // 비교군별 턴 오버라이드 {turn:[position,...]}
+let cmpAdv = { a: null, b: null };       // 비교군별 타임라인(보관) — 꺼도 지우지 않는다
+let cmpAdvOn = { a: false, b: false };   // 그 타임라인을 실제로 적용할지 (메인 스위치와 같은 의미)
 let cmpManual = false;                   // 사용자가 직접 위치를 옮기기 시작하면 true → 자동매칭 끄고 위치기반
 function cmpSideRec(side) {              // 드롭다운 값 → 저장기록 또는 빈(커스텀) 그룹
   const val = $('#cmp' + (side === 'a' ? 'A' : 'B')).value;
@@ -407,6 +545,11 @@ function loadCmpTeam(side, rec) {        // 기록이 바뀔 때만 snap에서 �
   if (cmpLoaded[side] === rec.id) return;
   cmpTeam[side] = (rec.snap.team || []).map(t => t ? JSON.parse(JSON.stringify(t)) : null);
   cmpTurnOv[side] = JSON.parse(JSON.stringify(rec.snap.turnOverrides || {}));
+  // 고급 설정으로 만든 기록이면 그 타임라인을 그대로 들고 온다 (없으면 null = 기존 방식)
+  const tp = rec.snap.turnPlans && Object.keys(rec.snap.turnPlans).length
+    ? JSON.parse(JSON.stringify(rec.snap.turnPlans)) : null;
+  cmpAdv[side] = tp;
+  cmpAdvOn[side] = !!(rec.snap.advOn && tp);
   cmpLoaded[side] = rec.id;
 }
 function sideOrder(side) {               // 비교군 캐릭을 우선순위로 정렬 ({s,i,p})
@@ -414,15 +557,26 @@ function sideOrder(side) {               // 비교군 캐릭을 우선순위로 
     .map(o => ({ ...o, p: o.s.priority ?? basePriority(o.s, o.i + 1) }))
     .sort((a, b) => a.p - b.p);
 }
+// 비교군의 팀 구성이 바뀌면 고급 타임라인은 '이전 편성 기준'이 된다. 메인처럼 경고를
+// 띄울 자리가 없어(비교 화면은 편집 UI가 얕다) 조용히 틀리는 대신 폐기하고 알린다.
+function cmpAdvInvalidate(side) {
+  if (!cmpAdv[side] && !cmpAdvOn[side]) return;
+  cmpAdv[side] = null; cmpAdvOn[side] = false;
+  toast('편성이 바뀌어 그 비교군의 <b>행동 고급 설정</b>을 해제했어요 — 기존 설정으로 계산합니다');
+}
+
 function cfgFromTeam(side, snap) {        // 편집된 팀 + 공통설정으로 API cfg
   const picked = (cmpTeam[side] || []).map((t, i) => t ? { ...t, position: i + 1 } : null).filter(Boolean);
+  const adv = cmpAdvOn[side] ? cmpAdv[side] : null;   // 켜져 있을 때만 적용
   return {
+    // 고급 설정 타임라인이 있으면 메인과 같은 규칙: 계획·우선순위·특정 턴 순서는 보내지 않는다
     team: picked.map(t => ({ id: t.id, position: t.position, skill: t.skill, rune: t.rune,
-      rotation: t.usePlan ? ((t.plan && t.plan.length) ? t.plan.join('') : (t.rotation || null)) : null,
+      rotation: adv ? null : (t.usePlan ? ((t.plan && t.plan.length) ? t.plan.join('') : (t.rotation || null)) : null),
       fedActions: (t.usePlan && t.fedActions && Object.keys(t.fedActions).length) ? t.fedActions : null,
       allyUltAfter: !!t.allyUltAfter,
-      priority: t.priority, sealAtk: t.sealOn ? (t.sealAtk ?? 0) : 0, sealHp: t.sealOn ? (t.sealHp ?? 0) : 0 })),
-    turns: +snap.turns, turnOrders: cmpTurnOv[side] || {},
+      priority: adv ? null : t.priority, sealAtk: t.sealOn ? (t.sealAtk ?? 0) : 0, sealHp: t.sealOn ? (t.sealHp ?? 0) : 0,
+      ...specPayload(t) })),
+    turns: +snap.turns, turnOrders: adv ? {} : (cmpTurnOv[side] || {}), turnPlans: adv || {},
     dummies: cmpCommon.dummies, enemyHits: cmpCommon.enemyHits, dummyElement: cmpCommon.dummyElement,
     forceProc: cmpCommon.forceProc, hp10: cmpCommon.hp10, runs: cmpCommon.forceProc ? 1 : +(snap.runs || 50),
     incomingHpPct: cmpCommon.incomingOn ? cmpCommon.incomingPct : 0,   // 피격 데미지 모드 (비교 공통설정)
@@ -532,33 +686,56 @@ function openCmpInfo(c) {
   const ua = cf.sealOn ? (cf.sealAtk || 0) : 0, uh = cf.sealOn ? (cf.sealHp || 0) : 0;
   const isManual = !!(cf.usePlan && cf.plan && cf.plan.length);
   let pop = document.querySelector('.cmpinfo'); pop?.remove();
+  const [bA, bH] = specAtkHp(cf.id ? cf : { ...cf, id: c.id });
+  // 그 비교군에 고급 설정이 켜져 있으면 턴별 행동은 그쪽에서만 정한다 — 여기서 또 만지면
+  // 규칙이 둘로 갈린다. 적용 여부는 cfgFromTeam 과 같은 기준(cmpAdvOn)으로 판단한다.
+  const advLock = !!(cmpAdvOn && cmpAdvOn[c.side]);
   pop = document.createElement('div'); pop.className = 'cmpinfo';
-  pop.innerHTML = `<div class="ci-card el-${c.elementKey}" style="--el:var(--${c.elementKey})">
+  pop.innerHTML = `<div class="modal-wrap ci-wrap">
+    <div class="ci-card el-${c.elementKey}" style="--el:var(--${c.elementKey})">
     <div class="ci-head">
       <div class="ci-top"><img src="${icon(c.id)}" alt=""><div><h3>${esc(c.name)}</h3>
         <div class="ci-tags"><span class="tag el">${ch.element || ''}속성</span><span class="tag">${ch.role || ''}</span><span class="tag">P${cf.position || c.position}</span></div></div></div>
-      <div class="ci-hbtns"><button class="ci-swap" data-swap>⇄ 교체</button><button class="mc-close" data-ciclose>×</button></div>
+      <div class="ci-hbtns"><button class="ci-spec${specOn(cf) ? ' on' : ''}" data-cspec>◈ 스펙</button><button class="ci-swap" data-swap>⇄ 교체</button><button class="mc-close" data-ciclose>×</button></div>
     </div>
     <div class="ci-rows">
       <div class="ci-r tap" data-seal><span>도장 강화</span><b class="ci-state ${cf.sealOn ? 'on' : ''}" id="ciSeal">${cf.sealOn ? 'ON' : 'OFF'} ▸</b></div>
-      <div class="ci-r"><span>기본 공격력</span><b id="ciAtk">${fmt((ch.atk || 0) + ua)}${ua ? `<em>(+${fmt(ua)})</em>` : ''}</b></div>
-      <div class="ci-r"><span>최대 체력</span><b id="ciHp">${fmt((ch.hp || 0) + uh)}${uh ? `<em>(+${fmt(uh)})</em>` : ''}</b></div>
-      <div class="ci-r tap" data-plan><span>행동</span><b class="ci-state" id="ciAct">${isManual ? '수동' : '자동'} ▸</b></div>
-    </div></div>`;
+      <div class="ci-r"><span>기본 공격력</span><b id="ciAtk">${fmt(bA + ua)}${ua ? `<em>(+${fmt(ua)})</em>` : ''}</b></div>
+      <div class="ci-r"><span>최대 체력</span><b id="ciHp">${fmt(bH + uh)}${uh ? `<em>(+${fmt(uh)})</em>` : ''}</b></div>
+      <div class="ci-r${advLock ? ' locked' : ' tap'}"${advLock ? '' : ' data-plan'}><span>행동</span>
+        <b class="ci-state" id="ciAct">${advLock ? '고급 설정에서' : `${isManual ? '수동' : '자동'} ▸`}</b></div>
+    </div></div>
+    <aside class="specpanel ci-spanel" hidden></aside></div>`;
   document.body.appendChild(pop);
   pop.onclick = e => {
+    if (e.target.closest('[data-cspec]')) { openCmpSpec(c, pop); return; }
     if (e.target.closest('[data-swap]')) { openSwapPop(c); return; }
     if (e.target.closest('[data-seal]')) { openSealPop(c); return; }
     if (e.target.closest('[data-plan]')) { openPlanPopup(c); return; }
-    if (e.target.dataset.ciclose !== undefined || e.target === pop) pop.remove();
+    if (e.target.closest('.specpanel')) return;              // 패널 내부 클릭은 닫지 않는다
+    if (e.target.dataset.ciclose !== undefined || e.target === pop) { closeSpecPanel(); pop.remove(); }
   };
+}
+
+/** 비교군 슬롯의 스펙 편집 — 메인과 같은 패널을 이 카드 옆에 띄운다. */
+function openCmpSpec(c, pop) {
+  const slot = c.cfg;
+  if (!slot) return;
+  if (slot.id == null) slot.id = c.id;        // 스탯 계산에 캐릭터 id가 필요
+  openSpecFor(slot, pop.querySelector('.ci-spanel'), pop.querySelector('.ci-wrap'), () => {
+    const b = pop.querySelector('[data-cspec]');
+    if (b) b.classList.toggle('on', specOn(slot));
+    updateCiStats(c);
+    markCmpDirty();
+  });
 }
 function updateCiStats(c) {                // 도장 변경 시 정보카드 ATK/HP/도장상태 즉시 반영
   const cf = c.cfg || {}, ch = CHARS[c.id] || {};
   const ua = cf.sealOn ? (cf.sealAtk || 0) : 0, uh = cf.sealOn ? (cf.sealHp || 0) : 0;
+  const [bA, bH] = specAtkHp(cf.id ? cf : { ...cf, id: c.id });   // 육성 스펙 반영된 기본값
   const s = $('#ciSeal'); if (s) { s.textContent = (cf.sealOn ? 'ON' : 'OFF') + ' ▸'; s.classList.toggle('on', !!cf.sealOn); }
-  const a = $('#ciAtk'); if (a) a.innerHTML = `${fmt((ch.atk || 0) + ua)}${ua ? `<em>(+${fmt(ua)})</em>` : ''}`;
-  const h = $('#ciHp'); if (h) h.innerHTML = `${fmt((ch.hp || 0) + uh)}${uh ? `<em>(+${fmt(uh)})</em>` : ''}`;
+  const a = $('#ciAtk'); if (a) a.innerHTML = `${fmt(bA + ua)}${ua ? `<em>(+${fmt(ua)})</em>` : ''}`;
+  const h = $('#ciHp'); if (h) h.innerHTML = `${fmt(bH + uh)}${uh ? `<em>(+${fmt(uh)})</em>` : ''}`;
 }
 function openSealPop(c) {
   const meta = CHARS[c.id] || {}, limit = meta.sealLimit || 20000, cf = c.cfg;
@@ -609,6 +786,10 @@ function openAddPop(side) {
   pop.onclick = e => {
     const b = e.target.closest('.sw-ic');
     if (b && !b.disabled) {
+      if (+b.dataset.id === IMBUEON_ID && !cmpTeam[side][0]) {   // 메인과 같은 규칙
+        toast('임부언은 <b>1번 자리</b>에 배치할 수 없어요 — 2~5번 자리를 비워주세요'); return;
+      }
+      cmpAdvInvalidate(side);
       let idx = cmpTeam[side].findIndex(t => !t);     // 빈 슬롯 우선, 없으면 추가(최대 5)
       if (idx < 0) { if (cmpTeam[side].filter(Boolean).length >= 5) return toast('비교군이 가득 찼어요 (최대 5)'); idx = cmpTeam[side].length; }
       cmpTeam[side][idx] = { id: +b.dataset.id, skill: 10, rune: true, rotation: '' };
@@ -637,11 +818,15 @@ function openSwapPop(c) {
       const idx = c.slotIdx;
       if (idx >= 0 && cmpTeam[c.side]) {
         if (b.dataset.id === 'none') {            // 로스터에서 제외(빈 슬롯)
-          cmpTeam[c.side][idx] = null; pop.remove();
+          cmpAdvInvalidate(c.side); cmpTeam[c.side][idx] = null; pop.remove();
           document.querySelector('.cmpinfo')?.remove(); cmpRelayout(); return;
         }
         const newId = +b.dataset.id;
         if (newId !== c.id) {
+          if (newId === IMBUEON_ID && idx === 0) {
+            toast('임부언은 <b>1번 자리</b>에 배치할 수 없어요'); return;
+          }
+          cmpAdvInvalidate(c.side);
           cmpTeam[c.side][idx] = { id: newId, skill: 10, rune: true, rotation: '' };
           pop.remove(); cmpRelayout();
           openCmpInfo({ id: newId, name: (CHARS[newId] || {}).name || String(newId), elementKey: (CHARS[newId] || {}).elementKey, position: c.position, damage: null, cfg: cmpTeam[c.side][idx], slotIdx: idx, side: c.side });
@@ -676,7 +861,7 @@ function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게�
   const grid = $('#ppGrid'); if (!grid) return;
   const meta = CHARS[c.id] || {}, apt = meta.actionsPerTurn || 1, on = !!c.cfg.usePlan, turns = cmpCommon.turns || 30;
   let plan = (c.cfg.plan && c.cfg.plan.length) ? c.cfg.plan : (c.cfg.plan = defaultPlan(meta, turns));
-  while (plan.length < turns * apt) plan.push('평');
+  padPlan(plan, meta, turns);                        // 턴 수를 늘렸으면 기본 궁 주기로 이어붙임
   const teamArr = cmpTeam[c.side] || [];             // 이태호(1포지션)+임부언 → 임부언 궁 턴에 fed 슬롯
   const ab = allyBasicCounts(teamArr, c.slotIdx, turns);   // 모이루: 아군 평타 → 추격 → 방어 시 CD 감소
   if (apt === 1) normalizePlan(plan, meta, ab);      // CD 검증·게이팅 (단일행동 캐릭)
@@ -777,13 +962,17 @@ function openPrioPop(side) {                // 비교군별 행동 우선순위 
   document.querySelector('.priopop')?.remove();
   const pop = document.createElement('div'); pop.className = 'priopop';
   pop.innerHTML = `<div class="pr-card"><button class="mc-close" data-prclose>×</button>
-    <div class="pp-head"><h3>행동 우선순위 <em>(비교군 ${side === 'a' ? 'A' : 'B'})</em></h3></div>
-    <div class="pr-sub">행동 순서 <em>(드래그·▲▼)</em></div>
-    <ol class="prio" id="prPrio"></ol>
-    <div class="pr-sub">특정 턴만 다르게 <em>(턴 선택 후 순서 변경)</em></div>
-    <div class="turn-chips" id="prChips"></div>
-    <div id="prEditor"></div>
-    <button class="btn-ghost sm" id="prReset" style="margin-top:10px">전부 기본값으로</button></div>`;
+    <div class="pp-head pr-head"><h3>행동 우선순위 <em>(비교군 ${side === 'a' ? 'A' : 'B'})</em></h3>
+      <button class="ct-prio ct-adv${cmpAdvOn[side] ? ' on' : ''}" data-cadv="${side}">◆ 행동 고급 설정</button></div>
+    <div class="pr-lock" ${cmpAdvOn[side] ? '' : 'hidden'}>고급 설정이 켜져 있어요 — 순서는 고급 설정에서 정합니다</div>
+    <div class="pr-body${cmpAdvOn[side] ? ' locked' : ''}">
+      <div class="pr-sub">행동 순서 <em>(드래그·▲▼)</em></div>
+      <ol class="prio" id="prPrio"></ol>
+      <div class="pr-sub">특정 턴만 다르게 <em>(턴 선택 후 순서 변경)</em></div>
+      <div class="turn-chips" id="prChips"></div>
+      <div id="prEditor"></div>
+      <button class="btn-ghost sm" id="prReset" style="margin-top:10px">전부 기본값으로</button>
+    </div></div>`;
   document.body.appendChild(pop);
   const selT = autoSelOverrides(cmpTurnOv[side] || {}), turns = cmpCommon.turns || 30, order = () => sideOrder(side);
   function renderList() {
@@ -833,7 +1022,11 @@ function openPrioPop(side) {                // 비교군별 행동 우선순위 
   }
   $('#prReset').onclick = () => { (cmpTeam[side] || []).forEach(s => { if (s) delete s.priority; }); cmpTurnOv[side] = {}; selT.clear(); markCmpDirty(); renderList(); };
   renderList();
-  pop.onclick = e => { if (e.target.dataset.prclose !== undefined || e.target === pop) pop.remove(); };
+  pop.onclick = e => {
+    const cadv = e.target.closest('[data-cadv]');
+    if (cadv) { pop.remove(); openAdvFor(cadv.dataset.cadv); return; }   // 고급 설정으로 전환
+    if (e.target.dataset.prclose !== undefined || e.target === pop) pop.remove();
+  };
 }
 let cmpChart = null;                       // {ca, cb, n, mx} — 호버 조회용
 function renderCmpChart() {
@@ -1067,9 +1260,14 @@ function renderTeam() {
   $('#teamSlots').innerHTML = team.map((s, i) => {
     if (!s) return `<div class="slot" data-i="${i}"><span class="pos">P${i + 1}</span><span class="empty">+</span></div>`;
     const c = CHARS[s.id];
+    // 풀육성이 아닌 슬롯은 한눈에 보이게 — 안 그러면 왜 딜이 낮은지 찾기 어렵다
+    const inv = specInv(s);
+    const badge = specOn(s)
+      ? `<span class="spec-badge" title="캐릭터 스펙 설정 사용 중 — 스타 ${inv.evo} · Lv${inv.level} · 유대 ${inv.compat}">★${inv.evo}</span>`
+      : '';
     return `<div class="slot filled el-${c.elementKey}" data-i="${i}" style="--el:var(--${c.elementKey})">
       <span class="pos">P${i + 1}</span><button class="rm" data-rm="${i}">×</button>
-      <img src="${icon(s.id)}" alt=""><span class="nm">${c.name}</span></div>`;
+      <img src="${icon(s.id)}" alt=""><span class="nm">${c.name}</span>${badge}</div>`;
   }).join('');
   $('#teamSlots').onclick = e => {
     const rm = e.target.closest('.rm'); if (rm) { team[+rm.dataset.rm] = null; renderRoster(); renderTeam(); renderPrio(); return; }
@@ -1087,6 +1285,808 @@ function teamOrder() {
     .sort((a, b) => a.p - b.p);
 }
 let turnOverrides = {};   // {turn:[position,...]}  per-turn order override
+
+// ── 행동 고급 설정 ────────────────────────────────────────────────────────────
+// 턴마다 "누가 · 어떤 순서로 · 무엇을" 할지 전부 사용자가 정한다. 끄면(기본) 지금까지의
+// 동작 그대로고, 켜면 행동 우선순위·특정 턴 순서·캐릭터별 턴별 계획을 이 화면이 대체한다.
+// 행동 예산(추가 행동)은 JS에서 다시 계산하지 않는다 — 엔진 plan_probe가 정답을 준다.
+// (같은 규칙을 JS와 Python 양쪽에 두면 반드시 어긋난다 — CD 모델에서 이미 겪은 함정)
+let advOn = false;              // 전역 스위치
+let turnPlans = {};             // {turn: [{p, a}]} — 켜졌을 때 사용자가 손댄 턴
+let advSel = 1;                 // 지금 편집 중인 턴
+let advProbe = null;            // 마지막 프로브 결과 {turns, team, plan}
+let advPrevBudget = {};         // {turn:{pos:n}} 직전 예산 — '늘어난 만큼만' 자동 추가하는 기준선
+let advTouched = new Set();     // 사용자가 실제로 손댄 턴 (자동 채움과 구분해 표시)
+let advBusy = false;
+
+const ADV_ACTS = ['평', '궁', '방'];
+
+function advTurns() { return advScope ? (+cmpCommon.turns || 30) : (+$('#turns').value || 30); }
+// 타임라인은 '포지션' 기준이라 캐릭터가 바뀌면 같은 자리의 계획을 다른 캐릭터가 물려받는다.
+// 교체는 실행 자체는 되기 때문에 문제 표시로 잡히지 않아, 편성 지문을 따로 들고 비교한다.
+function advTeamFingerprint() { return aTeam().map(s => (s ? s.id : 0)).join(','); }
+
+// 고급 설정이 켜지면 기존 행동 UI를 잠근다 — 한 화면에서 두 규칙이 싸우지 않게.
+function syncAdvLock() {
+  if (advScope) return;            // 비교군 편집 중엔 메인 UI를 건드리지 않는다
+  $('#advOpen')?.classList.toggle('on', advOn);
+  const lock = $('#advLock'); if (lock) lock.hidden = !advOn;
+  for (const sel of ['#prio', '.prio-turn']) {
+    const el = document.querySelector(sel); if (!el) continue;
+    el.style.opacity = advOn ? .3 : '';
+    el.style.pointerEvents = advOn ? 'none' : '';
+  }
+  const rs = $('#prioReset'); if (rs) rs.disabled = advOn;
+}
+
+// 프로브용 cfg — run()의 cfg와 같은 모양(확률 100%·1회로 고정해 결정론적으로 본다).
+// useLegacy=true 면 고급 설정이 켜져 있어도 기존 설정(캐릭 계획·우선순위·특정 턴 순서)을
+// 그대로 실어 보낸다 — '기존 설정 불러오기'가 그때의 진행을 그대로 받아오기 위한 경로.
+function advCfg(plansOverride, useLegacy) {
+  const plans = plansOverride || (advOn ? turnPlans : {});
+  if (advScope) {                    // 비교군: 비교 공통 설정 + 그 비교군 편성으로 구성
+    const sd = advScope;
+    return {
+      team: (cmpTeam[sd] || []).map((t, i) => t && ({
+        id: t.id, position: i + 1, skill: t.skill, rune: t.rune,
+        rotation: (advOn && !useLegacy) ? null
+          : (t.usePlan ? ((t.plan && t.plan.length) ? t.plan.join('') : (t.rotation || null)) : null),
+        fedActions: (t.usePlan && t.fedActions && Object.keys(t.fedActions).length) ? t.fedActions : null,
+        allyUltAfter: !!t.allyUltAfter,
+        priority: (advOn && !useLegacy) ? null : (t.priority ?? null),
+        sealAtk: t.sealOn ? (t.sealAtk ?? 0) : 0, sealHp: t.sealOn ? (t.sealHp ?? 0) : 0,
+        ...specPayload(t),
+      })).filter(Boolean),
+      turns: advTurns(), dummies: cmpCommon.dummies, enemyHits: cmpCommon.enemyHits,
+      dummyElement: cmpCommon.dummyElement,
+      turnOrders: (advOn && !useLegacy) ? {} : (cmpTurnOv[sd] || {}),
+      turnPlans: plans, forceProc: true, hp10: !!cmpCommon.hp10, runs: 1,
+      incomingHpPct: cmpCommon.incomingOn ? +(cmpCommon.incomingPct || 0) : 0,
+    };
+  }
+  return {
+    team: team.map((s, i) => s && ({
+      id: s.id, position: i + 1, skill: s.skill, rune: s.rune,
+      // 고급 설정이 켜지면 캐릭터별 턴 계획을 물려받지 않는다 — 물려받으면 파미도의
+      // '패시브 방어'처럼 사용자화가 기본값인 척 딸려 들어와, 기본값으로 되돌려도
+      // 궁 앞 턴이 방어로 남는다. 고급 설정은 기본 세팅에서 출발해 사용자가 다 정한다.
+      // (전 턴이 지정 상태라 rotation은 행동 선택에 쓰이지 않으므로 결과에도 영향 없음)
+      rotation: (advOn && !useLegacy) ? null : (s.rotation || null),
+      fedActions: s.fedActions || null, allyUltAfter: !!s.allyUltAfter,
+      priority: (advOn && !useLegacy) ? null : (s.priority ?? null),
+      sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0,
+      ...specPayload(s),
+    })).filter(Boolean),
+    turns: advTurns(), dummies: +$('#dummies').dataset.val,
+    enemyHits: $('#enemyHits').dataset.val, dummyElement: +$('#dummyElement').dataset.val,
+    turnOrders: (advOn && !useLegacy) ? {} : turnOverrides,
+    turnPlans: plans,
+    forceProc: true, hp10, runs: 1,
+    incomingHpPct: incomingOn ? +$('#incoming').value : 0,
+  };
+}
+
+// "이 설정이면 실제로 이렇게 굴러간다"를 엔진에게 묻는다. 편집할 때마다 호출.
+// 예산이 늘면 뒤에 자동으로 붙이고, 줄면 실행 못 하는 뒷부분을 걷어낸다.
+// 기준을 '직전 예산'으로 잡는 게 핵심 — 항상 예산까지 채우면 사용자가 지운 행동이
+// 곧바로 되살아나 삭제가 불가능해진다. 늘어난 델타만 반영하면 삭제는 그대로 유지된다.
+function advReconcile(turn) {
+  const seq = turnPlans[turn];
+  if (!seq) return false;                       // 아직 편집 전인 턴은 기본값 그대로 둔다
+  const live = (advProbe && advProbe.plan && advProbe.plan[String(turn)]) || {};
+  const budget = live.budget || {};
+  const prev = advPrevBudget[turn];
+  advPrevBudget[turn] = { ...budget };
+  if (!prev) return false;                      // 첫 프로브는 기준선만 잡고 넘어간다
+  const want = {};
+  seq.forEach(e => { want[e.p] = (want[e.p] || 0) + 1; });
+  let changed = false, added = 0;
+  for (const key of new Set([...Object.keys(budget), ...Object.keys(prev)])) {
+    const pos = +key, now = budget[key] || 0, was = prev[key] || 0;
+    const grew = now - was;
+    if (grew > 0) {                             // 추가 행동이 새로 생겼다 → 뒤에 붙인다
+      for (let i = 0; i < grew; i++) seq.push({ p: pos, a: '평' });
+      added += grew; changed = true;
+    }
+    let excess = (want[pos] || 0) + (grew > 0 ? grew : 0) - now;
+    while (excess > 0) {                        // 예산이 줄어 실행 못 하는 꼬리를 제거
+      const at = seq.map(e => e.p).lastIndexOf(pos);
+      if (at < 0) break;
+      seq.splice(at, 1); excess--; changed = true;
+    }
+  }
+  if (added) toast(`추가 행동 ${added}개를 뒤에 넣었어요 — 순서는 끌어서 바꿀 수 있어요`);
+  return changed;
+}
+
+// 고급 설정이 켜진 동안엔 모든 턴을 명시 타임라인으로 채운다. 지정 턴과 자동 턴이 섞이면
+// 자동 턴의 로테이션이 어긋나 계획이 통째로 밀린다(2턴을 고정했더니 팀 궁이 4턴→5턴).
+// 채우는 값은 프로브가 준 '지금 그대로의 진행'이라 켜는 순간 결과는 바뀌지 않는다.
+function advMaterialize() {
+  if (!advOn || !advProbe || !advProbe.plan) return false;
+  let filled = false;
+  for (let t = 1; t <= advTurns(); t++) {
+    if (turnPlans[t]) continue;
+    const src = advProbe.plan[String(t)];
+    if (!src) continue;
+    turnPlans[t] = src.seq.map(e => ({ p: e.p, a: e.a }));
+    filled = true;
+  }
+  if (filled) advTeamSig = advTeamFingerprint();
+  return filled;
+}
+
+// 진행 중이면 요청을 '버리지' 않고 뒤에 한 번만 예약해 두고 그 결과를 함께 기다린다.
+// 예전엔 그냥 return 해버려서, 빠르게 두 번 누르면 두 번째 편집이 프로브·검증·렌더를
+// 통째로 건너뛰고 화면이 낡은 판정을 보여줬다(실행 안 됨 표시 누락, 잘못된 강등 배지).
+let advTail = null;
+async function advRefresh(render = true) {
+  if (advBusy) {
+    if (!advTail) advTail = { render, p: null, res: null };
+    advTail.render = advTail.render || render;
+    if (!advTail.p) advTail.p = new Promise((res) => { advTail.res = res; });
+    return advTail.p;
+  }
+  advBusy = true;
+  const gen = advGen;                 // 프로브 대기 중 닫히거나 대상이 바뀌면 반영하면 안 된다
+  try {
+    const probe = await API.probe(advCfg());
+    if (gen !== advGen) { advBusy = false; return advProbe; }
+    advProbe = probe;
+    if (advMaterialize()) advProbe = await API.probe(advCfg());
+    if (gen !== advGen) { advBusy = false; return advProbe; }
+    // 예산 변화를 반영해 타임라인을 맞춘 뒤, 바뀌었으면 한 번 더 물어 최종 상태를 받는다.
+    // 붙이는 건 평타뿐이라 새 추가 행동을 만들지 않으므로 여기서 수렴한다.
+    if (advReconcile(advSel)) advProbe = await API.probe(advCfg());
+  } catch (err) { toast(`행동을 계산하지 못했어요 — ${err.message}`); }
+  advBusy = false;
+  if (gen !== advGen) return advProbe;
+  if (render) renderAdv();
+  const tail = advTail;
+  advTail = null;
+  if (tail) { const r = await advRefresh(tail.render); tail.res(r); return r; }
+  return advProbe;
+}
+
+// 편집 중인 턴의 항목. 아직 손대지 않은 턴은 프로브가 준 '실제 진행'을 시작점으로 쓴다.
+function advSeq(turn) {
+  // 꺼져 있을 땐 저장해 둔 지정을 보여주지 않는다 — 그때 실제로 도는 건 기존 설정이라
+  // 보관 중인 타임라인을 띄우면 화면과 결과가 어긋난다.
+  if (advOn && turnPlans[turn]) return turnPlans[turn];
+  const p = advProbe && advProbe.plan && advProbe.plan[String(turn)];
+  return p ? p.seq.map(e => ({ p: e.p, a: e.a })) : [];
+}
+
+function advCommit(turn, seq) { advPushUndo(`${turn}턴 편집`); advTouched.add(turn); turnPlans[turn] = seq; advRefresh(); }
+
+// 순서 이동 전용 커밋. 옮긴 그 항목이 실행 불가가 되면 되돌린다 — 추가로 얻은 행동을
+// 그걸 만들어 준 필살기보다 앞에 두는 건 인과적으로 불가능하기 때문. (필살기 자체를
+// 앞으로 옮겨 부여를 낭비하는 건 정당한 선택이라 막지 않는다.)
+async function advReorder(turn, seq, movedIdx) {
+  const gen = advGen;
+  advPushUndo(`${turn}턴 순서 변경`);        // 순서 이동도 되돌릴 수 있어야 한다
+  advTouched.add(turn);
+  const had = !!turnPlans[turn];
+  const prev = (turnPlans[turn] || []).map(x => ({ ...x }));
+  turnPlans[turn] = seq;
+  await advRefresh(false);
+  if (gen !== advGen) return;
+  const mask = ((advProbe && advProbe.plan && advProbe.plan[String(turn)]) || {}).exec;
+  if (mask && mask[movedIdx] == null) {
+    if (had) turnPlans[turn] = prev; else delete turnPlans[turn];
+    advUndo.pop();                            // 되돌려졌으니 스택에 남길 필요가 없다
+    await advRefresh(false);
+    if (gen !== advGen) return;
+    toast('추가로 얻은 행동이에요 — 그걸 만들어 준 <b>필살기보다 앞</b>에는 둘 수 없어요');
+  }
+  renderAdv();
+}
+
+
+// ── 고급 설정: 복사/붙여넣기 · 되돌리기 · 구간 · 전체 보기 ──────────────────────
+// 호환 턴을 미리 계산해 두지 않는다 — 턴별 개별 검증은 프로브 30회(라이브 ~2.7초)라
+// 미리 칠하기엔 너무 비싸다. 대신 '행동할 때' 검증한다: 붙여넣기 1회 = 프로브 1회.
+let advClip = null;             // {from, seq} 복사한 턴
+let advUndo = [];               // 되돌리기 스택 (편집이 파괴적이라 필수)
+let advSelSet = null;           // 선택된 턴 집합 (shift+클릭 구간 · 호환 턴 체크 결과). null = 현재 턴만
+let advGrid = false;            // 전체 턴 요약 격자 표시
+let advCell = null;             // 격자에서 연 칸 편집기 {pos, turn, x, y}
+let advTeamSig = '';            // 타임라인을 만들 당시의 편성 지문 — 팀이 바뀌면 경고한다
+let advGen = 0;                 // 편집기 세대. await 뒤 이 값이 바뀌었으면 그 사이 닫혔거나
+                                //   스코프가 바뀐 것이라 결과를 반영하면 안 된다(메인 오염 방지)
+let advCloseFn = null;          // 현재 열린 편집기의 닫기 함수 — 중복 오픈 시 먼저 정리한다
+let advScope = null;            // null=메인 · 'a'|'b'=비교군. 같은 편집기를 다른 팀에 붙인다
+let advSaved = null;            // 비교군 편집 중 잠시 치워둔 메인 상태
+// 고급 설정이 대상으로 삼는 팀 — 비교군을 편집할 땐 그쪽 편성을 본다
+function aTeam() { return advScope ? (cmpTeam[advScope] || []) : team; }
+const ADV_UNDO_MAX = 30;
+
+function advPushUndo(label) {
+  advUndo.push({ label, plans: JSON.parse(JSON.stringify(turnPlans)),
+                 touched: [...advTouched], budget: JSON.parse(JSON.stringify(advPrevBudget)) });
+  if (advUndo.length > ADV_UNDO_MAX) advUndo.shift();
+}
+function advDoUndo() {
+  const u = advUndo.pop();
+  if (!u) return toast('되돌릴 편집이 없어요');
+  turnPlans = u.plans; advTouched = new Set(u.touched); advPrevBudget = u.budget;
+  advRefresh();
+  toast(`되돌렸어요 — ${u.label}`);
+}
+
+// 주어진 계획으로 프로브만 돌린다 (상태를 건드리지 않음 — 붙여넣기 사전 검증용)
+async function advProbeWith(plans) {
+  const cfg = advCfg();
+  cfg.turnPlans = plans;
+  return await API.probe(cfg);
+}
+// 그 턴의 모든 항목이 요청대로 실행됐는가
+function advTurnClean(probe, turn, want) {
+  const pl = probe && probe.plan && probe.plan[String(turn)];
+  const ex = pl && pl.exec;
+  return !!ex && ex.length === want.length && want.every((e, i) => ex[i] === e.a);
+}
+function advWhyBad(probe, turn, want) {
+  const ex = ((probe.plan || {})[String(turn)] || {}).exec || [];
+  const miss = want.filter((e, i) => ex[i] == null).length;
+  const down = want.filter((e, i) => ex[i] != null && ex[i] !== e.a).length;
+  const bits = [];
+  if (down) bits.push(`필살 ${down}개가 쿨타임`);
+  if (miss) bits.push(`행동 ${miss}개가 예산 초과`);
+  return bits.join(' · ') || '실행 결과가 달라요';
+}
+
+function advCopyTurn(turn) {
+  const seq = advSeq(turn);
+  if (!seq.length) return toast('복사할 행동이 없어요');
+  advClip = { from: turn, seq: seq.map(e => ({ ...e })) };
+  renderAdv();
+  toast(`${turn}턴 ${seq.length}행동을 복사했어요`);
+}
+
+async function advPasteInto(turns) {
+  if (!advClip) return toast('먼저 턴을 복사하세요');
+  const want = advClip.seq;
+  const gen = advGen;                       // await 사이에 닫히면 반영하지 않는다
+  const trial = JSON.parse(JSON.stringify(turnPlans));
+  turns.forEach(t => { trial[t] = want.map(e => ({ ...e })); });
+  let probe;
+  try { probe = await advProbeWith(trial); }
+  catch (err) { return toast(`붙여넣기를 확인하지 못했어요 — ${err.message}`); }
+  if (gen !== advGen) return;               // 그 사이 닫혔거나 다른 대상으로 바뀜
+  const bad = turns.filter(t => !advTurnClean(probe, t, want));
+  if (bad.length) {
+    const t0 = bad[0];
+    return toast(`${bad.length === 1 ? `${t0}턴에는` : `${bad.join('·')}턴에는`} 붙여넣을 수 없어요 — ${advWhyBad(probe, t0, want)}`);
+  }
+  advPushUndo(`${turns.join('·')}턴 붙여넣기`);
+  turns.forEach(t => { turnPlans[t] = want.map(e => ({ ...e })); advTouched.add(t); delete advPrevBudget[t]; });
+  await advRefresh();
+  toast(`${turns.length}개 턴에 붙여넣었어요 — 선택은 유지됩니다`);
+}
+
+// 클립보드를 그대로 넣을 수 있는 턴을 찾아 '선택'만 해 둔다(붙여넣지 않는다).
+// 앞 턴을 넣으면 뒤 턴의 쿨이 바뀌므로, 실제 적용 순서대로 확정해 나가며 검사한다.
+async function advCheckCompatible() {
+  if (!advClip) return toast('먼저 턴을 복사하세요');
+  const want = advClip.seq, n = advTurns();
+  const btn = document.querySelector('#advPasteAll');
+  const label = '호환 턴 전부 체크';
+  const gen = advGen, clip0 = advClip;
+  if (btn) { btn.disabled = true; btn.textContent = '맞는 턴 찾는 중…'; }
+  const trial = JSON.parse(JSON.stringify(turnPlans));
+  const hit = [];
+  try {
+    for (let t = 1; t <= n; t++) {
+      const keep = trial[t];
+      trial[t] = want.map(e => ({ ...e }));
+      const probe = await advProbeWith(trial);
+      if (gen !== advGen) return;                    // 닫혔으면 즉시 중단
+      if (advTurnClean(probe, t, want)) hit.push(t);
+      else trial[t] = keep;
+      if (btn) btn.textContent = `찾는 중… ${t}/${n}`;
+    }
+  } catch (err) {
+    return toast(`호환 턴을 확인하지 못했어요 — ${err.message}`);
+  } finally {
+    // 실패해도 버튼 라벨·활성 상태를 반드시 되돌린다 (안 그러면 '찾는 중…'이 영영 남는다)
+    if (btn) { btn.disabled = false; btn.textContent = label; }
+  }
+  if (advClip !== clip0) return toast('찾는 도중 복사한 내용이 바뀌었어요 — 다시 눌러 주세요');
+  if (!hit.length) { advSelSet = null; renderAdv(); return toast('이 계획을 그대로 넣을 수 있는 턴이 없어요'); }
+  advSelSet = new Set(hit);
+  renderAdv();
+  toast(`${hit.length}개 턴이 호환돼요 (${hit.join('·')}턴) — <b>붙여넣기</b>를 누르면 적용됩니다`);
+}
+
+// 기존 설정(캐릭터별 턴 계획 · 행동 우선순위 · 특정 턴 순서)으로 돌린 결과를 그대로
+// 타임라인에 받아온다. 고급 설정은 평소엔 기본 세팅에서 출발하지만, 이미 짜둔 설정을
+// 출발점으로 쓰고 싶을 때가 있어 따로 버튼을 둔다.
+async function advImportLegacy() {
+  const btn = document.querySelector('#advImport');
+  if (btn) { btn.disabled = true; btn.textContent = '불러오는 중…'; }
+  const gen = advGen;
+  let pr = null;
+  try { pr = await API.probe(advCfg({}, true)); }
+  catch (err) { toast(`기존 설정을 불러오지 못했어요 — ${err.message}`); }
+  finally { if (btn) { btn.disabled = false; btn.textContent = '기존 설정 불러오기'; } }
+  if (!pr || !pr.plan || gen !== advGen) return;
+  // 실제로 달라질 때만 되돌리기 지점을 남긴다 (무변경이면 빈 되돌리기가 쌓인다)
+  const next = {};
+  for (let t = 1; t <= advTurns(); t++) {
+    const src = pr.plan[String(t)];
+    if (src) next[t] = src.seq.map(e => ({ p: e.p, a: e.a }));
+  }
+  if (JSON.stringify(next) === JSON.stringify(turnPlans)) {
+    return toast('기존 설정과 지금 타임라인이 이미 같아요');
+  }
+  advPushUndo('기존 설정 불러오기');
+  const got = Object.keys(next).length;
+  Object.entries(next).forEach(([t, seq]) => {
+    turnPlans[t] = seq; advTouched.add(+t); delete advPrevBudget[t];
+  });
+  await advRefresh();
+  toast(`기존 설정을 ${got}개 턴으로 가져왔어요 — 되돌리기로 취소할 수 있어요`);
+}
+
+function advResetTurns(turns, label) {
+  const hit = turns.filter(t => advTouched.has(t));
+  if (!hit.length) return toast('되돌릴 편집이 없어요');
+  advPushUndo(label);
+  hit.forEach(t => { advTouched.delete(t); delete turnPlans[t]; delete advPrevBudget[t]; });
+  advRefresh();
+  toast(`${hit.length}개 턴을 기본값으로 되돌렸어요`);
+}
+
+function advRangeTurns() {
+  return advSelSet && advSelSet.size ? [...advSelSet].sort((a, b) => a - b) : [advSel];
+}
+
+// 전체 턴 요약 — 세로 캐릭터 × 가로 턴. 계획의 리듬(궁 주기)을 한 화면에서 본다.
+function renderAdvGrid(card) {
+  const wrap = $('.adv-gridwrap', card);
+  wrap.hidden = !advGrid;
+  if (!advGrid) return;
+  const n = advTurns();
+  const roster = aTeam().map((s, i) => s && { pos: i + 1, id: s.id }).filter(Boolean);
+  const cell = (pos, t) => {
+    const seq = advSeq(t).filter(e => e.p === pos);
+    if (!seq.length) return '<i class="g-none"></i>';
+    return seq.map(a => `<i class="g-${a.a === '궁' ? 'ult' : a.a === '방' ? 'def' : 'atk'}"></i>`).join('');
+  };
+  wrap.innerHTML = `<div class="adv-grid" style="--n:${n}">
+    <div class="g-head"><span></span>${Array.from({ length: n }, (_, i) =>
+      `<b class="${i + 1 === advSel ? 'on' : ''}" data-advt="${i + 1}">${i + 1}</b>`).join('')}</div>
+    ${roster.map(r => `<div class="g-row"><span class="g-nm">${(CHARS[r.id] || {}).name || r.id}</span>${
+      Array.from({ length: n }, (_, i) => {
+        const t = i + 1, sel = advCell && advCell.pos === r.pos && advCell.turn === t;
+        return `<u class="${t === advSel ? 'on' : ''}${sel ? ' pick' : ''}" data-gp="${r.pos}" data-gt="${t}"
+          title="${(CHARS[r.id] || {}).name || ''} ${t}턴 — 눌러서 행동 변경">${cell(r.pos, t)}</u>`;
+      }).join('')
+    }</div>`).join('')}
+    <div class="g-legend"><i class="g-atk"></i>평타 <i class="g-ult"></i>필살 <i class="g-def"></i>방어</div>
+  </div>`;
+}
+
+// 격자 칸 편집기 — 그 캐릭터의 그 턴 행동만 고친다. 행동 횟수(예산)와 필살 쿨을
+// 항목별로 검사해 불가능한 선택은 못 하게 막는다.
+
+
+function renderCellPop(card) {
+  let pop = $('.adv-cellpop', card);
+  if (!advCell) { if (pop) pop.remove(); return; }
+  if (!pop) { pop = document.createElement('div'); pop.className = 'adv-cellpop'; card.appendChild(pop); }
+  const { pos, turn } = advCell;
+  const cid = (aTeam()[pos - 1] || {}).id, meta = CHARS[cid] || {};
+  const seq = advSeq(turn);
+  const idxs = seq.map((e, i) => (e.p === pos ? i : -1)).filter(i => i >= 0);
+  const live = (advProbe && advProbe.plan && advProbe.plan[String(turn)]) || {};
+  const budget = (live.budget || {})[pos] || 0;
+  const cdOk = live.cdOk || null, exec = live.exec || null;
+  const left = budget - idxs.length;
+  pop.style.left = advCell.x + 'px';
+  pop.style.top = advCell.y + 'px';
+  pop.innerHTML = `<div class="cp-head"><b>${turn}턴</b> ${meta.name || pos}
+      <span class="cp-bud">행동 ${idxs.length}/${budget}</span>
+      <button type="button" class="cp-x" data-cpclose aria-label="닫기">✕</button></div>
+    ${idxs.length ? idxs.map((k, i) => {
+      const e = seq[k];
+      const canUlt = (cdOk ? cdOk[k] : true) || e.a === '궁';
+      const done = exec ? exec[k] : e.a;
+      const note = done == null ? '<em class="bad">실행 안 됨</em>'
+                 : (done !== e.a ? `<em class="bad">${done}(으)로</em>` : '');
+      return `<div class="cp-row"><span class="cp-n">${i + 1}</span>
+        ${['평', '궁', '방'].map(a => `<button type="button" data-cpa="${a}" data-cpk="${k}"
+          class="${e.a === a ? 'on' : ''}"${a === '궁' && !canUlt ? ' disabled title="이 시점엔 필살기 불가 — 쿨타임"' : ''}>${a}</button>`).join('')}
+        ${note}<button type="button" class="cp-del" data-cpdel="${k}" aria-label="삭제">✕</button></div>`;
+    }).join('') : '<div class="cp-empty">이 턴엔 행동이 없어요</div>'}
+    <button type="button" class="cp-add" data-cpadd="1"${left > 0 ? '' : ' disabled'}>
+      ${left > 0 ? `행동 추가 (남은 ${left})` : '더 행동할 수 없어요'}</button>`;
+}
+
+function renderAdv() {
+  const card = document.querySelector('.adv-card'); if (!card) return;
+  $('.adv-body', card).classList.toggle('off', !advOn);
+  const n = advTurns();
+  if (advSel > n) advSel = n;
+
+  // 턴별 이상 여부를 미리 계산 — 전 턴이 지정 상태라 다른 턴의 문제를 놓치기 쉽다.
+  const turnBad = t => {
+    if (!advOn) return false;
+    const q = turnPlans[t], pl = advProbe && advProbe.plan && advProbe.plan[String(t)];
+    if (!q || !pl || !pl.exec) return false;
+    return q.some((e, i) => pl.exec[i] == null || pl.exec[i] !== e.a);
+  };
+  $('.adv-rail', card).innerHTML = Array.from({ length: n }, (_, i) => {
+    const t = i + 1;
+    const cls = [t === advSel ? 'sel' : '', advOn && advTouched.has(t) ? 'edited' : '',
+      turnBad(t) ? 'bad' : ''].filter(Boolean).join(' ');
+    const tip = turnBad(t) ? ' title="요청과 다르게 실행되는 행동이 있어요"' : '';
+    return `<button type="button" class="${cls}"${tip} data-advt="${t}">${t}</button>`;
+  }).join('');
+  card.querySelectorAll('.adv-rail button').forEach(b => {
+    if (advSelSet && advSelSet.has(+b.dataset.advt)) b.classList.add('rng');
+  });
+  const clipBar = $('.adv-clip', card);
+  clipBar.hidden = !advClip;
+  if (advClip) clipBar.innerHTML =
+    `클립보드 <b>${advClip.from}턴</b> · ${advClip.seq.length}행동 <button type="button" id="advClipClear">비우기</button>`;
+  const rng = advRangeTurns();
+  const selBar = $('.adv-selbar', card);
+  const many = !!(advSelSet && advSelSet.size);
+  selBar.hidden = !many;
+  if (many) {
+    const list = [...advSelSet].sort((a, b) => a - b);
+    const shown = list.length > 12 ? list.slice(0, 12).join('·') + `… (${list.length}개)` : list.join('·');
+    selBar.innerHTML = `선택 <b>${shown}</b>턴 — 붙여넣기·기본값이 여기에 적용됩니다
+      <button type="button" id="advSelClear">선택 해제</button>`;
+  }
+  $('#advResetSel', card).textContent = rng.length > 1 ? `${rng.length}턴 기본값으로` : '이 턴 기본값으로';
+  $('#advPaste', card).disabled = !advClip;
+  $('#advPasteAll', card).disabled = !advClip;
+  $('#advUndoBtn', card).disabled = !advUndo.length;
+  $('#advGridBtn', card).classList.toggle('on', advGrid);
+  renderAdvGrid(card);
+  renderCellPop(card);
+  // 편성이 바뀌었으면 알린다 — 교체는 조용히 다른 캐릭터가 계획을 물려받는다
+  const tw = $('.adv-teamwarn', card);
+  const sigChanged = advOn && advTeamSig && advTeamSig !== advTeamFingerprint()
+                     && Object.keys(turnPlans).length > 0;
+  tw.hidden = !sigChanged;
+  if (sigChanged) tw.innerHTML =
+    `팀 편성이 바뀌었어요 — 이 타임라인은 <b>이전 편성 기준</b>이라 같은 자리의 계획을 다른 캐릭터가 이어받습니다.
+     <button type="button" id="advSigReset">기본값으로 다시 시작</button>
+     <button type="button" id="advSigKeep">그대로 두기</button>`;
+
+  const badTurns = Array.from({ length: n }, (_, i) => i + 1).filter(turnBad);
+  const rw = $('.adv-railwarn', card);
+  rw.hidden = !badTurns.length || (badTurns.length === 1 && badTurns[0] === advSel);
+  if (!rw.hidden) rw.innerHTML = `다른 턴에도 확인할 게 있어요 — <b>${badTurns.join(' · ')}턴</b>`;
+
+  const seq = advSeq(advSel);
+  const live = (advProbe && advProbe.plan && advProbe.plan[String(advSel)]) || { seq: [], budget: {}, ultOk: [] };
+  const budget = live.budget || {};     // {포지션: 그 턴에 쓸 수 있는 행동 횟수} — 엔진이 계산
+  const ultOk = new Set(live.ultOk || []);   // 그 턴 시작 시 필살 쿨이 찬 포지션
+  const execMask = live.exec || null;        // 항목별 실행 여부(명시 타임라인일 때만)
+  const cdOkMask = live.cdOk || null;        // 항목별 '그 시점' 필살 가능 — 같은 턴 안의
+                                             // 방어(히토하·모이루)·임부언 CD-3까지 반영된다
+  const want = {};
+  seq.forEach(e => { want[e.p] = (want[e.p] || 0) + 1; });
+  // '턴당 궁 1회'로 막지 않는다 — 임부언 필살은 1번 자리 동료의 필살 CD를 초기화하므로
+  // 그 캐리는 한 턴에 두 번 궁을 쏘는 게 정상이다. 판정은 턴 시작 쿨(ultOk)만 보고,
+  // 실제로 쿨이 안 찼으면 엔진이 평타로 내린 결과를 아래에서 그대로 표시한다.
+
+  $('.adv-turnhead b', card).textContent = `${advSel}턴`;
+  $('.adv-turnhead .cnt', card).textContent = `${seq.length}행동${advTouched.has(advSel) ? '' : ' · 기본값'}`;
+  $('#advResetTurn', card).disabled = !advTouched.has(advSel);
+
+  const seen = {};
+  $('.adv-track', card).innerHTML = seq.length
+    ? seq.map((e, k) => {
+      const cid = (aTeam()[e.p - 1] || {}).id;
+      const c = CHARS[cid] || {};
+      seen[e.p] = (seen[e.p] || 0) + 1;
+      // '추가' = 동료가 만들어 준 행동. 이태호처럼 원래 턴당 2회인 캐릭은 2번째까지가 자기 몫이다.
+      const granted = seen[e.p] > (c.actionsPerTurn || 1);
+      // 실행 여부는 엔진이 항목별로 알려준다 — 추가 행동을 부여 이전에 두면 그 시점엔
+      // 예산이 없어 건너뛰는데, 예산 '총량'만 보면 이걸 놓친다.
+      const done = execMask ? execMask[k] : e.a;      // 실제로 나간 행동 (null = 실행 안 됨)
+      const over = execMask ? done == null : seen[e.p] > (budget[e.p] || 0);
+      const downgraded = !over && done && done !== e.a;
+      // 이 칸에서 궁을 고를 수 있는가: 쿨이 찼고, 같은 턴 앞에서 이미 쓰지 않았을 것
+      // 궁 가능 판정은 항목별 실시간 쿨을 쓴다. 턴 시작 스냅샷만 보면 '방어로 쿨을 당겨
+      // 같은 턴에 궁' 같은 수(모이루+욱영 조합에서 딜 +32%)를 UI가 원천 봉쇄해 버린다.
+      const canUlt = (cdOkMask ? cdOkMask[k] : ultOk.has(e.p)) || e.a === '궁';
+
+      return `<div class="adv-step ${granted ? 'granted' : ''}" data-k="${k}" draggable="true">
+  <div class="sn"><i>${k + 1}</i></div>
+  <div class="adv-row" style="--el:var(--${c.elementKey || 'none'})">
+    <img class="pic" src="${icon(cid)}" alt="" draggable="false">
+    <span class="nm">${c.name || '?'}</span>
+    ${granted ? '<span class="gtag">추가</span>' : ''}
+    ${over ? '<span class="gtag bad">실행 안 됨</span>' : ''}
+    ${downgraded ? `<span class="gtag bad">${done}(으)로 나감</span>` : ''}
+    <span class="acts">${ADV_ACTS.map(a => {
+        // 쓸 수 있는 자리를 금색으로 강조했더니 대부분의 평타 칸이 켜져 상시 노랗고 오히려 헷갈렸다.
+        // 버튼이 '눌리는 상태'라는 것 자체가 이미 신호이므로 별도 강조는 두지 않는다.
+        const off = a === '궁' && !canUlt;
+        return `<button type="button" data-a="${a}" data-k="${k}" class="${e.a === a ? 'on' : ''}"${
+          off ? ' disabled title="이 시점엔 필살기를 쓸 수 없어요 — 쿨타임"' : ''}>${a}</button>`;
+      }).join('')}</span>
+    <span class="mv">
+      <button type="button" data-mv="-1" data-k="${k}" ${k === 0 ? 'disabled' : ''} aria-label="위로">▲</button>
+      <button type="button" data-mv="1" data-k="${k}" ${k === seq.length - 1 ? 'disabled' : ''} aria-label="아래로">▼</button>
+    </span>
+    <button type="button" class="del" data-del="${k}" aria-label="이 행동 삭제">✕</button>
+  </div></div>`;
+    }).join('')
+    : '<div class="adv-empty">이 턴엔 행동이 없어요 — 아래에서 추가하세요</div>';
+
+  $('.adv-add', card).innerHTML = '<span>행동 추가</span>' +
+    aTeam().map((s, i) => {
+      if (!s) return '';
+      const pos = i + 1, c = CHARS[s.id] || {};
+      const left = (budget[pos] || 0) - (want[pos] || 0);   // 남은 행동 횟수 (엔진 판정)
+      return `<button type="button" data-add="${pos}"${left > 0 ? '' :
+        ' disabled title="이 턴엔 더 행동할 수 없어요 — 추가 행동은 임부언·욱영의 필살기가 만들어 줍니다"'}>
+        <img src="${icon(s.id)}" alt="">${c.name || s.id}</button>`;
+    }).join('');
+
+  const over = execMask
+    ? [...new Set(seq.filter((e, i) => execMask[i] == null).map(e => e.p))]
+    : Object.keys(want).filter(p => want[p] > (budget[p] || 0));
+  const warn = $('.adv-warn', card);
+  warn.hidden = !over.length;
+  if (over.length) {
+    const who = over.map(p => (CHARS[(aTeam()[p - 1] || {}).id] || {}).name).join(' · ');
+    warn.innerHTML = `<b>${who}</b> — 표시된 행동은 실행되지 않아요. 추가 행동은 <b>임부언·욱영의 필살기</b>가
+      만들어 주고 <b>이미 행동을 마친</b> 동료에게만 들어가므로, 그 필살기보다 뒤에 있어야 합니다.`;
+  }
+}
+
+// 비교군용으로 고급 설정을 연다. 편집기 전체가 전역 상태(turnPlans 등)를 쓰므로,
+// 메인 것을 잠시 치워두고 그 비교군의 타임라인으로 갈아끼운 뒤 닫을 때 되돌린다.
+function openAdvFor(scope) {
+  if (advCloseFn) advCloseFn();        // 열려 있으면 먼저 정리 (advSaved 덮어쓰기 방지)
+  advSaved = { on: advOn, plans: turnPlans, touched: advTouched, prev: advPrevBudget,
+               sig: advTeamSig, sel: advSel, selSet: advSelSet, undo: advUndo,
+               clip: advClip, grid: advGrid, cell: advCell, probe: advProbe };
+  advScope = scope;
+  advOn = !!cmpAdvOn[scope];
+  turnPlans = cmpAdv[scope] ? JSON.parse(JSON.stringify(cmpAdv[scope])) : {};
+  advTouched = new Set(Object.keys(turnPlans).map(Number));
+  advPrevBudget = {}; advSel = 1; advSelSet = null; advUndo = []; advClip = null;
+  advCell = null; advGrid = false;
+  advTeamSig = advOn ? advTeamFingerprint() : '';
+  openAdvPop();
+}
+function advLeaveScope() {
+  if (!advScope) return;
+  const back = advScope;                       // 돌아갈 비교군 (아래에서 초기화되므로 먼저 잡는다)
+  // 타임라인은 껐어도 보관한다(메인과 같은 규칙 — 껐다 켜도 작업물이 남는다).
+  // 실제 적용 여부만 스위치를 따른다.
+  const nextPlans = Object.keys(turnPlans).length ? JSON.parse(JSON.stringify(turnPlans)) : null;
+  const nextOn = !!(advOn && nextPlans);
+  const changed = nextOn !== cmpAdvOn[advScope]
+    || JSON.stringify(nextPlans) !== JSON.stringify(cmpAdv[advScope]);
+  cmpAdv[advScope] = nextPlans;
+  cmpAdvOn[advScope] = nextOn;
+  if (changed) markCmpDirty();       // 아무것도 안 바꿨으면 비교 결과를 무효화하지 않는다
+  const v = advSaved;
+  advOn = v.on; turnPlans = v.plans; advTouched = v.touched; advPrevBudget = v.prev;
+  advTeamSig = v.sig; advSel = v.sel; advSelSet = v.selSet; advUndo = v.undo;
+  advClip = v.clip; advGrid = v.grid; advCell = v.cell; advProbe = v.probe;
+  advScope = null; advSaved = null;
+  // 비교군 고급 설정은 우선순위 팝업에서만 들어온다 → 닫으면 왔던 자리로 되돌린다.
+  // (잠금 표시와 버튼 상태가 바뀌므로 다시 그려야 한다)
+  openPrioPop(back);
+}
+
+function openAdvPop() {
+  // 닫지 않고 다시 열면 이전 키보드 리스너가 남고(턴이 두 칸씩 이동) advSaved가 덮여
+  // 메인 타임라인이 통째로 날아간다. 반드시 기존 편집기를 정상 경로로 먼저 닫는다.
+  if (advCloseFn) advCloseFn();
+  document.querySelector('.advpop')?.remove();
+  advGen++;
+  const pop = document.createElement('div');
+  pop.className = 'advpop';
+  pop.innerHTML = `<div class="adv-card" role="dialog" aria-modal="true" aria-label="행동 고급 설정">
+  <div class="adv-head">
+    <h3>행동 고급 설정${advScope ? ` <em class="adv-scope">비교군 ${advScope.toUpperCase()}</em>` : ''}<span class="adv-sub">턴마다 누가 · 어떤 순서로 · 무엇을 할지 직접 정합니다</span></h3>
+    <label class="toggle"><input type="checkbox" id="advSwitch" ${advOn ? 'checked' : ''}><span class="sw"></span>사용</label>
+    <button type="button" class="adv-x" data-advclose aria-label="닫기">✕</button>
+  </div>
+  <div class="adv-body ${advOn ? '' : 'off'}">
+    <div class="adv-hint">켜면 <b>행동 우선순위</b> · <b>특정 턴만 다르게</b> · 캐릭터별 <b>턴별 행동 계획</b>이 모두 이 화면으로 대체됩니다.
+      같은 캐릭터가 한 턴에 여러 번 행동할 수 있고, <b>추가</b> 표시는 앞선 필살기가 만들어 준 행동입니다.</div>
+    <div class="adv-tools">
+      <button type="button" class="btn-ghost sm" id="advCopy">복사</button>
+      <button type="button" class="btn-ghost sm" id="advPaste">붙여넣기</button>
+      <button type="button" class="btn-ghost sm" id="advPasteAll" title="클립보드를 그대로 넣을 수 있는 턴을 찾아 선택합니다 — 적용은 붙여넣기">호환 턴 전부 체크</button>
+      <span class="adv-sep"></span>
+      <button type="button" class="btn-ghost sm" id="advUndoBtn">되돌리기</button>
+      <button type="button" class="btn-ghost sm" id="advGridBtn">전체 보기</button>
+    </div>
+    <div class="adv-clip" hidden></div>
+    <div class="adv-teamwarn" hidden></div>
+    <div class="adv-rail"></div>
+    <div class="adv-railwarn" hidden></div>
+    <div class="adv-selbar" hidden></div>
+    <div class="adv-gridwrap" hidden></div>
+    <div class="adv-turnhead"><b></b><span class="cnt"></span>
+      <button type="button" class="btn-ghost sm" id="advResetTurn">이 턴 기본값으로</button></div>
+    <div class="adv-track"></div>
+    <div class="adv-add"></div>
+    <div class="adv-warn" hidden></div>
+    <div class="adv-foot">
+      <button type="button" class="btn-ghost sm" id="advResetSel">선택 턴 기본값으로</button>
+      <button type="button" class="btn-ghost sm" id="advResetAll">전체 턴 기본값으로</button>
+      <button type="button" class="btn-ghost sm" id="advImport"
+        title="캐릭터별 턴 계획 · 행동 우선순위 · 특정 턴 순서로 돌린 결과를 타임라인으로 가져옵니다">기존 설정 불러오기</button>
+    </div>
+  </div></div>`;
+  document.body.appendChild(pop);
+  // aria-modal을 선언만 하고 지키지 않으면 Tab으로 뒤 컨트롤에 닿는다. 기록 드롭다운에서
+  // 다른 기록을 복원하면 편집 중인 상태가 통째로 뒤집히므로 배경을 실제로 비활성화한다.
+  // inert를 쓰는 곳은 이 편집기뿐 — 위에서 팝업을 비정상 경로로 제거했다면 잔류분이 남아
+  // 화면이 영구히 굳으므로 여기서 먼저 턴다.
+  document.querySelectorAll('body > [inert]').forEach(el => el.removeAttribute('inert'));
+  const bgInert = [...document.body.children].filter(el => el !== pop);
+  bgInert.forEach(el => el.setAttribute('inert', ''));
+  const card = $('.adv-card', pop);
+
+  $('#advSwitch', card).onchange = e => {
+    // 끈다고 지정 내용을 버리지 않는다 — 껐다 켤 때마다 초기화되면 작업물이 날아간다.
+    // 끄면 엔진에 turnPlans를 안 보내므로(advCfg/run) 기존 설정 그대로 돌아간다.
+    // 처음 켤 때만 advMaterialize가 '기본 세팅'으로 채운다. 다시 기본값에서 시작하려면
+    // '전체 턴 기본값으로'를 누르면 된다.
+    advOn = e.target.checked;
+    syncAdvLock();
+    advRefresh();
+  };
+  card.addEventListener('click', e => {
+    // 격자 칸 클릭 = 그 캐릭터의 그 턴 행동 편집기 (버튼이 아니라 <u>라 먼저 처리)
+    const cellEl = e.target.closest('.adv-grid .g-row u');
+    if (cellEl) {
+      const pos = +cellEl.dataset.gp, turn = +cellEl.dataset.gt;
+      if (advCell && advCell.pos === pos && advCell.turn === turn) advCell = null;   // 같은 칸 = 닫기
+      else {
+        const r = cellEl.getBoundingClientRect();
+        // 화면 밖으로 나가지 않게 좌우/상하 보정
+        advCell = { pos, turn,
+          x: Math.min(Math.max(8, r.left - 60), window.innerWidth - 232),
+          y: Math.min(r.bottom + 6, window.innerHeight - 240) };
+        advSel = turn;
+      }
+      return renderAdv();
+    }
+    const b = e.target.closest('button');
+    if (!b || b.disabled) return;
+    // ── 칸 편집기 조작 (그 캐릭터의 항목만 바꾸고 나머지 순서는 그대로 둔다)
+    if (b.dataset.cpclose !== undefined) { advCell = null; return renderAdv(); }
+    if (advCell && (b.dataset.cpa !== undefined || b.dataset.cpdel !== undefined || b.dataset.cpadd !== undefined)) {
+      const t = advCell.turn, seq = advSeq(t).map(x => ({ ...x }));
+      if (b.dataset.cpa !== undefined) seq[+b.dataset.cpk].a = b.dataset.cpa;
+      else if (b.dataset.cpdel !== undefined) seq.splice(+b.dataset.cpdel, 1);
+      else seq.push({ p: advCell.pos, a: '평' });
+      return advCommit(t, seq);
+    }
+    if (b.dataset.advt !== undefined) {
+      const t = +b.dataset.advt;
+      if (e.shiftKey) {                                    // shift = 현재 턴부터 여기까지 구간 선택
+        const [a, b2] = [advSel, t].sort((x, y) => x - y);
+        advSelSet = advSelSet || new Set();
+        for (let k = a; k <= b2; k++) advSelSet.add(k);
+      } else if (e.ctrlKey || e.metaKey) {                 // ctrl = 이 턴만 선택에 넣고 빼기
+        advSelSet = advSelSet || new Set();
+        advSelSet.has(t) ? advSelSet.delete(t) : advSelSet.add(t);
+        advSel = t;
+      } else { advSelSet = null; advSel = t; }
+      return renderAdv();
+    }
+    if (b.id === 'advCopy') return advCopyTurn(advSel);
+    if (b.id === 'advClipClear') { advClip = null; return renderAdv(); }
+    if (b.id === 'advPaste') return advPasteInto(advRangeTurns());
+    if (b.id === 'advPasteAll') return advCheckCompatible();
+    if (b.id === 'advUndoBtn') return advDoUndo();
+    if (b.id === 'advGridBtn') { advGrid = !advGrid; return renderAdv(); }
+    if (b.id === 'advResetSel') return advResetTurns(advRangeTurns(), '선택 턴 기본값으로');
+    if (b.id === 'advSelClear') { advSelSet = null; return renderAdv(); }
+    if (b.id === 'advSigKeep') { advTeamSig = advTeamFingerprint(); return renderAdv(); }
+    if (b.id === 'advSigReset') { advTeamSig = advTeamFingerprint();
+      return advResetTurns(Array.from({ length: advTurns() }, (_, i) => i + 1), '편성 변경 후 기본값으로'); }
+    if (b.id === 'advImport') return advImportLegacy();
+    if (b.id === 'advResetAll') return advResetTurns(
+      Array.from({ length: advTurns() }, (_, i) => i + 1), '전부 기본값으로');
+    if (b.id === 'advResetTurn') return advResetTurns([advSel], `${advSel}턴 기본값으로`);
+    const seq = advSeq(advSel).map(x => ({ ...x }));
+    if (b.dataset.a !== undefined) { seq[+b.dataset.k].a = b.dataset.a; return advCommit(advSel, seq); }
+    if (b.dataset.mv !== undefined) {
+      const k = +b.dataset.k, to = k + (+b.dataset.mv);
+      if (to < 0 || to >= seq.length) return;
+      [seq[k], seq[to]] = [seq[to], seq[k]];
+      return advReorder(advSel, seq, to);
+    }
+    if (b.dataset.del !== undefined) { seq.splice(+b.dataset.del, 1); return advCommit(advSel, seq); }
+    if (b.dataset.add !== undefined) { seq.push({ p: +b.dataset.add, a: '평' }); return advCommit(advSel, seq); }
+  });
+
+  // 드래그 재배치 — 터치에선 HTML5 DnD가 안 되므로 ▲▼ 버튼이 항상 함께 제공된다.
+  let dragK = null;
+  card.addEventListener('dragstart', e => {
+    const st = e.target.closest('.adv-step'); if (!st) return;
+    dragK = +st.dataset.k; st.classList.add('dragging');
+  });
+  card.addEventListener('dragend', e => {
+    e.target.closest('.adv-step')?.classList.remove('dragging');
+    card.querySelectorAll('.adv-step.over').forEach(x => x.classList.remove('over'));
+    dragK = null;
+  });
+  card.addEventListener('dragover', e => {
+    const st = e.target.closest('.adv-step'); if (!st || dragK === null) return;
+    e.preventDefault();
+    card.querySelectorAll('.adv-step').forEach(x => x.classList.toggle('over', x === st));
+  });
+  card.addEventListener('drop', e => {
+    const st = e.target.closest('.adv-step'); if (!st || dragK === null) return;
+    e.preventDefault();
+    const to = +st.dataset.k, seq = advSeq(advSel).map(x => ({ ...x }));
+    const [m] = seq.splice(dragK, 1);
+    seq.splice(to, 0, m);
+    dragK = null;
+    advReorder(advSel, seq, to);
+  });
+
+  const close = () => {
+    if (advCloseFn === close) advCloseFn = null;
+    advGen++;                        // 진행 중인 비동기 작업이 결과를 반영하지 못하게 한다
+    // inert를 먼저 푼다 — advLeaveScope가 우선순위 팝업을 새로 띄우므로 그 전에 해제해야 한다
+    bgInert.forEach(el => el.removeAttribute('inert'));
+    advLeaveScope(); pop.remove(); document.removeEventListener('keydown', onKey, true);
+  };
+  advCloseFn = close;
+  const onKey = ev => {
+    if (ev.key === 'Tab') {          // inert 미지원 브라우저 대비 — 포커스를 카드 안에 가둔다
+      // 숨겨진 컨트롤은 focus()가 조용히 실패해 포커스가 밖에 남는다 — 미리 걸러낸다
+      const f = [...pop.querySelectorAll('button:not([disabled]), input:not([disabled]), select, [tabindex="0"]')]
+        .filter(el => !el.closest('[hidden]'));
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (!pop.contains(document.activeElement)) { ev.preventDefault(); first.focus(); }
+      else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+      else if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+      return;
+    }
+    if (ev.key === 'Escape') {
+      // 전역 Esc 핸들러가 뒤이어 비교 모달까지 닫아 화면이 어긋나므로 여기서 끊는다
+      ev.stopPropagation(); ev.preventDefault();
+      if (advCell) { advCell = null; return renderAdv(); }
+      return close();
+    }
+    if (!advOn) return;
+    const mod = ev.ctrlKey || ev.metaKey;
+    if (mod && ev.key.toLowerCase() === 'c') { ev.preventDefault(); return advCopyTurn(advSel); }
+    if (mod && ev.key.toLowerCase() === 'v') { ev.preventDefault(); return advPasteInto(advRangeTurns()); }
+    if (mod && ev.key.toLowerCase() === 'z') { ev.preventDefault(); return advDoUndo(); }
+    if (ev.key === 'ArrowLeft' || ev.key === 'ArrowRight') {
+      ev.preventDefault();
+      const t = advSel + (ev.key === 'ArrowRight' ? 1 : -1);
+      if (t < 1 || t > advTurns()) return;
+      if (ev.shiftKey) { advSelSet = advSelSet || new Set([advSel]); advSelSet.add(t); }
+      else advSelSet = null;
+      advSel = t; return renderAdv();
+    }
+  };
+  document.addEventListener('keydown', onKey, true);   // 캡처 단계 — 전역 핸들러보다 먼저
+  pop.onclick = e => {
+    if (e.target.dataset.advclose !== undefined || e.target === pop) return close();
+    if (advCell && !e.target.closest('.adv-cellpop') && !e.target.closest('.adv-grid .g-row u')) {
+      advCell = null; renderAdv();          // 칸 편집기는 바깥을 누르면 닫는다
+    }
+  };
+  advRefresh();
+}
+
 let selTurns = new Set();  // 다중선택된 턴들 (토글)
 // 진입 시 오버라이드 설정된 턴 자동 선택 — 첫 턴과 같은 순서를 가진 것만 묶어(드래그 덮어쓰기 방지)
 function autoSelOverrides(ov) {
@@ -1182,6 +2182,8 @@ function renderTurnEditor() {
   };
   const ct = $('#clearTurn'); if (ct) ct.onclick = () => { sel.forEach(t => delete turnOverrides[t]); renderTurnChips(); };
 }
+$('#advOpen').onclick = () => openAdvPop();
+syncAdvLock();
 $('#prioReset').onclick = () => { team.forEach(s => { if (s) delete s.priority; }); turnOverrides = {}; selTurns.clear(); renderPrio(); };
 
 // ── settings ──
@@ -1221,8 +2223,289 @@ let forceProc = false;   // 확률 100% 모드
 let hp10 = false;        // 체력 10% 모드 (더미 HP 고정)
 let incomingOn = false;  // 피격 데미지 모드 (더미→아군 최대HP n% 데미지, 배리어 흡수)
 
+// ══ 캐릭터 스펙 설정 ═══════════════════════════════════════════════════════
+// 슬롯마다 육성 상태를 따로 들고 간다. 꺼져 있으면(기본) 지금까지처럼 **풀육성**
+// (Lv60·★5·유대5·전 스킬 10·도장 해제)으로 계산하므로 기존 결과가 그대로다.
+// 성급이 무엇을 잠그는지는 게임 TCharacterStarData 규칙 → dashboard/spec.js.
+const SPEC_SLOTS = ['basicAtk', 'ultimate', 'sigil',
+  'passive0', 'passive1', 'passive2', 'passive3', 'passive4'];
+const SPEC_SLOT_KR = {
+  basicAtk: '평타', ultimate: '필살기', sigil: '도장 필살기',
+  passive0: '패시브 1', passive1: '패시브 2', passive2: '패시브 3',
+  passive3: '패시브 4', passive4: '패시브 5',
+};
+const SPEC_FULL = { level: 60, evo: 5, pevo: 0, compat: 5 };
+// 슬롯이 열리는 성급 — 잠긴 줄에 "★N부터" 를 적어 주기 위한 표(spec.js 규칙과 동치)
+const SPEC_NEED = { sigil: 3, passive2: 3, passive3: 4, passive4: 5 };
+const SPEC_NEED_LV = { passive1: 2 };   // 해방은 됐지만 레벨업이 열리는 성급
+
+/** 편집용 — 없으면 만든다. **읽기 경로에서는 쓰지 말 것**(빈 spec이 기록에 눌어붙는다). */
+function specOf(s) {
+  if (!s.spec) s.spec = { on: false, ...SPEC_FULL, lv: {} };
+  if (!s.spec.lv) s.spec.lv = {};
+  return s.spec;
+}
+const specOn = s => !!(s && s.spec && s.spec.on);
+/** 엔진에 보낼 투자값. 꺼져 있으면 풀육성. (읽기 전용 — 슬롯을 건드리지 않는다) */
+function specInv(s) {
+  const p = s && s.spec;
+  return (p && p.on) ? { level: p.level, evo: p.evo, pevo: p.pevo, compat: p.compat }
+                     : { ...SPEC_FULL };
+}
+const specEvo = s => specInv(s).evo;
+const specRune = s => (specOn(s) ? (s.rune !== false && SPEC.canUnlockRune(specEvo(s))) : true);
+const specSlotState = (s, slot) => SPEC.slotState(slot, specEvo(s));
+/** 슬롯의 실효 레벨 — 레벨업이 잠긴 패시브는 1로 고정된다(엔진과 같은 규칙). */
+function specLevel(s, slot) {
+  if (specSlotState(s, slot) === 'pinned') return 1;
+  if (!specOn(s)) return 10;
+  const v = (s.spec.lv || {})[slot];
+  return v == null ? 10 : Math.max(1, Math.min(10, v));
+}
+/** 도장 강화 가산 전의 기본 ATK/HP. 공식은 spec.js(=stats.py 이식본). */
+function specAtkHp(s) {
+  const c = CHARS[s.id] || {};
+  if (c.baseATK == null) return [c.atk || 0, c.hp || 0];   // 구버전 메타 방어
+  return SPEC.scaleAtkHp(c.baseATK, c.baseHP, c.rarity, specInv(s));
+}
+/** 서버로 보낼 조각. 꺼져 있으면 아무것도 안 보내 = 풀육성 기본값. */
+function specPayload(s) {
+  if (!specOn(s)) return { specOn: false };
+  const p = specOf(s);
+  const lv = {};
+  SPEC_SLOTS.forEach(k => { lv[k] = specLevel(s, k); });
+  return { specOn: true, level: p.level, evo: p.evo, pevo: p.pevo, compat: p.compat,
+           skillLevels: lv };
+}
+
+// 패널은 메인 모달과 비교 모달 양쪽에서 쓴다 — 어느 슬롯을 어느 껍데기 안에 그리는지만
+// 다르므로 대상(host)으로 묶어 두고, 렌더 코드는 하나만 유지한다.
+let specHost = null;         // {slot, pan, wrap, sync} · null=닫힘
+let _onSpecChange = () => {};   // openModal 이 매번 갈아 끼우는 리스너 (중복 누적 방지)
+let specPrevState = {};      // 직전 슬롯 상태 — 성급을 바꿨을 때 '방금 바뀐 줄'만 강조하려고
+
+const _reduceMotion = () =>
+  !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+/** 숫자를 목표값까지 굴린다. 스탯이 얼마나 움직였는지 눈으로 잡히게 하는 용도. */
+function tweenNum(el, to) {
+  if (!el) return;
+  const from = el._twFrom == null ? to : el._twFrom;   // 첫 호출은 튀지 않게 목표값에서 시작
+  el._twFrom = to;
+  if (from === to || _reduceMotion()) { el.textContent = fmt(to); return; }
+  const t0 = performance.now(), dur = 260;
+  cancelAnimationFrame(el._twRaf || 0);
+  const step = now => {
+    const k = Math.min(1, (now - t0) / dur);
+    const e = 1 - Math.pow(1 - k, 3);                 // easeOutCubic
+    el.textContent = fmt(Math.round(from + (to - from) * e));
+    if (k < 1) el._twRaf = requestAnimationFrame(step);
+  };
+  el._twRaf = requestAnimationFrame(step);
+}
+
+/** 슬롯 하나를 지정한 껍데기(pan) 안에서 편집한다. sync = 값이 바뀔 때 바깥을 갱신하는 콜백. */
+function openSpecFor(slot, pan, wrap, sync) {
+  if (!slot || !pan) return;
+  closeSpecPanel();
+  specHost = { slot, pan, wrap, sync: sync || (() => {}) };
+  specPrevState = {};
+  pan.hidden = false;
+  if (wrap) wrap.classList.add('with-spec');
+  renderSpec();
+  // 켜져 있을 때만 첫 조작 지점으로 포커스를 옮긴다 — 꺼져 있으면 스위치가 먼저다
+  const first = pan.querySelector(specOn(slot) ? '.cs-star button' : '#csUse');
+  if (first) first.focus({ preventScroll: true });
+}
+
+function openSpecPanel(i) {
+  openSpecFor(team[i], $('#specPanel'), $('#modalWrap'), () => {
+    const btn = $('#csOpen', $('#modalCard'));
+    if (btn) btn.classList.toggle('on', specOn(team[i]));
+    document.dispatchEvent(new CustomEvent('specchange', { detail: { idx: i } }));
+    renderTeam();                  // 편성 카드 스펙 배지
+  });
+}
+
+function closeSpecPanel() {
+  const h = specHost;
+  specHost = null;
+  if (!h || !h.pan || h.pan.hidden) return;
+  if (h.wrap) h.wrap.classList.remove('with-spec');
+  h.pan.classList.add('closing');
+  const done = () => { h.pan.hidden = true; h.pan.classList.remove('closing'); h.pan.innerHTML = ''; };
+  if (_reduceMotion()) done(); else setTimeout(done, 200);
+}
+
+function renderSpec() {
+  if (!specHost) return;
+  const pan = specHost.pan, s = specHost.slot, c = CHARS[s.id] || {};
+  const p = specOf(s), on = p.on;
+  const evo = specInv(s).evo;
+  const cap = SPEC.pevoCap(evo);
+  const inv = specInv(s);
+  const [atk, hp] = specAtkHp(s);
+  const [fA, fH] = SPEC.scaleAtkHp(c.baseATK || 0, c.baseHP || 0, c.rarity || 4, SPEC_FULL);
+  const pct = fA ? Math.round(atk / fA * 100) : 100;
+  const maxBond = (c.rarity === 3 || c.rarity === 4) ? 5 : 0;
+
+  const runeOn = s.rune !== false && SPEC.canUnlockRune(evo);
+  const names = c.skillNames || {};
+  // 스타는 0~5지만 아이콘은 5개 — n번째 별은 스타가 n+1 이상일 때 켜진다
+  const pips = (n, lit, cls, glyph) => Array.from({ length: n }, (_, i) =>
+    `<i class="${cls}${i < lit ? ' lit' : ''}">${glyph}</i>`).join('');
+
+  // 필살기는 한 줄로 합치고, 도장 스위치로 어느 쪽이 나가는지만 바뀐다
+  const ROWS = ['basicAtk', 'fatal', 'passive0', 'passive1', 'passive2', 'passive3', 'passive4'];
+  const rows = ROWS.map(k => {
+    const slot = k === 'fatal' ? (runeOn ? 'sigil' : 'ultimate') : k;
+    const st = k === 'fatal' ? 'open' : specSlotState(s, k);
+    const lv = specLevel(s, slot);
+    const need = SPEC_NEED[k], needLv = SPEC_NEED_LV[k];
+    const changed = specPrevState[k] && specPrevState[k] !== st;
+    const note = st === 'locked' ? `<span class="sr-need">스타 ${need} 해금</span>`
+      : st === 'pinned' ? `<span class="sr-pin">스타 ${needLv}부터</span>` : '';
+    const bar = st === 'open'
+      ? `<input type="range" class="sr-range" data-lv="${k}" min="1" max="10" value="${lv}"
+           style="--p:${(lv - 1) / 9 * 100}%" aria-label="${esc(names[slot] || k)} 레벨">`
+      : '<span class="sr-blank"></span>';
+    const ic = skillIconSrc(slot, s.id);
+    const label = k === 'fatal' ? (names[slot] || '필살기')
+      : (names[slot] || SPEC_SLOT_KR[slot] || slot);
+    // 도장 스위치는 필살기 줄 바로 아래에 붙는다 (스타 3부터만 조작 가능)
+    const runeSw = k !== 'fatal' ? '' :
+      `<div class="cs-rune${SPEC.canUnlockRune(evo) ? '' : ' na'}">
+         <label class="toggle"><input type="checkbox" id="csRune" ${runeOn ? 'checked' : ''}
+           ${SPEC.canUnlockRune(evo) ? '' : 'disabled'}><span class="sw"></span>도장 해제</label>
+         <em>${SPEC.canUnlockRune(evo) ? (runeOn ? '도장 필살기로 나갑니다' : '일반 필살기로 나갑니다')
+                                        : '스타 3부터 해제할 수 있어요'}</em></div>`;
+    return `<div class="cs-row ${st}${changed ? ' flash' : ''}" data-slot="${k}">
+        ${ic ? `<img class="sr-ic" src="${ic}" alt="" loading="lazy">` : '<span class="sr-ic ph"></span>'}
+        <span class="sr-n" title="${esc(label)}">${esc(label)}</span>
+        <span class="sr-lv">${st === 'locked' ? '—' : `Lv <b>${lv}</b>`}</span>
+        ${bar}${note}
+      </div>${runeSw}`;
+  }).join('');
+  ROWS.forEach(k => { specPrevState[k] = k === 'fatal' ? 'open' : specSlotState(s, k); });
+
+  pan.innerHTML = `<div class="cs-head">
+      <div class="cs-ttl"><span class="cs-kick">캐릭터 스펙 설정</span><b>${esc(c.name || '')}</b></div>
+      <label class="toggle cs-use"><input type="checkbox" id="csUse" ${on ? 'checked' : ''}>
+        <span class="sw"></span>사용</label>
+      <button type="button" class="mc-close" id="csClose" aria-label="닫기">×</button>
+    </div>
+    <p class="cs-hint">끄면 <b>풀육성</b>(Lv60 · 스타5 · 유대5 · 전 스킬 10 · 도장 해제) 기준으로 계산합니다.</p>
+    <div class="cs-body${on ? '' : ' off'}" id="csBody">
+      <div class="cs-read">
+        <div class="cs-stat"><label>공격력</label><b class="num" id="csAtk">${fmt(atk)}</b></div>
+        <div class="cs-stat"><label>체력</label><b class="num" id="csHp">${fmt(hp)}</b></div>
+        <div class="cs-ratio" id="csRatio">풀육성 대비 <b>${pct}%</b></div>
+      </div>
+
+      <div class="cs-grp">
+        <div class="cs-lbl">스타 <b id="csEvoV">${evo}</b><em> / 5 · 아래 스킬 해금을 결정합니다</em></div>
+        <div class="cs-pips star" id="csStarPips">${pips(5, evo, 'pip', '★')}</div>
+        <input type="range" id="csEvo" min="0" max="5" value="${evo}"
+          style="--p:${evo / 5 * 100}%" aria-label="스타">
+      </div>
+
+      <div class="cs-grp">
+        <div class="cs-lbl">진화 단계 <b id="csPevoV">${inv.pevo}</b><em> / ${cap}</em></div>
+        <input type="range" id="csPevo" min="0" max="${Math.max(cap, 1)}" value="${inv.pevo}"
+          ${cap ? '' : 'disabled'} style="--p:${cap ? inv.pevo / cap * 100 : 100}%"
+          aria-label="진화 단계">
+        ${cap ? '' : '<div class="cs-note">★5는 더 밟을 단계가 없어요</div>'}
+      </div>
+
+      <div class="cs-grp">
+        <div class="cs-lbl">레벨 <b id="csLvV">${inv.level}</b><em> / 60</em></div>
+        <input type="range" id="csLevel" min="1" max="60" value="${inv.level}"
+          style="--p:${(inv.level - 1) / 59 * 100}%" aria-label="캐릭터 레벨">
+      </div>
+
+      <div class="cs-grp${maxBond ? '' : ' na'}">
+        <div class="cs-lbl">유대 <b id="csBondV">${inv.compat}</b><em> / 5</em></div>
+        <div class="cs-pips bond" id="csBondPips">${pips(5, inv.compat, 'pip', '♥')}</div>
+        <input type="range" id="csBond" min="0" max="5" value="${inv.compat}"
+          ${maxBond ? '' : 'disabled'} style="--p:${inv.compat / 5 * 100}%" aria-label="유대">
+        ${maxBond ? '' : '<div class="cs-note">이 희귀도는 유대 보정이 없어요</div>'}
+      </div>
+
+      <div class="cs-grp cs-skills">
+        <div class="cs-lbl">스킬 레벨</div>
+        ${rows}
+      </div>
+    </div>`;
+
+  $('#csUse', pan).onchange = e => {
+    p.on = e.target.checked;
+    specPrevState = {};                       // 켜고 끌 때의 상태 변화는 강조하지 않는다
+    renderSpec(); specSyncModal();
+  };
+  $('#csClose', pan).onclick = closeSpecPanel;
+  if (!on) return;                            // 꺼져 있으면 아래 컨트롤은 비활성
+
+  const live = (el, set) => {
+    if (!el) return;
+    el.oninput = () => { set(+el.value); specSyncStats(); };   // 드래그 중엔 숫자·아이콘만
+    el.onchange = () => { renderSpec(); specSyncModal(); };    // 놓을 때 전체 갱신
+  };
+  live($('#csEvo', pan), v => {
+    p.evo = v;
+    p.pevo = Math.min(p.pevo, SPEC.pevoCap(v));       // 스타를 내리면 진화 상한도 내려간다
+  });
+  live($('#csPevo', pan), v => { p.pevo = v; });
+  live($('#csLevel', pan), v => { p.level = v; });
+  live($('#csBond', pan), v => { p.compat = v; });
+  const rsw = $('#csRune', pan);
+  if (rsw) rsw.onchange = e => { s.rune = e.target.checked; renderSpec(); specSyncModal(); };
+  $$('.sr-range', pan).forEach(r => {
+    r.oninput = () => {
+      // 필살기 줄은 한 컨트롤이라 일반/도장 양쪽에 같은 레벨을 쓴다
+      const keys = r.dataset.lv === 'fatal' ? ['ultimate', 'sigil'] : [r.dataset.lv];
+      keys.forEach(k => { p.lv[k] = +r.value; });
+      r.style.setProperty('--p', (r.value - 1) / 9 * 100 + '%');
+      const cell = r.closest('.cs-row').querySelector('.sr-lv b');
+      if (cell) cell.textContent = r.value;
+    };
+    r.onchange = () => specSyncModal();
+  });
+}
+
+/** 드래그 중 갱신 — 다시 그리지 않고 숫자와 채움만 (드래그가 끊기지 않게) */
+function specSyncStats() {
+  if (!specHost || specHost.pan.hidden) return;
+  const pan = specHost.pan, s = specHost.slot, c = CHARS[s.id] || {};
+  const inv = specInv(s), cap = SPEC.pevoCap(inv.evo);
+  const [atk, hp] = specAtkHp(s);
+  const [fA] = SPEC.scaleAtkHp(c.baseATK || 0, c.baseHP || 0, c.rarity || 4, SPEC_FULL);
+  tweenNum($('#csAtk', pan), atk);
+  tweenNum($('#csHp', pan), hp);
+  const ratio = $('#csRatio', pan);
+  if (ratio) ratio.innerHTML = `풀육성 대비 <b>${fA ? Math.round(atk / fA * 100) : 100}%</b>`;
+  const num = (id, v) => { const el = $(id, pan); if (el) el.textContent = v; };
+  num('#csPevoV', inv.pevo); num('#csLvV', inv.level);
+  num('#csEvoV', inv.evo); num('#csBondV', inv.compat);
+  const fill = (id, pct) => { const el = $(id, pan); if (el) el.style.setProperty('--p', pct + '%'); };
+  fill('#csPevo', cap ? inv.pevo / cap * 100 : 100);
+  fill('#csLevel', (inv.level - 1) / 59 * 100);
+  fill('#csEvo', inv.evo / 5 * 100);
+  fill('#csBond', inv.compat / 5 * 100);
+  // 별·하트는 슬라이더를 끄는 동안 함께 켜져야 조작감이 이어진다
+  const light = (id, n) => $$(id + ' .pip', pan).forEach((el, i) => el.classList.toggle('lit', i < n));
+  light('#csStarPips', inv.evo);
+  light('#csBondPips', inv.compat);
+}
+
+/** 스펙이 바뀌면 뒤쪽 모달(스탯·스킬 목록·버튼 표시)도 같이 맞춘다. */
+function specSyncModal() {
+  specSyncStats();
+  if (specHost) specHost.sync();   // 바깥(모달 스탯 · 비교 카드)을 갱신
+}
+
 // ── char detail modal ──
 async function openModal(i) {
+  closeSpecPanel();          // 다른 슬롯의 패널이 열린 채로 남으면 엉뚱한 캐릭터를 편집하게 된다
   const s = team[i], c = CHARS[s.id];
   const limit = c.sealLimit || 20000;
   if (s.sealAtk == null) { s.sealAtk = 0; s.sealHp = limit; }   // 기본: 한계 전부 체력
@@ -1232,6 +2515,10 @@ async function openModal(i) {
     <div class="mc-top"><img src="${icon(s.id)}" alt="">
       <div class="info"><h2>${c.name}</h2><div class="tags">
         <span class="tag el">${c.element}속성</span><span class="tag">${c.role}</span><span class="tag">P${i + 1}</span></div></div></div>
+    <div class="mc-specbar">
+      <button type="button" class="spec-open${specOn(s) ? ' on' : ''}" id="csOpen">
+        <span class="so-ic" aria-hidden="true">◈</span>캐릭터 스펙 설정<span class="so-dot"></span></button>
+    </div>
     <div class="mc-seal${s.sealOn ? ' on' : ''}" id="mcSeal">
       <label class="toggle seal-head"><input type="checkbox" id="sealOn" ${s.sealOn ? 'checked' : ''}><span class="sw"></span>도장 강화 <em>한계 ${fmt(limit)} (공격력+체력)</em></label>
       <div class="seal-body">
@@ -1245,15 +2532,12 @@ async function openModal(i) {
       </div>
     </div>
     <div class="mc-stats">
-      <div class="s"><label>기본 공격력 <em id="stAtkAdd"></em></label><b class="num" id="stAtk">${fmt(c.atk + s.sealAtk)}</b></div>
-      <div class="s"><label>최대 체력 <em id="stHpAdd"></em></label><b class="num" id="stHp">${fmt(c.hp + s.sealHp)}</b></div></div>
-    <div class="mc-ctrl">
-      <label class="field"><span>스킬 레벨 <b id="sklVal" style="color:var(--gold)">${s.skill}</b></span>
-        <div class="row"><input type="range" id="skl" min="1" max="10" value="${s.skill}"></div></label>
-      <label class="toggle"><input type="checkbox" id="rune" ${s.rune ? 'checked' : ''}><span class="sw"></span>도장(룬) 해제</label>
-    </div>
+      <div class="s"><label>기본 공격력 <em id="stAtkAdd"></em></label><b class="num" id="stAtk">${fmt(specAtkHp(s)[0] + s.sealAtk)}</b></div>
+      <div class="s"><label>최대 체력 <em id="stHpAdd"></em></label><b class="num" id="stHp">${fmt(specAtkHp(s)[1] + s.sealHp)}</b></div></div>
     <div class="field">
-      <label class="toggle" style="margin-bottom:10px"><input type="checkbox" id="usePlan" ${s.usePlan ? 'checked' : ''}><span class="sw"></span>턴별 행동 직접 계획 <em style="margin-left:4px">(끄면 자동)</em></label>
+      ${advOn ? '<div class="adv-lock">행동 고급 설정이 켜져 있어요 — 이 캐릭터의 턴별 행동도 고급 설정에서 정합니다</div>' : ''}
+      <div class="mc-plan${advOn ? ' locked' : ''}">
+      <label class="toggle" style="margin-bottom:10px"><input type="checkbox" id="usePlan" ${s.usePlan ? 'checked' : ''}${advOn ? ' disabled' : ''}><span class="sw"></span>턴별 행동 직접 계획 <em style="margin-left:4px">(끄면 자동)</em></label>
       <div id="plannerWrap" ${s.usePlan ? '' : 'hidden'}>
         <div class="plan-legend">
           <span>${(c.actionsPerTurn || 1) > 1
@@ -1263,14 +2547,11 @@ async function openModal(i) {
         </div>
         <div class="planner" id="planner"></div>
       </div>
-    </div>
+    </div></div>
     <div class="skills" id="skills"><div class="empty-state"><span class="spin"></span>스킬 로딩…</div></div>`;
   m.hidden = false;
 
-  const skl = $('#skl', card), sklVal = $('#sklVal', card);
-  skl.style.setProperty('--p', (s.skill / 10 * 100) + '%');
-  skl.oninput = () => { s.skill = +skl.value; sklVal.textContent = skl.value; skl.style.setProperty('--p', (skl.value / 10 * 100) + '%'); renderSkills(detail, s.skill); };
-  $('#rune', card).onchange = e => { s.rune = e.target.checked; renderSkills(detail, s.skill); };
+  $('#csOpen', card).onclick = () => openSpecPanel(i);
   const syncSeal = atk => {
     atk = Math.max(0, Math.min(limit, Math.round((atk || 0) / 100) * 100));
     s.sealAtk = atk; s.sealHp = limit - atk;
@@ -1281,8 +2562,9 @@ async function openModal(i) {
     const ap = Math.round(atk / limit * 100);
     $('#sealRatio', card).innerHTML = `공격력 <b class="atk">${ap}%</b> : 체력 <b class="hp">${100 - ap}%</b>`;
     const ua = s.sealOn ? atk : 0, uh = s.sealOn ? s.sealHp : 0;   // 강화 꺼지면 기본값만
-    $('#stAtk', card).textContent = fmt(c.atk + ua);
-    $('#stHp', card).textContent = fmt(c.hp + uh);
+    const [bA, bH] = specAtkHp(s);                                  // 육성 스펙 반영된 기본값
+    $('#stAtk', card).textContent = fmt(bA + ua);
+    $('#stHp', card).textContent = fmt(bH + uh);
     $('#stAtkAdd', card).textContent = ua ? `+${fmt(ua)}` : '';
     $('#stHpAdd', card).textContent = uh ? `+${fmt(uh)}` : '';
   };
@@ -1292,6 +2574,15 @@ async function openModal(i) {
   $('#sealHpR', card).oninput = e => syncSeal(limit - +e.target.value);
   $('#sealHpN', card).onchange = e => syncSeal(limit - +e.target.value);
   syncSeal(s.sealAtk);
+  // 스펙 패널이 값을 바꾸면 이 모달의 스탯·스킬 설명도 따라가야 한다.
+  // 모달을 다시 열 때마다 붙으므로 이전 리스너는 openModal 진입 시 떼어 낸다.
+  document.removeEventListener('specchange', _onSpecChange);
+  _onSpecChange = ev => {
+    if (ev.detail.idx !== i || $('#modal').hidden) return;
+    syncSeal(s.sealAtk);
+    renderSkills(detail, s);
+  };
+  document.addEventListener('specchange', _onSpecChange);
   $('#usePlan', card).onchange = e => {
     s.usePlan = e.target.checked;
     $('#plannerWrap', card).hidden = !s.usePlan;
@@ -1331,7 +2622,7 @@ async function openModal(i) {
   syncPdef();
 
   const detail = await API.char(s.id);
-  renderSkills(detail, s.skill);
+  renderSkills(detail, s);
 }
 
 // ── per-turn action planner (apt = actions per turn; 이태호 = 2) ──
@@ -1348,6 +2639,17 @@ function defaultPlan(meta, n = 30) {
   // 이태호(apt>1): 첫 행동을 궁으로 → 일지어천 진입 후 평타가 내기혼신 쌓아 데미지 (AUTO와 동일 사이클)
   if ((meta.actionsPerTurn || 1) > 1 && meta.firstFatal <= 1) plan[0] = '궁';
   return plan;
+}
+// 턴 수를 늘렸을 때 계획을 n턴 길이로 확장한다(줄이지는 않는다 — 사용자가 편집한 뒷부분 보존).
+// 새로 생기는 턴은 기본 궁 주기를 이어받는다. 예전처럼 '평'으로만 채우면 그 뒤로 궁이 영영
+// 안 나가는데, 엔진은 계획이 소진되면 마지막 토큰을 무한 반복하므로 "플래너를 열었는지"에 따라
+// 결과가 갈렸다(리카노 10턴 계획을 30턴으로: 모달 열면 궁 0회, 안 열면 6회).
+function padPlan(plan, meta, n) {
+  const apt = meta.actionsPerTurn || 1, want = n * apt;
+  if (!plan || plan.length >= want) return plan;
+  const base = defaultPlan(meta, n);        // 평 + 궁(firstFatal, +fatalCd…)
+  while (plan.length < want) plan.push(base[plan.length] || '평');
+  return plan;                              // 이후 normalizePlan이 CD 정합성을 다시 맞춘다
 }
 // 투명인간용: 3턴궁 사이클(4·7·10·13…) + 나머지 평타. 기본은 cd2(3·5·7…)라 궁 시점 네온 표식
 // 스냅샷이 4에 묶여 도장 AoE(≧5)가 안 터진다. 평타를 3번 넣어 5를 만들고 3턴 주기로 운용하는 옵션.
@@ -1494,13 +2796,21 @@ function enforceCdDefend(plan, meta, ultTurn, allyBasics) {
     }
     return false;                                 // 아군 평타가 부족해 그 턴엔 불가
   }
-  plan[ultTurn - 2] = '방';                       // 히토하: 앞 턴 강제 방어
+  // 히토하형(입질): 궁 직전 턴을 방어로 만들고, 그 방어가 CD를 줄이려면 직전 사이클에 평타(입질)가
+  // 있어야 한다. 스택형과 마찬가지로 사본에 적용해 실제 CD 모델로 검증한 뒤에만 반영한다 —
+  // 예전엔 무조건 true를 돌려줘서, T2·T3처럼 원천적으로 불가능한 턴에도 "성공" 토스트가 뜨고
+  // 정작 normalizePlan이 그 궁을 평타로 되돌려 셀만 조용히 원복됐다.
+  const test = plan.slice();
+  test[ultTurn - 2] = '방';                       // 앞 턴 강제 방어
   let lastUlt = 0;
-  for (let t = 1; t < ultTurn - 1; t++) if (plan[t - 1] === '궁') lastUlt = t;
+  for (let t = 1; t < ultTurn - 1; t++) if (test[t - 1] === '궁') lastUlt = t;
   let hasBasic = false;
-  for (let t = lastUlt + 1; t <= ultTurn - 2; t++) if (plan[t - 1] === '평') { hasBasic = true; break; }
+  for (let t = lastUlt + 1; t <= ultTurn - 2; t++) if (test[t - 1] === '평') { hasBasic = true; break; }
   if (!hasBasic) for (let t = lastUlt + 1; t <= ultTurn - 2; t++)
-    if (plan[t - 1] !== '궁') { plan[t - 1] = '평'; break; }   // 입질용 평타 1개 확보
+    if (test[t - 1] !== '궁') { test[t - 1] = '평'; break; }   // 입질용 평타 1개 확보
+  test[ultTurn - 1] = '궁';                       // 호출부가 이미 넣었지만 사본에도 명시
+  if (!ultAvail(test, meta, allyBasics)[ultTurn - 1]) return false;
+  for (let i = 0; i < plan.length; i++) plan[i] = test[i];
   return true;
 }
 function reflowUlts(plan, meta, anchor) { // re-place 궁s AFTER `anchor` at the earliest cadence
@@ -1518,7 +2828,7 @@ function renderPlanner(s, meta) {
   const wrap = $('#planner'); if (!wrap) return;
   const apt = meta.actionsPerTurn || 1;
   const n = +$('#turns').value;
-  while (s.plan.length < n * apt) s.plan.push('평');
+  padPlan(s.plan, meta, n);                               // 턴 수를 늘렸으면 기본 궁 주기로 이어붙임
   const ab = allyBasicCounts(team, team.indexOf(s), n);   // 모이루: 아군 평타 → 추격 → 방어 시 CD 감소
   if (apt === 1) normalizePlan(s.plan, meta, ab);     // CD 검증·게이팅은 단일행동 캐릭만
   const ok = apt === 1 ? ultAvail(s.plan, meta, ab) : null;
@@ -1568,8 +2878,10 @@ function renderPlanner(s, meta) {
     if (a === '궁' && meta.cdDefendReduce > 0) {       // 모이루(추격)·히토하(입질): 앞턴 방어 강제 = CD 가속
       if (enforceCdDefend(s.plan, meta, idx + 1, abM))
         toast(`${meta.name}: 필살 CD를 맞추려고 앞 턴을 <b>방어</b>로 자동 배치했어요`);
-      else
+      else if (meta.cdDefendPerStack)   // 모이루형: 스택이 아군 평타에서 오므로 부족할 수 있다
         toast(`${meta.name}: <b>${idx + 1}턴엔 필살 불가</b> — 아군 평타가 부족해 방어로도 CD를 못 맞춰요`);
+      else                              // 히토하형: 방어를 넣어도 그 턴까진 CD가 안 찬다
+        toast(`${meta.name}: <b>${idx + 1}턴엔 필살 불가</b> — 방어로 앞당겨도 그 턴까진 CD가 안 차요`);
     }
     else if (apt === 1 && a === '궁') reflowUlts(s.plan, meta, idx + 1);   // 단일행동: 궁 자동 재배치
     if (apt === 1) normalizePlan(s.plan, meta, abM);
@@ -1577,29 +2889,34 @@ function renderPlanner(s, meta) {
     renderPlanner(s, meta);
   };
 }
-function renderSkills(detail, lvl) {
+function renderSkills(detail, slot) {
   const wrap = $('#skills'); if (!wrap) return;
-  const rune = $('#rune')?.checked;
-  const li = Math.min(lvl, 10) - 1;
+  const rune = specRune(slot);
   wrap.innerHTML = detail.skills.filter(sk => {
     if (sk.slot === 'sigil') return rune;          // 룬 필살기는 도장 해제 시만
     if (sk.slot === 'ultimate') return !rune;      // 도장 해제 시 ultimate→sigil 대체
-    return true;
+    return specSlotState(slot, sk.slot) !== 'locked';   // 미해방 패시브는 아예 숨김
   }).map(sk => {
-    const e = sk.levels[Math.min(li, sk.levels.length - 1)] || {};
+    const lv = specLevel(slot, sk.slot);           // 슬롯마다 제 레벨로 설명을 보여준다
+    const e = sk.levels[Math.min(lv - 1, sk.levels.length - 1)] || {};
     const cd = e.cd ? `CD ${e.cd}` : '';
     const ic = skillIconSrc(sk.slot, detail.id);
     const slotEl = ic ? `<img class="slot-ic" src="${ic}" alt="${sk.slotKr}" title="${sk.slotKr}">` : `<span class="slot">${sk.slotKr}</span>`;
-    return `<div class="sk"><div class="sk-h">${slotEl}<span class="skn">${sk.name}</span><span class="cd">${cd}</span></div>
+    const pin = specSlotState(slot, sk.slot) === 'pinned'
+      ? '<span class="sk-pin" title="이 스타에서는 레벨을 올릴 수 없어요">1레벨 고정</span>' : '';
+    return `<div class="sk"><div class="sk-h">${slotEl}<span class="skn">${sk.name}</span>
+        <span class="sk-lv">Lv ${lv}</span>${pin}<span class="cd">${cd}</span></div>
       <div class="sk-b">${(e.kr || '').trim() || '—'}</div></div>`;
   }).join('');
   wrap.onclick = e => { const h = e.target.closest('.sk-h'); if (h) h.parentElement.classList.toggle('open'); };
 }
-$('#modal').onclick = e => { if (e.target.dataset.close !== undefined) $('#modal').hidden = true; };
+function closeCharModal() { closeSpecPanel(); $('#modal').hidden = true; }
+$('#modal').onclick = e => { if (e.target.dataset.close !== undefined) closeCharModal(); };
 document.addEventListener('keydown', e => { if (e.key === 'Escape') {
   const sub = document.querySelector('.iopop, .swappop, .sealpop, .planpop, .priopop'); if (sub) { sub.remove(); return; }   // 위 팝업부터 닫기
   const ci = document.querySelector('.cmpinfo'); if (ci) { ci.remove(); return; }
-  $('#modal').hidden = true; $('#histModal').hidden = true; $('#cmpModal').hidden = true; $('#guideModal').hidden = true;
+  if (specHost) { closeSpecPanel(); return; }                  // 스펙 패널이 열려 있으면 그것부터
+  closeCharModal(); $('#histModal').hidden = true; $('#cmpModal').hidden = true; $('#guideModal').hidden = true;
 } });
 
 function toast(msg) {
@@ -1655,6 +2972,9 @@ async function hardReload(toast) {
 
 // ── run simulation ──
 async function run(save = true) {
+  // 고급 설정 편집기가 다른 대상(비교군)을 물고 있는 동안 실행하면 메인 팀 + 비교군
+  // 타임라인이 섞인 결과가 기록까지 남는다. 키보드로 버튼에 닿을 수 있으므로 막는다.
+  if (advScope) return toast('행동 고급 설정을 닫은 뒤 실행해 주세요');
   const picked = team.map((s, i) => s ? { ...s, position: i + 1, priority: s.priority ?? null } : null).filter(Boolean);
   if (picked.length === 0) return;
   // 이태호처럼 매턴 2회 행동·테세 전환 캐릭은 턴별 설정을 권장
@@ -1664,10 +2984,13 @@ async function run(save = true) {
     if (hpSchedChar && !hp10) toast(`${CHARS[hpSchedChar.id].name} 동반 — 적 HP%가 진행 턴을 4등분해 단계적으로 감소합니다 (앞 1/4 ≥75% → 막 1/4 &lt;25%)`);
   const btn = $('#runBtn'); btn.classList.add('busy'); btn.querySelector('span').innerHTML = '<span class="spin"></span>계산 중…';
   const cfg = {
-    team: picked.map(s => ({ id: s.id, position: s.position, skill: s.skill, rune: s.rune, rotation: s.rotation || null, fedActions: s.fedActions || null, allyUltAfter: !!s.allyUltAfter, priority: s.priority, sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0 })),
+    // 고급 설정 중에는 캐릭터별 계획·우선순위를 보내지 않는다 (advCfg의 프로브와 동일해야
+    // 화면에 보이는 타임라인이 곧 실행 결과가 된다). 전 턴이 지정 상태라 결과는 동일.
+    team: picked.map(s => ({ id: s.id, position: s.position, skill: s.skill, rune: s.rune, rotation: advOn ? null : (s.rotation || null), fedActions: s.fedActions || null, allyUltAfter: !!s.allyUltAfter, priority: advOn ? null : s.priority, sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0 })),
     turns: +$('#turns').value, dummies: +$('#dummies').dataset.val, enemyHits: $('#enemyHits').dataset.val,
     dummyElement: +$('#dummyElement').dataset.val,
-    turnOrders: turnOverrides, forceProc, hp10, runs: +$('#runs').value,
+    turnOrders: advOn ? {} : turnOverrides, turnPlans: advOn ? turnPlans : {},
+    forceProc, hp10, runs: +$('#runs').value,
     incomingHpPct: incomingOn ? +$('#incoming').value : 0,   // 피격 데미지 모드
   };
   try {
@@ -1984,6 +3307,7 @@ function showSource(chip) {
   setTimeout(() => document.addEventListener('click', function h(ev) { if (!pop.contains(ev.target) && !chip.contains(ev.target)) { pop.remove(); document.removeEventListener('click', h); } }), 0);
 }
 async function openSkillFromSource(id, skillName) {
+  closeSpecPanel();          // 스킬 상세로 카드 내용이 바뀌므로 편집 패널은 닫는다
   const detail = await API.char(id);
   // 필살기는 ultimate/sigil 이름이 같을 수 있음 → 룬 해제(sigil) 설명을 우선 표시
   const matches = detail.skills.filter(s => s.name === skillName);

@@ -61,6 +61,8 @@ _SOLO_DUMMIES = 3
 _SOLO_ENEMY_HITS = 3
 _SOLO_INCOMING_HP_PCT = 5      # 피격 반응(반격·배리어 소모) 경로까지 태우기 위한 최소 피해
 _DEFAULT_SEED = 0
+# 고급 설정 타임라인 토큰 -> 엔진 액션 (sim_api._ACTION_TOKEN과 동일 어휘)
+_TOKEN = {"평": "basic", "궁": "fatal", "방": "defend"}
 
 
 def _canonical(obj: object) -> dict:
@@ -82,6 +84,7 @@ class Combo:
     dummy_element: int = 0
     hp10: bool = False
     incoming_hp_pct: int = 0
+    turn_plans: dict = field(default_factory=dict)   # 고급 설정 명시 타임라인
     seed: int = _DEFAULT_SEED
 
     def config(self) -> dict:
@@ -102,7 +105,8 @@ class Combo:
             "turns": self.turns, "dummies": self.dummies,
             "enemyHits": self.enemy_hits, "enemyAoe": self.enemy_aoe,
             "dummyElement": self.dummy_element, "hp10": self.hp10,
-            "incomingHpPct": self.incoming_hp_pct, "seed": self.seed,
+            "incomingHpPct": self.incoming_hp_pct, "turnPlans": self.turn_plans,
+            "seed": self.seed,
             "forceProc": True,
         })
 
@@ -229,6 +233,45 @@ def _team_combos() -> list[Combo]:
             turns=15, dummies=3, enemy_hits=2, incoming_hp_pct=5,
         ),
         Combo(
+            name="plan_defend_then_ult",
+            purpose="고급 설정 — 같은 턴 방어로 CD를 당겨 궁(모이루). UI가 한때 원천 봉쇄하던 수",
+            specs=(CharSpec(10436, position=1), CharSpec(10439, position=2)),
+            turns=12, dummies=3, enemy_hits=2, incoming_hp_pct=5,
+            turn_plans={str(t): ([{"p": 1, "a": "방"}, {"p": 2, "a": "궁"}, {"p": 1, "a": "궁"}]
+                                 if t in (4, 7, 10) else
+                                 [{"p": 1, "a": "평"}, {"p": 2, "a": "평"}])
+                        for t in range(1, 13)},
+        ),
+        Combo(
+            name="plan_fed_double_ult",
+            purpose="고급 설정 — 임부언 궁으로 CD 초기화된 캐리가 한 턴에 궁 2회",
+            specs=(CharSpec(10401, position=1), CharSpec(10410, position=2)),
+            turns=12, dummies=3, enemy_hits=2, incoming_hp_pct=5,
+            turn_plans={str(t): ([{"p": 1, "a": "궁"}, {"p": 2, "a": "궁"}, {"p": 1, "a": "궁"}]
+                                 if t in (4, 8) else
+                                 [{"p": 1, "a": "평"}, {"p": 2, "a": "평"}])
+                        for t in range(1, 13)},
+        ),
+        Combo(
+            name="plan_xuying_gap_ring",
+            purpose="욱영 인접 = 빈 자리를 압축한 링 (P2 공석 → P1 욱영의 이웃은 P3·P5, P4는 제외). 인게임 확인",
+            specs=(CharSpec(10439, position=1), CharSpec(10421, position=3),
+                   CharSpec(10428, position=4), CharSpec(10402, position=5)),
+            turns=12, dummies=3, enemy_hits=2, incoming_hp_pct=5,
+        ),
+        Combo(
+            name="plan_edge_cases",
+            purpose="고급 설정 경계 — 빈 턴(아무도 행동 안 함)·없는 포지션·예산 초과 요청",
+            specs=(CharSpec(10423, position=1), CharSpec(10439, position=2),
+                   CharSpec(10421, position=3)),
+            turns=10, dummies=3, enemy_hits=2, incoming_hp_pct=5,
+            turn_plans={
+                "2": [],                                              # 아무도 행동하지 않는 턴
+                "3": [{"p": 5, "a": "평"}, {"p": 1, "a": "평"}],        # 비어 있는 포지션 5
+                "4": [{"p": 1, "a": "평"}] * 5,                        # 예산 초과 요청
+            },
+        ),
+        Combo(
             name="team_coordination",
             purpose="다양수이 협동 트리거 — 자신 제외 전사 동료 전원 평타 시 전의 누적 → 궁에서 EX효과로 실현",
             # 게이트는 '자신 제외' 전사 동료만 보므로 다양수이 본인은 기본 로테이션(궁 포함)을 쓴다.
@@ -284,6 +327,8 @@ def measure(combo: Combo) -> dict:
         dummy_element=combo.dummy_element,
         hp10=combo.hp10,
         incoming_hp_pct=combo.incoming_hp_pct,
+        turn_plans={int(t): [(int(e["p"]) - 1, _TOKEN[e["a"]]) for e in seq]
+                    for t, seq in combo.turn_plans.items()},
     )
     per_char = {
         u.name: {

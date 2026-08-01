@@ -81,7 +81,10 @@
     </label>
 
     <div class="field">
-      <span>행동 우선순위 <em>(드래그로 순서 변경)</em></span>
+      <span class="prio-title">행동 우선순위 <em>(드래그로 순서 변경)</em>
+        <button class="adv-open" id="advOpen" type="button">행동 고급 설정</button>
+      </span>
+      <div class="adv-lock" id="advLock" hidden>고급 설정이 켜져 있어요 — 순서는 고급 설정에서 정합니다</div>
       <ol class="prio" id="prio"></ol>
       <div class="prio-turn">
         <span class="pt-label">특정 턴만 다르게 <em>(턴 여러 개 토글 선택 → 한 번에 순서 편집)</em></span>
@@ -120,7 +123,12 @@
 <!-- ─── 캐릭터 상세 모달 ─── -->
 <div class="modal" id="modal" hidden>
   <div class="modal-bg" data-close></div>
-  <div class="modal-card" id="modalCard"></div>
+  <!-- 스펙 패널은 래퍼 바깥(absolute)에 붙어 레이아웃을 밀지 않는다 —
+       열릴 때 래퍼를 transform으로 옮겨야 카드가 부드럽게 비켜난다 -->
+  <div class="modal-wrap" id="modalWrap">
+    <div class="modal-card" id="modalCard"></div>
+    <aside class="specpanel" id="specPanel" hidden></aside>
+  </div>
 </div>
 
 <!-- ─── 기록 관리 모달 ─── -->
@@ -175,10 +183,56 @@
       <p>각 캐릭터를 선택하면 상세 패널이 열립니다.</p>
       <ul>
         <li><b>도장 강화</b> on/off 및 공격력·체력 배분 조절</li>
-        <li><b>스킬 레벨</b> 조절</li>
+        <li><b>캐릭터 스펙 설정</b> — 오른쪽 패널에서 스타 · 진화 단계 · 레벨 · 유대와
+          스킬별 레벨을 각각 지정합니다. <b>끄면 풀육성</b>(Lv60 · 스타5 · 유대5 · 전 스킬 10 ·
+          도장 해제) 기준이라, 켜지 않으면 지금까지와 결과가 같습니다.</li>
         <li>보유 스킬 목록 및 <b>스킬 상세 효과</b> 확인</li>
       </ul>
       <figure class="g-two"><img src="guide/character.png" alt="캐릭터 설정"><img src="guide/skill.png" alt="스킬 상세"></figure>
+
+      <h4>캐릭터 스펙 설정</h4>
+      <p>캐릭터 상세 패널의 <b>도장 강화</b> 위 오른쪽에 있는 <b>◈ 캐릭터 스펙 설정</b> 버튼을 누르면
+        카드 옆으로 창이 열립니다. 스타 · 진화 단계 · 레벨 · 유대와 스킬별 레벨을 캐릭터마다 따로 지정합니다.</p>
+
+      <figure class="g-crop"><img src="guide/cs-head.png" alt="스펙 패널 머리말"></figure>
+      <p>우측 상단 <b>사용</b>이 꺼져 있는 동안에는 지금까지처럼 <b>풀육성</b>
+        (Lv60 · 스타5 · 유대5 · 전 스킬 10 · 도장 해제) 기준으로 계산합니다.
+        <b>켜지 않으면 결과가 달라지지 않고</b>, 켠 직후에도 값은 풀육성 그대로라 원하는 항목만 내리면 됩니다.</p>
+
+      <figure class="g-crop"><img src="guide/cs-stats.png" alt="공격력·체력 표시"></figure>
+      <p>지금 설정으로 계산한 <b>공격력 · 체력</b>이 즉시 표시되고, 슬라이더를 끄는 동안 숫자가 따라 움직입니다.
+        오른쪽 <b>풀육성 대비 %</b>로 만렙과 얼마나 차이 나는지 바로 확인할 수 있습니다.
+        이 값은 <b>도장 강화를 더하기 전</b>의 기본 수치입니다.</p>
+
+      <figure class="g-crop"><img src="guide/cs-star.png" alt="스타"></figure>
+      <p><b>스타</b>는 슬라이더를 움직이면 별이 켜집니다. <b>아래 스킬 해금을 결정하는 핵심 값</b>이라,
+        내리면 잠기는 스킬이 스킬 레벨 목록에서 함께 바뀝니다.</p>
+
+      <figure class="g-crop"><img src="guide/cs-pevo.png" alt="진화 단계"></figure>
+      <p><b>진화 단계</b>는 스타 안에서의 단계입니다. <b>상한이 스타에 따라 달라지고</b>(스타0은 4, 스타4는 24),
+        <b>스타5는 더 밟을 단계가 없어</b> 비활성됩니다. 단계 중간에는 해금이 없고 스탯만 오릅니다.</p>
+
+      <figure class="g-crop"><img src="guide/cs-level.png" alt="레벨"></figure>
+      <p><b>레벨</b>은 1~60이며 스탯에 가장 크게 영향을 줍니다.</p>
+
+      <figure class="g-crop"><img src="guide/cs-bond.png" alt="유대"></figure>
+      <p><b>유대</b>는 0~5이고 슬라이더에 따라 하트가 켜집니다. 유대 보정이 없는 희귀도에서는 비활성됩니다.</p>
+
+      <figure class="g-crop"><img src="guide/cs-skills.png" alt="스킬 레벨 · 도장 해제"></figure>
+      <p>평타 · 필살기 · 패시브를 <b>각각</b> 1~10으로 정합니다. 스킬 이름과 아이콘이 함께 표시됩니다.
+        필살기 바로 아래 <b>도장 해제</b> 스위치를 켜면 <b>도장 필살기</b>가, 끄면 <b>일반 필살기</b>가 나가며
+        오른쪽에 어느 쪽이 나가는지 적혀 있습니다. 이 스위치는 <b>스타 3부터</b> 조작할 수 있습니다.</p>
+
+      <figure class="g-crop"><img src="guide/cs-passives.png" alt="패시브 레벨"></figure>
+      <p>패시브도 하나씩 따로 조절합니다. 스타가 낮아 잠긴 스킬은 <b>스타 N 해금</b>으로 표시되어 아예 발동하지 않고,
+        해방됐지만 아직 레벨을 못 올리는 스킬은 <b>스타 N부터</b>로 표시되며 <b>1레벨로 고정</b>되어 계산됩니다.</p>
+
+      <p class="g-note">스타는 스킬 해금을 결정합니다. 스타 2에서 패시브 2의 레벨업이 열리고,
+        스타 3에서 패시브 3과 <b>도장</b>이, 스타 4·5에서 패시브 4·5가 차례로 열립니다.
+        평타 · 필살기 · 패시브 1은 처음부터 조절할 수 있습니다.</p>
+      <p class="g-note">스펙을 켠 캐릭터는 편성 슬롯 왼쪽 아래에 <b>★N</b> 배지가 붙어, 풀육성이 아닌 캐릭터를 한눈에 구분할 수 있습니다.
+        비교 창에서는 캐릭터를 누른 뒤 <b>교체</b> 옆의 <b>◈ 스펙</b> 버튼으로 같은 화면을 열 수 있고,
+        비교군마다 스펙을 다르게 줘서 육성도 차이를 그대로 비교할 수 있습니다.</p>
 
       <h4>턴별 행동 계획</h4>
       <p>턴마다 캐릭터의 행동(평타 · 궁 · 방어)을 직접 지정할 수 있습니다. 끄면 자동으로 처리되며, 2회 행동 캐릭터 등 특수 케이스는 전용 설정으로 제공됩니다.</p>
@@ -204,6 +258,70 @@
         <li><b>전부 기본값으로</b> 버튼으로 지정한 순서를 한 번에 초기화할 수 있습니다.</li>
       </ul>
       <figure><img src="guide/turn-priority.png" alt="특정 턴만 다르게"></figure>
+
+      <h4>행동 고급 설정</h4>
+      <p><b>행동 우선순위</b> 옆의 <b>행동 고급 설정</b> 버튼을 누르면 열립니다.
+        턴마다 <b>누가 · 어떤 순서로 · 무엇을</b> 할지 전부 직접 정하는 화면입니다.</p>
+
+      <figure class="g-crop"><img src="guide/adv-head.png" alt="고급 설정 머리말"></figure>
+      <p>우측 상단 <b>사용</b>을 켜야 적용됩니다. 켜는 순간
+        <b>행동 우선순위 · 특정 턴만 다르게 · 캐릭터별 턴별 행동 계획</b>이 모두 이 화면으로 대체되고 잠깁니다.
+        끄면 원래 설정으로 돌아가고, <b>껐다 켜도 여기서 짠 내용은 지워지지 않습니다.</b>
+        처음 켤 때는 기존 설정과 무관하게 <b>기본 세팅</b>에서 시작합니다.</p>
+
+      <figure class="g-crop"><img src="guide/adv-tools.png" alt="편집 도구"></figure>
+      <ul>
+        <li><b>복사 · 붙여넣기</b> — 지금 턴의 편성을 통째로 복사해 다른 턴에 넣습니다. 넣을 수 없는 턴에는 <b>거부</b>됩니다.</li>
+        <li><b>호환 턴 전부 체크</b> — 클립보드를 그대로 넣을 수 있는 턴을 찾아 <b>선택만</b> 해 줍니다.
+          실제 적용은 <b>붙여넣기</b>를 눌러야 일어나므로 어디에 들어갈지 먼저 확인할 수 있습니다.
+          (4턴에 3턴궁 타이밍을 만든 뒤 이 버튼을 누르면 7·10·13…턴이 한 번에 잡힙니다)</li>
+        <li><b>되돌리기</b> — 직전 변경을 하나씩 취소합니다. 순서 이동(▲▼)도 기록됩니다.</li>
+        <li><b>전체 보기</b> — 전 턴을 한눈에 보는 표를 펼칩니다.</li>
+      </ul>
+
+      <figure class="g-crop"><img src="guide/adv-clip.png" alt="클립보드"></figure>
+      <p>복사하면 클립보드 줄이 나타나 <b>몇 턴 · 몇 행동</b>을 담고 있는지 알려줍니다. <b>비우기</b>로 지웁니다.</p>
+
+      <figure class="g-crop"><img src="guide/adv-rail.png" alt="턴 버튼"></figure>
+      <p>편집할 턴을 고릅니다. 기본값과 달라진 턴은 우상단에 <b>점</b>이 붙습니다.
+        위 그림에서는 4·7·10·13·16·19·22·25·28턴이 선택되어 테두리가 살아 있습니다 —
+        여러 턴을 함께 선택하면 붙여넣기와 기본값이 <b>선택한 턴 전체</b>에 적용됩니다.</p>
+
+      <figure class="g-crop"><img src="guide/adv-sel.png" alt="선택 상태"></figure>
+      <p>선택한 턴 목록이 그대로 표시되고, <b>선택 해제</b>로 비웁니다.</p>
+
+      <figure class="g-crop"><img src="guide/adv-grid.png" alt="전체 보기"></figure>
+      <p><b>전체 보기</b>를 누르면 전 턴이 표로 펼쳐집니다. 점 색은
+        <b class="g-hl">평타 · 필살 · 방어</b>를 뜻하고, 한 칸에 점이 여러 개면 그 턴에 여러 번 행동한다는 뜻입니다.
+        <b>칸을 클릭하면</b> 그 캐릭터의 그 턴 행동만 따로 고칠 수 있습니다.</p>
+
+      <figure class="g-crop"><img src="guide/adv-turnhead.png" alt="턴 머리말"></figure>
+      <p>지금 편집 중인 턴과 그 턴의 총 행동 수입니다. <b>이 턴 기본값으로</b>는 이 턴만 되돌립니다.</p>
+
+      <figure class="g-crop"><img src="guide/adv-rows.png" alt="행동 목록"></figure>
+      <p>왼쪽 번호가 <b>실행 순서</b>입니다. 각 줄에서 <b>평 · 궁 · 방</b>을 골라 행동을 바꾸고,
+        <b>▲▼</b>로 순서를 옮기며, <b>✕</b>로 그 행동을 뺍니다. 지금 선택된 행동은 노란색으로 표시됩니다.</p>
+
+      <figure class="g-crop"><img src="guide/adv-extra.png" alt="추가 행동"></figure>
+      <p><b class="g-hl">추가</b> 배지가 붙은 줄은 <b>앞선 필살기가 만들어 준 행동</b>입니다(임부언·욱영·이태호 등).
+        같은 캐릭터가 한 턴에 여러 번 나올 수 있습니다.
+        위 그림 10번 줄의 <b>궁</b>처럼 <b>쓸 수 없는 행동은 미리 비활성</b>되어 잘못 넣을 수 없습니다.</p>
+
+      <figure class="g-crop"><img src="guide/adv-add.png" alt="행동 추가"></figure>
+      <p>캐릭터 칩을 눌러 그 턴에 행동을 더합니다. 행동 예산이 없는 캐릭터는 칩이 나타나지 않습니다.</p>
+
+      <figure class="g-crop"><img src="guide/adv-foot.png" alt="기본값 · 불러오기"></figure>
+      <ul>
+        <li><b>N턴 기본값으로</b> — 위에서 선택한 턴들을 한 번에 되돌립니다.</li>
+        <li><b>전체 턴 기본값으로</b> — 전 턴을 기본 세팅으로 되돌립니다.</li>
+        <li><b>기존 설정 불러오기</b> — 지금까지 쓰던 행동 계획 · 우선순위 · 특정 턴 순서를 그대로 타임라인으로 가져옵니다.
+          캐릭터별 사이클을 손보는 출발점으로 쓰기 좋습니다.</li>
+      </ul>
+
+      <p class="g-note">행동 예산은 시뮬레이터가 계산합니다. 요청한 행동이 예산을 넘으면 그 행동은 실행되지 않고,
+        쿨타임이 안 찬 필살기는 평타로 나갑니다 — 목록에 그렇게 표시되니 실제 결과와 화면이 어긋나지 않습니다.</p>
+      <p class="g-note">비교 창에서도 <b>행동 우선순위</b> 팝업 안의 같은 버튼으로 비교군별 타임라인을 따로 짤 수 있습니다.
+        비교군에 이 설정이 켜져 있으면 그 캐릭터의 <b>행동</b> 항목은 잠깁니다.</p>
 
       <h3 class="g-sec">시뮬레이션 결과</h3>
 
@@ -289,6 +407,7 @@
   </div>
 </div>
 
+<script src="spec.js"></script>
 <script src="app.js"></script>
 <script src="i18n.js"></script>
 <script src="feedback.js"></script>

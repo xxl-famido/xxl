@@ -13,7 +13,13 @@ from functools import lru_cache
 from pathlib import Path
 
 from .effects import MARKER, Effect, parse_skill_level
-from .stats import Investment, scale_atk_hp
+from .stats import (
+    Investment,
+    can_unlock_rune,
+    levelable_passives,
+    scale_atk_hp,
+    unlocked_passives,
+)
 
 _DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 
@@ -82,7 +88,7 @@ def _resolve_slot(slot: str, slot_data: dict, level: int, owner: int = 0) -> Res
 def resolve_kit(
     char_id: int,
     investment: Investment | None = None,
-    skill_level: int = MAX_SKILL_LEVEL,
+    skill_level: int | dict[str, int] = MAX_SKILL_LEVEL,
     rune: bool = False,
     atk_override: int | None = None,
     hp_override: int | None = None,
@@ -90,9 +96,16 @@ def resolve_kit(
     """Build a battle-ready kit for one character.
 
     investment   : level/evo/compat etc.; defaults to Lv60 max-level.
-    skill_level  : 1..10 applied to every slot.
+    skill_level  : 1..10 for every slot, or a per-slot dict keyed by slot name
+                   (``basicAtk`` / ``ultimate`` / ``sigil`` / ``passive0``..).
+                   Missing keys fall back to :data:`MAX_SKILL_LEVEL`.
     rune (도장)  : when True, the fatal slot uses ``sigil`` (룬필살기) if present.
+                   Forced off below ★3, where the game has not unlocked it.
     *_override   : force final ATK/HP (e.g. the in-game displayed value).
+
+    Star gating (see :mod:`.stats`): passives past ``unlocked_passives(evo)`` are
+    dropped entirely, and those past ``levelable_passives(evo)`` are pinned to
+    level 1. At the default ★5 nothing is gated.
     """
     chars, skills = _load()
     key = str(char_id)
@@ -108,13 +121,27 @@ def resolve_kit(
     if hp_override is not None:
         hp = hp_override
 
-    basic = _resolve_slot("basicAtk", char_skills.get("basicAtk", {}), skill_level, char_id)
+    # 슬롯별 레벨: 정수 하나면 전 슬롯 공통(기존 호출부 호환)
+    if isinstance(skill_level, dict):
+        levels = {k: int(v) for k, v in skill_level.items()}
+        base_level = MAX_SKILL_LEVEL
+    else:
+        levels, base_level = {}, int(skill_level)
+    lv_of = lambda slot: levels.get(slot, base_level)   # noqa: E731
+
+    # 도장은 ★3부터 — UI가 막고 있어도 엔진에서 최종 판정한다
+    rune = bool(rune) and can_unlock_rune(inv.evo)
+    n_open = unlocked_passives(inv.evo)
+    n_levelable = levelable_passives(inv.evo)
+
+    basic = _resolve_slot("basicAtk", char_skills.get("basicAtk", {}), lv_of("basicAtk"), char_id)
     fatal_slot = "sigil" if (rune and char_skills.get("sigil")) else "ultimate"
-    fatal = _resolve_slot(fatal_slot, char_skills.get(fatal_slot, {}), skill_level, char_id)
+    fatal = _resolve_slot(fatal_slot, char_skills.get(fatal_slot, {}), lv_of(fatal_slot), char_id)
     passives = [
-        _resolve_slot(s, char_skills[s], skill_level, char_id)
-        for s in PASSIVE_SLOTS
-        if char_skills.get(s)
+        # 해방만 되고 레벨업이 막힌 패시브는 1레벨 고정
+        _resolve_slot(s, char_skills[s], lv_of(s) if i < n_levelable else 1, char_id)
+        for i, s in enumerate(PASSIVE_SLOTS)
+        if i < n_open and char_skills.get(s)
     ]
 
     # The sigil holds an always-on "Sigil Passive:" section after its active
@@ -141,7 +168,7 @@ def resolve_kit(
         kind=meta.get("class") or 0,
         element=meta.get("element") or 0,
         rune=rune,
-        skill_level=skill_level,
+        skill_level=lv_of("ultimate"),   # 대표값(표시용) — 슬롯별 레벨은 각 ResolvedSkill 이 이미 반영
         basic=basic,
         fatal=fatal,
         passives=passives,

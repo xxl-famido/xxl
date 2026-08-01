@@ -40,6 +40,9 @@ onmessage = async (e) => {
     } else if (type === 'char') {
       pyodide.globals.set('_cid', payload);
       out = pyodide.runPython('json.dumps(sim_api.char_skills(int(_cid)), ensure_ascii=False)');
+    } else if (type === 'probe') {
+      pyodide.globals.set('_cfg_json', payload);   // 고급 설정 플래너용 경량 타임라인 프로브
+      out = pyodide.runPython('json.dumps(sim_api.plan_probe(json.loads(_cfg_json)), ensure_ascii=False)');
     } else if (type === 'simulate') {
       pyodide.globals.set('_cfg_json', payload);   // payload = cfg를 JSON 문자열로
       out = pyodide.runPython('json.dumps(sim_api.run_sim(json.loads(_cfg_json)), ensure_ascii=False)');

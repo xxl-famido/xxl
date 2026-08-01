@@ -32,6 +32,7 @@
         "skill": 10
       }
     ],
+    "turnPlans": {},
     "turns": 15
   },
   "dps": 109208.07,

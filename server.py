@@ -12,7 +12,7 @@ import json
 import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from sim_api import all_meta, char_skills, run_sim
+from sim_api import all_meta, char_skills, run_sim, plan_probe
 from boss_api import list_bosses, run_boss, boss_chars   # 길드 보스전 — 별도 엔진(boss_sim)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -60,11 +60,11 @@ class Handler(BaseHTTPRequestHandler):
         return self._send(404, {"error": "not found"})
 
     def do_POST(self):
-        if self.path in ("/api/simulate", "/api/boss"):
+        if self.path in ("/api/simulate", "/api/boss", "/api/probe"):
             n = int(self.headers.get("Content-Length", 0))
             cfg = json.loads(self.rfile.read(n) or b"{}")
             try:
-                fn = run_boss if self.path == "/api/boss" else run_sim
+                fn = {"/api/boss": run_boss, "/api/probe": plan_probe}.get(self.path, run_sim)
                 return self._send(200, fn(cfg))
             except Exception as e:
                 import traceback

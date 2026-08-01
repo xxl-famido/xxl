@@ -77,7 +77,11 @@ def _half_turns(duration: int) -> int:
 
 def _adjacent_allies(center: "Unit", state: "BattleState") -> list["Unit"]:
     """욱영 '자신과 인접한 동료': 진형을 원형 링으로 보고 좌우 이웃을 반환(자신 제외).
-    양 끝이 이어져 P1은 {P2, P5}, P5는 {P4, P1} — 사용자 인게임 확인. 중간 위치는 슬롯 ±1과 동일.
+
+    양 끝이 이어져 P1은 {P2, P5}, P5는 {P4, P1} — 사용자 인게임 확인.
+    **빈 자리는 압축된다** — 채워진 슬롯만으로 링을 만든다. 예: P1/P3/P4/P5만 채운 상태에서
+    욱영이 P1이면 이웃은 P3·P5이고 P4는 받지 못한다(P2가 비어 P3이 옆자리가 됨).
+    이 압축 규칙도 사용자 인게임 확인(2026-08-01). 회귀는 스냅샷 plan_xuying_gap_ring이 고정한다.
     (아군 2명뿐이면 이웃은 1명, 1명이면 없음.)"""
     ring = sorted((u for u in state.team(center) if u.alive), key=lambda u: u.slot)
     n = len(ring)
@@ -361,6 +365,17 @@ class BattleState:
     enemy_hits: int = 0          # allies the enemy hits per turn (0 = all, by slot order)
     enemy_aoe: bool = False       # 전체공격: 적이 아군 전체를 1회 동시 피격 (조롱 무관, 반격 아군당 1회)
     turn_orders: dict = field(default_factory=dict)   # {turn:[slot,...]} per-turn action-order override
+    turn_budget: dict = field(default_factory=dict)   # {turn:{slot:행동 가능 횟수}} — 플래너 사전 차단용
+    turn_ready: dict = field(default_factory=dict)    # {turn:[필살 가능 slot]} — 그 턴 시작 시 쿨 상태
+    turn_cdok: dict = field(default_factory=dict)     # {turn:[항목별 '그 시점' 필살 가능 여부]} — 같은 턴
+                                                      #   안의 방어·CD감소로 쿨이 풀리는 걸 반영한다
+                                                      #   (턴 시작 스냅샷만으론 그 수를 못 본다)
+    turn_exec: dict = field(default_factory=dict)     # {turn:[항목별 실제 수행 행동|None]} — 명시 전용.
+                                                      #   추가 행동을 부여 '이전'에 배치하면 그 시점엔
+                                                      #   예산이 없어 건너뛴다 — 그걸 UI에 정확히 알린다
+    turn_plans: dict = field(default_factory=dict)    # {turn:[(slot, "basic"/"fatal"/"defend"), ...]}
+                                                      #   고급 설정의 명시 타임라인. 그 턴은 우선순위·
+                                                      #   로테이션 대신 이 목록을 그대로 실행한다.
     cur_action: int = 0          # incremented per _take_action; stamped on each event
     cur_actor_id: int = 0
     cur_action_kind: str = ""    # 필살기 / 보통공격 / 방어 / 패시브 / 피격 — 현재 행동 종류
@@ -1462,7 +1477,9 @@ def _defer_ult_for_uk(unit: Unit, state: BattleState) -> bool:
     )
 
 
-def _take_action(unit: Unit, state: BattleState) -> None:
+def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None) -> None:
+    """한 유닛의 행동 1회. forced_token("basic"/"fatal"/"defend")이 주어지면 로테이션·fed·
+    보류 로직을 전부 건너뛰고 그 행동을 수행한다(고급 설정의 명시 타임라인 모드)."""
     state.cur_action += 1            # each action gets a fresh id (for log grouping)
     state.cur_actor_id = getattr(unit._kit, "char_id", 0) if not unit.is_dummy else 0
     state.cur_action_kind = ""       # set below once the action (fatal/basic/defend) is known
@@ -1543,7 +1560,14 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     is_bonus = unit.turn_acts > unit.base_actions      # 기본 행동 수 초과 = 외부에서 받은 추가행동
     has_rotation = bool(unit.rotation_prefix or unit.rotation_loop)
     forced_basic = unit.extra_basic and is_bonus
-    if forced_basic:
+    if forced_token is not None:
+        token, forced_basic = forced_token, False
+        # 로테이션 인덱스는 자동 경로와 '똑같이' 소비한다. 안 그러면 이 턴 이후의 자동 진행
+        # 턴에서 계획이 통째로 한 턴씩 밀린다(2턴을 지정했더니 팀 전체 궁이 4턴→5턴으로 이동).
+        # 자동 경로와 동일하게 기본 행동만 토큰을 먹고, 부여받은 추가 행동은 먹지 않는다.
+        if not is_bonus and has_rotation:
+            _next_token(unit)
+    elif forced_basic:
         # 임부언 추가행동: 이번 턴 지정 토큰(fed_schedule) 우선, 없으면 단일 fed_action(구호환)
         fed_tok = unit.fed_schedule.get(state.turn, unit.fed_action)
         token = _TOKEN_ACTION.get(fed_tok, "basic")
@@ -1573,7 +1597,7 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     # 이 아군의 궁을 지금 쓰지 않고 '보류' → 평타. 욱영 궁 뒤 회복 행동에서 궁(욱영 버프 받고).
     # rotation 지정 궁이면 인덱스를 되감아 회복 행동에서 재사용(임부언 fed carry는 is_fed_carry로
     # 회복 행동에서 자동 궁이라 되감기 불필요). 욱영이 궁을 쏜 뒤엔 cd>0이라 보류 해제.
-    defer_uk = (not forced_basic and bool(kit_fatal.effects)
+    defer_uk = (forced_token is None and not forced_basic and bool(kit_fatal.effects)
                 and unit.cd_remaining <= 0 and _defer_ult_for_uk(unit, state))
     if defer_uk and token == "fatal" and not is_bonus:
         unit.action_idx -= 1             # 궁 토큰 un-read → 회복 행동에서 재사용(자연행동만)
@@ -1581,7 +1605,11 @@ def _take_action(unit: Unit, state: BattleState) -> None:
     if defer_uk:
         token = "basic"
 
-    if (not forced_basic and unit.is_fed_carry and bool(kit_fatal.effects)
+    if forced_token is not None:
+        # 명시 타임라인: 지정한 행동만 수행한다. 궁이 쿨 미충족이면 평타로 내리되 자동 폴백은
+        # 예약하지 않는다 — 사용자가 순서를 직접 짠 것이므로 엉뚱한 턴에 궁이 튀어나오면 안 된다.
+        use_fatal = token == "fatal" and unit.cd_remaining <= 0 and bool(kit_fatal.effects)
+    elif (not forced_basic and unit.is_fed_carry and bool(kit_fatal.effects)
             and not (has_rotation and token == "basic")):
         # a feeder (e.g. 임부언) resets this carry's CD mid-turn -> fatal on every
         # CD-ready action (natural + the granted bonus). 단, 사용자가 짠 turn-by-turn 플랜의
@@ -1825,9 +1853,72 @@ def _check_coordination(allies: list[Unit], state: BattleState) -> None:
                 apply_effect(eff, u, state, None, "trigger", grantor=sub.grantor)
 
 
+def _prescribed_phase(allies: list[Unit], state: BattleState, entries: list) -> None:
+    """명시 타임라인 모드 — 사용자가 지정한 (슬롯, 행동) 순서를 그대로 실행한다.
+
+    행동 예산은 엔진이 쥔다: 유닛당 턴 기본 1회 + 그 턴에 실제로 부여받은 추가 행동
+    (임부언 궁→P1 · 욱영 궁→인접 · 이태호 자기 1회, 모두 확률 100%). 예산이 없는 항목은
+    건너뛰고 미적용으로 집계하므로, 사용자가 짠 순서가 런타임과 어긋나도 조용히 틀리지 않는다.
+    목록에 없는 아군은 그 턴에 행동하지 않는다(의도적 — 사용자가 뺀 것).
+    """
+    bypos = {u.slot: u for u in allies if u.alive}
+    budget = {slot: 1 for slot in bypos}      # 남은 예산 — 행동할 때마다 깎인다
+    # 플래너에 보고하는 건 '부여된 총량'. 남은 카운터를 그대로 넘기면 턴이 끝난 뒤 전부 0이라
+    # 편집한 턴의 모든 행동이 '실행 안 됨'으로 보이고 추가 버튼이 잠긴다.
+    total = dict(budget)
+    state.turn_budget[state.turn] = total
+
+    def absorb() -> None:
+        """그 사이 부여된 추가 행동을 예산으로 옮긴다 (엔진의 grant 시점을 그대로 따른다)."""
+        for v in allies:
+            if v.extra_actions > 0:
+                budget[v.slot] = budget.get(v.slot, 0) + v.extra_actions
+                total[v.slot] = total.get(v.slot, 0) + v.extra_actions
+                v.extra_actions = 0
+
+    executed: list = []
+    cdok: list[bool] = []
+    state.turn_exec[state.turn] = executed
+    state.turn_cdok[state.turn] = cdok
+    for slot, token in entries:
+        absorb()
+        unit = bypos.get(slot)
+        if unit is None or not unit.alive or token is None:
+            # 없는 포지션이거나 해석할 수 없는 행동 — 자리(인덱스)는 유지하고 실행만 건너뛴다.
+            # 예산 부족과는 원인이 다르므로 미적용 사유도 따로 남긴다(안 남기면 리포트에서 사라진다).
+            state.unapplied[f"지정 항목 무효(빈 자리/알 수 없는 행동): {state.turn}턴"] += 1
+            executed.append(False)
+            cdok.append(False)
+            continue
+        # 이 항목 '직전'의 필살 가능 여부. 같은 턴 앞쪽의 방어(히토하·모이루)나 임부언의
+        # CD -3이 여기 반영되므로, 플래너가 '방어 → 궁' 같은 수를 막지 않게 된다.
+        cdok.append(unit.cd_remaining <= 0 and bool(unit._kit.fatal.effects))
+        if budget.get(slot, 0) <= 0:
+            # 예산 없음 = 아직 부여받지 못했거나 이미 다 썼다. 추가 행동을 그걸 만들어 준
+            # 필살기보다 앞에 두면 여기로 온다(부여 시점 이전이라 예산이 아직 0).
+            state.unapplied[f"행동 예산 없음: {unit.name} {state.turn}턴"] += 1
+            executed.append(False)
+            continue
+        budget[slot] -= 1
+        _take_action(unit, state, forced_token=token)
+        # 요청과 실제가 다를 수 있다 — 쿨이 안 찬 궁은 엔진이 평타로 내린다. 무엇이 나갔는지
+        # 그대로 기록해 플래너가 '궁 요청했지만 평타로 나감'을 표시할 수 있게 한다.
+        executed.append({"필살기": "fatal", "보통공격": "basic", "방어": "defend"}
+                        .get(state.cur_action_kind, token))
+        _check_coordination(allies, state)
+    absorb()
+    for v in allies:      # 사용자가 쓰지 않은 추가 행동은 그 턴에 소멸
+        v.extra_actions = 0
+
+
 def _ally_phase(allies: list[Unit], state: BattleState) -> None:
     """Run the ally phase as a queue so granted extra actions act right after the
     action that granted them (self-grants like 이태호, or 임부언 -> 아누비로스)."""
+    plan = state.turn_plans.get(state.turn) if state.turn_plans else None
+    # 빈 목록([])도 '아무도 행동하지 않는 턴'이라는 유효한 지정이다. 미지정(None)만 자동 진행.
+    if plan is not None:           # 고급 설정: 이 턴은 명시 타임라인이 우선순위·로테이션을 대체
+        _prescribed_phase(allies, state, plan)
+        return
     override = state.turn_orders.get(state.turn) if state.turn_orders else None
     if override:
         bypos = {u.slot: u for u in allies if u.alive}
@@ -1838,6 +1929,7 @@ def _ally_phase(allies: list[Unit], state: BattleState) -> None:
         # 지정한 우선순위 그대로 — 임부언 같은 피더도 강제로 미루지 않는다. 사용자가 임부언을
         # 아누비로스 뒤에 둬야 더블 궁이 되고, 앞에 두면 회복이 낭비됨(아래 EXTRA_ACTION 게이트).
         queue = sorted([u for u in allies if u.alive], key=lambda u: u.priority)
+    budget = state.turn_budget.setdefault(state.turn, {u.slot: 1 for u in allies if u.alive})
     guard = 0
     while queue and guard < 50:
         guard += 1
@@ -1851,6 +1943,7 @@ def _ally_phase(allies: list[Unit], state: BattleState) -> None:
                    if v.alive and v.extra_actions > 0]
         for v in pending:
             v.extra_actions -= 1
+            budget[v.slot] = budget.get(v.slot, 0) + 1
         queue[0:0] = pending
 
 
@@ -1863,7 +1956,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
              dummy_element: int = 0, hp10: bool = False,
              fed_actions: list[str | None] | None = None,
              incoming_hp_pct: int = 0,
-             ally_ult_afters: list[bool] | None = None) -> BattleState:
+             ally_ult_afters: list[bool] | None = None,
+             turn_plans: dict | None = None) -> BattleState:
     """Run a target-dummy battle and return the final state (with log).
 
     rotations: optional per-ally action strings (e.g. '평평방궁|평방궁').
@@ -1892,7 +1986,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
         e.element = dummy_element        # 더미 속성 → 공격자 속성과 상성 판정
     state = BattleState(allies=allies, enemies=enemies, max_turn=max_turn,
                         rng=random.Random(seed), enemy_hits=enemy_hits, enemy_aoe=enemy_aoe,
-                        turn_orders=turn_orders or {}, force_proc=force_proc,
+                        turn_orders=turn_orders or {}, turn_plans=turn_plans or {},
+                        force_proc=force_proc,
                         hp_schedule=any(_kit_has_hp_gate(u._kit) for u in allies),
                         dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct)
 
@@ -1921,6 +2016,10 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
             u.extra_granted = False         # grants (e.g. 임부언 -> P1) survive
             u.turn_acts = 0                 # actions-taken counter (이태호 3rd = forced 평타)
             u.defending = False             # 방어 상태 리셋 — 이번 턴 방어/Enter Defense 시 다시 설정
+        # 그 턴 시작 시점의 '필살 가능' 슬롯 — 플래너가 궁 버튼을 사전 차단하는 근거
+        state.turn_ready[state.turn] = [
+            u.slot for u in allies
+            if u.alive and u.cd_remaining <= 0 and bool(u._kit.fatal.effects)]
         # --- ally phase (queue: priority order + granted extra actions) ---
         _ally_phase(allies, state)
         _tick_buffs(state)                   # half-turn tick (after ally phase)
