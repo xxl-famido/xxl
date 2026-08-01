@@ -1,0 +1,86 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10303,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 91310.21,
+  "events": {
+    "byActionKind": {
+      "보통공격": 25,
+      "지속딜": 28,
+      "피격": 60,
+      "필살기": 15
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 4,
+      "지속": 28,
+      "평타": 21,
+      "필살": 3
+    },
+    "count": 128
+  },
+  "logHash": "sha256:726ba2de7f532ece8c812feeea5e9b82",
+  "perChar": {
+    "최유희": {
+      "barrier": 0.0,
+      "damage": 913102.07,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "최유희": 50262.51
+    },
+    "10": {
+      "최유희": 75393.74
+    },
+    "2": {
+      "최유희": 50262.51
+    },
+    "3": {
+      "최유희": 50262.51
+    },
+    "4": {
+      "최유희": 75393.74
+    },
+    "5": {
+      "최유희": 134033.33
+    },
+    "6": {
+      "최유희": 134033.33
+    },
+    "7": {
+      "최유희": 75393.74
+    },
+    "8": {
+      "최유희": 134033.33
+    },
+    "9": {
+      "최유희": 134033.33
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 913102.07,
+  "unapplied": {}
+}

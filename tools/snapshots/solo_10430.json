@@ -1,0 +1,52 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10430,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 0.0,
+  "events": {
+    "byActionKind": {
+      "보통공격": 7,
+      "지속힐": 7,
+      "피격": 60,
+      "필살기": 6
+    },
+    "byOutput": {
+      "heal": 20,
+      "incoming": 30
+    },
+    "count": 80
+  },
+  "logHash": "sha256:6b2a57b3f500f1e5b981f31902d0496f",
+  "perChar": {
+    "이즈미노스케": {
+      "barrier": 0.0,
+      "damage": 0.0,
+      "healing": 511300.35
+    }
+  },
+  "perTurn": {},
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 0.0,
+  "unapplied": {}
+}

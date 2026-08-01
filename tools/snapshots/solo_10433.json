@@ -1,0 +1,83 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10433,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 66544.67,
+  "events": {
+    "byActionKind": {
+      "보통공격": 36,
+      "피격": 60,
+      "필살기": 12
+    },
+    "byOutput": {
+      "incoming": 30,
+      "평타": 16,
+      "필살": 4
+    },
+    "count": 108
+  },
+  "logHash": "sha256:5cd8b4035269ac33dfda05828e158ae2",
+  "perChar": {
+    "와타나베 히토하": {
+      "barrier": 0.0,
+      "damage": 665446.68,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "와타나베 히토하": 48486.28
+    },
+    "10": {
+      "와타나베 히토하": 58649.02
+    },
+    "2": {
+      "와타나베 히토하": 48486.28
+    },
+    "3": {
+      "와타나베 히토하": 48486.28
+    },
+    "4": {
+      "와타나베 히토하": 54304.64
+    },
+    "5": {
+      "와타나베 히토하": 119887.94
+    },
+    "6": {
+      "와타나베 히토하": 58649.02
+    },
+    "7": {
+      "와타나베 히토하": 54304.64
+    },
+    "8": {
+      "와타나베 히토하": 54304.64
+    },
+    "9": {
+      "와타나베 히토하": 119887.94
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 665446.68,
+  "unapplied": {}
+}

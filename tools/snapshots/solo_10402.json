@@ -1,0 +1,84 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10402,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 336314.03,
+  "events": {
+    "byActionKind": {
+      "보통공격": 14,
+      "피격": 120,
+      "필살기": 18
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 36,
+      "평타": 7,
+      "필살": 3
+    },
+    "count": 152
+  },
+  "logHash": "sha256:353a4c0c39ed15d7935f15b48e791a91",
+  "perChar": {
+    "신리랑": {
+      "barrier": 0.0,
+      "damage": 3363140.27,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "신리랑": 191874.26
+    },
+    "10": {
+      "신리랑": 622777.8
+    },
+    "2": {
+      "신리랑": 217892.48
+    },
+    "3": {
+      "신리랑": 222725.6
+    },
+    "4": {
+      "신리랑": 552166.13
+    },
+    "5": {
+      "신리랑": 232391.8
+    },
+    "6": {
+      "신리랑": 237224.89
+    },
+    "7": {
+      "신리랑": 587471.98
+    },
+    "8": {
+      "신리랑": 246891.12
+    },
+    "9": {
+      "신리랑": 251724.21
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 3363140.27,
+  "unapplied": {}
+}

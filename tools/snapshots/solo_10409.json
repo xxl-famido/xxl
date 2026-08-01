@@ -1,0 +1,84 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10409,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 103429.5,
+  "events": {
+    "byActionKind": {
+      "보통공격": 11,
+      "피격": 90,
+      "필살기": 6
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 3,
+      "평타": 7,
+      "필살": 3
+    },
+    "count": 107
+  },
+  "logHash": "sha256:a17eace36dd8af94bf057715db14738a",
+  "perChar": {
+    "카 라트": {
+      "barrier": 0.0,
+      "damage": 1034295.03,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "카 라트": 43084.4
+    },
+    "10": {
+      "카 라트": 206805.15
+    },
+    "2": {
+      "카 라트": 49547.07
+    },
+    "3": {
+      "카 라트": 49547.07
+    },
+    "4": {
+      "카 라트": 205835.75
+    },
+    "5": {
+      "카 라트": 56009.73
+    },
+    "6": {
+      "카 라트": 62472.39
+    },
+    "7": {
+      "카 라트": 229586.03
+    },
+    "8": {
+      "카 라트": 62472.39
+    },
+    "9": {
+      "카 라트": 68935.05
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 1034295.03,
+  "unapplied": {}
+}

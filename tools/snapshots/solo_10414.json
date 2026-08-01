@@ -1,0 +1,85 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10414,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 249822.2,
+  "events": {
+    "byActionKind": {
+      "보통공격": 21,
+      "피격": 273,
+      "필살기": 21
+    },
+    "byOutput": {
+      "barrier": 3,
+      "heal": 3,
+      "incoming": 48,
+      "발동": 81,
+      "평타": 7
+    },
+    "count": 315
+  },
+  "logHash": "sha256:437e797a512ffab1e649ba2b6c747f7e",
+  "perChar": {
+    "쿠모야마": {
+      "barrier": 20253.21,
+      "damage": 2498222.02,
+      "healing": 60759.66
+    }
+  },
+  "perTurn": {
+    "1": {
+      "쿠모야마": 27004.3
+    },
+    "10": {
+      "쿠모야마": 752447.88
+    },
+    "2": {
+      "쿠모야마": 35645.68
+    },
+    "3": {
+      "쿠모야마": 35645.68
+    },
+    "4": {
+      "쿠모야마": 752447.88
+    },
+    "5": {
+      "쿠모야마": 35645.68
+    },
+    "6": {
+      "쿠모야마": 35645.68
+    },
+    "7": {
+      "쿠모야마": 752447.88
+    },
+    "8": {
+      "쿠모야마": 35645.68
+    },
+    "9": {
+      "쿠모야마": 35645.68
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 2498222.02,
+  "unapplied": {}
+}

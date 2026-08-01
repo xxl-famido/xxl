@@ -1,0 +1,80 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10423,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 151798.54,
+  "events": {
+    "byActionKind": {
+      "보통공격": 92,
+      "패시브": 10,
+      "피격": 60,
+      "필살기": 3
+    },
+    "byOutput": {
+      "incoming": 30,
+      "평타": 45
+    },
+    "count": 165
+  },
+  "logHash": "sha256:d882865d6a723efea8bca1e10ea8dee3",
+  "perChar": {
+    "오봉산군 이태호": {
+      "barrier": 0.0,
+      "damage": 1517985.44,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "10": {
+      "오봉산군 이태호": 170888.82
+    },
+    "2": {
+      "오봉산군 이태호": 46408.22
+    },
+    "3": {
+      "오봉산군 이태호": 131911.84
+    },
+    "4": {
+      "오봉산군 이태호": 200821.02
+    },
+    "5": {
+      "오봉산군 이태호": 232884.88
+    },
+    "6": {
+      "오봉산군 이태호": 236260.02
+    },
+    "7": {
+      "오봉산군 이태호": 163960.9
+    },
+    "8": {
+      "오봉산군 이태호": 166270.22
+    },
+    "9": {
+      "오봉산군 이태호": 168579.52
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 1517985.44,
+  "unapplied": {}
+}

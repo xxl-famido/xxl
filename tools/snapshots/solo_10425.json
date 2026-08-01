@@ -1,0 +1,62 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10425,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 19747.42,
+  "events": {
+    "byActionKind": {
+      "보통공격": 14,
+      "패시브": 1,
+      "피격": 60,
+      "필살기": 13
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 4
+    },
+    "count": 88
+  },
+  "logHash": "sha256:89f2bb4b1eab468f69dde853ccb65c93",
+  "perChar": {
+    "하니엘": {
+      "barrier": 0.0,
+      "damage": 197474.19,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "10": {
+      "하니엘": 41405.88
+    },
+    "4": {
+      "하니엘": 114662.43
+    },
+    "7": {
+      "하니엘": 41405.88
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 197474.19,
+  "unapplied": {}
+}

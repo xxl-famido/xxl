@@ -1,0 +1,160 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 2,
+    "enemyAoe": false,
+    "enemyHits": 2,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10405,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      },
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10421,
+        "position": 2,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      },
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10439,
+        "position": 3,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      },
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10416,
+        "position": 4,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 12
+  },
+  "dps": 934077.84,
+  "events": {
+    "byActionKind": {
+      "보통공격": 142,
+      "패시브": 11,
+      "피격": 196,
+      "필살기": 56
+    },
+    "byOutput": {
+      "-": 30,
+      "incoming": 72,
+      "평타": 75,
+      "필살": 24
+    },
+    "count": 405
+  },
+  "logHash": "sha256:992de356c9beedb7b1ad1e614eb839d8",
+  "perChar": {
+    "비어녹스": {
+      "barrier": 0.0,
+      "damage": 0.0,
+      "healing": 0.0
+    },
+    "욱영": {
+      "barrier": 0.0,
+      "damage": 2947511.43,
+      "healing": 0.0
+    },
+    "최유현": {
+      "barrier": 0.0,
+      "damage": 4294905.87,
+      "healing": 0.0
+    },
+    "파미도": {
+      "barrier": 0.0,
+      "damage": 3966516.83,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "욱영": 136249.62,
+      "최유현": 148306.76,
+      "파미도": 117720.06
+    },
+    "10": {
+      "욱영": 519761.11,
+      "최유현": 963765.36,
+      "파미도": 859882.1
+    },
+    "11": {
+      "욱영": 177714.11,
+      "최유현": 199250.99,
+      "파미도": 220363.21
+    },
+    "12": {
+      "욱영": 154095.69,
+      "최유현": 189782.24,
+      "파미도": 181715.54
+    },
+    "2": {
+      "욱영": 139721.39,
+      "최유현": 159868.74,
+      "파미도": 145995.2
+    },
+    "3": {
+      "욱영": 143193.18,
+      "최유현": 160275.09,
+      "파미도": 152834.51
+    },
+    "4": {
+      "욱영": 491741.11,
+      "최유현": 850826.87,
+      "파미도": 745244.18
+    },
+    "5": {
+      "욱영": 170967.4,
+      "최유현": 170962.87,
+      "파미도": 186988.55
+    },
+    "6": {
+      "욱영": 156738.31,
+      "최유현": 161494.12,
+      "파미도": 153748.79
+    },
+    "7": {
+      "욱영": 524441.98,
+      "최유현": 903777.66,
+      "파미도": 801774.48
+    },
+    "8": {
+      "욱영": 173558.31,
+      "최유현": 198031.96,
+      "파미도": 219448.94
+    },
+    "9": {
+      "욱영": 159329.22,
+      "최유현": 188563.21,
+      "파미도": 180801.27
+    }
+  },
+  "purpose": "팀 속성 게이트 (비어녹스 나무 동료 ≥3 → 아군 전체 주는딜) + 나무 상성",
+  "schema": 1,
+  "total": 11208934.13,
+  "unapplied": {}
+}

@@ -1,0 +1,83 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10428,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 60653.26,
+  "events": {
+    "byActionKind": {
+      "보통공격": 14,
+      "피격": 60,
+      "필살기": 18
+    },
+    "byOutput": {
+      "incoming": 30,
+      "평타": 7,
+      "필살": 9
+    },
+    "count": 92
+  },
+  "logHash": "sha256:c808c2252bfaa273e396c8cc44c0bf00",
+  "perChar": {
+    "리카노": {
+      "barrier": 0.0,
+      "damage": 606532.56,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "리카노": 27469.77
+    },
+    "10": {
+      "리카노": 134849.65
+    },
+    "2": {
+      "리카노": 27469.77
+    },
+    "3": {
+      "리카노": 27469.77
+    },
+    "4": {
+      "리카노": 134849.65
+    },
+    "5": {
+      "리카노": 32317.38
+    },
+    "6": {
+      "리카노": 27469.77
+    },
+    "7": {
+      "리카노": 134849.65
+    },
+    "8": {
+      "리카노": 32317.38
+    },
+    "9": {
+      "리카노": 27469.77
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 606532.56,
+  "unapplied": {}
+}

@@ -187,6 +187,22 @@ python server.py      # http://localhost:8777
 로컬에서는 `server.py`(localhost:8777)가 API를 처리하고,
 정적 호스팅(GitHub Pages)에서는 `dashboard/sim-worker.js`가 Pyodide로 같은 로직(`sim_api.py`)을 브라우저에서 실행합니다.
 
+### 회귀 테스트 (엔진 수정 시)
+
+엔진이나 파서를 고쳤을 때 **고치려던 것만 바뀌었는지** 확인합니다. 전 캐릭터 단독 전투 + 교차 메커니즘별 대표 팀, 총 52개 조합을 골든 결과와 대조합니다 (전체 0.3초).
+
+```
+python tools/snapshot.py              # 전 조합 비교 (회귀가 있으면 종료 코드 1)
+python tools/snapshot.py -f xuying    # 이름에 'xuying'이 든 조합만
+python tools/snapshot.py --list       # 조합 목록과 각 조합이 검증하는 메커니즘
+python tools/snapshot.py --update     # 의도한 변경이면 골든을 재기록
+pytest tests/ -q                      # 같은 검사를 조합별 테스트로 (미파싱 0 검사 포함)
+```
+
+판정은 두 단계입니다. **수치가 달라지면 FAIL**(총딜·캐릭터별 딜/힐/배리어·턴별 딜·미적용 효과)이고, **로그 문구만 달라지면 WARN**으로 종료 코드에 영향을 주지 않습니다. 캐릭터 하나를 건드리면 그 캐릭터의 `solo_` 조합과 해당 캐릭터가 든 팀 조합만 실패하므로 원인이 바로 좁혀집니다.
+
+신규 캐릭터를 추가한 뒤에는 `--update`로 그 캐릭터의 골든을 새로 기록하세요.
+
 ---
 
 ## 프로젝트 구조
@@ -196,7 +212,11 @@ python server.py      # http://localhost:8777
 - `server.py` — 로컬 개발 서버
 - `dashboard/` — 프런트엔드 (index.html · app.js · style.css · sim-worker.js · icons)
 - `data/` — 게임 데이터 (chars.json · skills.json)
+- `tools/` — 검증·감사 도구 (snapshot.py 회귀 · verify.py 파싱 감사 · channels.py 채널 감사)
+- `tests/` — pytest 회귀 스위트 (`tools/snapshot.py`의 골든을 조합별 테스트로 실행)
 - `.github/workflows/deploy.yml` — GitHub Pages 자동 배포
+
+> `boss_sim/`(길드던전 보스 모드)은 2026-06-20에 코어를 복제한 뒤 동결된 별도 포크입니다. 현행 엔진과 크게 벌어져 있어 저장소·배포·회귀 범위에서 제외돼 있습니다(파일은 보존).
 
 ---
 

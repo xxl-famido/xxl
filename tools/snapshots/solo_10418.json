@@ -1,0 +1,77 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10418,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 58375.43,
+  "events": {
+    "byActionKind": {
+      "보통공격": 28,
+      "피격": 60,
+      "필살기": 8
+    },
+    "byOutput": {
+      "-": 10,
+      "incoming": 30,
+      "발동": 8
+    },
+    "count": 96
+  },
+  "logHash": "sha256:f8341d10c9cc8816696971db3e110a4a",
+  "perChar": {
+    "제트블랙": {
+      "barrier": 0.0,
+      "damage": 583754.31,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "제트블랙": 54512.84
+    },
+    "10": {
+      "제트블랙": 121395.67
+    },
+    "2": {
+      "제트블랙": 54512.84
+    },
+    "3": {
+      "제트블랙": 54512.84
+    },
+    "5": {
+      "제트블랙": 74705.03
+    },
+    "6": {
+      "제트블랙": 74705.03
+    },
+    "8": {
+      "제트블랙": 74705.03
+    },
+    "9": {
+      "제트블랙": 74705.03
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 583754.31,
+  "unapplied": {}
+}

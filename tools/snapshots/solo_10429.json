@@ -1,0 +1,84 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10429,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 113756.16,
+  "events": {
+    "byActionKind": {
+      "보통공격": 26,
+      "피격": 60,
+      "필살기": 37
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 33,
+      "평타": 7,
+      "필살": 12
+    },
+    "count": 123
+  },
+  "logHash": "sha256:44017c9b55b50dfc67f606dd8ed7c47f",
+  "perChar": {
+    "임욱잠": {
+      "barrier": 0.0,
+      "damage": 1137561.61,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "임욱잠": 49088.03
+    },
+    "10": {
+      "임욱잠": 238610.48
+    },
+    "2": {
+      "임욱잠": 55490.82
+    },
+    "3": {
+      "임욱잠": 61893.61
+    },
+    "4": {
+      "임욱잠": 221963.23
+    },
+    "5": {
+      "임욱잠": 63814.43
+    },
+    "6": {
+      "임욱잠": 72138.05
+    },
+    "7": {
+      "임욱잠": 238610.48
+    },
+    "8": {
+      "임욱잠": 63814.43
+    },
+    "9": {
+      "임욱잠": 72138.05
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 1137561.61,
+  "unapplied": {}
+}

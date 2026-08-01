@@ -1,0 +1,83 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10439,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 72511.69,
+  "events": {
+    "byActionKind": {
+      "보통공격": 21,
+      "피격": 60,
+      "필살기": 9
+    },
+    "byOutput": {
+      "incoming": 30,
+      "평타": 21,
+      "필살": 9
+    },
+    "count": 90
+  },
+  "logHash": "sha256:228ac280b7b4a4a7eb99e41c115cd4b3",
+  "perChar": {
+    "욱영": {
+      "barrier": 0.0,
+      "damage": 725116.86,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "욱영": 53712.36
+    },
+    "10": {
+      "욱영": 116376.78
+    },
+    "2": {
+      "욱영": 53712.36
+    },
+    "3": {
+      "욱영": 53712.36
+    },
+    "4": {
+      "욱영": 116376.78
+    },
+    "5": {
+      "욱영": 53712.36
+    },
+    "6": {
+      "욱영": 53712.36
+    },
+    "7": {
+      "욱영": 116376.78
+    },
+    "8": {
+      "욱영": 53712.36
+    },
+    "9": {
+      "욱영": 53712.36
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 725116.86,
+  "unapplied": {}
+}

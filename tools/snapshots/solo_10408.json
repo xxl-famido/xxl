@@ -1,0 +1,83 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10408,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 69915.74,
+  "events": {
+    "byActionKind": {
+      "보통공격": 14,
+      "피격": 60,
+      "필살기": 18
+    },
+    "byOutput": {
+      "incoming": 30,
+      "평타": 7,
+      "필살": 9
+    },
+    "count": 92
+  },
+  "logHash": "sha256:4afaa3b2effeb40a939346edcd4dae5e",
+  "perChar": {
+    "탐랑": {
+      "barrier": 0.0,
+      "damage": 699157.39,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "탐랑": 37297.14
+    },
+    "10": {
+      "탐랑": 94287.19
+    },
+    "2": {
+      "탐랑": 43264.69
+    },
+    "3": {
+      "탐랑": 43264.69
+    },
+    "4": {
+      "탐랑": 94287.19
+    },
+    "5": {
+      "탐랑": 102969.96
+    },
+    "6": {
+      "탐랑": 43264.69
+    },
+    "7": {
+      "탐랑": 94287.19
+    },
+    "8": {
+      "탐랑": 102969.96
+    },
+    "9": {
+      "탐랑": 43264.69
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 699157.39,
+  "unapplied": {}
+}

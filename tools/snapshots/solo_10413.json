@@ -1,0 +1,84 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10413,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 94672.87,
+  "events": {
+    "byActionKind": {
+      "보통공격": 12,
+      "피격": 60,
+      "필살기": 16
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 2,
+      "평타": 6,
+      "필살": 4
+    },
+    "count": 88
+  },
+  "logHash": "sha256:fb03d422e46680f11718add687870905",
+  "perChar": {
+    "바드": {
+      "barrier": 0.0,
+      "damage": 946728.67,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "바드": 43562.81
+    },
+    "10": {
+      "바드": 69700.49
+    },
+    "2": {
+      "바드": 43562.81
+    },
+    "3": {
+      "바드": 72749.88
+    },
+    "4": {
+      "바드": 43562.81
+    },
+    "5": {
+      "바드": 214350.78
+    },
+    "6": {
+      "바드": 69700.49
+    },
+    "7": {
+      "바드": 105487.33
+    },
+    "8": {
+      "바드": 69700.49
+    },
+    "9": {
+      "바드": 214350.78
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 946728.67,
+  "unapplied": {}
+}

@@ -1,0 +1,84 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10407,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 155772.63,
+  "events": {
+    "byActionKind": {
+      "보통공격": 19,
+      "피격": 120,
+      "필살기": 27
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 27,
+      "평타": 7,
+      "필살": 3
+    },
+    "count": 166
+  },
+  "logHash": "sha256:1c72059d01ee2ea264969c2f501e9139",
+  "perChar": {
+    "타란디오": {
+      "barrier": 0.0,
+      "damage": 1557726.33,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "타란디오": 36934.83
+    },
+    "10": {
+      "타란디오": 349957.48
+    },
+    "2": {
+      "타란디오": 36934.83
+    },
+    "3": {
+      "타란디오": 36934.83
+    },
+    "4": {
+      "타란디오": 266854.12
+    },
+    "5": {
+      "타란디오": 120038.19
+    },
+    "6": {
+      "타란디오": 120038.19
+    },
+    "7": {
+      "타란디오": 349957.48
+    },
+    "8": {
+      "타란디오": 120038.19
+    },
+    "9": {
+      "타란디오": 120038.19
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 1557726.33,
+  "unapplied": {}
+}

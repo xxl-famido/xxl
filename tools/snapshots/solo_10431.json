@@ -1,0 +1,83 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10431,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 109544.3,
+  "events": {
+    "byActionKind": {
+      "보통공격": 21,
+      "패시브": 9,
+      "피격": 60,
+      "필살기": 24
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 14
+    },
+    "count": 114
+  },
+  "logHash": "sha256:f2e86efa8ef36790ef7e5ad073bce756",
+  "perChar": {
+    "복을 주시는 제야의 세숭": {
+      "barrier": 0.0,
+      "damage": 1095442.96,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "복을 주시는 제야의 세숭": 58132.96
+    },
+    "10": {
+      "복을 주시는 제야의 세숭": 79478.66
+    },
+    "2": {
+      "복을 주시는 제야의 세숭": 58132.96
+    },
+    "3": {
+      "복을 주시는 제야의 세숭": 165315.6
+    },
+    "4": {
+      "복을 주시는 제야의 세숭": 79478.66
+    },
+    "5": {
+      "복을 주시는 제야의 세숭": 165315.6
+    },
+    "6": {
+      "복을 주시는 제야의 세숭": 79478.66
+    },
+    "7": {
+      "복을 주시는 제야의 세숭": 165315.6
+    },
+    "8": {
+      "복을 주시는 제야의 세숭": 79478.66
+    },
+    "9": {
+      "복을 주시는 제야의 세숭": 165315.6
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 1095442.96,
+  "unapplied": {}
+}

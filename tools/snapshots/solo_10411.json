@@ -1,0 +1,85 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10411,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 59337.41,
+  "events": {
+    "byActionKind": {
+      "보통공격": 16,
+      "피격": 60,
+      "필살기": 6
+    },
+    "byOutput": {
+      "incoming": 30,
+      "평타": 8,
+      "필살": 2
+    },
+    "count": 82
+  },
+  "logHash": "sha256:bce2d9f8a989f4c630c87242332e08d0",
+  "perChar": {
+    "카푸카": {
+      "barrier": 0.0,
+      "damage": 593374.12,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "카푸카": 38020.43
+    },
+    "10": {
+      "카푸카": 44103.69
+    },
+    "2": {
+      "카푸카": 44103.69
+    },
+    "3": {
+      "카푸카": 44103.69
+    },
+    "4": {
+      "카푸카": 44103.69
+    },
+    "5": {
+      "카푸카": 123313.93
+    },
+    "6": {
+      "카푸카": 44103.69
+    },
+    "7": {
+      "카푸카": 44103.69
+    },
+    "8": {
+      "카푸카": 44103.69
+    },
+    "9": {
+      "카푸카": 123313.93
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 593374.12,
+  "unapplied": {
+    "미모델링(CC)": 2
+  }
+}

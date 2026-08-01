@@ -1,0 +1,72 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10417,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 41295.25,
+  "events": {
+    "byActionKind": {
+      "보통공격": 18,
+      "패시브": 1,
+      "피격": 90,
+      "필살기": 4
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 12,
+      "평타": 6
+    },
+    "count": 113
+  },
+  "logHash": "sha256:82584b7f2a9d40f56f038582f667ccd1",
+  "perChar": {
+    "멍": {
+      "barrier": 0.0,
+      "damage": 412952.46,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "2": {
+      "멍": 68825.41
+    },
+    "3": {
+      "멍": 68825.41
+    },
+    "5": {
+      "멍": 68825.41
+    },
+    "6": {
+      "멍": 68825.41
+    },
+    "8": {
+      "멍": 68825.41
+    },
+    "9": {
+      "멍": 68825.41
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 412952.46,
+  "unapplied": {}
+}

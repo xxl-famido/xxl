@@ -1,0 +1,83 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10424,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 56304.54,
+  "events": {
+    "byActionKind": {
+      "보통공격": 21,
+      "피격": 90,
+      "필살기": 3
+    },
+    "byOutput": {
+      "incoming": 30,
+      "평타": 7,
+      "필살": 3
+    },
+    "count": 114
+  },
+  "logHash": "sha256:00c8e612aab466324390bd5741cda026",
+  "perChar": {
+    "루테닉스": {
+      "barrier": 0.0,
+      "damage": 563045.36,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "루테닉스": 35847.87
+    },
+    "10": {
+      "루테닉스": 68188.88
+    },
+    "2": {
+      "루테닉스": 49875.3
+    },
+    "3": {
+      "루테닉스": 54551.11
+    },
+    "4": {
+      "루테닉스": 68188.88
+    },
+    "5": {
+      "루테닉스": 54551.11
+    },
+    "6": {
+      "루테닉스": 54551.11
+    },
+    "7": {
+      "루테닉스": 68188.88
+    },
+    "8": {
+      "루테닉스": 54551.11
+    },
+    "9": {
+      "루테닉스": 54551.11
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 563045.36,
+  "unapplied": {}
+}

@@ -1,0 +1,86 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10436,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 75585.23,
+  "events": {
+    "byActionKind": {
+      "보통공격": 45,
+      "지속딜": 10,
+      "피격": 61,
+      "필살기": 3
+    },
+    "byOutput": {
+      "barrier": 1,
+      "incoming": 30,
+      "지속": 10,
+      "평타": 9,
+      "필살": 1
+    },
+    "count": 119
+  },
+  "logHash": "sha256:4365ceaa9b9569b7c7b7104e602a6305",
+  "perChar": {
+    "모이루": {
+      "barrier": 23116.77,
+      "damage": 755852.29,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "모이루": 51169.93
+    },
+    "10": {
+      "모이루": 54854.16
+    },
+    "2": {
+      "모이루": 53012.05
+    },
+    "3": {
+      "모이루": 54854.16
+    },
+    "4": {
+      "모이루": 54854.16
+    },
+    "5": {
+      "모이루": 54854.16
+    },
+    "6": {
+      "모이루": 54854.16
+    },
+    "7": {
+      "모이루": 204846.34
+    },
+    "8": {
+      "모이루": 101734.0
+    },
+    "9": {
+      "모이루": 70819.17
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 755852.29,
+  "unapplied": {}
+}

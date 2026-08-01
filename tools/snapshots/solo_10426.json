@@ -1,0 +1,84 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10426,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 139086.27,
+  "events": {
+    "byActionKind": {
+      "보통공격": 38,
+      "피격": 60,
+      "필살기": 71
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 57,
+      "평타": 6,
+      "필살": 4
+    },
+    "count": 169
+  },
+  "logHash": "sha256:7f365e07f97b826492ca9aaf83c43206",
+  "perChar": {
+    "란": {
+      "barrier": 0.0,
+      "damage": 1390862.66,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "란": 80568.54
+    },
+    "10": {
+      "란": 129133.47
+    },
+    "2": {
+      "란": 96682.25
+    },
+    "3": {
+      "란": 142507.86
+    },
+    "4": {
+      "란": 129133.47
+    },
+    "5": {
+      "란": 184856.71
+    },
+    "6": {
+      "란": 129133.47
+    },
+    "7": {
+      "란": 184856.71
+    },
+    "8": {
+      "란": 129133.47
+    },
+    "9": {
+      "란": 184856.71
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 1390862.66,
+  "unapplied": {}
+}

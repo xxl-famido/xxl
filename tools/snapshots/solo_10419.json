@@ -1,0 +1,84 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10419,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 40873.87,
+  "events": {
+    "byActionKind": {
+      "보통공격": 16,
+      "피격": 75,
+      "필살기": 6
+    },
+    "byOutput": {
+      "barrier": 3,
+      "incoming": 30,
+      "발동": 17,
+      "평타": 7
+    },
+    "count": 97
+  },
+  "logHash": "sha256:87f09f2f3fb904f6ac75d6c77b8348da",
+  "perChar": {
+    "오렘": {
+      "barrier": 201326.4,
+      "damage": 408738.67,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "오렘": 27249.25
+    },
+    "10": {
+      "오렘": 40873.86
+    },
+    "2": {
+      "오렘": 27249.25
+    },
+    "3": {
+      "오렘": 27249.25
+    },
+    "4": {
+      "오렘": 40873.86
+    },
+    "5": {
+      "오렘": 74935.42
+    },
+    "6": {
+      "오렘": 27249.25
+    },
+    "7": {
+      "오렘": 40873.86
+    },
+    "8": {
+      "오렘": 74935.42
+    },
+    "9": {
+      "오렘": 27249.25
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 408738.67,
+  "unapplied": {}
+}

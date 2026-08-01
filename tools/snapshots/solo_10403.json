@@ -1,0 +1,74 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10403,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turns": 10
+  },
+  "dps": 93173.23,
+  "events": {
+    "byActionKind": {
+      "보통공격": 36,
+      "피격": 120,
+      "필살기": 12
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 8,
+      "평타": 7
+    },
+    "count": 168
+  },
+  "logHash": "sha256:4f8bfe71b3f54671b0fccbca10699c5a",
+  "perChar": {
+    "골든라이더": {
+      "barrier": 0.0,
+      "damage": 931732.31,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "골든라이더": 65614.95
+    },
+    "2": {
+      "골든라이더": 78737.94
+    },
+    "3": {
+      "골든라이더": 78737.94
+    },
+    "5": {
+      "골든라이더": 177160.37
+    },
+    "6": {
+      "골든라이더": 177160.37
+    },
+    "8": {
+      "골든라이더": 177160.37
+    },
+    "9": {
+      "골든라이더": 177160.37
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 931732.31,
+  "unapplied": {}
+}
