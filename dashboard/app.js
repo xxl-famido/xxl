@@ -2985,7 +2985,8 @@ async function run(save = true) {
   const cfg = {
     // 고급 설정 중에는 캐릭터별 계획·우선순위를 보내지 않는다 (advCfg의 프로브와 동일해야
     // 화면에 보이는 타임라인이 곧 실행 결과가 된다). 전 턴이 지정 상태라 결과는 동일.
-    team: picked.map(s => ({ id: s.id, position: s.position, skill: s.skill, rune: s.rune, rotation: advOn ? null : (s.rotation || null), fedActions: s.fedActions || null, allyUltAfter: !!s.allyUltAfter, priority: advOn ? null : s.priority, sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0 })),
+    team: picked.map(s => ({ id: s.id, position: s.position, skill: s.skill, rune: s.rune, rotation: advOn ? null : (s.rotation || null), fedActions: s.fedActions || null, allyUltAfter: !!s.allyUltAfter, priority: advOn ? null : s.priority, sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0,
+      ...specPayload(s) })),   // 캐릭터 스펙(육성) — 빠지면 화면 표시만 바뀌고 결과는 풀육성이 된다
     turns: +$('#turns').value, dummies: +$('#dummies').dataset.val, enemyHits: $('#enemyHits').dataset.val,
     dummyElement: +$('#dummyElement').dataset.val,
     turnOrders: advOn ? {} : turnOverrides, turnPlans: advOn ? turnPlans : {},

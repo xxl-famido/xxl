@@ -72,6 +72,8 @@ async function main() {
       get cmpCommon(){return cmpCommon}, openAdvFor(x){return openAdvFor(x)},
       openPrioPop(x){return openPrioPop(x)},
       openModal(i){return openModal(i)}, specOn(s){return specOn(s)},
+      openSpecPanel(i){return openSpecPanel(i)}, run(x){return run(x)},
+      get lastResult(){return lastResult},
       specAtkHp(s){return specAtkHp(s)}, specPayload(s){return specPayload(s)},
       packSlot(s){return packSlot(s)}, unpackSlot(a){return unpackSlot(a)},
       promoteLegacySpec(s){return promoteLegacySpec(s)},
@@ -454,6 +456,57 @@ async function specPanelCheck(window, A, $, click) {
   $('#modalWrap').classList.contains('with-spec') ? bad('스펙: 닫아도 카드가 안 돌아옴') : ok('스펙: 닫으면 카드 복귀');
 
   await cmpSpecCheck(window, A, $, click);
+  await runPayloadCheck(window, A, $);
+}
+
+// 메인 '시뮬레이션 실행' 경로 — 화면에서 정한 스펙이 실제 실행 payload 까지 가는가.
+// 팀 payload 를 만드는 곳이 네 군데(프로브 · 비교군 · 기록 · run)라 하나만 빠져도
+// 화면 표시만 바뀌고 결과는 풀육성으로 돌아간다. 실제로 그 사고가 났었다.
+async function runPayloadCheck(window, A, $) {
+  const d = window.document;
+  const sent = [];
+  const realFetch = window.fetch;
+  window.fetch = (u, o) => {
+    const url = String(u);
+    if (url.includes('/api/simulate') && o && o.body) { try { sent.push(JSON.parse(o.body)); } catch {} }
+    return realFetch(u, o);
+  };
+  A.team.forEach((s) => { if (s) s.spec = null; });   // 앞 시나리오가 켜 둔 스펙을 지우고 시작
+  d.querySelector('#turns').value = '8';
+  d.querySelector('#turns').dispatchEvent(new window.Event('input'));
+  d.querySelector('#runs').value = '1';
+  d.querySelector('#runs').dispatchEvent(new window.Event('input'));
+
+  await A.run(false);
+  await sleep(150);
+  const base = A.lastResult && A.lastResult.meta.total;
+  (sent.length && sent[sent.length - 1].team[0].specOn === false)
+    ? ok('실행: 스펙 끔이면 payload specOn=false') : bad('실행: payload 에 specOn 이 없음');
+
+  await A.openModal(0); await sleep(450);
+  A.openSpecPanel(0); await sleep(350);
+  d.querySelector('#csUse').checked = true;
+  d.querySelector('#csUse').dispatchEvent(new window.Event('change'));
+  await sleep(250);
+  for (const [id, v] of [['#csEvo', '0'], ['#csLevel', '30']]) {
+    const r = d.querySelector(id);
+    r.value = v; r.dispatchEvent(new window.Event('input')); r.dispatchEvent(new window.Event('change'));
+    await sleep(250);
+  }
+  d.querySelector('#csClose').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await sleep(350);
+  d.querySelector('#modal').hidden = true;
+
+  await A.run(false);
+  await sleep(150);
+  const p = sent[sent.length - 1].team[0];
+  const after = A.lastResult && A.lastResult.meta.total;
+  (p.specOn === true && p.evo === 0 && p.level === 30)
+    ? ok('실행: 화면에서 정한 스펙이 payload 에 반영') : bad(`실행: payload 스펙 누락 ${JSON.stringify(p).slice(0, 90)}`);
+  (base && after && after < base)
+    ? ok(`실행: 결과가 실제로 달라짐 (${Math.round(after / base * 100)}%)`)
+    : bad(`실행: 스펙을 내렸는데 결과가 그대로 (${base} → ${after})`);
+  window.fetch = realFetch;
 }
 
 // 비교 모달 — 같은 패널이 뜨는지, 값이 그 비교군 슬롯에 붙는지,
