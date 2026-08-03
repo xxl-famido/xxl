@@ -1192,4 +1192,39 @@ def parse_skill_level(desc: str, params: dict) -> list[Effect]:
             absorbed.add(i)
     if absorbed:
         out = [e for i, e in enumerate(out) if i not in absorbed]
+    return _lift_bare_chance(out)
+
+
+# ", and there is a(n) N% chance to trigger: X" — 앞 절과 **같은 이벤트 안의 추가 판정**이다
+# (KR "…발동 / 또 N%의 확률로 … 추가 발동"). 이벤트가 안 적혀 있어 바깥 트리거의 본문으로
+# 들어오면 이벤트 없는 확률절 규칙(_TRIGGER_PATTERNS 마지막)에 걸려 on_attack 리스너로
+# 심긴다. 그러면 평타 전용 효과가 **필살기에서도** 터진다(던컨 마탄 충기법·포르베어 흠뻑
+# 적셔진 파티). 바깥 이벤트를 물려받은 형제 트리거로 끌어올려 임부언 순종 교육과 같은
+# 모양으로 만든다 — 같은 이벤트, 자기 확률.
+_BARE_CHANCE_TRIG = re.compile(r"^there is a(?:\(n\))? [\d.]+% chance to trigger:", re.I)
+
+
+def _lift_bare_chance(effs: list[Effect]) -> list[Effect]:
+    out: list[Effect] = []
+    for eff in effs:
+        if eff.sub_effects:
+            eff.sub_effects = _lift_bare_chance(eff.sub_effects)
+        if eff.kind != TRIGGER or not eff.condition or eff.condition == "on_attack":
+            out.append(eff)
+            continue
+        keep, lifted = [], []
+        for sub in eff.sub_effects:
+            if (sub.kind == TRIGGER and sub.condition == "on_attack"
+                    and _BARE_CHANCE_TRIG.match((sub.raw or "").strip())):
+                sub.condition = eff.condition        # 바깥 이벤트를 물려받는다
+                lifted.append(sub)
+            else:
+                keep.append(sub)
+        if not lifted:
+            out.append(eff)
+            continue
+        eff.sub_effects = keep
+        if keep:                                     # 본문이 통째로 확률절이었으면 빈 껍데기는 버린다
+            out.append(eff)
+        out.extend(lifted)
     return out

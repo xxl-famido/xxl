@@ -739,6 +739,12 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
     if kind == "UNPARSED":
         state.unapplied[f"미파싱: {effect.raw[:60]}"] += 1
         return
+    # 확률 판정 — 트리거는 구독이 발동할 때 굴리지만(_fire_subs), 이벤트 없이 한 줄로 쓰인
+    # "N% 확률로 …"(탐랑 수면 40%)은 여기까지 그대로 내려와 **확정 발동**하고 있었다.
+    # awaken_with 는 대상마다 따로 굴리므로 제외한다.
+    if (kind != TRIGGER and effect.chance < 100 and not effect.awaken_with
+            and not state.force_proc and state.rng.random() * 100 >= effect.chance):
+        return
     # 카라트 HP 게이트: 대상 HP%가 임계를 못 넘으면 이 효과(추가타·표지 빌드 등)는 발동 안 함.
     # COND_DMG는 게이트를 저장만 하고 데미지 시점에 평가하므로 여기서 막지 않는다.
     if effect.target_hp_op and kind != COND_DMG \
