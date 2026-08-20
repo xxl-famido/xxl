@@ -3400,10 +3400,11 @@ async function openSkillFromSource(id, skillName) {
       const items = (rel.items || []).filter(it => curFilter === 'all' || it.cat === curFilter);
       if (!items.length) return '';                              // 필터에 걸리는 항목 없으면 릴리스 숨김
       const tags = [...new Set((rel.items || []).map(it => it.cat))];
-      // 전체 보기에서 하이라이트/최신 2개만 펼침, 나머지는 접힘
-      const collapsed = (curFilter === 'all' && !rel.highlight && i > 1) ? ' collapsed' : '';
       // 1.x = 메이저(캐릭터 추가) · 1.x.x = 마이너 패치 — 시각적으로 확실히 구분
       const isMajor = /^\d+\.\d+$/.test(String(rel.version));
+      // 전체 보기: 메이저는 펼침, 마이너는 접힘(최신 릴리스가 마이너면 그것만 펼침).
+      // 분류 필터를 걸면 걸러진 결과를 바로 보여주려고 전부 펼친다.
+      const collapsed = (curFilter === 'all' && !isMajor && i > 0) ? ' collapsed' : '';
       const hasHero = rel.char != null || rel.charImg != null;
       const faceSrc = rel.charImg || (rel.char != null ? `icons/${rel.char}.png` : '');
       const hero = hasHero ? `<div class="pr-hero">` +
