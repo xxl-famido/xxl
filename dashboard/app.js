@@ -3413,8 +3413,12 @@ async function openSkillFromSource(id, skillName) {
           ((rel.char != null && nameOf(rel.char)) || (rel.charName ? tx(rel.charName) : '')
             ? `<span class="pr-cname">${esc((rel.char != null && nameOf(rel.char)) || tx(rel.charName))}</span>` : '') +
         `</div>` : '';
+      // details: 펼쳤을 때 함께 보이는 구체 수치 (게임 데이터에서 확인한 값)
+      const detailsHtml = ds => (Array.isArray(ds) && ds.length)
+        ? `<div class="pi-details">` + ds.map(x => `<div class="pi-d">${esc(tx(x))}</div>`).join('') + `</div>` : '';
       const itemsHtml = items.map(it =>
-        `<div class="pr-item"><span class="pi-tag dot-${it.cat}"></span><span class="pi-text">${faces(it.chars)}${esc(tx(it.text))}</span></div>`).join('');
+        `<div class="pr-item"><span class="pi-tag dot-${it.cat}"></span>` +
+        `<span class="pi-text">${faces(it.chars)}${esc(tx(it.text))}${detailsHtml(it.details)}</span></div>`).join('');
       return `<div class="pr${isMajor ? ' major' : ' minor'}${i === 0 ? ' latest' : ''}${hasHero ? ' has-hero' : ''}${collapsed}">` +
         `<div class="pr-head">` +
           `<span class="pr-ver">v${esc(rel.version)}</span>` +
