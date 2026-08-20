@@ -676,5 +676,23 @@
   "name_cn": "旭影",
   "name_sc": "旭影",
   "name_ja": "旭影"
+ },
+ "10440": {
+  "id": 10440,
+  "name_en": "Mengkui",
+  "name_kr": "몽규",
+  "feature": "Adjacent Protection / Chain Healing",
+  "rarity": 4,
+  "class": 3,
+  "element": 3,
+  "baseATK": 583,
+  "baseHP": 2142,
+  "hasRune": true,
+  "name_cn": "蒙奎",
+  "name_sc": "蒙奎",
+  "name_ja": "蒙奎",
+  "feature_cn": "鄰位守護，連鎖救援",
+  "feature_sc": "邻位守护，连锁救援",
+  "feature_ja": "隣接守護、連鎖救援"
  }
 }

@@ -134,6 +134,8 @@ class Subscription:
     once: bool = False                     # "1회만 적용" — fires once per arm (모이루 보호막)
     armed: bool = True                     # once-sub: True until it fires; re-armed on re-grant
     consume_gate: bool = False             # 게이트를 행동시작 스냅샷(act_snap)으로 판정 (소모 트리거)
+    self_hp_op: str | None = None          # 부여받은 유닛 자신의 HP% 게이트 (몽규 연쇄 구원): "ge"/"le"/"lt"/"eq"
+    self_hp_val: float = 0.0               # self_hp_op 임계 %
     expires: int = -1                      # 남은 하프턴 수명(-1=영구). "방어 시 2턴간 평타 추가딜"(던컨)
                                            #   처럼 이벤트가 부여한 시한부 리스너. _tick_buffs가 감소·제거
 
@@ -562,11 +564,20 @@ def _who(targets: list, caster: Unit, state: "BattleState", effect: "Effect | No
 
 
 def _hp_ok(unit: "Unit | None", op: str, val: float) -> bool:
-    """True if the unit's HP% satisfies the gate (op 'lt'/'ge', val %). No unit -> False."""
+    """True if the unit's HP% satisfies the gate (op 'lt'/'le'/'eq'/'gt'/'ge', val %).
+    No unit -> False."""
     if unit is None or unit.max_hp <= 0:
         return False
     pct = unit.hp / unit.max_hp * 100
-    return pct < val if op == "lt" else pct >= val
+    if op == "lt":
+        return pct < val
+    if op == "le":
+        return pct <= val
+    if op == "eq":
+        return pct == val
+    if op == "gt":
+        return pct > val
+    return pct >= val   # "ge" (기본)
 
 
 def _target_has(unit: "Unit | None", name: str, count: int = 1) -> bool:
@@ -837,7 +848,9 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                     target_gate_stack=effect.target_stack, target_gate_count=effect.target_count,
                     repeat_stack=effect.repeat_stack, need_team_barrier=effect.team_barrier,
                     need_self_barrier=effect.self_barrier, once=once,
-                    consume_gate=effect.consume_gate, expires=expires))
+                    consume_gate=effect.consume_gate,
+                    self_hp_op=effect.self_hp_op, self_hp_val=effect.self_hp_val,
+                    expires=expires))
             else:
                 if once:
                     dup.armed = True        # 재발동(예: 다음 EX) 시 once 보호막 재장전
@@ -1289,6 +1302,9 @@ def _qualifies(sub: "Subscription", caster: Unit, target: Unit | None) -> bool:
         self_ok = snap.get(sub.gate_stack, 0) >= sub.gate_count
     else:
         self_ok = _gate_ok(caster, sub.gate_stack, sub.gate_count)
+    # own-HP gate (몽규 연쇄 구원): the granted unit must hold the required HP% when it acts.
+    if sub.self_hp_op is not None and not _hp_ok(caster, sub.self_hp_op, sub.self_hp_val):
+        return False
     return self_ok and target_ok
 
 

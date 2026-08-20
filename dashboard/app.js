@@ -2903,9 +2903,9 @@ function renderSkills(detail, slot) {
     const slotEl = ic ? `<img class="slot-ic" src="${ic}" alt="${sk.slotKr}" title="${sk.slotKr}">` : `<span class="slot">${sk.slotKr}</span>`;
     const pin = specSlotState(slot, sk.slot) === 'pinned'
       ? '<span class="sk-pin" title="이 스타에서는 레벨을 올릴 수 없어요">1레벨 고정</span>' : '';
-    return `<div class="sk"><div class="sk-h">${slotEl}<span class="skn">${sk.name}</span>
-        <span class="sk-lv">Lv ${lv}</span>${pin}<span class="cd">${cd}</span></div>
-      <div class="sk-b">${(e.kr || '').trim() || '—'}</div></div>`;
+    return `<div class="sk"><div class="sk-h">${slotEl}<span class="skn">${sk.name}${pin}</span>
+        <span class="sk-lv">Lv ${lv}</span></div>
+      <div class="sk-b">${cd ? `<span class="sk-cd">${cd}</span>` : ''}${(e.kr || '').trim() || '—'}</div></div>`;
   }).join('');
   wrap.onclick = e => { const h = e.target.closest('.sk-h'); if (h) h.parentElement.classList.toggle('open'); };
 }

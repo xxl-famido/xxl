@@ -1,0 +1,1879 @@
+{
+    "info": {
+        "id": 10440,
+        "name": "Mengkui",
+        "feature": "Adjacent Protection / Chain Healing",
+        "rarity": 4,
+        "class": 3,
+        "element": 3,
+        "baseHP": 2142,
+        "sign": "9",
+        "baseATK": 583,
+        "canYiff": true,
+        "hasRune": true
+    },
+    "gachaLine": "\"Moo... Wanna hit the arcade together?\nDon't tell Xuying, though.\"",
+    "interactions": {
+        "0": [
+            "Forward, down, down-forward, and punch...?! Ah, sorry. I was just running through the input in my mind.",
+            "Ugh... I don't feel like working at all... I wanna just ditch work and hit the arcade instead~!",
+            "Moo... Where are you looking? I-I am a bovine... but I don't produce any milk, you know.",
+            "Mm... I can't compare to Anuberus, but I do have a pretty sharp nose.",
+            "Ugh... I'm completely locked up... Guess my feet are all I've got left..."
+        ],
+        "1": [
+            "Moo! D-don't just start touching me out of nowhere... ngh, you're gonna make me all... shy...",
+            "Huh?! My chest—there's really n-nothing worth touching there, is there?"
+        ],
+        "2": [
+            "Mmoo... I feel like I haven't had a haircut in ages... What a pain~"
+        ],
+        "3": [
+            "Uwah! N-no, not there... haah.",
+            "Whoa! N-not the tail... haa... haaah~"
+        ],
+        "98": [
+            "Phew... Clocked out early, so I've still got time to hit the arcade."
+        ],
+        "99": [
+            "GAME... OVER..."
+        ],
+        "100": [
+            "It's you again... So? Wanna play a round?",
+            "You told me this is more thrilling than any game..."
+        ]
+    },
+    "story": {
+        "1": "Although he's called Ox-Head most of the time, that's really just a title—his real name is Mengkui. The Horse-Face, Xuying, is a childhood friend who grew up alongside him. Mengkui is remarkably gifted at hunting down evil spirits, pulling off every mission with effortless perfection. Deep down, however, he actually can't stand this round-the-clock job. The only reason he became a Ghost Enforcer of the Netherworld is that he couldn't withstand the pressure from Xuying and the elders of his family, so he had no choice but to take on the role of Ox-Head. Amusingly, in contrast to how easily he hunts spirits, he's an absolute mess when it comes to video games despite how much he likes them.",
+        "2": "If he decides the target of a given mission poses little danger, Mengkui will often drag Xuying straight to the arcade the moment they arrive in the mortal world, refusing to go hunt any spirits until he has had his fill of a few rounds. Sometimes, on a minor mission, he will even sneak off and dump the entire hunt on Xuying alone. Xuying is long used to Mengkui pulling his disappearing act. He never reports it to the higher-ups—he just grumbles a bit, then grabs the instruments of punishment meant for evil spirits and storms into the arcade, dragging the game-obsessed Mengkui all the way back to his post.",
+        "3": "At a Netherworld staff mixer one time, Mengkui happened to learn that Anuberus was also into video games, so he immediately challenged him to a match... and then got soundly crushed by Anuberus. From that day on, Mengkui has sought out Anuberus for a rematch whenever he has a spare moment, set on one day beating him fair and square in a fighting game. He's even come to regard Anuberus as his fated rival—though Anuberus himself has no idea whatsoever. What's crueler still is that, given the gap in their gaming talent, Mengkui probably couldn't beat Anuberus even once, no matter how hard he tries across several lifetimes.",
+        "4": "If you want to grow closer to Mengkui, games are absolutely the perfect way in! Just bring up anything game-related, of any genre, and his usually cold demeanor will vanish in an instant as his eyes light up and he launches into excited chatter. And of course, if you can actually go to the arcade with him in person—or even take him on in a match yourself—that's without a doubt the fastest way to become friends with him!"
+    },
+    "hookUp": {
+        "cards": [
+            80126,
+            80128,
+            80026
+        ],
+        "perfectLines": {
+            "1": [
+                {
+                    "boundId": 80126,
+                    "speakerPosition": 1,
+                    "text": "Uwaaah~!"
+                },
+                {
+                    "boundId": 80126,
+                    "speakerPosition": 1,
+                    "text": "I-I'm really sensitive there... P-please don't rub it like that..."
+                },
+                {
+                    "boundId": 80126,
+                    "speakerPosition": 1,
+                    "text": "Moo... huff... haaah..."
+                },
+                {
+                    "boundId": 80126,
+                    "speakerPosition": 0,
+                    "text": "It's the first time I've seen Mengkui make a face like that..."
+                },
+                {
+                    "boundId": 80126,
+                    "speakerPosition": 0,
+                    "text": "Just as I thought—this trick never fails on a bovine Beastfolk!"
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 1,
+                    "text": "Mm?!"
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 1,
+                    "text": "W-what did you put on my face?"
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 1,
+                    "text": "This smell... ngh... haah... it's so familiar..."
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 1,
+                    "text": "...I love it so much... haah..."
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 0,
+                    "text": "I just used the shoes he slipped off..."
+                },
+                {
+                    "boundId": 80128,
+                    "speakerPosition": 0,
+                    "text": "...Didn't expect such a big reaction!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 1,
+                    "text": "Ehhh?! W-what are you doing with your feet?"
+                },
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 1,
+                    "text": "D-don't rub there... haah, haah..."
+                },
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 1,
+                    "text": "Haah... haah... you're so... so good at this."
+                },
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 1,
+                    "text": "It... it feels so good."
+                },
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 0,
+                    "text": "Hehe, I'm a pro at this!"
+                },
+                {
+                    "boundId": 80026,
+                    "speakerPosition": 0,
+                    "text": "He seems so satisfied!"
+                }
+            ]
+        },
+        "mistakeLines": {
+            "1": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Mm..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "S-sorry, this one doesn't do much for me."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Mengkui looks so cold when he's not interested..."
+                }
+            ],
+            "2": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "W-wait."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "This is enough—let's move on to the next."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Ugh..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "I won't disappoint him on the next one!"
+                }
+            ],
+            "3": [
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "This one doesn't really do much for me either."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 1,
+                    "text": "Moo... How about we go play a round together instead?"
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "That sounds good..."
+                },
+                {
+                    "boundId": 0,
+                    "speakerPosition": 0,
+                    "text": "Wait... N-no, I've got to spark his interest on the next one!"
+                }
+            ]
+        }
+    },
+    "skills": {
+        "basicAtk": {
+            "icon": 1,
+            "name": "Starter Move",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 30
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32301,
+                            "count": 30
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 16.11,
+                        "arg2": 32.22
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3600
+                        },
+                        {
+                            "id": 32301,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 17.23,
+                        "arg2": 34.45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32311,
+                            "count": 35
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 18.34,
+                        "arg2": 36.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4800
+                        },
+                        {
+                            "id": 32311,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 19.45,
+                        "arg2": 38.89
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 5400
+                        },
+                        {
+                            "id": 32321,
+                            "count": 40
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 20.56,
+                        "arg2": 41.11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 21.67,
+                        "arg2": 43.33
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 6800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 22.78,
+                        "arg2": 45.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7600
+                        },
+                        {
+                            "id": 32331,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 23.89,
+                        "arg2": 47.78
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 8500
+                        },
+                        {
+                            "id": 32341,
+                            "count": 50
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 25,
+                        "arg2": 50
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 0
+                }
+            }
+        },
+        "ultimate": {
+            "icon": 2,
+            "name": "Omni Defense",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 45
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 7500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 54
+                        },
+                        {
+                            "id": 32302,
+                            "count": 24
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 2
+                },
+                "1": {
+                    "params": {
+                        "arg1": 32.23,
+                        "arg2": 48.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 9000
+                        },
+                        {
+                            "id": 32301,
+                            "count": 63
+                        },
+                        {
+                            "id": 32302,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 2
+                },
+                "2": {
+                    "params": {
+                        "arg1": 34.45,
+                        "arg2": 51.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 11000
+                        },
+                        {
+                            "id": 32311,
+                            "count": 63
+                        },
+                        {
+                            "id": 32312,
+                            "count": 27
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 2
+                },
+                "3": {
+                    "params": {
+                        "arg1": 36.67,
+                        "arg2": 55
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 13000
+                        },
+                        {
+                            "id": 32311,
+                            "count": 72
+                        },
+                        {
+                            "id": 32312,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 2
+                },
+                "4": {
+                    "params": {
+                        "arg1": 38.89,
+                        "arg2": 58.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 15000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 72
+                        },
+                        {
+                            "id": 32322,
+                            "count": 33
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 2
+                },
+                "5": {
+                    "params": {
+                        "arg1": 41.12,
+                        "arg2": 61.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 17000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 81
+                        },
+                        {
+                            "id": 32322,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 2
+                },
+                "6": {
+                    "params": {
+                        "arg1": 43.34,
+                        "arg2": 65
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 19000
+                        },
+                        {
+                            "id": 32331,
+                            "count": 81
+                        },
+                        {
+                            "id": 32332,
+                            "count": 39
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 2
+                },
+                "7": {
+                    "params": {
+                        "arg1": 45.56,
+                        "arg2": 68.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 22000
+                        },
+                        {
+                            "id": 32331,
+                            "count": 90
+                        },
+                        {
+                            "id": 32332,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 2
+                },
+                "8": {
+                    "params": {
+                        "arg1": 47.78,
+                        "arg2": 71.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 25000
+                        },
+                        {
+                            "id": 32341,
+                            "count": 90
+                        },
+                        {
+                            "id": 32342,
+                            "count": 45
+                        }
+                    ],
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 2
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 75
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.",
+                    "cd": 2
+                }
+            }
+        },
+        "passive0": {
+            "icon": 3,
+            "name": "AoE HP Boost IV",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15
+                    },
+                    "materials": {},
+                    "description": "All of own Buddies' Max. HP +${arg1}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive1": {
+            "icon": 3,
+            "name": "Healing Chain Reaction",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 13.5,
+                        "arg3": 90,
+                        "arg4": 27,
+                        "arg5": 6.6,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg2}% of own ATK.\nGrant adjacent Buddies: When own HP ≧ ${arg3}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg4}% of own ATK.\nOn EX Skill, trigger: Adjacent Buddies' damage taken -${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 14.5,
+                        "arg3": 90,
+                        "arg4": 29,
+                        "arg5": 7.09,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg2}% of own ATK.\nGrant adjacent Buddies: When own HP ≧ ${arg3}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg4}% of own ATK.\nOn EX Skill, trigger: Adjacent Buddies' damage taken -${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 15.5,
+                        "arg3": 90,
+                        "arg4": 31,
+                        "arg5": 7.58,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg2}% of own ATK.\nGrant adjacent Buddies: When own HP ≧ ${arg3}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg4}% of own ATK.\nOn EX Skill, trigger: Adjacent Buddies' damage taken -${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 16.5,
+                        "arg3": 90,
+                        "arg4": 33,
+                        "arg5": 8.07,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg2}% of own ATK.\nGrant adjacent Buddies: When own HP ≧ ${arg3}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg4}% of own ATK.\nOn EX Skill, trigger: Adjacent Buddies' damage taken -${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 17.5,
+                        "arg3": 90,
+                        "arg4": 35,
+                        "arg5": 8.56,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg2}% of own ATK.\nGrant adjacent Buddies: When own HP ≧ ${arg3}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg4}% of own ATK.\nOn EX Skill, trigger: Adjacent Buddies' damage taken -${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 18.5,
+                        "arg3": 90,
+                        "arg4": 37,
+                        "arg5": 9.05,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg2}% of own ATK.\nGrant adjacent Buddies: When own HP ≧ ${arg3}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg4}% of own ATK.\nOn EX Skill, trigger: Adjacent Buddies' damage taken -${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 19.5,
+                        "arg3": 90,
+                        "arg4": 39,
+                        "arg5": 9.54,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg2}% of own ATK.\nGrant adjacent Buddies: When own HP ≧ ${arg3}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg4}% of own ATK.\nOn EX Skill, trigger: Adjacent Buddies' damage taken -${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 20.5,
+                        "arg3": 90,
+                        "arg4": 41,
+                        "arg5": 10.03,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg2}% of own ATK.\nGrant adjacent Buddies: When own HP ≧ ${arg3}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg4}% of own ATK.\nOn EX Skill, trigger: Adjacent Buddies' damage taken -${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 21.5,
+                        "arg3": 90,
+                        "arg4": 43,
+                        "arg5": 10.52,
+                        "arg6": 2
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg2}% of own ATK.\nGrant adjacent Buddies: When own HP ≧ ${arg3}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg4}% of own ATK.\nOn EX Skill, trigger: Adjacent Buddies' damage taken -${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 22.5,
+                        "arg3": 90,
+                        "arg4": 45,
+                        "arg5": 11,
+                        "arg6": 2
+                    },
+                    "materials": {},
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg2}% of own ATK.\nGrant adjacent Buddies: When own HP ≧ ${arg3}%, when taking an action, trigger: Heal own Buddy with the lowest HP% by ${arg4}% of own ATK.\nOn EX Skill, trigger: Adjacent Buddies' damage taken -${arg5}% for ${arg6} turn(s).",
+                    "cd": 0
+                }
+            }
+        },
+        "passive2": {
+            "icon": 4,
+            "name": "Skill Beats Stats!",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 18,
+                        "arg3": 2,
+                        "arg4": 6,
+                        "arg5": 7.2,
+                        "arg6": 2,
+                        "arg7": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: Upon receiving healing, trigger: Mengkui gains 1 stack of Hyperfocus, up to 6 stacks.\nWhen own Hyperfocus ≧ ${arg1} stack(s), on attack, trigger: Grant a Barrier ${arg2}% of own ATK to adjacent Buddies for ${arg3} turn(s).\nWhen own Hyperfocus ≧ ${arg4} stack(s), on attack, trigger: Adjacent Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove ${arg7} stack(s) of Hyperfocus from self.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 19.34,
+                        "arg3": 2,
+                        "arg4": 6,
+                        "arg5": 7.74,
+                        "arg6": 2,
+                        "arg7": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: Upon receiving healing, trigger: Mengkui gains 1 stack of Hyperfocus, up to 6 stacks.\nWhen own Hyperfocus ≧ ${arg1} stack(s), on attack, trigger: Grant a Barrier ${arg2}% of own ATK to adjacent Buddies for ${arg3} turn(s).\nWhen own Hyperfocus ≧ ${arg4} stack(s), on attack, trigger: Adjacent Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove ${arg7} stack(s) of Hyperfocus from self.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 20.67,
+                        "arg3": 2,
+                        "arg4": 6,
+                        "arg5": 8.27,
+                        "arg6": 2,
+                        "arg7": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: Upon receiving healing, trigger: Mengkui gains 1 stack of Hyperfocus, up to 6 stacks.\nWhen own Hyperfocus ≧ ${arg1} stack(s), on attack, trigger: Grant a Barrier ${arg2}% of own ATK to adjacent Buddies for ${arg3} turn(s).\nWhen own Hyperfocus ≧ ${arg4} stack(s), on attack, trigger: Adjacent Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove ${arg7} stack(s) of Hyperfocus from self.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 22,
+                        "arg3": 2,
+                        "arg4": 6,
+                        "arg5": 8.8,
+                        "arg6": 2,
+                        "arg7": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: Upon receiving healing, trigger: Mengkui gains 1 stack of Hyperfocus, up to 6 stacks.\nWhen own Hyperfocus ≧ ${arg1} stack(s), on attack, trigger: Grant a Barrier ${arg2}% of own ATK to adjacent Buddies for ${arg3} turn(s).\nWhen own Hyperfocus ≧ ${arg4} stack(s), on attack, trigger: Adjacent Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove ${arg7} stack(s) of Hyperfocus from self.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 23.34,
+                        "arg3": 2,
+                        "arg4": 6,
+                        "arg5": 9.34,
+                        "arg6": 2,
+                        "arg7": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: Upon receiving healing, trigger: Mengkui gains 1 stack of Hyperfocus, up to 6 stacks.\nWhen own Hyperfocus ≧ ${arg1} stack(s), on attack, trigger: Grant a Barrier ${arg2}% of own ATK to adjacent Buddies for ${arg3} turn(s).\nWhen own Hyperfocus ≧ ${arg4} stack(s), on attack, trigger: Adjacent Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove ${arg7} stack(s) of Hyperfocus from self.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 24.67,
+                        "arg3": 2,
+                        "arg4": 6,
+                        "arg5": 9.87,
+                        "arg6": 2,
+                        "arg7": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: Upon receiving healing, trigger: Mengkui gains 1 stack of Hyperfocus, up to 6 stacks.\nWhen own Hyperfocus ≧ ${arg1} stack(s), on attack, trigger: Grant a Barrier ${arg2}% of own ATK to adjacent Buddies for ${arg3} turn(s).\nWhen own Hyperfocus ≧ ${arg4} stack(s), on attack, trigger: Adjacent Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove ${arg7} stack(s) of Hyperfocus from self.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 26,
+                        "arg3": 2,
+                        "arg4": 6,
+                        "arg5": 10.4,
+                        "arg6": 2,
+                        "arg7": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: Upon receiving healing, trigger: Mengkui gains 1 stack of Hyperfocus, up to 6 stacks.\nWhen own Hyperfocus ≧ ${arg1} stack(s), on attack, trigger: Grant a Barrier ${arg2}% of own ATK to adjacent Buddies for ${arg3} turn(s).\nWhen own Hyperfocus ≧ ${arg4} stack(s), on attack, trigger: Adjacent Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove ${arg7} stack(s) of Hyperfocus from self.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 27.34,
+                        "arg3": 2,
+                        "arg4": 6,
+                        "arg5": 10.94,
+                        "arg6": 2,
+                        "arg7": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: Upon receiving healing, trigger: Mengkui gains 1 stack of Hyperfocus, up to 6 stacks.\nWhen own Hyperfocus ≧ ${arg1} stack(s), on attack, trigger: Grant a Barrier ${arg2}% of own ATK to adjacent Buddies for ${arg3} turn(s).\nWhen own Hyperfocus ≧ ${arg4} stack(s), on attack, trigger: Adjacent Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove ${arg7} stack(s) of Hyperfocus from self.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 28.67,
+                        "arg3": 2,
+                        "arg4": 6,
+                        "arg5": 11.47,
+                        "arg6": 2,
+                        "arg7": 3
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: Upon receiving healing, trigger: Mengkui gains 1 stack of Hyperfocus, up to 6 stacks.\nWhen own Hyperfocus ≧ ${arg1} stack(s), on attack, trigger: Grant a Barrier ${arg2}% of own ATK to adjacent Buddies for ${arg3} turn(s).\nWhen own Hyperfocus ≧ ${arg4} stack(s), on attack, trigger: Adjacent Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove ${arg7} stack(s) of Hyperfocus from self.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 3,
+                        "arg2": 30,
+                        "arg3": 2,
+                        "arg4": 6,
+                        "arg5": 12,
+                        "arg6": 2,
+                        "arg7": 3
+                    },
+                    "materials": {},
+                    "description": "Grant adjacent Buddies: Upon receiving healing, trigger: Mengkui gains 1 stack of Hyperfocus, up to 6 stacks.\nWhen own Hyperfocus ≧ ${arg1} stack(s), on attack, trigger: Grant a Barrier ${arg2}% of own ATK to adjacent Buddies for ${arg3} turn(s).\nWhen own Hyperfocus ≧ ${arg4} stack(s), on attack, trigger: Adjacent Buddies' ATK +${arg5}% of own base ATK for ${arg6} turn(s), and remove ${arg7} stack(s) of Hyperfocus from self.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive3": {
+            "icon": 4,
+            "name": "Ultra Training Gains",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 9,
+                        "arg2": 9
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 9.67,
+                        "arg2": 9.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 10.34,
+                        "arg2": 10.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 11,
+                        "arg2": 11
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 11.67,
+                        "arg2": 11.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 12.34,
+                        "arg2": 12.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 13,
+                        "arg2": 13
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 13.67,
+                        "arg2": 13.67
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 14.34,
+                        "arg2": 14.34
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 15,
+                        "arg2": 15
+                    },
+                    "materials": {},
+                    "description": "Own base ATK +${arg1}%.\nOwn base Max. HP +${arg2}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "passive4": {
+            "icon": 4,
+            "name": "No-Death Run",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 6.6,
+                        "arg3": 50,
+                        "arg4": 6.6
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1500
+                        },
+                        {
+                            "id": 32301,
+                            "count": 18
+                        },
+                        {
+                            "id": 32303,
+                            "count": 8
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, own damage dealt +${arg2}%.\nGrant adjacent Buddies: When own HP ≦ ${arg3}%, own damage taken -${arg4}%.",
+                    "cd": 0
+                },
+                "1": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 7.09,
+                        "arg3": 50,
+                        "arg4": 7.09
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 1800
+                        },
+                        {
+                            "id": 32301,
+                            "count": 21
+                        },
+                        {
+                            "id": 32303,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, own damage dealt +${arg2}%.\nGrant adjacent Buddies: When own HP ≦ ${arg3}%, own damage taken -${arg4}%.",
+                    "cd": 0
+                },
+                "2": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 7.58,
+                        "arg3": 50,
+                        "arg4": 7.58
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2100
+                        },
+                        {
+                            "id": 32311,
+                            "count": 21
+                        },
+                        {
+                            "id": 32313,
+                            "count": 9
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, own damage dealt +${arg2}%.\nGrant adjacent Buddies: When own HP ≦ ${arg3}%, own damage taken -${arg4}%.",
+                    "cd": 0
+                },
+                "3": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 8.07,
+                        "arg3": 50,
+                        "arg4": 8.07
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2400
+                        },
+                        {
+                            "id": 32311,
+                            "count": 24
+                        },
+                        {
+                            "id": 32313,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, own damage dealt +${arg2}%.\nGrant adjacent Buddies: When own HP ≦ ${arg3}%, own damage taken -${arg4}%.",
+                    "cd": 0
+                },
+                "4": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 8.56,
+                        "arg3": 50,
+                        "arg4": 8.56
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 2700
+                        },
+                        {
+                            "id": 32321,
+                            "count": 24
+                        },
+                        {
+                            "id": 32323,
+                            "count": 11
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, own damage dealt +${arg2}%.\nGrant adjacent Buddies: When own HP ≦ ${arg3}%, own damage taken -${arg4}%.",
+                    "cd": 0
+                },
+                "5": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 9.05,
+                        "arg3": 50,
+                        "arg4": 9.05
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3000
+                        },
+                        {
+                            "id": 32321,
+                            "count": 27
+                        },
+                        {
+                            "id": 32323,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, own damage dealt +${arg2}%.\nGrant adjacent Buddies: When own HP ≦ ${arg3}%, own damage taken -${arg4}%.",
+                    "cd": 0
+                },
+                "6": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 9.54,
+                        "arg3": 50,
+                        "arg4": 9.54
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3400
+                        },
+                        {
+                            "id": 32331,
+                            "count": 27
+                        },
+                        {
+                            "id": 32333,
+                            "count": 13
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, own damage dealt +${arg2}%.\nGrant adjacent Buddies: When own HP ≦ ${arg3}%, own damage taken -${arg4}%.",
+                    "cd": 0
+                },
+                "7": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 10.03,
+                        "arg3": 50,
+                        "arg4": 10.03
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 3800
+                        },
+                        {
+                            "id": 32331,
+                            "count": 30
+                        },
+                        {
+                            "id": 32333,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, own damage dealt +${arg2}%.\nGrant adjacent Buddies: When own HP ≦ ${arg3}%, own damage taken -${arg4}%.",
+                    "cd": 0
+                },
+                "8": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 10.52,
+                        "arg3": 50,
+                        "arg4": 10.52
+                    },
+                    "materials": [
+                        {
+                            "id": 1,
+                            "count": 4200
+                        },
+                        {
+                            "id": 32341,
+                            "count": 30
+                        },
+                        {
+                            "id": 32343,
+                            "count": 15
+                        }
+                    ],
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, own damage dealt +${arg2}%.\nGrant adjacent Buddies: When own HP ≦ ${arg3}%, own damage taken -${arg4}%.",
+                    "cd": 0
+                },
+                "9": {
+                    "params": {
+                        "arg1": 90,
+                        "arg2": 11,
+                        "arg3": 50,
+                        "arg4": 11
+                    },
+                    "materials": {},
+                    "description": "Grant adjacent Buddies: When own HP ≧ ${arg1}%, own damage dealt +${arg2}%.\nGrant adjacent Buddies: When own HP ≦ ${arg3}%, own damage taken -${arg4}%.",
+                    "cd": 0
+                }
+            }
+        },
+        "sigil": {
+            "icon": 10440,
+            "name": "Omni Defense",
+            "levels": {
+                "0": {
+                    "params": {
+                        "arg1": 30,
+                        "arg2": 45,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.\nSigil Passive:\nOn EX Skill, trigger: Grant adjacent Buddies: On attack, trigger: Enter Defense (skill effects triggered by Defense won't be triggered), for ${arg3} turn(s).",
+                    "cd": 2
+                },
+                "1": {
+                    "params": {
+                        "arg1": 32.23,
+                        "arg2": 48.34,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.\nSigil Passive:\nOn EX Skill, trigger: Grant adjacent Buddies: On attack, trigger: Enter Defense (skill effects triggered by Defense won't be triggered), for ${arg3} turn(s).",
+                    "cd": 2
+                },
+                "2": {
+                    "params": {
+                        "arg1": 34.45,
+                        "arg2": 51.67,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.\nSigil Passive:\nOn EX Skill, trigger: Grant adjacent Buddies: On attack, trigger: Enter Defense (skill effects triggered by Defense won't be triggered), for ${arg3} turn(s).",
+                    "cd": 2
+                },
+                "3": {
+                    "params": {
+                        "arg1": 36.67,
+                        "arg2": 55,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.\nSigil Passive:\nOn EX Skill, trigger: Grant adjacent Buddies: On attack, trigger: Enter Defense (skill effects triggered by Defense won't be triggered), for ${arg3} turn(s).",
+                    "cd": 2
+                },
+                "4": {
+                    "params": {
+                        "arg1": 38.89,
+                        "arg2": 58.34,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.\nSigil Passive:\nOn EX Skill, trigger: Grant adjacent Buddies: On attack, trigger: Enter Defense (skill effects triggered by Defense won't be triggered), for ${arg3} turn(s).",
+                    "cd": 2
+                },
+                "5": {
+                    "params": {
+                        "arg1": 41.12,
+                        "arg2": 61.67,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.\nSigil Passive:\nOn EX Skill, trigger: Grant adjacent Buddies: On attack, trigger: Enter Defense (skill effects triggered by Defense won't be triggered), for ${arg3} turn(s).",
+                    "cd": 2
+                },
+                "6": {
+                    "params": {
+                        "arg1": 43.34,
+                        "arg2": 65,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.\nSigil Passive:\nOn EX Skill, trigger: Grant adjacent Buddies: On attack, trigger: Enter Defense (skill effects triggered by Defense won't be triggered), for ${arg3} turn(s).",
+                    "cd": 2
+                },
+                "7": {
+                    "params": {
+                        "arg1": 45.56,
+                        "arg2": 68.34,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.\nSigil Passive:\nOn EX Skill, trigger: Grant adjacent Buddies: On attack, trigger: Enter Defense (skill effects triggered by Defense won't be triggered), for ${arg3} turn(s).",
+                    "cd": 2
+                },
+                "8": {
+                    "params": {
+                        "arg1": 47.78,
+                        "arg2": 71.67,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.\nSigil Passive:\nOn EX Skill, trigger: Grant adjacent Buddies: On attack, trigger: Enter Defense (skill effects triggered by Defense won't be triggered), for ${arg3} turn(s).",
+                    "cd": 2
+                },
+                "9": {
+                    "params": {
+                        "arg1": 50,
+                        "arg2": 75,
+                        "arg3": 1
+                    },
+                    "materials": {},
+                    "description": "Heal self by ${arg1}% of own ATK.\nHeal adjacent Buddies by ${arg2}% of own ATK.\nSigil Passive:\nOn EX Skill, trigger: Grant adjacent Buddies: On attack, trigger: Enter Defense (skill effects triggered by Defense won't be triggered), for ${arg3} turn(s).",
+                    "cd": 2
+                }
+            },
+            "type": 1
+        }
+    }
+}

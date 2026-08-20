@@ -1,0 +1,52 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10440,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turnPlans": {},
+    "turns": 10
+  },
+  "dps": 0.0,
+  "events": {
+    "byActionKind": {
+      "보통공격": 6,
+      "피격": 60,
+      "필살기": 4
+    },
+    "byOutput": {
+      "heal": 10,
+      "incoming": 30
+    },
+    "count": 70
+  },
+  "logHash": "sha256:778d744ef8527c563b928ba96bb2a046",
+  "perChar": {
+    "몽규": {
+      "barrier": 0.0,
+      "damage": 0.0,
+      "healing": 125233.82
+    }
+  },
+  "perTurn": {},
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 0.0,
+  "unapplied": {}
+}

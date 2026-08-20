@@ -34,6 +34,7 @@ STACK_KR: dict[str, str] = {
     "Gale Breath": "란의 기운",
     "Gunpowder": "화약",
     "Hellhound": "지옥의 사냥개",
+    "Hyperfocus": "집중",
     "Holy Wrath": "성노",
     "Hooked": "입질",
     "Judgment": "심판",

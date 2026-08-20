@@ -109,7 +109,9 @@ def dump(cid: int, show_en: bool):
         from collections import Counter
         r2 = run_team([CharSpec(cid, position=1), CharSpec(10418, position=2)], 1, 10,
                       enemy_hits=5, force_proc=True)
-        hits = [ev for ev in r2.state.log if ev.actor_id == cid and ev.detail]
+        # 데미지 hit만 — 힐/배리어 이벤트의 detail엔 'act' 키가 없다(순수 힐러 크래시 방지)
+        hits = [ev for ev in r2.state.log
+                if ev.actor_id == cid and ev.detail and "act" in ev.detail]
         by_act = Counter(ev.detail["act"] for ev in hits)
         trig = [ev for ev in hits if ev.detail["act"] == "발동"]
         got = sum(1 for ev in trig if any(c.get("by") == 10418 for c in ev.detail["eff"]))

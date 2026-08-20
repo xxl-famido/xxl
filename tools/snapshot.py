@@ -173,6 +173,13 @@ def _team_combos() -> list[Combo]:
             turns=12, dummies=3, enemy_hits=2, incoming_hp_pct=5,
         ),
         Combo(
+            name="team_mengkui_chain_heal",
+            purpose="몽규 연쇄 구원 — 인접 힐(자HP게이트→행동 시 최저HP% 아군 회복) + 집중 크로스유닛 스택(아군 힐수령→몽규 스택→인접 배리어/ATK)",
+            specs=(CharSpec(10403, position=1), CharSpec(10440, position=2),
+                   CharSpec(10401, position=3)),
+            turns=15, dummies=3, enemy_hits=2, incoming_hp_pct=20,
+        ),
+        Combo(
             name="team_barrier_channels",
             purpose="배리어 액션 채널(CHG-1)·오렘 소급 증폭(CHG-4)·다라완 배리어 비례 반격·조롱",
             specs=(CharSpec(10419, position=1), CharSpec(10414, position=2),

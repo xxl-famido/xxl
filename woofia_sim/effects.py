@@ -73,6 +73,8 @@ class Effect:
     target_count: int = 0
     target_hp_op: str | None = None            # gate on the attack TARGET's HP%: "lt"/"ge"
     target_hp_val: float = 0.0                 # threshold % for target_hp_op (카라트 HP 게이트)
+    self_hp_op: str | None = None              # gate on the OWNER/granted-unit's own HP%: "ge"/"le"/"lt"/"eq"
+    self_hp_val: float = 0.0                   # threshold % for self_hp_op (몽규 연쇄 구원: 자HP≧N% 조건)
     force_action: str | None = None            # override action channel ("ex" = "counts as EX Skill damage")
     each_turn: bool = False                     # DAMAGE: 매 턴 데미지(지속딜/DoT) over `duration` turns
     team_barrier: bool = False                  # 발동 조건: 아군 전원이 베리어 보유 (오렘 충격역류)
@@ -166,6 +168,11 @@ _TRIGGER_PATTERNS: tuple[tuple[re.Pattern, str, str], ...] = (
 # 카라트: HP 임계 미만/이상에서 주는딜·필살 추가타·표지 빌드가 갈린다.
 _THP = re.compile(rf"^When locked target HP (<|≥|≧|>) {_NUM}%, (.+)$")
 _HIT_HP = re.compile(rf"^[Ww]hen hitting target\(s\) with HP (<|≥|≧|>) {_NUM}%,\s*(?:trigger: )?(.+)$")
+# gate on the OWNER's own HP% (몽규 연쇄 구원·한번에 클리어): "When own HP ≧ 50%, BODY".
+# BODY may be a trigger ("when taking an action, trigger: Heal ...") — gated at fire time on the
+# granted unit's live HP — or a static self-buff, approximated by the dummy-full-HP assumption.
+_OWN_HP = re.compile(rf"^When own HP (<|≤|≦|≥|≧|>|=) {_NUM}%,\s*(.+)$")
+_HP_OPS = {"<": "lt", "≤": "le", "≦": "le", "≥": "ge", "≧": "ge", ">": "ge", "=": "eq"}
 
 
 # team-coordination trigger (다양수이): fires when EVERY ally of a role (except self) has
@@ -335,6 +342,13 @@ def _b_all_buddy_dmg_taken(m):
                   magnitude=float(m.group(2)), duration=_opt_dur(m, 4))
 
 
+@_leaf(rf"^Adjacent Buddies' (?:(?:EX Skill|Basic Attack) )?damage taken (-?{_NUM})%(?: for {_NUM} {_TRN})?\.?$")
+def _b_adjacent_dmg_taken(m):
+    # 몽규 연쇄 치료 반응(EX시): 인접 동료 받는뎀 감소 — 자신+인접 슬롯에만 (allies 아님)
+    return Effect(BUFF, m.group(0), target="adjacent", stat=STAT_DMG_TAKEN,
+                  magnitude=float(m.group(1)), duration=_opt_dur(m, 3))
+
+
 @_leaf(rf"^([Aa]ll of own Buddies' )?(?:HoT|[Hh]ealing) received \+{_NUM}%(?: for (own Buddy with the lowest HP%))?"
        rf"(?: each turn)?(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
 def _b_heal_recv(m):
@@ -436,6 +450,14 @@ def _b_enter_defense(m):
     # 다라완 필살: 방어상태 전환 → 받는 데미지 50% 감소. 단 일반 방어와 달리 "방어 시"(on_defend)
     # 트리거는 봉인하므로 defending 플래그만 세우고 on_defend는 발동하지 않는다.
     return Effect(ENTER_DEFENSE, m.group(0))
+
+
+@_leaf(rf"^Enter Defense \(skill effects triggered by Defense won'?t be triggered\), for {_NUM} {_TRN}\.?$")
+def _b_enter_defense_granted(m):
+    # 몽규 도장: '인접 아군이 공격 시 1턴 방어상태 전환'. 아군 행동상태 강제 전환은 단계적 구현으로
+    # 보류 — 파싱만 하고 모델링하지 않는다(inert). 다라완 자기-방어(ENTER_DEFENSE)와 구분하려고
+    # 접미사 'for N turn(s)' 형태만 별도로 잡는다. 크라우드 검증 후 도입 예정.
+    return Effect(MARKER, m.group(0))
 
 
 @_leaf(rf"^All of own Buddies' Chance to be (?:Paralyzed|put to Sleep) -{_NUM}%(?: for {_NUM} {_TRN})?\.?$")
@@ -947,6 +969,28 @@ def parse_line(line: str) -> Effect:
                               target_hp_op=op, target_hp_val=val)
             _apply_hp_gate(inner, op, val)        # gate every leaf (trigger subs / direct hits)
             return inner
+        return Effect(MARKER, line)
+    # own-HP gated (몽규 연쇄 구원·한번에 클리어): "When own HP ≧/≦ N%, BODY"
+    ohm = _OWN_HP.match(line)
+    if ohm:
+        op = _HP_OPS.get(ohm.group(1), "ge")
+        val = float(ohm.group(2))
+        inner = parse_line(ohm.group(3)[:1].upper() + ohm.group(3)[1:])
+        if inner.parsed:
+            if inner.kind == TRIGGER:
+                # gate the trigger on the granted unit's LIVE HP% at fire time (연쇄 구원):
+                # correct in every mode — trivially true at full HP, meaningful once the ally
+                # has taken damage (enemyHits/incomingHpPct 시나리오).
+                inner.self_hp_op, inner.self_hp_val = op, val
+                inner.raw = line
+                return inner
+            # static self-buff (한번에 클리어): no discrete fire point for a live gate, so apply
+            # the documented dummy-full-HP assumption — ≧/= holds (buff stays), ≦/< never holds
+            # (inert). 피격모드 정밀도는 크라우드 검증 대상.
+            if op in ("ge", "eq"):
+                inner.raw = line
+                return inner
+            return Effect(MARKER, line)
         return Effect(MARKER, line)
     # stack-gated condition
     tgm = _TGATE.match(line)
