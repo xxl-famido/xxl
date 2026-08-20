@@ -1,0 +1,965 @@
+{
+  "_comment": "패치 히스토리. 최신이 위. 버전 규칙: 캐릭터 추가 릴리스 = 메이저 1.x, 그 사이 업데이트 = 패치 1.x.x. 1.0은 첫 공개(파미도 초상). cat: new|balance|fix|qol. 텍스트는 {kr,en,zh,zhs,ja} 다국어 대비 — 지금은 kr만(렌더러가 kr 폴백). char: 대표 캐릭터 id(icons/{id}.png + skill:true면 icons/skills/Rune{id}.png). charImg: 커스텀 프로필 경로(char 대신).",
+  "releases": [
+    {
+      "version": "1.5.1",
+      "date": "2026-08-20",
+      "highlight": true,
+      "title": {
+        "kr": "패치 히스토리 기능 추가",
+        "en": "Patch History",
+        "zh": "新增更新歷史功能",
+        "zhs": "新增更新历史功能",
+        "ja": "パッチ履歴機能を追加"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "패치 히스토리 버튼을 추가했습니다 — 지금까지의 업데이트 내역을 타임라인으로 볼 수 있고, 분류(신규·개선·버그 수정·편의)로 걸러 볼 수 있습니다.",
+            "en": "Added a Patch History button — browse every past update as a timeline and filter by category (New, Balance, Bug Fix, QoL).",
+            "zh": "新增更新歷史按鈕——可以時間軸瀏覽歷來的更新內容，並依分類（新增・調整・修正・體驗）篩選。",
+            "zhs": "新增更新历史按钮——可以时间轴浏览历来的更新内容，并按分类（新增・调整・修正・体验）筛选。",
+            "ja": "パッチ履歴ボタンを追加 — これまでの更新内容をタイムラインで確認でき、分類（新規・調整・修正・利便性）で絞り込めます。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "마지막으로 확인한 뒤 새 패치가 올라오면 버튼에 빨간 점으로 알려줍니다.",
+            "en": "A red dot on the button marks patches released since you last checked.",
+            "zh": "自上次查看後若有新的更新，按鈕上會以紅點提示。",
+            "zhs": "自上次查看后若有新的更新，按钮上会以红点提示。",
+            "ja": "前回確認した後に新しいパッチが公開されると、ボタンに赤い点で知らせます。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "캐릭터가 바뀐 항목에는 해당 캐릭터의 프로필 아이콘을 함께 표시하고, 캐릭터가 추가된 버전(1.x)은 더 크게 강조합니다.",
+            "en": "Entries that change a specific character show that character’s portrait, and versions that add a character (1.x) are highlighted more prominently.",
+            "zh": "涉及特定角色的項目會一併顯示該角色頭像，新增角色的版本（1.x）則以更醒目的方式強調。",
+            "zhs": "涉及特定角色的项目会一并显示该角色头像，新增角色的版本（1.x）则以更醒目的方式强调。",
+            "ja": "特定のキャラクターに関わる項目にはそのキャラクターのアイコンを表示し、キャラクターが追加されたバージョン（1.x）はより大きく強調します。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "패치 내역을 5개 언어(한국어/영어/번체/간체/일본어)로 제공합니다.",
+            "en": "Patch notes are available in five languages (Korean, English, Traditional Chinese, Simplified Chinese, Japanese).",
+            "zh": "更新內容提供五種語言（韓文／英文／繁體中文／簡體中文／日文）。",
+            "zhs": "更新内容提供五种语言（韩文／英文／繁体中文／简体中文／日文）。",
+            "ja": "パッチ内容を5言語（韓国語／英語／繁体字／簡体字／日本語）で提供します。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.5",
+      "date": "2026-08-20",
+      "highlight": true,
+      "char": 10440,
+      "charName": {
+        "kr": "몽규"
+      },
+      "skill": true,
+      "title": {
+        "kr": "신규 캐릭터 ‘몽규’ 추가",
+        "en": "New Character: Mengkui",
+        "zh": "新增角色「蒙奎」",
+        "zhs": "新增角色「蒙奎」",
+        "ja": "新キャラクター「蒙奎」追加"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "신규 캐릭터 몽규(10440) 추가 — 치유/나무 속성. 인접 아군 힐·연쇄 구원·집중 메커니즘을 구현했습니다.",
+            "en": "Added new character Mengkui (10440) — Heal / Wood. Implemented adjacent-ally healing, chain rescue and focus mechanics.",
+            "zh": "新增角色蒙奎（10440）——治療／木屬性。實作了相鄰隊友治療、連鎖救援與集中機制。",
+            "zhs": "新增角色蒙奎（10440）——治疗／木属性。实现了相邻队友治疗、连锁救援与集中机制。",
+            "ja": "新キャラクター蒙奎（10440）を追加 — 治癒／木属性。隣接味方の回復・連鎖救援・集中メカニクスを実装しました。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "스킬 스펙 설정 UI를 다듬었습니다.",
+            "en": "Polished the skill spec settings UI.",
+            "zh": "調整了技能規格設定的介面。",
+            "zhs": "调整了技能规格设置的界面。",
+            "ja": "スキルスペック設定のUIを調整しました。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.4.4",
+      "date": "2026-08-20",
+      "highlight": false,
+      "title": {
+        "kr": "타임드 다중첩 버프 고정 수정",
+        "en": "Fixed Permanent Timed Multi-Stack Buffs",
+        "zh": "修正計時多層增益永久固定",
+        "zhs": "修正计时多层增益永久固定",
+        "ja": "時限多重スタックバフの永続化を修正"
+      },
+      "items": [
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "크로크라인·루테닉스 등 타임드 다중첩 버프가 시간이 지나도 사라지지 않고 영구 고정되던 문제를 수정했습니다(버프 한도를 가장 오래된 것부터 교체하도록 변경).",
+            "en": "Fixed timed multi-stack buffs (Croklein, Rutenix and others) staying permanently instead of expiring — the stack cap now replaces the oldest stack first.",
+            "zh": "修正了庫克萊恩、魯特尼希等計時多層增益不會隨時間消失而永久保留的問題（增益上限改為優先替換最舊的一層）。",
+            "zhs": "修正了库克莱恩、鲁特尼希等计时多层增益不会随时间消失而永久保留的问题（增益上限改为优先替换最旧的一层）。",
+            "ja": "クロックライン・ラトニックスなどの時限多重スタックバフが時間経過で消えず永続していた問題を修正しました（スタック上限は最も古いものから置き換える方式に変更）。"
+          },
+          "chars": [
+            10435,
+            10424
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.4.3",
+      "date": "2026-08-03",
+      "highlight": false,
+      "title": {
+        "kr": "스펙 반영 · 확률 발동 수정",
+        "en": "Spec Application · Proc Fixes",
+        "zh": "規格套用 · 機率發動修正",
+        "zhs": "规格应用 · 概率发动修正",
+        "ja": "スペック反映・確率発動の修正"
+      },
+      "items": [
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "설정한 캐릭터 스펙이 시뮬 결과에 반영되지 않던 문제를 수정했습니다.",
+            "en": "Fixed character specs you set not being applied to the simulation result.",
+            "zh": "修正了所設定的角色規格未反映到模擬結果的問題。",
+            "zhs": "修正了所设置的角色规格未反映到模拟结果的问题。",
+            "ja": "設定したキャラクタースペックがシミュレーション結果に反映されない問題を修正しました。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "던컨 ‘추가 발동’이 필살기에서도 터지던 문제와 탐랑 수면 확정 발동을 바로잡았습니다.",
+            "en": "Fixed Duncan Charles’ extra proc also triggering on EX Skills, and corrected Covetous Wolf’s guaranteed Sleep proc.",
+            "zh": "修正了鄧肯‧查拉斯的「追加發動」在必殺技上也會觸發的問題，並修正貪狼睡眠的確定發動。",
+            "zhs": "修正了邓肯‧查拉斯的「追加发动」在必杀技上也会触发的问题，并修正贪狼睡眠的确定发动。",
+            "ja": "ダンカン・チャールズの「追加発動」が必殺技でも発動していた問題と、貪狼の睡眠確定発動を修正しました。"
+          },
+          "chars": [
+            10427,
+            10408
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.4.2",
+      "date": "2026-08-02",
+      "highlight": false,
+      "title": {
+        "kr": "스펙·고급 설정 다국어",
+        "en": "Spec & Advanced Settings Localization",
+        "zh": "規格・進階設定多語系",
+        "zhs": "规格・高级设置多语言",
+        "ja": "スペック・詳細設定の多言語化"
+      },
+      "items": [
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "캐릭터 스펙 설정·행동 고급 설정을 영어/번체/간체/일본어로 번역했습니다.",
+            "en": "Translated Character Spec and Advanced Action settings into English, Traditional Chinese, Simplified Chinese and Japanese.",
+            "zh": "將角色規格設定與行動進階設定翻譯為英文／繁體中文／簡體中文／日文。",
+            "zhs": "将角色规格设置与行动高级设置翻译为英文／繁体中文／简体中文／日文。",
+            "ja": "キャラクタースペック設定・行動詳細設定を英語／繁体字／簡体字／日本語に翻訳しました。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.4.1",
+      "date": "2026-08-01",
+      "highlight": true,
+      "title": {
+        "kr": "캐릭터 스펙 설정 · 행동 고급 설정",
+        "en": "Character Spec · Advanced Action Settings",
+        "zh": "角色規格設定 · 行動進階設定",
+        "zhs": "角色规格设置 · 行动高级设置",
+        "ja": "キャラクタースペック設定・行動詳細設定"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "캐릭터 스펙 설정 추가 — 스타·진화 단계·레벨·육성도·스킬별 레벨을 캐릭터마다 직접 지정할 수 있습니다. 끄면 기존처럼 풀육성 기준입니다.",
+            "en": "Added Character Spec settings — set Star, Evolution, Level, Growth and per-skill levels for each character. When off, everything stays at full growth as before.",
+            "zh": "新增角色規格設定——可為每名角色個別指定星級、進化階段、等級、培養度與各技能等級。關閉時與過往相同，以滿培養為基準。",
+            "zhs": "新增角色规格设置——可为每名角色单独指定星级、进化阶段、等级、培养度与各技能等级。关闭时与以往相同，以满培养为基准。",
+            "ja": "キャラクタースペック設定を追加 — スター・進化段階・レベル・育成度・スキル別レベルをキャラごとに指定できます。オフの場合は従来どおりフル育成基準です。"
+          }
+        },
+        {
+          "cat": "new",
+          "text": {
+            "kr": "행동 고급 설정 추가 — 턴별로 각 캐릭터의 행동을 완전 수동으로 편성할 수 있습니다.",
+            "en": "Added Advanced Action settings — compose each character’s action fully manually, turn by turn.",
+            "zh": "新增行動進階設定——可逐回合完全手動編排每名角色的行動。",
+            "zhs": "新增行动高级设置——可逐回合完全手动编排每名角色的行动。",
+            "ja": "行動詳細設定を追加 — ターンごとに各キャラクターの行動を完全に手動で編成できます。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "공유 코드를 개선했습니다.",
+            "en": "Improved the share code.",
+            "zh": "改進了分享代碼。",
+            "zhs": "改进了分享代码。",
+            "ja": "共有コードを改善しました。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.4",
+      "date": "2026-07-30",
+      "highlight": true,
+      "char": 10439,
+      "charName": {
+        "kr": "욱영"
+      },
+      "skill": true,
+      "title": {
+        "kr": "신규 캐릭터 ‘욱영’ 추가",
+        "en": "New Character: Xuying",
+        "zh": "新增角色「旭影」",
+        "zhs": "新增角色「旭影」",
+        "ja": "新キャラクター「旭影」追加"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "신규 캐릭터 욱영(10439) 추가 — ‘인접 동료’ 타겟팅을 지원하도록 엔진을 확장했습니다.",
+            "en": "Added new character Xuying (10439) — extended the engine to support “adjacent ally” targeting.",
+            "zh": "新增角色旭影（10439）——擴充引擎以支援「相鄰隊友」指定。",
+            "zhs": "新增角色旭影（10439）——扩充引擎以支持「相邻队友」指定。",
+            "ja": "新キャラクター旭影（10439）を追加 — 「隣接する仲間」ターゲティングに対応できるようエンジンを拡張しました。"
+          }
+        },
+        {
+          "cat": "balance",
+          "text": {
+            "kr": "욱영을 링(원형) 인접 구조로 다듬고, 임부언 콤보(욱영 2회 필살기)를 반영했습니다.",
+            "en": "Refined Xuying to a ring (circular) adjacency layout and applied the Boss Ren combo (Xuying casting EX Skill twice).",
+            "zh": "將旭影調整為環形（圓形）相鄰結構，並反映任富言連段（旭影兩次必殺技）。",
+            "zhs": "将旭影调整为环形（圆形）相邻结构，并反映任富言连段（旭影两次必杀技）。",
+            "ja": "旭影をリング（円形）隣接構造に調整し、任富言コンボ（旭影の必殺技2回）を反映しました。"
+          },
+          "chars": [
+            10410
+          ]
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "세숭·크로크라인·골든·임부언 P1 등 서브에이전트 검수에서 발견된 다수 버그를 수정했습니다.",
+            "en": "Fixed a number of bugs found in subagent review — Suichong, Croklein, Golden Ryder, Boss Ren P1 and more.",
+            "zh": "修正了在子代理審查中發現的多項錯誤——歲崇、庫克萊恩、金鳴連駕、任富言 P1 等。",
+            "zhs": "修正了在子代理审查中发现的多项错误——岁崇、库克莱恩、金鸣连驾、任富言 P1 等。",
+            "ja": "サブエージェント検証で見つかった多数の不具合を修正しました — 歳崇・クロックライン・ゴールデンライダー・任富言 P1 など。"
+          },
+          "chars": [
+            10431,
+            10435,
+            10403,
+            10410
+          ]
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "인접 아군의 추가 행동이 행동 계획을 소비해 계획이 밀리던 문제를 수정했습니다.",
+            "en": "Fixed extra actions from adjacent allies consuming the action plan and pushing the rest of the plan back.",
+            "zh": "修正了相鄰隊友的追加行動會消耗行動計畫、導致後續計畫被往後推的問題。",
+            "zhs": "修正了相邻队友的追加行动会消耗行动计划、导致后续计划被往后推的问题。",
+            "ja": "隣接味方の追加行動が行動プランを消費し、以降の計画がずれる問題を修正しました。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.3.1",
+      "date": "2026-07-19",
+      "highlight": false,
+      "title": {
+        "kr": "투명인간 얼굴 아이콘 교체",
+        "en": "Invisible Man Face Icon Swap",
+        "zh": "更換透明人臉部圖示",
+        "zhs": "更换透明人脸部图标",
+        "ja": "透明人間の顔アイコン差し替え"
+      },
+      "items": [
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "투명인간 얼굴 아이콘을 교체했습니다.",
+            "en": "Replaced the Invisible Man face icon.",
+            "zh": "更換了透明人的臉部圖示。",
+            "zhs": "更换了透明人的脸部图标。",
+            "ja": "透明人間の顔アイコンを差し替えました。"
+          },
+          "chars": [
+            10437
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.3",
+      "date": "2026-07-16",
+      "highlight": true,
+      "char": 10437,
+      "charName": {
+        "kr": "투명인간"
+      },
+      "skill": true,
+      "title": {
+        "kr": "신규 캐릭터 ‘투명인간’ 추가",
+        "en": "New Character: Invisible Man",
+        "zh": "新增角色「透明人」",
+        "zhs": "新增角色「透明人」",
+        "ja": "新キャラクター「透明人間」追加"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "신규 캐릭터 투명인간(10437) 추가 — 네온 표식 메커니즘을 구현했습니다.",
+            "en": "Added new character Invisible Man (10437) — implemented the Neon Mark mechanic.",
+            "zh": "新增角色透明人（10437）——實作了霓虹印記機制。",
+            "zhs": "新增角色透明人（10437）——实现了霓虹印记机制。",
+            "ja": "新キャラクター透明人間（10437）を追加 — ネオンマークのメカニクスを実装しました。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "모이루 쿨타임(CD) 모델을 수정했습니다.",
+            "en": "Fixed Moyru’s cooldown (CD) model.",
+            "zh": "修正了莫伊魯的冷卻（CD）模型。",
+            "zhs": "修正了莫伊鲁的冷却（CD）模型。",
+            "ja": "モイルのクールタイム（CD）モデルを修正しました。"
+          },
+          "chars": [
+            10436
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.2.1",
+      "date": "2026-07-06",
+      "highlight": false,
+      "title": {
+        "kr": "배리어 채널 · 수면 CC · 확률 랜덤 시드",
+        "en": "Barrier Channel · Sleep CC · Random Proc Seed",
+        "zh": "護盾通道 · 睡眠控制 · 機率隨機種子",
+        "zhs": "护盾通道 · 睡眠控制 · 概率随机种子",
+        "ja": "バリアチャネル・睡眠CC・確率ランダムシード"
+      },
+      "items": [
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "배리어 증폭 ‘받는 배리어 +24%’를 클릭 가능한 출처 채널로 노출했습니다.",
+            "en": "Exposed the barrier amplification “Barrier Taken +24%” as a clickable source channel.",
+            "zh": "將護盾增幅「受到護盾 +24%」顯示為可點擊的來源通道。",
+            "zhs": "将护盾增幅「受到护盾 +24%」显示为可点击的来源通道。",
+            "ja": "バリア増幅「受けるバリア +24%」をクリック可能な出典チャネルとして表示しました。"
+          }
+        },
+        {
+          "cat": "new",
+          "text": {
+            "kr": "수면(탐랑) CC 모델을 추가했습니다.",
+            "en": "Added the Sleep CC model (Covetous Wolf).",
+            "zh": "新增了睡眠（貪狼）控制模型。",
+            "zhs": "新增了睡眠（贪狼）控制模型。",
+            "ja": "睡眠（貪狼）のCCモデルを追加しました。"
+          },
+          "chars": [
+            10408
+          ]
+        },
+        {
+          "cat": "new",
+          "text": {
+            "kr": "확률 모드를 매 실행 랜덤 시드로 바꿔 같은 설정도 매번 다른 전개가 나옵니다.",
+            "en": "Probability mode now uses a fresh random seed on every run, so the same setup plays out differently each time.",
+            "zh": "機率模式改為每次執行使用隨機種子，相同設定每次也會有不同發展。",
+            "zhs": "概率模式改为每次执行使用随机种子，相同设置每次也会有不同发展。",
+            "ja": "確率モードを実行ごとのランダムシードに変更し、同じ設定でも毎回異なる展開になります。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "오렘 파1 배리어 소급 적용을 바로잡았습니다.",
+            "en": "Corrected the retroactive application of Orem’s P1 barrier.",
+            "zh": "修正了奧雷姆帕1護盾的追溯套用。",
+            "zhs": "修正了奥雷姆帕1护盾的追溯应用。",
+            "ja": "オレムのP1バリアの遡及適用を修正しました。"
+          },
+          "chars": [
+            10419
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.2",
+      "date": "2026-07-02",
+      "highlight": true,
+      "char": 10438,
+      "charName": {
+        "kr": "다라완"
+      },
+      "skill": true,
+      "title": {
+        "kr": "신규 캐릭터 ‘다라완’ 추가",
+        "en": "New Character: Dallawan",
+        "zh": "新增角色「達拉萬」",
+        "zhs": "新增角色「达拉万」",
+        "ja": "新キャラクター「ダラワン」追加"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "신규 캐릭터 다라완(10438) 추가 — 배리어 메커니즘과 피격 데미지 감소를 구현했습니다.",
+            "en": "Added new character Dallawan (10438) — implemented the barrier mechanic and incoming damage reduction.",
+            "zh": "新增角色達拉萬（10438）——實作了護盾機制與受擊傷害減免。",
+            "zhs": "新增角色达拉万（10438）——实现了护盾机制与受击伤害减免。",
+            "ja": "新キャラクターダラワン（10438）を追加 — バリアメカニクスと被ダメージ軽減を実装しました。"
+          }
+        },
+        {
+          "cat": "balance",
+          "text": {
+            "kr": "다라완 파4(힐 시 받는 배리어 +24%)와 다수 조롱 시 어그로 집중을 반영했습니다.",
+            "en": "Applied Dallawan’s P4 (Barrier Taken +24% on heal) and aggro focusing when multiple Taunts are active.",
+            "zh": "反映了達拉萬帕4（治療時受到護盾 +24%）與多重嘲諷時的仇恨集中。",
+            "zhs": "反映了达拉万帕4（治疗时受到护盾 +24%）与多重嘲讽时的仇恨集中。",
+            "ja": "ダラワンのP4（回復時に受けるバリア +24%）と、複数の挑発時のヘイト集中を反映しました。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "이태호 오봉만상 fed를 턴별로 지정할 수 있게 하고 공유 코드를 최적화했습니다.",
+            "en": "Lee Taeho’s Five-Peak Myriad fed target can now be set per turn, and the share code was optimized.",
+            "zh": "李泰虎的五峰萬象 fed 可逐回合指定，並最佳化了分享代碼。",
+            "zhs": "李泰虎的五峰万象 fed 可逐回合指定，并优化了分享代码。",
+            "ja": "イ・テホの五峰万象 fed をターンごとに指定できるようにし、共有コードを最適化しました。"
+          },
+          "chars": [
+            10423
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.1.9",
+      "date": "2026-06-27",
+      "highlight": false,
+      "title": {
+        "kr": "업데이트 토스트 · 오버라이드 수정",
+        "en": "Update Toast · Override Fix",
+        "zh": "更新提示 · 覆寫修正",
+        "zhs": "更新提示 · 覆写修正",
+        "ja": "アップデート通知・オーバーライド修正"
+      },
+      "items": [
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "업데이트 토스트에 하드 리프레시와 옛 캐시(stale) 사용 감지 알림을 추가했습니다.",
+            "en": "Added hard refresh to the update toast, plus a notice when a stale cache is in use.",
+            "zh": "在更新提示中加入強制重新整理，以及使用舊快取（stale）時的偵測通知。",
+            "zhs": "在更新提示中加入强制刷新，以及使用旧缓存（stale）时的检测通知。",
+            "ja": "アップデート通知にハードリフレッシュと、古いキャッシュ（stale）使用の検知通知を追加しました。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "특정 턴 오버라이드 칩 해제가 완전히 꺼지지 않던 문제를 수정했습니다.",
+            "en": "Fixed the per-turn override chip not turning off completely when cleared.",
+            "zh": "修正了解除特定回合覆寫標籤時未完全關閉的問題。",
+            "zhs": "修正了解除特定回合覆写标签时未完全关闭的问题。",
+            "ja": "特定ターンのオーバーライドチップを解除しても完全にオフにならない問題を修正しました。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.1.8",
+      "date": "2026-06-24",
+      "highlight": false,
+      "title": {
+        "kr": "파미도 방어 토글 · 이태호 fed 선택",
+        "en": "Famido Defend Toggle · Lee Taeho fed Selection",
+        "zh": "法米多防禦切換 · 李泰虎 fed 選擇",
+        "zhs": "法米多防御切换 · 李泰虎 fed 选择",
+        "ja": "ファミド防御トグル・イ・テホ fed 選択"
+      },
+      "items": [
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "파미도 패시브 방어 토글과 이태호 임부언 fed 추가행동 선택을 추가했습니다.",
+            "en": "Added a Famido passive-defend toggle and a selector for the Lee Taeho / Boss Ren fed extra action.",
+            "zh": "新增法米多被動防禦切換，以及李泰虎、任富言 fed 追加行動的選擇。",
+            "zhs": "新增法米多被动防御切换，以及李泰虎、任富言 fed 追加行动的选择。",
+            "ja": "ファミドのパッシブ防御トグルと、イ・テホ／任富言の fed 追加行動の選択を追加しました。"
+          },
+          "chars": [
+            10421,
+            10423,
+            10410
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.1.7",
+      "date": "2026-06-23",
+      "highlight": false,
+      "title": {
+        "kr": "모바일 세로 레이아웃",
+        "en": "Mobile Portrait Layout",
+        "zh": "行動裝置直向版面",
+        "zhs": "移动设备竖屏布局",
+        "ja": "モバイル縦向きレイアウト"
+      },
+      "items": [
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "모바일 세로(iPhone 16 Pro) 전용 레이아웃을 최적화했습니다.",
+            "en": "Optimized a dedicated layout for mobile portrait (iPhone 16 Pro).",
+            "zh": "最佳化了行動裝置直向（iPhone 16 Pro）專用版面。",
+            "zhs": "优化了移动设备竖屏（iPhone 16 Pro）专用布局。",
+            "ja": "モバイル縦向き（iPhone 16 Pro）専用レイアウトを最適化しました。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.1.6",
+      "date": "2026-06-22",
+      "highlight": false,
+      "char": 10426,
+      "charName": {
+        "kr": "란"
+      },
+      "skill": true,
+      "title": {
+        "kr": "가이드 · 란 P4 시너지",
+        "en": "Guide · Souran P4 Synergy",
+        "zh": "指南 · 蒼嵐 P4 協同",
+        "zhs": "指南 · 苍岚 P4 协同",
+        "ja": "ガイド・蒼嵐 P4 シナジー"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "가이드 버튼·모달을 추가해 시뮬레이터 기능을 안내합니다.",
+            "en": "Added a Guide button and modal that walks through the simulator’s features.",
+            "zh": "新增指南按鈕與視窗，介紹模擬器的各項功能。",
+            "zhs": "新增指南按钮与窗口，介绍模拟器的各项功能。",
+            "ja": "ガイドボタンとモーダルを追加し、シミュレーターの機能を案内します。"
+          }
+        },
+        {
+          "cat": "new",
+          "text": {
+            "kr": "란(10426) P4 시너지 ‘허물 매미 교전’을 구현했습니다.",
+            "en": "Implemented Souran’s (10426) P4 synergy “Molting Cicada Engagement”.",
+            "zh": "實作了蒼嵐（10426）P4 協同「金蟬脫殼交戰」。",
+            "zhs": "实现了苍岚（10426）P4 协同「金蝉脱壳交战」。",
+            "ja": "蒼嵐（10426）のP4シナジー「蝉の抜け殻交戦」を実装しました。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.1.5",
+      "date": "2026-06-22",
+      "highlight": true,
+      "title": {
+        "kr": "다국어 · 피드백",
+        "en": "Localization · Feedback",
+        "zh": "多語系 · 意見回饋",
+        "zhs": "多语言 · 意见反馈",
+        "ja": "多言語対応・フィードバック"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "다국어(한국어/영어/번체/간체/일본어) 지원을 추가했습니다.",
+            "en": "Added multi-language support (Korean, English, Traditional Chinese, Simplified Chinese, Japanese).",
+            "zh": "新增多語系支援（韓文／英文／繁體中文／簡體中文／日文）。",
+            "zhs": "新增多语言支持（韩文／英文／繁体中文／简体中文／日文）。",
+            "ja": "多言語対応（韓国語／英語／繁体字／簡体字／日本語）を追加しました。"
+          }
+        },
+        {
+          "cat": "new",
+          "text": {
+            "kr": "피드백 기능을 추가했습니다.",
+            "en": "Added a feedback feature.",
+            "zh": "新增了意見回饋功能。",
+            "zhs": "新增了意见反馈功能。",
+            "ja": "フィードバック機能を追加しました。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "언어 전환이 즉시 반영되지 않던 문제와 다국어 데이터의 stale 캐시 문제를 수정했습니다.",
+            "en": "Fixed language switching not applying immediately, and a stale cache issue with localized data.",
+            "zh": "修正了語言切換未立即生效的問題，以及多語系資料的舊快取（stale）問題。",
+            "zhs": "修正了语言切换未立即生效的问题，以及多语言数据的旧缓存（stale）问题。",
+            "ja": "言語切り替えが即座に反映されない問題と、多言語データの古いキャッシュ（stale）問題を修正しました。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.1.4",
+      "date": "2026-06-21",
+      "highlight": false,
+      "title": {
+        "kr": "엔진 정확도 수정",
+        "en": "Engine Accuracy Fixes",
+        "zh": "引擎精確度修正",
+        "zhs": "引擎精确度修正",
+        "ja": "エンジン精度の修正"
+      },
+      "items": [
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "조롱 지속을 정확히 1턴으로 정정했습니다.",
+            "en": "Corrected Taunt duration to exactly 1 turn.",
+            "zh": "將嘲諷持續時間修正為正好 1 回合。",
+            "zhs": "将嘲讽持续时间修正为正好 1 回合。",
+            "ja": "挑発の持続を正確に1ターンへ修正しました。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "혼합형 타이머 스택(상어수탄)이 붕괴되던 문제를 수정했습니다.",
+            "en": "Fixed mixed-type timer stacks (Shark Torpedo) collapsing.",
+            "zh": "修正了混合型計時堆疊（鯊魚水彈）崩潰的問題。",
+            "zhs": "修正了混合型计时堆叠（鲨鱼水弹）崩溃的问题。",
+            "ja": "混合型タイマースタック（シャーク水弾）が崩壊する問題を修正しました。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "제트블랙 체력응축(여러 단어 영문명 인식), 던컨 마도집중, 카라트 HP 게이트 발동을 바로잡았습니다.",
+            "en": "Fixed Jet Black’s Energy Charge (now recognizes multi-word English names), Duncan’s magic focus, and Capt. Locke’s HP gate triggering.",
+            "zh": "修正了噴射布萊克的體力凝聚（可辨識多字英文名）、鄧肯的魔道集中，以及卡‧拉特的 HP 門檻發動。",
+            "zhs": "修正了喷射布莱克的体力凝聚（可识别多词英文名）、邓肯的魔道集中，以及卡‧拉特的 HP 门槛发动。",
+            "ja": "ジェットブラックの体力凝縮（複数単語の英語名も認識）、ダンカンの魔道集中、カアフ・ラットのHPゲート発動を修正しました。"
+          },
+          "chars": [
+            10418,
+            10427,
+            10409
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.1.3",
+      "date": "2026-06-21",
+      "highlight": false,
+      "title": {
+        "kr": "기록 관리 · 공유 코드 압축 · 배포 알림",
+        "en": "Record Management · Share Code Compression · Deploy Notice",
+        "zh": "紀錄管理 · 分享代碼壓縮 · 部署通知",
+        "zhs": "记录管理 · 分享代码压缩 · 部署通知",
+        "ja": "記録管理・共有コード圧縮・デプロイ通知"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "새 배포 알림을 추가했습니다(기존 접속자 한정).",
+            "en": "Added a new-deployment notice (for users already on the page).",
+            "zh": "新增了新版部署通知（僅限已在線的使用者）。",
+            "zhs": "新增了新版部署通知（仅限已在线的用户）。",
+            "ja": "新しいデプロイの通知を追加しました（既に接続中のユーザー限定）。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "기록 관리를 개선했습니다 — 잠금·이름변경·핀·검색정렬·내보내기/가져오기.",
+            "en": "Improved record management — lock, rename, pin, search & sort, export / import.",
+            "zh": "改進了紀錄管理——鎖定、重新命名、釘選、搜尋排序、匯出／匯入。",
+            "zhs": "改进了记录管理——锁定、重命名、置顶、搜索排序、导出／导入。",
+            "ja": "記録管理を改善しました — ロック・名前変更・ピン留め・検索並べ替え・エクスポート／インポート。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "공유 코드를 deflate로 압축하고 코덱을 최적화했습니다(base64 대비 최대 약 16배 단축).",
+            "en": "Compressed share codes with deflate and optimized the codec (up to ~16× shorter than base64).",
+            "zh": "以 deflate 壓縮分享代碼並最佳化編解碼（相較 base64 最多縮短約 16 倍）。",
+            "zhs": "以 deflate 压缩分享代码并优化编解码（相较 base64 最多缩短约 16 倍）。",
+            "ja": "共有コードを deflate で圧縮し、コーデックを最適化しました（base64 比で最大約16倍短縮）。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "비교 창 드래그·포지션 이동과 빈 상태에서 선택이 어긋나던 문제를 수정했습니다.",
+            "en": "Fixed comparison-window dragging / position moves and selection mismatches in the empty state.",
+            "zh": "修正了比較視窗拖曳、位置移動，以及空白狀態下選取錯位的問題。",
+            "zhs": "修正了比较窗口拖曳、位置移动，以及空白状态下选取错位的问题。",
+            "ja": "比較ウィンドウのドラッグ・位置移動と、空の状態で選択がずれる問題を修正しました。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.1.2",
+      "date": "2026-06-21",
+      "highlight": true,
+      "title": {
+        "kr": "조합 비교 기능",
+        "en": "Team Comparison",
+        "zh": "隊伍比較功能",
+        "zhs": "队伍比较功能",
+        "ja": "編成比較機能"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "조합 비교 기능을 추가했습니다 — 저장한 두 기록의 조합을 캐릭터별로 나란히 비교합니다.",
+            "en": "Added team comparison — put two saved records side by side and compare them character by character.",
+            "zh": "新增隊伍比較功能——將兩筆已儲存的紀錄並排，逐一比較各角色。",
+            "zhs": "新增队伍比较功能——将两条已保存的记录并排，逐一比较各角色。",
+            "ja": "編成比較機能を追加しました — 保存済みの2つの記録を並べ、キャラクターごとに比較します。"
+          },
+          "chars": [
+            10426
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.1.1",
+      "date": "2026-06-20",
+      "highlight": false,
+      "title": {
+        "kr": "타이머 스택 · 발동딜 순서 · 전체공격",
+        "en": "Timer Stacks · Proc Damage Order · Full Attack",
+        "zh": "計時堆疊 · 發動傷害順序 · 全體攻擊",
+        "zhs": "计时堆叠 · 发动伤害顺序 · 全体攻击",
+        "ja": "タイマースタック・発動ダメージ順序・全体攻撃"
+      },
+      "items": [
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "타이머 스택을 중첩별 개별 만료로 바꿔 오봉만상 등이 무한 유지되던 문제를 수정했습니다.",
+            "en": "Timer stacks now expire per stack, fixing effects such as Five-Peak Myriad lasting forever.",
+            "zh": "計時堆疊改為每層各自到期，修正了五峰萬象等效果無限維持的問題。",
+            "zhs": "计时堆叠改为每层各自到期，修正了五峰万象等效果无限维持的问题。",
+            "ja": "タイマースタックをスタックごとの個別失効に変更し、五峰万象などが無限に持続する問題を修正しました。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "발동딜 효과 적용 순서와 적 광역(AoE) 동시 피격 계산을 인게임과 일치하도록 정정했습니다.",
+            "en": "Corrected the application order of proc-damage effects and simultaneous enemy AoE hit calculation to match in-game behavior.",
+            "zh": "修正了發動傷害效果的套用順序與敵方範圍（AoE）同時受擊計算，使其與遊戲內一致。",
+            "zhs": "修正了发动伤害效果的应用顺序与敌方范围（AoE）同时受击计算，使其与游戏内一致。",
+            "ja": "発動ダメージ効果の適用順序と、敵の範囲（AoE）同時被弾計算をゲーム内挙動と一致するよう修正しました。"
+          }
+        },
+        {
+          "cat": "new",
+          "text": {
+            "kr": "적 공격에 전체공격 옵션을 추가했습니다(아군 전체 1회 동시 피격).",
+            "en": "Added a full-attack option for enemy attacks (all allies hit once simultaneously).",
+            "zh": "為敵方攻擊新增全體攻擊選項（我方全體同時受擊 1 次）。",
+            "zhs": "为敌方攻击新增全体攻击选项（我方全体同时受击 1 次）。",
+            "ja": "敵の攻撃に全体攻撃オプションを追加しました（味方全体が同時に1回被弾）。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.1",
+      "date": "2026-06-19",
+      "highlight": true,
+      "char": 10303,
+      "charName": {
+        "kr": "최유희"
+      },
+      "skill": true,
+      "title": {
+        "kr": "최유희(XL) 편입",
+        "en": "Choi Yuhee (XL) Added",
+        "zh": "崔鼬熙（XL）加入",
+        "zhs": "崔鼬熙（XL）加入",
+        "ja": "チェ・ユヒ（XL）を追加"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "최유희(10303, XL) 추가 — 8슬롯 파싱·도장 한계 18000, 중독 게이트·방어 반격(once) 등 신규 패턴을 구현했습니다.",
+            "en": "Added Choi Yuhee (10303, XL) — 8-slot parsing, rune cap 18000, and new patterns such as the poison gate and defend-counter (once).",
+            "zh": "新增崔鼬熙（10303，XL）——8 槽解析、符印上限 18000，並實作中毒門檻、防禦反擊（once）等新模式。",
+            "zhs": "新增崔鼬熙（10303，XL）——8 槽解析、符印上限 18000，并实现中毒门槛、防御反击（once）等新模式。",
+            "ja": "チェ・ユヒ（10303、XL）を追加 — 8スロット解析・ルーン上限18000、毒ゲートや防御反撃（once）などの新パターンを実装しました。"
+          }
+        },
+        {
+          "cat": "balance",
+          "text": {
+            "kr": "오렘 배리어를 최대 HP 기반으로, 모이루 배리어를 1회(once 게이트)로 바로잡았습니다.",
+            "en": "Corrected Orem’s barrier to scale off max HP, and Moyru’s barrier to trigger only once (once gate).",
+            "zh": "將奧雷姆的護盾修正為以最大 HP 為基準，並將莫伊魯的護盾修正為僅 1 次（once 門檻）。",
+            "zhs": "将奥雷姆的护盾修正为以最大 HP 为基准，并将莫伊鲁的护盾修正为仅 1 次（once 门槛）。",
+            "ja": "オレムのバリアを最大HP基準に、モイルのバリアを1回のみ（once ゲート）に修正しました。"
+          },
+          "chars": [
+            10419,
+            10436
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.0.2",
+      "date": "2026-06-19",
+      "highlight": false,
+      "title": {
+        "kr": "마지막 업데이트 시각 · 모바일 행동 순서",
+        "en": "Last Update Time · Mobile Action Order",
+        "zh": "最後更新時間 · 行動裝置行動順序",
+        "zhs": "最后更新时间 · 移动端行动顺序",
+        "ja": "最終更新時刻・モバイル行動順"
+      },
+      "items": [
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "우측 하단 마지막 업데이트 시각 표시와 모바일용 행동 순서 화살표 버튼을 추가했습니다.",
+            "en": "Added the last-update time in the bottom right and arrow buttons for reordering actions on mobile.",
+            "zh": "新增右下角的最後更新時間顯示，以及行動裝置用的行動順序箭頭按鈕。",
+            "zhs": "新增右下角的最后更新时间显示，以及移动端用的行动顺序箭头按钮。",
+            "ja": "右下に最終更新時刻の表示と、モバイル用の行動順の矢印ボタンを追加しました。"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.1",
+      "date": "2026-06-19",
+      "highlight": false,
+      "title": {
+        "kr": "초기 밸런스 · 버그 수정",
+        "en": "Initial Balance · Bug Fixes",
+        "zh": "初期平衡 · 錯誤修正",
+        "zhs": "初期平衡 · 错误修正",
+        "ja": "初期バランス・バグ修正"
+      },
+      "items": [
+        {
+          "cat": "balance",
+          "text": {
+            "kr": "리카노 조롱 대상 주는딜(+18%)을 반영했습니다.",
+            "en": "Applied Ricano’s damage dealt bonus (+18%) against Taunted targets.",
+            "zh": "反映了瑞卡諾對嘲諷目標的造成傷害加成（+18%）。",
+            "zhs": "反映了瑞卡诺对嘲讽目标的造成伤害加成（+18%）。",
+            "ja": "リカノの挑発対象への与ダメージ（+18%）を反映しました。"
+          },
+          "chars": [
+            10428
+          ]
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "지속딜 시전자 스펙 스냅샷 고정, 받는딜 곱연산(일반×속성), 임부언·이태호 플래너 등을 바로잡았습니다.",
+            "en": "Fixed the DoT caster spec snapshot, multiplicative damage-taken (normal × element), and the Boss Ren / Lee Taeho planners.",
+            "zh": "修正了持續傷害施術者規格快照、受到傷害的乘算（一般×屬性），以及任富言、李泰虎的行動規劃等。",
+            "zhs": "修正了持续伤害施术者规格快照、受到伤害的乘算（一般×属性），以及任富言、李泰虎的行动规划等。",
+            "ja": "DoT詠唱者スペックのスナップショット固定、被ダメージの乗算（通常×属性）、任富言・イ・テホのプランナーなどを修正しました。"
+          },
+          "chars": [
+            10410,
+            10423
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.0",
+      "date": "2026-06-19",
+      "highlight": true,
+      "charImg": "icons/v1_pamido.png",
+      "charName": {
+        "kr": "파미도",
+        "en": "Famido",
+        "zh": "法米多",
+        "zhs": "法米多",
+        "ja": "ファミド"
+      },
+      "title": {
+        "kr": "XXL WOOFIA 시뮬레이터 출시",
+        "en": "XXL WOOFIA Simulator Launch",
+        "zh": "XXL WOOFIA 模擬器上線",
+        "zhs": "XXL WOOFIA 模拟器上线",
+        "ja": "XXL WOOFIA シミュレーター公開"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "XXL WOOFIA 데미지 시뮬레이터를 처음 공개했습니다 — 5인 파티 조합·스펙·행동을 구성해 데미지를 수치로 확인합니다.",
+            "en": "First release of the XXL WOOFIA damage simulator — build a 5-member party, set specs and actions, and see the damage in numbers.",
+            "zh": "首次公開 XXL WOOFIA 傷害模擬器——編組 5 人隊伍、設定規格與行動，以數值確認傷害。",
+            "zhs": "首次公开 XXL WOOFIA 伤害模拟器——编组 5 人队伍、设置规格与行动，以数值确认伤害。",
+            "ja": "XXL WOOFIA ダメージシミュレーターを初公開 — 5人パーティの編成・スペック・行動を設定し、ダメージを数値で確認できます。"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -163,7 +163,18 @@
 
 <button class="cmp-fab" id="cmpBtn" title="저장된 두 기록의 조합을 캐릭터별로 비교">⚔️ 조합 비교하기</button>
 <button class="guide-fab" id="guideBtn" title="시뮬레이터 기능 안내">📖 가이드</button>
+<button class="patch-fab" id="patchBtn" title="시뮬레이터 업데이트 내역"><span class="pf-dot" hidden></span>📜 패치 히스토리</button>
 <div class="last-update" id="lastUpdate"></div>
+
+<!-- ─── 패치 히스토리 모달 ─── -->
+<div class="modal" id="patchModal" hidden>
+  <div class="modal-bg" data-pclose></div>
+  <div class="patch-card">
+    <div class="patch-head"><h3>📜 패치 히스토리</h3><button class="mc-close" data-pclose>×</button></div>
+    <div class="patch-filters i18n-skip" id="patchFilters"></div>
+    <div class="patch-body i18n-skip" id="patchBody"></div>
+  </div>
+</div>
 
 <!-- ─── 가이드 모달 ─── -->
 <div class="modal" id="guideModal" hidden>

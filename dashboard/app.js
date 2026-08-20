@@ -2915,7 +2915,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') {
   const sub = document.querySelector('.iopop, .swappop, .sealpop, .planpop, .priopop'); if (sub) { sub.remove(); return; }   // 위 팝업부터 닫기
   const ci = document.querySelector('.cmpinfo'); if (ci) { ci.remove(); return; }
   if (specHost) { closeSpecPanel(); return; }                  // 스펙 패널이 열려 있으면 그것부터
-  closeCharModal(); $('#histModal').hidden = true; $('#cmpModal').hidden = true; $('#guideModal').hidden = true;
+  closeCharModal(); $('#histModal').hidden = true; $('#cmpModal').hidden = true; $('#guideModal').hidden = true; $('#patchModal').hidden = true;
 } });
 
 function toast(msg) {
@@ -3324,3 +3324,118 @@ async function openSkillFromSource(id, skillName) {
     <div class="sk open"><div class="sk-b" style="display:block;padding:14px 2px 0">${(lv.kr || '').trim()}</div></div>`;
   $('#modal').hidden = false;
 }
+
+// ───────────── 패치 히스토리 ─────────────
+// patch-notes.json(큐레이션) → 세로 타임라인 렌더 · 카테고리 필터 · 아코디언 · 미확인 점.
+// 텍스트는 {kr,en,zh,zhs,ja} 5개 언어. 없는 언어는 kr 로 폴백한다.
+// 본문은 i18n-skip(오버레이 번역 제외) — 이 모듈이 woofia_lang 을 직접 읽어 렌더한다.
+(function initPatchHistory() {
+  const btn = document.getElementById('patchBtn');
+  const modal = document.getElementById('patchModal');
+  if (!btn || !modal) return;
+  const body = document.getElementById('patchBody');
+  const filters = document.getElementById('patchFilters');
+  const dot = btn.querySelector('.pf-dot');
+  const SEEN_KEY = 'woofia_patch_seen';
+  // 카테고리·'전체' 라벨은 렌더러가 직접 다국어 처리 (칩 컨테이너는 i18n-skip)
+  const CATS = {
+    new:     { kr: '신규',        en: 'New',     zh: '新增', zhs: '新增', ja: '新規' },
+    balance: { kr: '개선·밸런스', en: 'Balance', zh: '調整', zhs: '调整', ja: '調整' },
+    fix:     { kr: '버그 수정',   en: 'Bug Fix', zh: '修正', zhs: '修正', ja: '修正' },
+    qol:     { kr: '편의',        en: 'QoL',     zh: '體驗', zhs: '体验', ja: '利便性' },
+  };
+  const ALL = { kr: '전체', en: 'All', zh: '全部', zhs: '全部', ja: 'すべて' };
+  const L = () => localStorage.getItem('woofia_lang') || 'kr';
+  const tx = o => (o && (o[L()] || o.kr)) || '';       // 다국어 필드 → 현재 언어, 없으면 kr
+  let releases = [], curFilter = 'all';
+
+  fetch('patch-notes.json', { cache: 'no-store' })
+    .then(r => (r.ok ? r.json() : null))
+    .then(d => {
+      releases = (d && Array.isArray(d.releases)) ? d.releases : [];
+      const latest = releases[0] && releases[0].version;
+      if (latest && localStorage.getItem(SEEN_KEY) !== latest) dot.hidden = false;   // 마지막 본 버전과 다르면 점
+      renderFilters();
+    })
+    .catch(() => {});
+
+  function badge(cat) { return `<span class="pr-badge cat-${cat}">${esc(tx(CATS[cat]) || cat)}</span>`; }
+
+  // 항목에 특정 캐릭터가 언급되면(5명 미만) 그 프로필 아이콘을 인라인으로. 공통/대규모 변경은 chars 생략.
+  // 다국어 캐릭터 이름은 data/chars.json 에만 있다 (/api/chars 는 한국어 name 뿐) — i18n.js 와 같은 소스
+  const NAME_FIELD = { kr: 'name_kr', en: 'name_en', zh: 'name_cn', zhs: 'name_sc', ja: 'name_ja' };
+  let charNames = {};    // id -> chars.json 원본 메타
+  fetch('data/chars.json', { cache: 'no-cache' })
+    .then(r => (r.ok ? r.json() : null))
+    .then(j => {
+      if (!j) return;
+      (Array.isArray(j) ? j : Object.values(j)).forEach(c => { if (c && c.id != null) charNames[c.id] = c; });
+    })
+    .catch(() => {});
+  const nameOf = id => {
+    const c = charNames[id];
+    if (c) return c[NAME_FIELD[L()]] || c.name_kr || '';
+    const f = (typeof CHARS !== 'undefined' && CHARS[id]) || null;    // 폴백: 한국어 이름
+    return f ? (f.name || '') : '';
+  };
+  function faces(ids) {
+    if (!Array.isArray(ids) || !ids.length) return '';
+    return `<span class="pi-chars">` + ids.map(id =>
+      `<img class="pi-face" src="icons/${id}.png" alt="" title="${esc(nameOf(id))}" onerror="this.style.display='none'">`).join('') + `</span>`;
+  }
+
+  function renderFilters() {
+    const chips = [['all', tx(ALL)]].concat(Object.keys(CATS).map(c => [c, tx(CATS[c])]));
+    filters.innerHTML = chips.map(([c, label]) =>
+      `<button class="pf-chip${c === curFilter ? ' on' : ''}" data-cat="${c}">` +
+      `${c === 'all' ? '' : `<span class="pf-cdot dot-${c}"></span>`}${esc(label)}</button>`).join('');
+    filters.querySelectorAll('.pf-chip').forEach(b => {
+      b.onclick = () => { curFilter = b.dataset.cat; renderFilters(); render(); };
+    });
+  }
+
+  function render() {
+    if (!releases.length) { body.innerHTML = `<div class="patch-empty">패치 내역을 불러오지 못했어요.</div>`; return; }
+    const html = releases.map((rel, i) => {
+      const items = (rel.items || []).filter(it => curFilter === 'all' || it.cat === curFilter);
+      if (!items.length) return '';                              // 필터에 걸리는 항목 없으면 릴리스 숨김
+      const tags = [...new Set((rel.items || []).map(it => it.cat))];
+      // 전체 보기에서 하이라이트/최신 2개만 펼침, 나머지는 접힘
+      const collapsed = (curFilter === 'all' && !rel.highlight && i > 1) ? ' collapsed' : '';
+      // 1.x = 메이저(캐릭터 추가) · 1.x.x = 마이너 패치 — 시각적으로 확실히 구분
+      const isMajor = /^\d+\.\d+$/.test(String(rel.version));
+      const hasHero = rel.char != null || rel.charImg != null;
+      const faceSrc = rel.charImg || (rel.char != null ? `icons/${rel.char}.png` : '');
+      const hero = hasHero ? `<div class="pr-hero">` +
+          `<img class="pr-face" src="${esc(faceSrc)}" alt="" onerror="this.style.display='none'">` +
+          (rel.skill && rel.char != null ? `<img class="pr-rune" src="icons/skills/Rune${rel.char}.png" alt="" onerror="this.style.display='none'">` : '') +
+          // 이름은 캐릭터 데이터(5개 언어)에서 우선 가져오고, 없으면 JSON 의 charName
+          ((rel.char != null && nameOf(rel.char)) || (rel.charName ? tx(rel.charName) : '')
+            ? `<span class="pr-cname">${esc((rel.char != null && nameOf(rel.char)) || tx(rel.charName))}</span>` : '') +
+        `</div>` : '';
+      const itemsHtml = items.map(it =>
+        `<div class="pr-item"><span class="pi-tag dot-${it.cat}"></span><span class="pi-text">${faces(it.chars)}${esc(tx(it.text))}</span></div>`).join('');
+      return `<div class="pr${isMajor ? ' major' : ' minor'}${i === 0 ? ' latest' : ''}${hasHero ? ' has-hero' : ''}${collapsed}">` +
+        `<div class="pr-head">` +
+          `<span class="pr-ver">v${esc(rel.version)}</span>` +
+          `<span class="pr-date">${esc(rel.date)}</span>` +
+          `<span class="pr-badges">${tags.map(badge).join('')}</span>` +
+          `<span class="pr-caret">▼</span>` +
+          (rel.title ? `<span class="pr-title">${esc(tx(rel.title))}</span>` : '') +
+        `</div>` +
+        `<div class="pr-body">${hero}<div class="pr-items">${itemsHtml}</div></div>` +
+      `</div>`;
+    }).join('');
+    body.innerHTML = html || `<div class="patch-empty">해당 분류의 패치가 없어요.</div>`;
+    body.querySelectorAll('.pr-head').forEach(h => {
+      h.onclick = () => h.parentElement.classList.toggle('collapsed');
+    });
+  }
+
+  btn.onclick = () => {
+    renderFilters();                       // 칩 라벨도 현재 언어로 (열 때마다 갱신)
+    render(); body.scrollTop = 0; modal.hidden = false;
+    if (releases[0]) { localStorage.setItem(SEEN_KEY, releases[0].version); dot.hidden = true; }   // 봤으니 점 제거
+  };
+  modal.onclick = e => { if (e.target.dataset.pclose !== undefined) modal.hidden = true; };
+})();
