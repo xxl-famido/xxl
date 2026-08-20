@@ -1002,9 +1002,13 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             ekey = id(effect)
             same = [b for b in tgt.buffs if b.key == ekey]
             if same and len(same) >= max(1, effect.max_stacks):
-                for b in same:
-                    b.value = val                            # update to new snapshot
-                    b.turns = _half_turns(effect.duration)   # refresh (at stack cap)
+                # 캡 도달: '가장 오래된 1개'만 갱신(replace-oldest)해 각 중첩의 개별 3턴 타이머를
+                # 유지한다. 예전엔 재적용마다 10중첩 '전부'를 갱신해서, 지속시간 안에 다시 부여되면
+                # 스택이 영구 고정됐다(크로크라인 변환 버프가 현재 스택 수와 무관하게 dmg_dealt
+                # 20%로 못 빠지던 버그). 영구버프(turns<0)·max_stacks=1은 거동이 그대로다.
+                oldest = min(same, key=lambda b: (b.turns if b.turns >= 0 else 1 << 30))
+                oldest.value = val                           # update to new snapshot
+                oldest.turns = _half_turns(effect.duration)  # renew only the oldest stack
             else:
                 tgt.buffs.append(Buff(stat, val, _half_turns(effect.duration),
                                       src=source, key=ekey, element=effect.element,
