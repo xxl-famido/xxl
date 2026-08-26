@@ -946,6 +946,8 @@ function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게�
       const ti0 = Math.floor(idx / apt);
       for (let a2 = 0; a2 < apt; a2++) { const j = ti0 * apt + a2; if (j !== idx && plan[j] === '궁') plan[j] = '평'; }
     }
+    if (a === '궁' && meta.singleUlt)                 // 제토: 필살은 전투당 1회 — 다른 턴 궁은 모두 평으로
+      for (let j = 0; j < plan.length; j++) if (j !== idx && plan[j] === '궁') plan[j] = '평';
     const ab2 = allyBasicCounts(cmpTeam[c.side] || [], c.slotIdx, turns);
     if (a === '궁' && meta.cdDefendReduce > 0) {      // 모이루(추격)·히토하(입질): 앞턴 방어 자동 배치
       if (enforceCdDefend(plan, meta, idx + 1, ab2))
@@ -1611,11 +1613,14 @@ async function advImportLegacy() {
   catch (err) { toast(`기존 설정을 불러오지 못했어요 — ${err.message}`); }
   finally { if (btn) { btn.disabled = false; btn.textContent = '기존 설정 불러오기'; } }
   if (!pr || !pr.plan || gen !== advGen) return;
-  // 실제로 달라질 때만 되돌리기 지점을 남긴다 (무변경이면 빈 되돌리기가 쌓인다)
+  // 제토 도장의 확률·체이닝 자기 추가행동(seq의 x:true)은 엔진이 자동 발동하므로 타임라인에 굳히면
+  // 예산 초과 에러가 난다 → import에서 제외. 임부언·욱영이 준 '외부' 추가행동(x 없음)은 결정형이라
+  // 그대로 보여준다(사용자가 순서를 편집할 수 있어야 하므로).
   const next = {};
   for (let t = 1; t <= advTurns(); t++) {
     const src = pr.plan[String(t)];
-    if (src) next[t] = src.seq.map(e => ({ p: e.p, a: e.a }));
+    if (!src) continue;
+    next[t] = src.seq.filter(e => !e.x).map(e => ({ p: e.p, a: e.a }));
   }
   if (JSON.stringify(next) === JSON.stringify(turnPlans)) {
     return toast('기존 설정과 지금 타임라인이 이미 같아요');
@@ -2634,6 +2639,13 @@ function fillPlan(meta, action, n = 30) {
   return plan;                              // 이태호(apt>1): 순수 평타/방어, 자동 궁 없음
 }
 function defaultPlan(meta, n = 30) {
+  // 제토(singleUlt): 전투당 1회 필살 — 기본은 램프를 위해 전부 평타, 필살은 '마지막 턴'에만 1회.
+  if (meta.singleUlt) {
+    const apt = meta.actionsPerTurn || 1;
+    const p = Array(n * apt).fill('평');
+    p[(n - 1) * apt] = '궁';
+    return p;
+  }
   const plan = fillPlan(meta, '평', n);
   // 이태호(apt>1): 첫 행동을 궁으로 → 일지어천 진입 후 평타가 내기혼신 쌓아 데미지 (AUTO와 동일 사이클)
   if ((meta.actionsPerTurn || 1) > 1 && meta.firstFatal <= 1) plan[0] = '궁';
@@ -2873,6 +2885,8 @@ function renderPlanner(s, meta) {
       const ti0 = Math.floor(idx / apt);
       for (let a2 = 0; a2 < apt; a2++) { const j = ti0 * apt + a2; if (j !== idx && s.plan[j] === '궁') s.plan[j] = '평'; }
     }
+    if (a === '궁' && meta.singleUlt)                   // 제토: 필살은 전투당 1회 — 다른 턴 궁은 모두 평으로
+      for (let j = 0; j < s.plan.length; j++) if (j !== idx && s.plan[j] === '궁') s.plan[j] = '평';
     const abM = allyBasicCounts(team, team.indexOf(s), +$('#turns').value);
     if (a === '궁' && meta.cdDefendReduce > 0) {       // 모이루(추격)·히토하(입질): 앞턴 방어 강제 = CD 가속
       if (enforceCdDefend(s.plan, meta, idx + 1, abM))

@@ -694,5 +694,20 @@
   "feature_cn": "鄰位守護，連鎖救援",
   "feature_sc": "邻位守护，连锁救援",
   "feature_ja": "隣接守護、連鎖救援"
+ },
+ "10441": {
+  "id": 10441,
+  "name_en": "Zetto",
+  "name_kr": "제토",
+  "feature": "EX-effect ramp burst / single held ultimate / Opening + Spotlight",
+  "rarity": 4,
+  "class": 1,
+  "element": 2,
+  "baseATK": 556,
+  "baseHP": 2245,
+  "hasRune": true,
+  "name_cn": "桀特",
+  "name_sc": "桀特",
+  "name_ja": "ゼット"
  }
 }

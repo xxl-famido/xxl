@@ -1,0 +1,86 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10441,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turnPlans": {},
+    "turns": 10
+  },
+  "dps": 75674.55,
+  "events": {
+    "byActionKind": {
+      "보통공격": 80,
+      "패시브": 10,
+      "피격": 60,
+      "필살기": 1
+    },
+    "byOutput": {
+      "barrier": 14,
+      "incoming": 30,
+      "평타": 15,
+      "필살": 1
+    },
+    "count": 151
+  },
+  "logHash": "sha256:1626f953015069a91a3eec59ce700ab8",
+  "perChar": {
+    "제토": {
+      "barrier": 186316.76,
+      "damage": 756745.48,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "제토": 26616.68
+    },
+    "10": {
+      "제토": 317570.28
+    },
+    "2": {
+      "제토": 26616.68
+    },
+    "3": {
+      "제토": 79850.04
+    },
+    "4": {
+      "제토": 61218.36
+    },
+    "5": {
+      "제토": 91827.54
+    },
+    "6": {
+      "제토": 30609.18
+    },
+    "7": {
+      "제토": 30609.18
+    },
+    "8": {
+      "제토": 61218.36
+    },
+    "9": {
+      "제토": 30609.18
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 756745.48,
+  "unapplied": {}
+}

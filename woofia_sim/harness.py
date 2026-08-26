@@ -72,6 +72,8 @@ def auto_rotation(kit: ResolvedKit) -> str:
     """kit 기반 표준 로테이션. 1턴차 CD 감소 패시브(예: 멍)를 반영해 첫 궁을
     T1로 당김. 멍(cd3, -3) -> 궁평평궁|평평궁, 리카노(cd3) -> 평평평궁|평평궁."""
     from .engine import _self_extra_actions
+    if kit.fatal.cd >= 30:                    # 제토(전투당 1회 필살): 전부 평타로 램프,
+        return "평|평"                         # 엔진이 마지막 턴에 미사용 필살을 자동 발동
     if _self_extra_actions(kit) > 0:          # 이태호(매턴 2회, 테세 전환): 첫 행동만 궁, 나머지 평타
         return "궁|평"
     cd = max(kit.fatal.cd, 1)

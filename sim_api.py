@@ -74,6 +74,25 @@ def _actions_per_turn(kit) -> int:
     return 1 + min(extra, 3)
 
 
+def _has_auto_extra(kit) -> bool:
+    """자기 자신에게 '(only once per turn)' 없는 추가 행동을 주는 트리거 보유 여부.
+    제토 도장(평타 50% 행동회복)처럼 확률·체이닝으로 매 평타마다 붙는 추가행동 — 엔진이
+    자동 연속 발동하므로, 고급 설정 '기존 설정 불러오기'는 이 추가턴을 타임라인에 굳히면 안 된다."""
+    from woofia_sim.effects import EXTRA_ACTION
+    found = False
+
+    def walk(effs):
+        nonlocal found
+        for e in effs:
+            if (e.kind == EXTRA_ACTION and e.target == "self"
+                    and "once per turn" not in (e.raw or "").lower()):
+                found = True
+            walk(e.sub_effects)
+    for sl in [kit.basic, kit.fatal, *kit.passives]:
+        walk(sl.effects)
+    return found
+
+
 def _cd_defend_info(kit) -> dict:
     """방어 시 자신 필살 CD를 줄이는 메커니즘의 상세.
 
@@ -132,6 +151,11 @@ def char_meta(cid: int) -> dict:
                            for s in SLOT_KR},
             "priority": round(default_priority(cid, kit.kind, 1), 2),
             "fatalCd": cd, "firstFatal": first_fatal,
+            # 제토: 전투당 1회 필살(cd≥30). UI가 기본을 '마지막 턴 1회'로 두고 궁 토글을 단일선택으로.
+            "singleUlt": cd >= 30,
+            # 제토·히토하: 확률·체이닝 자기 추가행동 보유(정보용). 실제 import 제외는 plan_probe seq의
+            # per-행동 'x' 태그로 정밀 처리한다(외부 grant는 유지, 자기 체이닝만 제외).
+            "autoExtra": _has_auto_extra(kit),
             "actionsPerTurn": _actions_per_turn(kit),
             # 도장강화 한계: XL(rarity 3)=18000, XXL은 빛/어둠 23000 / 그 외 20000
             "sealLimit": 18000 if c.get("rarity") == 3 else (23000 if kit.element in (4, 5) else 20000),
@@ -208,7 +232,10 @@ def plan_probe(cfg: dict) -> dict:
         if pos is None:                # 더미(적) 행동은 타임라인에 넣지 않는다
             continue
         slot = plan.setdefault(str(ev["turn"]), {"seq": []})
-        slot["seq"].append({"p": pos, "a": token})
+        entry = {"p": pos, "a": token}
+        if ev.get("chain"):          # 제토 도장 체이닝 자동 추가행동 — 고급 설정 import에서 제외 표식
+            entry["x"] = True
+        slot["seq"].append(entry)
     pl = res.get("planner") or {}
     for t, slot in plan.items():       # 턴별 예산·필살 가능 정보를 타임라인에 붙인다
         slot["budget"] = (pl.get("budget") or {}).get(t, {})
@@ -352,7 +379,7 @@ def run_sim(cfg: dict) -> dict:
     log = [{"turn": ev.turn, "actor": ev.actor, "actorId": ev.actor_id,
             "act": ev.action_id, "text": ev.text, "amount": round(ev.amount, 2),
             "detail": ev.detail, "srcId": ev.src_id, "srcSkill": ev.src_skill,
-            "kind": ev.action_kind, "atkBy": ev.atk_by} for ev in rep.log]
+            "kind": ev.action_kind, "atkBy": ev.atk_by, "chain": ev.chain} for ev in rep.log]
     team = []
     for u in sorted(rep.allies, key=lambda x: x.slot):
         el_kr, el_key = ELEMENT.get(u.element, ELEMENT[0])

@@ -2,6 +2,35 @@
   "_comment": "패치 히스토리. 최신이 위. 버전 규칙: 캐릭터 추가 릴리스 = 메이저 1.x(펼친 상태로 표시), 그 사이 업데이트 = 패치 1.x.x(접힌 상태, 단 목록 맨 위=최신이면 펼침). 1.0은 첫 공개(파미도 초상). cat: new|balance|fix|qol. 텍스트/details 는 {kr,en,zh,zhs,ja} — 없는 언어는 kr 폴백. char: 대표 캐릭터 id(icons/{id}.png + skill:true면 icons/skills/Rune{id}.png). charImg: 커스텀 프로필 경로(char 대신). items[].chars: 항목 인라인 아이콘(5명 이상이면 생략). items[].details: 펼쳤을 때 보이는 구체 수치.",
   "releases": [
     {
+      "version": "1.6",
+      "date": "2026-08-26",
+      "highlight": true,
+      "char": 10441,
+      "charName": {
+        "kr": "제토"
+      },
+      "skill": true,
+      "title": {
+        "kr": "신규 캐릭터 ‘제토’ 추가",
+        "en": "New Character: Zetto",
+        "zh": "新增角色「桀特」",
+        "zhs": "新增角色「桀特」",
+        "ja": "新キャラクター「ゼット」追加"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "신규 캐릭터 제토를 추가했습니다 — 물 속성 전사로, 평타를 칠수록 필살기 위력이 쌓여 단 한 번의 필살기로 폭발적인 피해를 냅니다.",
+            "en": "Added new character Zetto — a Water-element fighter who builds up his EX Skill power with every basic attack and unleashes it all in a single devastating ultimate.",
+            "zh": "新增角色桀特——水屬性戰士，普攻越多必殺技威力越是累積，最終以一次必殺技造成爆發性傷害。",
+            "zhs": "新增角色桀特——水属性战士，普攻越多必杀技威力越是累积，最终以一次必杀技造成爆发性伤害。",
+            "ja": "新キャラクター「ゼット」を追加 — 水属性のファイターで、通常攻撃を重ねるほど必殺技の威力が蓄積し、たった一度の必殺技で爆発的なダメージを与えます。"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.5.2",
       "date": "2026-08-21",
       "highlight": true,

@@ -25,6 +25,8 @@ STACK_KR: dict[str, str] = {
     "Five-Peak Myriad": "오봉만상",
     "Wavetime": "파도 체이싱",
     "Neon Mark": "네온 표식",
+    "Opening": "빈틈",
+    "Spotlight": "스포트라이트",
     "Encirclement": "합위",
     "Loosened Up": "근육 활동",
     "Paralysis Immunity": "마비 면역",
@@ -76,6 +78,7 @@ STAT_KR_LABEL: dict[str, str] = {
     "dmg_taken_pct": "받는딜",
     "dot_taken_pct": "받는 지속딜",
     "dot_dealt_pct": "지속딜 증가",
+    "type_adv_dmg_pct": "상성 추가뎀",
 }
 
 

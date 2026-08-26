@@ -47,6 +47,7 @@ STAT_DOT_DEALT = "dot_dealt_pct"            # 지속 데미지 주는 증가 (ca
 STAT_ATK_FLAT = "atk_flat"                  # flat ATK add (e.g. % of caster base ATK)
 STAT_HEAL_RECV = "heal_recv_pct"            # 받는 회복량 증가 (target side, heal/HoT received +x%)
 STAT_BAR_RECV = "bar_recv_pct"              # 받는 배리어 효과 증가 (수령자 side, beShieldBonus — 오렘 파1·다라완 파4 모두)
+STAT_TYPE_ADV_DMG = "type_adv_dmg_pct"      # 속성 상성 추가뎀 증폭 (제토: 상성 우위일 때만 상성 초과분 +x%)
 
 
 @dataclass
@@ -412,6 +413,22 @@ def _b_basic_dmg(m):
 @_leaf(r"^Immunity to .+$")
 def _b_immunity(m):
     return Effect(MARKER, m.group(0))      # CD-change immunity: not modeled (no-op)
+
+
+@_leaf(r"^Immune to .+$")
+def _b_immune(m):
+    # 제토 필살: "Immune to EX Skill CD changes" — 스택 획득이 아니라 CD-불변 표식.
+    # raw에 "Immune to ... CD"가 있으면 make_unit_from_kit가 Unit.cd_immune=True로 잡아
+    # 외부(아군 피더)의 필살 CD 조작을 차단한다. 자기 passive1의 1턴 CD-30은 허용.
+    return Effect(MARKER, m.group(0))
+
+
+@_leaf(rf"^(?:[Oo]wn )?[Tt]ype [Aa]dvantage extra damage \+{_NUM}%(?: for {_NUM} {_TRN})?\.?$")
+def _b_type_adv_dmg(m):
+    # 제토 만인의 시선(Spotlight≥2): 속성 우위(상성)일 때만 상성 초과분을 +x% 증폭.
+    # 정적 self BUFF → 게이트 머신이 Spotlight≥2 cond_buff로 자동 변환. 엔진이 elem>1일 때만 적용.
+    return Effect(BUFF, m.group(0), target="self", stat=STAT_TYPE_ADV_DMG,
+                  magnitude=_f(m.group(1)), duration=_opt_dur(m, 2))
 
 
 @_leaf(r"^[Cc]ancel Defense on target\(s\)\.?$")

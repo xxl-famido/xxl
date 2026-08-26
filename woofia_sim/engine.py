@@ -25,7 +25,7 @@ from .effects import (
     STAT_MAX_HP, STAT_BASE_MAX_HP,
     STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_DOT_TAKEN, STAT_DOT_DEALT,
     STAT_BASIC_DMG_DEALT, STAT_EX_EFFECT,
-    STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, STAT_BAR_RECV, Effect,
+    STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, STAT_BAR_RECV, STAT_TYPE_ADV_DMG, Effect,
 )
 from .kit import ResolvedKit
 from .names import kr, stat_kr
@@ -136,6 +136,7 @@ class Subscription:
     consume_gate: bool = False             # 게이트를 행동시작 스냅샷(act_snap)으로 판정 (소모 트리거)
     self_hp_op: str | None = None          # 부여받은 유닛 자신의 HP% 게이트 (몽규 연쇄 구원): "ge"/"le"/"lt"/"eq"
     self_hp_val: float = 0.0               # self_hp_op 임계 %
+    chain_action: bool = False             # 제토 도장: 체이닝 행동회복 — force 모드에서도 실제 확률(50%) 유지
     expires: int = -1                      # 남은 하프턴 수명(-1=영구). "방어 시 2턴간 평타 추가딜"(던컨)
                                            #   처럼 이벤트가 부여한 시한부 리스너. _tick_buffs가 감소·제거
 
@@ -161,7 +162,8 @@ class Unit:
     element: int = 0                # EProp (1 Fire 2 Water 3 Wood 4 Light 5 Dark)
     fatal_cd: int = 0               # cooldown length of the fatal
     cd_remaining: int = 0           # turns until fatal is ready (0 = ready)
-    extra_actions: int = 0          # pending extra actions this turn
+    extra_actions: int = 0          # pending extra actions this turn (외부 grant: 임부언/욱영 등 — materializable)
+    chain_extra_actions: int = 0    # 제토 도장 확률·체이닝 자기 추가행동 — 자동 발동(계획에 안 굳힘)
     extra_granted: bool = False     # "gain action (once per turn)" already used
     base_actions: int = 1           # rotation-driven actions per turn (이태호 = 2)
     extra_basic: bool = False       # 이태호: actions beyond base_actions = 평타(기본) 또는 fed_action 지정
@@ -174,6 +176,8 @@ class Unit:
     hold_fatal_stacks: set = field(default_factory=set)  # skip fatal while holding these
     feeds_position: int = 0          # fatal grants an extra action to this position's ally
     is_fed_carry: bool = False       # a feeder resets my CD -> fatal on every CD-ready action
+    cd_immune: bool = False          # 제토: 외부(아군 피더)의 필살 CD 조작 차단 (자기 CD_MOD은 허용)
+    single_ult: bool = False         # 제토: 전투당 1회 필살(cd≥30). 기본 로테는 마지막 턴에 자동 발동
     target_cond_dmg: list = field(default_factory=list)  # [(stack, +dmg%)] if target holds stack
     rotation_prefix: list = field(default_factory=list)  # explicit action sequence
     rotation_loop: list = field(default_factory=list)
@@ -353,6 +357,7 @@ class LogEvent:
     src_skill: str = ""      # the source KR skill name
     action_kind: str = ""    # 행동 종류: 필살기 / 보통공격 / 방어 / 패시브 / 피격 (그룹 라벨)
     atk_by: str = ""         # 피격 그룹: 공격한 적(더미) 이름
+    chain: bool = False      # 제토 도장 확률 체이닝으로 나간 자동 추가행동 — 고급 설정 import 제외용
 
 
 @dataclass
@@ -382,6 +387,7 @@ class BattleState:
     cur_actor_id: int = 0
     cur_action_kind: str = ""    # 필살기 / 보통공격 / 방어 / 패시브 / 피격 — 현재 행동 종류
     cur_atk_by: str = ""         # 피격 그룹: 현재 공격 중인 적(더미) 이름
+    cur_action_chain: bool = False   # 지금 실행 중인 행동이 제토 도장 체이닝 자동 추가행동인가
     force_proc: bool = False      # 확률 100% 모드: 모든 확률 판정을 무조건 성공으로
     hp_schedule: bool = False     # 카라트 등 HP게이트 캐릭 동반 시 더미 HP% 4등분 스케줄
     hp10: bool = False            # 체력 10% 모드: 더미 HP를 매 턴 10%로 고정 (저HP 게이트 전부 발동)
@@ -401,7 +407,7 @@ class BattleState:
                src_id: int = 0, src_skill: str = "") -> None:
         self.log.append(LogEvent(self.turn, actor, text, amount, self.cur_action,
                                  self.cur_actor_id, detail, src_id, src_skill,
-                                 self.cur_action_kind, self.cur_atk_by))
+                                 self.cur_action_kind, self.cur_atk_by, self.cur_action_chain))
 
 
 def _self_extra_actions(kit: ResolvedKit) -> int:
@@ -429,6 +435,22 @@ def make_unit_from_kit(kit: ResolvedKit, slot: int, priority: int | None = None)
         fatal_cd=kit.fatal.cd, cd_remaining=kit.fatal.cd,
         base_actions=1 + self_extra, extra_basic=self_extra > 0,
     )
+
+
+def _kit_has_cd_immune(kit) -> bool:
+    """제토: 스킬 텍스트에 'Immune to ... CD ...' 표식이 있으면 외부(아군 피더)의 필살 CD 조작 불가."""
+    def walk(effs):
+        for e in effs:
+            raw = e.raw or ""
+            if e.kind == MARKER and raw.startswith("Immune to") and "CD" in raw:
+                return True
+            if walk(e.sub_effects):
+                return True
+        return False
+    for sl in [kit.basic, kit.fatal, *kit.passives]:
+        if walk(sl.effects):
+            return True
+    return False
 
 
 def _kit_has_hp_gate(kit) -> bool:
@@ -697,6 +719,10 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
     dot_mult = ((1 + sum(c["v"] for c in dot_dealt) / 100) *
                 (1 + sum(c["v"] for c in dot_taken) / 100))
     elem = _element_mult(caster.element, tgt.element)   # 속성 상성 (상성×1.5/역상성×0.75/무·무관×1.0)
+    if elem > 1.0:   # 제토 만인의 시선(Spotlight≥2): 상성 우위일 때만 상성 추가뎀 보너스에 +x%p 가산.
+        ta = caster._sum(STAT_TYPE_ADV_DMG)   # cond_buff라 Spotlight≥2에서만 값이 실린다
+        if ta:                                # 상성 +50%에 +30%p → +80% = ×1.8 (인게임 확인, 2026-08-26)
+            elem = elem + ta / 100.0
     # 수면(Sleep): 직접 피격만 sleepBonusDamage(+x%)를 받고 각성(효과 해제). DoT 틱(snap)은 수면 무관.
     asleep = snap is None and tgt.stacks.get("Sleep", 0) > 0
     sleep_bonus = tgt.sleep_dmg if asleep else 0.0
@@ -850,6 +876,12 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                     need_self_barrier=effect.self_barrier, once=once,
                     consume_gate=effect.consume_gate,
                     self_hp_op=effect.self_hp_op, self_hp_val=effect.self_hp_val,
+                    # 제토 도장: '(only once per turn)'가 없는 자기 행동회복 트리거 → 체이닝.
+                    # force(100%) 모드에서도 실제 확률(50%)을 굴려 무한 폭발을 막는다.
+                    chain_action=any(
+                        e.kind == EXTRA_ACTION and e.target == "self"
+                        and "once per turn" not in (e.raw or "").lower()
+                        for e in effect.sub_effects),
                     expires=expires))
             else:
                 if once:
@@ -913,7 +945,13 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         self_already = caster.extra_granted     # 호출 전 상태 (이태호 2번째 행동 판별용)
         for tgt in targets:
             if tgt is caster:
-                if not caster.extra_granted:   # self "(only once per turn)"
+                # 게임은 턴당 1회 캡을 텍스트로 명시("(only once per turn)", 이태호). 그 표기가
+                # 없는 자기 행동회복(제토 도장)은 캡 없이 매 평타 재발동 = 체이닝 → 별도 카운터로
+                # 모아 자동 발동한다(외부 grant와 달리 고급 설정 타임라인에 굳히지 않음).
+                once = "once per turn" in (effect.raw or "").lower()
+                if not once:
+                    caster.chain_extra_actions += int(effect.magnitude)
+                elif not caster.extra_granted:
                     caster.extra_actions += int(effect.magnitude)
                     caster.extra_granted = True
             elif tgt.turn_acts > 0:            # 임부언 -> P1: 이미 행동을 마친 동료만 회복 효과.
@@ -1100,6 +1138,10 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                              amount=0, src_id=effect.owner, src_skill=effect.src_skill)
     elif kind == CD_MOD:
         for tgt in targets:
+            # 제토: CD 불변 유닛은 '외부' 소스의 CD 조작을 무시. 자기 자신의 CD_MOD
+            # (passive1 1턴 -30)은 owner==자기 char_id 이므로 허용.
+            if getattr(tgt, "cd_immune", False) and effect.owner != getattr(getattr(tgt, "_kit", None), "char_id", 0):
+                continue
             tgt.cd_remaining = max(0, tgt.cd_remaining + int(effect.magnitude))
         if targets:
             state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 필살 CD {int(effect.magnitude):+d}", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
@@ -1241,7 +1283,7 @@ def _ready_subs(caster: Unit, event: str, state: BattleState,
              and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]
     out: list[tuple[Subscription, str]] = []
     for sub in ready:
-        if not state.force_proc and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+        if (not state.force_proc or sub.chain_action) and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
             continue
         if sub.once:
             sub.armed = False                       # 1회 발동 후 소진 (다음 재발동에 재장전)
@@ -1265,7 +1307,7 @@ def _fire_subs(caster: Unit, event: str, state: BattleState,
              and (not s.once or s.armed)           # once-sub: 장전된 동안만
              and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]
     for sub in ready:
-        if not state.force_proc and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+        if (not state.force_proc or sub.chain_action) and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
             continue
         if sub.once:
             sub.armed = False                       # 1회 발동 후 소진 (다음 재발동에 재장전)
@@ -1354,7 +1396,7 @@ def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
                     and (not s.need_team_barrier or _team_has_barrier(caster, state))
                     and (not s.need_self_barrier or bsnap > 0)
                     and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]:
-            if not state.force_proc and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+            if (not state.force_proc or sub.chain_action) and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
                 continue
             src = "basic" if sub.gate_stack in BASIC_JUDGED_STACKS else "trigger"
             fired.append((sub, src))
@@ -1401,7 +1443,7 @@ def _fire_time_subs(unit: Unit, state: BattleState) -> None:
             continue
         if not fire:
             continue
-        if not state.force_proc and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+        if (not state.force_proc or sub.chain_action) and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
             continue
         for eff in sub.effects:
             apply_effect(eff, unit, state, target, source="trigger")
@@ -1606,6 +1648,13 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
     else:
         token = _next_token(unit)
         unit.uk_defer_pending = False      # 보류했던 궁 토큰을 이 행동에서 소비 완료
+
+    # 제토(single_ult): 전투당 1회 필살을 '마지막 턴'에 자동 발동. 앞 턴에 이미 썼으면 cd>0라 스킵,
+    # 명시 타임라인(forced_token)·추가행동(is_bonus)엔 개입하지 않는다(수동 배치 존중).
+    if (unit.single_ult and forced_token is None and not is_bonus and token != "fatal"
+            and state.turn >= state.max_turn and unit.cd_remaining <= 0
+            and bool(kit_fatal.effects)):
+        token = "fatal"
 
     if token == "defend":
         state.cur_action_kind = "방어"
@@ -1847,7 +1896,9 @@ def _mark_fed_carries(allies: list[Unit]) -> None:
         if u.feeds_position:
             carry = next((a for a in allies if a.slot == u.feeds_position - 1), None)
             # 이태호(extra_basic): fed action stays a 평타, not a forced fatal
-            if carry is not None and carry is not u and not carry.extra_basic:
+            # 제토(cd_immune): 외부 CD 조작 불가 → 피더가 fed-carry로 강제 필살시킬 수 없음
+            if (carry is not None and carry is not u and not carry.extra_basic
+                    and not carry.cd_immune):
                 carry.is_fed_carry = True
 
 
@@ -1870,7 +1921,7 @@ def _check_coordination(allies: list[Unit], state: BattleState) -> None:
             if not peers or not all(getattr(a._kit, "char_id", 0) in acted for a in peers):
                 continue
             state.coord_fired.add(id(sub))      # 이번 턴 1회만
-            if not state.force_proc and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+            if (not state.force_proc or sub.chain_action) and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
                 continue
             state.cur_action += 1
             state.cur_actor_id = getattr(u._kit, "char_id", 0)
@@ -1932,6 +1983,16 @@ def _prescribed_phase(allies: list[Unit], state: BattleState, entries: list) -> 
         executed.append({"필살기": "fatal", "보통공격": "basic", "방어": "defend"}
                         .get(state.cur_action_kind, token))
         _check_coordination(allies, state)
+        # 제토(체이닝 행동회복): 이 행동이 유발한 확률 추가행동은 사용자가 지정하지 않아도 그 자리에서
+        # 연속 자동 발동(평타·chain 태그). 고급/순서 설정에 '추가턴'을 넣을 필요가 없다.
+        guard = 0
+        while unit.chain_extra_actions > 0 and guard < 50:
+            guard += 1
+            unit.chain_extra_actions -= 1
+            state.cur_action_chain = True
+            _take_action(unit, state, forced_token="basic")
+            state.cur_action_chain = False
+            _check_coordination(allies, state)
     absorb()
     for v in allies:      # 사용자가 쓰지 않은 추가 행동은 그 턴에 소멸
         v.extra_actions = 0
@@ -1964,7 +2025,16 @@ def _ally_phase(allies: list[Unit], state: BattleState) -> None:
             continue
         _take_action(u, state)
         _check_coordination(allies, state)   # 다양수이: 역할 동료 전원 행동 완료 시 발동
-        # any ally now holding pending extra actions acts next (priority order)
+        # 제토 도장 체이닝: 확률 자기 추가행동은 그 자리에서 즉시 자동 발동(chain 태그) — 계획에 안 굳힘.
+        cg = 0
+        while u.chain_extra_actions > 0 and cg < 50:
+            cg += 1
+            u.chain_extra_actions -= 1
+            state.cur_action_chain = True
+            _take_action(u, state, forced_token="basic")
+            state.cur_action_chain = False
+            _check_coordination(allies, state)
+        # 외부 grant(임부언/욱영) 추가행동만 큐로 재행동 = 고급 설정에 굳힐 수 있음(우선순위 순)
         pending = [v for v in sorted(allies, key=lambda x: x.priority)
                    if v.alive and v.extra_actions > 0]
         for v in pending:
@@ -1996,6 +2066,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
         prio = priorities[i] if priorities and i < len(priorities) else slot
         u = make_unit_from_kit(kit, slot, priority=prio)
         u._kit = kit  # type: ignore[attr-defined]
+        u.cd_immune = _kit_has_cd_immune(kit)   # 제토: 외부 필살 CD 조작 차단
+        u.single_ult = kit.fatal.cd >= 30       # 제토: 전투당 1회 필살 → 마지막 턴 자동 발동
         if rotations and i < len(rotations) and rotations[i]:
             u.rotation_prefix, u.rotation_loop = parse_rotation(rotations[i])
         if fed_actions and i < len(fed_actions) and fed_actions[i]:
