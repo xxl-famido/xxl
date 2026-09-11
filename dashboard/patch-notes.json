@@ -2,6 +2,35 @@
   "_comment": "패치 히스토리. 최신이 위. 버전 규칙: 캐릭터 추가 릴리스 = 메이저 1.x(펼친 상태로 표시), 그 사이 업데이트 = 패치 1.x.x(접힌 상태, 단 목록 맨 위=최신이면 펼침). 1.0은 첫 공개(파미도 초상). cat: new|balance|fix|qol. 텍스트/details 는 {kr,en,zh,zhs,ja} — 없는 언어는 kr 폴백. char: 대표 캐릭터 id(icons/{id}.png + skill:true면 icons/skills/Rune{id}.png). charImg: 커스텀 프로필 경로(char 대신). items[].chars: 항목 인라인 아이콘(5명 이상이면 생략). items[].details: 펼쳤을 때 보이는 구체 수치.",
   "releases": [
     {
+      "version": "1.7",
+      "date": "2026-09-11",
+      "highlight": true,
+      "char": 10442,
+      "charName": {
+        "kr": "오야마다 마타야"
+      },
+      "skill": true,
+      "title": {
+        "kr": "신규 캐릭터 '오야마다 마타야' 추가",
+        "en": "New Character: Oyamada Mataya",
+        "zh": "新增角色「小山田又彌」",
+        "zhs": "新增角色「小山田又弥」",
+        "ja": "新キャラクター「小山田又弥」追加"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "신규 캐릭터 오야마다 마타야를 추가했습니다 — 불 속성 전사로, 목표물을 공격할수록 필살기 위력이 쌓여 폭발적인 피해를 내며, 방어 시 반격 자세로 전환해 피격을 되받아칩니다.",
+            "en": "Added new character Oyamada Mataya — a Fire-element fighter who builds up ultimate power by attacking the target for a devastating payoff, and shifts into a counter stance on defense to strike back at attackers.",
+            "zh": "新增角色小山田又彌——火屬性戰士，攻擊目標越多必殺技威力越是累積，造成爆發性傷害，並在防禦時切換為反擊架勢反擊敵人。",
+            "zhs": "新增角色小山田又弥——火属性战士，攻击目标越多必杀技威力越是累积，造成爆发性伤害，并在防御时切换为反击架势反击敌人。",
+            "ja": "新キャラクター「小山田又弥」を追加 — 火属性のファイターで、対象を攻撃するほど必殺技の威力が蓄積して爆発的なダメージを与え、防御時には反撃の構えに移行して攻撃を受け返します。"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.6",
       "date": "2026-08-26",
       "highlight": true,

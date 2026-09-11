@@ -48,7 +48,13 @@ function skillIconSrc(slot, charId) {
 const ROLE_RANK = { '보조': 1, '방해': 2, '치유': 3, '수호': 4, '전사': 5 };
 const SPECIAL = { 10421: 4.5, 10401: 5.5, 10436: 5.6, 10439: 5.7, 10410: 6.0 };   // 백엔드 SPECIAL_ROLE_RANK와 동기화(모이루·욱영·임부언은 아군 뒤 행동)
 const PASSIVE_DEF_ID = 10421;   // 파미도 — 궁 직전 턴 방어로 패시브 활용 (전용 '패시브 방어' 버튼)
-const ULT3_ID = 10437;          // 투명인간 — 3턴궁 사이클(4·7·10…) 토글 (전용 '3턴궁' 버튼)
+const ULT3_IDS = new Set([10437, 10442]);   // 3턴궁 사이클(4·7·10…) 토글 — 투명인간(네온 표식)·마타야(파세)
+const ULT3_TITLE = {
+  10437: "궁을 3턴 주기(4·7·10·13…)로 · 평타 3번으로 네온 표식 5중첩을 만들어 도장 AoE 발동 · 다시 누르면 기본 2턴궁으로 복원",
+  10442: "궁을 3턴 주기(4·7·10·13…)로 · 평타로 파세를 쌓아 필살기 위력을 키운 뒤 발동 · 다시 누르면 매턴 평타로 복원",
+};
+// 궁쿨이 짧아도 필살을 홀드하는 캐릭(마타야 cd1) — 모두평타/방어는 자동 궁 없이 순수 채움, 기본도 순수 평타
+const HOLD_ULT_IDS = new Set([10442]);
 const TAEHO_ID = 10423;         // 이태호 — 1포지션 + 임부언 동반 시 'fed 추가행동' 선택 노출
 const UK_ID = 10439;           // 욱영 — 인접 아군 필살을 욱영 궁 '후' 회복행동으로 미루는 토글(배터리)
 const IMBUEON_ID = 10410;       // 임부언 — 궁으로 P1에게 CD-3 + 추가행동 부여
@@ -898,9 +904,13 @@ function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게�
       ? `매 턴 <b style="color:var(--gold)">${apt}회 행동</b> · 궁은 턴당 1회 (궁궁 불가) · 임부언 추가행동은 평타`
       : `필살 CD <b style="color:var(--gold)">${meta.fatalCd}턴</b> · 첫 사용 <b style="color:var(--gold)">${meta.firstFatal}턴</b> · 궁은 CD 안 찬 턴 비활성`;
     rules.innerHTML = `<span>${ruleTxt}</span><span class="plan-fill">
-      <button data-fill="평"${on ? '' : ' disabled'}>모두 평타</button><button data-fill="방"${on ? '' : ' disabled'}>모두 방어</button>${c.id === PASSIVE_DEF_ID ? `<button data-pdef${on ? '' : ' disabled'} title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>` : ''}${c.id === ULT3_ID ? `<button data-u3${on ? '' : ' disabled'} title="궁을 3턴 주기(4·7·10·13…)로 · 평타 3번으로 네온 표식 5중첩을 만들어 도장 AoE 발동 · 다시 누르면 기본 2턴궁으로 복원">3턴궁</button>` : ''}${c.id === UK_ID ? `<button data-ukafter${c.cfg.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군 먼저 필살, 회복은 평타(+45% 평타뎀)">아군 필살 나중</button>` : ''}</span>`;
+      <button data-fill="평"${on ? '' : ' disabled'}>모두 평타</button><button data-fill="방"${on ? '' : ' disabled'}>모두 방어</button>${c.id === PASSIVE_DEF_ID ? `<button data-pdef${on ? '' : ' disabled'} title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>` : ''}${ULT3_IDS.has(c.id) ? `<button data-u3${on ? '' : ' disabled'} title="${ULT3_TITLE[c.id]}">3턴궁</button>` : ''}${c.id === UK_ID ? `<button data-ukafter${c.cfg.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군 먼저 필살, 회복은 평타(+45% 평타뎀)">아군 필살 나중</button>` : ''}</span>`;
     rules.querySelectorAll('[data-fill]').forEach(b => b.onclick = () => {
-      c.cfg.plan = fillPlan(meta, b.dataset.fill, turns);     // apt 인식: 단일행동은 궁 cadence 유지, 이태호는 순수 채움
+      // 3턴궁 토글 ON이면 궁턴(4·7·10)을 유지한 채 나머지만 평타/방어로 채운다.
+      // 아니면 fillPlan — 홀드필살(마타야)은 순수 채움(자동 궁 없음), 일반은 궁 cadence 유지.
+      c.cfg.plan = isUlt3Plan(c.cfg.plan, meta)
+        ? ult3Plan(meta, turns, b.dataset.fill)
+        : fillPlan(meta, b.dataset.fill, turns);
       c.cfg.rotation = c.cfg.plan.join(''); markCmpDirty(); renderPlanPop(c);
     });
     const pdb = rules.querySelector('[data-pdef]');           // 파미도: 궁 직전 턴 방어 토글 (메인 모달과 동일)
@@ -913,13 +923,13 @@ function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게�
         c.cfg.rotation = c.cfg.plan.join(''); markCmpDirty(); renderPlanPop(c);
       };
     }
-    const u3b = rules.querySelector('[data-u3]');             // 투명인간: 3턴궁 사이클 토글
+    const u3b = rules.querySelector('[data-u3]');             // 3턴궁 사이클 토글 (투명인간·마타야)
     if (u3b) {
-      const tgt3 = ult3Plan(meta, turns);
-      u3b.classList.toggle('on', on && !!(c.cfg.plan && c.cfg.plan.join('') === tgt3.join('')));
+      const cur3 = isUlt3Plan(c.cfg.plan, meta);              // 채움 액션(평/방) 무관하게 궁턴만으로 판정
+      u3b.classList.toggle('on', on && cur3);
       u3b.onclick = () => {
-        const isOn = c.cfg.plan && c.cfg.plan.join('') === tgt3.join('');
-        c.cfg.plan = isOn ? fillPlan(meta, '평', turns) : ult3Plan(meta, turns);   // 해제 시 기본 2턴궁
+        // 해제 시 fillPlan 기본: 마타야=순수 평타, 투명인간=2턴궁 cadence.
+        c.cfg.plan = cur3 ? fillPlan(meta, '평', turns) : ult3Plan(meta, turns);
         c.cfg.rotation = c.cfg.plan.join(''); markCmpDirty(); renderPlanPop(c);
       };
     }
@@ -2547,7 +2557,7 @@ async function openModal(i) {
           <span>${(c.actionsPerTurn || 1) > 1
             ? `매 턴 <b style="color:var(--gold)">${c.actionsPerTurn}회 행동</b> · <b style="color:var(--gold)">궁은 턴당 1회</b> (궁궁 불가, 궁평/평궁만) · 임부언 추가행동은 평타`
             : `필살 CD <b style="color:var(--gold)">${c.fatalCd}턴</b> · 첫 사용 <b style="color:var(--gold)">${c.firstFatal}턴</b> — <b style="color:var(--gold)">궁</b>은 CD 안 찬 턴엔 비활성`}</span>
-          <span class="plan-fill"><button data-fill="평">모두 평타</button><button data-fill="방">모두 방어</button>${c.id === PASSIVE_DEF_ID ? '<button data-pdef title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>' : ''}${c.id === ULT3_ID ? '<button data-u3 title="궁을 3턴 주기(4·7·10·13…)로 · 평타 3번으로 네온 표식 5중첩을 만들어 도장 AoE 발동 · 다시 누르면 기본 2턴궁으로 복원">3턴궁</button>' : ''}${c.id === UK_ID ? `<button data-ukafter${s.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군이 먼저 필살, 회복 행동은 평타(도장 +45% 평타뎀 수령)">아군 필살 나중</button>` : ''}</span>
+          <span class="plan-fill"><button data-fill="평">모두 평타</button><button data-fill="방">모두 방어</button>${c.id === PASSIVE_DEF_ID ? '<button data-pdef title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>' : ''}${ULT3_IDS.has(c.id) ? `<button data-u3 title="${ULT3_TITLE[c.id]}">3턴궁</button>` : ''}${c.id === UK_ID ? `<button data-ukafter${s.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군이 먼저 필살, 회복 행동은 평타(도장 +45% 평타뎀 수령)">아군 필살 나중</button>` : ''}</span>
         </div>
         <div class="planner" id="planner"></div>
       </div>
@@ -2600,10 +2610,12 @@ async function openModal(i) {
     if (pdefBtn)
       pdefBtn.classList.toggle('on', !!(s.usePlan && s.plan && s.plan.join('') === passiveDefendPlan(c, n).join('')));
     if (u3Btn)
-      u3Btn.classList.toggle('on', !!(s.usePlan && s.plan && s.plan.join('') === ult3Plan(c, n).join('')));
+      u3Btn.classList.toggle('on', !!(s.usePlan && isUlt3Plan(s.plan, c)));
   };
   $$('.plan-fill button[data-fill]', card).forEach(b => b.onclick = () => {
-    s.plan = fillPlan(c, b.dataset.fill, 30); s.rotation = s.plan.join(''); renderPlanner(s, c); syncPdef();
+    // 3턴궁 ON이면 궁턴 유지하고 나머지만 채움 / 아니면 fillPlan(마타야=순수 채움).
+    s.plan = isUlt3Plan(s.plan, c) ? ult3Plan(c, 30, b.dataset.fill) : fillPlan(c, b.dataset.fill, 30);
+    s.rotation = s.plan.join(''); renderPlanner(s, c); syncPdef();
   });
   if (pdefBtn) pdefBtn.onclick = () => {
     const target = passiveDefendPlan(c, 30);
@@ -2612,9 +2624,8 @@ async function openModal(i) {
     s.rotation = s.plan.join(''); renderPlanner(s, c); syncPdef();
   };
   if (u3Btn) u3Btn.onclick = () => {
-    const target = ult3Plan(c, 30);
-    const isOn = s.plan && s.plan.join('') === target.join('');
-    s.plan = isOn ? fillPlan(c, '평', 30) : target;   // 해제 시 기본(2턴궁 cadence)으로 복원
+    const isOn = isUlt3Plan(s.plan, c);
+    s.plan = isOn ? fillPlan(c, '평', 30) : ult3Plan(c, 30);   // 해제 시 기본(마타야=순수 평타/투명인간=2턴궁)
     s.rotation = s.plan.join(''); renderPlanner(s, c); syncPdef();
   };
   const ukBtn = $('.plan-fill [data-ukafter]', card);   // 욱영: 인접 아군 필살 타이밍 토글(불리언)
@@ -2633,7 +2644,9 @@ async function openModal(i) {
 function fillPlan(meta, action, n = 30) {
   const apt = meta.actionsPerTurn || 1;
   const plan = Array(n * apt).fill(action);
-  if (apt === 1) {                          // 일반: 궁극기 최소 턴은 유지 (전부 평타/방어 + 궁 cadence)
+  // 일반(apt=1): 궁극기 최소 턴은 유지 (전부 평타/방어 + 궁 cadence).
+  // 홀드필살 캐릭(마타야 cd1): 매턴 궁이 아니라 순수 평타/방어 — 필살은 3턴궁 토글이나 수동으로 배치.
+  if (apt === 1 && !HOLD_ULT_IDS.has(meta.id)) {
     for (let t = meta.firstFatal; t <= n; t += meta.fatalCd) plan[t - 1] = '궁';
   }
   return plan;                              // 이태호(apt>1): 순수 평타/방어, 자동 궁 없음
@@ -2664,11 +2677,20 @@ function padPlan(plan, meta, n) {
 }
 // 투명인간용: 3턴궁 사이클(4·7·10·13…) + 나머지 평타. 기본은 cd2(3·5·7…)라 궁 시점 네온 표식
 // 스냅샷이 4에 묶여 도장 AoE(≧5)가 안 터진다. 평타를 3번 넣어 5를 만들고 3턴 주기로 운용하는 옵션.
-function ult3Plan(meta, n = 30) {
+function ult3Plan(meta, n = 30, action = '평') {
   const apt = meta.actionsPerTurn || 1;
-  const plan = Array(n * apt).fill('평');
+  const plan = Array(n * apt).fill(action);
   if (apt === 1) for (let t = 4; t <= n; t += 3) plan[t - 1] = '궁';
   return plan;
+}
+// plan의 '궁' 위치가 3턴궁 사이클(4·7·10…)과 정확히 일치하는가 — 채움 액션(평/방)과 무관.
+// (3턴궁 토글 ON 상태에서 '모두 방어'를 눌러도 여전히 3턴궁으로 인식하게 하려는 것)
+function isUlt3Plan(plan, meta) {
+  if (!plan || (meta.actionsPerTurn || 1) !== 1) return false;
+  const ref = ult3Plan(meta, plan.length);
+  for (let i = 0; i < plan.length; i++)
+    if ((plan[i] === '궁') !== (ref[i] === '궁')) return false;
+  return true;
 }
 // 파미도용: 모두 평타(+궁 cadence) 위에 '궁 직전 턴'을 방어로 (패시브 활용). cdDefendReduce=0이라 궁 타이밍 불변.
 function passiveDefendPlan(meta, n = 30) {
@@ -2991,7 +3013,8 @@ async function run(save = true) {
   const picked = team.map((s, i) => s ? { ...s, position: i + 1, priority: s.priority ?? null } : null).filter(Boolean);
   if (picked.length === 0) return;
   // 이태호처럼 매턴 2회 행동·테세 전환 캐릭은 턴별 설정을 권장
-  const unplanned = picked.find(s => (CHARS[s.id].actionsPerTurn || 1) > 1 && !s.usePlan);
+  // 턴별 행동 설정을 권하는 캐릭: 다중행동(이태호) + 홀드필살(마타야 — 자동이면 궁쿨1로 매턴 궁이라 파세 램프가 낭비됨)
+  const unplanned = picked.find(s => ((CHARS[s.id].actionsPerTurn || 1) > 1 || HOLD_ULT_IDS.has(s.id)) && !s.usePlan);
   if (unplanned) toast(`주의 — ${CHARS[unplanned.id].name}의 턴별 행동을 설정하는 걸 추천드립니다`);
   const hpSchedChar = picked.find(s => CHARS[s.id].hpSchedule);   // 카라트: 적 HP 의존
     if (hpSchedChar && !hp10) toast(`${CHARS[hpSchedChar.id].name} 동반 — 적 HP%가 진행 턴을 4등분해 단계적으로 감소합니다 (앞 1/4 ≥75% → 막 1/4 &lt;25%)`);

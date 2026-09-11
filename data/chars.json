@@ -709,5 +709,20 @@
   "name_cn": "桀特",
   "name_sc": "桀特",
   "name_ja": "ゼット"
+ },
+ "10442": {
+  "id": 10442,
+  "name_en": "Oyamada Mataya",
+  "name_kr": "오야마다 마타야",
+  "feature": "Counterattack / Stacked EX",
+  "rarity": 4,
+  "class": 1,
+  "element": 1,
+  "baseATK": 551,
+  "baseHP": 2266,
+  "hasRune": true,
+  "name_cn": "小山田又彌",
+  "name_sc": "小山田又弥",
+  "name_ja": "小山田又弥"
  }
 }

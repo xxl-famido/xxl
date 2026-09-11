@@ -38,6 +38,8 @@ STACK_KR: dict[str, str] = {
     "Hellhound": "지옥의 사냥개",
     "Hyperfocus": "집중",
     "Holy Wrath": "성노",
+    "Kuzushi": "파세",
+    "Jigotai": "반격 자세",
     "Hooked": "입질",
     "Judgment": "심판",
     "Lunar Pounce": "월지호비",

@@ -305,7 +305,7 @@ def _b_damage(m):
 
 
 # --- subject-less buff bodies (used after a "Buddy in Position N" / "All Buddies" prefix) ---
-@_leaf(rf"^ATK \+{_NUM}% of own base ATK(?: for {_NUM} {_TRN})?\.?$")
+@_leaf(rf"^(?:Own )?ATK \+{_NUM}% of own base ATK(?: for {_NUM} {_TRN})?\.?$")
 def _b_body_atk_of_base(m):
     return Effect(BUFF, m.group(0), target="self", stat=STAT_ATK_FLAT, of_base_atk=True,
                   magnitude=_f(m.group(1)), duration=_opt_dur(m, 2))
@@ -653,6 +653,15 @@ def _b_eff_bonus(m):
                   max_stacks=int(m.group(3)) if m.group(3) else 1)
 
 
+# 마타야 파세: locked target의 이 디버프 스택 1중첩당 필살기효과 +N% (목표물 스택 스케일).
+# 기존 EX 스케일(제토 등)은 전부 '자기' 스택 기반이라, 데미지 시점 target.stacks를 읽는
+# 별도 채널(per_target_stack)로 심는다 — 엔진이 outgoing_mult/_record_hit에서 반영한다.
+@_leaf(rf"^For each stack of (.+?) on locked target\(s\), (?:.+?'s )?EX Skill effect \+{_NUM}%\.?$")
+def _b_target_stack_ex(m):
+    return Effect(BUFF, m.group(0), target="self", stat=STAT_EX_EFFECT,
+                  magnitude=_f(m.group(2)), condition=f"per_target_stack:{_stk(m.group(1))}")
+
+
 @_leaf(rf"^Target damage taken \+{_NUM}% for {_NUM} turn\(s\)\.?$")
 def _b_target_dmg_taken(m):
     return Effect(DEBUFF, m.group(0), target="target", stat=STAT_DMG_TAKEN,
@@ -679,10 +688,12 @@ def _b_paralyze(m):
                   duration=int(m.group(3)), chance=_f(m.group(1)))
 
 
-@_leaf(rf"^Gain Taunt for {_NUM} turn\(s\)\.?$")
+@_leaf(rf"^Gain Taunt(?: for {_NUM} turn\(s\))?\.?$")
 def _b_taunt(m):
-    # 쿠모야마: 자신에게 조롱 -> 적이 이 탱커를 강제 타격
-    return Effect(CC, m.group(0), target="self", stat="taunt", duration=int(m.group(1)))
+    # 쿠모야마: 자신에게 조롱 -> 적이 이 탱커를 강제 타격. 지속 미표기(마타야 반격 자세
+    # 블록 "Gain Taunt.")는 스탠스 수명(1턴)에 묶이므로 기본 1턴으로 둔다.
+    return Effect(CC, m.group(0), target="self", stat="taunt",
+                  duration=int(m.group(1)) if m.group(1) else 1)
 
 
 @_leaf(rf"^(.+?) gains?(?:/gain)? Taunt(?: for {_NUM} {_TRN})?\.?$")
@@ -876,6 +887,22 @@ def _b_revive_marker(m):
     return Effect(MARKER, m.group(0))
 
 
+# 마타야 반격 자세(Jigotai): "Enter <Stance> for N turn(s)" = self 1-스택 상태 진입.
+# "Enter Defense (...)"(다라완)는 위(465/472)에서 먼저 잡히므로 여기 오지 않는다. 아래
+# _b_bare_status catch-all이 "Enter Jigotai"를 스택명째로 먹기 전에 잡아 접두를 벗긴다.
+@_leaf(rf"^Enter ([A-Z][\w' ·-]+?)(?: for {_NUM} {_TRN})?\.?$")
+def _b_enter_status(m):
+    return Effect(STACK, m.group(0), target="self", stack_name=_stk(m.group(1)),
+                  magnitude=1.0, max_stacks=1, duration=_opt_dur(m, 2))
+
+
+# "Cancel <Stance> on self" = 자기 스택 전량 제거(마타야 반격 자세 해제 → 턴당 1회 반격).
+# 아래 catch-all이 "Cancel Jigotai on self"를 상태 이름으로 오인하기 전에 잡는다.
+@_leaf(r"^Cancel (.+?) on self\.?$")
+def _b_cancel_status(m):
+    return Effect(STACK, m.group(0), target="self", stack_name=_stk(m.group(1)), magnitude=-9999.0)
+
+
 # registered LAST: a bare status name like "Afterglow" / "Afterglow for 2 turn(s)"
 # (used after a "Grant all of own Buddies <status>" prefix). Pure-word phrases only
 # -> lines with %, +, digits, ':' etc. never reach here.
@@ -1013,6 +1040,16 @@ def parse_line(line: str) -> Effect:
     tgm = _TGATE.match(line)
     if tgm:
         subs = [parse_line(c) for c in _split_clauses(tgm.group(4))]
+        # 이벤트 없는 단일 "own damage dealt +N%" = 목표물 스택 '카운트' 게이트 주는딜 (마타야
+        # 득세: 파세≥3 → 주는딜+20%). 트리거 self버프로 두면 한 번 발동 후 영구 과적용되므로
+        # COND_DMG로 심어 매 hit '현재 목표물의 라이브 스택 수'로 판정한다 (_TWITH 보유(≥1) 특례의
+        # 카운트 버전). 파미도 전술 호령(_TWITH)과 같은 채널, 임계값만 N.
+        # 단 "trigger:" 키워드가 붙은 형태(임욱잠 파4 "…≧N, trigger: own dmg +M%")는 게임이 명시한
+        # '발동' 효과 → 기존 트리거 거동을 보존하고 COND_DMG로 바꾸지 않는다(마타야 득세엔 trigger: 없음).
+        if tgm.group(3) is None and "trigger:" not in line.lower() and len(subs) == 1 \
+                and subs[0].kind == BUFF and subs[0].stat == STAT_DMG_DEALT and subs[0].target == "self":
+            return Effect(COND_DMG, line, target="self", stack_name=_stk(tgm.group(1)),
+                          magnitude=subs[0].magnitude, target_count=int(tgm.group(2)))
         event = _GATE_EVENT.get(tgm.group(3)) if tgm.group(3) else "on_attack"
         return Effect(TRIGGER, line, condition=event,
                       target_stack=_stk(tgm.group(1)), target_count=int(tgm.group(2)),
@@ -1180,6 +1217,57 @@ def parse_line(line: str) -> Effect:
 _POS_GRANT_HEADER = re.compile(rf"^Grant Buddy in Position \d+ for \d+ {_TRN}:$")
 
 
+def _fold_stance_block(out: list[Effect]) -> list[Effect]:
+    """방어 자세 블록(마타야 반격 자세/Jigotai)을 하나의 스탠스로 엮는다.
+
+    게임 텍스트 형태:
+        When defending, trigger: Enter <Stance> for N turn(s).   (on_defend 트리거)
+        <Stance>:                                                 (stack_def 헤더)
+        Gain Taunt.                                               (CC 조롱)
+        When attacked, trigger: <반격 데미지>                     (on_attacked)
+        When attacked, trigger: <스택 부여>
+        When attacked, trigger: Cancel <Stance> on self.          (자세 해제)
+
+    이 블록은 자세 보유 중에만 유효하므로, 평평하게 두면 조롱이 상시화되고 반격이 방어와
+    무관하게 매 피격마다 터진다. 그래서:
+      · on_defend 트리거가 [자세 스택(N턴) + 조롱(N턴)]을 부여하고
+      · 블록의 on_attacked 반격은 자세 스택 보유를 게이트(gate_stack)로 걸며
+      · 'Cancel <Stance>' 절이 자세 스택을 제거 → 턴당 1회 반격.
+    on_defend 'Enter X' + 'X:' 조합이 없는 다른 캐릭터엔 무해(no-op)하다."""
+    stance = defend_trig = None
+    for e in out:
+        if e.kind == TRIGGER and e.condition == "on_defend":
+            for s in e.sub_effects:
+                if s.kind == STACK and s.magnitude > 0 and s.stack_name and s.duration:
+                    stance, defend_trig = s.stack_name, e
+                    break
+        if stance:
+            break
+    if not stance:
+        return out
+    mk_idx = next((i for i, e in enumerate(out)
+                   if e.kind == MARKER and e.stat == "stack_def" and e.stack_name == stance), None)
+    if mk_idx is None:
+        return out
+    stance_dur = next((s.duration for s in defend_trig.sub_effects
+                       if s.kind == STACK and s.stack_name == stance), 1)
+    extra_grants, kept = [], []
+    for e in out[mk_idx + 1:]:
+        if e.kind == CC and e.stat == "taunt":
+            e.duration = e.duration or stance_dur
+            extra_grants.append(e)                       # 자세 진입 시 조롱 부여
+        elif e.kind == TRIGGER and e.condition in ("on_attacked", "on_take_basic"):
+            e.stack_name, e.max_stacks = stance, 1       # 자세 보유 중에만 반격
+            # 자세 해제 트리거(스탠스 스택 제거)엔 조롱 해제도 함께 — 한 대 맞고 자세가 꺼지면
+            # 그 안의 도발(조롱)도 같이 꺼져야 남은 피격이 더 이상 강제 집중되지 않는다.
+            if any(s.kind == STACK and s.magnitude <= -9000 and s.stack_name == stance
+                   for s in e.sub_effects):
+                e.sub_effects.append(Effect(CC, "Cancel Taunt", target="self", stat="untaunt"))
+            kept.append(e)
+    defend_trig.sub_effects = list(defend_trig.sub_effects) + extra_grants
+    return out[:mk_idx] + kept
+
+
 def parse_skill_level(desc: str, params: dict) -> list[Effect]:
     """Resolve placeholders and parse every line of one skill level."""
     resolved = resolve_placeholders(desc, params)
@@ -1253,6 +1341,7 @@ def parse_skill_level(desc: str, params: dict) -> list[Effect]:
             absorbed.add(i)
     if absorbed:
         out = [e for i, e in enumerate(out) if i not in absorbed]
+    out = _fold_stance_block(out)
     return _lift_bare_chance(out)
 
 

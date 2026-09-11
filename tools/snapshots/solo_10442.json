@@ -1,0 +1,84 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10442,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turnPlans": {},
+    "turns": 10
+  },
+  "dps": 114089.01,
+  "events": {
+    "byActionKind": {
+      "보통공격": 2,
+      "피격": 60,
+      "필살기": 27
+    },
+    "byOutput": {
+      "incoming": 30,
+      "평타": 1,
+      "필살": 9
+    },
+    "count": 89
+  },
+  "logHash": "sha256:e60d9a675cd68bf05fe2d31552530f8e",
+  "perChar": {
+    "오야마다 마타야": {
+      "barrier": 0.0,
+      "damage": 1140890.05,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "오야마다 마타야": 43961.97
+    },
+    "10": {
+      "오야마다 마타야": 127203.96
+    },
+    "2": {
+      "오야마다 마타야": 79296.4
+    },
+    "3": {
+      "오야마다 마타야": 127203.96
+    },
+    "4": {
+      "오야마다 마타야": 127203.96
+    },
+    "5": {
+      "오야마다 마타야": 127203.96
+    },
+    "6": {
+      "오야마다 마타야": 127203.96
+    },
+    "7": {
+      "오야마다 마타야": 127203.96
+    },
+    "8": {
+      "오야마다 마타야": 127203.96
+    },
+    "9": {
+      "오야마다 마타야": 127203.96
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 1140890.05,
+  "unapplied": {}
+}

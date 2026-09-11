@@ -178,7 +178,8 @@ class Unit:
     is_fed_carry: bool = False       # a feeder resets my CD -> fatal on every CD-ready action
     cd_immune: bool = False          # 제토: 외부(아군 피더)의 필살 CD 조작 차단 (자기 CD_MOD은 허용)
     single_ult: bool = False         # 제토: 전투당 1회 필살(cd≥30). 기본 로테는 마지막 턴에 자동 발동
-    target_cond_dmg: list = field(default_factory=list)  # [(stack, +dmg%)] if target holds stack
+    target_cond_dmg: list = field(default_factory=list)  # [(stack,+dmg%,owner,skill,hp_op,hp_val,count)] while target holds ≥count
+    target_ex_scale: list = field(default_factory=list)  # 마타야 파세: [(stack,per_pct,owner,skill)] EX효과 += per_pct×target.stacks[stack]
     rotation_prefix: list = field(default_factory=list)  # explicit action sequence
     rotation_loop: list = field(default_factory=list)
     action_idx: int = 0
@@ -298,8 +299,16 @@ class Unit:
         m = 1 + dd / 100
         eff_channel = _ACTION_EFF.get(action)
         if eff_channel:
-            m *= 1 + self._sum(eff_channel) / 100
+            eff = self._sum(eff_channel)
+            if eff_channel == STAT_EX_EFFECT and target is not None:
+                eff += self._target_ex_sum(target)   # 마타야: 목표물 파세 중첩당 필살기효과
+            m *= 1 + eff / 100
         return m
+
+    def _target_ex_sum(self, target: "Unit") -> float:
+        """목표물 스택 수에 비례하는 필살기효과 가산 합(마타야 파세). 대상 없으면 0."""
+        return sum(pct * target.stacks.get(name, 0)
+                   for name, pct, _owner, _skill in self.target_ex_scale)
 
     def incoming_mult(self, attacker_element: int = 0) -> float:
         """Target-side multiplier from damage-taken% debuffs. 게임은 일반 받뎀증
@@ -338,6 +347,8 @@ class Unit:
                 parts.append(f"{label}+{entry[1]:.0f}%")
         eff_stat = _ACTION_EFF.get(action, "")
         eff = self._sum(eff_stat) if eff_stat else 0
+        if eff_stat == STAT_EX_EFFECT and target is not None:
+            eff += self._target_ex_sum(target)      # 마타야: 목표물 파세 중첩당 필살기효과
         if eff:
             label = {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과"}.get(action, "효과")
             parts.append(f"{label}+{eff:.0f}%")
@@ -614,8 +625,8 @@ def _target_has(unit: "Unit | None", name: str, count: int = 1) -> bool:
 
 def _tcd_active(entry: tuple, target: "Unit | None") -> bool:
     """A conditional-주는딜 entry is live when its stack and/or target-HP gate hold."""
-    stack, _bonus, _owner, _skill, hp_op, hp_val = entry
-    if stack is not None and not _target_has(target, stack):
+    stack, _bonus, _owner, _skill, hp_op, hp_val, count = entry
+    if stack is not None and not _target_has(target, stack, count):
         return False
     if hp_op is not None and not _hp_ok(target, hp_op, hp_val):
         return False
@@ -635,7 +646,7 @@ def _dot_cast_snapshot(caster: "Unit", tgt: "Unit") -> dict:
     dealt = caster._comp(STAT_DMG_DEALT)
     for entry in caster.target_cond_dmg:
         if _tcd_active(entry, tgt):
-            stk, bonus, owner, skill, hp_op, hp_val = entry
+            stk, bonus, owner, skill, hp_op, hp_val, _count = entry
             cond_kr = kr(stk) if stk else (f"HP<{hp_val:g}%" if hp_op == "lt" else f"HP≥{hp_val:g}%")
             dealt.append({"v": bonus, "by": owner, "skill": skill, "cond": cond_kr})
     return {
@@ -684,7 +695,7 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
         dealt = caster._comp(STAT_DMG_DEALT)
         for entry in caster.target_cond_dmg:        # 대상조건 주는딜(리카노 조롱 +18% 등) — out엔 이미 반영, 분해표시에도 추가
             if _tcd_active(entry, tgt):
-                stk, bonus, owner, skill, hp_op, hp_val = entry
+                stk, bonus, owner, skill, hp_op, hp_val, _count = entry
                 cond_kr = kr(stk) if stk else (f"HP<{hp_val:g}%" if hp_op == "lt" else f"HP≥{hp_val:g}%")
                 dealt.append({"v": bonus, "by": owner, "skill": skill, "cond": cond_kr})
         dot_dealt = []
@@ -698,7 +709,7 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
         dealt = caster._comp(STAT_DMG_DEALT)
         for entry in caster.target_cond_dmg:
             if _tcd_active(entry, tgt):
-                stk, bonus, owner, skill, hp_op, hp_val = entry
+                stk, bonus, owner, skill, hp_op, hp_val, _count = entry
                 cond_kr = kr(stk) if stk else (f"HP<{hp_val:g}%" if hp_op == "lt" else f"HP≥{hp_val:g}%")
                 dealt.append({"v": bonus, "by": owner, "skill": skill, "cond": cond_kr})
         dot_dealt = caster._comp(STAT_DOT_DEALT) if action == "dot" else []
@@ -706,6 +717,12 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
         atkC, flat = caster._comp(STAT_ATK), caster._comp(STAT_ATK_FLAT)
         eff_stat = _ACTION_EFF.get(action, "")
         eff = caster._comp(eff_stat) if eff_stat else []
+        if eff_stat == STAT_EX_EFFECT:      # 마타야: 목표물 파세 중첩당 필살기효과 (분해표시)
+            for name, per_pct, owner, skill in caster.target_ex_scale:
+                n = tgt.stacks.get(name, 0)
+                if n:
+                    eff.append({"v": round(per_pct * n, 2), "by": owner, "skill": skill,
+                                "cond": f"{kr(name)}×{n}"})
         detail = caster.outgoing_detail(action, tgt)
     # '필살기 효과'(리카노 등 아군 필살기효과 증가)를 받는 발동딜에만 ex_effect=True.
     # ※ 다라완 배리어 반격은 이 효과를 받지 않음(사용자 실측 확인) → 호출부에서 ex_effect=False.
@@ -924,6 +941,16 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             caster.cond_buffs.append(entry)
         return
 
+    if effect.condition and effect.condition.startswith("per_target_stack:"):
+        # 마타야 파세: locked target의 이 스택 1중첩당 필살기효과 +magnitude%. 자기 버프가 아니라
+        # 데미지 시점 대상 스택 수에 비례 → 별도 채널로 보관하고 outgoing_mult/_record_hit이
+        # target.stacks 를 읽어 EX효과 채널에 가산한다 (필살 외 행동엔 EX 채널이 없어 무효).
+        req = effect.condition.split(":", 1)[1]
+        entry = (req, effect.magnitude, effect.owner, effect.src_skill)
+        if entry not in caster.target_ex_scale:
+            caster.target_ex_scale.append(entry)
+        return
+
     if effect.condition and effect.condition.startswith("team_elem:"):
         # team-composition gate: ≥N allies of an element -> apply this buff to all
         # allies (else skip). Static vs a dummy, so evaluated once at passive install.
@@ -967,7 +994,8 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
     if kind == COND_DMG:
         tgt_unit = grantor if effect.target == "grantor" else caster
         tgt_unit.target_cond_dmg.append((effect.stack_name, effect.magnitude, effect.owner,
-                                         effect.src_skill, effect.target_hp_op, effect.target_hp_val))
+                                         effect.src_skill, effect.target_hp_op, effect.target_hp_val,
+                                         max(1, effect.target_count)))   # 마타야 득세: 파세≥3
         return
 
     if kind == DAMAGE:
@@ -1240,6 +1268,13 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             if targets:
                 state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 조롱 {effect.duration}턴",
                              amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+        elif effect.stat == "untaunt":   # 조롱 해제(마타야 반격 자세 종료 시 함께 꺼짐)
+            for tgt in targets:
+                if tgt.taunt_turns > 0:
+                    tgt.taunt_turns = 0
+                    tgt.taunt_since = 0
+                    state.record(caster.name, f"{act_kr} → {tgt.name} 조롱 해제",
+                                 amount=0, src_id=effect.owner, src_skill=effect.src_skill)
         elif effect.stat == "sleep":   # 수면(탐랑): Sleep 상태 + 받뎀 +x%. 첫 직접피격에 각성(_record_hit에서 소비)
             for tgt in targets:
                 tgt.stacks["Sleep"] = 1
@@ -1599,16 +1634,8 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
             state.cur_atk_by = ""
             return
         n = state.enemy_hits if state.enemy_hits > 0 else len(living)
-        taunters = [u for u in living if u.taunt_turns > 0]
-        if taunters:
-            # 조롱: 모든 타격이 조롱한 탱커에게 강제로 — 탱커가 피격·반격을 흡수.
-            # 다수 조롱(쿠모야마+다라완 등) 시엔 먼저 건 캐릭터(가장 이른 taunt_since)에게 어그로 집중.
-            focus = min(taunters, key=lambda u: (u.taunt_since, u.slot))
-            chosen = [focus] * n
-        else:
-            n = min(n, len(living))
-            chosen = state.rng.sample(living, n) if n < len(living) else living
-        for ally in sorted(chosen, key=lambda u: u.slot):
+
+        def _deliver_hit(ally):
             # 순차 피격: 피격 단위로 그룹 + 그로 인한 반격·버프·스택을 누적 처리(정상).
             state.cur_action += 1
             state.cur_actor_id = getattr(ally._kit, "char_id", 0)
@@ -1618,6 +1645,30 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
             _apply_incoming(ally, unit, state)   # 피격 데미지(배리어 흡수) — 반격 발동 전
             _fire_subs(ally, "on_attacked", state, unit)
             _fire_subs(ally, "on_take_basic", state, unit)
+
+        if any(u.taunt_turns > 0 for u in living):
+            # 조롱: 타격마다 대상을 재평가한다. 조롱을 유지하는 탱커(쿠모야마·다라완 등)는 매 타격
+            # 흡수(종전과 동일, RNG 미사용). 조롱이 도중 풀리면(마타야 반격 자세가 한 대 맞고 해제되며
+            # 그 안의 조롱도 해제) 남은 타격은 강제 집중에서 풀려, '이번 페이즈에 아직 안 맞은 다른
+            # 아군'에게 흩어진다(비-조롱 스프레드와 같은 캡: 아군당 최대 1회 — 더 없으면 남은 타격 소멸).
+            hit_slots: set = set()               # 이번 페이즈에 맞은 아군(slot) — 조롱 소진 후 중복 타격 방지
+            for _ in range(n):
+                alive_now = [u for u in state.allies if u.alive]
+                cur_taunters = [u for u in alive_now if u.taunt_turns > 0]
+                if cur_taunters:
+                    ally = min(cur_taunters, key=lambda u: (u.taunt_since, u.slot))
+                else:
+                    pool = [u for u in alive_now if u.slot not in hit_slots]
+                    if not pool:
+                        break                        # 조롱 소진 + 안 맞은 아군 없음 → 남은 타격 없음
+                    ally = state.rng.choice(pool)
+                hit_slots.add(ally.slot)
+                _deliver_hit(ally)
+        else:
+            n = min(n, len(living))
+            chosen = state.rng.sample(living, n) if n < len(living) else living
+            for ally in sorted(chosen, key=lambda u: u.slot):
+                _deliver_hit(ally)
         state.cur_atk_by = ""
         return
 
