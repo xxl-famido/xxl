@@ -2,6 +2,47 @@
   "_comment": "패치 히스토리. 최신이 위. 버전 규칙: 캐릭터 추가 릴리스 = 메이저 1.x(펼친 상태로 표시), 그 사이 업데이트 = 패치 1.x.x(접힌 상태, 단 목록 맨 위=최신이면 펼침). 1.0은 첫 공개(파미도 초상). cat: new|balance|fix|qol. 텍스트/details 는 {kr,en,zh,zhs,ja} — 없는 언어는 kr 폴백. char: 대표 캐릭터 id(icons/{id}.png + skill:true면 icons/skills/Rune{id}.png). charImg: 커스텀 프로필 경로(char 대신). items[].chars: 항목 인라인 아이콘(5명 이상이면 생략). items[].details: 펼쳤을 때 보이는 구체 수치.",
   "releases": [
     {
+      "version": "1.7.1",
+      "date": "2026-09-15",
+      "title": {
+        "kr": "확률 편차 범위 표시 · 투명인간 필살기 추가 피해 수정",
+        "en": "Damage variance range · Invisible Man ultimate bonus-damage fix",
+        "zh": "傷害浮動範圍顯示 · 隱形人必殺追加傷害修正",
+        "zhs": "伤害浮动范围显示 · 隐形人必杀追加伤害修正",
+        "ja": "ダメージ変動レンジ表示 · 透明人間の必殺追加ダメージ修正"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "결과에 최소~최대 범위를 함께 표시합니다. 확률 효과가 한 번도 발동하지 않았을 때(최소)와 전부 발동했을 때(최대)를 같이 보여주므로, 확률에 덜 의존하는 안정적인 조합을 가늠할 수 있습니다. 비교 화면에도 양쪽 범위가 표시됩니다.",
+            "en": "Results now show a minimum–maximum range. You see the value when no probability effects proc at all (minimum) and when they all proc (maximum), so you can judge which combos are stable and rely less on luck. The comparison view shows the range for both sides too.",
+            "zh": "結果現在會一併顯示最小～最大範圍。同時呈現機率效果完全未觸發（最小）與全部觸發（最大）的數值，讓你判斷哪些組合更穩定、較不依賴運氣。比較畫面也會顯示雙方的範圍。",
+            "zhs": "结果现在会一并显示最小～最大范围。同时呈现概率效果完全未触发（最小）与全部触发（最大）的数值，让你判断哪些组合更稳定、较不依赖运气。对比画面也会显示双方的范围。",
+            "ja": "結果に最小～最大のレンジを併記するようになりました。確率効果が一度も発動しなかった場合（最小）と、すべて発動した場合（最大）を同時に表示するので、運に依存しにくい安定した編成を見極められます。比較画面でも両者のレンジを表示します。"
+          },
+          "details": {
+            "kr": "범위가 좁을수록 확률에 덜 의존하는 안정적인 조합이고, 넓을수록 운에 따라 결과가 크게 갈립니다.",
+            "en": "A narrower range means a more stable combo that relies less on RNG; a wider range means results swing more with luck.",
+            "zh": "範圍越窄，代表越穩定、越不依賴機率；越寬則結果越受運氣影響。",
+            "zhs": "范围越窄，代表越稳定、越不依赖概率；越宽则结果越受运气影响。",
+            "ja": "レンジが狭いほど運に依存しにくい安定した編成、広いほど運で結果が大きく変わります。"
+          }
+        },
+        {
+          "cat": "fix",
+          "chars": [10437, 10435],
+          "text": {
+            "kr": "투명인간이 필살기 발동 시 주는 추가 피해(목표물 단일·적 전체)가 ‘필살기 효과 증가’와 아군이 걸어주는 필살기 강화 버프를 제대로 받도록 고쳤습니다. 이전에는 이 버프들이 추가 피해에 적용되지 않았습니다.",
+            "en": "Fixed Invisible Man's bonus damage on ultimate (single-target and all-enemy) so it correctly benefits from ‘Ultimate Effect Up’ and allies' ultimate-boosting buffs. Previously these buffs were not applied to that bonus damage.",
+            "zh": "修正隱形人必殺技發動時造成的追加傷害（單體與全體）——現在會正確受到「必殺效果提升」以及隊友提供的必殺強化增益影響。先前這些增益並未套用到該追加傷害。",
+            "zhs": "修正隐形人必杀技发动时造成的追加伤害（单体与全体）——现在会正确受到「必杀效果提升」以及队友提供的必杀强化增益影响。此前这些增益并未套用到该追加伤害。",
+            "ja": "透明人間が必殺技発動時に与える追加ダメージ（単体・敵全体）が、「必殺効果アップ」や味方が付与する必殺強化バフを正しく受けるよう修正しました。以前はこれらのバフが追加ダメージに適用されていませんでした。"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.7",
       "date": "2026-09-11",
       "highlight": true,

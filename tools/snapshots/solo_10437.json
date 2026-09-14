@@ -32,13 +32,12 @@
     },
     "byOutput": {
       "incoming": 30,
-      "발동": 4,
       "평타": 6,
-      "필살": 4
+      "필살": 8
     },
     "count": 123
   },
-  "logHash": "sha256:3ff6332da65feadc8761e5fab5a94814",
+  "logHash": "sha256:e0fa5dc11658c9b1f5389b70e8279e56",
   "perChar": {
     "투명인간": {
       "barrier": 0.0,

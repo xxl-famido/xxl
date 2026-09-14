@@ -676,7 +676,10 @@ function renderCmpLane() {
   if (cmpPending) total = `<div class="cmp-pending">변경됨 — <b>비교하기</b>를 눌러 결과를 갱신하세요</div>`;
   else if (aN || bN) {
     const ta = cmpData.a.meta, tb = cmpData.b.meta, tA = ta.totalMid ?? ta.total, tB = tb.totalMid ?? tb.total;
-    total = `<div class="cmp-total"><div class="ct-side a">${fmt(tA)}</div>${midHtml(tA, tB)}<div class="ct-side b">${fmt(tB)}</div></div>`;
+    // 편차 밴드(바닥~천장): 두 조합의 확률 의존도를 나란히 비교. 데이터 없는 빈 편성은 생략.
+    const band = m => (m && m.totalFloor != null)
+      ? `<div class="ct-band">최소 ${fmtShort(m.totalFloor)} ~ 최대 ${fmtShort(m.totalCeil)}</div>` : '';
+    total = `<div class="cmp-total"><div class="ct-side a">${fmt(tA)}${band(ta)}</div>${midHtml(tA, tB)}<div class="ct-side b">${fmt(tB)}${band(tb)}</div></div>`;
   } else total = '';
   const prioRow = (aN || bN) ? `<div class="cmp-priorow">
     <span>${aN ? `<button class="ct-prio" data-prio="a">⇅ 행동 우선순위</button>` : ''}</span>
@@ -3048,8 +3051,14 @@ function renderResults(d) {
   $('#hTotal').textContent = fmt(multi ? m.totalMid : m.total);
   $('#hDps').textContent = fmt(multi ? m.dpsMid : m.dps);
   $('#hTurns').textContent = m.turns;
-  $('#hTotalRange').textContent = multi ? `최소 ${fmtShort(m.totalMin)} ~ 최대 ${fmtShort(m.totalMax)}` : '';
-  $('#hDpsRange').textContent = multi ? `최소 ${fmtShort(m.dpsMin)} ~ 최대 ${fmtShort(m.dpsMax)}` : '';
+  // 편차 밴드: 확률 효과가 전혀 안 터진 바닥값 ~ 전부 터진 천장값. force/평균 무관하게 항상 표시.
+  // 확률 효과가 없는 조합은 바닥=천장이라 밴드 폭 0 = "안정적"이 그대로 드러난다.
+  const tFloor = m.totalFloor ?? m.total, tCeil = m.totalCeil ?? m.total;
+  const dFloor = m.dpsFloor ?? m.dps, dCeil = m.dpsCeil ?? m.dps;
+  $('#hTotalRange').textContent = `최소 ${fmtShort(tFloor)} ~ 최대 ${fmtShort(tCeil)}`;
+  $('#hDpsRange').textContent = `최소 ${fmtShort(dFloor)} ~ 최대 ${fmtShort(dCeil)}`;
+  const bandTip = '확률 효과가 전혀 발동하지 않았을 때(최소) ~ 전부 발동했을 때(최대). 폭이 좁을수록 확률 의존이 적은 안정적인 조합입니다.';
+  $('#hTotalRange').title = bandTip; $('#hDpsRange').title = bandTip;
   $$('.hero-num label em').forEach(e => e.style.display = multi ? '' : 'none');
   $('#topMeta').textContent = multi
     ? `${m.runs}회 · 평균 ${fmtShort(m.total)} · ±${fmtShort(m.totalStd)}`

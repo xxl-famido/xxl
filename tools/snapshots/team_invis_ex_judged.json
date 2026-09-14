@@ -1,0 +1,108 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 2,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10437,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      },
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10435,
+        "position": 2,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turnPlans": {},
+    "turns": 12
+  },
+  "dps": 93482.85,
+  "events": {
+    "byActionKind": {
+      "보통공격": 69,
+      "지속힐": 20,
+      "피격": 144,
+      "필살기": 155
+    },
+    "byOutput": {
+      "-": 5,
+      "heal": 47,
+      "incoming": 72,
+      "평타": 7,
+      "필살": 10
+    },
+    "count": 388
+  },
+  "logHash": "sha256:c3f635bde80c2dc4de1b525bb1f93a23",
+  "perChar": {
+    "크로크라인": {
+      "barrier": 0.0,
+      "damage": 0.0,
+      "healing": 1614416.14
+    },
+    "투명인간": {
+      "barrier": 0.0,
+      "damage": 1121794.26,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "투명인간": 38382.74
+    },
+    "10": {
+      "투명인간": 56632.0
+    },
+    "11": {
+      "투명인간": 156606.94
+    },
+    "12": {
+      "투명인간": 56632.0
+    },
+    "2": {
+      "투명인간": 41386.61
+    },
+    "3": {
+      "투명인간": 132437.15
+    },
+    "4": {
+      "투명인간": 56632.0
+    },
+    "5": {
+      "투명인간": 156606.94
+    },
+    "6": {
+      "투명인간": 56632.0
+    },
+    "7": {
+      "투명인간": 156606.94
+    },
+    "8": {
+      "투명인간": 56632.0
+    },
+    "9": {
+      "투명인간": 156606.94
+    }
+  },
+  "purpose": "투명인간 on_ex 추가딜 = 필살기 효과 판정 — 크로크라인 팀 필살기효과 버프가 추가딜에 적용",
+  "schema": 1,
+  "total": 1121794.26,
+  "unapplied": {}
+}

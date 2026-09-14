@@ -216,6 +216,7 @@ def plan_probe(cfg: dict) -> dict:
     probe["forceProc"] = True          # 결정론 — 프로브는 항상 같은 답을 줘야 한다
     probe["runs"] = 1
     probe["planner"] = True            # 턴별 행동 예산·필살 가능 정보까지 받는다
+    probe["noBand"] = True             # 타임라인만 필요 → 편차 밴드(바닥/천장) 계산 생략(성능)
     res = run_sim(probe)
     pos_of = {t["name"]: t["position"] for t in res["team"]}
     # 모든 턴을 미리 만들어 둔다 — 아무도 행동하지 않은 턴이 응답에서 빠지면 플래너가
@@ -419,7 +420,46 @@ def run_sim(cfg: dict) -> dict:
             # 항목별 '그 시점' 필살 가능 — 턴 시작 스냅샷(ultOk)과 달리 같은 턴 안의 CD 변화를 반영
             "cdOk": {str(t): list(m) for t, m in rep.turn_cdok.items()},
         }
+    # 편차 밴드: 확률 효과가 전혀 안 터진 바닥값(never_proc)과 전부 터진 천장값(force_proc).
+    # 결정론이라 각 1회, 고정 시드(seed_base)로 재현 가능. 확률 효과가 없는 조합은 세 값이
+    # 같아져 밴드 폭 0 = "안정적"이 바로 드러난다.
+    # ※ 제토 도장 행동회복 체이닝은 천장에서도 실제 50%를 굴린다(무한 체이닝 방지, 기존 기조).
+    #    따라서 제토 포함 팀의 천장은 "제토 외 전부 발동 + 제토 체이닝은 현실적 50%"이며
+    #    엄밀한 상한은 아니다(운 좋은 개별 런은 이를 넘을 수 있음). 사용자 승인 예외.
+    # 고정 시드(0..)라 재현 가능 — 평균(랜덤 seed_base)과 달리 밴드는 매번 같은 값이 나온다.
+    def _band_run(seed, **flags):
+        r = run_team(specs, n_dummies=n_dummies, max_turn=turns, enemy_hits=enemy_hits,
+                     turn_orders=torders, turn_plans=tplans, seed=seed,
+                     enemy_aoe=enemy_aoe, dummy_element=dummy_element, hp10=hp10,
+                     incoming_hp_pct=incoming_hp_pct, **flags)
+        return r.total_damage, r.dps
+    # noBand: 플래너 프로브(plan_probe)는 타임라인만 필요 → 밴드 생략(프로브 성능 보존).
+    if cfg.get("noBand"):
+        floor_total = ceil_total = floor_dps = ceil_dps = None
+    else:
+        # 바닥 = 확률 전혀 발동 안 함(never_proc). 천장 = 전부 발동(force_proc).
+        # ※ 제토(10441) 도장 체이닝은 천장에서도 실제 50%만 굴린다(무한 체이닝 방지, 기존 기조).
+        #    단일 시드는 체이닝 운에 따라 평균보다도 낮게 나올 수 있어, 천장은 고정 시드 여러 개
+        #    중 최댓값으로 "체이닝이 잘 터진 최선"을 대표한다(제토의 높은 변동을 밴드 폭으로 정직히
+        #    드러냄). 결정론(제토·enemyHits 변동 없음)이면 두 시드가 같아 1회로 확정.
+        _BAND_K = 12
+        floor_total, floor_dps = _band_run(0, never_proc=True)
+        c0 = _band_run(0, force_proc=True)
+        c1 = _band_run(1, force_proc=True)
+        if abs(c0[0] - c1[0]) < 1e-6:                 # 결정론 → 1회로 충분
+            ceil_total, ceil_dps = c0
+        else:                                          # 변동(제토 체이닝 등) → 고정 시드 최댓값
+            fr = [c0, c1] + [_band_run(s, force_proc=True) for s in range(2, _BAND_K)]
+            ceil_total = max(t for t, _ in fr)
+            ceil_dps = max(d for _, d in fr)
+        # 표시 정합: 밴드가 항상 평균을 포함하도록 (제토 예외로 천장<평균이 되는 경우 보정)
+        avg_dps = dps_sum / runs
+        floor_total, ceil_total = round(min(floor_total, avg_total), 2), round(max(ceil_total, avg_total), 2)
+        floor_dps, ceil_dps = round(min(floor_dps, avg_dps), 2), round(max(ceil_dps, avg_dps), 2)
+
     out_meta = {"turns": turns, "total": round(avg_total, 2), "dps": round(dps_sum / runs, 2),
+                     "totalFloor": floor_total, "totalCeil": ceil_total,
+                     "dpsFloor": floor_dps, "dpsCeil": ceil_dps,
                      "order": [u.name for u in sorted(rep.allies, key=lambda x: x.priority)],
                      "runs": runs, "totalStd": round(std, 2),
                      "totalMin": round(min(run_totals), 2), "totalMid": round(_median(run_totals), 2),

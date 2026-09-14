@@ -135,7 +135,8 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
              seed: int = 0, enemy_hits: int = 0, turn_orders: dict | None = None,
              force_proc: bool = False, enemy_aoe: bool = False,
              dummy_element: int = 0, hp10: bool = False,
-             incoming_hp_pct: int = 0, turn_plans: dict | None = None) -> TeamResult:
+             incoming_hp_pct: int = 0, turn_plans: dict | None = None,
+             never_proc: bool = False) -> TeamResult:
     """Resolve the team (list order = position 1..N) and simulate."""
     specs = specs[:5]
     kits = [resolve_kit(s.char_id, s.investment(), s.levels(), s.rune) for s in specs]
@@ -160,7 +161,8 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
                      enemy_hits=enemy_hits, turn_orders=turn_orders, force_proc=force_proc,
                      enemy_aoe=enemy_aoe, dummy_element=dummy_element, hp10=hp10,
                      fed_actions=fed_actions, incoming_hp_pct=incoming_hp_pct,
-                     ally_ult_afters=ally_ult_afters, turn_plans=turn_plans)
+                     ally_ult_afters=ally_ult_afters, turn_plans=turn_plans,
+                     never_proc=never_proc)
     names = [u.name for u in state.allies]
     per_char = {u.name: u.damage_dealt for u in state.allies}
     total = sum(per_char.values())

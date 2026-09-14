@@ -65,6 +65,31 @@ def parse_rotation(spec: str) -> tuple[list[str], list[str]]:
 # which is judged as a basic attack (평타뎀, not 발동효과).
 BASIC_JUDGED_STACKS = {"Qi Surge: Tiger"}
 
+# on_ex(필살기 발동 시) 추가 피해가 인게임에서 "필살기 데미지"로 취급되어 필살기 효과 증가
+# (크로크라인 등 아군 필살기효과 버프)를 받는 캐릭터(char_id). 게임 스킬 텍스트에 "필살기
+# 데미지로 간주" 문구가 빠져 있으나 실제로는 필살기 효과를 받는다(사용자 인게임 실측, 2026-09-14).
+# ※ 리카노(10428)·던컨 찰스(10427)는 텍스트에 문구가 있어 파서가 force_action="ex"로 자동
+#    처리하므로 여기 넣지 않는다. 문구 없는 다른 on_ex 추가딜(아누비로스·신리랑 등)은 텍스트
+#    기준대로 발동효과 유지 — 이 집합에 캐릭터를 추가할 때는 인게임 실측 근거가 있어야 한다.
+EX_JUDGED_ONEX_CHARS = {10437}   # 투명인간
+
+
+def _trigger_src(caster: "Unit", sub: "Subscription") -> str:
+    """트리거 데미지의 액션 판정.
+
+    기본은 발동(발동효과 채널). 예외 2종:
+    - 내기혼신(Qi Surge: Tiger) = 평타 판정(평타뎀 채널).
+    - on_ex 추가 피해가 필살기 데미지로 취급되는 캐릭터(EX_JUDGED_ONEX_CHARS) =
+      필살기(ex) 판정 → 필살기 효과 증가(크로크라인 등)를 받고 발동효과는 받지 않는다.
+    """
+    if sub.gate_stack in BASIC_JUDGED_STACKS:
+        return "basic"
+    if (sub.event == "on_ex"
+            and getattr(caster._kit, "char_id", 0) in EX_JUDGED_ONEX_CHARS
+            and any(e.kind == DAMAGE for e in sub.effects)):
+        return "ex"
+    return "trigger"
+
 
 def _half_turns(duration: int) -> int:
     """Convert a skill 'N turn' duration to half-turns (ally + enemy phases).
@@ -399,7 +424,9 @@ class BattleState:
     cur_action_kind: str = ""    # 필살기 / 보통공격 / 방어 / 패시브 / 피격 — 현재 행동 종류
     cur_atk_by: str = ""         # 피격 그룹: 현재 공격 중인 적(더미) 이름
     cur_action_chain: bool = False   # 지금 실행 중인 행동이 제토 도장 체이닝 자동 추가행동인가
-    force_proc: bool = False      # 확률 100% 모드: 모든 확률 판정을 무조건 성공으로
+    force_proc: bool = False      # 확률 100% 모드: 모든 확률 판정을 무조건 성공으로 (천장값)
+    never_proc: bool = False      # 확률 0% 모드: 모든 확률(<100%) 판정을 무조건 실패로 (바닥값).
+                                  # force_proc과 대칭. 둘 다 켜지면 never_proc 우선(차단).
     hp_schedule: bool = False     # 카라트 등 HP게이트 캐릭 동반 시 더미 HP% 4등분 스케줄
     hp10: bool = False            # 체력 10% 모드: 더미 HP를 매 턴 10%로 고정 (저HP 게이트 전부 발동)
     incoming_hp_pct: int = 0      # >0이면 더미가 아군 피격 시 아군 최대HP의 n% 데미지(배리어 흡수, HP 1하한)
@@ -797,7 +824,8 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
     # "N% 확률로 …"(탐랑 수면 40%)은 여기까지 그대로 내려와 **확정 발동**하고 있었다.
     # awaken_with 는 대상마다 따로 굴리므로 제외한다.
     if (kind != TRIGGER and effect.chance < 100 and not effect.awaken_with
-            and not state.force_proc and state.rng.random() * 100 >= effect.chance):
+            and (state.never_proc
+                 or (not state.force_proc and state.rng.random() * 100 >= effect.chance))):
         return
     # 카라트 HP 게이트: 대상 HP%가 임계를 못 넘으면 이 효과(추가타·표지 빌드 등)는 발동 안 함.
     # COND_DMG는 게이트를 저장만 하고 데미지 시점에 평가하므로 여기서 막지 않는다.
@@ -1120,8 +1148,9 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         fired: list[str] = []            # names that actually activated (independent rolls)
         for tgt in targets:
             for name in names:
-                if not state.force_proc and effect.awaken_with and effect.chance < 100 \
-                        and state.rng.random() * 100 >= effect.chance:
+                if effect.awaken_with and effect.chance < 100 \
+                        and (state.never_proc
+                             or (not state.force_proc and state.rng.random() * 100 >= effect.chance)):
                     continue
                 if name not in fired:
                     fired.append(name)
@@ -1318,12 +1347,12 @@ def _ready_subs(caster: Unit, event: str, state: BattleState,
              and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]
     out: list[tuple[Subscription, str]] = []
     for sub in ready:
-        if (not state.force_proc or sub.chain_action) and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+        if sub.chance < 100 and (state.never_proc or ((not state.force_proc or sub.chain_action) and state.rng.random() * 100 >= sub.chance)):
             continue
         if sub.once:
             sub.armed = False                       # 1회 발동 후 소진 (다음 재발동에 재장전)
-        # triggered damage is 발동 by default; 내기혼신 (Qi Surge) is judged basic
-        src = "basic" if sub.gate_stack in BASIC_JUDGED_STACKS else "trigger"
+        # 액션 판정은 _trigger_src: 기본 발동 / 내기혼신=평타 / 투명인간 on_ex 추가딜=필살기
+        src = _trigger_src(caster, sub)
         out.append((sub, src))
     return out
 
@@ -1342,12 +1371,12 @@ def _fire_subs(caster: Unit, event: str, state: BattleState,
              and (not s.once or s.armed)           # once-sub: 장전된 동안만
              and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]
     for sub in ready:
-        if (not state.force_proc or sub.chain_action) and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+        if sub.chance < 100 and (state.never_proc or ((not state.force_proc or sub.chain_action) and state.rng.random() * 100 >= sub.chance)):
             continue
         if sub.once:
             sub.armed = False                       # 1회 발동 후 소진 (다음 재발동에 재장전)
-        # triggered damage is 발동 by default; 내기혼신 (Qi Surge) is judged basic
-        src = "basic" if sub.gate_stack in BASIC_JUDGED_STACKS else "trigger"
+        # 액션 판정은 _trigger_src: 기본 발동 / 내기혼신=평타 / 투명인간 on_ex 추가딜=필살기
+        src = _trigger_src(caster, sub)
         reps = _repeat_count(sub, state) if sub.repeat_stack else _gate_reps(caster, sub.gate_stack)
         for _ in range(reps):
             for eff in sub.effects:
@@ -1431,9 +1460,9 @@ def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
                     and (not s.need_team_barrier or _team_has_barrier(caster, state))
                     and (not s.need_self_barrier or bsnap > 0)
                     and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]:
-            if (not state.force_proc or sub.chain_action) and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+            if sub.chance < 100 and (state.never_proc or ((not state.force_proc or sub.chain_action) and state.rng.random() * 100 >= sub.chance)):
                 continue
-            src = "basic" if sub.gate_stack in BASIC_JUDGED_STACKS else "trigger"
+            src = _trigger_src(caster, sub)
             fired.append((sub, src))
     # 2-패스 순서 (인게임 확정):
     #   Pass 1 — 발동효과(발동딜 자신의 효과 채널) 버프 + 발동딜(DAMAGE)을 발동 순서대로
@@ -1478,7 +1507,7 @@ def _fire_time_subs(unit: Unit, state: BattleState) -> None:
             continue
         if not fire:
             continue
-        if (not state.force_proc or sub.chain_action) and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+        if sub.chance < 100 and (state.never_proc or ((not state.force_proc or sub.chain_action) and state.rng.random() * 100 >= sub.chance)):
             continue
         for eff in sub.effects:
             apply_effect(eff, unit, state, target, source="trigger")
@@ -1972,7 +2001,7 @@ def _check_coordination(allies: list[Unit], state: BattleState) -> None:
             if not peers or not all(getattr(a._kit, "char_id", 0) in acted for a in peers):
                 continue
             state.coord_fired.add(id(sub))      # 이번 턴 1회만
-            if (not state.force_proc or sub.chain_action) and sub.chance < 100 and state.rng.random() * 100 >= sub.chance:
+            if sub.chance < 100 and (state.never_proc or ((not state.force_proc or sub.chain_action) and state.rng.random() * 100 >= sub.chance)):
                 continue
             state.cur_action += 1
             state.cur_actor_id = getattr(u._kit, "char_id", 0)
@@ -2104,7 +2133,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
              fed_actions: list[str | None] | None = None,
              incoming_hp_pct: int = 0,
              ally_ult_afters: list[bool] | None = None,
-             turn_plans: dict | None = None) -> BattleState:
+             turn_plans: dict | None = None,
+             never_proc: bool = False) -> BattleState:
     """Run a target-dummy battle and return the final state (with log).
 
     rotations: optional per-ally action strings (e.g. '평평방궁|평방궁').
@@ -2136,7 +2166,7 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
     state = BattleState(allies=allies, enemies=enemies, max_turn=max_turn,
                         rng=random.Random(seed), enemy_hits=enemy_hits, enemy_aoe=enemy_aoe,
                         turn_orders=turn_orders or {}, turn_plans=turn_plans or {},
-                        force_proc=force_proc,
+                        force_proc=force_proc, never_proc=never_proc,
                         hp_schedule=any(_kit_has_hp_gate(u._kit) for u in allies),
                         dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct)
 

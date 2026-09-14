@@ -201,6 +201,12 @@ def _team_combos() -> list[Combo]:
             turns=12, dummies=3, enemy_hits=2, incoming_hp_pct=5,
         ),
         Combo(
+            name="team_invis_ex_judged",
+            purpose="투명인간 on_ex 추가딜 = 필살기 효과 판정 — 크로크라인 팀 필살기효과 버프가 추가딜에 적용",
+            specs=(CharSpec(10437, position=1), CharSpec(10435, position=2)),
+            turns=12, dummies=3, enemy_hits=2, incoming_hp_pct=5,
+        ),
+        Combo(
             name="team_sleep_gate",
             purpose="수면 CC(CHG-5) — 첫 직접피격 1회 받뎀증 + 탐랑 파2 수면 조건 주는딜",
             specs=(CharSpec(10408, position=1), CharSpec(10401, position=2)),
