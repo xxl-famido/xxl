@@ -4,9 +4,9 @@ const PYODIDE_VER = 'v0.26.4';
 importScripts(`https://cdn.jsdelivr.net/pyodide/${PYODIDE_VER}/full/pyodide.js`);
 
 const PY_FILES = [
-  'woofia_sim/__init__.py', 'woofia_sim/effects.py', 'woofia_sim/engine.py',
-  'woofia_sim/harness.py', 'woofia_sim/kit.py', 'woofia_sim/names.py',
-  'woofia_sim/stats.py', 'sim_api.py',
+  'woofia_sim/__init__.py', 'woofia_sim/effects.py', 'woofia_sim/altar.py',
+  'woofia_sim/engine.py', 'woofia_sim/harness.py', 'woofia_sim/kit.py',
+  'woofia_sim/names.py', 'woofia_sim/stats.py', 'sim_api.py',
 ];
 const DATA_FILES = ['data/chars.json', 'data/skills.json'];
 
