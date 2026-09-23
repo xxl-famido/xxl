@@ -21,13 +21,14 @@ from dataclasses import dataclass, field
 
 from .effects import (
     BARRIER, BUFF, CC, CD_MOD, COND_DMG, DAMAGE, DEBUFF, EXTRA_ACTION, HEAL,
-    MARKER, ENTER_DEFENSE, STACK, TRANSFORM, TRIGGER, STAT_ATK, STAT_BASE_ATK, STAT_ATK_FLAT,
+    MARKER, ENTER_DEFENSE, SELF_DAMAGE, LIFESTEAL, STACK, TRANSFORM, TRIGGER, STAT_ATK, STAT_BASE_ATK, STAT_ATK_FLAT,
     STAT_MAX_HP, STAT_BASE_MAX_HP,
     STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_DOT_TAKEN, STAT_DOT_DEALT,
     STAT_BASIC_DMG_DEALT, STAT_EX_EFFECT,
-    STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, STAT_BAR_RECV, STAT_TYPE_ADV_DMG, Effect,
+    STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, STAT_BAR_RECV, STAT_TYPE_ADV_DMG, STAT_DMG_TAKEN_EX, Effect,
 )
 from .kit import ResolvedKit
+from .altar import altar_effects
 from .names import kr, stat_kr
 
 # action-specific outgoing-effect channel for each action type
@@ -205,6 +206,8 @@ class Unit:
     single_ult: bool = False         # 제토: 전투당 1회 필살(cd≥30). 기본 로테는 마지막 턴에 자동 발동
     target_cond_dmg: list = field(default_factory=list)  # [(stack,+dmg%,owner,skill,hp_op,hp_val,count)] while target holds ≥count
     target_ex_scale: list = field(default_factory=list)  # 마타야 파세: [(stack,per_pct,owner,skill)] EX효과 += per_pct×target.stacks[stack]
+    hp_cond_buffs: list = field(default_factory=list)   # 무명/몽규: [(stat,val,op,hp%,owner,skill)] 자기 HP% 게이트 정적버프 — _hp_ok 라이브 판정
+    lifesteal: list = field(default_factory=list)       # 무명 파4: [(pct,op,hp%,owner,skill)] 직접 hit 피해의 pct% 자힐(op=None이면 무조건)
     rotation_prefix: list = field(default_factory=list)  # explicit action sequence
     rotation_loop: list = field(default_factory=list)
     action_idx: int = 0
@@ -234,6 +237,14 @@ class Unit:
     ran_p4_src: object = None        # 란(10426) P4 시너지: 이 동료가 공격하면 되먹일 란 유닛
     ran_p4_turns: int = 0            # 그 피드백 창의 남은 half-turns
     sleep_dmg: float = 0.0           # 수면(Sleep) 상태에서 받는 데미지 +x%(sleepBonusDamage). 첫 직접피격에 소비(각성)
+    # ── 궁극기 사용 방식 (길드 제단 ON일 때 UI가 지정; 기본 'fixed' = 종전 동작) ──
+    ult_mode: str = "fixed"          # fixed: 계획 턴, 미준비면 차는 즉시(pending) / strict: 계획 턴만, 미준비면 건너뜀
+                                     # / asap: 준비되면 바로(계획의 궁 자리 무시)
+    ult_keep_def: bool = True         # asap·sync 에서 계획의 '방어' 턴은 방어를 지킨다(False면 궁으로 덮음)
+    sync_anchor: "Unit | None" = None  # 궁 맞추기: 이 앵커가 궁을 쓰는 턴에만 같이 궁 (mode 무시)
+    sync_order: str = "before"       # before: 앵커 바로 앞에 행동 / after: 바로 뒤
+    sync_miss: str = "wait"          # 앵커 궁 턴에 미준비면: wait=다음 앵커 궁까지 대기 / asap=준비되는 대로 쓰고 재동기
+    sync_missed: bool = False         # sync_miss=asap 에서 놓친 상태(준비되면 발동) 표시
 
     @property
     def alive(self) -> bool:
@@ -272,7 +283,29 @@ class Unit:
             n = self.stacks.get(req, 0)
             if st == stat and n >= thresh:
                 total += self._cond_val(val, n, scaled)
+        # 자기 HP% 게이트 정적버프(무명 HP≦50% 평타뎀+30%) — 판정 시점 현재 HP로 라이브 평가.
+        # _hp_ok는 raw max_hp 기준(max_hp_eff 아님) → _sum 재귀 없음.
+        for st, val, op, hv, owner, skill in self.hp_cond_buffs:
+            if st == stat and _hp_ok(self, op, hv):
+                total += val
         return total
+
+    def _hp_cond_label(self, op: str, hv: float) -> str:
+        return ("HP≦" if op in ("le", "lt") else "HP≧") + f"{hv:g}%"
+
+    def _dmg_taken_cond_comps(self) -> list:
+        """받뎀% 조건버프 컴포넌트(스택당 받뎀 · HP 게이트 받뎀) — incoming_mult 합산 + 피격 분해표시용.
+        무명 파1 '불굴 1중첩당 받뎀+7%'는 per_stack cond_buff, 몽규 파4 'HP≦50% 받뎀-11%'는 hp_cond."""
+        out = []
+        for req, st, val, owner, skill, scaled, thresh in self.cond_buffs:
+            n = self.stacks.get(req, 0)
+            if st == STAT_DMG_TAKEN and n >= thresh:
+                out.append({"v": round(self._cond_val(val, n, scaled), 2), "by": owner, "skill": skill,
+                            "cond": f"{kr(req)}×{n}" if scaled else kr(req)})
+        for st, val, op, hv, owner, skill in self.hp_cond_buffs:
+            if st == STAT_DMG_TAKEN and _hp_ok(self, op, hv):
+                out.append({"v": round(val, 2), "by": owner, "skill": skill, "cond": self._hp_cond_label(op, hv)})
+        return out
 
     def _comp(self, stat: str, element: int = 0) -> list:
         """Components of a stat for the damage breakdown: [{v, by(charId), skill}]."""
@@ -286,6 +319,10 @@ class Unit:
             if st == stat and n >= thresh:
                 out.append({"v": round(self._cond_val(val, n, scaled), 2), "by": owner,
                             "skill": skill, "cond": kr(req)})
+        for st, val, op, hv, owner, skill in self.hp_cond_buffs:
+            if st == stat and _hp_ok(self, op, hv):
+                out.append({"v": round(val, 2), "by": owner, "skill": skill,
+                            "cond": self._hp_cond_label(op, hv)})
         return out
 
     def max_hp_eff(self) -> float:
@@ -340,6 +377,8 @@ class Unit:
         (GetDamagedBonusRate)과 속성 받뎀증(GetPropertyDamageRate·propertyBeDamagedEffect)을
         별개 채널로 두고 곱한다(곱연산). 속성 받뎀증은 공격자 속성이 맞을 때만 적용."""
         generic = sum(b.value for b in self.buffs if b.stat == STAT_DMG_TAKEN and b.element == 0)
+        # 조건부 받뎀(무명 불굴 중첩당 +7% · 몽규 HP≦50% -11%)은 일반 채널에 합산 — buffs만 읽던 이전엔 무시됐다.
+        generic += sum(c["v"] for c in self._dmg_taken_cond_comps())
         prop = sum(b.value for b in self.buffs if b.stat == STAT_DMG_TAKEN
                    and b.element != 0 and b.element == attacker_element)
         return max(0.0, (1 + generic / 100) * (1 + prop / 100))
@@ -430,7 +469,11 @@ class BattleState:
     hp_schedule: bool = False     # 카라트 등 HP게이트 캐릭 동반 시 더미 HP% 4등분 스케줄
     hp10: bool = False            # 체력 10% 모드: 더미 HP를 매 턴 10%로 고정 (저HP 게이트 전부 발동)
     incoming_hp_pct: int = 0      # >0이면 더미가 아군 피격 시 아군 최대HP의 n% 데미지(배리어 흡수, HP 1하한)
+    turn_damage: list | None = None   # 턴 피해 모드: 턴별 아군 전체 최대HP n%(index=turn-1). None=끔. 무명 저체력 게이트용
     dummy_element: int = 0        # 더미 속성 (EProp: 0무·1불·2물·3나무·4빛·5어둠) — 상성 배율용
+    altar_active: list = field(default_factory=list)   # 이번 전투에 걸린 길드 제단 Id (meta 표시용)
+    altar_effects: list = field(default_factory=list)  # 주입한 제단 Effect 객체 보관 — 버프 키(id) 안정화
+    altar_procs: bool = True      # False = 제단 확률 트리거(1012·1013 CD감소 등) 미설치 — 플래너 프로브의 '보장 CD' 기준
     turn_basics: set = field(default_factory=set)   # 이번 턴 평타한 아군 char_id (다양수이 협동)
     turn_exes: set = field(default_factory=set)     # 이번 턴 필살 쓴 아군 char_id
     coord_fired: set = field(default_factory=set)   # 이번 턴 이미 발동한 협동 트리거 id
@@ -757,6 +800,12 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
     if ex_eff:
         out *= 1 + sum(c["v"] for c in ex_eff) / 100
     inc = tgt.incoming_mult(caster.element)
+    # 필살기(EX 액션) 피격 한정 받뎀 — 길드 제단 401(보스 필살기 피격 -75%). 별개 곱연산 채널.
+    # 트리거 추가딜이 필살기로 판정되는 경우(투명인간 등 action=="ex")도 같이 걸리고, DoT·평타·발동은 제외.
+    taken_ex = ([{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill}
+                 for b in tgt.buffs if b.stat == STAT_DMG_TAKEN_EX] if action == "ex" else [])
+    if taken_ex:
+        inc *= max(0.0, 1 + sum(c["v"] for c in taken_ex) / 100)
     # 지속(도트) 받는증가는 대상측이라 틱 시점 현재값 (모이루 받는지속딜 +50% 후속 적용 반영)
     dot_taken = ([{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill}
                   for b in tgt.buffs if b.stat == STAT_DOT_TAKEN] if action == "dot" else [])
@@ -795,7 +844,7 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
         "dealt": dealt,
         "effLabel": {"basic": "평타뎀", "ex": "EX효과", "trigger": "발동효과", "dot": "지속딜"}.get(action, ""),
         "eff": eff, "effEx": ex_eff,
-        "takenG": taken_g, "takenP": taken_p,
+        "takenG": taken_g, "takenP": taken_p, "takenEx": taken_ex,
         "sleepBonus": round(sleep_bonus, 2),   # 수면 대상 추가 피해 +x%(첫 직접피격 1회)
         "dotDealt": dot_dealt, "dotTaken": dot_taken,
         "elemMult": elem,
@@ -805,6 +854,26 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
                  f"{atk:,.2f}{base_label} × {pct:g}% × {out:.4f}[{detail}] × {inc:.4f}in"
                  + (f" × {elem:g}[{'상성' if elem > 1 else '역상성'}]" if elem != 1.0 else ""),
                  amount=dmg, detail=struct)
+    # 흡혈(무명 파4 HP≦30%): 직접 hit(DoT 틱 제외)의 피해 pct%를 자힐. 게이트는 hit마다 현재 HP로 판정
+    # → 회복으로 30%를 넘기면 그 다음 hit부터 닫힌다. HEAL 분기와 같은 규칙(받는회복%, max_hp 캡)이되
+    # on_heal_received는 쏘지 않는다(자기 흡혈은 '힐 수령' 트리거 대상이 아님).
+    if snap is None and dmg > 0 and caster.lifesteal:
+        for ls_pct, ls_op, ls_val, ls_owner, ls_skill in caster.lifesteal:
+            if ls_op is not None and not _hp_ok(caster, ls_op, ls_val):
+                continue
+            recv = caster._sum(STAT_HEAL_RECV)
+            heal = round(dmg * ls_pct / 100 * max(0.0, 1 + recv / 100), 2)
+            if heal <= 0:
+                continue
+            before = caster.hp
+            caster.hp = min(caster.max_hp, caster.hp + heal)
+            caster.healing_done += heal
+            state.record(caster.name, f"흡혈 → 자신 +{heal:,.0f} (피해의 {ls_pct:g}%, HP {before:,.0f}→{caster.hp:,.0f})",
+                         amount=heal, src_id=ls_owner, src_skill=ls_skill,
+                         detail={"kind": "heal", "act": "흡혈", "final": heal, "target": caster.name,
+                                 "skillPct": ls_pct, "skillId": ls_owner, "skillName": ls_skill,
+                                 "healRecv": round(recv, 2), "baseLabel": "피해량", "baseTotal": dmg,
+                                 "eff": []})
 
 
 def apply_effect(effect: Effect, caster: Unit, state: BattleState,
@@ -950,6 +1019,15 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             caster.cond_buffs.append(entry)
         return
 
+    if effect.condition and effect.condition.startswith("self_hp:"):
+        # 자기 HP% 게이트 정적버프(무명 파4 HP≦50% 평타뎀+30% · 몽규 파4 인접 HP≦50% 받뎀-11%):
+        # 일반 BUFF로 흘리면 영구·무조건 적용되므로 반드시 여기서 가로채 라이브 조건 목록에 넣는다.
+        _, op, hv = effect.condition.split(":")
+        entry = (effect.stat, effect.magnitude, op, float(hv), effect.owner, effect.src_skill)
+        if entry not in caster.hp_cond_buffs:
+            caster.hp_cond_buffs.append(entry)
+        return
+
     if effect.condition and effect.condition.startswith("stack_cap:"):
         name = effect.condition.split(":", 1)[1]      # stack lifetime/cap definition only
         caster.stack_caps[name] = max(caster.stack_caps.get(name, 0), effect.max_stacks)
@@ -1024,6 +1102,27 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         tgt_unit.target_cond_dmg.append((effect.stack_name, effect.magnitude, effect.owner,
                                          effect.src_skill, effect.target_hp_op, effect.target_hp_val,
                                          max(1, effect.target_count)))   # 마타야 득세: 파세≥3
+        return
+
+    if kind == SELF_DAMAGE:
+        # 무명 필살 자해: 현재 HP의 N% '실제 데미지' — 배리어·받뎀·방어 배율을 모두 우회해 HP를 직접
+        # 깎는다(1 하한: 자해로 죽지 않음). 이게 HP≦75/50/30% 게이트를 여는 기믹의 핵심이라 흡수시키면 안 됨.
+        before = caster.hp
+        dmg = round(before * effect.magnitude / 100, 2)
+        caster.hp = max(1.0, before - dmg)
+        hp_pct = round(caster.hp / caster.max_hp * 100, 1) if caster.max_hp else 0.0
+        state.record(caster.name,
+                     f"{act_kr} → 자신 실제 데미지 {dmg:,.0f} (현재HP {effect.magnitude:g}% · HP {before:,.0f}→{caster.hp:,.0f}, {hp_pct:g}%)",
+                     amount=0, src_id=effect.owner, src_skill=effect.src_skill,
+                     detail={"kind": "selfdmg", "dmg": dmg, "pct": effect.magnitude,   # kind 지정 → 차트 데미지 집계 제외
+                             "hpBefore": round(before, 2), "hpAfter": round(caster.hp, 2), "hpPct": hp_pct})
+        return
+
+    if kind == LIFESTEAL:
+        # 무명 파4 흡혈: 등록만 — 실제 회복은 _record_hit이 직접 hit마다 dmg×pct%로 처리(HP 게이트 라이브).
+        entry = (effect.magnitude, effect.self_hp_op, effect.self_hp_val, effect.owner, effect.src_skill)
+        if entry not in caster.lifesteal:
+            caster.lifesteal.append(entry)
         return
 
     if kind == DAMAGE:
@@ -1216,7 +1315,8 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                 raw = atk * effect.magnitude / 100 * mult
                 basef = _atk_chan_fields(caster)       # base × 기초ATK% × ATK% + 고정 풀분해
             recv = tgt._sum(STAT_HEAL_RECV)                  # 받는 회복량 증가
-            per = round(raw * (1 + recv / 100), 2)
+            # 0 하한: 길드 제단 별 1·2층 "받는 치료 -75%"가 합산되면 -150% — 음수 힐(피해)이 되지 않게
+            per = round(raw * max(0.0, 1 + recv / 100), 2)
             struct = {
                 "kind": "heal", "act": act_kr, "final": per, "target": tgt.name,
                 "skillPct": effect.magnitude, "skillId": effect.owner, "skillName": effect.src_skill,
@@ -1513,6 +1613,41 @@ def _fire_time_subs(unit: Unit, state: BattleState) -> None:
             apply_effect(eff, unit, state, target, source="trigger")
 
 
+def _peek_token(unit: Unit) -> str | None:
+    """다음 로테이션 토큰을 소비하지 않고 본다(_next_token 과 같은 규칙)."""
+    if not unit.rotation_prefix and not unit.rotation_loop:
+        return None
+    i = unit.action_idx
+    if i < len(unit.rotation_prefix):
+        return unit.rotation_prefix[i]
+    if unit.rotation_loop:
+        return unit.rotation_loop[(i - len(unit.rotation_prefix)) % len(unit.rotation_loop)]
+    return unit.rotation_prefix[-1] if unit.rotation_prefix else None
+
+
+def _anchor_will_ult(anchor: Unit, state: BattleState) -> bool:
+    """궁 맞추기: 앵커가 '이번 턴' 궁을 쓰는가. 이미 행동했으면 실제 사용 여부(turn_exes), 아직이면
+    앵커의 방식으로 예측(asap=준비됨 / fixed·strict=다음 토큰이 궁이거나 폴백 예약 상태 + 준비됨).
+    앵커는 다른 그룹의 멤버가 될 수 없으므로(검증) 재귀는 없다."""
+    if not anchor.alive or not bool(anchor._kit.fatal.effects):  # type: ignore[attr-defined]
+        return False
+    cid = getattr(anchor._kit, "char_id", 0)
+    if anchor.turn_acts > 0:
+        return cid in state.turn_exes
+    if anchor.cd_remaining > 0:
+        return False
+    tok = _peek_token(anchor)
+    if anchor.ult_mode == "asap":
+        return tok != "defend" or not anchor.ult_keep_def
+    if anchor.is_fed_carry:
+        return tok != "basic"
+    if tok is None:                       # 로테이션 없음 = 준비되면 궁
+        return True
+    if tok == "fatal":
+        return True
+    return anchor.ult_mode == "fixed" and anchor.auto_fatal_pending and tok == "basic"
+
+
 def _next_token(unit: Unit) -> str | None:
     """Next action token from the rotation, or None if no rotation is set."""
     if not unit.rotation_prefix and not unit.rotation_loop:
@@ -1563,20 +1698,26 @@ def _ran_p4_feedback(p4: "Unit", state: "BattleState") -> None:
     p4.ran_p4_turns = 0
 
 
-def _apply_incoming(ally: Unit, attacker: Unit, state: BattleState) -> None:
+def _apply_incoming(ally: Unit, attacker: Unit, state: BattleState,
+                    pct: float | None = None, label: str | None = None) -> None:
     """피격 데미지 모드: 아군 최대HP의 n%를 데미지로 (배리어 먼저 흡수, HP 1하한).
-    반격 발동 '전에' 호출 → 배리어 비례 딜(다라완)·배리어 게이트(오렘)가 소모 후 값으로 판정."""
+    반격 발동 '전에' 호출 → 배리어 비례 딜(다라완)·배리어 게이트(오렘)가 소모 후 값으로 판정.
+    pct/label: 턴 피해 모드(길드전식 매 턴 n%)가 같은 계산·표시 규칙을 재사용할 때 지정(기본=피격 모드 값)."""
     ally.barrier_pre_hit = None
-    if state.incoming_hp_pct <= 0:
+    pct = state.incoming_hp_pct if pct is None else pct
+    if pct <= 0:
         return
     pre = ally.barrier
-    raw = ally.max_hp_eff() * state.incoming_hp_pct / 100   # 체퍼뎀(최대HP n%)
+    raw = ally.max_hp_eff() * pct / 100   # 체퍼뎀(최대HP n%)
     defended = ally.defending                               # 방어 상태면 받는 데미지 50% 감소
     # 정상 공격과 동일하게 곱연산 채널을 모두 적용:
     #   방어 50%↓ × 아군 받는뎀 증감(배리어 보유 -10% 등, 속성 받뎀 포함) × 공격자 주는뎀 증감(다라완 sigil -24% 등)
     taken_mult = ally.incoming_mult(attacker.element)
     dealt_mult = max(0.0, 1 + attacker._sum(STAT_DMG_DEALT) / 100)
-    dmg = raw * (0.5 if defended else 1.0) * taken_mult * dealt_mult
+    # 공격자 ATK% (길드 제단 414: 보스 ATK +100%) — 피격량은 ATK 비례라 같은 비율로 곱한다.
+    # 더미 기본 ATK는 0이라 일반 딜 계산엔 무영향, 피격 데미지 모드(최대HP n%)에서만 작동.
+    atk_mult = max(0.0, 1 + attacker._sum(STAT_ATK) / 100)
+    dmg = raw * (0.5 if defended else 1.0) * taken_mult * dealt_mult * atk_mult
     absorbed, to_hp = ally.absorb_damage(dmg)
     if absorbed > 0:                         # 배리어 소모 발생 → 반격의 "기존 배리어 − 소모" 표시용
         ally.barrier_pre_hit = pre
@@ -1584,17 +1725,47 @@ def _apply_incoming(ally: Unit, attacker: Unit, state: BattleState) -> None:
     # 각 감소 채널을 UI에 개별 표기 (방어 −50% 옆에 받는뎀 −10%·주는뎀 −24% 등)
     taken_g = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill}
                for b in ally.buffs if b.stat == STAT_DMG_TAKEN and b.element == 0]
+    taken_g += ally._dmg_taken_cond_comps()      # 스택당/HP게이트 받뎀 (incoming_mult와 동일 항목)
     taken_p = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill, "el": _ELNAME.get(b.element, "")}
                for b in ally.buffs if b.stat == STAT_DMG_TAKEN and b.element != 0 and b.element == attacker.element]
     dealt = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill}
              for b in attacker.buffs if b.stat == STAT_DMG_DEALT]
+    atk_comp = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill}
+                for b in attacker.buffs if b.stat == STAT_ATK]
     dtail = " (방어 -50%)" if defended else ""
     tail = f" (배리어 흡수 {absorbed:,.0f}" + (f" · HP -{to_hp:,.0f}" if to_hp else "") + ")"
-    state.record(ally.name, f"{attacker.name} 피격 데미지 {dmg:,.0f}{dtail}{tail}", amount=0,
+    state.record(ally.name, f"{label or attacker.name} 피격 데미지 {dmg:,.0f}{dtail}{tail}", amount=0,
                  detail={"kind": "incoming", "dmg": round(dmg, 2), "raw": round(raw, 2),
+                         "turnDmg": label is not None, "pct": pct,
                          "defended": defended, "absorbed": round(absorbed, 2), "hpLost": round(to_hp, 2),
                          "preBar": round(pre, 2), "remainBar": round(pre - absorbed, 2),
-                         "taken": taken_g, "takenP": taken_p, "dealt": dealt})
+                         "taken": taken_g, "takenP": taken_p, "dealt": dealt, "atkPct": atk_comp})
+
+
+def _apply_turn_damage(allies: list, enemies: list, state: BattleState) -> None:
+    """턴 피해 모드: 매 턴 종료(적 페이즈 뒤)에 아군 전체가 최대HP의 n% 피해 — 길드전 보스의 매 턴 피해처럼.
+    피격 모드와 같은 규칙(배리어 먼저 흡수·방어 시 50%·받뎀 채널·HP 1하한)이되 반격(on_attacked)은 안 쏜다
+    (환경 피해). 무명처럼 자기 HP%에 반응하는 캐릭을 적 피격 설정 없이도 저체력 구간으로 보내는 용도."""
+    sched = state.turn_damage
+    if not sched:
+        return
+    i = state.turn - 1
+    pct = sched[i] if i < len(sched) else sched[-1]
+    if not pct or pct <= 0:
+        return
+    src = enemies[0] if enemies else None
+    if src is None:
+        return
+    for ally in sorted(allies, key=lambda u: u.slot):
+        if not ally.alive:
+            continue
+        state.cur_action += 1
+        state.cur_actor_id = getattr(ally._kit, "char_id", 0)
+        state.cur_action_kind = "피격"
+        state.cur_atk_by = "턴 피해"
+        state.record(ally.name, f"턴 피해 {pct:g}%", amount=0)   # 그룹 헤더
+        _apply_incoming(ally, src, state, pct=pct, label="턴 피해")
+    state.cur_atk_by = ""
 
 
 def _defer_ult_for_uk(unit: Unit, state: BattleState) -> bool:
@@ -1736,6 +1907,38 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
             and bool(kit_fatal.effects)):
         token = "fatal"
 
+    # ── 궁극기 사용 방식(길드 제단) — 자연 행동에만 개입. 명시 타임라인·추가행동·임부언 fed carry 는 그대로.
+    # policy_fatal: None=개입 없음(fixed 기본) / True=이번 행동 궁 / False=이번 행동 궁 금지(폴백 예약도 없음)
+    policy_fatal: bool | None = None
+    orig_token = token                 # 정책이 토큰을 바꾸기 전 값 — 욱영 보류(defer_uk)의 로테이션 되감기 판정용
+    natural = forced_token is None and not forced_basic and not is_bonus and not unit.is_fed_carry
+    if natural and bool(kit_fatal.effects) and (unit.sync_anchor is not None or unit.ult_mode != "fixed"):
+        ready = unit.cd_remaining <= 0
+        holding = any(unit.stacks.get(s, 0) > 0 for s in unit.hold_fatal_stacks)
+        slot_ok = token != "defend" or not unit.ult_keep_def     # 방어 지정 턴은 기본적으로 지킨다
+        if unit.sync_anchor is not None:
+            anchor_ults = _anchor_will_ult(unit.sync_anchor, state)
+            if anchor_ults and ready and slot_ok:
+                policy_fatal, unit.sync_missed = True, False
+            elif anchor_ults and not ready:
+                if unit.sync_miss == "asap":
+                    unit.sync_missed = True    # 준비되는 대로 쓰고 다음부터 다시 맞춤
+                policy_fatal = False
+            elif unit.sync_missed and ready and slot_ok:
+                policy_fatal, unit.sync_missed = True, False
+            else:
+                policy_fatal = False
+        elif unit.ult_mode == "asap":
+            policy_fatal = ready and slot_ok and not holding
+        elif unit.ult_mode == "strict":
+            policy_fatal = token == "fatal" and ready
+        if policy_fatal is True:
+            token = "fatal"
+        elif policy_fatal is False and token == "fatal":
+            token = "basic"
+        if policy_fatal is not None:
+            unit.auto_fatal_pending = False   # 이 방식들은 '차는 즉시' 폴백을 쓰지 않는다
+
     if token == "defend":
         state.cur_action_kind = "방어"
         unit.defending = True            # 방어 상태 → 이번 턴 받는 데미지 50% 감소
@@ -1754,8 +1957,8 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
     # 회복 행동에서 자동 궁이라 되감기 불필요). 욱영이 궁을 쏜 뒤엔 cd>0이라 보류 해제.
     defer_uk = (forced_token is None and not forced_basic and bool(kit_fatal.effects)
                 and unit.cd_remaining <= 0 and _defer_ult_for_uk(unit, state))
-    if defer_uk and token == "fatal" and not is_bonus:
-        unit.action_idx -= 1             # 궁 토큰 un-read → 회복 행동에서 재사용(자연행동만)
+    if defer_uk and orig_token == "fatal" and not is_bonus:
+        unit.action_idx -= 1             # 궁 토큰 un-read → 회복 행동에서 재사용(자연행동만, 정책이 만든 궁은 제외)
         unit.uk_defer_pending = True     # 회복(추가)행동이 이 궁 토큰을 재소비하도록 표시
     if defer_uk:
         token = "basic"
@@ -1782,6 +1985,8 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
         holding = any(unit.stacks.get(s, 0) > 0 for s in unit.hold_fatal_stacks)
         use_fatal = unit.cd_remaining <= 0 and bool(kit_fatal.effects) and not holding
 
+    if policy_fatal is not None:
+        use_fatal = policy_fatal          # 궁극기 사용 방식이 최종 결정(fed carry·폴백보다 우선, 자연 행동만)
     if defer_uk:
         use_fatal = False                # 보류: fed carry·폴백 모두 무시하고 이번 행동은 평타
 
@@ -1945,6 +2150,32 @@ def _install_passives(unit: Unit, state: BattleState) -> None:
         apply_effect(eff, unit, state, None, source="passive")
 
 
+def _install_altars(active: list[int], allies: list[Unit], state: BattleState) -> None:
+    """길드 제단 효과를 전투 시작 시 주입한다(altar.altar_effects 매핑).
+
+    - 스탯형(BUFF/DEBUFF)은 한 번만 적용 — 대상 어휘(allies/allies_healer/all_enemies)가 팀·적 전체를
+      가리키므로 아군 첫 유닛을 시전자로 두고 apply_effect 에 맡긴다(source="passive" → 로그 없음).
+    - 트리거형(TRIGGER)은 아군 **각자**에게 구독을 설치한다("플레이어 측이 행동 시 … 자신의 …").
+    - 402(최대 CD +1)는 킷 수준(harness)에서 처리되어 여기서는 빈 목록이 온다.
+    제단마다 새 Effect 객체를 만들므로 같은 효과의 2·3층 중복분은 버프 키가 달라 **합산**된다.
+    """
+    if not active or not allies:
+        return
+    for aid in active:
+        for eff in altar_effects(aid):
+            # 버프 키는 id(effect) — 이 Effect 객체를 전투 동안 살려 두지 않으면 GC 뒤 같은 id가
+            # 다음 제단 Effect에 재사용돼 '같은 효과 갱신'으로 오인된다(409·410이 사라지던 버그).
+            state.altar_effects.append(eff)
+            if eff.kind == TRIGGER:
+                if eff.chance < 100 and not state.altar_procs:
+                    continue            # 프로브: 확률 CD감소 등은 '보장'이 아니므로 계획 기준에서 제외
+                for u in allies:
+                    apply_effect(eff, u, state, None, source="passive")
+            else:
+                apply_effect(eff, allies[0], state, None, source="passive")
+    state.altar_active = list(active)
+
+
 def _compute_hold_fatal(unit: Unit) -> None:
     """Detect stacks where using fatal is counter-productive.
 
@@ -2078,6 +2309,33 @@ def _prescribed_phase(allies: list[Unit], state: BattleState, entries: list) -> 
         v.extra_actions = 0
 
 
+def _apply_sync_order(queue: list[Unit], state: BattleState) -> list[Unit]:
+    """궁 맞추기 그룹: 앵커가 이번 턴 궁을 쓰고 멤버도 준비됐으면, 멤버를 앵커 바로 앞(before)/뒤(after)로
+    옮긴다(우선순위·특정 턴 순서보다 우선). 그 외 턴은 순서를 건드리지 않는다."""
+    if not any(u.sync_anchor is not None for u in queue):
+        return queue
+    moved: dict[int, tuple[list[Unit], list[Unit]]] = {}
+    skip: set[int] = set()
+    for u in queue:
+        a = u.sync_anchor
+        if a is None or a not in queue or u.cd_remaining > 0 or not _anchor_will_ult(a, state):
+            continue
+        before, after = moved.setdefault(id(a), ([], []))
+        (before if u.sync_order == "before" else after).append(u)
+        skip.add(id(u))
+    if not moved:
+        return queue
+    out: list[Unit] = []
+    for u in queue:
+        if id(u) in skip:
+            continue
+        before, after = moved.get(id(u), ([], []))
+        out.extend(before)
+        out.append(u)
+        out.extend(after)
+    return out
+
+
 def _ally_phase(allies: list[Unit], state: BattleState) -> None:
     """Run the ally phase as a queue so granted extra actions act right after the
     action that granted them (self-grants like 이태호, or 임부언 -> 아누비로스)."""
@@ -2096,6 +2354,7 @@ def _ally_phase(allies: list[Unit], state: BattleState) -> None:
         # 지정한 우선순위 그대로 — 임부언 같은 피더도 강제로 미루지 않는다. 사용자가 임부언을
         # 아누비로스 뒤에 둬야 더블 궁이 되고, 앞에 두면 회복이 낭비됨(아래 EXTRA_ACTION 게이트).
         queue = sorted([u for u in allies if u.alive], key=lambda u: u.priority)
+    queue = _apply_sync_order(queue, state)   # 궁 맞추기: 앵커 궁 턴엔 멤버를 앵커 바로 앞/뒤로
     budget = state.turn_budget.setdefault(state.turn, {u.slot: 1 for u in allies if u.alive})
     guard = 0
     while queue and guard < 50:
@@ -2134,12 +2393,23 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
              incoming_hp_pct: int = 0,
              ally_ult_afters: list[bool] | None = None,
              turn_plans: dict | None = None,
-             never_proc: bool = False) -> BattleState:
+             never_proc: bool = False,
+             altar: list[int] | None = None,
+             ult_policies: list[dict | None] | None = None,
+             sync_groups: list[dict] | None = None,
+             altar_procs: bool = True,
+             turn_damage: list[float] | None = None) -> BattleState:
     """Run a target-dummy battle and return the final state (with log).
+
+    turn_damage: 턴 피해 모드 — 턴별 아군 전체 최대HP n% 리스트(index=turn-1). None=끔.
 
     rotations: optional per-ally action strings (e.g. '평평방궁|평방궁').
     slots:     battle positions (0-based); dummy targets the lowest slot.
     priorities: action order (lower acts first); defaults to slot.
+    altar:     걸려 있는 길드 제단 Id 목록(altar.resolve_altars). None/[] = 미사용(결과 불변).
+    ult_policies: 아군별 {"mode": fixed|strict|asap, "keepDef": bool} (None = fixed).
+    sync_groups:  [{"anchor": slot, "members": [(slot, "before"|"after")], "miss": wait|asap}] — 슬롯(0-based).
+    altar_procs:  False 면 제단 확률 트리거를 설치하지 않는다(플래너 프로브의 보장 CD 기준).
     """
     allies = []
     for i, kit in enumerate(kits[:5]):
@@ -2159,19 +2429,38 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
                 u.fed_action = fa
         if ally_ult_afters and i < len(ally_ult_afters):
             u.ally_ult_after = bool(ally_ult_afters[i])   # 욱영 토글
+        pol = ult_policies[i] if ult_policies and i < len(ult_policies) else None
+        if isinstance(pol, dict):
+            mode = str(pol.get("mode", "fixed"))
+            u.ult_mode = mode if mode in ("fixed", "strict", "asap") else "fixed"
+            u.ult_keep_def = pol.get("keepDef", True) is not False
         allies.append(u)
+    by_slot = {u.slot: u for u in allies}
+    for g in (sync_groups or []):        # 궁 맞추기 그룹(슬롯 기준). 검증은 sim_api 에서 끝났다고 본다.
+        anchor = by_slot.get(g.get("anchor"))
+        if anchor is None:
+            continue
+        miss = "asap" if g.get("miss") == "asap" else "wait"
+        for slot, order in g.get("members", []):
+            m = by_slot.get(slot)
+            if m is None or m is anchor:
+                continue
+            m.sync_anchor, m.sync_miss = anchor, miss
+            m.sync_order = "after" if order == "after" else "before"
     enemies = [make_dummy(i) for i in range(max(1, min(n_dummies, 5)))]
     for e in enemies:
         e.element = dummy_element        # 더미 속성 → 공격자 속성과 상성 판정
     state = BattleState(allies=allies, enemies=enemies, max_turn=max_turn,
                         rng=random.Random(seed), enemy_hits=enemy_hits, enemy_aoe=enemy_aoe,
                         turn_orders=turn_orders or {}, turn_plans=turn_plans or {},
-                        force_proc=force_proc, never_proc=never_proc,
+                        force_proc=force_proc, never_proc=never_proc, altar_procs=altar_procs,
                         hp_schedule=any(_kit_has_hp_gate(u._kit) for u in allies),
-                        dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct)
+                        dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct,
+                        turn_damage=turn_damage)
 
     for u in allies:
         _install_passives(u, state)
+    _install_altars(altar or [], allies, state)   # 길드 제단: 패시브 뒤, 상시 버프·트리거로 주입
     for u in allies:
         _compute_hold_fatal(u)
     _mark_fed_carries(allies)
@@ -2206,7 +2495,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
         for u in sorted(enemies, key=lambda x: x.slot):
             if u.alive:
                 _take_action(u, state)
-        _tick_buffs(state)                   # half-turn tick (after enemy phase)
+        _apply_turn_damage(allies, enemies, state)   # 턴 피해 모드(길드전식 매 턴 n%) — 적 페이즈 뒤, 버프 틱 전
+        _tick_buffs(state)                   # half-turn tick (after ally phase)
         _tick_hots(state)                    # heal-over-time (once per turn)
         _tick_dots(state)                    # 지속딜(DoT) (once per turn)
         # fatal cooldown charges one step at turn end

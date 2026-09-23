@@ -724,5 +724,20 @@
   "name_cn": "小山田又彌",
   "name_sc": "小山田又弥",
   "name_ja": "小山田又弥"
+ },
+ "10443": {
+  "id": 10443,
+  "name_en": "Otherworld Blade Mumei",
+  "name_kr": "이세계의 검 무명",
+  "feature": "Fearless/Sharpness twin stacks / self-damage low-HP glass cannon / defend multi-hit",
+  "rarity": 4,
+  "class": 1,
+  "element": 5,
+  "baseATK": 657,
+  "baseHP": 2512,
+  "hasRune": true,
+  "name_cn": "異世之刃無名",
+  "name_sc": "异世之刃无名",
+  "name_ja": "異世界の刃無名"
  }
 }

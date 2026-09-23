@@ -1,0 +1,90 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10443,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turnPlans": {},
+    "turns": 10
+  },
+  "dps": 301985.3,
+  "events": {
+    "byActionKind": {
+      "보통공격": 82,
+      "패시브": 1,
+      "피격": 60,
+      "필살기": 23
+    },
+    "byOutput": {
+      "-": 8,
+      "barrier": 10,
+      "heal": 2,
+      "incoming": 30,
+      "selfdmg": 3,
+      "발동": 49,
+      "평타": 7,
+      "필살": 9
+    },
+    "count": 166
+  },
+  "logHash": "sha256:cc2611a0495662c614b544de9d60cb48",
+  "perChar": {
+    "이세계의 검 무명": {
+      "barrier": 431437.78,
+      "damage": 3019853.05,
+      "healing": 27743.25
+    }
+  },
+  "perTurn": {
+    "1": {
+      "이세계의 검 무명": 377182.26
+    },
+    "10": {
+      "이세계의 검 무명": 222062.64
+    },
+    "2": {
+      "이세계의 검 무명": 130580.12
+    },
+    "3": {
+      "이세계의 검 무명": 130462.8
+    },
+    "4": {
+      "이세계의 검 무명": 195399.09
+    },
+    "5": {
+      "이세계의 검 무명": 653294.89
+    },
+    "6": {
+      "이세계의 검 무명": 218616.97
+    },
+    "7": {
+      "이세계의 검 무명": 219192.12
+    },
+    "8": {
+      "이세계의 검 무명": 219767.27
+    },
+    "9": {
+      "이세계의 검 무명": 653294.89
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 3019853.05,
+  "unapplied": {}
+}

@@ -40,6 +40,8 @@ STACK_KR: dict[str, str] = {
     "Holy Wrath": "성노",
     "Kuzushi": "파세",
     "Jigotai": "반격 자세",
+    "Fearless": "불굴",
+    "Sharpness": "봉망",
     "Hooked": "입질",
     "Judgment": "심판",
     "Lunar Pounce": "월지호비",

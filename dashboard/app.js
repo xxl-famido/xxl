@@ -113,6 +113,8 @@ function snapshot() {
     runs: +$('#runs').value, forceProc, hp10, turnOverrides: JSON.parse(JSON.stringify(turnOverrides)),
     incomingOn, incomingPct: incomingOn ? +($('#incoming')?.value || 0) : 0,   // OFF면 0으로 저장 → 공유코드 기본값 트리밍 복원(슬라이더값은 복원 시 기본 유지)
     advOn,
+    altar: altarPayload(),     // 길드 제단 설정(OFF면 null) — 복원 시 그때의 조건 재현
+    turnDamage: tdmgPayload(), // 턴 피해 설정(OFF면 null) — 기록에만 실림(공유 코드 압축은 추후)
     // 현재 턴 수를 넘는 계획은 버린다 — 남겨두면 나중에 턴을 늘렸을 때 옛 계획이
     // 되살아나 기본값 대신 들어오고, 기록 용량도 헛되이 커진다.
     turnPlans: Object.fromEntries(Object.entries(turnPlans)
@@ -172,6 +174,8 @@ function restoreRecord(rec) {
   const ibEl = $('#incomingBtn');
   if (ibEl) { ibEl.classList.toggle('on', incomingOn); ibEl.textContent = incomingOn ? '💥 켬' : '💥 끔'; }
   $('#forceProc').classList.toggle('on', forceProc); syncRunsField();
+  applyAltarSnap(s.altar);                               // 제단 설정 복원(옛 기록=OFF) → 잠금도 여기서 최종 판정
+  applyTdmgSnap(s.turnDamage);                           // 턴 피해 설정 복원(옛 기록=OFF)
   buildFilters(); renderRoster(); renderTeam(); renderPrio();
   if (rec.data) { lastResult = rec.data; renderResults(rec.data); }   // 구버전 기록(결과 내장)
   else { run(false); }                  // 결과 미저장 기록 → 동일 설정으로 재실행 (저장 안 함)
@@ -336,13 +340,14 @@ function _decTP(str) {
 function packSlot(s) {
   if (!s) return 0;
   const flags = (s.rune ? 1 : 0) | (s.sealOn ? 2 : 0) | (s.usePlan ? 4 : 0) | (s.allyUltAfter ? 8 : 0);   // rotation은 plan에서 파생 → 미저장
-  return _trimDef([s.id - CID0, flags, s.skill ?? 10, s.priority ?? 0, s.sealAtk || 0, s.sealHp || 0, _encPlan(s.plan), _encFed(s.fedActions), _encSpec(s)],
-    [null, 1, 10, 0, 0, 0, '', '', '']);   // 끝에 스펙 문자열(기본 '' → trim 생략)
+  return _trimDef([s.id - CID0, flags, s.skill ?? 10, s.priority ?? 0, s.sealAtk || 0, s.sealHp || 0, _encPlan(s.plan), _encFed(s.fedActions), _encSpec(s), _encUlt(s)],
+    [null, 1, 10, 0, 0, 0, '', '', '', '']);   // 끝에 스펙 · 궁극기 사용 방식(기본 '' → trim 생략)
 }
 function unpackSlot(a) {
   if (!a) return null;
-  const [idD, flags = 1, skill = 10, priority = 0, sealAtk = 0, sealHp = 0, plan = '', fed = '', spec = ''] = a;
+  const [idD, flags = 1, skill = 10, priority = 0, sealAtk = 0, sealHp = 0, plan = '', fed = '', spec = '', ult = ''] = a;
   const s = { id: idD + CID0, skill, rune: !!(flags & 1) };
+  const up = _decUlt(ult); if (up) s.ult = up;          // 궁극기 사용 방식(기본이면 키 없음)
   const dec = _decSpec(spec);
   if (dec) s.spec = dec; else promoteLegacySpec(s);
   if (priority) s.priority = priority;
@@ -375,14 +380,39 @@ function packSnapV2(s) {
   if (tpStr === null) return null;            // 표현할 수 없는 항목 → 구형식으로
   const flags = (s.forceProc ? 1 : 0) | (s.hp10 ? 2 : 0) | (s.incomingOn ? 4 : 0) | (s.advOn ? 8 : 0);
   const to = s.turnOverrides && Object.keys(s.turnOverrides).length ? s.turnOverrides : 0;
-  return _trimDef([s.team.map(packSlot), +s.turns, +s.dummies, s.enemyHits, +s.dummyElement, +s.runs, flags, to, +(s.incomingPct || 0), tpStr],
-    [null, 30, 1, 'all', 0, 50, 0, 0, 0, '']);
+  return _trimDef([s.team.map(packSlot), +s.turns, +s.dummies, s.enemyHits, +s.dummyElement, +s.runs, flags, to, +(s.incomingPct || 0), tpStr, _encAltar(s.altar), _encTdmg(s.turnDamage)],
+    [null, 30, 1, 'all', 0, 50, 0, 0, 0, '', '', '']);   // 꼬리: 길드 제단 · 턴 피해('' = OFF → trim, 켠 것만 코드에 실린다)
 }
 function unpackSnapV2(a) {
-  const [team, turns = 30, dummies = 1, enemyHits = 'all', dummyElement = 0, runs = 50, flags = 0, to = 0, incomingPct = 0, tp = ''] = a;
-  return { team: team.map(unpackSlot), turns, dummies, enemyHits, dummyElement, runs,
+  const [team, turns = 30, dummies = 1, enemyHits = 'all', dummyElement = 0, runs = 50, flags = 0, to = 0, incomingPct = 0, tp = '', alt = '', td = ''] = a;
+  const out = { team: team.map(unpackSlot), turns, dummies, enemyHits, dummyElement, runs,
     forceProc: !!(flags & 1), hp10: !!(flags & 2), incomingOn: !!(flags & 4), incomingPct,
     turnOverrides: to || {}, advOn: !!(flags & 8), turnPlans: _decTP(tp) };
+  const altar = _decAltar(alt);
+  if (altar) out.altar = altar;                       // OFF면 키 자체를 두지 않는다(looseEq: null≈누락)
+  const tdm = _decTdmg(td);
+  if (tdm) out.turnDamage = tdm;                      // 턴 피해도 동일 — OFF면 키 없음
+  return out;
+}
+// 턴 피해 공유 코드 압축(최소형): ''=OFF / 'P'=매 턴 P% / 'P;t:v,t:v'=고급 턴별 값(비운 칸은 안 실림).
+function _encTdmg(t) {
+  if (!t || !t.on) return '';
+  const pct = Math.max(1, Math.min(99, Math.round(+t.pct || 0)));
+  const per = Object.entries(t.per || {}).map(([k, v]) => [+k, Math.max(0, Math.min(99, Math.round(+v)))])
+    .filter(([k, v]) => k >= 1 && Number.isFinite(v)).sort((a, b) => a[0] - b[0]);
+  return String(pct) + (per.length ? ';' + per.map(([k, v]) => k + ':' + v).join(',') : '');
+}
+function _decTdmg(str) {
+  if (!str || typeof str !== 'string') return null;
+  const m = /^(\d{1,2})(?:;([\d:,]*))?$/.exec(str); if (!m) return null;
+  const pct = +m[1]; if (!(pct >= 1 && pct <= 99)) return null;
+  const out = { on: true, pct };
+  if (m[2]) {
+    const per = {};
+    m[2].split(',').forEach(kv => { const [k, v] = kv.split(':').map(Number); if (k >= 1 && v >= 0 && v <= 99) per[k] = v; });
+    if (Object.keys(per).length) out.per = per;
+  }
+  return out;
 }
 function packRecords(arr, v2) {               // label은 팀에서 재생성 가능 → 미저장
   const packSn = v2 ? packSnapV2 : packSnap;
@@ -405,6 +435,8 @@ function unpackRecords(arr, v2) {
 function _usesNewFeatures(r) {
   const sn = (r && r.snap) || {};
   if (sn.turnPlans && Object.keys(sn.turnPlans).length) return true;
+  if (sn.altar && sn.altar.on) return true;          // 길드 제단은 v2 꼬리 필드에만 실린다
+  if (sn.turnDamage && sn.turnDamage.on) return true;   // 턴 피해도 v2 꼬리 필드에만
   return (sn.team || []).some(t => t && t.spec && t.spec.on);
 }
 // 누락 ≈ 0/""/false/[]/{} 동등, 숫자/문자 느슨 비교(==), label은 재생성이라 제외 — 다르면(미지원 필드) 폴백
@@ -581,11 +613,14 @@ function cfgFromTeam(side, snap) {        // 편집된 팀 + 공통설정으로 
       fedActions: (t.usePlan && t.fedActions && Object.keys(t.fedActions).length) ? t.fedActions : null,
       allyUltAfter: !!t.allyUltAfter,
       priority: adv ? null : t.priority, sealAtk: t.sealOn ? (t.sealAtk ?? 0) : 0, sealHp: t.sealOn ? (t.sealHp ?? 0) : 0,
+      ult: ultPayload(t),
       ...specPayload(t) })),
     turns: +snap.turns, turnOrders: adv ? {} : (cmpTurnOv[side] || {}), turnPlans: adv || {},
     dummies: cmpCommon.dummies, enemyHits: cmpCommon.enemyHits, dummyElement: cmpCommon.dummyElement,
     forceProc: cmpCommon.forceProc, hp10: cmpCommon.hp10, runs: cmpCommon.forceProc ? 1 : +(snap.runs || 50),
     incomingHpPct: cmpCommon.incomingOn ? cmpCommon.incomingPct : 0,   // 피격 데미지 모드 (비교 공통설정)
+    altar: altarPayload(),           // 길드 제단은 메인 설정을 양쪽 비교군에 공통 적용
+    turnDamage: tdmgPayload(),       // 턴 피해도 메인 설정을 양쪽에 공통 적용
   };
 }
 function markCmpDirty() { cmpPending = true; $('#cmpRun')?.classList.add('dirty'); if (cmpData && cmpData.a) renderCmpLane(); }
@@ -854,8 +889,10 @@ function openPlanPopup(c) {
     <label class="toggle pp-toggle"><input type="checkbox" id="ppOn"><span class="sw"></span>행동 직접 지정 <em>(끄면 자동)</em></label>
     <div class="pp-legend"><span class="ro-a a평">평</span>평타<span class="ro-a a궁">궁</span>필살<span class="ro-a a방">방</span>방어</div>
     <div class="plan-legend" id="ppRules"></div>
+    ${ultSectionHTML(c.cfg, c.position || (c.slotIdx + 1), !!(cmpAdvOn && cmpAdvOn[c.side]))}
     <div id="ppGrid"></div></div>`;
   document.body.appendChild(pop);
+  bindUltSection(pop, c.cfg, markCmpDirty);      // 궁극기 사용 방식(길드 제단 ON일 때만)
   $('#ppOn').checked = !!c.cfg.usePlan;
   $('#ppOn').onchange = () => {
     c.cfg.usePlan = $('#ppOn').checked;
@@ -905,7 +942,7 @@ function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게�
   if (rules) {
     const ruleTxt = apt > 1
       ? `매 턴 <b style="color:var(--gold)">${apt}회 행동</b> · 궁은 턴당 1회 (궁궁 불가) · 임부언 추가행동은 평타`
-      : `필살 CD <b style="color:var(--gold)">${meta.fatalCd}턴</b> · 첫 사용 <b style="color:var(--gold)">${meta.firstFatal}턴</b> · 궁은 CD 안 찬 턴 비활성`;
+      : `필살 CD <b style="color:var(--gold)">${fcd(meta)}턴</b> · 첫 사용 <b style="color:var(--gold)">${ffat(meta)}턴</b> · 궁은 CD 안 찬 턴 비활성`;
     rules.innerHTML = `<span>${ruleTxt}</span><span class="plan-fill">
       <button data-fill="평"${on ? '' : ' disabled'}>모두 평타</button><button data-fill="방"${on ? '' : ' disabled'}>모두 방어</button>${c.id === PASSIVE_DEF_ID ? `<button data-pdef${on ? '' : ' disabled'} title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>` : ''}${ULT3_IDS.has(c.id) ? `<button data-u3${on ? '' : ' disabled'} title="${ULT3_TITLE[c.id]}">3턴궁</button>` : ''}${c.id === UK_ID ? `<button data-ukafter${c.cfg.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군 먼저 필살, 회복은 평타(+45% 평타뎀)">아군 필살 나중</button>` : ''}</span>`;
     rules.querySelectorAll('[data-fill]').forEach(b => b.onclick = () => {
@@ -1220,6 +1257,8 @@ function bindCompare() {
   list.forEach(c => CHARS[c.id] = c);
   loadHistory();
   bindSettings();
+  initAltar();
+  initTdmg();
   bindHistory();
   bindCompare();
   renderHistory(simHistory[0]?.id);
@@ -1350,6 +1389,7 @@ function advCfg(plansOverride, useLegacy) {
         allyUltAfter: !!t.allyUltAfter,
         priority: (advOn && !useLegacy) ? null : (t.priority ?? null),
         sealAtk: t.sealOn ? (t.sealAtk ?? 0) : 0, sealHp: t.sealOn ? (t.sealHp ?? 0) : 0,
+        ult: ultPayload(t),
         ...specPayload(t),
       })).filter(Boolean),
       turns: advTurns(), dummies: cmpCommon.dummies, enemyHits: cmpCommon.enemyHits,
@@ -1357,6 +1397,8 @@ function advCfg(plansOverride, useLegacy) {
       turnOrders: (advOn && !useLegacy) ? {} : (cmpTurnOv[sd] || {}),
       turnPlans: plans, forceProc: true, hp10: !!cmpCommon.hp10, runs: 1,
       incomingHpPct: cmpCommon.incomingOn ? +(cmpCommon.incomingPct || 0) : 0,
+      altar: altarPayload(),         // 길드 제단(메인과 공통) — 최대 CD+1 등이 타임라인에 그대로 반영되게
+      turnDamage: tdmgPayload(),     // 턴 피해(메인과 공통)
     };
   }
   return {
@@ -1370,12 +1412,15 @@ function advCfg(plansOverride, useLegacy) {
       fedActions: s.fedActions || null, allyUltAfter: !!s.allyUltAfter,
       priority: (advOn && !useLegacy) ? null : (s.priority ?? null),
       sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0,
+      ult: ultPayload(s),
       ...specPayload(s),
     })).filter(Boolean),
     turns: advTurns(), dummies: +$('#dummies').dataset.val,
     enemyHits: $('#enemyHits').dataset.val, dummyElement: +$('#dummyElement').dataset.val,
     turnOrders: (advOn && !useLegacy) ? {} : turnOverrides,
     turnPlans: plans,
+    altar: altarPayload(),           // 길드 제단(메인 설정)
+    turnDamage: tdmgPayload(),       // 턴 피해(메인 설정)
     forceProc: true, hp10, runs: 1,
     incomingHpPct: incomingOn ? +$('#incoming').value : 0,
   };
@@ -2219,6 +2264,7 @@ function bindSettings() {
     seg.dataset.val = b.dataset.v; seg.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
   });
   $('#forceProc').onclick = () => {
+    if (altarOn) return;                                   // 제단 설정 중엔 활성화 불가(버튼도 disabled)
     forceProc = !forceProc; $('#forceProc').classList.toggle('on', forceProc); syncRunsField();
     toast(forceProc ? '확률 100% 모드 ON<br>· 모든 확률형 스킬 100% 강제' : '확률 100% 모드 OFF');
   };
@@ -2239,6 +2285,757 @@ function bindSettings() {
 let forceProc = false;   // 확률 100% 모드
 let hp10 = false;        // 체력 10% 모드 (더미 HP 고정)
 let incomingOn = false;  // 피격 데미지 모드 (더미→아군 최대HP n% 데미지, 배리어 흡수)
+
+// ══ 턴 피해 설정 ═══════════════════════════════════════════════════════════
+// 길드전 보스처럼 매 턴 종료 시 아군 전체가 최대HP의 n% 피해를 받는 모드(무명 등 자기 HP 반응 캐릭 검증용).
+// 고급을 켜면 턴마다 %를 따로 정한다(빈 칸 = 기본 %). 엔진 cfg.turnDamage = {on, pct, per:{턴:%}}.
+// 패널은 길드 제단 설정과 같은 자리(사이드 3열/모바일 팝업)를 쓰는 '탭' — 한쪽을 열면 다른 쪽이 밀려나며 교체된다.
+// 두 기능 자체는 동시에 켤 수 있다. 저장 = localStorage + 기록 스냅샷(turnDamage). 공유 코드 압축은 추후(전체 최적화 때).
+let tdmgOn = false;
+let tdmgOpened = false;
+let tdmgCfg = { pct: 10, adv: false, per: {} };
+const TDMG_KEY = 'woofia_tdmg';
+const TDMG_T = {
+  title:  { kr: '턴 피해 설정', en: 'Turn Damage Settings', zh: '回合傷害設定', zhs: '回合伤害设置', ja: 'ターンダメージ設定' },
+  sub:    { kr: '매 턴 아군 전체가 피해를 받습니다', en: 'The whole team takes damage every turn', zh: '每回合全隊承受傷害', zhs: '每回合全队承受伤害', ja: '毎ターン味方全員がダメージを受けます' },
+  use:    { kr: '사용', en: 'Use', zh: '使用', zhs: '使用', ja: '使用' },
+  close:  { kr: '닫기', en: 'Close', zh: '關閉', zhs: '关闭', ja: '閉じる' },
+  pct:    { kr: '매 턴 피해 (최대HP의 %)', en: 'Damage per turn (% of Max HP)', zh: '每回合傷害（最大生命的 %）', zhs: '每回合伤害（最大生命的 %）', ja: '毎ターンのダメージ（最大HPの%）' },
+  adv:    { kr: '고급 · 턴별로 다르게', en: 'Advanced · per-turn values', zh: '進階 · 各回合分別設定', zhs: '高级 · 各回合分别设置', ja: '詳細 · ターンごとに設定' },
+  advSub: { kr: '켜면 아래 칸에 턴마다 피해 %를 따로 정할 수 있어요 (비우면 위 값)', en: 'When on, set each turn’s % below (blank = the value above)', zh: '開啟後可在下方為每回合單獨設定傷害%（留空 = 上方數值）', zhs: '开启后可在下方为每回合单独设置伤害%（留空 = 上方数值）', ja: 'オンにすると下でターンごとの%を個別に設定できます（空欄 = 上の値）' },
+  turn:   { kr: '{0}턴', en: 'T{0}', zh: '第{0}回合', zhs: '第{0}回合', ja: '{0}T' },
+  reset:  { kr: '턴별 값 비우기', en: 'Clear per-turn values', zh: '清除各回合數值', zhs: '清除各回合数值', ja: 'ターン別の値を消去' },
+  hint:   { kr: '적 페이즈가 끝날 때 아군 전체가 최대HP의 지정 %만큼 피해를 받습니다. 배리어가 먼저 흡수하고, 방어한 턴은 50%만 받으며, 받는 데미지 증감이 적용돼요. 반격은 발동하지 않고 체력은 1 미만으로 안 내려가요.',
+            en: 'At the end of each enemy phase the whole team takes the set % of Max HP as damage. Barriers absorb first, a defending turn takes 50%, and damage-taken modifiers apply. No counterattacks trigger and HP never drops below 1.',
+            zh: '每次敵方回合結束時，全隊承受最大生命指定%的傷害。護盾先吸收，防禦回合只受50%，並套用受傷增減。不會觸發反擊，生命不會低於1。',
+            zhs: '每次敌方回合结束时，全队承受最大生命指定%的伤害。护盾先吸收，防御回合只受50%，并套用受伤增减。不会触发反击，生命不会低于1。',
+            ja: '敵フェーズ終了時に味方全員が最大HPの指定%のダメージを受けます。バリアが先に吸収し、防御したターンは50%のみ、被ダメージ増減も適用。反撃は発動せず、HPは1未満になりません。' },
+  note:   { kr: '아군 피격 설정·길드 제단 설정과 함께 켤 수 있어요 (패널은 한 번에 하나만 보여요). 무명처럼 자기 HP에 반응하는 캐릭터를 시험할 때 쓰세요.',
+            en: 'Can be combined with Incoming Damage and Guild Altar Settings (one panel shows at a time). Use it to test characters that react to their own HP, like Mumei.',
+            zh: '可與受擊傷害、公會祭壇設定同時開啟（面板一次只顯示一個）。用來測試像無名這樣依自身生命變化的角色。',
+            zhs: '可与受击伤害、公会祭坛设置同时开启（面板一次只显示一个）。用来测试像无名这样依自身生命变化的角色。',
+            ja: '被弾ダメージ・ギルド祭壇設定と同時にオンにできます（パネルは一度に一つ）。無名のように自分のHPに反応するキャラの検証に。' },
+  result: { kr: '턴 피해 {0}%', en: 'Turn dmg {0}%', zh: '回合傷害 {0}%', zhs: '回合伤害 {0}%', ja: 'ターンダメージ {0}%' },
+  resultRange: { kr: '턴 피해 {0}~{1}%', en: 'Turn dmg {0}–{1}%', zh: '回合傷害 {0}~{1}%', zhs: '回合伤害 {0}~{1}%', ja: 'ターンダメージ {0}~{1}%' },
+  toastOn:  { kr: '턴 피해 설정 ON', en: 'Turn Damage Settings ON', zh: '回合傷害設定 ON', zhs: '回合伤害设置 ON', ja: 'ターンダメージ設定 ON' },
+  toastOnSub: { kr: '· 매 턴 아군 전체가 최대HP의 {0}% 피해', en: '· every turn the whole team takes {0}% of Max HP', zh: '· 每回合全隊承受最大生命 {0}% 傷害', zhs: '· 每回合全队承受最大生命 {0}% 伤害', ja: '· 毎ターン味方全員が最大HPの{0}%ダメージ' },
+  toastOff: { kr: '턴 피해 설정 OFF', en: 'Turn Damage Settings OFF', zh: '回合傷害設定 OFF', zhs: '回合伤害设置 OFF', ja: 'ターンダメージ設定 OFF' },
+};
+function tdmgT(key, ...args) {
+  const v = TDMG_T[key];
+  let s = (v && (v[altarLang()] || v.kr)) || key;
+  args.forEach((a, i) => { s = s.replace(`{${i}}`, a); });
+  return s;
+}
+const tdmgClamp = v => Math.max(0, Math.min(99, Math.round(+v || 0)));
+function tdmgTurns() { return Math.max(1, +($('#turns')?.value || 30)); }
+function tdmgPerClean() {                    // 현재 턴 수 안의 유효한 턴별 값만 {턴: %}
+  const n = tdmgTurns(), out = {};
+  Object.entries(tdmgCfg.per || {}).forEach(([t, v]) => {
+    const tt = +t;
+    if (tt >= 1 && tt <= n && v !== '' && v != null && Number.isFinite(+v)) out[tt] = tdmgClamp(v);
+  });
+  return out;
+}
+function loadTdmgState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(TDMG_KEY) || 'null');
+    if (!s) return;
+    tdmgOn = !!s.on;
+    if (Number.isFinite(+s.pct) && +s.pct > 0) tdmgCfg.pct = Math.max(1, tdmgClamp(s.pct));
+    tdmgCfg.adv = !!s.adv;
+    tdmgCfg.per = (s.per && typeof s.per === 'object') ? s.per : {};
+  } catch { /* 손상된 저장값은 기본값으로 */ }
+}
+function saveTdmgState() {
+  try { localStorage.setItem(TDMG_KEY, JSON.stringify({ on: tdmgOn, pct: tdmgCfg.pct, adv: tdmgCfg.adv, per: tdmgCfg.per })); } catch { }
+}
+// 엔진 cfg.turnDamage / 기록 snapshot.turnDamage 계약: OFF면 null, ON이면 { on:true, pct, per?:{턴:%} }.
+function tdmgPayload() {
+  if (!tdmgOn) return null;
+  const out = { on: true, pct: tdmgCfg.pct };
+  if (tdmgCfg.adv) { const per = tdmgPerClean(); if (Object.keys(per).length) out.per = per; }
+  return out;
+}
+function applyTdmgSnap(t) {                 // 기록 복원(null/없음 = OFF, 옛 기록도 OFF)
+  tdmgOn = !!(t && t.on);
+  if (t && t.on) {
+    if (Number.isFinite(+t.pct) && +t.pct > 0) tdmgCfg.pct = Math.max(1, tdmgClamp(t.pct));
+    const per = (t.per && typeof t.per === 'object') ? t.per : {};
+    tdmgCfg.adv = Object.keys(per).length > 0;
+    tdmgCfg.per = { ...per };
+  }
+  saveTdmgState();
+  renderTdmg();
+  syncTdmgUI();
+}
+function syncTdmgUI() {
+  const b = $('#tdmgOpen');
+  if (b) {
+    b.classList.toggle('on', tdmgOn);
+    b.classList.toggle('open', tdmgOpened);
+    b.setAttribute('aria-expanded', tdmgOpened ? 'true' : 'false');
+  }
+}
+function tdmgHeadHTML() {
+  return `<div class="adv-head altar-head">
+    <h3>${esc(tdmgT('title'))}<span class="adv-sub">${esc(tdmgT('sub'))}</span></h3>
+    <label class="toggle"><input type="checkbox" data-tdmgsw ${tdmgOn ? 'checked' : ''}><span class="sw"></span>${esc(tdmgT('use'))}</label>
+    <button type="button" class="adv-x" data-tdmgclose aria-label="${esc(tdmgT('close'))}">✕</button>
+  </div>`;
+}
+function tdmgBodyHTML() {
+  const n = tdmgTurns(), per = tdmgPerClean();
+  const cells = Array.from({ length: n }, (_, i) => {
+    const t = i + 1, set = per[t] != null;
+    return `<div class="tdmg-row ${set ? 'set' : ''}" style="--i:${i}"><label>${esc(tdmgT('turn', t))}</label>
+      <input type="number" min="0" max="99" step="1" inputmode="numeric" data-tdturn="${t}" value="${set ? per[t] : ''}" placeholder="${tdmgCfg.pct}" ${tdmgCfg.adv ? '' : 'disabled'}></div>`;
+  }).join('');
+  return `<div class="altar-hint">${esc(tdmgT('hint'))}</div>
+    <section class="tdmg-field">
+      <div class="tf-head"><b>${esc(tdmgT('pct'))}</b></div>
+      <div class="tdmg-pct"><input type="range" min="1" max="99" value="${tdmgCfg.pct}" data-tdpct><b data-tdpctval>${tdmgCfg.pct}%</b></div>
+    </section>
+    <section class="tdmg-field tdmg-adv ${tdmgCfg.adv ? '' : 'off'}">
+      <div class="tf-head"><b>${esc(tdmgT('adv'))}</b>
+        <label class="toggle"><input type="checkbox" data-tdadv ${tdmgCfg.adv ? 'checked' : ''}><span class="sw"></span>${esc(tdmgT('use'))}</label>
+        <em>${esc(tdmgT('advSub'))}</em></div>
+      <div class="tdmg-grid">${cells}</div>
+      <div class="tdmg-tools"><button type="button" class="btn-ghost sm" data-tdreset>${esc(tdmgT('reset'))}</button></div>
+    </section>
+    <div class="altar-note">${esc(tdmgT('note'))}</div>`;
+}
+function tdmgHost() {                      // 현재 열린 컨테이너(팝업 .altar-card / 사이드 .altar-inner)
+  return document.querySelector('.tdmg-modal .altar-card') || document.querySelector('#tdmgSide .altar-inner');
+}
+function renderTdmg() {
+  const host = tdmgOpened ? tdmgHost() : null;
+  if (!host) return;
+  host.innerHTML = tdmgHeadHTML() + `<div class="adv-body altar-body tdmg-body ${tdmgOn ? '' : 'off'}">${tdmgBodyHTML()}</div>`;
+}
+function tdmgEsc(e) { if (e.key === 'Escape') closeTdmg(); }
+// 탭 교체: 나가는 패널을 swap 모드로 닫고(왼쪽으로 빠짐) 잠깐 뒤 들어오는 패널을 연다(오른쪽에서 들어옴).
+function swapSide(closeFn, openFn) {
+  closeFn(true);
+  if (_reduceMotion()) openFn(); else setTimeout(openFn, 200);
+}
+function openTdmg() {
+  if (tdmgOpened) return closeTdmg();
+  if (altarOpened) return swapSide(closeAltar, openTdmg);   // 제단 탭이 열려 있으면 이 탭으로 교체
+  tdmgOpened = true;
+  if (altarIsMobile()) {
+    document.querySelector('.tdmg-modal')?.remove();
+    const pop = document.createElement('div');
+    pop.className = 'advpop tdmg-modal i18n-skip';
+    pop.innerHTML = `<div class="adv-card altar-card" role="dialog" aria-modal="true" aria-label="${esc(tdmgT('title'))}"></div>`;
+    pop.addEventListener('click', e => { if (e.target === pop) closeTdmg(); });
+    document.body.appendChild(pop);
+  } else {
+    const side = $('#tdmgSide'), wrap = document.querySelector('.wrap');
+    if (side) {
+      side.hidden = false;
+      side.classList.remove('swap-out');
+      side.innerHTML = '<div class="altar-inner"></div>';
+      wrap?.classList.add('altar-open');
+      requestAnimationFrame(() => requestAnimationFrame(() => { if (tdmgOpened) side.classList.add('in'); }));
+    }
+  }
+  renderTdmg();
+  syncTdmgUI();
+  document.addEventListener('keydown', tdmgEsc);
+}
+function closeTdmg(swap) {
+  if (!tdmgOpened) return;
+  tdmgOpened = false;
+  document.removeEventListener('keydown', tdmgEsc);
+  document.querySelector('.tdmg-modal')?.remove();
+  const side = $('#tdmgSide'), wrap = document.querySelector('.wrap');
+  if (side && !side.hidden) {
+    side.classList.remove('in');
+    if (swap === true) side.classList.add('swap-out');
+    const done = () => {
+      if (!tdmgOpened) {
+        side.hidden = true; side.innerHTML = ''; side.classList.remove('swap-out');
+        if (!altarOpened) wrap?.classList.remove('altar-open');   // 다른 탭이 열려 있으면 열은 유지
+      }
+    };
+    if (_reduceMotion()) done(); else setTimeout(done, swap === true ? 220 : 360);
+  }
+  syncTdmgUI();
+}
+function setTdmgOn(v) {
+  tdmgOn = !!v;
+  saveTdmgState();
+  syncTdmgUI();
+  $$('.tdmg-body').forEach(b => b.classList.toggle('off', !tdmgOn));
+  toast(tdmgOn ? `${tdmgT('toastOn')}<br>${tdmgT('toastOnSub', tdmgCfg.pct)}` : tdmgT('toastOff'));
+}
+function initTdmg() {
+  loadTdmgState();
+  const btn = $('#tdmgOpen');
+  if (btn) btn.onclick = () => openTdmg();
+  syncTdmgUI();
+  document.body.addEventListener('change', e => {
+    const t = e.target;
+    if (!(t instanceof HTMLInputElement)) return;
+    if (t.hasAttribute('data-tdmgsw')) return setTdmgOn(t.checked);
+    if (t.hasAttribute('data-tdadv')) {
+      tdmgCfg.adv = t.checked; saveTdmgState();
+      const sec = t.closest('.tdmg-adv'); if (sec) sec.classList.toggle('off', !tdmgCfg.adv);
+      $$('[data-tdturn]').forEach(i => { i.disabled = !tdmgCfg.adv; });
+      return;
+    }
+    if (t.hasAttribute('data-tdpct')) { tdmgCfg.pct = Math.max(1, tdmgClamp(t.value)); saveTdmgState(); return; }
+    if (t.dataset.tdturn) {
+      const turn = +t.dataset.tdturn, v = String(t.value).trim();
+      if (v === '') delete tdmgCfg.per[turn]; else { tdmgCfg.per[turn] = tdmgClamp(v); t.value = tdmgCfg.per[turn]; }
+      t.closest('.tdmg-row')?.classList.toggle('set', v !== '');
+      saveTdmgState();
+    }
+  });
+  document.body.addEventListener('input', e => {       // 슬라이더는 드래그 중에도 값·자리표시자 갱신
+    const t = e.target;
+    if (!(t instanceof HTMLInputElement) || !t.hasAttribute('data-tdpct')) return;
+    const p = Math.max(1, tdmgClamp(t.value));
+    const lbl = document.querySelector('[data-tdpctval]'); if (lbl) lbl.textContent = p + '%';
+    $$('[data-tdturn]').forEach(i => { i.placeholder = p; });
+  });
+  document.body.addEventListener('click', e => {
+    if (e.target.closest('[data-tdmgclose]')) return closeTdmg();
+    if (e.target.closest('[data-tdreset]')) { tdmgCfg.per = {}; saveTdmgState(); renderTdmg(); }
+  });
+  $('#turns')?.addEventListener('input', () => { if (tdmgOpened) renderTdmg(); });   // 턴 수가 바뀌면 칸 수도
+  document.addEventListener('woofia:lang', () => { renderTdmg(); syncTdmgUI(); });
+  const mq = window.matchMedia(ALTAR_MQ);
+  const onMq = () => { if (tdmgOpened) { closeTdmg(); openTdmg(); } };
+  if (mq.addEventListener) mq.addEventListener('change', onMq); else mq.addListener(onMq);
+}
+
+// ══ 길드 제단 설정 ═══════════════════════════════════════════════════════════
+// 길드전 방탈출(맵 111/112/113)의 별·달 제단을 층별로 켜고 끈다. 데이터 = altars.json
+// (mining results/altar_by_floor.json 검증본 — 게임 오브젝트 Id·EffectValue 포함).
+// 본문은 i18n-skip — 패치 히스토리처럼 이 모듈이 woofia_lang 을 직접 읽어 5개 언어로 렌더한다.
+// 켜면 확률 100% 모드는 활성화 불가(이미 켜져 있었으면 끈다).
+// 전투 반영: altarPayload() 가 cfg.altar 로 실려 엔진(woofia_sim/altar.py)이 층 누적·별/달 부호로 푼다.
+// 설정은 localStorage 와 기록(snapshot.altar)·공유 코드($ 형식 꼬리 필드)에 함께 실린다.
+let altarOn = false;                       // 마스터 스위치
+let altarCfg = { floors: { 1: { on: true, off: {} }, 2: { on: true, off: {} }, 3: { on: true, off: {} } } };
+let altarData = null;                      // altars.json (false = 로드 실패)
+let altarOpened = false;                   // 패널(사이드/팝업) 열림
+let altarFpTitle0 = null;                  // 확률 100% 버튼의 원래 툴팁(잠금 해제 시 복원)
+const ALTAR_KEY = 'woofia_altar';
+const ALTAR_MQ = '(max-width:900px)';      // 이하 = 팝업, 초과 = 사이드 패널
+const ALTAR_T = {
+  title:      { kr: '길드 제단 설정', en: 'Guild Altar Settings', zh: '公會祭壇設定', zhs: '公会祭坛设置', ja: 'ギルド祭壇設定' },
+  sub:        { kr: '길드전 방탈출 · 층별 제단 효과', en: 'Guild Escape Room · altar effects by floor', zh: '公會戰密室 · 各層祭壇效果', zhs: '公会战密室 · 各层祭坛效果', ja: 'ギルド脱出部屋 · 階層別の祭壇効果' },
+  use:        { kr: '사용', en: 'Enable', zh: '使用', zhs: '使用', ja: '使用' },
+  close:      { kr: '닫기', en: 'Close', zh: '關閉', zhs: '关闭', ja: '閉じる' },
+  active:     { kr: '활성화', en: 'Active', zh: '啟用', zhs: '启用', ja: '有効' },
+  floor:      { kr: '{0}층', en: 'Floor {0}', zh: '{0}層', zhs: '{0}层', ja: '{0}階' },
+  energy:     { kr: '에너지', en: 'Energy', zh: '能量', zhs: '能量', ja: 'エネルギー' },
+  count:      { kr: '별 {0} · 달 {1}', en: 'Star {0} · Moon {1}', zh: '星 {0} · 月 {1}', zhs: '星 {0} · 月 {1}', ja: '星 {0} · 月 {1}' },
+  star:       { kr: '별 제단', en: 'Star Altar', zh: '星之祭壇', zhs: '星之祭坛', ja: '星の祭壇' },
+  moon:       { kr: '달 제단', en: 'Moon Altar', zh: '月之祭壇', zhs: '月之祭坛', ja: '月の祭壇' },
+  starSub:    { kr: '활성화시 제단 효과가 비활성화됩니다', en: 'Enabling turns the altar effect off',
+                zh: '啟用時該祭壇效果將被停用', zhs: '启用时该祭坛效果将被停用', ja: '有効にすると祭壇効果が無効になります' },
+  moonSub:    { kr: '활성화시 제단 효과가 활성화됩니다', en: 'Enabling turns the altar effect on',
+                zh: '啟用時該祭壇效果將生效', zhs: '启用时该祭坛效果将生效', ja: '有効にすると祭壇効果が有効になります' },
+  hint:       { kr: '제단을 눌러 활성화 여부를 바꿉니다. 별 제단과 달 제단은 활성화의 의미가 서로 반대입니다.',
+                en: 'Click an altar to toggle it. Enabling means the opposite for Star and Moon altars.',
+                zh: '點擊祭壇即可切換啟用狀態。星之祭壇與月之祭壇的「啟用」含義相反。',
+                zhs: '点击祭坛即可切换启用状态。星之祭坛与月之祭坛的「启用」含义相反。',
+                ja: '祭壇を押すと有効・無効を切り替えられます。星の祭壇と月の祭壇では「有効」の意味が逆になります。' },
+  floorRule:  { kr: '층은 1층부터 순서대로만 켤 수 있습니다 — 위층을 켜면 아래층도 함께 켜집니다.',
+                en: 'Floors enable in order from the first — enabling an upper floor also enables the ones below.',
+                zh: '樓層須自 1 樓起依序啟用 — 啟用上層時下層也會一併啟用。',
+                zhs: '楼层须自 1 层起依序启用 — 启用上层时下层也会一并启用。',
+                ja: '階層は1階から順にのみ有効化できます — 上の階を有効にすると下の階も一緒に有効になります。' },
+  note:       { kr: '보스 ATK · 보스 주는 데미지 · 아군 받는 데미지 별 제단은 피격 데미지 모드를 켰을 때만 결과에 반영돼요. 같은 효과가 여러 층에 있으면 전부 더해집니다.',
+                en: 'The Boss ATK, Boss damage dealt and Buddies\u2019 damage taken Star altars only affect results when Incoming Damage mode is on. The same effect on several floors adds up.',
+                zh: '頭目ATK・頭目造成傷害・我方受到傷害的星之祭壇僅在開啟被擊傷害模式時才會反映到結果。多層出現的相同效果會全部累加。',
+                zhs: '头目ATK・头目造成伤害・我方受到伤害的星之祭坛仅在开启被击伤害模式时才会反映到结果。多层出现的相同效果会全部累加。',
+                ja: 'ボスATK・ボス与ダメージ・味方被ダメージの星の祭壇は、被ダメージモードをオンにしたときだけ結果に反映されます。複数階にある同じ効果はすべて加算されます。' },
+  result:     { kr: '제단 별 {0} · 달 {1}', en: 'Altars: Star {0} · Moon {1}', zh: '祭壇 星 {0} · 月 {1}', zhs: '祭坛 星 {0} · 月 {1}', ja: '祭壇 星 {0} · 月 {1}' },
+  resultGroups: { kr: ' · 맞추기 {0}그룹', en: ' · {0} sync group(s)', zh: ' · 同步 {0} 組', zhs: ' · 同步 {0} 组', ja: ' · 同期 {0} グループ' },
+  toastOnPolicy: { kr: '· 캐릭터를 눌러 <b>궁극기 사용 방식</b>을 정할 수 있어요 (기본: 정해진 턴 · 방어 턴 유지)', en: '· Click a character to set its <b>ultimate policy</b> (default: planned turns · keep defend turns)',
+                zh: '· 點擊角色可設定<b>必殺技使用方式</b>（預設：指定回合 · 保留防禦回合）', zhs: '· 点击角色可设置<b>必杀技使用方式</b>（默认：指定回合 · 保留防御回合）', ja: '· キャラを押して<b>必殺技の使い方</b>を設定できます（既定：指定ターン · 防御ターン維持）' },
+  ultTitle:   { kr: '궁극기 사용 방식', en: 'Ultimate policy', zh: '必殺技使用方式', zhs: '必杀技使用方式', ja: '必殺技の使い方' },
+  ultSub:     { kr: '길드 제단으로 CD가 달라질 때', en: 'when altars change the cooldown', zh: '祭壇改變CD時', zhs: '祭坛改变CD时', ja: '祭壇でCDが変わるとき' },
+  ult_fixed:  { kr: '정해진 턴', en: 'Planned turns', zh: '指定回合', zhs: '指定回合', ja: '指定ターン' },
+  ult_fixedTip: { kr: '계획한 턴에 궁을 씁니다. 그 턴에 준비가 안 됐으면 준비되는 즉시 씁니다.', en: 'Uses the ultimate on planned turns; if not ready then, uses it as soon as it is.',
+                zh: '在計畫的回合使用必殺技；若該回合未就緒，則一就緒立即使用。', zhs: '在计划的回合使用必杀技；若该回合未就绪，则一就绪立即使用。', ja: '計画したターンに必殺技を使います。そのターンに準備できていなければ、準備でき次第使います。' },
+  ult_strict: { kr: '정해진 턴만', en: 'Planned turns only', zh: '僅指定回合', zhs: '仅指定回合', ja: '指定ターンのみ' },
+  ult_strictTip: { kr: '계획한 턴에만 궁을 씁니다. 준비가 안 됐으면 건너뛰고 다음 계획 턴을 기다립니다.', en: 'Only on planned turns; if not ready, skips and waits for the next planned turn.',
+                zh: '僅在計畫的回合使用；未就緒則跳過並等待下一個計畫回合。', zhs: '仅在计划的回合使用；未就绪则跳过并等待下一个计划回合。', ja: '計画したターンだけ使います。準備できていなければ飛ばして次の計画ターンを待ちます。' },
+  ult_asap:   { kr: '준비되면 바로', en: 'As soon as ready', zh: '就緒即用', zhs: '就绪即用', ja: '準備でき次第' },
+  ult_asapTip: { kr: '궁이 준비되는 행동마다 바로 씁니다. 계획의 궁 자리는 무시합니다.', en: 'Uses the ultimate on every action where it is ready, ignoring planned ultimate slots.',
+                zh: '必殺技一就緒就立即使用，忽略計畫中的必殺位置。', zhs: '必杀技一就绪就立即使用，忽略计划中的必杀位置。', ja: '必殺技が準備できた行動で即座に使います。計画の必殺枠は無視します。' },
+  ultKeepDef: { kr: '계획의 방어 턴은 방어 유지', en: 'Keep planned defend turns', zh: '保留計畫的防禦回合', zhs: '保留计划的防御回合', ja: '計画の防御ターンは防御を維持' },
+  ultLocked:  { kr: '행동 고급 설정이 켜져 있어요 — 타임라인이 궁 시점을 정합니다', en: 'Advanced action settings are on — the timeline decides ultimate timing',
+                zh: '已開啟進階行動設定 — 由時間軸決定必殺時機', zhs: '已开启高级行动设置 — 由时间轴决定必杀时机', ja: '高度な行動設定がオンです — タイムラインが必殺のタイミングを決めます' },
+  ultSyncInfo: { kr: '맞추기 그룹 {0} · {1}이(가) 궁을 쓰는 턴에 {2} 같이 씁니다 (길드 제단 설정에서 변경)', en: 'Sync group {0} · uses its ultimate {2} {1} on the turns they ultimate (change in Guild Altar Settings)',
+                zh: '同步組 {0} · 在 {1} 使用必殺的回合{2}一起使用（於公會祭壇設定變更）', zhs: '同步组 {0} · 在 {1} 使用必杀的回合{2}一起使用（于公会祭坛设置变更）', ja: '同期グループ {0} · {1} が必殺を使うターンに{2}一緒に使います（ギルド祭壇設定で変更）' },
+  ultAnchorInfo: { kr: '맞추기 그룹 {0}의 앵커예요 — 멤버들이 이 캐릭터의 궁 턴에 맞춥니다', en: 'Anchor of sync group {0} — members align to this character\u2019s ultimate turns',
+                zh: '同步組 {0} 的錨點 — 成員會配合此角色的必殺回合', zhs: '同步组 {0} 的锚点 — 成员会配合此角色的必杀回合', ja: '同期グループ {0} のアンカーです — メンバーがこのキャラの必殺ターンに合わせます' },
+  syncTitle:  { kr: '궁극기 맞추기', en: 'Ultimate sync', zh: '必殺技同步', zhs: '必杀技同步', ja: '必殺技の同期' },
+  syncSub:    { kr: '앵커가 궁을 쓰는 턴에 멤버도 같이 씁니다 · 최대 3그룹, 한 캐릭터는 한 그룹에만 · 우선순위 2순위 (1순위 = 행동 고급 설정에서 편집한 턴, 그 턴은 맞추기 미적용)',
+                en: 'Members ultimate on the turns the anchor does · up to 3 groups, one group per character · priority 2 (priority 1 = turns edited in advanced action settings; sync is skipped there)',
+                zh: '成員會在錨點使用必殺的回合一起使用 · 最多 3 組，一名角色只能屬於一組 · 優先度第 2（第 1 = 進階行動設定中編輯的回合，該回合不套用同步）',
+                zhs: '成员会在锚点使用必杀的回合一起使用 · 最多 3 组，一名角色只能属于一组 · 优先级第 2（第 1 = 高级行动设置中编辑的回合，该回合不应用同步）',
+                ja: 'アンカーが必殺を使うターンにメンバーも使います · 最大3グループ、1キャラは1グループのみ · 優先度2位（1位 = 行動詳細設定で編集したターン、そのターンは同期しない）' },
+  syncGroup:  { kr: '그룹 {0} 앵커', en: 'Group {0} anchor', zh: '第 {0} 組錨點', zhs: '第 {0} 组锚点', ja: 'グループ {0} アンカー' },
+  syncAnchor: { kr: '앵커', en: 'Anchor', zh: '錨點', zhs: '锚点', ja: 'アンカー' },
+  syncNone:   { kr: '— 없음 —', en: '— none —', zh: '— 無 —', zhs: '— 无 —', ja: '— なし —' },
+  syncEmpty:  { kr: '빈 자리', en: 'empty', zh: '空位', zhs: '空位', ja: '空き' },
+  syncBefore: { kr: '앵커 앞', en: 'before', zh: '錨點前', zhs: '锚点前', ja: 'アンカー前' },
+  syncAfter:  { kr: '앵커 뒤', en: 'after', zh: '錨點後', zhs: '锚点后', ja: 'アンカー後' },
+  syncOrderTip: { kr: '그 턴에 앵커 앞에 행동할지 뒤에 행동할지 (눌러서 전환)', en: 'Act before or after the anchor on that turn (click to switch)', zh: '該回合在錨點前或後行動（點擊切換）', zhs: '该回合在锚点前或后行动（点击切换）', ja: 'そのターンにアンカーの前か後に行動するか（押して切替）' },
+  syncMiss:   { kr: '앵커 궁 턴에 미준비면', en: 'If not ready on the anchor turn', zh: '錨點回合未就緒時', zhs: '锚点回合未就绪时', ja: 'アンカーのターンに未準備なら' },
+  syncMissWait: { kr: '다음까지 대기', en: 'Wait for next', zh: '等待下一次', zhs: '等待下一次', ja: '次まで待つ' },
+  syncMissAsap: { kr: '준비되면 바로', en: 'Use when ready', zh: '就緒即用', zhs: '就绪即用', ja: '準備でき次第' },
+  lock:       { kr: '길드 제단 설정이 켜져 있어요 — 확률 100% 모드는 함께 쓸 수 없어요', en: "Guild Altar Settings is on — 100% Proc mode can't be used together",
+                zh: '已開啟公會祭壇設定 — 無法同時使用機率100%模式', zhs: '已开启公会祭坛设置 — 无法同时使用概率100%模式', ja: 'ギルド祭壇設定がオンです — 確率100%モードは併用できません' },
+  toastOn:    { kr: '길드 제단 설정 ON', en: 'Guild Altar Settings ON', zh: '公會祭壇設定 ON', zhs: '公会祭坛设置 ON', ja: 'ギルド祭壇設定 ON' },
+  toastOnSub: { kr: '· 확률 100% 모드는 함께 쓸 수 없어요', en: '· 100% Proc mode is unavailable while on', zh: '· 無法同時使用機率100%模式', zhs: '· 无法同时使用概率100%模式', ja: '· 確率100%モードは併用できません' },
+  toastOff:   { kr: '길드 제단 설정 OFF', en: 'Guild Altar Settings OFF', zh: '公會祭壇設定 OFF', zhs: '公会祭坛设置 OFF', ja: 'ギルド祭壇設定 OFF' },
+  loading:    { kr: '제단 데이터를 불러오는 중…', en: 'Loading altar data…', zh: '載入祭壇資料中…', zhs: '加载祭坛数据中…', ja: '祭壇データを読み込み中…' },
+  loadFail:   { kr: '제단 데이터를 불러오지 못했어요 (altars.json)', en: 'Failed to load altar data (altars.json)', zh: '無法載入祭壇資料 (altars.json)', zhs: '无法加载祭坛数据 (altars.json)', ja: '祭壇データを読み込めませんでした (altars.json)' },
+};
+const altarLang = () => localStorage.getItem('woofia_lang') || 'kr';
+function altarT(key, ...args) {           // 로컬 사전 → 현재 언어(없으면 kr) + {n} 치환
+  const v = ALTAR_T[key];
+  let s = (v && (v[altarLang()] || v.kr)) || key;
+  args.forEach((a, i) => { s = s.replace('{' + i + '}', a); });
+  return s;
+}
+const altarTx = o => (o && (o[altarLang()] || o.kr)) || '';   // altars.json 다국어 필드
+const altarIsMobile = () => window.matchMedia(ALTAR_MQ).matches;
+
+// ── 궁극기 사용 방식 · 궁 맞추기 · 402(최대 CD+1) ─────────────────────────────
+// 제단이 켜져 있을 때만 의미가 있다(엔진도 제단 OFF면 무시). 슬롯 필드 s.ult = { mode, keepDef }.
+//   fixed  = 계획 턴에 궁, 미준비면 차는 즉시(종전 동작 · 기본)
+//   strict = 계획 턴에만, 미준비면 건너뜀
+//   asap   = 준비되면 바로(계획의 궁 자리 무시). keepDef=true 면 계획의 방어 턴은 방어 유지
+const ULT_MODES = ['fixed', 'strict', 'asap'];
+function ultOf(s) { const u = (s && s.ult) || {}; return { mode: ULT_MODES.includes(u.mode) ? u.mode : 'fixed', keepDef: u.keepDef !== false }; }
+function ultPayload(s) { if (!altarOn) return null; const u = ultOf(s); return (u.mode === 'fixed' && u.keepDef) ? null : u; }
+// 기본(fixed·유지)이면 키를 지운다 — 기록/공유 코드 왕복(looseEq)에서 '기본 객체' 와 '누락' 이 같아지도록
+function setUlt(slot, u) { if (u.mode === 'fixed' && u.keepDef) delete slot.ult; else slot.ult = { mode: u.mode, keepDef: u.keepDef }; }
+// 공유 코드: '' = 기본(fixed·유지) / 'a' 'a!' 's' 'f!' (첫 글자 = 방식, '!' = 방어 턴을 궁으로 덮음)
+const _encUlt = s => { const u = ultOf(s); if (u.mode === 'fixed' && u.keepDef) return ''; return u.mode[0] + (u.keepDef ? '' : '!'); };
+const _decUlt = str => { const m = /^([fsa])(!?)$/.exec(String(str || '')); if (!m) return null; return { mode: { f: 'fixed', s: 'strict', a: 'asap' }[m[1]], keepDef: !m[2] }; };
+// 402 "필살기 최대 CD +1" 이 걸려 있는가(마스터 ON · 1층 ON · 402 해제=서 있음). 플래너 CD 모델이 이 값을 더한다.
+function cdPlus() { const f = altarOn && altarCfg.floors[1]; return (f && f.on !== false && f.off && f.off[402]) ? 1 : 0; }
+function fcd(m) { return (m.fatalCd || 0) + cdPlus(); }        // 계획 도구가 보는 필살 CD (보장 CD: 402 반영, 확률 감소 제외)
+function ffat(m) { return (m.firstFatal || 1) + cdPlus(); }    // 첫 궁 가능 턴
+// 궁 맞추기 그룹(최대 3): { anchor: 포지션, members: [{ p, order:'before'|'after' }], miss:'wait'|'asap' }
+const ALTAR_MAX_GROUPS = 3;
+function normalizeAltarGroups(raw) {
+  const used = new Set(), out = [];
+  (Array.isArray(raw) ? raw : []).slice(0, ALTAR_MAX_GROUPS).forEach(g => {
+    if (!g || typeof g !== 'object') return;
+    const anchor = +g.anchor;
+    const members = [];
+    (Array.isArray(g.members) ? g.members : []).forEach(m => {
+      const p = +(m && typeof m === 'object' ? m.p : m);
+      if (!(p >= 1 && p <= 5) || p === anchor || used.has(p) || members.some(x => x.p === p)) return;
+      members.push({ p, order: (m && m.order === 'after') ? 'after' : 'before' });
+    });
+    if (!(anchor >= 1 && anchor <= 5) || used.has(anchor)) {
+      if (members.length || (anchor >= 1 && anchor <= 5)) out.push({ anchor: (anchor >= 1 && anchor <= 5 && !used.has(anchor)) ? anchor : 0, members: [], miss: g.miss === 'asap' ? 'asap' : 'wait' });
+      return;
+    }
+    used.add(anchor); members.forEach(m => used.add(m.p));
+    out.push({ anchor, members, miss: g.miss === 'asap' ? 'asap' : 'wait' });
+  });
+  return out.filter(g => g.anchor || g.members.length);
+}
+const altarGroupsPayload = () => normalizeAltarGroups(altarCfg.groups).filter(g => g.anchor && g.members.length);
+function altarGroupOf(pos) {              // 이 포지션이 속한 그룹 → { g, idx, role:'anchor'|'member', m }
+  const gs = normalizeAltarGroups(altarCfg.groups);
+  for (let i = 0; i < gs.length; i++) {
+    const g = gs[i];
+    if (g.anchor === pos) return { g, idx: i, role: 'anchor' };
+    const m = g.members.find(x => x.p === pos);
+    if (m) return { g, idx: i, role: 'member', m };
+  }
+  return null;
+}
+// 공유 코드용: "12b3a;45b*" (앵커 + 멤버[포지션+b/a]… , '*' = 미준비 시 준비되면 바로)
+function _encGroups(gs) {
+  return (gs || []).filter(g => g.anchor && g.members.length)
+    .map(g => g.anchor + g.members.map(m => m.p + (m.order === 'after' ? 'a' : 'b')).join('') + (g.miss === 'asap' ? '*' : '')).join(';');
+}
+function _decGroups(str) {
+  if (!str) return [];
+  return normalizeAltarGroups(String(str).split(';').map(t => {
+    const m = /^(\d)((?:\d[ab])*)(\*?)$/.exec(t); if (!m) return null;
+    return { anchor: +m[1], members: (m[2].match(/\d[ab]/g) || []).map(x => ({ p: +x[0], order: x[1] === 'a' ? 'after' : 'before' })), miss: m[3] ? 'asap' : 'wait' };
+  }).filter(Boolean));
+}
+// 다국어 캐릭터 이름은 data/chars.json 에만 있다(/api/chars 는 한국어 name 뿐) — 패치 히스토리 모듈과 같은 소스.
+// 한국어가 아닌 언어에서 아직 못 불러왔으면 이름을 생략해(P2 만) 영어 패널에 한글이 남지 않게 한다.
+const ALTAR_NAME_FIELD = { kr: 'name_kr', en: 'name_en', zh: 'name_cn', zhs: 'name_sc', ja: 'name_ja' };
+let altarNames = null;                    // id -> chars.json 원본 메타 (null = 미로드)
+function altarLoadNames() {
+  if (altarNames !== null) return;
+  altarNames = {};
+  fetch('data/chars.json', { cache: 'no-cache' })
+    .then(r => (r.ok ? r.json() : null))
+    .then(j => { if (!j) return; (Array.isArray(j) ? j : Object.values(j)).forEach(c => { if (c && c.id != null) altarNames[c.id] = c; }); renderAltar(); })
+    .catch(() => {});
+}
+function altarCharName(id) {
+  const lang = altarLang(), c = altarNames && altarNames[id];
+  if (c) return c[ALTAR_NAME_FIELD[lang]] || c.name_kr || '';
+  return lang === 'kr' && CHARS[id] ? (CHARS[id].name || '') : '';
+}
+function altarSlotName(pos, teamArr) {    // 포지션 라벨: "P2 리카노" (빈 자리·이름 미로드는 P2 만)
+  const t = (teamArr || team)[pos - 1];
+  const nm = t ? altarCharName(t.id) : '';
+  return `P${pos}${nm ? ' ' + nm : ''}`;
+}
+
+function loadAltarState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(ALTAR_KEY) || 'null');
+    if (!s) return;
+    altarOn = !!s.on;
+    [1, 2, 3].forEach(f => {
+      const v = s.floors && s.floors[f];
+      if (v) altarCfg.floors[f] = { on: v.on !== false, off: (v.off && typeof v.off === 'object') ? v.off : {} };
+    });
+    normalizeAltarFloors();      // 규칙을 어긴 저장값(구버전 포함)은 접두 구간으로 교정
+    altarCfg.groups = normalizeAltarGroups(s.groups);   // 궁 맞추기 그룹(없으면 [])
+  } catch { /* 손상된 저장값은 기본값으로 */ }
+}
+function saveAltarState() {
+  try { localStorage.setItem(ALTAR_KEY, JSON.stringify({ on: altarOn, floors: altarCfg.floors, groups: normalizeAltarGroups(altarCfg.groups) })); } catch { }
+}
+// 엔진 cfg.altar / 기록 snapshot.altar 계약: OFF면 null, ON이면 { on:true, floors:{1:{on, off:[id...]}} }.
+// off 는 '체크 해제한 제단' — 별은 해제=서 있음=페널티 적용, 달은 해제=안 열음=축복 미적용(엔진이 부호 처리).
+function altarPayload() {
+  if (!altarOn) return null;
+  const floors = {};
+  ALTAR_FLOORS.forEach(f => {
+    const c = altarCfg.floors[f] || { on: true, off: {} };
+    floors[f] = { on: c.on !== false, off: Object.keys(c.off || {}).map(Number).filter(n => n > 0).sort((a, b) => a - b) };
+  });
+  const out = { on: true, floors };
+  const groups = altarGroupsPayload();
+  if (groups.length) out.groups = groups;              // 궁 맞추기 그룹(없으면 키 생략 → 공유코드 왕복 looseEq)
+  return out;
+}
+// 기록/공유 코드에서 온 altar 스냅샷을 현재 설정으로 (null = 제단 OFF). 기록은 '그때의 조건'을 재현해야 하므로
+// 제단이 없는 옛 기록을 불러오면 제단도 꺼진다.
+function applyAltarSnap(a) {
+  altarOn = !!(a && a.on);
+  ALTAR_FLOORS.forEach(f => {
+    const v = a && a.floors && (a.floors[f] || a.floors[String(f)]);
+    const off = {};
+    (v && Array.isArray(v.off) ? v.off : []).forEach(id => { if (+id > 0) off[+id] = true; });
+    altarCfg.floors[f] = { on: v ? v.on !== false : true, off };
+  });
+  altarCfg.groups = normalizeAltarGroups(a && a.groups);
+  normalizeAltarFloors();
+  saveAltarState();
+  renderAltar();
+  syncAltarLock();
+}
+// 공유 코드용 압축: ''=OFF / 'N:off1/off2/off3' (N=켜진 층 수 1~3, 층별 해제 id는 ',' 로). 층은 접두 구간이라 수만 있으면 된다.
+function _encAltar(a) {
+  if (!a || !a.on) return '';
+  let n = 0;
+  for (const f of ALTAR_FLOORS) { const v = a.floors && a.floors[f]; if (v && v.on !== false) n = f; else break; }
+  const offs = ALTAR_FLOORS.map(f => ((a.floors && a.floors[f] && a.floors[f].off) || []).map(Number).filter(x => x > 0).sort((x, y) => x - y).join(','));
+  const g = _encGroups(a.groups);
+  return n + ':' + offs.join('/') + (g ? '|' + g : '');   // 꼬리 '|그룹' 은 그룹이 있을 때만
+}
+function _decAltar(str) {
+  if (!str || typeof str !== 'string') return null;
+  const m = /^(\d):([^|]*)(?:\|(.*))?$/.exec(str); if (!m) return null;
+  const n = +m[1], parts = m[2].split('/');
+  const floors = {};
+  ALTAR_FLOORS.forEach((f, i) => {
+    floors[f] = { on: f <= n, off: (parts[i] || '').split(',').map(Number).filter(x => x > 0).sort((a, b) => a - b) };
+  });
+  const out = { on: true, floors };
+  const groups = _decGroups(m[3]).filter(g => g.anchor && g.members.length);
+  if (groups.length) out.groups = groups;
+  return out;
+}
+
+function altarSyncHTML() {                // 패널 하단: 궁 맞추기 그룹 3개
+  // 설정된 그룹(앵커 지정) 다음에 빈 그룹 1개만 보인다 — 그룹1을 정하면 그룹2가, 그룹2를 정하면 그룹3이 나타난다
+  const gs = normalizeAltarGroups(altarCfg.groups);
+  if (gs.length < ALTAR_MAX_GROUPS) gs.push({ anchor: 0, members: [], miss: 'wait' });
+  const usedBy = {};                       // 포지션 → 사용 중인 그룹 인덱스
+  gs.forEach((g, i) => { if (g.anchor) usedBy[g.anchor] = i; g.members.forEach(m => { usedBy[m.p] = i; }); });
+  const cards = gs.map((g, i) => {
+    const opts = [`<option value="0">${esc(altarT('syncNone'))}</option>`]
+      .concat([1, 2, 3, 4, 5].map(p => {
+        const taken = usedBy[p] != null && usedBy[p] !== i, empty = !team[p - 1];
+        return `<option value="${p}"${g.anchor === p ? ' selected' : ''}${(taken || empty) ? ' disabled' : ''}>${esc(altarSlotName(p))}${empty ? ` (${esc(altarT('syncEmpty'))})` : ''}</option>`;
+      })).join('');
+    const members = [1, 2, 3, 4, 5].filter(p => p !== g.anchor).map(p => {
+      const m = g.members.find(x => x.p === p);
+      const taken = usedBy[p] != null && usedBy[p] !== i, empty = !team[p - 1];
+      return `<span class="as-mwrap"><button type="button" class="as-m${m ? ' on' : ''}" data-g="${i}" data-p="${p}"${(taken || empty || !g.anchor) ? ' disabled' : ''} title="${esc(altarSlotName(p))}">${esc(altarSlotName(p))}</button>${m ? `<button type="button" class="as-ord" data-g="${i}" data-p="${p}" title="${esc(altarT('syncOrderTip'))}">${esc(altarT(m.order === 'after' ? 'syncAfter' : 'syncBefore'))}</button>` : ''}</span>`;
+    }).join('');
+    return `<div class="as-group${g.anchor ? ' on' : ''}" data-g="${i}">
+      <div class="as-row"><span class="as-lbl">${esc(altarT('syncGroup', i + 1))}</span>
+        <select class="as-anchor" data-anchor="${i}" aria-label="${esc(altarT('syncAnchor'))}">${opts}</select></div>
+      <div class="as-members">${members}</div>
+      <div class="as-row as-missrow"><span class="as-lbl">${esc(altarT('syncMiss'))}</span>
+        <span class="seg as-miss"><button type="button" data-g="${i}" data-miss="wait" class="${g.miss !== 'asap' ? 'on' : ''}">${esc(altarT('syncMissWait'))}</button><button type="button" data-g="${i}" data-miss="asap" class="${g.miss === 'asap' ? 'on' : ''}">${esc(altarT('syncMissAsap'))}</button></span></div>
+    </div>`;
+  }).join('');
+  return `<div class="altar-sync">
+    <div class="as-title"><b>${esc(altarT('syncTitle'))}</b><em>${esc(altarT('syncSub'))}</em></div>${cards}</div>`;
+}
+function setAltarGroup(i, fn) {           // 그룹 i 를 수정(fn) → 정규화·저장·재렌더
+  const gs = normalizeAltarGroups(altarCfg.groups);
+  while (gs.length <= i) gs.push({ anchor: 0, members: [], miss: 'wait' });
+  fn(gs[i]);
+  altarCfg.groups = normalizeAltarGroups(gs);
+  saveAltarState();
+  renderAltar();
+}
+// 캐릭터 창(메인 모달 · 비교 팝업)에 넣는 '궁극기 사용 방식' 섹션. i18n-skip — 이 모듈이 직접 렌더.
+function ultSectionHTML(slot, pos, locked) {
+  if (!altarOn) return '';
+  const u = ultOf(slot), grp = pos ? altarGroupOf(pos) : null;
+  const inSync = grp && grp.role === 'member' && grp.g.anchor;
+  let body;
+  if (locked) body = `<div class="ult-lock">${esc(altarT('ultLocked'))}</div>`;
+  else if (inSync) body = `<div class="ult-sync">${esc(altarT('ultSyncInfo', grp.idx + 1, altarSlotName(grp.g.anchor), altarT(grp.m.order === 'after' ? 'syncAfter' : 'syncBefore')))}</div>
+      <label class="toggle ult-keep"><input type="checkbox" data-ultkeep ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>`;
+  else body = `<div class="seg ult-modes">${ULT_MODES.map(m => `<button type="button" data-ultmode="${m}" class="${u.mode === m ? 'on' : ''}" title="${esc(altarT('ult_' + m + 'Tip'))}">${esc(altarT('ult_' + m))}</button>`).join('')}</div>
+      <div class="ult-desc">${esc(altarT('ult_' + u.mode + 'Tip'))}</div>
+      <label class="toggle ult-keep${u.mode === 'asap' ? '' : ' dim'}"><input type="checkbox" data-ultkeep ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>
+      ${grp && grp.role === 'anchor' ? `<div class="ult-sync">${esc(altarT('ultAnchorInfo', grp.idx + 1))}</div>` : ''}`;
+  return `<div class="mc-ult i18n-skip"><div class="ult-title"><img src="icons/altar_moon.webp" alt=""><b>${esc(altarT('ultTitle'))}</b><em>${esc(altarT('ultSub'))}</em></div>${body}</div>`;
+}
+function bindUltSection(root, slot, after) {
+  const box = root && root.querySelector('.mc-ult'); if (!box) return;
+  $$('[data-ultmode]', box).forEach(b => b.onclick = () => {
+    setUlt(slot, { ...ultOf(slot), mode: b.dataset.ultmode });
+    $$('[data-ultmode]', box).forEach(x => x.classList.toggle('on', x === b));
+    const d = $('.ult-desc', box); if (d) d.textContent = altarT('ult_' + b.dataset.ultmode + 'Tip');
+    const k = $('.ult-keep', box); if (k) k.classList.toggle('dim', b.dataset.ultmode !== 'asap');
+    if (after) after();
+  });
+  const keep = $('[data-ultkeep]', box);
+  if (keep) keep.onchange = () => { setUlt(slot, { ...ultOf(slot), keepDef: keep.checked }); if (after) after(); };
+}
+
+// 층은 1층부터 쌓인다 — 게임에서 아래층을 지나야 위층에 가므로 '1층 끔 + 2층 켬' 같은 역관계는 없다.
+// 켜진 층은 항상 1..N 의 접두 구간이어야 한다.
+const ALTAR_FLOORS = [1, 2, 3];
+function normalizeAltarFloors() {
+  let open = true;                 // 아래층이 꺼지는 순간부터 위층은 전부 꺼진다
+  ALTAR_FLOORS.forEach(f => {
+    const cfg = altarCfg.floors[f]; if (!cfg) return;
+    if (!open) cfg.on = false;
+    else if (!cfg.on) open = false;
+  });
+}
+// N층을 켜면 아래층이 함께 켜지고, N층을 끄면 위층이 함께 꺼진다.
+function setAltarFloor(floor, on) {
+  ALTAR_FLOORS.forEach(f => {
+    const cfg = altarCfg.floors[f]; if (!cfg) return;
+    if (on && f <= floor) cfg.on = true;
+    else if (!on && f >= floor) cfg.on = false;
+  });
+  normalizeAltarFloors();
+  saveAltarState();
+  syncAltarFloorUI();
+}
+// 캐스케이드로 함께 바뀐 다른 층까지 화면에 반영 (체크박스 + 흐림 처리)
+function syncAltarFloorUI() {
+  $$('.altar-floor').forEach(sec => {
+    const cfg = altarCfg.floors[+sec.dataset.floor]; if (!cfg) return;
+    sec.classList.toggle('off', !cfg.on);
+    const sw = $('[data-floorsw]', sec);
+    if (sw) sw.checked = cfg.on;
+  });
+}
+
+// 제단 설정 ON ⇄ 확률 100% 상호배제. 기록 복원(restoreRecord)이 forceProc 를 되살려도 여기서 최종 판정.
+function syncAltarLock() {
+  const fp = $('#forceProc');
+  if (fp) {
+    if (altarOn && forceProc) { forceProc = false; fp.classList.remove('on'); syncRunsField(); }
+    fp.disabled = altarOn;
+    if (altarOn) {
+      if (altarFpTitle0 == null) altarFpTitle0 = fp.title;   // 원래 툴팁 보관
+      fp.title = altarT('lock');
+    } else if (altarFpTitle0 != null) {
+      fp.title = altarFpTitle0; altarFpTitle0 = null;
+    }
+  }
+  const b = $('#altarOpen');
+  if (b) {
+    b.classList.toggle('on', altarOn);
+    b.classList.toggle('open', altarOpened);
+    b.setAttribute('aria-expanded', altarOpened ? 'true' : 'false');
+  }
+}
+
+function altarHeadHTML() {
+  return `<div class="adv-head altar-head">
+    <h3>${esc(altarT('title'))}<span class="adv-sub">${esc(altarT('sub'))}</span></h3>
+    <label class="toggle"><input type="checkbox" data-altarsw ${altarOn ? 'checked' : ''}><span class="sw"></span>${esc(altarT('use'))}</label>
+    <button type="button" class="adv-x" data-altarclose aria-label="${esc(altarT('close'))}">✕</button>
+  </div>`;
+}
+function altarBodyHTML() {
+  if (altarData === false) return `<div class="altar-hint">${esc(altarT('loadFail'))}</div>`;
+  if (!altarData) return `<div class="altar-hint">${esc(altarT('loading'))}</div>`;
+  const floors = (altarData.floors || []).map(f => {
+    const cfg = altarCfg.floors[f.floor] || { on: true, off: {} };
+    let seq = 0;                                             // 층 안 등장 순번(애니메이션 지연)
+    const group = kind => {
+      const list = (f[kind] || []).map(a => {
+        const on = !cfg.off[a.id];
+        return `<li class="altar-row ${on ? 'on' : ''}" data-aid="${a.id}" data-floor="${f.floor}" style="--i:${seq++}"
+          role="checkbox" aria-checked="${on}" tabindex="0">
+          <img class="ai" src="icons/altar_${kind}.webp" alt="">
+          <span class="at">${esc(altarTx(a.text)).replace(/\n/g, '<br>')}</span>
+          <i class="ck" aria-hidden="true"></i></li>`;
+      }).join('');
+      return `<div class="af-group ${kind}">
+        <div class="ag-title"><img src="icons/altar_${kind}.webp" alt=""><b>${esc(altarT(kind))}</b><em>${esc(altarT(kind + 'Sub'))}</em></div>
+        <ul class="af-list">${list}</ul></div>`;
+    };
+    return `<section class="altar-floor ${cfg.on ? '' : 'off'}" data-floor="${f.floor}">
+      <header class="af-head">
+        <div class="af-t"><b>${esc(altarT('floor', f.floor))}</b>
+          <em>${esc(altarT('energy'))} ${f.energy} · ${esc(altarT('count', (f.star || []).length, (f.moon || []).length))}</em></div>
+        <label class="toggle"><input type="checkbox" data-floorsw="${f.floor}" ${cfg.on ? 'checked' : ''}><span class="sw"></span>${esc(altarT('active'))}</label>
+      </header>
+      ${group('star')}${group('moon')}
+    </section>`;
+  }).join('');
+  return `<div class="altar-hint">${esc(altarT('hint'))}<br><b>${esc(altarT('floorRule'))}</b></div>`
+    + `${floors}${altarSyncHTML()}<div class="altar-note">${esc(altarT('note'))}</div>`;
+}
+function altarHost() {                     // 현재 열린 컨테이너(팝업 .altar-card / 사이드 .altar-inner)
+  return document.querySelector('.altar-modal .altar-card') || document.querySelector('#altarSide .altar-inner');
+}
+function renderAltar() {
+  const host = altarOpened ? altarHost() : null;
+  if (!host) return;
+  host.innerHTML = altarHeadHTML() + `<div class="adv-body altar-body ${altarOn ? '' : 'off'}">${altarBodyHTML()}</div>`;
+}
+function altarEsc(e) { if (e.key === 'Escape') closeAltar(); }
+function openAltar() {
+  if (altarOpened) return closeAltar();
+  if (tdmgOpened) return swapSide(closeTdmg, openAltar);   // 턴 피해 탭이 열려 있으면 이 탭으로 교체
+  altarOpened = true;
+  if (altarIsMobile()) {
+    document.querySelector('.altar-modal')?.remove();
+    const pop = document.createElement('div');
+    pop.className = 'advpop altar-modal i18n-skip';
+    pop.innerHTML = `<div class="adv-card altar-card" role="dialog" aria-modal="true" aria-label="${esc(altarT('title'))}"></div>`;
+    pop.addEventListener('click', e => { if (e.target === pop) closeAltar(); });   // 배경 클릭 = 닫기
+    document.body.appendChild(pop);
+  } else {
+    const side = $('#altarSide'), wrap = document.querySelector('.wrap');
+    if (side) {
+      side.hidden = false;
+      side.classList.remove('swap-out');
+      side.innerHTML = '<div class="altar-inner"></div>';
+      wrap?.classList.add('altar-open');
+      // 폭 0 상태로 한 프레임 그린 뒤 .in → 트랜지션이 실제로 재생된다
+      requestAnimationFrame(() => requestAnimationFrame(() => { if (altarOpened) side.classList.add('in'); }));
+    }
+  }
+  renderAltar();
+  syncAltarLock();
+  document.addEventListener('keydown', altarEsc);
+}
+function closeAltar(swap) {                // swap=true: 턴 피해 탭으로 교체되며 닫힘(왼쪽으로 빠지는 애니메이션)
+  if (!altarOpened) return;
+  altarOpened = false;
+  document.removeEventListener('keydown', altarEsc);
+  document.querySelector('.altar-modal')?.remove();
+  const side = $('#altarSide'), wrap = document.querySelector('.wrap');
+  if (side && !side.hidden) {
+    side.classList.remove('in');
+    if (swap === true) side.classList.add('swap-out');
+    const done = () => {
+      if (!altarOpened) {
+        side.hidden = true; side.innerHTML = ''; side.classList.remove('swap-out');
+        if (!tdmgOpened) wrap?.classList.remove('altar-open');   // 턴 피해 탭이 열려 있으면 열은 유지
+      }
+    };
+    if (_reduceMotion()) done(); else setTimeout(done, swap === true ? 220 : 360);   // 트랜지션 끝난 뒤 열을 접는다
+  }
+  syncAltarLock();
+}
+function setAltarOn(v) {
+  altarOn = !!v;
+  saveAltarState();
+  syncAltarLock();
+  $$('.altar-body').forEach(b => b.classList.toggle('off', !altarOn));
+  toast(altarOn ? `${altarT('toastOn')}<br>${altarT('toastOnSub')}<br>${altarT('toastOnPolicy')}` : altarT('toastOff'));
+}
+function toggleAltarRow(row) {
+  const id = +row.dataset.aid, floor = +row.dataset.floor;
+  const cfg = altarCfg.floors[floor]; if (!cfg) return;
+  if (cfg.off[id]) delete cfg.off[id]; else cfg.off[id] = true;
+  const on = !cfg.off[id];
+  row.classList.toggle('on', on); row.setAttribute('aria-checked', on ? 'true' : 'false');
+  saveAltarState();
+}
+function initAltar() {
+  loadAltarState();
+  const btn = $('#altarOpen');
+  if (btn) btn.onclick = () => openAltar();
+  document.body.addEventListener('change', e => {
+    const t = e.target;
+    if (!(t instanceof HTMLInputElement)) return;
+    if (t.hasAttribute('data-altarsw')) return setAltarOn(t.checked);
+    if (t.dataset.floorsw) {
+      const f = +t.dataset.floorsw; if (!altarCfg.floors[f]) return;
+      setAltarFloor(f, t.checked);
+    }
+  });
+  document.body.addEventListener('change', e => {       // 궁 맞추기: 앵커 선택
+    const t = e.target;
+    if (!(t instanceof HTMLSelectElement) || t.dataset.anchor == null) return;
+    const i = +t.dataset.anchor, p = +t.value;
+    setAltarGroup(i, g => { g.anchor = p; g.members = g.members.filter(m => m.p !== p); });
+  });
+  document.body.addEventListener('click', e => {
+    if (e.target.closest('[data-altarclose]')) return closeAltar();
+    const row = e.target.closest('.altar-row'); if (row) return toggleAltarRow(row);
+    const mb = e.target.closest('.as-m');                // 궁 맞추기: 멤버 토글
+    if (mb && !mb.disabled) return setAltarGroup(+mb.dataset.g, g => {
+      const p = +mb.dataset.p, k = g.members.findIndex(m => m.p === p);
+      if (k >= 0) g.members.splice(k, 1); else g.members.push({ p, order: 'before' });
+    });
+    const ob = e.target.closest('.as-ord');              // 앞/뒤 전환
+    if (ob) return setAltarGroup(+ob.dataset.g, g => { const m = g.members.find(x => x.p === +ob.dataset.p); if (m) m.order = m.order === 'after' ? 'before' : 'after'; });
+    const ms = e.target.closest('[data-miss]');           // 미준비 시 처리
+    if (ms && ms.dataset.g != null) return setAltarGroup(+ms.dataset.g, g => { g.miss = ms.dataset.miss === 'asap' ? 'asap' : 'wait'; });
+  });
+  document.body.addEventListener('keydown', e => {
+    const row = e.target.closest ? e.target.closest('.altar-row') : null; if (!row) return;
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleAltarRow(row); }
+  });
+  document.addEventListener('woofia:lang', () => { renderAltar(); syncAltarLock(); });   // 언어 전환 시 재렌더
+  const mq = window.matchMedia(ALTAR_MQ);
+  const onMq = () => { if (altarOpened) { closeAltar(); openAltar(); } };    // 폭 경계를 넘으면 컨테이너 교체
+  if (mq.addEventListener) mq.addEventListener('change', onMq); else mq.addListener(onMq);
+  altarLoadNames();                       // 맞추기 그룹·캐릭터 창 안내에 쓰는 다국어 이름
+  fetch('altars.json', { cache: 'no-cache' })
+    .then(r => (r.ok ? r.json() : null))
+    .then(d => { altarData = (d && Array.isArray(d.floors)) ? d : false; renderAltar(); })
+    .catch(() => { altarData = false; renderAltar(); });
+  syncAltarLock();
+}
 
 // ══ 캐릭터 스펙 설정 ═══════════════════════════════════════════════════════
 // 슬롯마다 육성 상태를 따로 들고 간다. 꺼져 있으면(기본) 지금까지처럼 **풀육성**
@@ -2551,6 +3348,7 @@ async function openModal(i) {
     <div class="mc-stats">
       <div class="s"><label>기본 공격력 <em id="stAtkAdd"></em></label><b class="num" id="stAtk">${fmt(specAtkHp(s)[0] + s.sealAtk)}</b></div>
       <div class="s"><label>최대 체력 <em id="stHpAdd"></em></label><b class="num" id="stHp">${fmt(specAtkHp(s)[1] + s.sealHp)}</b></div></div>
+    ${ultSectionHTML(s, i + 1, advOn)}
     <div class="field">
       ${advOn ? '<div class="adv-lock">행동 고급 설정이 켜져 있어요 — 이 캐릭터의 턴별 행동도 고급 설정에서 정합니다</div>' : ''}
       <div class="mc-plan${advOn ? ' locked' : ''}">
@@ -2559,7 +3357,7 @@ async function openModal(i) {
         <div class="plan-legend">
           <span>${(c.actionsPerTurn || 1) > 1
             ? `매 턴 <b style="color:var(--gold)">${c.actionsPerTurn}회 행동</b> · <b style="color:var(--gold)">궁은 턴당 1회</b> (궁궁 불가, 궁평/평궁만) · 임부언 추가행동은 평타`
-            : `필살 CD <b style="color:var(--gold)">${c.fatalCd}턴</b> · 첫 사용 <b style="color:var(--gold)">${c.firstFatal}턴</b> — <b style="color:var(--gold)">궁</b>은 CD 안 찬 턴엔 비활성`}</span>
+            : `필살 CD <b style="color:var(--gold)">${fcd(c)}턴</b> · 첫 사용 <b style="color:var(--gold)">${ffat(c)}턴</b> — <b style="color:var(--gold)">궁</b>은 CD 안 찬 턴엔 비활성`}</span>
           <span class="plan-fill"><button data-fill="평">모두 평타</button><button data-fill="방">모두 방어</button>${c.id === PASSIVE_DEF_ID ? '<button data-pdef title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>' : ''}${ULT3_IDS.has(c.id) ? `<button data-u3 title="${ULT3_TITLE[c.id]}">3턴궁</button>` : ''}${c.id === UK_ID ? `<button data-ukafter${s.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군이 먼저 필살, 회복 행동은 평타(도장 +45% 평타뎀 수령)">아군 필살 나중</button>` : ''}</span>
         </div>
         <div class="planner" id="planner"></div>
@@ -2569,6 +3367,7 @@ async function openModal(i) {
   m.hidden = false;
 
   $('#csOpen', card).onclick = () => openSpecPanel(i);
+  bindUltSection(card, s);                       // 궁극기 사용 방식(길드 제단 ON일 때만 렌더됨)
   const syncSeal = atk => {
     atk = Math.max(0, Math.min(limit, Math.round((atk || 0) / 100) * 100));
     s.sealAtk = atk; s.sealHp = limit - atk;
@@ -2650,7 +3449,7 @@ function fillPlan(meta, action, n = 30) {
   // 일반(apt=1): 궁극기 최소 턴은 유지 (전부 평타/방어 + 궁 cadence).
   // 홀드필살 캐릭(마타야 cd1): 매턴 궁이 아니라 순수 평타/방어 — 필살은 3턴궁 토글이나 수동으로 배치.
   if (apt === 1 && !HOLD_ULT_IDS.has(meta.id)) {
-    for (let t = meta.firstFatal; t <= n; t += meta.fatalCd) plan[t - 1] = '궁';
+    for (let t = ffat(meta); t <= n; t += fcd(meta)) plan[t - 1] = '궁';
   }
   return plan;                              // 이태호(apt>1): 순수 평타/방어, 자동 궁 없음
 }
@@ -2664,7 +3463,7 @@ function defaultPlan(meta, n = 30) {
   }
   const plan = fillPlan(meta, '평', n);
   // 이태호(apt>1): 첫 행동을 궁으로 → 일지어천 진입 후 평타가 내기혼신 쌓아 데미지 (AUTO와 동일 사이클)
-  if ((meta.actionsPerTurn || 1) > 1 && meta.firstFatal <= 1) plan[0] = '궁';
+  if ((meta.actionsPerTurn || 1) > 1 && ffat(meta) <= 1) plan[0] = '궁';
   return plan;
 }
 // 턴 수를 늘렸을 때 계획을 n턴 길이로 확장한다(줄이지는 않는다 — 사용자가 편집한 뒷부분 보존).
@@ -2729,7 +3528,7 @@ function allyBasicCounts(roster, selfIdx, n) {
 function ultAvail(plan, meta, allyBasics) {
   const ok = []; const red = meta.cdDefendReduce || 0;
   const per = meta.cdDefendPerStack || 0, cap = meta.cdDefendStackCap || 0;
-  let cd = meta.firstFatal - 1, hooked = false, stk = 0, pending = false;
+  let cd = ffat(meta) - 1, hooked = false, stk = 0, pending = false;
   for (let t = 1; t <= plan.length; t++) {
     ok[t - 1] = cd <= 0;
     // 엔진과 동일: 불발 궁 → 평타로 대체 + 폴백 예약 / 예약 상태의 '평타' 턴에 쿨이 차면 그 턴에 궁 발동.
@@ -2752,7 +3551,7 @@ function ultAvail(plan, meta, allyBasics) {
       if (act === '방' && red && hooked) cd -= red;     // 히토하: 입질 보유 방어 = CD 가속
       if (act === '평') hooked = true;                  // 평타가 입질 부여
     }
-    if (fires) { cd = meta.fatalCd; hooked = false; }  // 궁 발동(지정/폴백): CD 리셋 + 입질 제거
+    if (fires) { cd = fcd(meta); hooked = false; }  // 궁 발동(지정/폴백): CD 리셋 + 입질 제거
     cd -= 1;                                          // 턴 종료 자연 감소
   }
   return ok;
@@ -2761,7 +3560,7 @@ function ultAvail(plan, meta, allyBasics) {
 function normalizePlan(plan, meta, allyBasics) {
   const red = meta.cdDefendReduce || 0;
   const per = meta.cdDefendPerStack || 0, cap = meta.cdDefendStackCap || 0;
-  let cd = meta.firstFatal - 1, hooked = false, stk = 0, pending = false;
+  let cd = ffat(meta) - 1, hooked = false, stk = 0, pending = false;
   for (let t = 1; t <= plan.length; t++) {
     const ready = cd <= 0;
     // 엔진(_take_action)과 동일 판정:
@@ -2783,7 +3582,7 @@ function normalizePlan(plan, meta, allyBasics) {
       if (act === '방' && red && hooked) cd -= red;
       if (act === '평') hooked = true;
     }
-    if (act === '궁') { cd = meta.fatalCd; hooked = false; }   // ready였던 궁만 남음
+    if (act === '궁') { cd = fcd(meta); hooked = false; }   // ready였던 궁만 남음
     cd -= 1;
   }
 }
@@ -2799,7 +3598,7 @@ function imbueonUltTurns(teamArr, turns) {
     normalizePlan(plan, meta);                       // CD 미충족으로 못 쓰는 궁 제거 → 실제 궁 턴만
     for (let t = 0; t < turns; t++) if (plan[t] === '궁') set.add(t + 1);
   } else {
-    for (let t = meta.firstFatal || 1; t <= turns; t += (meta.fatalCd || 1)) set.add(t);
+    for (let t = ffat(meta) || 1; t <= turns; t += (fcd(meta) || 1)) set.add(t);
   }
   return set;
 }
@@ -2854,10 +3653,10 @@ function reflowUlts(plan, meta, anchor) { // re-place 궁s AFTER `anchor` at the
   for (let t = 1; t <= anchor; t++) if (plan[t - 1] === '궁') lastUlt = t;
   let count = 0;
   for (let t = anchor + 1; t <= plan.length; t++) if (plan[t - 1] === '궁') { count++; plan[t - 1] = '평'; }
-  let next = lastUlt ? lastUlt + meta.fatalCd : meta.firstFatal;
+  let next = lastUlt ? lastUlt + fcd(meta) : ffat(meta);
   for (let t = anchor + 1; t <= plan.length && count > 0; t++) {
     if (t < next || plan[t - 1] === '방') continue;
-    plan[t - 1] = '궁'; next = t + meta.fatalCd; count--;
+    plan[t - 1] = '궁'; next = t + fcd(meta); count--;
   }
 }
 function renderPlanner(s, meta) {
@@ -3026,12 +3825,14 @@ async function run(save = true) {
     // 고급 설정 중에는 캐릭터별 계획·우선순위를 보내지 않는다 (advCfg의 프로브와 동일해야
     // 화면에 보이는 타임라인이 곧 실행 결과가 된다). 전 턴이 지정 상태라 결과는 동일.
     team: picked.map(s => ({ id: s.id, position: s.position, skill: s.skill, rune: s.rune, rotation: advOn ? null : (s.rotation || null), fedActions: s.fedActions || null, allyUltAfter: !!s.allyUltAfter, priority: advOn ? null : s.priority, sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0,
+      ult: ultPayload(s),      // 궁극기 사용 방식(길드 제단 ON · 기본 아니면)
       ...specPayload(s) })),   // 캐릭터 스펙(육성) — 빠지면 화면 표시만 바뀌고 결과는 풀육성이 된다
     turns: +$('#turns').value, dummies: +$('#dummies').dataset.val, enemyHits: $('#enemyHits').dataset.val,
     dummyElement: +$('#dummyElement').dataset.val,
     turnOrders: advOn ? {} : turnOverrides, turnPlans: advOn ? turnPlans : {},
     forceProc, hp10, runs: +$('#runs').value,
     incomingHpPct: incomingOn ? +$('#incoming').value : 0,   // 피격 데미지 모드
+    altar: altarPayload(),                 // 길드 제단 설정(OFF면 null) — 엔진이 층 누적·별/달 부호로 풀어 적용
   };
   try {
     const data = await API.simulate(cfg);
@@ -3060,9 +3861,11 @@ function renderResults(d) {
   const bandTip = '확률 효과가 전혀 발동하지 않았을 때(최소) ~ 전부 발동했을 때(최대). 폭이 좁을수록 확률 의존이 적은 안정적인 조합입니다.';
   $('#hTotalRange').title = bandTip; $('#hDpsRange').title = bandTip;
   $$('.hero-num label em').forEach(e => e.style.display = multi ? '' : 'none');
-  $('#topMeta').textContent = multi
+  $('#topMeta').textContent = (multi
     ? `${m.runs}회 · 평균 ${fmtShort(m.total)} · ±${fmtShort(m.totalStd)}`
-    : '확률 100% · 결정론';
+    : '확률 100% · 결정론')
+    + (m.altar ? ` · ${altarT('result', m.altar.star, m.altar.moon)}${m.altar.groups ? altarT('resultGroups', m.altar.groups) : ''}` : '')   // 걸린 길드 제단(별 n · 달 m · 맞추기 그룹)
+    + (m.turnDamage ? ` · ${m.turnDamage.uniform ? tdmgT('result', m.turnDamage.max) : tdmgT('resultRange', m.turnDamage.min, m.turnDamage.max)}` : '');   // 턴 피해 모드
   $('#logOrder').textContent = '행동 순서: ' + m.order.join(' → ') + (multi ? `  ·  로그는 평균에 가까운 1회 표본` : '');
 
   // ranking

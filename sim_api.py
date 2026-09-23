@@ -9,6 +9,7 @@ from collections import defaultdict
 
 from woofia_sim.engine import _kit_has_hp_gate
 from woofia_sim.harness import CharSpec, default_priority, run_team, _turn1_cd_delta
+from woofia_sim.altar import resolve_altars, summarize as altar_summary, parse_sync_groups, parse_ult_policy
 from woofia_sim.kit import resolve_kit
 from woofia_sim.stats import (
     MAX_EVO,
@@ -217,6 +218,7 @@ def plan_probe(cfg: dict) -> dict:
     probe["runs"] = 1
     probe["planner"] = True            # 턴별 행동 예산·필살 가능 정보까지 받는다
     probe["noBand"] = True             # 타임라인만 필요 → 편차 밴드(바닥/천장) 계산 생략(성능)
+    probe["altarProcs"] = False        # 길드 제단 확률 CD감소는 보장이 아니다 → 계획은 '보장 CD'(402 +1만) 기준
     res = run_sim(probe)
     pos_of = {t["name"]: t["position"] for t in res["team"]}
     # 모든 턴을 미리 만들어 둔다 — 아무도 행동하지 않은 턴이 응답에서 빠지면 플래너가
@@ -279,7 +281,32 @@ def _spec_fields(m: dict) -> dict:
     return spec
 
 
+def _parse_turn_damage(td, turns: int) -> list[float] | None:
+    """cfg.turnDamage → 턴별 % 리스트(길이 turns). 꺼짐/전부 0이면 None. 값은 0~99로 클램프."""
+    if not isinstance(td, dict) or td.get("on") is False:
+        return None
+    try:
+        base = float(td.get("pct") or 0)
+    except (TypeError, ValueError):
+        base = 0.0
+    base = max(0.0, min(99.0, base))
+    per = td.get("per") if isinstance(td.get("per"), dict) else {}
+    out: list[float] = []
+    for t in range(1, max(1, int(turns)) + 1):
+        v = per.get(str(t), per.get(t, base))
+        try:
+            v = float(v)
+        except (TypeError, ValueError):
+            v = base
+        out.append(max(0.0, min(99.0, v)))
+    return out if any(v > 0 for v in out) else None
+
+
 def run_sim(cfg: dict) -> dict:
+    # 길드 제단: {"on", "floors":{"1":{"on","off":[id]}}, "groups":[…]} → 걸리는 제단 Id 목록(층 누적·별/달 부호 반영).
+    # 미지정/off = [] → 엔진 경로 불변(회귀 기준). 보스 ATK·주는뎀·아군 받뎀 별 제단은 피격 모드에서만 작동.
+    # 궁극기 사용 방식(team[].ult)·궁 맞추기 그룹(altar.groups)은 제단이 켜진 경우에만 받는다(UI 도 그때만 노출).
+    altar_ids = resolve_altars(cfg.get("altar"))
     specs = []
     for m in cfg["team"]:
         spec_on = bool(m.get("specOn"))          # 스펙 설정을 켠 슬롯만 개별 육성 적용
@@ -294,7 +321,8 @@ def run_sim(cfg: dict) -> dict:
             fed_action=(m.get("fedActions") or m.get("fedAction") or None),   # 이태호 임부언 fed 추가행동: 턴별 dict{turn:토큰}(신) 또는 단일 str(구)
             ally_ult_after=bool(m.get("allyUltAfter", False)),   # 욱영 토글
             priority=(float(m["priority"]) if m.get("priority") not in (None, "") else None),
-            atk_bonus=int(m.get("sealAtk", 0) or 0), hp_bonus=int(m.get("sealHp", 0) or 0)))
+            atk_bonus=int(m.get("sealAtk", 0) or 0), hp_bonus=int(m.get("sealHp", 0) or 0),
+            **(parse_ult_policy(m.get("ult")) if altar_ids else {})))
     turns = int(cfg.get("turns", 30))
     # per-turn order override: {turn: [position,...]} -> {turn:[slot,...]}
     torders = {int(t): [int(p) - 1 for p in order]
@@ -337,6 +365,13 @@ def run_sim(cfg: dict) -> dict:
     # 피격 데미지 모드: 더미가 아군 피격 시 아군 최대HP의 n%(1~99) 데미지. 0/미지정=끔.
     inc = cfg.get("incomingHpPct")
     incoming_hp_pct = max(0, min(99, int(inc))) if inc not in (None, "", False) else 0
+    # 턴 피해 모드: 매 턴 종료 시 아군 전체가 최대HP의 n% 피해(배리어 흡수·방어 50%·받뎀 적용, 반격 없음).
+    # cfg.turnDamage = {"on":true, "pct":N, "per":{"턴":M,...}(고급: 턴별 개별값)} / 없음·off = 끔.
+    turn_damage = _parse_turn_damage(cfg.get("turnDamage"), turns)
+    positions = [int(m["position"]) for m in cfg["team"]]
+    sync_groups = parse_sync_groups((cfg.get("altar") or {}).get("groups"), positions) if altar_ids else []
+    # 플래너 프로브(plan_probe)는 '보장되는 CD'로 계획을 세운다 — 제단 확률 CD감소는 설치하지 않는다.
+    altar_procs = cfg.get("altarProcs", True) is not False
     # 평균 모드: 확률(난수) 판정은 시드마다 달라지므로 N회(다른 시드) 돌려 평균을 낸다.
     # 100% 모드는 결정론(모든 발동 성공)이라 1회면 충분.
     runs = 1 if force else max(1, min(int(cfg.get("runs", 50) or 50), 500))
@@ -359,7 +394,9 @@ def run_sim(cfg: dict) -> dict:
         res = run_team(specs, n_dummies=n_dummies, max_turn=turns, enemy_hits=enemy_hits,
                        turn_orders=torders, turn_plans=tplans, force_proc=force,
                        seed=seed_base + s, enemy_aoe=enemy_aoe,
-                       dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct)
+                       dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct,
+                       altar=altar_ids, sync_groups=sync_groups, altar_procs=altar_procs,
+                       turn_damage=turn_damage)
         st = res.state
         states.append(st)
         run_totals.append(res.total_damage)
@@ -431,7 +468,9 @@ def run_sim(cfg: dict) -> dict:
         r = run_team(specs, n_dummies=n_dummies, max_turn=turns, enemy_hits=enemy_hits,
                      turn_orders=torders, turn_plans=tplans, seed=seed,
                      enemy_aoe=enemy_aoe, dummy_element=dummy_element, hp10=hp10,
-                     incoming_hp_pct=incoming_hp_pct, **flags)
+                     incoming_hp_pct=incoming_hp_pct, altar=altar_ids,
+                     sync_groups=sync_groups, altar_procs=altar_procs,
+                     turn_damage=turn_damage, **flags)
         return r.total_damage, r.dps
     # noBand: 플래너 프로브(plan_probe)는 타임라인만 필요 → 밴드 생략(프로브 성능 보존).
     if cfg.get("noBand"):
@@ -465,6 +504,13 @@ def run_sim(cfg: dict) -> dict:
                      "totalMin": round(min(run_totals), 2), "totalMid": round(_median(run_totals), 2),
                      "totalMax": round(max(run_totals), 2),
                      "dpsMin": round(min(run_dps), 2), "dpsMid": round(_median(run_dps), 2),
-                     "dpsMax": round(max(run_dps), 2)}
+                     "dpsMax": round(max(run_dps), 2),
+                     # 걸린 길드 제단(별 n·달 m·Id 목록) — 미사용이면 None (UI는 표시 생략)
+                     "altar": ({**altar_summary(altar_ids), "groups": len(sync_groups)}
+                               if altar_ids else None),
+                     # 턴 피해 모드 요약(결과 헤더) — 균일이면 pct 하나, 턴별이면 min~max. 미사용=None
+                     "turnDamage": ({"min": min(turn_damage), "max": max(turn_damage),
+                                     "uniform": len(set(turn_damage)) == 1}
+                                    if turn_damage else None)}
     return {"meta": out_meta, "team": team, "perChar": per_char, "chart": chart,
             "log": log, "planner": planner}

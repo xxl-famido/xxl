@@ -47,9 +47,15 @@
   <!-- ─── 설정 ─── -->
   <aside class="panel settings">
     <div class="panel-head"><h2>전투 설정</h2>
-      <button class="proc-btn" id="forceProc" title="모든 확률형 발동·버프(흑구백구 활성화, 50% 발동 등)를 100%로 강제">🎲 확률 100%</button>
+      <div class="proc-stack">
+        <div class="proc-col">
+          <button class="proc-btn" id="forceProc" title="모든 확률형 발동·버프(흑구백구 활성화, 50% 발동 등)를 100%로 강제">🎲 확률 100%</button>
+          <button class="proc-btn" id="hp10Btn" title="더미 체력을 10%로 고정 (카라트 등 저HP 게이트 전부 발동)">❤️ 체력 10%</button>
+          <button class="proc-btn tdmg-btn" id="tdmgOpen" type="button" aria-expanded="false" title="매 턴 아군 전체가 최대HP의 일정 %를 피해로 받게 합니다 (무명 등 자기 HP 반응 캐릭터 검증용)">🩸 턴 피해</button>
+        </div>
+        <button class="altar-btn" id="altarOpen" type="button" aria-expanded="false" title="길드전 방탈출의 별·달 제단 효과를 전투에 적용할지 설정합니다"><span>길드 제단 설정</span></button>
+      </div>
     </div>
-    <div class="proc-row"><button class="proc-btn" id="hp10Btn" title="더미 체력을 10%로 고정 (카라트 등 저HP 게이트 전부 발동)">❤️ 체력 10%</button></div>
 
     <label class="field" id="runsField"><span>반복 횟수 <em>(평균 — 많을수록 정확·느림)</em></span>
       <div class="row"><input type="range" id="runs" min="1" max="200" value="50"><b id="runsVal">50</b></div>
@@ -96,6 +102,11 @@
 
     <button class="btn-run" id="runBtn"><span>시뮬레이션 실행</span></button>
   </aside>
+
+  <!-- ─── 길드 제단 설정 (데스크탑 사이드 패널 · 모바일은 팝업) ─── -->
+  <aside class="altar-side i18n-skip" id="altarSide" hidden aria-label="길드 제단 설정"></aside>
+  <!-- ─── 턴 피해 설정 (제단 패널과 같은 자리 · 한 번에 하나만 보이는 탭) ─── -->
+  <aside class="altar-side tdmg-side i18n-skip" id="tdmgSide" hidden aria-label="턴 피해 설정"></aside>
 
   <!-- ─── 결과 ─── -->
   <section class="panel results" id="results" hidden>

@@ -2,6 +2,93 @@
   "_comment": "패치 히스토리. 최신이 위. 버전 규칙: 캐릭터 추가 릴리스 = 메이저 1.x(펼친 상태로 표시), 그 사이 업데이트 = 패치 1.x.x(접힌 상태, 단 목록 맨 위=최신이면 펼침). 1.0은 첫 공개(파미도 초상). cat: new|balance|fix|qol. 텍스트/details 는 {kr,en,zh,zhs,ja} — 없는 언어는 kr 폴백. char: 대표 캐릭터 id(icons/{id}.png + skill:true면 icons/skills/Rune{id}.png). charImg: 커스텀 프로필 경로(char 대신). items[].chars: 항목 인라인 아이콘(5명 이상이면 생략). items[].details: 펼쳤을 때 보이는 구체 수치.",
   "releases": [
     {
+      "version": "1.8",
+      "date": "2026-09-23",
+      "highlight": true,
+      "char": 10443,
+      "charName": {
+        "kr": "이세계의 검 무명"
+      },
+      "skill": true,
+      "title": {
+        "kr": "신규 캐릭터 '이세계의 검 무명' 추가",
+        "en": "New Character: Otherworld Blade Mumei",
+        "zh": "新增角色「異世之刃無名」",
+        "zhs": "新增角色「异世之刃无名」",
+        "ja": "新キャラクター「異世界の刃無名」追加"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "신규 캐릭터 이세계의 검 무명을 추가했습니다 — 어둠 속성 전사로, 필살기로 자신의 HP를 깎아 위험할수록 강해지고, 평타로 쌓은 기세를 방어로 터뜨려 연타와 회복을 얻습니다.",
+            "en": "Added new character Otherworld Blade Mumei — a Dark-element fighter whose ultimate sacrifices own HP to grow stronger the closer to the brink, building momentum with basic attacks and unleashing multi-hits and healing on defense.",
+            "zh": "新增角色異世之刃無名——闇屬性戰士，以必殺技削減自身生命、越接近危險越強，並以普攻累積氣勢，在防禦時爆發連擊與回復。",
+            "zhs": "新增角色异世之刃无名——暗属性战士，以必杀技削减自身生命、越接近危险越强，并以普攻累积气势，在防御时爆发连击与回复。",
+            "ja": "新キャラクター「異世界の刃無名」を追加 — 闇属性のファイターで、必殺技で自らのHPを削り危機に近づくほど強くなり、通常攻撃で溜めた勢いを防御時に連撃と回復として放ちます。"
+          },
+          "details": {
+            "kr": "필살기 ‘염묵·광사분룡’(쿨 4턴)은 적 전체에 ATK 210.6%(도장 239.85%) 데미지를 주고 불굴 3중첩을 얻은 뒤 자신의 현재 HP 40%를 실제 데미지로 잃습니다(배리어로 못 막음). 도장 패시브로 기초 최대 HP +30%와 1턴 필살기 CD −4가 붙어 1턴부터 필살기를 쓸 수 있습니다. 보통 공격마다 불굴·봉망을 1중첩씩(각각 최대 5) 얻습니다. 불굴은 1중첩당 받는 데미지 +7%의 대가로 — 1중첩 이상: 보통 공격 시 추가 20%, 방어 시 중첩 수만큼 ATK 75% 자힐 후 제거 · 2중첩 이상: 주는 데미지 +15%, 필살기 효과 +21.15% · 3중첩 이상: 보통 공격 시 추가 40%와 ATK 70% 배리어(2턴) · 4중첩 이상: 공격 시 기초 ATK의 20.4%만큼 ATK 증가(2턴) · 5중첩: 행동할 때마다 추가 65%, 방어 시 행동 1회 회복. 봉망은 방어 시 중첩 수만큼 ATK 40% 연타 후 제거되고, 적이 3명 이상이면 보통 공격 시 전체 17.5%, 2명 이하면 단일 27.5%가 추가됩니다. 필살기 시 최대 HP 25% 배리어(3턴)를 얻고, HP가 75% 이하면 보통 공격 시 배리어 수치의 16.2%만큼 추가 데미지, 50% 이하면 보통 공격 데미지 +30%, 30% 이하면 준 피해의 20.4%를 흡혈합니다. 시뮬 참고: 자동 로테이션은 방어를 하지 않으니 방어 연타·자힐·행동 회복은 행동 설정에 ‘방어’를 넣어야 나오고, 회복한 행동은 평타로 쓰입니다.",
+            "en": "The ultimate ‘Inkveil: Raging Dragon’ (4-turn CD) hits all enemies for 210.6% ATK (239.85% with the sigil), grants 3 Fearless, then deals 40% of own current HP as real damage (barriers cannot absorb it). The sigil passive adds base Max HP +30% and −4 EX CD on turn 1, so the ultimate is available from turn 1. Every basic attack grants 1 Fearless and 1 Sharpness (max 5 each). Fearless costs +7% damage taken per stack and gives — 1+: +20% on basic attack, on defense heal 75% ATK per stack then remove all · 2+: damage dealt +15%, EX Skill effect +21.15% · 3+: +40% on basic attack and a 70% ATK barrier (2 turns) · 4+: on attack, ATK +20.4% of base ATK (2 turns) · 5: +65% on every action and recover 1 action on defense. Sharpness fires 40% ATK per stack on defense then clears, and basic attacks add 17.5% to all enemies with 3+ enemies alive or 27.5% to the target with 2 or fewer. The ultimate grants a 25% Max HP barrier (3 turns); at HP ≤75% basic attacks add 16.2% of the current barrier as damage, at ≤50% basic attack damage +30%, at ≤30% 20.4% of damage dealt is drained as HP. Sim note: the auto rotation never defends, so put ‘Defend’ into the action plan to see the defense multi-hits, self-heal and action recovery; recovered actions are used as basic attacks.",
+            "zh": "必殺技「染墨・狂獅奔龍」（冷卻4回合）對敵方全體造成攻擊力210.6%（符紋239.85%）傷害並獲得3層無畏，隨後自身承受當前生命40%的真實傷害（護盾無法吸收）。符紋被動附帶基礎最大生命+30%與第1回合必殺CD−4，第1回合即可施放。每次普攻獲得無畏、鋒芒各1層（各最多5層）。無畏每層使受到傷害+7%，並提供——1層以上：普攻追加20%，防禦時依層數回復攻擊力75%生命後全部移除・2層以上：造成傷害+15%、必殺技效果+21.15%・3層以上：普攻追加40%與攻擊力70%護盾（2回合）・4層以上：攻擊時攻擊力提升基礎攻擊力的20.4%（2回合）・5層：每次行動追加65%，防禦時恢復1次行動。鋒芒於防禦時依層數各造成攻擊力40%連擊後清除；敵方存活≥3時普攻追加全體17.5%，≤2時追加單體27.5%。必殺時獲得最大生命25%護盾（3回合）；生命≤75%時普攻追加護盾數值16.2%的傷害，≤50%時普攻傷害+30%，≤30%時吸取造成傷害的20.4%。模擬提示：自動循環不會防禦，需在行動設定中放入「防禦」才會出現防禦連擊、自癒與行動恢復；恢復的行動以普攻使用。",
+            "zhs": "必杀技「染墨・狂狮奔龙」（冷却4回合）对敌方全体造成攻击力210.6%（符纹239.85%）伤害并获得3层无畏，随后自身承受当前生命40%的真实伤害（护盾无法吸收）。符纹被动附带基础最大生命+30%与第1回合必杀CD−4，第1回合即可施放。每次普攻获得无畏、锋芒各1层（各最多5层）。无畏每层使受到伤害+7%，并提供——1层以上：普攻追加20%，防御时依层数回复攻击力75%生命后全部移除・2层以上：造成伤害+15%、必杀技效果+21.15%・3层以上：普攻追加40%与攻击力70%护盾（2回合）・4层以上：攻击时攻击力提升基础攻击力的20.4%（2回合）・5层：每次行动追加65%，防御时恢复1次行动。锋芒于防御时依层数各造成攻击力40%连击后清除；敌方存活≥3时普攻追加全体17.5%，≤2时追加单体27.5%。必杀时获得最大生命25%护盾（3回合）；生命≤75%时普攻追加护盾数值16.2%的伤害，≤50%时普攻伤害+30%，≤30%时吸取造成伤害的20.4%。模拟提示：自动循环不会防御，需在行动设置中放入「防御」才会出现防御连击、自愈与行动恢复；恢复的行动以普攻使用。",
+            "ja": "必殺技「墨染・狂獅竜」（CD4ターン）は敵全体にATK210.6%（符紋239.85%）のダメージを与え恐れ知らずを3層得た後、自分の現在HP40%をリアルダメージとして失います（バリアで防げません）。符紋パッシブで基礎最大HP+30%と1ターン目の必殺CD−4が付き、1ターン目から必殺技を使えます。通常攻撃ごとに恐れ知らず・切っ先を1層ずつ（各最大5層）獲得。恐れ知らずは1層ごとに被ダメージ+7%の代わりに——1層以上：通常攻撃時に追加20%、防御時に層数ぶんATK75%の自己回復後すべて除去・2層以上：与ダメージ+15%、必殺技効果+21.15%・3層以上：通常攻撃時に追加40%とATK70%のバリア（2ターン）・4層以上：攻撃時に基礎ATKの20.4%ぶんATK増加（2ターン）・5層：行動ごとに追加65%、防御時に行動を1回回復。切っ先は防御時に層数ぶんATK40%の連撃後に消え、敵が3体以上なら通常攻撃時に全体17.5%、2体以下なら単体27.5%が追加されます。必殺技時に最大HP25%のバリア（3ターン）を獲得し、HP75%以下で通常攻撃時にバリア値の16.2%を追加ダメージ、50%以下で通常攻撃ダメージ+30%、30%以下で与ダメージの20.4%を吸血します。シミュ注：自動ローテーションは防御しないため、防御連撃・自己回復・行動回復は行動設定に「防御」を入れてください。回復した行動は通常攻撃になります。"
+          }
+        },
+        {
+          "cat": "new",
+          "text": {
+            "kr": "전투 설정에 '길드 제단 설정'이 생겼습니다. 길드전 방탈출 1~3층의 별 제단(보스가 유리해지는 페널티)과 달 제단(아군이 얻는 축복)을 층별로 켜고 끄면 그 조건 그대로 데미지가 계산됩니다. 별 제단은 체크하면 부순 것으로 보고 페널티를 빼고, 달 제단은 체크한 것만 축복으로 적용합니다.",
+            "en": "Battle settings now include Guild Altar Settings. Toggle the Star altars (penalties that favor the boss) and Moon altars (blessings for your team) on floors 1–3 of the Guild Escape Room, and damage is calculated under exactly those conditions. A checked Star altar counts as broken (penalty removed); only checked Moon altars apply as blessings.",
+            "zh": "戰鬥設定新增「公會祭壇設定」。可依樓層開關公會戰密室 1～3 層的星之祭壇（對頭目有利的懲罰）與月之祭壇（我方獲得的祝福），並以該條件計算傷害。星之祭壇勾選即視為已破壞（移除懲罰），月之祭壇僅套用勾選的祝福。",
+            "zhs": "战斗设置新增「公会祭坛设置」。可按楼层开关公会战密室 1～3 层的星之祭坛（对头目有利的惩罚）与月之祭坛（我方获得的祝福），并以该条件计算伤害。星之祭坛勾选即视为已破坏（移除惩罚），月之祭坛仅应用勾选的祝福。",
+            "ja": "戦闘設定に「ギルド祭壇設定」が追加されました。ギルド脱出部屋1～3階の星の祭壇（ボスが有利になるペナルティ）と月の祭壇（味方が得る祝福）を階ごとに切り替えると、その条件のままダメージを計算します。星の祭壇はチェックすると破壊済みとしてペナルティを外し、月の祭壇はチェックしたものだけ祝福として適用します。"
+          },
+          "details": {
+            "kr": "층은 아래층부터 쌓입니다. 2층에서 싸우면 1·2층 제단이, 3층이면 1·2·3층 제단이 전부 걸립니다. 같은 효과가 여러 층에 있으면(받는 배리어 +25%, 받는 치료 +25% 등) 전부 더해집니다. 보스 ATK·보스 주는 데미지·아군 받는 데미지 별 제단은 피격 데미지 모드를 켰을 때만 결과에 나타납니다. 제단이 켜져 있으면 확률 100% 모드는 함께 쓸 수 없고, 설정은 기록과 공유 코드에 같이 저장됩니다.",
+            "en": "Floors accumulate from the bottom: fighting on floor 2 applies floors 1–2, floor 3 applies floors 1–3. The same effect on several floors (Barrier received +25%, healing received +25%, etc.) adds up. The Boss ATK, Boss damage dealt and Buddies’ damage taken Star altars only show in results when Incoming Damage mode is on. While altars are on, 100% Proc mode can’t be used, and the setting is saved with records and share codes.",
+            "zh": "樓層由下往上累積：在 2 層作戰套用 1～2 層祭壇，3 層則套用 1～3 層。多層出現的相同效果（受到護盾 +25%、受到治療 +25% 等）會全部累加。頭目ATK・頭目造成傷害・我方受到傷害的星之祭壇僅在開啟被擊傷害模式時才會反映到結果。開啟祭壇時無法同時使用機率100%模式，設定會與紀錄及分享代碼一併儲存。",
+            "zhs": "楼层由下往上累积：在 2 层作战应用 1～2 层祭坛，3 层则应用 1～3 层。多层出现的相同效果（受到护盾 +25%、受到治疗 +25% 等）会全部累加。头目ATK・头目造成伤害・我方受到伤害的星之祭坛仅在开启被击伤害模式时才会反映到结果。开启祭坛时无法同时使用概率100%模式，设置会与记录及分享代码一并保存。",
+            "ja": "階は下から積み上がります。2階で戦えば1～2階、3階なら1～3階の祭壇がすべて掛かります。複数階にある同じ効果（受けるバリア +25%、受ける治療 +25% など）はすべて加算されます。ボスATK・ボス与ダメージ・味方被ダメージの星の祭壇は、被ダメージモードをオンにしたときだけ結果に表れます。祭壇がオンの間は確率100%モードを併用できず、設定は記録と共有コードにも保存されます。"
+          }
+        },
+        {
+          "cat": "new",
+          "text": {
+            "kr": "제단으로 필살기 쿨타임이 달라질 때를 대비해 캐릭터마다 '궁극기 사용 방식'을 정할 수 있습니다(제단 설정을 켰을 때 캐릭터 창에 표시). 정해진 턴(기본)·정해진 턴만·준비되면 바로 중에서 고르고, 준비되면 바로 쓰는 경우에도 계획한 방어 턴은 기본적으로 지킵니다. 제단 설정 아래의 '궁극기 맞추기'에서는 최대 3개 그룹으로 서포터를 메인 딜러의 필살기 턴에 맞출 수 있습니다.",
+            "en": "Since altars can change ultimate cooldowns, each character now has an ultimate policy (shown in the character window while Guild Altar Settings is on): planned turns (default), planned turns only, or as soon as ready. Even when using it as soon as ready, planned defend turns are kept by default. The Ultimate sync section below the altar settings lets you align supporters to a main dealer’s ultimate turns in up to 3 groups.",
+            "zh": "由於祭壇可能改變必殺技冷卻，現在可為每位角色設定「必殺技使用方式」（開啟公會祭壇設定時顯示於角色視窗）：指定回合（預設）、僅指定回合、就緒即用。即使選擇就緒即用，計畫中的防禦回合預設仍會保留。祭壇設定下方的「必殺技同步」可建立最多 3 組，讓輔助角色配合主力輸出的必殺回合。",
+            "zhs": "由于祭坛可能改变必杀技冷却，现在可为每位角色设置「必杀技使用方式」（开启公会祭坛设置时显示于角色窗口）：指定回合（默认）、仅指定回合、就绪即用。即使选择就绪即用，计划中的防御回合默认仍会保留。祭坛设置下方的「必杀技同步」可建立最多 3 组，让辅助角色配合主力输出的必杀回合。",
+            "ja": "祭壇で必殺技のクールタイムが変わる場合に備え、キャラごとに「必殺技の使い方」を設定できます（ギルド祭壇設定がオンのときキャラ画面に表示）。指定ターン（既定）・指定ターンのみ・準備でき次第から選び、準備でき次第でも計画した防御ターンは既定で維持します。祭壇設定の下の「必殺技の同期」では最大3グループで、サポーターをメインアタッカーの必殺ターンに合わせられます。"
+          },
+          "details": {
+            "kr": "계획 도구(턴별 행동)는 확률로 줄어드는 쿨타임을 계산에 넣지 않고 보장되는 쿨타임(최대 CD +1 포함)으로 궁 턴을 표시합니다. 확률로 일찍 준비된 궁은 '준비되면 바로'나 맞추기 그룹이 알아서 씁니다. 맞추기 그룹의 멤버는 앵커가 궁을 쓰는 턴에 앵커 바로 앞 또는 뒤에 행동하며, 그 턴에 준비가 안 됐으면 다음 앵커 궁까지 기다리거나 준비되는 대로 쓰도록 고를 수 있습니다. 우선순위는 행동 고급 설정이 1순위, 궁극기 사용 방식·맞추기가 2순위입니다 — 고급 설정에서 편집한 턴은 그 타임라인대로만 행동하고, 편집하지 않은 턴(기본값)에만 맞추기가 적용됩니다.",
+            "en": "The turn planner shows ultimate turns based on the guaranteed cooldown (including Max CD +1) and does not count chance-based cooldown reductions; ultimates that come early by chance are used by the as-soon-as-ready policy or by sync groups. Sync members act right before or after the anchor on the anchor’s ultimate turns; if not ready then, they either wait for the next anchor ultimate or use it when ready, as you choose. Priority: advanced action settings come first, ultimate policy and sync second — turns edited in advanced settings follow that timeline only, and sync applies only to unedited (default) turns.",
+            "zh": "回合計畫工具以保證的冷卻（含最大CD +1）顯示必殺回合，不計入機率性的冷卻縮短；因機率提早就緒的必殺技交由「就緒即用」或同步組處理。同步組成員會在錨點使用必殺的回合於錨點前或後行動；若當回合未就緒，可選擇等待下一次錨點必殺或就緒即用。優先度：進階行動設定第 1，必殺技使用方式與同步第 2 — 在進階設定中編輯的回合只依該時間軸行動，同步僅套用於未編輯（預設）的回合。",
+            "zhs": "回合计划工具以保证的冷却（含最大CD +1）显示必杀回合，不计入概率性的冷却缩短；因概率提早就绪的必杀技交由「就绪即用」或同步组处理。同步组成员会在锚点使用必杀的回合于锚点前或后行动；若当回合未就绪，可选择等待下一次锚点必杀或就绪即用。优先级：高级行动设置第 1，必杀技使用方式与同步第 2 — 在高级设置中编辑的回合只按该时间轴行动，同步仅应用于未编辑（默认）的回合。",
+            "ja": "ターン計画ツールは保証されるクールタイム（最大CD +1 を含む）で必殺ターンを表示し、確率によるCD短縮は計算に入れません。確率で早く準備できた必殺技は「準備でき次第」や同期グループが使います。同期グループのメンバーはアンカーの必殺ターンにアンカーの直前または直後に行動し、そのターンに未準備なら次のアンカー必殺まで待つか準備でき次第使うかを選べます。優先度は行動詳細設定が1位、必殺技の使い方・同期が2位 — 詳細設定で編集したターンはそのタイムラインどおりにのみ行動し、同期は未編集（既定）のターンにのみ適用されます。"
+          }
+        },
+        {
+          "cat": "new",
+          "text": {
+            "kr": "‘턴 피해 설정’을 추가했습니다 — 전투 설정의 버튼을 켜면 매 턴 아군 전체가 최대 HP의 지정 %만큼 피해를 받고(배리어 우선 흡수 · 방어 시 절반), 고급 설정으로 턴마다 다른 %를 정할 수 있습니다. 무명처럼 자신의 HP에 반응하는 캐릭터를 시험할 때 쓰세요. 길드 제단 설정과 같은 자리에서 탭처럼 전환됩니다.",
+            "en": "Added ‘Turn Damage Settings’ — turn it on in Battle Settings and the whole team takes a set % of Max HP every turn (barriers absorb first, defending halves it); the advanced option sets a different % per turn. Use it to test characters that react to their own HP, like Mumei. It shares the Guild Altar panel slot and switches like a tab.",
+            "zh": "新增「回合傷害設定」——在戰鬥設定中開啟後，每回合全隊承受最大生命指定%的傷害（護盾先吸收、防禦減半），進階可為每回合設定不同%。適合測試像無名這樣依自身生命變化的角色。與公會祭壇設定共用面板位置，像分頁一樣切換。",
+            "zhs": "新增「回合伤害设置」——在战斗设置中开启后，每回合全队承受最大生命指定%的伤害（护盾先吸收、防御减半），高级可为每回合设置不同%。适合测试像无名这样依自身生命变化的角色。与公会祭坛设置共用面板位置，像标签页一样切换。",
+            "ja": "「ターンダメージ設定」を追加 — 戦闘設定でオンにすると、毎ターン味方全員が最大HPの指定%のダメージを受け（バリアが先に吸収・防御で半減）、詳細設定でターンごとに異なる%を設定できます。無名のように自分のHPに反応するキャラの検証に。ギルド祭壇設定と同じ枠でタブのように切り替わります。"
+          },
+          "details": {
+            "kr": "적 페이즈가 끝날 때마다 아군 전체가 최대 HP의 지정 %(1~99%)만큼 피해를 받습니다. 피격 데미지 모드와 같은 규칙으로 배리어가 먼저 흡수하고, 방어한 턴은 절반만 받으며, 받는 데미지 증감(무명 불굴 중첩당 +7%, 몽규 인접 HP 50% 이하 −11% 등)이 적용되고, 반격은 발동하지 않으며, HP는 1 미만으로 내려가지 않습니다. ‘고급 · 턴별로 다르게’를 켜면 턴마다 %를 따로 정할 수 있고(빈 칸은 기본값, 진행 턴 수에 맞춰 칸이 늘고 줍니다), ‘턴별 값 비우기’로 초기화합니다. 이제 아군 HP는 전투 흐름대로 움직입니다 — 자해·피격·턴 피해로 줄고 힐·지속힐·흡혈로 차며, ‘HP가 N% 이하일 때’ 효과는 매 발동·매 타격 시점의 현재 HP로 판정됩니다(회복하면 닫히고 다시 떨어지면 다시 열림). 설정은 기록에 저장되고 공유 코드에도 실리며(켠 경우에만 짧게 덧붙어 코드 길이는 거의 그대로), 비교 시뮬과 행동 고급 설정에도 같은 값이 적용됩니다. 길드 제단 설정과 동시에 켤 수 있고, 두 패널은 같은 자리에서 탭처럼 미끄러지듯 교체됩니다. 참고: 무명은 필살기 배리어(최대 HP 25%)와 불굴 배리어가 10% 정도는 전부 흡수하므로 저체력 효과를 보려면 20~30% 이상으로 두거나 필살기 자해와 함께 쓰세요.",
+            "en": "At the end of every enemy phase the whole team takes the chosen % of Max HP (1–99%). It follows the Incoming Damage rules: barriers absorb first, a defending turn takes half, damage-taken modifiers apply (Mumei’s +7% per Fearless, Mengkui’s −11% for adjacent buddies at HP ≤50%, etc.), no counterattacks trigger and HP never drops below 1. Turn on ‘Advanced · per-turn values’ to set a different % for each turn (blank = default; the cells follow the turn count) and use ‘Clear per-turn values’ to reset. Team HP now follows the flow of battle — it drops from self-damage, hits and turn damage and refills from heals, heal-over-time and lifesteal, and ‘when HP ≤ N%’ effects are judged on the current HP at every trigger and hit (they close after healing and reopen when HP falls again). The setting is saved with records and carried in share codes (added only when on, so codes stay about the same length), and the same value applies to compare runs and the advanced action planner. It can be on together with Guild Altar Settings; the two panels share one slot and slide between each other like tabs. Note: Mumei’s ultimate barrier (25% Max HP) and Fearless barriers absorb about 10% per turn entirely, so use 20–30% or more, or combine with the ultimate’s self-damage, to reach the low-HP effects.",
+            "zh": "每次敵方回合結束時，全隊承受最大生命指定%（1~99%）的傷害。規則與受擊傷害模式相同：護盾先吸收、防禦回合只受一半、套用受傷增減（無名每層無畏+7%、蒙圭相鄰生命≤50%時−11%等），不會觸發反擊，生命不會低於1。開啟「進階・各回合分別設定」可為每回合單獨設定%（留空=預設值，格數隨回合數增減），「清除各回合數值」可重置。現在全隊生命會隨戰鬥流程變動——因自傷、受擊與回合傷害減少，因治療、持續治療與吸血回復；「生命≤N%時」的效果在每次觸發與每次攻擊時以當前生命判定（回復後關閉，再次下降再開啟）。設定會存入紀錄並帶入分享碼（僅在開啟時短短附加，碼長幾乎不變），比較模擬與進階行動設定也套用同一數值。可與公會祭壇設定同時開啟，兩個面板共用一個位置、像分頁一樣滑動切換。提示：無名的必殺護盾（最大生命25%）與無畏護盾會完全吸收約10%的傷害，若要看到低生命效果請設為20~30%以上或搭配必殺自傷。",
+            "zhs": "每次敌方回合结束时，全队承受最大生命指定%（1~99%）的伤害。规则与受击伤害模式相同：护盾先吸收、防御回合只受一半、套用受伤增减（无名每层无畏+7%、蒙圭相邻生命≤50%时−11%等），不会触发反击，生命不会低于1。开启「高级・各回合分别设置」可为每回合单独设置%（留空=默认值，格数随回合数增减），「清除各回合数值」可重置。现在全队生命会随战斗流程变动——因自伤、受击与回合伤害减少，因治疗、持续治疗与吸血回复；「生命≤N%时」的效果在每次触发与每次攻击时以当前生命判定（回复后关闭，再次下降再开启）。设置会存入记录并带入分享码（仅在开启时短短附加，码长几乎不变），比较模拟与高级行动设置也套用同一数值。可与公会祭坛设置同时开启，两个面板共用一个位置、像标签页一样滑动切换。提示：无名的必杀护盾（最大生命25%）与无畏护盾会完全吸收约10%的伤害，若要看到低生命效果请设为20~30%以上或搭配必杀自伤。",
+            "ja": "敵フェーズが終わるたびに味方全員が最大HPの指定%（1〜99%）のダメージを受けます。被弾ダメージモードと同じ規則で、バリアが先に吸収し、防御したターンは半分、被ダメージ増減（無名の恐れ知らず1層ごと+7%、モンギュの隣接HP50%以下−11%など）が適用され、反撃は発動せず、HPは1未満になりません。「詳細・ターンごとに設定」をオンにするとターンごとに%を個別設定でき（空欄=既定値、マスはターン数に合わせて増減）、「ターン別の値を消去」でリセットします。味方のHPは戦闘の流れどおりに動きます——自傷・被弾・ターンダメージで減り、回復・継続回復・吸血で戻り、「HPがN%以下のとき」効果は発動・攻撃のたびに現在HPで判定されます（回復すれば閉じ、再び下がれば再び開く）。設定は記録に保存され共有コードにも載り（オンのときだけ短く付くのでコード長はほぼ変わらず）、比較シミュと行動詳細設定にも同じ値が適用されます。ギルド祭壇設定と同時にオンにでき、2つのパネルは同じ枠でタブのようにスライドして切り替わります。注：無名の必殺バリア（最大HP25%）と恐れ知らずバリアは10%程度なら全部吸収するため、低HP効果を見るには20〜30%以上にするか必殺技の自傷と組み合わせてください。"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.7.1",
       "date": "2026-09-15",
       "title": {
@@ -31,7 +118,10 @@
         },
         {
           "cat": "fix",
-          "chars": [10437, 10435],
+          "chars": [
+            10437,
+            10435
+          ],
           "text": {
             "kr": "투명인간이 필살기 발동 시 주는 추가 피해(목표물 단일·적 전체)가 ‘필살기 효과 증가’와 아군이 걸어주는 필살기 강화 버프를 제대로 받도록 고쳤습니다. 이전에는 이 버프들이 추가 피해에 적용되지 않았습니다.",
             "en": "Fixed Invisible Man's bonus damage on ultimate (single-target and all-enemy) so it correctly benefits from ‘Ultimate Effect Up’ and allies' ultimate-boosting buffs. Previously these buffs were not applied to that bonus damage.",

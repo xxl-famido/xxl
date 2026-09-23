@@ -1253,3 +1253,157 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 @media (prefers-reduced-motion:reduce){
   .cmpinfo .specpanel,.cmpinfo .specpanel.closing{animation:none;transform:translateY(-50%)}
 }
+
+/* ── 길드 제단 설정 ─────────────────────────────────────────────────────────
+   전투 설정 헤더: 확률100%·체력10%를 세로로 쌓고 그 옆에 두 버튼 높이의 제단 버튼.
+   데스크탑은 .wrap 의 3번째 열이 열리며 슬라이드(폭 0→340px, 우측 빈 공간 사용),
+   900px 이하는 고급 설정과 같은 팝업(.advpop) 을 쓴다. */
+.settings .panel-head{align-items:flex-start}
+.proc-stack{display:flex;gap:8px;align-items:stretch;flex:none}
+.proc-col{display:flex;flex-direction:column;gap:6px}
+.proc-col .proc-btn{flex:1}
+.altar-btn{position:relative;min-width:96px;padding:0;border-radius:9px;border:1px solid var(--line);cursor:pointer;
+  font-family:var(--pretendard);font-weight:400;font-size:11px;letter-spacing:-.01em;color:var(--text);
+  /* 원본이 256x256 정사각인데 버튼은 가로로 넓다(두 버튼 높이). cover 로 채우면 위(별 끝)와
+     아래(제단 받침)가 잘리므로, 높이에 맞춰 통째로 넣고 위쪽에 붙여 아래 띠를 라벨 자리로 쓴다. */
+  background:url(icons/altar_star.webp) no-repeat center 2px/auto 72%,var(--bg2);overflow:hidden;
+  transition:border-color .16s,box-shadow .16s,transform .16s}
+.altar-btn::before{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(13,12,10,0) 48%,rgba(13,12,10,.86) 100%)}
+.altar-btn span{position:absolute;left:0;right:0;bottom:4px;text-align:center;white-space:nowrap;
+  text-shadow:0 1px 3px rgba(0,0,0,.75)}
+.altar-btn:hover{border-color:var(--line2);transform:translateY(-1px)}
+.altar-btn.open{border-color:var(--gold-d)}
+.altar-btn.on{border-color:var(--gold);box-shadow:0 3px 14px rgba(232,184,75,.28)}
+.altar-btn.on span{color:var(--gold)}
+.altar-btn:focus-visible{outline:2px solid var(--gold-d);outline-offset:2px}
+/* 턴 피해 설정 버튼 — 확률 100%·체력 10% 와 같은 작은 proc-btn (열에 한 줄 추가). 열림 상태만 표시 */
+.proc-btn.tdmg-btn.open{border-color:var(--gold-d)}
+/* 제단 설정이 켜지면 확률 100% 는 활성화 불가 */
+.proc-btn:disabled{opacity:.38;cursor:not-allowed;box-shadow:none}
+.proc-btn:disabled:hover{color:var(--muted);border-color:var(--line)}
+
+/* 데스크탑 사이드 패널 — 3번째 그리드 열. 폭·투명도·위치를 함께 전환한다.
+   테두리는 안쪽(.altar-inner)에 두어 폭 0 일 때 선이 남지 않게 한다. */
+.wrap{transition:max-width .34s cubic-bezier(.2,.9,.3,1)}
+@media(min-width:901px){.wrap.altar-open{grid-template-columns:1fr 320px auto;max-width:1640px}}
+.altar-side{grid-column:3;align-self:start;width:0;overflow:hidden;
+  /* sticky 금지 — 스크롤을 따라오면 아래 결과 패널을 가린다(다른 패널도 전부 일반 흐름) */
+  opacity:0;transform:translateX(14px);
+  transition:width .34s cubic-bezier(.2,.9,.3,1),opacity .26s ease,transform .34s cubic-bezier(.2,.9,.3,1)}
+.altar-side.in{width:340px;opacity:1;transform:none}
+.altar-inner{width:340px;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:var(--r)}
+.altar-inner .adv-head{padding:16px 16px 12px}
+.altar-inner .adv-body,.altar-card .adv-body{padding:14px 16px 16px;overflow-y:auto}
+.altar-card{width:min(560px,96vw)}
+@media(max-width:900px){.altar-side{display:none!important}}
+
+/* 본문 */
+.altar-hint{font-size:12px;color:var(--muted);background:var(--bg2);border:1px solid var(--line);
+  border-radius:9px;padding:10px 12px;margin-bottom:12px;line-height:1.6}
+.altar-note{font-size:11.5px;color:var(--faint);margin-top:12px;line-height:1.5}
+.altar-floor{border:1px solid var(--line);border-radius:12px;background:var(--bg2);padding:12px 12px 10px;
+  margin-bottom:10px;transition:opacity .18s}
+.altar-floor.off .af-group{opacity:.35;pointer-events:none}
+.af-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.af-t{display:flex;flex-direction:column;min-width:0}
+.af-t b{font-size:13.5px;color:var(--gold)}
+.af-t em{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.af-head .toggle{margin-left:auto;flex:none;font-size:11.5px}
+.af-head .toggle .sw{width:32px;height:18px}
+.af-head .toggle .sw::after{width:14px;height:14px}
+.af-head .toggle input:checked+.sw::after{transform:translateX(14px)}
+.af-group{margin-top:8px;transition:opacity .18s}
+.ag-title{display:flex;align-items:center;gap:7px;margin-bottom:6px;flex-wrap:wrap}
+.ag-title img{width:18px;height:18px;border-radius:5px;object-fit:cover;flex:none}
+.ag-title b{font-size:12px;color:var(--text2)}
+/* 설명이 한 문장이라 아이콘·제목 아래 줄로 내린다(잘림 없이 전문 노출, 제목 글자에 맞춰 들여쓰기) */
+.ag-title em{font-size:10.5px;color:var(--faint);flex-basis:100%;padding-left:25px;line-height:1.45}
+.af-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px}
+.altar-row{display:flex;align-items:center;gap:9px;padding:7px 9px;border:1px solid var(--line);border-radius:9px;
+  background:var(--panel);cursor:pointer;user-select:none;opacity:.7;
+  transition:border-color .14s,background .14s,opacity .14s}
+.altar-row:hover{border-color:var(--line2)}
+.altar-row.on{opacity:1}
+.altar-row .ai{width:28px;height:28px;border-radius:7px;object-fit:cover;flex:none;
+  filter:saturate(.5) brightness(.8);transition:filter .14s}
+.altar-row.on .ai{filter:none}
+.altar-row .at{font-size:11.5px;line-height:1.45;color:var(--muted);min-width:0;flex:1}
+.altar-row.on .at{color:var(--text2)}
+.altar-row .ck{flex:none;width:16px;height:16px;border-radius:50%;border:1px solid var(--line2);position:relative;transition:.14s}
+.altar-row.on .ck{background:var(--gold);border-color:var(--gold)}
+.altar-row.on .ck::after{content:"";position:absolute;left:5px;top:2px;width:4px;height:8px;
+  border:solid #0d0c0a;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.altar-row:focus-visible{outline:2px solid var(--gold-d);outline-offset:1px}
+/* 열릴 때 항목이 순차 등장 (--i = 층 안 순번) */
+.altar-side.in .altar-row,.altar-card .altar-row{animation:altarIn .32s cubic-bezier(.2,.9,.3,1) both;
+  animation-delay:calc(var(--i,0)*26ms + 50ms)}
+@keyframes altarIn{from{opacity:0;transform:translateX(8px)}}
+/* 탭 전환(제단 ⇄ 턴 피해): 나가는 패널은 왼쪽으로 빠지고, 들어오는 패널은 오른쪽에서 들어온다 */
+.altar-side.swap-out{opacity:0;transform:translateX(-14px);transition-duration:.2s}
+@media (prefers-reduced-motion: reduce){
+  .wrap,.altar-side,.altar-btn{transition:none}
+  .altar-side.in .altar-row,.altar-card .altar-row{animation:none}
+  .altar-side.in .tdmg-row,.altar-card .tdmg-row{animation:none}
+}
+
+/* ── 턴 피해 설정 패널 본문 ── */
+.tdmg-field{border:1px solid var(--line);border-radius:12px;background:var(--bg2);padding:12px 12px 10px;margin-bottom:10px}
+.tdmg-field .tf-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:8px}
+.tdmg-field .tf-head b{font-size:13px;color:var(--text)}
+.tdmg-field .tf-head em{font-style:normal;font-size:11px;color:var(--faint);line-height:1.45;flex-basis:100%}
+.tdmg-field .tf-head .toggle{margin-left:auto;flex:none;font-size:11.5px}
+.tdmg-field .tf-head .toggle .sw{width:32px;height:18px}
+.tdmg-field .tf-head .toggle .sw::after{width:14px;height:14px}
+.tdmg-field .tf-head .toggle input:checked+.sw::after{transform:translateX(14px)}
+.tdmg-pct{display:flex;align-items:center;gap:10px}
+.tdmg-pct input[type=range]{flex:1}
+.tdmg-pct b{min-width:44px;text-align:right;font-variant-numeric:tabular-nums;color:var(--fire)}
+.tdmg-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;transition:opacity .18s}
+.tdmg-adv.off .tdmg-grid{opacity:.35;pointer-events:none}
+.tdmg-row{display:flex;flex-direction:column;align-items:stretch;gap:3px;padding:6px 6px 5px;border:1px solid var(--line);
+  border-radius:8px;background:var(--panel)}
+.tdmg-row label{font-size:10.5px;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.tdmg-row input{width:100%;box-sizing:border-box;font:inherit;font-size:12px;text-align:center;padding:4px 2px;
+  border:1px solid var(--line);border-radius:6px;background:var(--bg2);color:var(--text);font-variant-numeric:tabular-nums}
+.tdmg-row input:focus{outline:none;border-color:var(--fire)}
+.tdmg-row.set input{border-color:rgba(214,72,72,.55);color:var(--fire)}
+.tdmg-row.set label{color:var(--text2)}
+.altar-side.in .tdmg-row,.altar-card .tdmg-row{animation:altarIn .32s cubic-bezier(.2,.9,.3,1) both;
+  animation-delay:calc(var(--i,0)*12ms + 40ms)}
+.tdmg-tools{display:flex;gap:8px;margin-top:8px}
+.tdmg-tools .btn-ghost{font-size:11.5px}
+.altar-body.off .tdmg-field{opacity:.35;pointer-events:none}
+
+/* ── 궁극기 맞추기 그룹(제단 패널) ── */
+.altar-sync{margin-top:14px;border:1px solid var(--line);border-radius:12px;background:var(--bg2);padding:12px 12px 10px}
+.as-title{display:flex;flex-direction:column;gap:3px;margin-bottom:10px}
+.as-title b{font-size:13px;color:var(--text)}
+.as-title em{font-style:normal;font-size:11px;color:var(--faint);line-height:1.45}
+.as-group{border:1px solid var(--line);border-radius:10px;padding:9px 10px;margin-top:8px;opacity:.72;transition:.14s}
+.as-group.on{opacity:1;border-color:var(--gold-d)}
+.as-row{display:flex;align-items:center;gap:8px;min-height:26px}
+.as-lbl{font-size:11.5px;color:var(--muted);flex:none;min-width:88px}
+.as-anchor{flex:1;min-width:0;font:inherit;font-size:12px;color:var(--text2);background:var(--bg);border:1px solid var(--line2);border-radius:7px;padding:4px 6px}
+.as-members{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 6px}
+.as-mwrap{display:inline-flex;gap:0}
+.as-m{font:inherit;font-size:11.5px;color:var(--muted);background:var(--bg);border:1px solid var(--line2);border-radius:7px;padding:4px 8px;cursor:pointer;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.as-m.on{color:#0d0c0a;background:var(--gold);border-color:var(--gold);font-weight:600;border-top-right-radius:0;border-bottom-right-radius:0}
+.as-m:disabled{opacity:.35;cursor:not-allowed}
+.as-ord{font:inherit;font-size:10.5px;color:var(--gold);background:var(--bg);border:1px solid var(--gold-d);border-left:none;border-radius:0 7px 7px 0;padding:4px 6px;cursor:pointer}
+.as-missrow .seg{flex:1}
+.as-miss button{padding:4px 6px;font-size:11px}
+/* ── 캐릭터 창: 궁극기 사용 방식 ── */
+.mc-ult{margin:0 0 12px;border:1px solid var(--gold-d);border-radius:12px;background:var(--bg2);padding:10px 12px 10px}
+.ult-title{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ult-title img{width:22px;height:22px;border-radius:6px;object-fit:cover}
+.ult-title b{font-size:13px;color:var(--text)}
+.ult-title em{font-style:normal;font-size:11px;color:var(--faint)}
+.ult-modes button{font-size:12px;padding:6px 4px}
+.ult-desc{font-size:11.5px;color:var(--muted);line-height:1.45;margin:7px 0 8px}
+.ult-keep{font-size:12px}
+.ult-keep.dim{opacity:.45}
+.ult-sync,.ult-lock{font-size:11.5px;color:var(--text2);background:var(--bg);border:1px dashed var(--line2);border-radius:8px;padding:7px 9px;line-height:1.45;margin-top:6px}
+.ult-lock{color:var(--muted)}
+.pp-card .mc-ult{margin:8px 0 10px}

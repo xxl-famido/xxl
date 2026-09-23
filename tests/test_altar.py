@@ -1,0 +1,348 @@
+"""길드 제단(祭壇) 엔진 반영 가드 — woofia_sim/altar.py + engine/harness/sim_api 배선.
+
+절대 데미지값이 아니라 '채널·부호·누적·격리'만 본다(캐릭터 수치가 바뀌어도 유효).
+적용 규칙(사용자 확정 2026-09-22): 층 누적(3층 = 1·2·3층 전부) · 같은 효과 중복 합산 ·
+별 = 체크(부숨)하면 미적용, 달 = 체크(열음)하면 적용.
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import pytest
+
+from woofia_sim.altar import (
+    FLOORS, LABEL_KR, MAX_CD_PLUS, MOON_IDS, STAR_IDS, altar_effects, resolve_altars, summarize,
+)
+from woofia_sim.effects import (
+    STAT_ATK, STAT_BAR_RECV, STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_DMG_TAKEN_EX,
+    STAT_DOT_TAKEN, STAT_EX_EFFECT, STAT_HEAL_RECV, TRIGGER,
+)
+from woofia_sim.harness import CharSpec, run_team
+
+ROOT = Path(__file__).resolve().parents[1]
+FIGHTER, HEALER, SUPPORT = 10402, 10404, 10405   # 전사(수) · 치유(수) · 보조(목)
+ALL = sorted(STAR_IDS | MOON_IDS)
+
+
+def _run(altar, team=None, **kw):
+    team = team or [CharSpec(FIGHTER, position=1)]
+    args = dict(n_dummies=1, max_turn=6, enemy_hits=0, force_proc=True, seed=0)
+    args.update(kw)
+    return run_team(team, altar=altar, **args)
+
+
+def _altar_buffs(unit, stat):
+    return [b.value for b in unit.buffs if b.stat == stat and b.owner == 0]
+
+
+# ── 데이터 정합 ─────────────────────────────────────────────────────────────
+
+def test_floor_table_matches_dashboard_json():
+    """엔진 FLOORS 는 프런트 dashboard/altars.json 과 층별 Id가 정확히 같아야 한다."""
+    data = json.loads((ROOT / "dashboard" / "altars.json").read_text(encoding="utf-8"))
+    got = {f["floor"]: {"star": [a["id"] for a in f["star"]], "moon": [a["id"] for a in f["moon"]]}
+           for f in data["floors"]}
+    assert got == FLOORS
+    assert len(STAR_IDS) == 12 and len(MOON_IDS) == 12
+    assert set(LABEL_KR) == STAR_IDS | MOON_IDS
+
+
+def test_every_altar_has_a_mapping():
+    for aid in ALL:
+        effs = altar_effects(aid)
+        if aid in MAX_CD_PLUS:
+            assert effs == []                    # 킷 수준 처리
+        else:
+            assert effs, aid
+            assert all(e.owner == 0 and e.src_skill == LABEL_KR[aid] for e in effs)
+    with pytest.raises(ValueError):
+        altar_effects(999)
+
+
+# ── resolve: 부호·층 누적·정규화 ───────────────────────────────────────────
+
+def test_resolve_default_all_checked_means_all_blessings_no_penalties():
+    """기본(전부 체크) = 별 전부 부숨(페널티 0) + 달 전부 열음(축복 12)."""
+    assert resolve_altars({"on": True}) == sorted(MOON_IDS)
+
+
+def test_resolve_star_off_is_penalty_and_moon_off_is_removed():
+    cfg = {"on": True, "floors": {"1": {"on": True, "off": [401, 1012]}}}
+    got = resolve_altars(cfg)
+    assert 401 in got and 1012 not in got
+    assert 1011 in got and 402 not in got
+
+
+def test_resolve_floor_cascade_prefix():
+    """아래층 OFF면 위층은 켜져 있어도 무시(UI 누적 규칙과 동일)."""
+    cfg = {"on": True, "floors": {"1": {"on": True}, "2": {"on": False}, "3": {"on": True}}}
+    got = resolve_altars(cfg)
+    assert got == sorted(FLOORS[1]["moon"])
+
+
+def test_resolve_off_or_garbage_is_empty():
+    assert resolve_altars(None) == []
+    assert resolve_altars({"on": False}) == []
+    assert resolve_altars({"on": True, "floors": "nope"}) == sorted(MOON_IDS)
+    assert resolve_altars({"on": True, "floors": {"1": {"off": ["x", None, "401"]}}}) .count(401) == 1
+
+
+def test_resolve_accepts_localstorage_dict_off():
+    cfg = {"on": True, "floors": {1: {"on": True, "off": {"401": True, "1011": True}}}}
+    got = resolve_altars(cfg)
+    assert 401 in got and 1011 not in got
+
+
+def test_summarize_counts():
+    s = summarize([401, 1011, 1019])
+    assert s == {"active": [401, 1011, 1019], "star": 1, "moon": 2, "floors": [1, 3]}
+
+
+# ── 엔진 격리: 제단 없음 = 결과 불변 ───────────────────────────────────────
+
+def test_no_altar_is_identical_to_baseline():
+    a = _run(None)
+    b = _run([])
+    assert a.total_damage == b.total_damage
+    assert not a.state.altar_active and not b.state.altar_active
+
+
+# ── 채널 배선 ───────────────────────────────────────────────────────────────
+
+def test_all_24_land_on_expected_channels():
+    res = _run(ALL, team=[CharSpec(FIGHTER, position=1), CharSpec(HEALER, position=2),
+                         CharSpec(SUPPORT, position=3)])
+    st = res.state
+    fighter, healer, support = st.allies
+    enemy = st.enemies[0]
+    # 별: 보스 측 (401 EX한정 / 406~410 속성별 / 414 ATK / 415 주는뎀)
+    assert _altar_buffs(enemy, STAT_DMG_TAKEN_EX) == [-75]
+    assert sorted((b.element, b.value) for b in enemy.buffs if b.stat == STAT_DMG_TAKEN and b.owner == 0) \
+        == [(1, -75), (2, -75), (3, -75), (4, -75), (5, -75)]
+    assert _altar_buffs(enemy, STAT_ATK) == [100]
+    assert _altar_buffs(enemy, STAT_DMG_DEALT) == [35]
+    # 별: 아군 측 (413·417 치료 -75 ×2 합산 / 416 받뎀 +35)
+    for u in (fighter, healer, support):
+        assert sorted(_altar_buffs(u, STAT_HEAL_RECV)) == [-75, -75, 25, 25]   # 1015·1022 +25 ×2 도 합산
+        assert _altar_buffs(u, STAT_DMG_TAKEN) == [35]
+        assert _altar_buffs(u, STAT_BAR_RECV) == [25, 25]                       # 1014·1019 중복 합산
+        assert _altar_buffs(u, STAT_EX_EFFECT) == [25]
+        assert _altar_buffs(u, STAT_DOT_TAKEN) == [-25]
+        # 트리거 4종(1012 행동 CD-1 / 1013 필살 CD-3 / 1017 자힐 / 1020 배리어딜)이 각자에게 설치
+        subs = [(s.event, s.chance) for s in u.subs if s.effects and s.effects[0].owner == 0]
+        assert sorted(subs) == [("on_action", 30), ("on_action", 30), ("on_attack", 50), ("on_ex", 30)]
+    # 달 1016(치료·보조 ATK) / 1018(전사·방해 ATK): 직업 필터
+    assert _altar_buffs(fighter, STAT_ATK) == [25]
+    assert _altar_buffs(healer, STAT_ATK) == [25]
+    assert _altar_buffs(support, STAT_ATK) == [25]
+    assert st.altar_active == ALL
+
+
+def test_duplicate_effects_stack_not_refresh():
+    """2·3층 같은 효과(6206 배리어 +25%)는 갱신이 아니라 합산 — GC 로 id 재사용돼도 안 겹쳐야."""
+    u = _run([1014, 1019]).state.allies[0]
+    assert u._sum(STAT_BAR_RECV) - _run([]).state.allies[0]._sum(STAT_BAR_RECV) == 50
+
+
+def test_401_only_hits_ex_action():
+    """보스 필살기 피격 -75% 는 필살 hit 에만(inc ×0.25), 평타는 그대로."""
+    res = _run([401], max_turn=6)
+    hits = [ev for ev in res.state.log if ev.detail and "takenEx" in ev.detail]
+    ex = [ev for ev in hits if ev.detail.get("effLabel") == "EX효과"]
+    basic = [ev for ev in hits if ev.detail.get("effLabel") == "평타뎀"]
+    assert ex and basic
+    assert all(ev.detail["takenEx"] and ev.detail["takenEx"][0]["v"] == -75 for ev in ex)
+    assert all(ev.detail["takenEx"] == [] for ev in basic)
+    base = _run([], max_turn=6)
+    ex0 = [ev for ev in base.state.log if ev.detail and ev.detail.get("effLabel") == "EX효과"]
+    assert ex[0].detail["final"] == pytest.approx(ex0[0].detail["final"] * 0.25, rel=1e-6)
+
+
+def test_402_raises_max_cd_and_delays_first_ult():
+    base = _run([])
+    plus = _run([402])
+    assert plus.state.allies[0].fatal_cd == base.state.allies[0].fatal_cd + 1
+    first = lambda r: min((ev.turn for ev in r.state.log if ev.action_kind == "필살기"), default=None)
+    assert first(base) is not None and first(plus) == first(base) + 1
+
+
+def test_heal_received_floor_is_zero_not_negative():
+    """별 1·2층 치료 -75% 합산 = -150% → 힐 0 (음수 힐 금지)."""
+    team = [CharSpec(HEALER, position=1)]
+    res = _run([413, 417], team=team)
+    heals = [ev for ev in res.state.log if ev.detail and ev.detail.get("kind") == "heal"]
+    assert heals, "치유형 캐릭의 힐 이벤트가 있어야 한다"
+    # 캐릭터 자체의 '받는 회복 +x%' 패시브가 더해질 수 있으므로 합계가 -100% 이하인 힐만 0 이어야 한다
+    deep = [ev for ev in heals if ev.detail["healRecv"] <= -100]
+    assert deep, "합계 -100% 이하인 힐이 있어야 한다"
+    assert all(ev.detail["final"] == 0 for ev in deep)
+    assert all(ev.detail["final"] >= 0 for ev in heals)
+
+
+def test_incoming_mode_boss_penalties_multiply():
+    """414 ATK+100% · 415 주는뎀 +35% · 416 아군 받뎀 +35% → 피격량 = raw × 2 × 1.35 × 1.35."""
+    res = _run([414, 415, 416], enemy_hits=1, incoming_hp_pct=10)
+    inc = [ev for ev in res.state.log if ev.detail and ev.detail.get("kind") == "incoming"]
+    assert inc
+    d = inc[0].detail
+    assert not d["defended"]
+    assert d["dmg"] == pytest.approx(d["raw"] * 2 * 1.35 * 1.35, rel=1e-6)
+    assert d["atkPct"] and d["atkPct"][0]["v"] == 100
+
+
+def test_trigger_1013_cuts_cd_after_ult():
+    """필살 시 30% → CD -3: 확률 100% 모드면 필살 직후 남은 CD 가 (최대 CD - 3) 이하."""
+    res = _run([1013], max_turn=8)
+    u = res.state.allies[0]
+    cd_events = [ev for ev in res.state.log if "필살 CD -3" in ev.text]
+    assert cd_events, "CD -3 발동 로그가 없음"
+    assert cd_events[0].src_skill == LABEL_KR[1013]
+
+
+def test_1020_barrier_damage_registers_on_attack_only():
+    u = _run([1020]).state.allies[0]
+    subs = [s for s in u.subs if s.effects and s.effects[0].owner == 0]
+    assert len(subs) == 1 and subs[0].event == "on_attack" and subs[0].chance == 50
+    assert subs[0].effects[0].of_barrier and subs[0].effects[0].magnitude == 100
+
+
+def test_sim_api_contract_and_meta():
+    """run_sim: cfg.altar → meta.altar(별/달 수) · 미지정이면 None."""
+    import sim_api
+    team = [{"id": FIGHTER, "position": 1, "skill": 10, "rune": True}]
+    base = {"team": team, "turns": 4, "dummies": 1, "enemyHits": "0", "forceProc": True, "runs": 1, "noBand": True}
+    off = sim_api.run_sim(base)
+    assert off["meta"]["altar"] is None
+    on = sim_api.run_sim({**base, "altar": {"on": True, "floors": {"1": {"on": True, "off": [401]}}}})
+    assert on["meta"]["altar"]["star"] == 1 and on["meta"]["altar"]["moon"] == 12
+    assert 401 in on["meta"]["altar"]["active"]
+    # 401 만 단독(달 전부 해제·2·3층 OFF) → 필살기 피격 -75% 가 실제로 걸려 총딜 감소
+    only = sim_api.run_sim({**base, "altar": {"on": True, "floors": {
+        "1": {"on": True, "off": [401, 1011, 1012, 1013]}, "2": {"on": False}, "3": {"on": False}}}})
+    assert only["meta"]["altar"] == {"active": [401], "star": 1, "moon": 0, "floors": [1], "groups": 0}
+    assert only["meta"]["total"] < off["meta"]["total"]
+
+
+# ── 궁극기 사용 방식 · 궁 맞추기 ──────────────────────────────────────────
+
+from woofia_sim.altar import parse_sync_groups, parse_ult_policy   # noqa: E402
+
+
+def _ult_turns(res, cid):
+    return sorted({ev.turn for ev in res.state.log if ev.actor_id == cid and ev.action_kind == "필살기"})
+
+
+def _order(res, turn):
+    seen = []
+    for ev in res.state.log:
+        if ev.turn == turn and ev.action_kind in ("필살기", "보통공격", "방어") and ev.actor not in seen:
+            seen.append(ev.actor)
+    return seen
+
+
+def test_parse_ult_policy():
+    assert parse_ult_policy(None) == {}
+    assert parse_ult_policy({"mode": "asap"}) == {"ult_mode": "asap"}
+    assert parse_ult_policy({"mode": "asap", "keepDef": False}) == {"ult_mode": "asap", "ult_keep_def": False}
+    assert parse_ult_policy({"mode": "??"}) == {"ult_mode": "fixed"}
+
+
+def test_parse_sync_groups_rules():
+    pos = [1, 2, 3, 4, 5]
+    raw = [
+        {"anchor": 1, "members": [{"p": 2, "order": "before"}, {"p": 3, "order": "after"}, {"p": 1}], "miss": "asap"},
+        {"anchor": 2, "members": [{"p": 4}]},                # 2는 이미 멤버 → 앵커 불가
+        {"anchor": 4, "members": [{"p": 5}, {"p": 9}]},      # 9는 미출전
+        {"anchor": 5, "members": [{"p": 3}]},                # 4번째 그룹 → 최대 3 초과
+    ]
+    got = parse_sync_groups(raw, pos)
+    assert got == [
+        {"anchor": 1, "members": [(2, "before"), (3, "after")], "miss": "asap"},
+        {"anchor": 4, "members": [(5, "before")], "miss": "wait"},
+    ]
+    assert parse_sync_groups("x", pos) == []
+    assert parse_sync_groups([{"anchor": 1, "members": []}], pos) == []
+
+
+def test_default_policy_is_previous_behaviour():
+    """기본(fixed)은 정책 개입 0 — 제단이 있어도 종전 로테이션 그대로."""
+    a = _run([1011], max_turn=12)
+    b = run_team([CharSpec(FIGHTER, position=1, ult_mode="fixed", ult_keep_def=True)],
+                 altar=[1011], n_dummies=1, max_turn=12, enemy_hits=0, force_proc=True, seed=0)
+    assert a.total_damage == b.total_damage
+
+
+def test_asap_uses_ult_whenever_ready():
+    """1013(필살 시 CD-3, 확률 100%)이면 asap 은 매 턴 궁, fixed 는 계획 턴(4·7·10)만."""
+    fixed = _run([1013], max_turn=12)
+    asap = run_team([CharSpec(FIGHTER, position=1, ult_mode="asap")], altar=[1013],
+                    n_dummies=1, max_turn=12, enemy_hits=0, force_proc=True, seed=0)
+    assert _ult_turns(fixed, FIGHTER) == [4, 7, 10]
+    assert _ult_turns(asap, FIGHTER) == list(range(4, 13))
+
+
+def test_asap_keeps_planned_defend_by_default():
+    rot = "평평평방|평평평방"
+    keep = run_team([CharSpec(FIGHTER, position=1, ult_mode="asap", rotation=rot)], altar=[1013],
+                    n_dummies=1, max_turn=8, enemy_hits=0, force_proc=True, seed=0)
+    over = run_team([CharSpec(FIGHTER, position=1, ult_mode="asap", ult_keep_def=False, rotation=rot)],
+                    altar=[1013], n_dummies=1, max_turn=8, enemy_hits=0, force_proc=True, seed=0)
+    assert 4 not in _ult_turns(keep, FIGHTER) and 8 not in _ult_turns(keep, FIGHTER)
+    assert 4 in _ult_turns(over, FIGHTER)
+
+
+def test_strict_skips_when_not_ready_and_never_falls_back():
+    """402(CD+1)로 계획 5턴궁이 밀리면: fixed 는 차는 즉시(6턴), strict 는 다음 계획 턴(10턴)까지 건너뜀."""
+    rot = "평평평평궁|평평평평궁"
+    fixed = run_team([CharSpec(FIGHTER, position=1, rotation=rot)], altar=[402],
+                     n_dummies=1, max_turn=12, enemy_hits=0, force_proc=True, seed=0)
+    strict = run_team([CharSpec(FIGHTER, position=1, ult_mode="strict", rotation=rot)], altar=[402],
+                      n_dummies=1, max_turn=12, enemy_hits=0, force_proc=True, seed=0)
+    assert _ult_turns(fixed, FIGHTER) == [5, 10]          # CD 4 → 5턴 준비, 계획 5턴 궁, 다음 계획 10턴
+    assert _ult_turns(strict, FIGHTER) == [5, 10]
+    rot2 = "평평평궁|평평평궁"                                # 계획 4턴은 CD 4라 미준비
+    fixed2 = run_team([CharSpec(FIGHTER, position=1, rotation=rot2)], altar=[402],
+                      n_dummies=1, max_turn=12, enemy_hits=0, force_proc=True, seed=0)
+    strict2 = run_team([CharSpec(FIGHTER, position=1, ult_mode="strict", rotation=rot2)], altar=[402],
+                       n_dummies=1, max_turn=12, enemy_hits=0, force_proc=True, seed=0)
+    assert _ult_turns(fixed2, FIGHTER)[0] == 5             # 차는 즉시 폴백
+    assert _ult_turns(strict2, FIGHTER)[0] == 8            # 8턴 계획에서야 궁
+
+
+def test_sync_group_aligns_and_reorders():
+    """힐러(P2)를 딜러(P1, asap)에 앞으로, 보조(P3)를 뒤로 맞춤 → 같은 턴 궁 + 그 턴 순서 H→F→S."""
+    team = [CharSpec(FIGHTER, position=1, ult_mode="asap"), CharSpec(HEALER, position=2), CharSpec(SUPPORT, position=3)]
+    groups = [{"anchor": 1, "members": [(2, "before"), (3, "after")], "miss": "wait"}]
+    res = run_team(team, altar=[1011], sync_groups=groups, n_dummies=1, max_turn=12,
+                   enemy_hits=0, force_proc=True, seed=0)
+    ft = _ult_turns(res, FIGHTER)
+    assert ft and _ult_turns(res, HEALER) == ft and _ult_turns(res, SUPPORT) == ft
+    names = {u._kit.char_id: u.name for u in res.state.allies}
+    assert _order(res, ft[0]) == [names[HEALER], names[FIGHTER], names[SUPPORT]]
+
+
+def test_sync_member_waits_when_anchor_holds():
+    """앵커가 strict 로 10턴에만 궁이면 멤버도 10턴까지 궁을 아낀다(miss=wait)."""
+    team = [CharSpec(FIGHTER, position=1, ult_mode="strict", rotation="평" * 9 + "궁|평"),
+            CharSpec(HEALER, position=2)]
+    groups = [{"anchor": 1, "members": [(2, "before")], "miss": "wait"}]
+    res = run_team(team, altar=[1011], sync_groups=groups, n_dummies=1, max_turn=12,
+                   enemy_hits=0, force_proc=True, seed=0)
+    assert _ult_turns(res, FIGHTER) == [10]
+    assert _ult_turns(res, HEALER) == [10]
+
+
+def test_probe_altar_procs_off_uses_guaranteed_cd():
+    import sim_api
+    team = [{"id": FIGHTER, "position": 1, "skill": 10, "rune": True, "ult": {"mode": "asap"}}]
+    base = {"team": team, "turns": 8, "dummies": 1, "enemyHits": "0", "forceProc": True, "runs": 1, "noBand": True,
+            "altar": {"on": True, "floors": {"1": {"on": True, "off": [402]}}}}
+    full = sim_api.run_sim(base)
+    probe = sim_api.plan_probe(base)
+    ult_turns_full = sorted({ev["turn"] for ev in full["log"] if ev["kind"] == "필살기"})
+    ult_turns_probe = sorted(int(t) for t, v in probe["plan"].items() if any(e["a"] == "궁" for e in v["seq"]))
+    # 실제 실행: 402(+1)=CD 4 이지만 1012(행동 시 CD-1)·1013(필살 시 CD-3)이 100% 로 터져 3턴부터 매 턴 궁
+    assert ult_turns_full == list(range(3, 9))
+    # 프로브: 확률 CD감소는 보장이 아니므로 제외 → 보장 CD(4)만 반영해 5턴에 한 번(8턴 이내)
+    assert ult_turns_probe == [5]

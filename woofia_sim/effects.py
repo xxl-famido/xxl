@@ -30,6 +30,8 @@ CD_MOD = "CD_MOD"           # EX-skill cooldown change
 TRIGGER = "TRIGGER"         # conditional wrapper holding sub-effects
 MARKER = "MARKER"           # section header / non-mechanical note
 ENTER_DEFENSE = "ENTER_DEFENSE"  # 자신을 방어 상태로 전환(다라완 필살) — 받는 데미지 50% 감소
+SELF_DAMAGE = "SELF_DAMAGE"  # 자해: 자기 현재 HP의 N% 실제 데미지(무명 필살) — 배리어·받뎀 우회, HP 1 하한
+LIFESTEAL = "LIFESTEAL"     # 흡혈: 피해를 줄 때 그 피해의 N%만큼 자기 HP 회복(무명 파4, HP≦ 게이트)
 UNPARSED = "UNPARSED"       # no template matched -> flagged
 
 # buff stat channels
@@ -48,6 +50,7 @@ STAT_ATK_FLAT = "atk_flat"                  # flat ATK add (e.g. % of caster bas
 STAT_HEAL_RECV = "heal_recv_pct"            # 받는 회복량 증가 (target side, heal/HoT received +x%)
 STAT_BAR_RECV = "bar_recv_pct"              # 받는 배리어 효과 증가 (수령자 side, beShieldBonus — 오렘 파1·다라완 파4 모두)
 STAT_TYPE_ADV_DMG = "type_adv_dmg_pct"      # 속성 상성 추가뎀 증폭 (제토: 상성 우위일 때만 상성 초과분 +x%)
+STAT_DMG_TAKEN_EX = "dmg_taken_ex_pct"      # 필살기(EX 액션) 피격에만 걸리는 받뎀 (길드 제단 401: 보스 필살기 피격 -75%)
 
 
 @dataclass
@@ -887,6 +890,28 @@ def _b_revive_marker(m):
     return Effect(MARKER, m.group(0))
 
 
+# 무명 필살: "Take real damage N% of own current HP" — 자해(실제 데미지). 엔진이 caster.hp를
+# 직접 깎는다(배리어 흡수·받뎀 배율 우회, 1 하한) → 저체력 게이트(HP≦75/50/30%)를 여는 수단.
+@_leaf(rf"^Take real damage {_NUM}% of own current HP\.?$")
+def _b_self_damage(m):
+    return Effect(SELF_DAMAGE, m.group(0), target="self", magnitude=_f(m.group(1)))
+
+
+# 무명 파1: "For each stack of Fearless on self, Mumei's damage taken +7%" — 자기 스택 1중첩당
+# 자기 받뎀 +N%. per_stack cond_buff로 심고(캡은 +N 스택 op가 등록) incoming_mult가 합산한다.
+@_leaf(rf"^For each stack of (.+?) on self, (?:[Oo]wn |[A-Z][\w']+'s )?damage taken \+{_NUM}%\.?$")
+def _b_per_stack_dmg_taken(m):
+    return Effect(BUFF, m.group(0), target="self", stat=STAT_DMG_TAKEN,
+                  magnitude=_f(m.group(2)), condition=f"per_stack:{_stk(m.group(1))}")
+
+
+# 무명 파4: "upon dealing damage, heal own HP by N% of the damage" — 흡혈. _OWN_HP가 HP 게이트를
+# self_hp_op/val로 붙이고, 엔진 _record_hit이 직접 hit마다 dmg×N%를 자힐한다(DoT 틱 제외).
+@_leaf(rf"^[Uu]pon dealing damage, heal own HP by {_NUM}% of the damage\.?$")
+def _b_lifesteal(m):
+    return Effect(LIFESTEAL, m.group(0), target="self", magnitude=_f(m.group(1)))
+
+
 # 마타야 반격 자세(Jigotai): "Enter <Stance> for N turn(s)" = self 1-스택 상태 진입.
 # "Enter Defense (...)"(다라완)는 위(465/472)에서 먼저 잡히므로 여기 오지 않는다. 아래
 # _b_bare_status catch-all이 "Enter Jigotai"를 스택명째로 먹기 전에 잡아 접두를 벗긴다.
@@ -1028,10 +1053,19 @@ def parse_line(line: str) -> Effect:
                 inner.self_hp_op, inner.self_hp_val = op, val
                 inner.raw = line
                 return inner
-            # static self-buff (한번에 클리어): no discrete fire point for a live gate, so apply
-            # the documented dummy-full-HP assumption — ≧/= holds (buff stays), ≦/< never holds
-            # (inert). 피격모드 정밀도는 크라우드 검증 대상.
+            if inner.kind == LIFESTEAL:            # 무명 파4: HP≦30% 흡혈 — hit마다 라이브 게이트
+                inner.self_hp_op, inner.self_hp_val = op, val
+                inner.raw = line
+                return inner
+            # static self-buff (한번에 클리어): ≧/= holds at the dummy-full-HP baseline → plain buff.
             if op in ("ge", "eq"):
+                inner.raw = line
+                return inner
+            # ≦/< static self-buff (무명 파4 HP≦50% 평타뎀+30% · 몽규 파4 인접 HP≦50% 받뎀-11%):
+            # 예전엔 "풀HP라 절대 안 열림"으로 MARKER(inert)였으나, 자해(무명)·피격모드로 HP가 실제로
+            # 내려가므로 라이브 HP 조건버프(self_hp:)로 심는다 — 엔진 hp_cond_buffs가 매 판정 시 _hp_ok.
+            if inner.kind == BUFF and inner.target == "self" and inner.stat and not inner.condition:
+                inner.condition = f"self_hp:{op}:{val:g}"
                 inner.raw = line
                 return inner
             return Effect(MARKER, line)

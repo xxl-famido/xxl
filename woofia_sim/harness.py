@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 
 from .effects import CD_MOD, DAMAGE, TRIGGER
 from .engine import BattleState, simulate
+from .altar import MAX_CD_PLUS
 from .kit import ResolvedKit, resolve_kit
 from .stats import Investment
 
@@ -108,6 +109,8 @@ class CharSpec:
     priority: int | None = None  # 행동 순서 (None=position). 낮을수록 먼저 행동
     atk_bonus: int = 0           # 도장 강화: 기본 ATK 가산
     hp_bonus: int = 0            # 도장 강화: 기본 HP 가산
+    ult_mode: str = "fixed"      # 궁극기 사용 방식(길드 제단): fixed(계획 턴·차면 즉시) / strict(계획 턴만) / asap(준비되면 바로)
+    ult_keep_def: bool = True    # asap·궁 맞추기 에서 계획의 방어 턴은 방어 유지
 
     def investment(self) -> Investment:
         return Investment(level=self.level, evo=self.evo, pevo=self.pevo,
@@ -136,13 +139,31 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
              force_proc: bool = False, enemy_aoe: bool = False,
              dummy_element: int = 0, hp10: bool = False,
              incoming_hp_pct: int = 0, turn_plans: dict | None = None,
-             never_proc: bool = False) -> TeamResult:
-    """Resolve the team (list order = position 1..N) and simulate."""
+             never_proc: bool = False,
+             altar: list[int] | None = None,
+             sync_groups: list[dict] | None = None,
+             altar_procs: bool = True,
+             turn_damage: list[float] | None = None) -> TeamResult:
+    """Resolve the team (list order = position 1..N) and simulate.
+
+    turn_damage: 턴 피해 모드 — 턴별 아군 전체 최대HP n%(index=turn-1). None=끔.
+
+    altar: 걸려 있는 길드 제단 Id 목록(altar.resolve_altars). None/[] = 미사용(결과 불변).
+    sync_groups: 궁 맞추기 그룹 — **포지션(1-based)** 기준 [{"anchor": p, "members": [(p, order)], "miss": …}].
+                 여기서 슬롯(0-based)으로 바꿔 simulate 에 넘긴다.
+    altar_procs: False = 제단 확률 트리거 미설치(플래너 프로브).
+    """
     specs = specs[:5]
     kits = [resolve_kit(s.char_id, s.investment(), s.levels(), s.rune) for s in specs]
     for kit, s in zip(kits, specs):          # 도장 강화: 기본 ATK/HP 가산
         kit.atk += int(s.atk_bonus)
         kit.hp += int(s.hp_bonus)
+    # 길드 제단 402 "필살기 최대 CD +1": CD 길이 자체가 늘어나므로 킷 수준에서 더한다 — 자동 로테이션
+    # (auto_rotation)과 초기 충전(게이지 0 → fatal_cd 턴 대기)이 같은 값을 보게. 시뮬 내부 버프가 아님.
+    cd_plus = sum(MAX_CD_PLUS.get(a, 0) for a in (altar or []))
+    if cd_plus:
+        for kit in kits:
+            kit.fatal.cd += cd_plus
     # 위치(slot): 지정 시 position-1, 아니면 리스트 순서
     slots = [(s.position - 1) if s.position else i for i, s in enumerate(specs)]
     # 우선순위: 지정 시 그 값, 아니면 역할군+포지션 기본값
@@ -155,6 +176,12 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
     rotations = [s.rotation if s.rotation is not None else auto_rotation(kit)
                  for s, kit in zip(specs, kits)]
     fed_actions = [s.fed_action for s in specs]   # 이태호 임부언 fed 추가행동 토큰(None=기본 평타)
+    ult_policies = [{"mode": s.ult_mode, "keepDef": s.ult_keep_def} for s in specs]
+    pos2slot = {s.position if s.position else i + 1: slot for i, (s, slot) in enumerate(zip(specs, slots))}
+    groups_slot = [{"anchor": pos2slot.get(g.get("anchor"), -1),
+                    "members": [(pos2slot.get(p, -1), o) for p, o in g.get("members", [])],
+                    "miss": g.get("miss", "wait")}
+                   for g in (sync_groups or [])]
     ally_ult_afters = [s.ally_ult_after for s in specs]   # 욱영 토글
     state = simulate(kits, n_dummies=n_dummies, max_turn=max_turn, seed=seed,
                      rotations=rotations, slots=slots, priorities=priorities,
@@ -162,7 +189,9 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
                      enemy_aoe=enemy_aoe, dummy_element=dummy_element, hp10=hp10,
                      fed_actions=fed_actions, incoming_hp_pct=incoming_hp_pct,
                      ally_ult_afters=ally_ult_afters, turn_plans=turn_plans,
-                     never_proc=never_proc)
+                     never_proc=never_proc, altar=altar,
+                     ult_policies=ult_policies, sync_groups=groups_slot, altar_procs=altar_procs,
+                     turn_damage=turn_damage)
     names = [u.name for u in state.allies]
     per_char = {u.name: u.damage_dealt for u in state.allies}
     total = sum(per_char.values())
