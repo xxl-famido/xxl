@@ -2278,7 +2278,7 @@ function bindSettings() {
     ib.classList.toggle('on', incomingOn);
     ib.textContent = incomingOn ? '💥 켬' : '💥 끔';
     $('#incoming').style.opacity = incomingOn ? '' : '.4';
-    toast(incomingOn ? `피격 데미지 모드 ON<br>· 더미가 아군 피격 시 최대HP ${$('#incoming').value}% 데미지 (배리어 먼저 흡수, 아군 HP 1 미만 안 됨)` : '피격 데미지 모드 OFF');
+    toast(incomingOn ? `피격 데미지 모드 ON<br>· 더미가 아군 피격 시 최대HP ${$('#incoming').value}% 데미지 (배리어 먼저 흡수, HP 0이면 전투불능·이탈)` : '피격 데미지 모드 OFF');
   };
   $('#runBtn').onclick = () => run(true);
 }
@@ -2305,11 +2305,11 @@ const TDMG_T = {
   advSub: { kr: '켜면 아래 칸에 턴마다 피해 %를 따로 정할 수 있어요 (비우면 위 값)', en: 'When on, set each turn’s % below (blank = the value above)', zh: '開啟後可在下方為每回合單獨設定傷害%（留空 = 上方數值）', zhs: '开启后可在下方为每回合单独设置伤害%（留空 = 上方数值）', ja: 'オンにすると下でターンごとの%を個別に設定できます（空欄 = 上の値）' },
   turn:   { kr: '{0}턴', en: 'T{0}', zh: '第{0}回合', zhs: '第{0}回合', ja: '{0}T' },
   reset:  { kr: '턴별 값 비우기', en: 'Clear per-turn values', zh: '清除各回合數值', zhs: '清除各回合数值', ja: 'ターン別の値を消去' },
-  hint:   { kr: '적 페이즈가 끝날 때 아군 전체가 최대HP의 지정 %만큼 피해를 받습니다. 배리어가 먼저 흡수하고, 방어한 턴은 50%만 받으며, 받는 데미지 증감이 적용돼요. 반격은 발동하지 않고 체력은 1 미만으로 안 내려가요.',
-            en: 'At the end of each enemy phase the whole team takes the set % of Max HP as damage. Barriers absorb first, a defending turn takes 50%, and damage-taken modifiers apply. No counterattacks trigger and HP never drops below 1.',
-            zh: '每次敵方回合結束時，全隊承受最大生命指定%的傷害。護盾先吸收，防禦回合只受50%，並套用受傷增減。不會觸發反擊，生命不會低於1。',
-            zhs: '每次敌方回合结束时，全队承受最大生命指定%的伤害。护盾先吸收，防御回合只受50%，并套用受伤增减。不会触发反击，生命不会低于1。',
-            ja: '敵フェーズ終了時に味方全員が最大HPの指定%のダメージを受けます。バリアが先に吸収し、防御したターンは50%のみ、被ダメージ増減も適用。反撃は発動せず、HPは1未満になりません。' },
+  hint:   { kr: '적 페이즈가 끝날 때 아군 전체가 최대HP의 지정 %만큼 피해를 받습니다. 배리어가 먼저 흡수하고, 방어한 턴은 50%만 받으며, 받는 데미지 증감이 적용돼요. 반격은 발동하지 않고, HP가 0이 되면 전투불능이 되어 이탈합니다(일부 힐러의 부활로 복귀 가능).',
+            en: 'At the end of each enemy phase the whole team takes the set % of Max HP as damage. Barriers absorb first, a defending turn takes 50%, and damage-taken modifiers apply. No counterattacks trigger, and at 0 HP an ally is incapacitated and leaves the battle (some healers can revive).',
+            zh: '每次敵方回合結束時，全隊承受最大生命指定%的傷害。護盾先吸收，防禦回合只受50%，並套用受傷增減。不會觸發反擊；HP歸零時陣亡並退場（部分治療可復活）。',
+            zhs: '每次敌方回合结束时，全队承受最大生命指定%的伤害。护盾先吸收，防御回合只受50%，并套用受伤增减。不会触发反击；HP归零时阵亡并退场（部分治疗可复活）。',
+            ja: '敵フェーズ終了時に味方全員が最大HPの指定%のダメージを受けます。バリアが先に吸収し、防御したターンは50%のみ、被ダメージ増減も適用。反撃は発動せず、HP0で戦闘不能になり離脱します（一部ヒーラーが復活可能）。' },
   note:   { kr: '아군 피격 설정·길드 제단 설정과 함께 켤 수 있어요 (패널은 한 번에 하나만 보여요). 무명처럼 자기 HP에 반응하는 캐릭터를 시험할 때 쓰세요.',
             en: 'Can be combined with Incoming Damage and Guild Altar Settings (one panel shows at a time). Use it to test characters that react to their own HP, like Mumei.',
             zh: '可與受擊傷害、公會祭壇設定同時開啟（面板一次只顯示一個）。用來測試像無名這樣依自身生命變化的角色。',

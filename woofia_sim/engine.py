@@ -21,7 +21,7 @@ from dataclasses import dataclass, field
 
 from .effects import (
     BARRIER, BUFF, CC, CD_MOD, COND_DMG, DAMAGE, DEBUFF, EXTRA_ACTION, HEAL,
-    MARKER, ENTER_DEFENSE, SELF_DAMAGE, LIFESTEAL, STACK, TRANSFORM, TRIGGER, STAT_ATK, STAT_BASE_ATK, STAT_ATK_FLAT,
+    MARKER, ENTER_DEFENSE, SELF_DAMAGE, LIFESTEAL, REVIVE, STACK, TRANSFORM, TRIGGER, STAT_ATK, STAT_BASE_ATK, STAT_ATK_FLAT,
     STAT_MAX_HP, STAT_BASE_MAX_HP,
     STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_DOT_TAKEN, STAT_DOT_DEALT,
     STAT_BASIC_DMG_DEALT, STAT_EX_EFFECT,
@@ -245,10 +245,46 @@ class Unit:
     sync_order: str = "before"       # before: 앵커 바로 앞에 행동 / after: 바로 뒤
     sync_miss: str = "wait"          # 앵커 궁 턴에 미준비면: wait=다음 앵커 궁까지 대기 / asap=준비되는 대로 쓰고 재동기
     sync_missed: bool = False         # sync_miss=asap 에서 놓친 상태(준비되면 발동) 표시
+    died: bool = False                 # 전투불능(HP 0) 이력 — 사망 로그 1회 표시·부활 대상 판별용
 
     @property
     def alive(self) -> bool:
         return self.hp > 0
+
+    def die(self) -> None:
+        """전투불능: HP 0 이하가 된 순간 호출. 임시 전투 상태를 비워 큐·타겟에서 이탈시킨다
+        (배리어·버프·스택·조롱·방어·흡혈·HoT/DoT 제거). alive는 hp>0라 이후 자동 제외된다.
+        부활(기리안) 전까지는 어떤 힐도 받지 않는다(힐은 alive 게이트).
+        구독(subs, 캐릭터 고유 패시브 트리거)은 유지한다 — 전투 시작에만 설치되므로 지우면 부활 후
+        캐릭이 반격·패시브를 영영 못 쓴다(부활의 목적이 무의미). 죽은 동안엔 타격·행동을 안 하니
+        구독이 남아 있어도 발동하지 않는다."""
+        self.hp = 0.0
+        self.died = True
+        self.barriers = []
+        self.buffs = []
+        self.cond_buffs = []
+        self.hp_cond_buffs = []
+        self.target_cond_dmg = []
+        self.target_ex_scale = []
+        self.lifesteal = []
+        self.stacks = {}
+        self.stack_turns = {}
+        self.hots = []
+        self.dots = []
+        self.defending = False
+        self.taunt_turns = 0
+        self.barrier_pre_hit = None
+        self.barrier_absorbed = 0.0
+
+    def revive(self, hp_pct: float) -> None:
+        """부활: 최대HP의 hp_pct%로 되살린다(raw max_hp 기준 — 힐 상한·시작 HP와 동일). 버프는 없는
+        상태(die에서 제거), 필살 게이지는 새로 충전(cd_remaining=fatal_cd). died를 내려 이후 재사망도
+        정상 집계된다. 이번 턴 행동 큐는 턴 시작에 확정되므로 순서가 지났으면 다음 턴부터 행동한다."""
+        self.hp = max(1.0, round(self.max_hp * hp_pct / 100, 2))
+        self.died = False
+        self.cd_remaining = self.fatal_cd
+        self.turn_acts = 0
+        self.auto_fatal_pending = False
 
     def _cond_val(self, val: float, n: int, scaled: bool) -> float:
         return val * n if scaled else val      # scaled = value per stack (열화질보 평타뎀+10%×N)
@@ -258,9 +294,10 @@ class Unit:
         """현재 유효 배리어 = 만료되지 않은 모든 인스턴스 합. (개별 [amount, half_turns, source])"""
         return sum(b[0] for b in self.barriers if b[0] > 0)
 
-    def absorb_damage(self, dmg: float) -> tuple[float, float]:
+    def absorb_damage(self, dmg: float, floor: float = 0.0) -> tuple[float, float]:
         """피격 데미지 흡수: 배리어(오래된 인스턴스부터) 먼저 소모 → 남은 건 HP.
-        전투불능 방지 — HP는 1 미만으로 내려가지 않음. 반환 (배리어흡수량, HP감소량)."""
+        floor=0.0 이면 HP 0까지 내려간다(0 = 전투불능/이탈 — 호출부가 die() 처리).
+        floor=1.0 이면 HP 1 미만으로 안 내려간다(사망 비활성 회귀 테스트 호환). 반환 (배리어흡수량, HP감소량)."""
         remaining, absorbed = dmg, 0.0
         for b in self.barriers:
             if remaining <= 0:
@@ -272,7 +309,7 @@ class Unit:
         self.barriers = [b for b in self.barriers if b[0] > 0]
         to_hp = 0.0
         if remaining > 0:
-            to_hp = min(remaining, max(0.0, self.hp - 1))   # 체력 1 이하로 안 내려감
+            to_hp = min(remaining, max(0.0, self.hp - floor))
             self.hp -= to_hp
         return absorbed, to_hp
 
@@ -468,8 +505,9 @@ class BattleState:
                                   # force_proc과 대칭. 둘 다 켜지면 never_proc 우선(차단).
     hp_schedule: bool = False     # 카라트 등 HP게이트 캐릭 동반 시 더미 HP% 4등분 스케줄
     hp10: bool = False            # 체력 10% 모드: 더미 HP를 매 턴 10%로 고정 (저HP 게이트 전부 발동)
-    incoming_hp_pct: int = 0      # >0이면 더미가 아군 피격 시 아군 최대HP의 n% 데미지(배리어 흡수, HP 1하한)
+    incoming_hp_pct: int = 0      # >0이면 더미가 아군 피격 시 아군 최대HP의 n% 데미지(배리어 흡수)
     turn_damage: list | None = None   # 턴 피해 모드: 턴별 아군 전체 최대HP n%(index=turn-1). None=끔. 무명 저체력 게이트용
+    allow_death: bool = True      # HP 0 = 전투불능/이탈(기리안 부활). False면 HP 1 하한(종전 동작 — 회귀 골든 호환)
     dummy_element: int = 0        # 더미 속성 (EProp: 0무·1불·2물·3나무·4빛·5어둠) — 상성 배율용
     altar_active: list = field(default_factory=list)   # 이번 전투에 걸린 길드 제단 Id (meta 표시용)
     altar_effects: list = field(default_factory=list)  # 주입한 제단 Effect 객체 보관 — 버프 키(id) 안정화
@@ -1106,16 +1144,19 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
 
     if kind == SELF_DAMAGE:
         # 무명 필살 자해: 현재 HP의 N% '실제 데미지' — 배리어·받뎀·방어 배율을 모두 우회해 HP를 직접
-        # 깎는다(1 하한: 자해로 죽지 않음). 이게 HP≦75/50/30% 게이트를 여는 기믹의 핵심이라 흡수시키면 안 됨.
+        # 깎는다. 이게 HP≦75/50/30% 게이트를 여는 기믹의 핵심이라 흡수시키면 안 됨. 하한 없음(0까지) —
+        # 현재HP의 N%라 자해 단독으론 0에 수렴만 하고 도달은 못 하지만, 인위적 1하한을 두지 않아 저체력을
+        # 더 밀어넣고 턴/피격 피해와 겹치면 죽을 수 있게 한다(0이면 전투불능).
         before = caster.hp
         dmg = round(before * effect.magnitude / 100, 2)
-        caster.hp = max(1.0, before - dmg)
+        caster.hp = max(0.0 if state.allow_death else 1.0, before - dmg)
         hp_pct = round(caster.hp / caster.max_hp * 100, 1) if caster.max_hp else 0.0
         state.record(caster.name,
                      f"{act_kr} → 자신 실제 데미지 {dmg:,.0f} (현재HP {effect.magnitude:g}% · HP {before:,.0f}→{caster.hp:,.0f}, {hp_pct:g}%)",
                      amount=0, src_id=effect.owner, src_skill=effect.src_skill,
                      detail={"kind": "selfdmg", "dmg": dmg, "pct": effect.magnitude,   # kind 지정 → 차트 데미지 집계 제외
                              "hpBefore": round(before, 2), "hpAfter": round(caster.hp, 2), "hpPct": hp_pct})
+        _die_if_dead(caster, state)
         return
 
     if kind == LIFESTEAL:
@@ -1123,6 +1164,22 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         entry = (effect.magnitude, effect.self_hp_op, effect.self_hp_val, effect.owner, effect.src_skill)
         if entry not in caster.lifesteal:
             caster.lifesteal.append(entry)
+        return
+
+    if kind == REVIVE:
+        # 기리안 도장: 사망한 랜덤 아군 1명을 최대HP N%로 부활. 확률(on_ex X%)은 감싸는 구독이 이미
+        # 게이트했으므로 여기선 무조건 실행. 사망자가 없으면 불발(로그만).
+        dead = [u for u in state.team(caster) if not u.alive and not u.is_dummy]
+        if not dead:
+            state.record(caster.name, f"{act_kr} → 부활 불발 (전투불능 아군 없음)", amount=0,
+                         src_id=effect.owner, src_skill=effect.src_skill,
+                         detail={"kind": "revive", "noTarget": True})
+            return
+        tgt = state.rng.choice(dead)
+        tgt.revive(effect.magnitude)
+        state.record(tgt.name, f"부활 — {caster.name}이(가) 되살림 (HP {effect.magnitude:g}% 로 복귀)",
+                     amount=0, src_id=effect.owner, src_skill=effect.src_skill,
+                     detail={"kind": "revive", "hpPct": effect.magnitude, "hp": round(tgt.hp, 2), "by": effect.owner})
         return
 
     if kind == DAMAGE:
@@ -1437,6 +1494,8 @@ def _ready_subs(caster: Unit, event: str, state: BattleState,
     """Subs that fire for `event` now: gate/barrier/once-qualified and chance rolled.
     Side effects: rolls the RNG and disarms once-subs (so call exactly once per event).
     Returns [(sub, src)]; the caller applies effects (allows damage/buff phase split)."""
+    if not caster.alive:
+        return []                               # 전투불능 유닛은 어떤 트리거도 발동하지 않는다
     # snapshot which gated subs qualify BEFORE firing, so same-event triggers
     # (e.g. transform A->B and B->A) don't chain-cancel within one event.
     ready = [s for s in list(caster.subs)
@@ -1464,6 +1523,8 @@ def _fire_subs(caster: Unit, event: str, state: BattleState,
     # only for the simultaneous-AoE 2-pass where rolling all up-front IS the intent.
     # snapshot which gated subs qualify BEFORE firing, so same-event triggers
     # (e.g. transform A->B and B->A) don't chain-cancel within one event.
+    if not caster.alive:
+        return                                  # 전투불능 유닛은 반격 등 어떤 트리거도 발동하지 않는다
     ready = [s for s in list(caster.subs)
              if s.event == event and _qualifies(s, caster, current_target)
              and (not s.need_team_barrier or _team_has_barrier(caster, state))
@@ -1718,7 +1779,7 @@ def _apply_incoming(ally: Unit, attacker: Unit, state: BattleState,
     # 더미 기본 ATK는 0이라 일반 딜 계산엔 무영향, 피격 데미지 모드(최대HP n%)에서만 작동.
     atk_mult = max(0.0, 1 + attacker._sum(STAT_ATK) / 100)
     dmg = raw * (0.5 if defended else 1.0) * taken_mult * dealt_mult * atk_mult
-    absorbed, to_hp = ally.absorb_damage(dmg)
+    absorbed, to_hp = ally.absorb_damage(dmg, floor=0.0 if state.allow_death else 1.0)
     if absorbed > 0:                         # 배리어 소모 발생 → 반격의 "기존 배리어 − 소모" 표시용
         ally.barrier_pre_hit = pre
         ally.barrier_absorbed = absorbed
@@ -1740,6 +1801,18 @@ def _apply_incoming(ally: Unit, attacker: Unit, state: BattleState,
                          "defended": defended, "absorbed": round(absorbed, 2), "hpLost": round(to_hp, 2),
                          "preBar": round(pre, 2), "remainBar": round(pre - absorbed, 2),
                          "taken": taken_g, "takenP": taken_p, "dealt": dealt, "atkPct": atk_comp})
+    _die_if_dead(ally, state)
+
+
+def _die_if_dead(unit: Unit, state: BattleState) -> bool:
+    """HP가 0 이하로 떨어졌으면 전투불능 처리(로그 1회 + die()). 반환=이번 호출에서 사망했는지.
+    차트 집계 제외를 위해 detail.kind='death'. allow_death=False(회귀 테스트)면 사망 비활성."""
+    if not state.allow_death or unit.hp > 0 or unit.died:
+        return False
+    unit.die()
+    state.record(unit.name, "전투불능 — 이탈", amount=0,
+                 detail={"kind": "death"})
+    return True
 
 
 def _apply_turn_damage(allies: list, enemies: list, state: BattleState) -> None:
@@ -2398,10 +2471,12 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
              ult_policies: list[dict | None] | None = None,
              sync_groups: list[dict] | None = None,
              altar_procs: bool = True,
-             turn_damage: list[float] | None = None) -> BattleState:
+             turn_damage: list[float] | None = None,
+             allow_death: bool = True) -> BattleState:
     """Run a target-dummy battle and return the final state (with log).
 
     turn_damage: 턴 피해 모드 — 턴별 아군 전체 최대HP n% 리스트(index=turn-1). None=끔.
+    allow_death: HP 0 = 전투불능/이탈(기본 True). False면 HP 1 하한(종전 동작 — 회귀 골든 호환).
 
     rotations: optional per-ally action strings (e.g. '평평방궁|평방궁').
     slots:     battle positions (0-based); dummy targets the lowest slot.
@@ -2456,7 +2531,7 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
                         force_proc=force_proc, never_proc=never_proc, altar_procs=altar_procs,
                         hp_schedule=any(_kit_has_hp_gate(u._kit) for u in allies),
                         dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct,
-                        turn_damage=turn_damage)
+                        turn_damage=turn_damage, allow_death=allow_death)
 
     for u in allies:
         _install_passives(u, state)

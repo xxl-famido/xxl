@@ -30,8 +30,9 @@ CD_MOD = "CD_MOD"           # EX-skill cooldown change
 TRIGGER = "TRIGGER"         # conditional wrapper holding sub-effects
 MARKER = "MARKER"           # section header / non-mechanical note
 ENTER_DEFENSE = "ENTER_DEFENSE"  # 자신을 방어 상태로 전환(다라완 필살) — 받는 데미지 50% 감소
-SELF_DAMAGE = "SELF_DAMAGE"  # 자해: 자기 현재 HP의 N% 실제 데미지(무명 필살) — 배리어·받뎀 우회, HP 1 하한
+SELF_DAMAGE = "SELF_DAMAGE"  # 자해: 자기 현재 HP의 N% 실제 데미지(무명 필살) — 배리어·받뎀 우회, 0까지 감소(사망 가능)
 LIFESTEAL = "LIFESTEAL"     # 흡혈: 피해를 줄 때 그 피해의 N%만큼 자기 HP 회복(무명 파4, HP≦ 게이트)
+REVIVE = "REVIVE"           # 부활: 사망한 랜덤 아군 1명을 최대HP N%로 되살림(기리안 도장, on_ex 확률 트리거)
 UNPARSED = "UNPARSED"       # no template matched -> flagged
 
 # buff stat channels
@@ -912,6 +913,14 @@ def _b_lifesteal(m):
     return Effect(LIFESTEAL, m.group(0), target="self", magnitude=_f(m.group(1)))
 
 
+# 기리안 도장: "Revive a random Buddy and heal N% of his HP" — 사망한 랜덤 아군 1명을 최대HP N%로
+# 되살린다. 감싸는 "On EX Skill, there is a(n) X% chance to trigger: …"는 _TRIGGER_PATTERNS가
+# on_ex 확률 구독으로 만들고, 이 본문이 REVIVE 효과가 된다(확률 게이트는 구독이 담당).
+@_leaf(rf"^Revive a random Buddy and heal {_NUM}% of (?:his|their|its) HP\.?$")
+def _b_revive(m):
+    return Effect(REVIVE, m.group(0), target="ally", magnitude=_f(m.group(1)))
+
+
 # 마타야 반격 자세(Jigotai): "Enter <Stance> for N turn(s)" = self 1-스택 상태 진입.
 # "Enter Defense (...)"(다라완)는 위(465/472)에서 먼저 잡히므로 여기 오지 않는다. 아래
 # _b_bare_status catch-all이 "Enter Jigotai"를 스택명째로 먹기 전에 잡아 접두를 벗긴다.
@@ -944,10 +953,17 @@ _CLAUSE_SUBJ = (r"(?:[Oo]wn|[Aa]ll|[Tt]arget|[Ss]elf|[Gg]ain|[Hh]eal|[Gg]rant"
 _CLAUSE_AND = re.compile(rf",? and (?={_CLAUSE_SUBJ})")
 
 
+# 부활+힐은 한 문장이 한 효과다("Revive a random Buddy and heal N% of his HP"). ' and heal'에서
+# 쪼개지면 부활 대상과 힐 대상이 따로 놀아 무의미해지므로 통짜로 유지한다.
+_REVIVE_ATOMIC = re.compile(r"^Revive a random Buddy and heal \d")
+
+
 def _split_clauses(text: str) -> list[str]:
     """Split a compound effect on ' and ' / ', and ' that begins a NEW effect clause
     (subject word follows). Avoids 'Positions 1, 3, and 5' (digit after 'and' = no
     subject) and 'of own base ATK' (no 'and' boundary)."""
+    if _REVIVE_ATOMIC.match(text.strip()):
+        return [text.strip()]
     parts = _CLAUSE_AND.split(text)
     return [p.strip() for p in parts if p.strip()]
 

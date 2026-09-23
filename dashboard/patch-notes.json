@@ -2,6 +2,59 @@
   "_comment": "패치 히스토리. 최신이 위. 버전 규칙: 캐릭터 추가 릴리스 = 메이저 1.x(펼친 상태로 표시), 그 사이 업데이트 = 패치 1.x.x(접힌 상태, 단 목록 맨 위=최신이면 펼침). 1.0은 첫 공개(파미도 초상). cat: new|balance|fix|qol. 텍스트/details 는 {kr,en,zh,zhs,ja} — 없는 언어는 kr 폴백. char: 대표 캐릭터 id(icons/{id}.png + skill:true면 icons/skills/Rune{id}.png). charImg: 커스텀 프로필 경로(char 대신). items[].chars: 항목 인라인 아이콘(5명 이상이면 생략). items[].details: 펼쳤을 때 보이는 구체 수치.",
   "releases": [
     {
+      "version": "1.8.1",
+      "date": "2026-09-23",
+      "highlight": true,
+      "char": 10415,
+      "charName": {
+        "kr": "기리안"
+      },
+      "skill": true,
+      "title": {
+        "kr": "전투불능·이탈 + 기리안 부활",
+        "en": "Incapacitation & leaving + Kyrian revival",
+        "zh": "陣亡退場 + 基里安復活",
+        "zhs": "阵亡退场 + 基里安复活",
+        "ja": "戦闘不能・離脱 + キリアン蘇生"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "피격 데미지·턴 피해로 아군의 HP가 0이 되면 이제 전투불능이 되어 전투에서 이탈합니다(예전에는 HP 1에서 멈췄습니다). 이탈한 아군은 이후 행동·타격·버프에서 빠져 딜이 끊기므로, 힐러가 HP를 유지해 주는 가치가 결과에 그대로 드러납니다.",
+            "en": "When an ally's HP hits 0 from Incoming or Turn Damage, they are now incapacitated and leave the battle (previously they stopped at 1 HP). A downed ally no longer acts, is hit, or grants buffs — so their damage stops, and the value of a healer keeping HP up shows directly in the result.",
+            "zh": "受擊傷害或回合傷害使我方生命歸零時，現在會陣亡並退場（過去停在1點）。退場的隊員不再行動、受擊或提供增益，輸出中斷，因此治療維持生命的價值會直接反映在結果中。",
+            "zhs": "受击伤害或回合伤害使我方生命归零时，现在会阵亡并退场（过去停在1点）。退场的队员不再行动、受击或提供增益，输出中断，因此治疗维持生命的价值会直接反映在结果中。",
+            "ja": "被弾ダメージやターンダメージで味方のHPが0になると、戦闘不能となり離脱するようになりました（以前はHP1で止まっていました）。離脱した味方は行動・被弾・バフから外れて火力が止まるため、HPを維持するヒーラーの価値が結果に直接表れます。"
+          },
+          "details": {
+            "kr": "전투불능이 되면 배리어·버프·스택·조롱 등 임시 상태가 모두 사라지고, 이후 행동 순서·적의 타격 대상에서 제외됩니다. 무명은 필살기로 자신의 HP를 깎기 때문에 다른 피해와 겹치면 스스로 전투불능에 이를 수 있습니다. 피격 데미지·턴 피해 설정 안내 문구도 이에 맞게 바뀌었습니다.",
+            "en": "On incapacitation, all temporary state (barriers, buffs, stacks, taunt) is cleared and the ally is removed from the turn order and enemy targeting. Mumei shaves own HP with the ultimate, so combined with other damage it can bring itself down. The Incoming/Turn Damage help texts were updated to match.",
+            "zh": "陣亡時所有臨時狀態（護盾、增益、層數、嘲諷）清除，並從行動順序與敵方目標中移除。無名以必殺技削減自身生命，與其他傷害疊加時可能使自己陣亡。受擊傷害／回合傷害的說明文字也已同步更新。",
+            "zhs": "阵亡时所有临时状态（护盾、增益、层数、嘲讽）清除，并从行动顺序与敌方目标中移除。无名以必杀技削减自身生命，与其他伤害叠加时可能使自己阵亡。受击伤害／回合伤害的说明文字也已同步更新。",
+            "ja": "戦闘不能時はすべての一時状態（バリア・バフ・スタック・挑発）が消え、行動順と敵の攻撃対象から外れます。無名は必殺技で自らのHPを削るため、他のダメージと重なると自滅する場合があります。被弾ダメージ／ターンダメージの説明文も合わせて更新しました。"
+          }
+        },
+        {
+          "cat": "new",
+          "text": {
+            "kr": "기리안의 도장(룬)에 부활 효과를 반영했습니다 — 필살기를 발동할 때 일정 확률로 전투불능이 된 아군 한 명을 최대 HP 25%로 되살립니다.",
+            "en": "Added Kyrian's sigil (rune) revival — on using the ultimate, a chance to revive one incapacitated ally at 25% of Max HP.",
+            "zh": "反映了基里安符紋（符文）的復活效果——施放必殺技時，有一定機率使一名陣亡隊員以最大生命25%復活。",
+            "zhs": "反映了基里安符纹（符文）的复活效果——施放必杀技时，有一定几率使一名阵亡队员以最大生命25%复活。",
+            "ja": "キリアンの符紋（ルーン）の蘇生を反映しました — 必殺技の使用時に一定確率で戦闘不能の味方1人を最大HP25%で蘇生します。"
+          },
+          "details": {
+            "kr": "확률형 효과이므로 확률 밴드(바닥값~천장값)에 함께 반영됩니다 — ‘확률 100%’에서는 항상, 최소값 계산에서는 발동하지 않습니다. 사망한 아군이 없으면 발동해도 대상이 없어 넘어갑니다. 되살아난 아군은 버프 없이 HP만 복구되며, 그 턴의 행동 순서가 이미 지났으면 다음 턴부터 다시 움직입니다.",
+            "en": "Being chance-based, it is reflected in the probability band (floor–ceiling): at ‘100% proc’ it always fires, at the floor it never does. If no ally is down it has no target and is skipped. A revived ally regains only HP (no buffs); if its turn already passed, it acts again from the next turn.",
+            "zh": "屬機率效果，會反映在機率帶（下限～上限）：在「機率100%」時必定發動，下限時不發動。若無陣亡隊員則無目標而略過。復活的隊員僅恢復生命（無增益）；若該回合行動順序已過，則自下一回合起再行動。",
+            "zhs": "属几率效果，会反映在几率带（下限～上限）：在「几率100%」时必定发动，下限时不发动。若无阵亡队员则无目标而略过。复活的队员仅恢复生命（无增益）；若该回合行动顺序已过，则自下一回合起再行动。",
+            "ja": "確率効果のため確率バンド（下限～上限）に反映されます — 「確率100%」では必ず発動、下限では発動しません。戦闘不能の味方がいなければ対象がなくスキップされます。蘇生した味方はバフなしでHPのみ回復し、そのターンの行動順が過ぎていれば次のターンから再び動きます。"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.8",
       "date": "2026-09-23",
       "highlight": true,
@@ -79,11 +132,11 @@
             "ja": "「ターンダメージ設定」を追加 — 戦闘設定でオンにすると、毎ターン味方全員が最大HPの指定%のダメージを受け（バリアが先に吸収・防御で半減）、詳細設定でターンごとに異なる%を設定できます。無名のように自分のHPに反応するキャラの検証に。ギルド祭壇設定と同じ枠でタブのように切り替わります。"
           },
           "details": {
-            "kr": "적 페이즈가 끝날 때마다 아군 전체가 최대 HP의 지정 %(1~99%)만큼 피해를 받습니다. 피격 데미지 모드와 같은 규칙으로 배리어가 먼저 흡수하고, 방어한 턴은 절반만 받으며, 받는 데미지 증감(무명 불굴 중첩당 +7%, 몽규 인접 HP 50% 이하 −11% 등)이 적용되고, 반격은 발동하지 않으며, HP는 1 미만으로 내려가지 않습니다. ‘고급 · 턴별로 다르게’를 켜면 턴마다 %를 따로 정할 수 있고(빈 칸은 기본값, 진행 턴 수에 맞춰 칸이 늘고 줍니다), ‘턴별 값 비우기’로 초기화합니다. 이제 아군 HP는 전투 흐름대로 움직입니다 — 자해·피격·턴 피해로 줄고 힐·지속힐·흡혈로 차며, ‘HP가 N% 이하일 때’ 효과는 매 발동·매 타격 시점의 현재 HP로 판정됩니다(회복하면 닫히고 다시 떨어지면 다시 열림). 설정은 기록에 저장되고 공유 코드에도 실리며(켠 경우에만 짧게 덧붙어 코드 길이는 거의 그대로), 비교 시뮬과 행동 고급 설정에도 같은 값이 적용됩니다. 길드 제단 설정과 동시에 켤 수 있고, 두 패널은 같은 자리에서 탭처럼 미끄러지듯 교체됩니다. 참고: 무명은 필살기 배리어(최대 HP 25%)와 불굴 배리어가 10% 정도는 전부 흡수하므로 저체력 효과를 보려면 20~30% 이상으로 두거나 필살기 자해와 함께 쓰세요.",
-            "en": "At the end of every enemy phase the whole team takes the chosen % of Max HP (1–99%). It follows the Incoming Damage rules: barriers absorb first, a defending turn takes half, damage-taken modifiers apply (Mumei’s +7% per Fearless, Mengkui’s −11% for adjacent buddies at HP ≤50%, etc.), no counterattacks trigger and HP never drops below 1. Turn on ‘Advanced · per-turn values’ to set a different % for each turn (blank = default; the cells follow the turn count) and use ‘Clear per-turn values’ to reset. Team HP now follows the flow of battle — it drops from self-damage, hits and turn damage and refills from heals, heal-over-time and lifesteal, and ‘when HP ≤ N%’ effects are judged on the current HP at every trigger and hit (they close after healing and reopen when HP falls again). The setting is saved with records and carried in share codes (added only when on, so codes stay about the same length), and the same value applies to compare runs and the advanced action planner. It can be on together with Guild Altar Settings; the two panels share one slot and slide between each other like tabs. Note: Mumei’s ultimate barrier (25% Max HP) and Fearless barriers absorb about 10% per turn entirely, so use 20–30% or more, or combine with the ultimate’s self-damage, to reach the low-HP effects.",
-            "zh": "每次敵方回合結束時，全隊承受最大生命指定%（1~99%）的傷害。規則與受擊傷害模式相同：護盾先吸收、防禦回合只受一半、套用受傷增減（無名每層無畏+7%、蒙圭相鄰生命≤50%時−11%等），不會觸發反擊，生命不會低於1。開啟「進階・各回合分別設定」可為每回合單獨設定%（留空=預設值，格數隨回合數增減），「清除各回合數值」可重置。現在全隊生命會隨戰鬥流程變動——因自傷、受擊與回合傷害減少，因治療、持續治療與吸血回復；「生命≤N%時」的效果在每次觸發與每次攻擊時以當前生命判定（回復後關閉，再次下降再開啟）。設定會存入紀錄並帶入分享碼（僅在開啟時短短附加，碼長幾乎不變），比較模擬與進階行動設定也套用同一數值。可與公會祭壇設定同時開啟，兩個面板共用一個位置、像分頁一樣滑動切換。提示：無名的必殺護盾（最大生命25%）與無畏護盾會完全吸收約10%的傷害，若要看到低生命效果請設為20~30%以上或搭配必殺自傷。",
-            "zhs": "每次敌方回合结束时，全队承受最大生命指定%（1~99%）的伤害。规则与受击伤害模式相同：护盾先吸收、防御回合只受一半、套用受伤增减（无名每层无畏+7%、蒙圭相邻生命≤50%时−11%等），不会触发反击，生命不会低于1。开启「高级・各回合分别设置」可为每回合单独设置%（留空=默认值，格数随回合数增减），「清除各回合数值」可重置。现在全队生命会随战斗流程变动——因自伤、受击与回合伤害减少，因治疗、持续治疗与吸血回复；「生命≤N%时」的效果在每次触发与每次攻击时以当前生命判定（回复后关闭，再次下降再开启）。设置会存入记录并带入分享码（仅在开启时短短附加，码长几乎不变），比较模拟与高级行动设置也套用同一数值。可与公会祭坛设置同时开启，两个面板共用一个位置、像标签页一样滑动切换。提示：无名的必杀护盾（最大生命25%）与无畏护盾会完全吸收约10%的伤害，若要看到低生命效果请设为20~30%以上或搭配必杀自伤。",
-            "ja": "敵フェーズが終わるたびに味方全員が最大HPの指定%（1〜99%）のダメージを受けます。被弾ダメージモードと同じ規則で、バリアが先に吸収し、防御したターンは半分、被ダメージ増減（無名の恐れ知らず1層ごと+7%、モンギュの隣接HP50%以下−11%など）が適用され、反撃は発動せず、HPは1未満になりません。「詳細・ターンごとに設定」をオンにするとターンごとに%を個別設定でき（空欄=既定値、マスはターン数に合わせて増減）、「ターン別の値を消去」でリセットします。味方のHPは戦闘の流れどおりに動きます——自傷・被弾・ターンダメージで減り、回復・継続回復・吸血で戻り、「HPがN%以下のとき」効果は発動・攻撃のたびに現在HPで判定されます（回復すれば閉じ、再び下がれば再び開く）。設定は記録に保存され共有コードにも載り（オンのときだけ短く付くのでコード長はほぼ変わらず）、比較シミュと行動詳細設定にも同じ値が適用されます。ギルド祭壇設定と同時にオンにでき、2つのパネルは同じ枠でタブのようにスライドして切り替わります。注：無名の必殺バリア（最大HP25%）と恐れ知らずバリアは10%程度なら全部吸収するため、低HP効果を見るには20〜30%以上にするか必殺技の自傷と組み合わせてください。"
+            "kr": "적 페이즈가 끝날 때마다 아군 전체가 최대 HP의 지정 %(1~99%)만큼 피해를 받습니다. 피격 데미지 모드와 같은 규칙으로 배리어가 먼저 흡수하고, 방어한 턴은 절반만 받으며, 받는 데미지 증감(무명 불굴 중첩당 +7%, 몽규 인접 HP 50% 이하 −11% 등)이 적용되고, 반격은 발동하지 않습니다(HP가 0이 되면 전투불능·이탈 — 1.8.1). ‘고급 · 턴별로 다르게’를 켜면 턴마다 %를 따로 정할 수 있고(빈 칸은 기본값, 진행 턴 수에 맞춰 칸이 늘고 줍니다), ‘턴별 값 비우기’로 초기화합니다. 이제 아군 HP는 전투 흐름대로 움직입니다 — 자해·피격·턴 피해로 줄고 힐·지속힐·흡혈로 차며, ‘HP가 N% 이하일 때’ 효과는 매 발동·매 타격 시점의 현재 HP로 판정됩니다(회복하면 닫히고 다시 떨어지면 다시 열림). 설정은 기록에 저장되고 공유 코드에도 실리며(켠 경우에만 짧게 덧붙어 코드 길이는 거의 그대로), 비교 시뮬과 행동 고급 설정에도 같은 값이 적용됩니다. 길드 제단 설정과 동시에 켤 수 있고, 두 패널은 같은 자리에서 탭처럼 미끄러지듯 교체됩니다. 참고: 무명은 필살기 배리어(최대 HP 25%)와 불굴 배리어가 10% 정도는 전부 흡수하므로 저체력 효과를 보려면 20~30% 이상으로 두거나 필살기 자해와 함께 쓰세요.",
+            "en": "At the end of every enemy phase the whole team takes the chosen % of Max HP (1–99%). It follows the Incoming Damage rules: barriers absorb first, a defending turn takes half, damage-taken modifiers apply (Mumei’s +7% per Fearless, Mengkui’s −11% for adjacent buddies at HP ≤50%, etc.), no counterattacks trigger (at 0 HP an ally is incapacitated and leaves — see 1.8.1). Turn on ‘Advanced · per-turn values’ to set a different % for each turn (blank = default; the cells follow the turn count) and use ‘Clear per-turn values’ to reset. Team HP now follows the flow of battle — it drops from self-damage, hits and turn damage and refills from heals, heal-over-time and lifesteal, and ‘when HP ≤ N%’ effects are judged on the current HP at every trigger and hit (they close after healing and reopen when HP falls again). The setting is saved with records and carried in share codes (added only when on, so codes stay about the same length), and the same value applies to compare runs and the advanced action planner. It can be on together with Guild Altar Settings; the two panels share one slot and slide between each other like tabs. Note: Mumei’s ultimate barrier (25% Max HP) and Fearless barriers absorb about 10% per turn entirely, so use 20–30% or more, or combine with the ultimate’s self-damage, to reach the low-HP effects.",
+            "zh": "每次敵方回合結束時，全隊承受最大生命指定%（1~99%）的傷害。規則與受擊傷害模式相同：護盾先吸收、防禦回合只受一半、套用受傷增減（無名每層無畏+7%、蒙圭相鄰生命≤50%時−11%等），不會觸發反擊（HP歸零時陣亡並退場——見1.8.1）。開啟「進階・各回合分別設定」可為每回合單獨設定%（留空=預設值，格數隨回合數增減），「清除各回合數值」可重置。現在全隊生命會隨戰鬥流程變動——因自傷、受擊與回合傷害減少，因治療、持續治療與吸血回復；「生命≤N%時」的效果在每次觸發與每次攻擊時以當前生命判定（回復後關閉，再次下降再開啟）。設定會存入紀錄並帶入分享碼（僅在開啟時短短附加，碼長幾乎不變），比較模擬與進階行動設定也套用同一數值。可與公會祭壇設定同時開啟，兩個面板共用一個位置、像分頁一樣滑動切換。提示：無名的必殺護盾（最大生命25%）與無畏護盾會完全吸收約10%的傷害，若要看到低生命效果請設為20~30%以上或搭配必殺自傷。",
+            "zhs": "每次敌方回合结束时，全队承受最大生命指定%（1~99%）的伤害。规则与受击伤害模式相同：护盾先吸收、防御回合只受一半、套用受伤增减（无名每层无畏+7%、蒙圭相邻生命≤50%时−11%等），不会触发反击（HP归零时阵亡并退场——见1.8.1）。开启「高级・各回合分别设置」可为每回合单独设置%（留空=默认值，格数随回合数增减），「清除各回合数值」可重置。现在全队生命会随战斗流程变动——因自伤、受击与回合伤害减少，因治疗、持续治疗与吸血回复；「生命≤N%时」的效果在每次触发与每次攻击时以当前生命判定（回复后关闭，再次下降再开启）。设置会存入记录并带入分享码（仅在开启时短短附加，码长几乎不变），比较模拟与高级行动设置也套用同一数值。可与公会祭坛设置同时开启，两个面板共用一个位置、像标签页一样滑动切换。提示：无名的必杀护盾（最大生命25%）与无畏护盾会完全吸收约10%的伤害，若要看到低生命效果请设为20~30%以上或搭配必杀自伤。",
+            "ja": "敵フェーズが終わるたびに味方全員が最大HPの指定%（1〜99%）のダメージを受けます。被弾ダメージモードと同じ規則で、バリアが先に吸収し、防御したターンは半分、被ダメージ増減（無名の恐れ知らず1層ごと+7%、モンギュの隣接HP50%以下−11%など）が適用され、反撃は発動しません（HP0で戦闘不能・離脱 — 1.8.1参照）。「詳細・ターンごとに設定」をオンにするとターンごとに%を個別設定でき（空欄=既定値、マスはターン数に合わせて増減）、「ターン別の値を消去」でリセットします。味方のHPは戦闘の流れどおりに動きます——自傷・被弾・ターンダメージで減り、回復・継続回復・吸血で戻り、「HPがN%以下のとき」効果は発動・攻撃のたびに現在HPで判定されます（回復すれば閉じ、再び下がれば再び開く）。設定は記録に保存され共有コードにも載り（オンのときだけ短く付くのでコード長はほぼ変わらず）、比較シミュと行動詳細設定にも同じ値が適用されます。ギルド祭壇設定と同時にオンにでき、2つのパネルは同じ枠でタブのようにスライドして切り替わります。注：無名の必殺バリア（最大HP25%）と恐れ知らずバリアは10%程度なら全部吸収するため、低HP効果を見るには20〜30%以上にするか必殺技の自傷と組み合わせてください。"
           }
         }
       ]

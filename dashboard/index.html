@@ -79,9 +79,9 @@
         <button data-v="0">0</button><button data-v="1">1</button><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button><button data-v="5" class="on">5</button><button data-v="all">전체</button>
       </div>
     </label>
-    <label class="field" id="incomingField"><span>피격 데미지 <em>(더미가 아군 피격 시 아군 최대HP의 %만큼 데미지 · 배리어가 먼저 흡수 · 아군은 체력 1 미만으로 안 내려감)</em></span>
+    <label class="field" id="incomingField"><span>피격 데미지 <em>(더미가 아군 피격 시 아군 최대HP의 %만큼 데미지 · 배리어가 먼저 흡수 · HP 0이면 전투불능·이탈)</em></span>
       <div class="row">
-        <button class="proc-btn" id="incomingBtn" title="켜면 더미의 아군 피격이 아군 최대HP의 지정%만큼 데미지를 줍니다. 배리어가 먼저 소모되고, 아군은 전투불능(HP 1 미만)이 되지 않습니다 — 배리어 탱커(다라완 등)의 실전 성능 검증용">💥 끔</button>
+        <button class="proc-btn" id="incomingBtn" title="켜면 더미의 아군 피격이 아군 최대HP의 지정%만큼 데미지를 줍니다. 배리어가 먼저 소모되고, HP가 0이 되면 전투불능이 되어 이탈합니다(일부 힐러의 부활로 복귀 가능) — 배리어 탱커·힐러의 실전 성능 검증용">💥 끔</button>
         <input type="range" id="incoming" min="1" max="99" value="30"><b id="incomingVal">30%</b>
       </div>
     </label>
@@ -335,9 +335,11 @@
       <figure class="g-crop"><img src="guide/altar-sync.png" alt="궁극기 맞추기 그룹"></figure>
 
       <h4>턴 피해 설정</h4>
-      <p>매 턴 아군 전체가 <b>최대 HP의 일정 %</b>만큼 피해를 받게 합니다. 자기 HP에 반응하는 캐릭터(무명 등)의 실전 성능을 확인할 때 씁니다.</p>
+      <p>매 턴 아군 전체가 <b>최대 HP의 일정 %</b>만큼 피해를 받게 합니다. 자기 HP에 반응하는 캐릭터(무명 등)와 <b>힐러·부활</b>의 가치를 확인할 때 씁니다.</p>
       <ul>
-        <li>적 페이즈가 끝날 때 적용되며, <b>배리어가 먼저 흡수</b>하고 방어한 턴은 절반만 받습니다. 받는 데미지 증감도 반영되고, 아군은 체력 1 미만으로 내려가지 않습니다(전투불능 없음).</li>
+        <li>적 페이즈가 끝날 때 적용되며, <b>배리어가 먼저 흡수</b>하고 방어한 턴은 절반만 받습니다. 받는 데미지 증감도 반영됩니다.</li>
+        <li><b>HP가 0이 되면 전투불능이 되어 이탈</b>합니다 — 이후 행동·타격·버프에서 빠집니다(딜이 끊깁니다). 피격 데미지 설정도 동일합니다. 그래서 힐러가 HP를 유지해 주는지가 결과에 그대로 드러납니다.</li>
+        <li><b>부활</b> — 기리안의 도장(룬)은 필살기 발동 시 일정 확률로 사망한 아군 한 명을 최대 HP 25%로 되살립니다. 확률형이라 확률 밴드(바닥~천장)에 함께 반영됩니다.</li>
         <li><b>고급 · 턴별로 다르게</b>를 켜면 턴마다 피해 %를 따로 지정할 수 있습니다. 비운 칸은 위의 기본값을 씁니다.</li>
       </ul>
       <figure class="g-two"><img src="guide/tdmg-panel.png" alt="턴 피해 설정"><img src="guide/tdmg-adv.png" alt="턴별 피해 %"></figure>
@@ -418,7 +420,7 @@
         </div></label>
       <label class="cmp-set-f" id="cmpIncomingField"><span>피격 데미지</span>
         <div class="row">
-          <button class="proc-btn" id="cmpIncomingBtn" title="켜면 더미의 아군 피격이 아군 최대HP의 지정%만큼 데미지를 줍니다. 배리어가 먼저 소모되고, 아군은 전투불능(HP 1 미만)이 되지 않습니다 — 배리어 탱커(다라완 등)의 실전 성능 검증용">💥 끔</button>
+          <button class="proc-btn" id="cmpIncomingBtn" title="켜면 더미의 아군 피격이 아군 최대HP의 지정%만큼 데미지를 줍니다. 배리어가 먼저 소모되고, HP가 0이 되면 전투불능이 되어 이탈합니다(일부 힐러의 부활로 복귀 가능) — 배리어 탱커·힐러의 실전 성능 검증용">💥 끔</button>
           <input type="range" id="cmpIncoming" min="1" max="99" value="30"><b id="cmpIncomingVal">30%</b>
         </div></label>
       <button class="cmp-run" id="cmpRun">비교하기</button>

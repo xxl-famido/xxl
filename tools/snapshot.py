@@ -86,6 +86,8 @@ class Combo:
     incoming_hp_pct: int = 0
     turn_plans: dict = field(default_factory=dict)   # 고급 설정 명시 타임라인
     seed: int = _DEFAULT_SEED
+    turn_damage: tuple = ()          # 턴 피해 모드(턴별 최대HP %). () = 끔
+    allow_death: bool = False        # HP 0 = 전투불능/이탈. 기본 False = 종전(1 하한) — 기존 골든 불변 유지
 
     def config(self) -> dict:
         """골든에 함께 저장할 설정 스냅샷 (설정이 바뀌면 비교 대신 재생성하도록).
@@ -93,7 +95,7 @@ class Combo:
         JSON 왕복을 한 번 태워 정규화한다 — `fed_action={4: "궁"}` 처럼 int 키를 쓰는 값이
         저장 시 `"4"`로 바뀌어, 정규화 없이는 갓 기록한 골든과도 매번 다르다고 나온다.
         """
-        return _canonical({
+        cfg = {
             "team": [
                 {
                     "id": s.char_id, "position": s.position, "priority": s.priority,
@@ -108,7 +110,13 @@ class Combo:
             "incomingHpPct": self.incoming_hp_pct, "turnPlans": self.turn_plans,
             "seed": self.seed,
             "forceProc": True,
-        })
+        }
+        # 기본값(사망 비활성·턴피해 없음)일 땐 키를 넣지 않는다 — 기존 골든 config 해시를 그대로 유지.
+        if self.allow_death:
+            cfg["allowDeath"] = True
+        if self.turn_damage:
+            cfg["turnDamage"] = list(self.turn_damage)
+        return _canonical(cfg)
 
 
 class SnapshotError(RuntimeError):
@@ -294,6 +302,15 @@ def _team_combos() -> list[Combo]:
                    CharSpec(10432, position=3, rotation="평|평")),
             turns=12, dummies=3, enemy_hits=2, incoming_hp_pct=5,
         ),
+        Combo(
+            name="team_death_revive",
+            purpose="전투불능/이탈(HP 0, 1하한 제거) + 기리안 도장 부활(필살 발동 시 사망 랜덤 아군 HP25% 복귀). "
+                    "턴 피해 30%로 사망 유도(힐/배리어가 못 버티는 선), force_proc라 부활 확정. 무명 자해 저체력도 함께 태운다.",
+            specs=(CharSpec(10443, position=1), CharSpec(10415, position=2),
+                   CharSpec(10425, position=3), CharSpec(10428, position=4)),
+            turns=15, dummies=1, enemy_hits=0,
+            turn_damage=(30.0,) * 15, allow_death=True, seed=3,
+        ),
     ]
 
 
@@ -342,6 +359,8 @@ def measure(combo: Combo) -> dict:
         incoming_hp_pct=combo.incoming_hp_pct,
         turn_plans={int(t): [(int(e["p"]) - 1, _TOKEN[e["a"]]) for e in seq]
                     for t, seq in combo.turn_plans.items()},
+        turn_damage=list(combo.turn_damage) or None,
+        allow_death=combo.allow_death,
     )
     per_char = {
         u.name: {
