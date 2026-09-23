@@ -507,6 +507,7 @@ class BattleState:
     hp10: bool = False            # 체력 10% 모드: 더미 HP를 매 턴 10%로 고정 (저HP 게이트 전부 발동)
     incoming_hp_pct: int = 0      # >0이면 더미가 아군 피격 시 아군 최대HP의 n% 데미지(배리어 흡수)
     turn_damage: list | None = None   # 턴 피해 모드: 턴별 아군 전체 최대HP n%(index=turn-1). None=끔. 무명 저체력 게이트용
+    turn_damage_hits: int = 0     # 턴 피해가 때리는 아군 수(1~5). 0/생존 수 이상 = 전체. 미만이면 HP% 높은 순 우선(동률 랜덤)
     allow_death: bool = True      # HP 0 = 전투불능/이탈(기리안 부활). False면 HP 1 하한(종전 동작 — 회귀 골든 호환)
     dummy_element: int = 0        # 더미 속성 (EProp: 0무·1불·2물·3나무·4빛·5어둠) — 상성 배율용
     altar_active: list = field(default_factory=list)   # 이번 전투에 걸린 길드 제단 Id (meta 표시용)
@@ -1816,9 +1817,10 @@ def _die_if_dead(unit: Unit, state: BattleState) -> bool:
 
 
 def _apply_turn_damage(allies: list, enemies: list, state: BattleState) -> None:
-    """턴 피해 모드: 매 턴 종료(적 페이즈 뒤)에 아군 전체가 최대HP의 n% 피해 — 길드전 보스의 매 턴 피해처럼.
-    피격 모드와 같은 규칙(배리어 먼저 흡수·방어 시 50%·받뎀 채널·HP 1하한)이되 반격(on_attacked)은 안 쏜다
-    (환경 피해). 무명처럼 자기 HP%에 반응하는 캐릭을 적 피격 설정 없이도 저체력 구간으로 보내는 용도."""
+    """턴 피해 모드: 매 턴 종료(적 페이즈 뒤)에 대상 아군이 최대HP의 n% 피해 — 길드전 보스의 매 턴 피해처럼.
+    피격 모드와 같은 규칙(배리어 먼저 흡수·방어 시 50%·받뎀 채널)이되 반격(on_attacked)은 안 쏜다(환경 피해).
+    대상 수(turn_damage_hits, 1~5): 생존 아군 수 이상이면 전체, 미만이면 **현재 HP% 높은 순** N명(동률은 랜덤).
+    무명처럼 자기 HP%에 반응하는 캐릭을 적 피격 설정 없이도 저체력 구간으로 보내는 용도."""
     sched = state.turn_damage
     if not sched:
         return
@@ -1829,9 +1831,15 @@ def _apply_turn_damage(allies: list, enemies: list, state: BattleState) -> None:
     src = enemies[0] if enemies else None
     if src is None:
         return
-    for ally in sorted(allies, key=lambda u: u.slot):
-        if not ally.alive:
-            continue
+    living = [a for a in allies if a.alive]
+    n = state.turn_damage_hits
+    if n <= 0 or n >= len(living):
+        targets = living                                     # 전체(기본) — 종전 동작
+    else:
+        # HP% 높은 순 N명. 동률은 랜덤(rng.random() 타이브레이크는 유닛당 1회 평가).
+        ranked = sorted(living, key=lambda u: (-(u.hp / u.max_hp if u.max_hp else 0.0), state.rng.random()))
+        targets = ranked[:n]
+    for ally in sorted(targets, key=lambda u: u.slot):
         state.cur_action += 1
         state.cur_actor_id = getattr(ally._kit, "char_id", 0)
         state.cur_action_kind = "피격"
@@ -2472,10 +2480,12 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
              sync_groups: list[dict] | None = None,
              altar_procs: bool = True,
              turn_damage: list[float] | None = None,
+             turn_damage_hits: int = 0,
              allow_death: bool = True) -> BattleState:
     """Run a target-dummy battle and return the final state (with log).
 
     turn_damage: 턴 피해 모드 — 턴별 아군 전체 최대HP n% 리스트(index=turn-1). None=끔.
+    turn_damage_hits: 턴 피해가 때리는 아군 수(1~5). 0/생존 수 이상 = 전체. 미만이면 HP% 높은 순(동률 랜덤).
     allow_death: HP 0 = 전투불능/이탈(기본 True). False면 HP 1 하한(종전 동작 — 회귀 골든 호환).
 
     rotations: optional per-ally action strings (e.g. '평평방궁|평방궁').
@@ -2531,7 +2541,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
                         force_proc=force_proc, never_proc=never_proc, altar_procs=altar_procs,
                         hp_schedule=any(_kit_has_hp_gate(u._kit) for u in allies),
                         dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct,
-                        turn_damage=turn_damage, allow_death=allow_death)
+                        turn_damage=turn_damage, turn_damage_hits=turn_damage_hits,
+                        allow_death=allow_death)
 
     for u in allies:
         _install_passives(u, state)

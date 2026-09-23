@@ -395,16 +395,19 @@ function unpackSnapV2(a) {
   return out;
 }
 // 턴 피해 공유 코드 압축(최소형): ''=OFF / 'P'=매 턴 P% / 'P;t:v,t:v'=고급 턴별 값(비운 칸은 안 실림).
+//   대상 수(hits)가 전체(5)가 아니면 끝에 'hN' 부착: 'P hN' → '30h2'(30%·상위2인). 5=기본은 생략.
 function _encTdmg(t) {
   if (!t || !t.on) return '';
   const pct = Math.max(1, Math.min(99, Math.round(+t.pct || 0)));
   const per = Object.entries(t.per || {}).map(([k, v]) => [+k, Math.max(0, Math.min(99, Math.round(+v)))])
     .filter(([k, v]) => k >= 1 && Number.isFinite(v)).sort((a, b) => a[0] - b[0]);
-  return String(pct) + (per.length ? ';' + per.map(([k, v]) => k + ':' + v).join(',') : '');
+  const hits = Math.max(1, Math.min(5, Math.round(+t.hits || 5)));
+  return String(pct) + (per.length ? ';' + per.map(([k, v]) => k + ':' + v).join(',') : '')
+    + (hits < 5 ? 'h' + hits : '');
 }
 function _decTdmg(str) {
   if (!str || typeof str !== 'string') return null;
-  const m = /^(\d{1,2})(?:;([\d:,]*))?$/.exec(str); if (!m) return null;
+  const m = /^(\d{1,2})(?:;([\d:,]*))?(?:h([1-5]))?$/.exec(str); if (!m) return null;
   const pct = +m[1]; if (!(pct >= 1 && pct <= 99)) return null;
   const out = { on: true, pct };
   if (m[2]) {
@@ -412,6 +415,7 @@ function _decTdmg(str) {
     m[2].split(',').forEach(kv => { const [k, v] = kv.split(':').map(Number); if (k >= 1 && v >= 0 && v <= 99) per[k] = v; });
     if (Object.keys(per).length) out.per = per;
   }
+  if (m[3]) out.hits = +m[3];
   return out;
 }
 function packRecords(arr, v2) {               // label은 팀에서 재생성 가능 → 미저장
@@ -2293,7 +2297,7 @@ let incomingOn = false;  // 피격 데미지 모드 (더미→아군 최대HP n%
 // 두 기능 자체는 동시에 켤 수 있다. 저장 = localStorage + 기록 스냅샷(turnDamage). 공유 코드 압축은 추후(전체 최적화 때).
 let tdmgOn = false;
 let tdmgOpened = false;
-let tdmgCfg = { pct: 10, adv: false, per: {} };
+let tdmgCfg = { pct: 10, adv: false, per: {}, hits: 5 };   // hits: 피해 대상 아군 수(1~5, 5=전체)
 const TDMG_KEY = 'woofia_tdmg';
 const TDMG_T = {
   title:  { kr: '턴 피해 설정', en: 'Turn Damage Settings', zh: '回合傷害設定', zhs: '回合伤害设置', ja: 'ターンダメージ設定' },
@@ -2301,6 +2305,9 @@ const TDMG_T = {
   use:    { kr: '사용', en: 'Use', zh: '使用', zhs: '使用', ja: '使用' },
   close:  { kr: '닫기', en: 'Close', zh: '關閉', zhs: '关闭', ja: '閉じる' },
   pct:    { kr: '매 턴 피해 (최대HP의 %)', en: 'Damage per turn (% of Max HP)', zh: '每回合傷害（最大生命的 %）', zhs: '每回合伤害（最大生命的 %）', ja: '毎ターンのダメージ（最大HPの%）' },
+  targets: { kr: '피해 대상 (아군 수)', en: 'Targets (allies hit)', zh: '傷害對象（受擊人數）', zhs: '伤害对象（受击人数）', ja: 'ダメージ対象（人数）' },
+  targetsSub: { kr: '전체보다 적으면 현재 HP%가 높은 아군부터 맞습니다 (동률은 랜덤)', en: 'Fewer than all: allies with the highest current HP% are hit first (ties random)', zh: '少於全體時，優先擊中當前HP%最高的隊員（同值隨機）', zhs: '少于全体时，优先击中当前HP%最高的队员（同值随机）', ja: '全体より少ない場合、現在HP%が高い味方から狙います（同値はランダム）' },
+  targetAll: { kr: '전체', en: 'All', zh: '全體', zhs: '全体', ja: '全体' },
   adv:    { kr: '고급 · 턴별로 다르게', en: 'Advanced · per-turn values', zh: '進階 · 各回合分別設定', zhs: '高级 · 各回合分别设置', ja: '詳細 · ターンごとに設定' },
   advSub: { kr: '켜면 아래 칸에 턴마다 피해 %를 따로 정할 수 있어요 (비우면 위 값)', en: 'When on, set each turn’s % below (blank = the value above)', zh: '開啟後可在下方為每回合單獨設定傷害%（留空 = 上方數值）', zhs: '开启后可在下方为每回合单独设置伤害%（留空 = 上方数值）', ja: 'オンにすると下でターンごとの%を個別に設定できます（空欄 = 上の値）' },
   turn:   { kr: '{0}턴', en: 'T{0}', zh: '第{0}回合', zhs: '第{0}回合', ja: '{0}T' },
@@ -2345,16 +2352,19 @@ function loadTdmgState() {
     if (Number.isFinite(+s.pct) && +s.pct > 0) tdmgCfg.pct = Math.max(1, tdmgClamp(s.pct));
     tdmgCfg.adv = !!s.adv;
     tdmgCfg.per = (s.per && typeof s.per === 'object') ? s.per : {};
+    if (Number.isFinite(+s.hits)) tdmgCfg.hits = Math.max(1, Math.min(5, +s.hits));
   } catch { /* 손상된 저장값은 기본값으로 */ }
 }
 function saveTdmgState() {
-  try { localStorage.setItem(TDMG_KEY, JSON.stringify({ on: tdmgOn, pct: tdmgCfg.pct, adv: tdmgCfg.adv, per: tdmgCfg.per })); } catch { }
+  try { localStorage.setItem(TDMG_KEY, JSON.stringify({ on: tdmgOn, pct: tdmgCfg.pct, adv: tdmgCfg.adv, per: tdmgCfg.per, hits: tdmgCfg.hits })); } catch { }
 }
 // 엔진 cfg.turnDamage / 기록 snapshot.turnDamage 계약: OFF면 null, ON이면 { on:true, pct, per?:{턴:%} }.
 function tdmgPayload() {
   if (!tdmgOn) return null;
   const out = { on: true, pct: tdmgCfg.pct };
   if (tdmgCfg.adv) { const per = tdmgPerClean(); if (Object.keys(per).length) out.per = per; }
+  const hits = Math.max(1, Math.min(5, +tdmgCfg.hits || 5));
+  if (hits < 5) out.hits = hits;             // 5=전체(기본)는 생략 → 기록·공유코드 경량 유지
   return out;
 }
 function applyTdmgSnap(t) {                 // 기록 복원(null/없음 = OFF, 옛 기록도 OFF)
@@ -2364,6 +2374,7 @@ function applyTdmgSnap(t) {                 // 기록 복원(null/없음 = OFF, 
     const per = (t.per && typeof t.per === 'object') ? t.per : {};
     tdmgCfg.adv = Object.keys(per).length > 0;
     tdmgCfg.per = { ...per };
+    tdmgCfg.hits = Number.isFinite(+t.hits) ? Math.max(1, Math.min(5, +t.hits)) : 5;   // 없으면 전체
   }
   saveTdmgState();
   renderTdmg();
@@ -2391,10 +2402,17 @@ function tdmgBodyHTML() {
     return `<div class="tdmg-row ${set ? 'set' : ''}" style="--i:${i}"><label>${esc(tdmgT('turn', t))}</label>
       <input type="number" min="0" max="99" step="1" inputmode="numeric" data-tdturn="${t}" value="${set ? per[t] : ''}" placeholder="${tdmgCfg.pct}" ${tdmgCfg.adv ? '' : 'disabled'}></div>`;
   }).join('');
+  const hits = Math.max(1, Math.min(5, +tdmgCfg.hits || 5));
+  const hitBtns = [1, 2, 3, 4, 5].map(k =>
+    `<button type="button" data-tdhits="${k}" class="${k === hits ? 'on' : ''}">${k === 5 ? esc(tdmgT('targetAll')) : k}</button>`).join('');
   return `<div class="altar-hint">${esc(tdmgT('hint'))}</div>
     <section class="tdmg-field">
       <div class="tf-head"><b>${esc(tdmgT('pct'))}</b></div>
       <div class="tdmg-pct"><input type="range" min="1" max="99" value="${tdmgCfg.pct}" data-tdpct><b data-tdpctval>${tdmgCfg.pct}%</b></div>
+    </section>
+    <section class="tdmg-field">
+      <div class="tf-head"><b>${esc(tdmgT('targets'))}</b><em>${esc(tdmgT('targetsSub'))}</em></div>
+      <div class="seg tdmg-hits">${hitBtns}</div>
     </section>
     <section class="tdmg-field tdmg-adv ${tdmgCfg.adv ? '' : 'off'}">
       <div class="tf-head"><b>${esc(tdmgT('adv'))}</b>
@@ -2502,7 +2520,13 @@ function initTdmg() {
   });
   document.body.addEventListener('click', e => {
     if (e.target.closest('[data-tdmgclose]')) return closeTdmg();
-    if (e.target.closest('[data-tdreset]')) { tdmgCfg.per = {}; saveTdmgState(); renderTdmg(); }
+    if (e.target.closest('[data-tdreset]')) { tdmgCfg.per = {}; saveTdmgState(); renderTdmg(); return; }
+    const hb = e.target.closest('[data-tdhits]');
+    if (hb) {
+      tdmgCfg.hits = Math.max(1, Math.min(5, +hb.dataset.tdhits || 5));
+      $$('[data-tdhits]', hb.parentElement).forEach(b => b.classList.toggle('on', b === hb));
+      saveTdmgState();
+    }
   });
   $('#turns')?.addEventListener('input', () => { if (tdmgOpened) renderTdmg(); });   // 턴 수가 바뀌면 칸 수도
   document.addEventListener('woofia:lang', () => { renderTdmg(); syncTdmgUI(); });

@@ -368,6 +368,12 @@ def run_sim(cfg: dict) -> dict:
     # 턴 피해 모드: 매 턴 종료 시 아군 전체가 최대HP의 n% 피해(배리어 흡수·방어 50%·받뎀 적용, 반격 없음).
     # cfg.turnDamage = {"on":true, "pct":N, "per":{"턴":M,...}(고급: 턴별 개별값)} / 없음·off = 끔.
     turn_damage = _parse_turn_damage(cfg.get("turnDamage"), turns)
+    # 턴 피해 대상 아군 수(1~5). 0/생존 수 이상 = 전체. 미만이면 HP% 높은 순(동률 랜덤).
+    _tdh = (cfg.get("turnDamage") or {}).get("hits") if isinstance(cfg.get("turnDamage"), dict) else None
+    try:
+        turn_damage_hits = max(0, min(5, int(_tdh))) if _tdh not in (None, "", False) else 0
+    except (TypeError, ValueError):
+        turn_damage_hits = 0
     positions = [int(m["position"]) for m in cfg["team"]]
     sync_groups = parse_sync_groups((cfg.get("altar") or {}).get("groups"), positions) if altar_ids else []
     # 플래너 프로브(plan_probe)는 '보장되는 CD'로 계획을 세운다 — 제단 확률 CD감소는 설치하지 않는다.
@@ -396,7 +402,7 @@ def run_sim(cfg: dict) -> dict:
                        seed=seed_base + s, enemy_aoe=enemy_aoe,
                        dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct,
                        altar=altar_ids, sync_groups=sync_groups, altar_procs=altar_procs,
-                       turn_damage=turn_damage)
+                       turn_damage=turn_damage, turn_damage_hits=turn_damage_hits)
         st = res.state
         states.append(st)
         run_totals.append(res.total_damage)
@@ -470,7 +476,7 @@ def run_sim(cfg: dict) -> dict:
                      enemy_aoe=enemy_aoe, dummy_element=dummy_element, hp10=hp10,
                      incoming_hp_pct=incoming_hp_pct, altar=altar_ids,
                      sync_groups=sync_groups, altar_procs=altar_procs,
-                     turn_damage=turn_damage, **flags)
+                     turn_damage=turn_damage, turn_damage_hits=turn_damage_hits, **flags)
         return r.total_damage, r.dps
     # noBand: 플래너 프로브(plan_probe)는 타임라인만 필요 → 밴드 생략(프로브 성능 보존).
     if cfg.get("noBand"):

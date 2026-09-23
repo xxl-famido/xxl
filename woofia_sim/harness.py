@@ -144,6 +144,7 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
              sync_groups: list[dict] | None = None,
              altar_procs: bool = True,
              turn_damage: list[float] | None = None,
+             turn_damage_hits: int = 0,
              allow_death: bool = True) -> TeamResult:
     """Resolve the team (list order = position 1..N) and simulate.
 
@@ -192,7 +193,8 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
                      ally_ult_afters=ally_ult_afters, turn_plans=turn_plans,
                      never_proc=never_proc, altar=altar,
                      ult_policies=ult_policies, sync_groups=groups_slot, altar_procs=altar_procs,
-                     turn_damage=turn_damage, allow_death=allow_death)
+                     turn_damage=turn_damage, turn_damage_hits=turn_damage_hits,
+                     allow_death=allow_death)
     names = [u.name for u in state.allies]
     per_char = {u.name: u.damage_dealt for u in state.allies}
     total = sum(per_char.values())

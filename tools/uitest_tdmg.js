@@ -156,6 +156,23 @@ async function main() {
     app.applyTdmgSnap({ on: true, pct: 40, per: { 3: 5 } });   // 이후 탭 교체 검사를 위해 ON 복귀
     ok('공유 코드 v2 꼬리 왕복(ON 축약형 · OFF 트림)');
 
+    // ── 피해 대상 수(hits) ──
+    if ($('#tdmgSide [data-tdhits="5"]').classList.contains('on') !== true) bad('기본 대상 수는 전체(5)여야 함');
+    click($('#tdmgSide [data-tdhits="2"]'));
+    if (app.tdmgCfg.hits !== 2) bad('대상 수 클릭 미반영');
+    if (!$('#tdmgSide [data-tdhits="2"]').classList.contains('on')) bad('선택 버튼 하이라이트 안 됨');
+    if ($('#tdmgSide [data-tdhits="5"]').classList.contains('on')) bad('이전 버튼 하이라이트 미해제');
+    if (app.tdmgPayload().hits !== 2) bad('payload.hits 미반영');
+    if (app.encTdmg({ on: true, pct: 30, hits: 2 }) !== '30h2') bad('hits 인코딩 "30h2" 기대');
+    if (app.encTdmg({ on: true, pct: 30, hits: 5 }) !== '30') bad('전체(5)는 hits 생략해야 함');
+    if (app.encTdmg({ on: true, pct: 25, per: { 3: 5 }, hits: 3 }) !== '25;3:5h3') bad('per+hits 인코딩 기대');
+    const dh = app.decTdmg('30h2'); if (!dh || dh.pct !== 30 || dh.hits !== 2) bad('hits 디코딩 실패');
+    if (app.decTdmg('30').hits !== undefined) bad('hits 없는 코드는 hits 미포함이어야 함');
+    // 전체(5)로 되돌리면 payload에서 hits 생략
+    click($('#tdmgSide [data-tdhits="5"]'));
+    if (app.tdmgPayload().hits !== undefined) bad('전체면 payload.hits 생략해야 함');
+    ok('피해 대상 수(hits) 선택·인코딩·트림');
+
     // ── 탭 교체: 턴 피해 → 제단 → 턴 피해 ──
     click($('#altarOpen'));
     await sleep(450);

@@ -2,6 +2,37 @@
   "_comment": "패치 히스토리. 최신이 위. 버전 규칙: 캐릭터 추가 릴리스 = 메이저 1.x(펼친 상태로 표시), 그 사이 업데이트 = 패치 1.x.x(접힌 상태, 단 목록 맨 위=최신이면 펼침). 1.0은 첫 공개(파미도 초상). cat: new|balance|fix|qol. 텍스트/details 는 {kr,en,zh,zhs,ja} — 없는 언어는 kr 폴백. char: 대표 캐릭터 id(icons/{id}.png + skill:true면 icons/skills/Rune{id}.png). charImg: 커스텀 프로필 경로(char 대신). items[].chars: 항목 인라인 아이콘(5명 이상이면 생략). items[].details: 펼쳤을 때 보이는 구체 수치.",
   "releases": [
     {
+      "version": "1.8.2",
+      "date": "2026-09-23",
+      "highlight": true,
+      "title": {
+        "kr": "턴 피해 — 대상 아군 수 선택",
+        "en": "Turn Damage — choose how many allies are hit",
+        "zh": "回合傷害 — 選擇受擊人數",
+        "zhs": "回合伤害 — 选择受击人数",
+        "ja": "ターンダメージ — 対象人数を選択"
+      },
+      "items": [
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "턴 피해 설정에서 매 턴 피해를 받는 아군 수를 1~5인 중에 고를 수 있습니다(기본 전체). 전체보다 적게 두면 현재 HP%가 높은 아군부터 맞고, 같으면 랜덤으로 정해집니다.",
+            "en": "Turn Damage now lets you choose how many allies are hit each turn (1–5, default All). When fewer than all, the allies with the highest current HP% are hit first; ties are broken randomly.",
+            "zh": "回合傷害設定現在可選擇每回合受擊的隊員人數（1~5，預設全體）。少於全體時，優先擊中當前HP%最高的隊員，同值則隨機決定。",
+            "zhs": "回合伤害设置现在可选择每回合受击的队员人数（1~5，默认全体）。少于全体时，优先击中当前HP%最高的队员，同值则随机决定。",
+            "ja": "ターンダメージ設定で、毎ターン攻撃を受ける味方の人数を1〜5人から選べるようになりました（既定は全体）。全体より少ない場合は現在HP%が高い味方から狙い、同値ならランダムで決まります。"
+          },
+          "details": {
+            "kr": "HP% 우선 규칙 덕분에, 힐이나 부활로 살아난 아군이 다시 표적이 되는 상황을 재현할 수 있습니다. 설정은 기록·공유 코드에 함께 저장되며(전체=기본은 코드에 안 실려 길이 그대로), 비교 시뮬에도 같은 값이 적용됩니다.",
+            "en": "The highest-HP%-first rule lets you reproduce an ally that was just healed or revived becoming the next target. The setting is saved with records and share codes (All = default is omitted so codes stay the same length) and applies to compare runs too.",
+            "zh": "HP%優先規則可重現剛被治療或復活的隊員再次成為目標的情況。設定會存入紀錄與分享碼（全體=預設不寫入，碼長不變），比較模擬也套用同一數值。",
+            "zhs": "HP%优先规则可重现刚被治疗或复活的队员再次成为目标的情况。设置会存入记录与分享码（全体=默认不写入，码长不变），比较模拟也套用同一数值。",
+            "ja": "HP%優先ルールにより、回復や蘇生で立ち直った味方が次の標的になる状況を再現できます。設定は記録・共有コードに保存され（全体=既定は書き込まれずコード長は不変）、比較シミュにも同じ値が適用されます。"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.8.1",
       "date": "2026-09-23",
       "highlight": true,

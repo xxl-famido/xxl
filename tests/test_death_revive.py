@@ -82,3 +82,45 @@ def test_revive_resets_died_flag_for_redeath():
     # 부활이 여러 번 = 같은 자리를 되살리고 또 죽였다는 뜻 → 재사망 로그도 여러 번
     if len(revives) >= 2:
         assert len(deaths) >= 2, "재부활은 있는데 재사망 집계가 없음(died 리셋 실패)"
+
+
+# ── 턴 피해 대상 수(hits) + HP% 우선 타게팅 (v1.8.2) ──
+
+def _td_hit_counts(res, pct):
+    from collections import defaultdict
+    per = defaultdict(list)
+    for ev in res.state.log:
+        if (getattr(ev, "text", "") or "") == f"턴 피해 {pct:g}%":
+            per[ev.turn].append(ev.actor)
+    return per
+
+
+def test_turn_damage_hits_all_by_default():
+    """hits=0(기본)이면 생존 아군 전체가 매 턴 맞는다."""
+    team = [CharSpec(KARAT, position=1), CharSpec(DARAWAN, position=2), CharSpec(10421, position=3)]
+    res = run_team(team, n_dummies=1, max_turn=4, seed=1, force_proc=True,
+                   turn_damage=[15] * 4, turn_damage_hits=0, allow_death=True)
+    per = _td_hit_counts(res, 15)
+    assert per and all(len(v) == 3 for v in per.values()), f"전체 타격 아님: {[len(v) for v in per.values()]}"
+
+
+def test_turn_damage_hits_limits_count():
+    """hits=N이면 매 턴 정확히 N명만 맞는다."""
+    team = [CharSpec(KARAT, position=1), CharSpec(DARAWAN, position=2),
+            CharSpec(10421, position=3), CharSpec(10425, position=4)]
+    for n in (1, 2):
+        res = run_team(team, n_dummies=1, max_turn=4, seed=1, force_proc=True,
+                       turn_damage=[15] * 4, turn_damage_hits=n, allow_death=True)
+        per = _td_hit_counts(res, 15)
+        assert per and all(len(v) == n for v in per.values()), f"hits={n} 인데 타격 수 {[len(v) for v in per.values()]}"
+
+
+def test_turn_damage_targets_highest_hp_pct_first():
+    """hits<전체면 현재 HP% 높은 아군 우선 — 자해로 최저 HP%인 무명은 hits=1에서 안 맞는다."""
+    team = [CharSpec(MUMEI, position=1, rotation="궁궁궁궁궁궁"),
+            CharSpec(KARAT, position=2), CharSpec(DARAWAN, position=3)]
+    res = run_team(team, n_dummies=1, max_turn=6, seed=1, force_proc=True,
+                   turn_damage=[15] * 6, turn_damage_hits=1, allow_death=True)
+    per = _td_hit_counts(res, 15)
+    hit_mumei = sum(1 for tgts in per.values() for a in tgts if a == res.state.allies[0].name)
+    assert hit_mumei == 0, f"자해로 최저 HP%인 무명이 hits=1에서 {hit_mumei}회 맞음(0 기대)"
