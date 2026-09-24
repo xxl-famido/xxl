@@ -23,22 +23,24 @@ const MATAYA = 10442, UK = 10439, RICANO = 10428;
     const res = await page.evaluate(async ([m, u, r]) => {
       const slot = id => ({ id, skill: 10, rune: true, rotation: '' });
       team = [slot(m), slot(u), slot(r), null, null];
+      // 피드백 사례: 마타야 계획 = 1턴 방어, 이후 매 턴 궁 (연동 '방어 → 받은 추가 행동에서 궁' + 다른 턴은 내 방식대로)
+      team[0].usePlan = true; team[0].plan = ['방', ...Array(29).fill('궁')]; team[0].rotation = team[0].plan.join('');
       renderTeam(); renderPrio();
       applyAltarSnap(null);
       applySyncSnap([{ anchor: 2, members: [{ p: 1, order: 'before', base: 'defend' }], miss: 'wait' }]);
       document.querySelector('#turns').value = '7'; document.querySelector('#turns').dispatchEvent(new Event('input'));
       document.querySelector('#runs').value = '1'; document.querySelector('#runs').dispatchEvent(new Event('input'));
       await run(false);
-      const log = lastResult.log, seen = new Set(), kinds = [];
-      for (const ev of log) {
-        if (ev.turn !== 4 || ev.actorId !== m || seen.has(ev.act) || !['보통공격', '필살기', '방어'].includes(ev.kind)) continue;
-        seen.add(ev.act); kinds.push(ev.kind);
-      }
-      return { total: lastResult.meta.total, sync: lastResult.meta.sync, kinds, top: document.querySelector('#topMeta').textContent };
+      const at = turn => { const seen = new Set(), out = [];
+        for (const ev of lastResult.log) {
+          if (ev.turn !== turn || ev.actorId !== m || seen.has(ev.act) || !['보통공격', '필살기', '방어'].includes(ev.kind)) continue;
+          seen.add(ev.act); out.push(ev.kind);
+        } return out; };
+      return { total: lastResult.meta.total, sync: lastResult.meta.sync, kinds: at(4), t5: at(5), top: document.querySelector('#topMeta').textContent };
     }, [MATAYA, UK, RICANO]);
     console.log('build', ver);
     console.log('result', JSON.stringify(res));
-    const ok = res.sync === 1 && res.kinds.join(',') === '방어,필살기' && /연동 1그룹/.test(res.top) && errors.length === 0;
+    const ok = res.sync === 1 && res.kinds.join(',') === '방어,필살기' && res.t5.join(',') === '필살기' && /연동 1그룹/.test(res.top) && errors.length === 0;
     console.log(errors.length ? errors.join('\n') : '(errors: none)');
     console.log(ok ? '라이브 스모크 통과' : '라이브 스모크 실패');
     process.exit(ok ? 0 : 1);
