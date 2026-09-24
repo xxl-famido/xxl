@@ -1447,11 +1447,18 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 .sg-preset{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:11.5px;color:var(--muted);line-height:1.45;margin-bottom:4px}
 .sg-preset .btn-ghost.sm{margin:0;flex:none;color:var(--gold);border-color:var(--gold-d)}
 .sg-preset span{flex:1;min-width:200px}
-/* 제단 패널 하단 이동 안내 · 캐릭터 창 요약 */
-.altar-moved{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:14px;font-size:11.5px;color:var(--muted);line-height:1.45;
-  border:1px dashed var(--line2);border-radius:10px;padding:9px 11px;background:var(--bg2)}
-.altar-moved span{flex:1;min-width:180px}
-.altar-moved .btn-ghost.sm{margin:0;flex:none}
+/* 타임라인 탭 머리: 안내 + 우측 상단 사용 스위치 · 스위치를 뺀 본문만 흐리게 */
+.adv-timehead{display:flex;align-items:flex-start;gap:14px}
+.adv-timehead .adv-hint{flex:1;min-width:0}
+.adv-timehead .toggle{flex:none;margin-top:8px}
+.adv-time-body{transition:opacity .18s}
+.adv-time-body.off{opacity:.32;pointer-events:none}
+/* 궁극기 사용 방식 탭: 우선순위 설명 */
+.adv-order{font-size:11.5px;color:var(--text2);line-height:1.55;border:1px solid var(--line);border-radius:10px;background:var(--bg2);padding:9px 12px 8px;margin-bottom:12px}
+.adv-order b{display:block;font-size:12px;color:var(--gold);margin-bottom:4px}
+.adv-order ol{margin:0;padding-left:18px}
+.adv-order li{margin:2px 0}
+/* 캐릭터 창 요약 */
 .mc-ult .ult-title{margin-bottom:0;flex-wrap:wrap}
 .mc-ult .ult-title em{flex:1;min-width:120px}
 .mc-ult .ult-open{margin:0;flex:none;font-size:11px}

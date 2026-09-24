@@ -47,6 +47,17 @@ const MATAYA = 10442, UK = 10439, RICANO = 10428;
       await page.evaluate(() => { if (advCloseFn) advCloseFn(); });
       console.log('saved', file);
     };
+    // 머리말 + 탭 + 타임라인 탭 머리(우측 상단 '사용' 스위치)까지 — 가이드 adv-head.png
+    await page.evaluate(() => { advTab = 'time'; openAdvPop(); });
+    await page.waitForSelector('.adv-card .adv-pane-time:not([hidden]) .adv-timehead', { timeout: 30000 });
+    await new Promise(r => setTimeout(r, 600));
+    const box = await page.evaluate(() => {
+      const c = document.querySelector('.adv-card').getBoundingClientRect(), h = document.querySelector('.adv-timehead').getBoundingClientRect();
+      return { x: c.left, y: c.top, width: c.width, height: h.bottom - c.top + 4 };
+    });
+    await page.screenshot({ path: path.join(OUT, 'adv-head.png'), clip: box });
+    await page.evaluate(() => { if (advCloseFn) advCloseFn(); });
+    console.log('saved adv-head.png');
     await shoot('ult', 'altar-ult.png');
     await shoot('sync', 'altar-sync.png');
     fs.copyFileSync(path.join(OUT, 'altar-sync.png'), path.join(DOCS, 'altar-sync.png'));

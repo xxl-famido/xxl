@@ -6,11 +6,11 @@
       "date": "2026-09-24",
       "highlight": true,
       "title": {
-        "kr": "행동 고급 설정 — 궁극기 사용 방식 · 연동 탭 통합",
+        "kr": "행동 고급 설정 — 궁극기 사용 방식 · 연동 탭",
         "en": "Advanced Action Setup — Ultimate policy & Sync tabs",
-        "zh": "行動進階設定 — 整合必殺技使用方式・連動分頁",
-        "zhs": "行动进阶设置 — 整合必杀技使用方式・联动分页",
-        "ja": "行動詳細設定 — 必殺技の使い方・連動タブを統合"
+        "zh": "行動進階設定 — 必殺技使用方式・連動分頁",
+        "zhs": "行动进阶设置 — 必杀技使用方式・联动分页",
+        "ja": "行動詳細設定 — 必殺技の使い方・連動タブ"
       },
       "items": [
         {
@@ -20,18 +20,18 @@
             10439
           ],
           "text": {
-            "kr": "궁극기 사용 방식과 궁극기 맞추기(연동)가 행동 고급 설정의 탭으로 옮겨졌습니다. 길드 제단을 켜지 않아도 항상 쓸 수 있고, 캐릭터 창과 제단 패널의 버튼으로 바로 열립니다.",
-            "en": "Ultimate policy and Ultimate sync moved into tabs of Advanced Action Setup. They now work without Guild Altar settings, and open directly from the character window and the altar panel.",
-            "zh": "必殺技使用方式與必殺同步（連動）已移至行動進階設定的分頁。不開公會祭壇也能使用，並可從角色視窗與祭壇面板的按鈕直接開啟。",
-            "zhs": "必杀技使用方式与必杀同步（联动）已移至行动进阶设置的分页。不开公会祭坛也能使用，并可从角色窗口与祭坛面板的按钮直接打开。",
-            "ja": "必殺技の使い方と必殺同期（連動）が行動詳細設定のタブに移りました。ギルド祭壇を使わなくても常に利用でき、キャラ画面と祭壇パネルのボタンからすぐ開けます。"
+            "kr": "행동 고급 설정이 턴별 타임라인 · 궁극기 사용 방식 · 연동 세 탭으로 구성됩니다. 궁극기 사용 방식과 연동은 항상 적용되고, 턴별 타임라인만 탭 우측 상단의 ‘사용’으로 켜고 끕니다.",
+            "en": "Advanced Action Setup has three tabs: Turn timeline · Ultimate policy · Sync. Ultimate policy and Sync always apply; only the Turn timeline is switched on and off with ‘Use’ at the top right of its tab.",
+            "zh": "行動進階設定由回合時間軸・必殺技使用方式・連動三個分頁組成。必殺技使用方式與連動永遠生效，只有回合時間軸以分頁右上的「使用」開關。",
+            "zhs": "行动进阶设置由回合时间轴・必杀技使用方式・联动三个分页组成。必杀技使用方式与联动永远生效，只有回合时间轴以分页右上的「使用」开关。",
+            "ja": "行動詳細設定はターン別タイムライン・必殺技の使い方・連動の3タブ構成です。必殺技の使い方と連動は常に適用され、ターン別タイムラインだけがタブ右上の「使用」でオン・オフします。"
           },
           "details": {
-            "kr": "이전에는 두 기능이 길드 제단 설정 ON에 묶여 있어 제단을 쓰지 않으면 화면에 나타나지 않았습니다. 설정은 기록·공유 코드에 그대로 저장되며(옛 기록의 제단 안 그룹도 자동으로 옮겨집니다), 비교 시뮬에도 공통 적용됩니다.",
-            "en": "Previously both features were tied to Guild Altar ON and disappeared when altars were not used. Settings are still saved in records and share codes (groups from old records stored inside the altar block are migrated automatically) and apply to compare runs too.",
-            "zh": "以前兩項功能綁定在公會祭壇設定 ON，不用祭壇時就不會出現。設定仍會存入紀錄與分享碼（舊紀錄中祭壇區塊內的群組會自動搬移），比較模擬也共用。",
-            "zhs": "以前两项功能绑定在公会祭坛设置 ON，不用祭坛时就不会出现。设置仍会存入记录与分享码（旧记录中祭坛区块内的群组会自动搬移），比较模拟也共用。",
-            "ja": "以前は両機能がギルド祭壇設定ONに結び付いており、祭壇を使わないと表示されませんでした。設定は引き続き記録・共有コードに保存され（旧記録で祭壇内に保存されたグループも自動で移行）、比較シミュにも共通で適用されます。"
+            "kr": "궁극기 사용 방식 탭 위쪽에 필살기를 쓸지 정하는 우선순위(턴별 타임라인 → 연동 → 사용 방식 → 추가 행동)가 정리되어 있습니다. 캐릭터 창에는 현재 방식이 요약되고, 옆 버튼으로 이 탭이 바로 열립니다. 설정은 기록 · 공유 코드에 저장되며 비교 시뮬에도 적용됩니다.",
+            "en": "The top of the Ultimate policy tab lists what decides the ultimate, in priority order (Turn timeline → Sync → Policy → extra actions). The character window summarizes the current policy, and the button next to it opens this tab. Settings are saved in records and share codes and apply to compare runs too.",
+            "zh": "必殺技使用方式分頁上方整理了決定是否放必殺的優先順序（回合時間軸 → 連動 → 使用方式 → 追加行動）。角色視窗會摘要目前方式，旁邊的按鈕可直接開啟此分頁。設定會存入紀錄與分享碼，比較模擬也會套用。",
+            "zhs": "必杀技使用方式分页上方整理了决定是否放必杀的优先顺序（回合时间轴 → 联动 → 使用方式 → 追加行动）。角色窗口会摘要当前方式，旁边的按钮可直接打开此分页。设置会存入记录与分享码，比较模拟也会应用。",
+            "ja": "必殺技の使い方タブ上部に、必殺技を使うかどうかの優先順位（ターン別タイムライン → 連動 → 使い方 → 追加行動）がまとめられています。キャラ画面には現在の方式が要約され、横のボタンでこのタブがすぐ開きます。設定は記録・共有コードに保存され、比較シミュにも適用されます。"
           }
         },
         {
@@ -41,38 +41,38 @@
             10439
           ],
           "text": {
-            "kr": "연동 멤버의 새 행동: ‘방어 → 받은 추가 행동에서 궁’ · ‘평타 → 받은 추가 행동에서 궁’. 앵커 궁 턴에 방어(또는 평타)를 하고, 앵커의 필살기가 만들어 준 추가 행동에서 궁을 씁니다. 예: 마타야 방어 → 욱영 궁 → 마타야 궁.",
-            "en": "New sync member actions: ‘Defend → ultimate in the granted extra action’ and ‘Attack → ultimate in the granted extra action’. The member defends (or attacks) on the anchor’s ultimate turn and uses its ultimate in the extra action the anchor’s ultimate grants. Example: Mataya defends → Xuying ultimate → Mataya ultimate.",
-            "zh": "連動成員新增行動：「防禦 → 用獲得的追加行動放必殺」「普攻 → 用獲得的追加行動放必殺」。錨點必殺回合先防禦（或普攻），再用錨點必殺給予的追加行動放必殺。例：又彌防禦 → 旭影必殺 → 又彌必殺。",
-            "zhs": "联动成员新增行动：「防御 → 用获得的追加行动放必杀」「普攻 → 用获得的追加行动放必杀」。锚点必杀回合先防御（或普攻），再用锚点必杀给予的追加行动放必杀。例：又弥防御 → 旭影必杀 → 又弥必杀。",
-            "ja": "連動メンバーの新しい行動：「防御 → もらった追加行動で必殺」「通常攻撃 → もらった追加行動で必殺」。アンカーの必殺ターンに防御（または通常攻撃）し、アンカーの必殺が与えた追加行動で必殺を使います。例：又弥が防御 → 旭影が必殺 → 又弥が必殺。"
+            "kr": "연동 멤버는 앵커가 필살기를 쓰는 턴에 ‘같이 궁’ · ‘방어 → 받은 추가 행동에서 궁’ · ‘평타 → 받은 추가 행동에서 궁’ 중 하나를 고릅니다. 예: 마타야 방어 → 욱영 궁 → 마타야 궁.",
+            "en": "On the anchor’s ultimate turn, each sync member chooses ‘Ultimate together’, ‘Defend → ultimate in the granted extra action’, or ‘Attack → ultimate in the granted extra action’. Example: Mataya defends → Xuying ultimate → Mataya ultimate.",
+            "zh": "連動成員在錨點放必殺的回合，可選「一起放必殺」「防禦 → 用獲得的追加行動放必殺」「普攻 → 用獲得的追加行動放必殺」。例：又彌防禦 → 旭影必殺 → 又彌必殺。",
+            "zhs": "联动成员在锚点放必杀的回合，可选「一起放必杀」「防御 → 用获得的追加行动放必杀」「普攻 → 用获得的追加行动放必杀」。例：又弥防御 → 旭影必杀 → 又弥必杀。",
+            "ja": "連動メンバーはアンカーの必殺ターンに「一緒に必殺」「防御 → もらった追加行動で必殺」「通常攻撃 → もらった追加行動で必殺」から選びます。例：又弥が防御 → 旭影が必殺 → 又弥が必殺。"
           },
           "details": {
-            "kr": "추가 행동은 이미 행동을 마친 아군에게만 들어가므로 이 멤버는 자동으로 앵커 앞에서 행동합니다. 추가 행동을 주지 않는 앵커라면 안내가 뜨고, 보류한 궁은 ‘미준비면’ 규칙(대기/준비되면 바로)을 따릅니다. 욱영이 편성에 있으면 ‘연동 자동 설정’ 버튼이 인접 아군을 한 번에 묶어 줍니다. 그룹마다 실제 흐름이 문장으로 표시됩니다.",
-            "en": "Extra actions only go to allies who already acted, so such members automatically act before the anchor. If the anchor grants no extra actions a note appears and the held ultimate follows the ‘If not ready’ rule (Wait / Use when ready). With Xuying on the team, a ‘sync preset’ button groups the adjacent allies in one click. Each group shows its actual flow as a sentence.",
-            "zh": "追加行動只會給已行動的隊員，因此此類成員會自動在錨點前行動。若錨點不給追加行動會顯示提示，保留的必殺依「未就緒時」規則（等待／就緒即用）處理。旭影在隊中時，「連動快速設定」按鈕可一鍵綁定相鄰隊員。每組都會以一句話顯示實際流程。",
-            "zhs": "追加行动只会给已行动的队员，因此此类成员会自动在锚点前行动。若锚点不给追加行动会显示提示，保留的必杀依「未就绪时」规则（等待／就绪即用）处理。旭影在队中时，「联动快速设置」按钮可一键绑定相邻队员。每组都会以一句话显示实际流程。",
-            "ja": "追加行動は行動済みの味方にしか入らないため、このメンバーは自動的にアンカーより先に行動します。追加行動を与えないアンカーなら案内が出て、保留した必殺は「未準備なら」のルール（待つ／準備でき次第）に従います。旭影が編成にいれば「連動プリセット」ボタンで隣接する味方を一括設定できます。各グループの実際の流れが一文で表示されます。"
+            "kr": "추가 행동은 이미 행동을 마친 아군에게만 들어가므로, 받은 추가 행동에서 궁을 쓰는 멤버는 앵커보다 먼저 행동합니다. 앵커가 추가 행동을 주지 않는 캐릭터면 안내가 뜨고, 보류한 궁은 ‘미준비면’ 규칙(대기 / 준비되면 바로)을 따릅니다. 욱영이 편성에 있으면 ‘연동 자동 설정’ 버튼이 인접 아군을 한 번에 묶어 줍니다. 그룹마다 실제 행동 흐름이 한 문장으로 표시됩니다.",
+            "en": "Extra actions only go to allies who already acted, so members that use the ultimate in the granted extra action act before the anchor. If the anchor grants no extra actions a note appears, and the held ultimate follows the ‘If not ready’ rule (Wait / Use when ready). With Xuying on the team, the ‘sync preset’ button groups the adjacent allies in one click. Each group shows its actual action flow as a sentence.",
+            "zh": "追加行動只會給已行動的隊員，因此用獲得的追加行動放必殺的成員會先於錨點行動。若錨點不給追加行動會顯示提示，保留的必殺依「未就緒時」規則（等待／就緒即用）處理。旭影在隊中時，「連動快速設定」按鈕可一鍵綁定相鄰隊員。每組會以一句話顯示實際行動流程。",
+            "zhs": "追加行动只会给已行动的队员，因此用获得的追加行动放必杀的成员会先于锚点行动。若锚点不给追加行动会显示提示，保留的必杀依「未就绪时」规则（等待／就绪即用）处理。旭影在队中时，「联动快速设置」按钮可一键绑定相邻队员。每组会以一句话显示实际行动流程。",
+            "ja": "追加行動は行動済みの味方にしか入らないため、もらった追加行動で必殺を使うメンバーはアンカーより先に行動します。アンカーが追加行動を与えないキャラなら案内が出て、保留した必殺は「未準備なら」のルール（待つ／準備でき次第）に従います。旭影が編成にいれば「連動プリセット」ボタンで隣接する味方を一括設定できます。各グループの実際の行動の流れが一文で表示されます。"
           }
         },
         {
           "cat": "qol",
           "text": {
-            "kr": "길드 제단의 ‘행동 시·필살 시 확률로 CD 감소’가 걸려 있으면 궁극기 사용 방식 탭에 안내가 뜨고, 버튼 하나로 전원을 ‘준비되면 바로’로 바꿀 수 있습니다. 확률 감소는 계획 도구가 예측할 수 없어 ‘정해진 턴’은 앞당겨진 쿨을 살리지 못했습니다.",
-            "en": "When the Guild Altar ‘chance to cut CD on action / on ultimate’ effects are active, the Ultimate policy tab shows a notice and one button switches everyone to ‘As soon as ready’. The planner cannot predict chance-based cuts, so ‘Planned turns’ could not use the earlier cooldown.",
-            "zh": "若公會祭壇的「行動時・必殺時有機率縮短CD」生效，必殺技使用方式分頁會顯示提示，並可一鍵將全員改為「就緒即用」。機率縮短無法被規劃工具預測，「指定回合」無法利用提早的冷卻。",
-            "zhs": "若公会祭坛的「行动时・必杀时有概率缩短CD」生效，必杀技使用方式分页会显示提示，并可一键将全员改为「就绪即用」。概率缩短无法被规划工具预测，「指定回合」无法利用提早的冷却。",
-            "ja": "ギルド祭壇の「行動時・必殺時に確率でCD短縮」が有効なら、必殺技の使い方タブに案内が出て、ボタン1つで全員を「準備でき次第」に切り替えられます。確率短縮はプランナーが予測できず、「指定ターン」では早まったクールを活かせませんでした。"
+            "kr": "길드 제단의 ‘행동 시 · 필살 시 확률로 CD 감소’가 걸려 있으면 궁극기 사용 방식 탭에 안내가 뜨고, 버튼 하나로 전원을 ‘준비되면 바로’로 바꿀 수 있습니다. 확률로 앞당겨진 쿨은 ‘정해진 턴’ 계획에 반영되지 않기 때문입니다.",
+            "en": "When the Guild Altar ‘chance to cut CD on action / on ultimate’ effects are active, the Ultimate policy tab shows a notice and one button switches everyone to ‘As soon as ready’, because a chance-shortened cooldown is not reflected in ‘Planned turns’ plans.",
+            "zh": "若公會祭壇的「行動時・必殺時有機率縮短CD」生效，必殺技使用方式分頁會顯示提示，並可一鍵將全員改為「就緒即用」。因為機率提早的冷卻不會反映在「指定回合」計畫中。",
+            "zhs": "若公会祭坛的「行动时・必杀时有概率缩短CD」生效，必杀技使用方式分页会显示提示，并可一键将全员改为「就绪即用」。因为概率提早的冷却不会反映在「指定回合」计划中。",
+            "ja": "ギルド祭壇の「行動時・必殺時に確率でCD短縮」が有効なら、必殺技の使い方タブに案内が出て、ボタン1つで全員を「準備でき次第」に切り替えられます。確率で早まったクールは「指定ターン」の計画に反映されないためです。"
           }
         },
         {
           "cat": "qol",
           "text": {
-            "kr": "타임라인이 켜져 있는데 ‘특정 턴만 다르게’나 ‘캐릭터별 턴 계획’이 남아 있으면, 지금 적용되지 않는다는 안내가 타임라인 탭에 표시됩니다. ‘기존 설정 불러오기’로 타임라인에 옮길 수 있습니다.",
-            "en": "If the timeline is on while ‘Per-turn order’ or ‘Per-character turn plans’ remain, the timeline tab now says they are not applied. ‘Import current settings’ moves them into the timeline.",
-            "zh": "時間軸開啟時若仍有「特定回合順序」或「角色回合計畫」，時間軸分頁會提示目前不套用。可用「匯入現有設定」搬到時間軸。",
-            "zhs": "时间轴开启时若仍有「特定回合顺序」或「角色回合计划」，时间轴分页会提示目前不应用。可用「导入现有设置」搬到时间轴。",
-            "ja": "タイムラインがオンのまま「特定ターンの順序」や「キャラ別ターン計画」が残っていると、タイムラインタブに現在は適用されない旨が表示されます。「既存設定を読み込む」でタイムラインへ移せます。"
+            "kr": "턴별 타임라인이 켜져 있는데 ‘특정 턴만 다르게’나 ‘캐릭터별 턴 계획’이 남아 있으면, 지금 적용되지 않는다는 안내가 타임라인 탭에 표시됩니다. ‘기존 설정 불러오기’로 타임라인에 옮길 수 있습니다.",
+            "en": "If the Turn timeline is on while ‘Per-turn order’ or ‘Per-character turn plans’ remain, the timeline tab says they are not applied. ‘Import current settings’ moves them into the timeline.",
+            "zh": "回合時間軸開啟時若仍有「特定回合順序」或「角色回合計畫」，時間軸分頁會提示目前不套用。可用「匯入現有設定」搬到時間軸。",
+            "zhs": "回合时间轴开启时若仍有「特定回合顺序」或「角色回合计划」，时间轴分页会提示目前不应用。可用「导入现有设置」搬到时间轴。",
+            "ja": "ターン別タイムラインがオンのまま「特定ターンの順序」や「キャラ別ターン計画」が残っていると、現在は適用されない旨がタイムラインタブに表示されます。「既存設定を読み込む」でタイムラインへ移せます。"
           }
         }
       ]

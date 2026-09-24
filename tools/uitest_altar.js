@@ -261,9 +261,8 @@ async function main() {
     }
     app.closeCharModal();
     app.closeAltar(); await sleep(450); app.openAltar(); await sleep(30);
-    if ($('#altarSide .altar-sync') || $('#altarSide [data-anchor]')) bad('제단 패널에 맞추기 그룹 편집이 남아 있으면 안 됨(행동 고급 설정으로 이동)');
-    else if (!$('#altarSide .altar-moved [data-advopen="sync"]')) bad('제단 패널 하단에 연동 이동 안내·열기 버튼이 없음');
-    else ok('제단 패널: 연동·사용 방식 이동 안내 + 열기');
+    if ($('#altarSide .altar-sync') || $('#altarSide [data-anchor]')) bad('제단 패널엔 연동 편집이 없어야 함(행동 고급 설정 연동 탭)');
+    else ok('제단 패널: 제단 효과만 (연동 편집 없음)');
     app.applyAltarSnap(null);
     if (app.altarOn) bad('applyAltarSnap(null) 이면 제단 OFF 여야 함');
     if (app.cdPlus() !== 0) bad('제단 OFF면 cdPlus 0');

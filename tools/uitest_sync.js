@@ -104,10 +104,13 @@ async function main() {
     const tabs = $$('[data-advtab]', card);
     if (tabs.length !== 3) bad(`탭 3개 기대, ${tabs.length}`);
     if ($('.adv-pane-time', card).hidden || !$('.adv-pane-ult', card).hidden || !$('.adv-pane-sync', card).hidden) bad('처음엔 타임라인 탭만 보여야 함');
-    if ($('#advSwitchWrap', card).hidden) bad("타임라인 탭에선 '사용' 스위치가 보여야 함");
+    if ($('#advSwitchWrap', card).closest('[hidden]')) bad("타임라인 탭에선 '사용' 스위치가 보여야 함");
+    if (!$('#advSwitchWrap', card).closest('.adv-pane-time')) bad("'사용' 스위치는 타임라인 탭 안에 있어야 함");
+    if ($('#advSwitchWrap', card).closest('.off')) bad("스위치가 흐린(.off) 영역 안에 있으면 켤 수 없음");
     click($('[data-advtab="ult"]', card)); await sleep(20);
     if ($('.adv-pane-ult', card).hidden || !$('.adv-pane-time', card).hidden) bad('궁극기 사용 방식 탭 전환 실패');
-    if (!$('#advSwitchWrap', card).hidden) bad("다른 탭에선 '사용' 스위치를 숨겨야 함(항상 적용)");
+    if (!$('#advSwitchWrap', card).closest('[hidden]')) bad("다른 탭에선 '사용' 스위치가 보이면 안 됨(항상 적용)");
+    if ($$('.adv-pane-ult .adv-order li', card).length !== 4) bad('궁극기 사용 방식 탭에 우선순위 설명(4항목)이 없음');
     if (!$('[data-advtab="ult"]', card).classList.contains('on')) bad('선택된 탭에 .on 이 없음');
     ok('탭 3개 · 전환 · 스위치는 타임라인 탭에서만');
 

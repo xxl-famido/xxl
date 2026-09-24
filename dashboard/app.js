@@ -1440,12 +1440,27 @@ const ADV_T = {
                ja: 'タイムラインがオンの間は適用されない設定：{0}。反映するには「既存設定を読み込む」を押してください。' },
   conflictOv: { kr: '특정 턴만 다르게({0}턴)', en: 'Per-turn order (T{0})', zh: '特定回合順序（第 {0} 回合）', zhs: '特定回合顺序（第 {0} 回合）', ja: '特定ターンの順序（{0}ターン）' },
   conflictPlan: { kr: '캐릭터별 턴 계획({0})', en: 'Per-character turn plans ({0})', zh: '角色回合計畫（{0}）', zhs: '角色回合计划（{0}）', ja: 'キャラ別ターン計画（{0}）' },
-  altarMoved: { kr: '연동(궁 맞추기)과 궁극기 사용 방식은 행동 고급 설정으로 옮겨졌어요 — 제단을 켜지 않아도 쓸 수 있어요.',
-               en: 'Sync (ultimate timing) and Ultimate policy moved to Advanced Action Setup — they work without altars too.',
-               zh: '連動（必殺同步）與必殺技使用方式已移至行動進階設定 — 不開祭壇也能使用。',
-               zhs: '联动（必杀同步）与必杀技使用方式已移至行动进阶设置 — 不开祭坛也能使用。',
-               ja: '連動（必殺同期）と必殺技の使い方は行動詳細設定に移りました — 祭壇を使わなくても使えます。' },
-  altarMovedOpen: { kr: '열기', en: 'Open', zh: '開啟', zhs: '打开', ja: '開く' },
+  orderTitle: { kr: '필살기를 쓸지 정하는 순서', en: 'What decides the ultimate (highest first)', zh: '決定是否使用必殺技的優先順序', zhs: '决定是否使用必杀技的优先顺序', ja: '必殺技を使うかどうかの優先順位' },
+  order1:    { kr: '턴별 타임라인을 켜면 모든 턴이 타임라인대로 움직이고, 이 탭과 연동 탭은 쉽니다.',
+               en: 'With the turn timeline on, every turn follows the timeline and this tab and the Sync tab are paused.',
+               zh: '開啟回合時間軸時，所有回合依時間軸行動，此分頁與連動分頁暫停。',
+               zhs: '开启回合时间轴时，所有回合依时间轴行动，此分页与联动分页暂停。',
+               ja: 'ターン別タイムラインをオンにすると全ターンがタイムライン通りに動き、このタブと連動タブは休みます。' },
+  order2:    { kr: '연동 그룹의 멤버는 앵커가 필살기를 쓰는 턴에 맞춥니다 — 아래 사용 방식보다 우선합니다.',
+               en: 'Sync group members follow the turns their anchor uses its ultimate — this overrides the policy below.',
+               zh: '連動組成員配合錨點使用必殺技的回合 — 優先於下方的使用方式。',
+               zhs: '联动组成员配合锚点使用必杀技的回合 — 优先于下方的使用方式。',
+               ja: '連動グループのメンバーはアンカーが必殺技を使うターンに合わせます — 下の使い方より優先します。' },
+  order3:    { kr: '그 밖의 캐릭터는 아래에서 고른 방식을 따릅니다. ‘정해진 턴’의 계획은 캐릭터 창의 턴별 행동 계획이며, 꺼져 있으면 자동 계획입니다.',
+               en: 'Everyone else follows the policy chosen below. The plan behind ‘Planned turns’ is the per-turn action plan in the character window, or the automatic plan when that is off.',
+               zh: '其他角色依下方選擇的方式。「指定回合」的計畫是角色視窗中的逐回合行動計畫，關閉時為自動計畫。',
+               zhs: '其他角色依下方选择的方式。「指定回合」的计划是角色窗口中的逐回合行动计划，关闭时为自动计划。',
+               ja: 'それ以外のキャラは下で選んだ方式に従います。「指定ターン」の計画はキャラ画面のターン別行動計画で、オフなら自動計画です。' },
+  order4:    { kr: '동료가 준 추가 행동은 평타로 씁니다. 연동에서 ‘받은 추가 행동에서 궁’을 고른 멤버와, 임부언이 쿨을 채워 주는 1번 자리 캐릭터만 그 추가 행동에서 필살기를 씁니다.',
+               en: 'Extra actions granted by allies are used as attacks. Only sync members set to ‘ultimate in the granted extra action’ and the position-1 character whose cooldown Boss Ren refills use the ultimate there.',
+               zh: '隊友給予的追加行動以普攻使用。只有在連動中選擇「用獲得的追加行動放必殺」的成員，以及由任富言補滿冷卻的 1 號位角色，會在該追加行動中放必殺。',
+               zhs: '队友给予的追加行动以普攻使用。只有在联动中选择「用获得的追加行动放必杀」的成员，以及由任富言补满冷却的 1 号位角色，会在该追加行动中放必杀。',
+               ja: '味方からもらった追加行動は通常攻撃になります。連動で「もらった追加行動で必殺」を選んだメンバーと、任富言がクールを満たす1番位置のキャラだけが、その追加行動で必殺技を使います。' },
 };
 function advT(key, ...args) {             // 로컬 사전 → 현재 언어(없으면 kr) + {n} 치환
   const v = ADV_T[key];
@@ -1880,17 +1895,16 @@ function renderCellPop(card) {
 
 function renderAdv() {
   const card = document.querySelector('.adv-card'); if (!card) return;
-  // ── 탭: 세 패널 중 하나만 보인다. '사용' 스위치는 타임라인 탭에만 뜬다(다른 두 탭은 항상 적용).
+  // ── 탭: 세 패널 중 하나만 보인다. '사용' 스위치는 타임라인 탭 안에 있다(다른 두 탭은 항상 적용).
   card.querySelectorAll('[data-advtab]').forEach(b => {
     b.classList.toggle('on', b.dataset.advtab === advTab);
     b.setAttribute('aria-selected', b.dataset.advtab === advTab ? 'true' : 'false');
   });
   ['time', 'ult', 'sync'].forEach(t => { const pane = $('.adv-pane-' + t, card); if (pane) pane.hidden = advTab !== t; });
-  const swWrap = $('#advSwitchWrap', card); if (swWrap) swWrap.hidden = advTab !== 'time';
   renderAdvUlt(card);
   renderAdvSync(card);
   renderAdvConflict(card);
-  $('.adv-pane-time', card).classList.toggle('off', !advOn);
+  $('.adv-time-body', card).classList.toggle('off', !advOn);   // 스위치는 흐리게 하지 않는다(켜야 하니까)
   const n = advTurns();
   if (advSel > n) advSel = n;
 
@@ -2048,6 +2062,7 @@ function renderAdvUlt(card) {
   const pane = $('.adv-pane-ult', card); if (!pane) return;
   const roster = aTeam();
   let html = `<div class="adv-hint">${esc(advT('ultHint'))}</div>`;
+  html += `<div class="adv-order"><b>${esc(advT('orderTitle'))}</b><ol>${[1, 2, 3, 4].map(n => `<li>${esc(advT('order' + n))}</li>`).join('')}</ol></div>`;
   if (advOn) html += `<div class="adv-note lock">${esc(advT('timeOn'))}</div>`;
   if (altarProcCdActive().length) html += `<div class="adv-note warn"><span>${esc(advT('cdProcWarn'))}</span>
     <button type="button" class="btn-ghost sm" data-ultall="asap">${esc(advT('cdProcAll'))}</button></div>`;
@@ -2206,7 +2221,6 @@ function openAdvPop() {
   pop.innerHTML = `<div class="adv-card" role="dialog" aria-modal="true" aria-label="행동 고급 설정">
   <div class="adv-head">
     <h3>행동 고급 설정${advScope ? ` <em class="adv-scope">비교군 ${advScope.toUpperCase()}</em>` : ''}<span class="adv-sub">턴마다 누가 · 어떤 순서로 · 무엇을 할지 직접 정합니다</span></h3>
-    <label class="toggle" id="advSwitchWrap"><input type="checkbox" id="advSwitch" ${advOn ? 'checked' : ''}><span class="sw"></span>사용</label>
     <button type="button" class="adv-x" data-advclose aria-label="닫기">✕</button>
   </div>
   <div class="adv-tabs i18n-skip" role="tablist">
@@ -2214,8 +2228,12 @@ function openAdvPop() {
     <button type="button" role="tab" data-advtab="ult">${esc(altarT('ultTitle'))}</button>
     <button type="button" role="tab" data-advtab="sync">${esc(advT('tabSync'))}</button>
   </div>
-  <div class="adv-body adv-pane adv-pane-time ${advOn ? '' : 'off'}">
-    <div class="adv-hint">켜면 행동 우선순위 · 특정 턴만 다르게 · 캐릭터별 턴별 행동 계획이 모두 이 화면으로 대체됩니다. 같은 캐릭터가 한 턴에 여러 번 행동할 수 있고, ‘추가’ 표시는 앞선 필살기가 만들어 준 행동입니다.</div>
+  <div class="adv-body adv-pane adv-pane-time">
+    <div class="adv-timehead">
+      <div class="adv-hint">켜면 행동 우선순위 · 특정 턴만 다르게 · 캐릭터별 턴별 행동 계획이 모두 이 화면으로 대체됩니다. 같은 캐릭터가 한 턴에 여러 번 행동할 수 있고, ‘추가’ 표시는 앞선 필살기가 만들어 준 행동입니다.</div>
+      <label class="toggle" id="advSwitchWrap"><input type="checkbox" id="advSwitch" ${advOn ? 'checked' : ''}><span class="sw"></span>사용</label>
+    </div>
+    <div class="adv-time-body ${advOn ? '' : 'off'}">
     <div class="adv-note warn adv-conflict i18n-skip" hidden></div>
     <div class="adv-tools">
       <button type="button" class="btn-ghost sm" id="advCopy">복사</button>
@@ -2241,6 +2259,7 @@ function openAdvPop() {
       <button type="button" class="btn-ghost sm" id="advResetAll">전체 턴 기본값으로</button>
       <button type="button" class="btn-ghost sm" id="advImport"
         title="캐릭터별 턴 계획 · 행동 우선순위 · 특정 턴 순서로 돌린 결과를 타임라인으로 가져옵니다">기존 설정 불러오기</button>
+    </div>
     </div>
   </div>
   <div class="adv-body adv-pane adv-pane-ult i18n-skip" hidden></div>
@@ -3105,11 +3124,6 @@ function _decAltar(str) {
   return out;
 }
 
-function altarMovedHTML() {               // 패널 하단: 연동·궁극기 사용 방식이 행동 고급 설정으로 옮겨졌다는 안내 + 바로 열기
-  return `<div class="altar-moved"><span>${esc(advT('altarMoved'))}</span>
-    <button type="button" class="btn-ghost sm" data-advopen="sync">${esc(advT('altarMovedOpen'))}</button></div>`;
-}
-// 메인 캐릭터 창: 현재 방식 요약 + '행동 고급 설정에서 변경'(편집은 한 곳으로). i18n-skip — 이 모듈이 직접 렌더.
 function ultSummaryHTML(slot, pos) {
   const u = ultOf(slot), grp = syncGroupOf(pos);
   const now = (grp && grp.role === 'member')
@@ -3234,7 +3248,7 @@ function altarBodyHTML() {
     </section>`;
   }).join('');
   return `<div class="altar-hint">${esc(altarT('hint'))}<br><b>${esc(altarT('floorRule'))}</b></div>`
-    + `${floors}${altarMovedHTML()}<div class="altar-note">${esc(altarT('note'))}</div>`;
+    + `${floors}<div class="altar-note">${esc(altarT('note'))}</div>`;
 }
 function altarHost() {                     // 현재 열린 컨테이너(팝업 .altar-card / 사이드 .altar-inner)
   return document.querySelector('.altar-modal .altar-card') || document.querySelector('#altarSide .altar-inner');
