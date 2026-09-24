@@ -887,7 +887,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
   background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line2);
   border-radius:var(--r);box-shadow:0 30px 80px rgba(0,0,0,.6);animation:pop .22s cubic-bezier(.2,.9,.3,1.2)}
 .adv-head{display:flex;align-items:center;gap:14px;padding:18px 20px 14px;border-bottom:1px solid var(--line)}
-.adv-head h3{font-size:16px;letter-spacing:-.01em}
+.adv-head h3{flex:1;min-width:0;font-size:16px;letter-spacing:-.01em}   /* 제목이 남는 폭을 차지 → 닫기(✕)·스위치가 항상 우측 끝 */
 .adv-head .adv-sub{display:block;font-size:11.5px;font-weight:400;color:var(--muted);margin-top:3px}
 .adv-head .toggle{margin-left:auto;flex:none}
 .adv-x{flex:none;width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:transparent;
