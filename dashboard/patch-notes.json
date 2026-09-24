@@ -2,6 +2,41 @@
   "_comment": "패치 히스토리. 최신이 위. 버전 규칙: 캐릭터 추가 릴리스 = 메이저 1.x(펼친 상태로 표시), 그 사이 업데이트 = 패치 1.x.x(접힌 상태, 단 목록 맨 위=최신이면 펼침). 1.0은 첫 공개(파미도 초상). cat: new|balance|fix|qol. 텍스트/details 는 {kr,en,zh,zhs,ja} — 없는 언어는 kr 폴백. char: 대표 캐릭터 id(icons/{id}.png + skill:true면 icons/skills/Rune{id}.png). charImg: 커스텀 프로필 경로(char 대신). items[].chars: 항목 인라인 아이콘(5명 이상이면 생략). items[].details: 펼쳤을 때 보이는 구체 수치.",
   "releases": [
     {
+      "version": "1.8.4",
+      "date": "2026-09-24",
+      "highlight": true,
+      "title": {
+        "kr": "연동 — 앵커가 궁을 안 쓰는 턴 설정",
+        "en": "Sync — turns the anchor doesn’t ultimate",
+        "zh": "連動 — 錨點不放必殺的回合設定",
+        "zhs": "联动 — 锚点不放必杀的回合设置",
+        "ja": "連動 — アンカーが必殺を使わないターンの設定"
+      },
+      "items": [
+        {
+          "cat": "balance",
+          "chars": [
+            10442,
+            10439
+          ],
+          "text": {
+            "kr": "연동 멤버마다 앵커가 궁을 안 쓰는 턴의 행동을 ‘궁 아끼기’ 또는 ‘내 사용 방식대로’로 고릅니다. ‘받은 추가 행동에서 궁’ 멤버는 기본이 내 사용 방식대로라, 평소엔 준비되는 대로 궁을 쓰다가 앵커 궁 턴에만 방어 → 받은 추가 행동에서 궁으로 맞춥니다.",
+            "en": "Each sync member chooses what to do on turns the anchor doesn’t use its ultimate: ‘Save the ultimate’ or ‘Use my own policy’. Members set to ‘ultimate in the granted extra action’ default to their own policy — they use the ultimate whenever ready and only on the anchor’s ultimate turn switch to defend → ultimate in the granted extra action.",
+            "zh": "每位連動成員可選擇錨點不放必殺的回合要「保留必殺」或「依自己的使用方式」。「用獲得的追加行動放必殺」成員預設為依自己的使用方式：平時一就緒就放必殺，只在錨點必殺回合改為防禦 → 用獲得的追加行動放必殺。",
+            "zhs": "每位联动成员可选择锚点不放必杀的回合要「保留必杀」或「依自己的使用方式」。「用获得的追加行动放必杀」成员默认为依自己的使用方式：平时一就绪就放必杀，只在锚点必杀回合改为防御 → 用获得的追加行动放必杀。",
+            "ja": "連動メンバーごとに、アンカーが必殺を使わないターンの行動を「必殺を温存」か「自分の使い方で」から選びます。「もらった追加行動で必殺」のメンバーは既定が「自分の使い方で」なので、普段は準備でき次第必殺を使い、アンカーの必殺ターンだけ防御 → もらった追加行動で必殺に合わせます。"
+          },
+          "details": {
+            "kr": "예: 필살기 쿨 1턴인 마타야를 욱영에 ‘방어 → 받은 추가 행동에서 궁’으로 연동하면, 매 턴 궁을 쓰고 욱영 궁 턴에만 방어 → 욱영 궁 → 마타야 궁 순서가 됩니다. 궁극기 사용 방식 탭에서는 ‘내 사용 방식대로’ 멤버도 방식을 고를 수 있고, 연동 탭의 그룹 흐름 문장에 그 밖의 턴 처리가 함께 표시됩니다.",
+            "en": "Example: with Mataya (1-turn ultimate cooldown) synced to Xuying as ‘Defend → ultimate in the granted extra action’, Mataya uses the ultimate every turn and only on Xuying’s ultimate turn goes defend → Xuying ultimate → Mataya ultimate. In the Ultimate policy tab, ‘own policy’ members can choose a policy too, and each group’s flow sentence in the Sync tab also shows how other turns are handled.",
+            "zh": "例：將必殺冷卻 1 回合的又彌以「防禦 → 用獲得的追加行動放必殺」連動到旭影時，又彌每回合放必殺，只在旭影必殺回合依防禦 → 旭影必殺 → 又彌必殺的順序。必殺技使用方式分頁中「依自己的使用方式」成員也可選擇方式，連動分頁的組流程句也會一併顯示其他回合的處理。",
+            "zhs": "例：将必杀冷却 1 回合的又弥以「防御 → 用获得的追加行动放必杀」联动到旭影时，又弥每回合放必杀，只在旭影必杀回合依防御 → 旭影必杀 → 又弥必杀的顺序。必杀技使用方式分页中「依自己的使用方式」成员也可选择方式，联动分页的组流程句也会一并显示其他回合的处理。",
+            "ja": "例：必殺クール1ターンの又弥を旭影に「防御 → もらった追加行動で必殺」で連動すると、毎ターン必殺を使い、旭影の必殺ターンだけ防御 → 旭影必殺 → 又弥必殺の順になります。必殺技の使い方タブでは「自分の使い方で」のメンバーも方式を選べ、連動タブのグループの流れの文にそれ以外のターンの扱いも表示されます。"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.8.3",
       "date": "2026-09-24",
       "highlight": true,

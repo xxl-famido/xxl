@@ -195,6 +195,19 @@ async function main() {
       if (!(i1 >= 0 && i2 > i1 && i3 > i2)) bad(`흐름 문장 순서 이상: ${t}`);
       else ok(`흐름 문장: ${t.replace(/\s+/g, ' ').trim()}`);
     }
+    // 앵커가 궁을 안 쓰는 턴: 보류 멤버 기본 = 내 사용 방식대로
+    const own = $('.adv-pane-sync .sm-row [data-sother="own"]', c);
+    if (!own || !own.classList.contains('on')) bad("보류 멤버의 '앵커가 궁을 안 쓰는 턴' 기본은 '내 사용 방식대로'여야 함");
+    click($('.adv-pane-sync .sm-row [data-sother="hold"]', c)); await sleep(200);
+    if (app.syncGroups[0].members[0].other !== 'hold') bad('궁 아끼기 선택 반영 실패');
+    { const bk = app.unpackSnapV2(JSON.parse(JSON.stringify(app.packSnapV2(app.snapshot()))));
+      if (!bk.sync || bk.sync[0].members[0].other !== 'hold') bad(`'궁 아끼기' 공유 코드 왕복 실패: ${JSON.stringify(bk.sync)}`); }
+    c = $('.adv-card');
+    click($('.adv-pane-sync .sm-row [data-sother="own"]', c)); await sleep(200);
+    if ('other' in app.syncGroups[0].members[0]) bad('기본값(내 사용 방식대로)으로 되돌리면 other 키가 없어야 함');
+    else ok("앵커가 궁을 안 쓰는 턴: 내 사용 방식대로(기본) ⇄ 궁 아끼기 · 공유 코드 왕복");
+    c = $('.adv-card');
+    if (!/그 밖의 턴/.test($('.adv-pane-sync .sg-flow', c).textContent)) bad('흐름 문장에 그 밖의 턴 처리가 없음');
     click($('.adv-pane-sync .as-group[data-g="0"] [data-miss="asap"]', c)); await sleep(200);
     if (app.syncGroups[0].miss !== 'asap') bad('미준비 처리 전환 실패');
     else ok('미준비 처리: 준비되면 바로');

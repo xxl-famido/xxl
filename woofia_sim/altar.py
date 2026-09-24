@@ -190,6 +190,7 @@ def parse_ult_policy(raw: object) -> dict:
 
 
 SYNC_BASES = ("fatal", "defend", "basic")
+SYNC_OTHERS = ("hold", "own")   # 앵커가 궁을 안 쓰는 턴: hold=궁 아낌 / own=내 사용 방식대로
 
 
 def parse_sync_groups(raw: object, positions: list[int]) -> list[dict]:
@@ -197,7 +198,9 @@ def parse_sync_groups(raw: object, positions: list[int]) -> list[dict]:
 
     입력: [{"anchor": p, "members": [{"p": p, "order": "before"|"after", "base": "fatal"|"defend"|"basic"}, ...],
             "miss": "wait"|"asap"}]
-    출력 멤버: (p, order, base, bonus) — base 는 앵커 궁 턴의 멤버 기본 행동(기본 fatal=같이 궁). base 가 defend/basic
+    other(선택): "hold"|"own" — 앵커가 궁을 안 쓰는 턴에 궁을 아낄지(hold) 내 사용 방식대로 쓸지(own).
+    미지정이면 base 가 보류(defend/basic)일 때 own, fatal 이면 hold.
+    출력 멤버: (p, order, base, bonus, own) — base 는 앵커 궁 턴의 멤버 기본 행동(기본 fatal=같이 궁). base 가 defend/basic
     이면 궁을 보류하고 **앵커가 준 추가 행동에서 궁**(bonus=True). 추가 행동은 이미 행동한 아군에게만 들어가므로
     그 경우 order 는 before 로 강제한다.
     규칙: 최대 3그룹 · 앵커/멤버는 출전 포지션이어야 함 · 한 포지션은 그룹 전체에서 한 역할만
@@ -217,7 +220,7 @@ def parse_sync_groups(raw: object, positions: list[int]) -> list[dict]:
             continue
         if anchor not in present or anchor in used:
             continue
-        members: list[tuple[int, str, str, bool]] = []
+        members: list[tuple[int, str, str, bool, bool]] = []
         for m in (g.get("members") or []):
             try:
                 p = int(m.get("p") if isinstance(m, dict) else m)
@@ -229,7 +232,9 @@ def parse_sync_groups(raw: object, positions: list[int]) -> list[dict]:
             base = (m.get("base") if isinstance(m, dict) else None)
             base = base if base in SYNC_BASES else "fatal"
             bonus = base != "fatal"
-            members.append((p, "before" if bonus or order != "after" else "after", base, bonus))
+            other = (m.get("other") if isinstance(m, dict) else None)
+            own = (other == "own") if other in SYNC_OTHERS else bonus   # 기본: 보류 멤버=내 방식대로, 같이 궁=아낌
+            members.append((p, "before" if bonus or order != "after" else "after", base, bonus, own))
         if not members:
             continue
         used.add(anchor)

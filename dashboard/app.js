@@ -1395,6 +1395,15 @@ const ADV_T = {
                zh: '已將所有必殺技使用方式改為「就緒即用」（連動成員除外）', zhs: '已将所有必杀技使用方式改为「就绪即用」（联动成员除外）', ja: '必殺技の使い方をすべて「準備でき次第」にしました（連動メンバーを除く）' },
   ultMember: { kr: '연동 그룹 {0} 멤버 — {1}의 궁 턴에 맞춰요 (연동 탭에서 변경)', en: 'Sync group {0} member — follows {1}’s ultimate turns (change in the Sync tab)',
                zh: '連動組 {0} 成員 — 配合 {1} 的必殺回合（於連動分頁變更）', zhs: '联动组 {0} 成员 — 配合 {1} 的必杀回合（于联动分页变更）', ja: '連動グループ {0} のメンバー — {1} の必殺ターンに合わせます（連動タブで変更）' },
+  ultMemberOwn: { kr: '연동 그룹 {0} 멤버 — {1}의 궁 턴엔 연동대로, 다른 턴엔 아래 방식대로 씁니다',
+               en: 'Sync group {0} member — follows the sync on {1}’s ultimate turns and the policy below on other turns',
+               zh: '連動組 {0} 成員 — {1} 的必殺回合依連動，其他回合依下方方式',
+               zhs: '联动组 {0} 成员 — {1} 的必杀回合依联动，其他回合依下方方式',
+               ja: '連動グループ {0} のメンバー — {1} の必殺ターンは連動通り、それ以外のターンは下の方式で使います' },
+  otherLbl:  { kr: '앵커가 궁을 안 쓰는 턴', en: 'Turns the anchor doesn’t ultimate', zh: '錨點不放必殺的回合', zhs: '锚点不放必杀的回合', ja: 'アンカーが必殺を使わないターン' },
+  otherOwn:  { kr: '내 사용 방식대로', en: 'Use my own policy', zh: '依自己的使用方式', zhs: '依自己的使用方式', ja: '自分の使い方で' },
+  otherHold: { kr: '궁 아끼기', en: 'Save the ultimate', zh: '保留必殺', zhs: '保留必杀', ja: '必殺を温存' },
+  flowOther: { kr: '그 밖의 턴:', en: 'Other turns:', zh: '其他回合：', zhs: '其他回合：', ja: 'それ以外のターン：' },
   ultSyncShort: { kr: '연동 그룹 {0} 멤버 · 앵커 {1}', en: 'Sync group {0} member · anchor {1}', zh: '連動組 {0} 成員 · 錨點 {1}', zhs: '联动组 {0} 成员 · 锚点 {1}', ja: '連動グループ {0} メンバー · アンカー {1}' },
   openUlt:   { kr: '행동 고급 설정에서 변경', en: 'Change in Advanced Action Setup', zh: '於行動進階設定變更', zhs: '于行动进阶设置变更', ja: '行動詳細設定で変更' },
   syncHint:  { kr: '한 캐릭터(앵커)가 필살기를 쓰는 턴에 다른 캐릭터(멤버)의 행동을 맞춥니다. 최대 3그룹, 한 캐릭터는 한 그룹에만 들어갈 수 있어요.',
@@ -1446,16 +1455,16 @@ const ADV_T = {
                zh: '開啟回合時間軸時，所有回合依時間軸行動，此分頁與連動分頁暫停。',
                zhs: '开启回合时间轴时，所有回合依时间轴行动，此分页与联动分页暂停。',
                ja: 'ターン別タイムラインをオンにすると全ターンがタイムライン通りに動き、このタブと連動タブは休みます。' },
-  order2:    { kr: '연동 그룹의 멤버는 앵커가 필살기를 쓰는 턴에 맞춥니다 — 아래 사용 방식보다 우선합니다.',
-               en: 'Sync group members follow the turns their anchor uses its ultimate — this overrides the policy below.',
-               zh: '連動組成員配合錨點使用必殺技的回合 — 優先於下方的使用方式。',
-               zhs: '联动组成员配合锚点使用必杀技的回合 — 优先于下方的使用方式。',
-               ja: '連動グループのメンバーはアンカーが必殺技を使うターンに合わせます — 下の使い方より優先します。' },
-  order3:    { kr: '그 밖의 캐릭터는 아래에서 고른 방식을 따릅니다. ‘정해진 턴’의 계획은 캐릭터 창의 턴별 행동 계획이며, 꺼져 있으면 자동 계획입니다.',
-               en: 'Everyone else follows the policy chosen below. The plan behind ‘Planned turns’ is the per-turn action plan in the character window, or the automatic plan when that is off.',
-               zh: '其他角色依下方選擇的方式。「指定回合」的計畫是角色視窗中的逐回合行動計畫，關閉時為自動計畫。',
-               zhs: '其他角色依下方选择的方式。「指定回合」的计划是角色窗口中的逐回合行动计划，关闭时为自动计划。',
-               ja: 'それ以外のキャラは下で選んだ方式に従います。「指定ターン」の計画はキャラ画面のターン別行動計画で、オフなら自動計画です。' },
+  order2:    { kr: '연동 그룹의 멤버는 앵커가 필살기를 쓰는 턴에 연동 설정대로 행동합니다. 그 밖의 턴은 멤버마다 ‘궁 아끼기’ 또는 ‘내 사용 방식대로’를 따릅니다.',
+               en: 'On the anchor’s ultimate turns, sync members act as set in the Sync tab. On other turns each member either saves the ultimate or uses its own policy.',
+               zh: '連動組成員在錨點放必殺的回合依連動設定行動。其他回合依各成員設定「保留必殺」或「依自己的使用方式」。',
+               zhs: '联动组成员在锚点放必杀的回合依联动设置行动。其他回合依各成员设置「保留必杀」或「依自己的使用方式」。',
+               ja: '連動グループのメンバーは、アンカーの必殺ターンに連動設定どおり行動します。それ以外のターンはメンバーごとに「必殺を温存」か「自分の使い方で」に従います。' },
+  order3:    { kr: '그 밖의 캐릭터(와 ‘내 사용 방식대로’ 멤버)는 아래에서 고른 방식을 따릅니다. ‘정해진 턴’의 계획은 캐릭터 창의 턴별 행동 계획이며, 꺼져 있으면 자동 계획입니다.',
+               en: 'Everyone else (and ‘own policy’ members) follows the policy chosen below. The plan behind ‘Planned turns’ is the per-turn action plan in the character window, or the automatic plan when that is off.',
+               zh: '其他角色（及「依自己的使用方式」成員）依下方選擇的方式。「指定回合」的計畫是角色視窗中的逐回合行動計畫，關閉時為自動計畫。',
+               zhs: '其他角色（及「依自己的使用方式」成员）依下方选择的方式。「指定回合」的计划是角色窗口中的逐回合行动计划，关闭时为自动计划。',
+               ja: 'それ以外のキャラ（と「自分の使い方で」のメンバー）は下で選んだ方式に従います。「指定ターン」の計画はキャラ画面のターン別行動計画で、オフなら自動計画です。' },
   order4:    { kr: '동료가 준 추가 행동은 평타로 씁니다. 연동에서 ‘받은 추가 행동에서 궁’을 고른 멤버와, 임부언이 쿨을 채워 주는 1번 자리 캐릭터만 그 추가 행동에서 필살기를 씁니다.',
                en: 'Extra actions granted by allies are used as attacks. Only sync members set to ‘ultimate in the granted extra action’ and the position-1 character whose cooldown Boss Ren refills use the ultimate there.',
                zh: '隊友給予的追加行動以普攻使用。只有在連動中選擇「用獲得的追加行動放必殺」的成員，以及由任富言補滿冷卻的 1 號位角色，會在該追加行動中放必殺。',
@@ -2046,7 +2055,12 @@ function renderAdv() {
 function ultRowHTML(s, pos) {
   const c = CHARS[s.id] || {}, u = ultOf(s), grp = syncGroupOf(pos), roster = aTeam();
   let body;
-  if (grp && grp.role === 'member') {
+  if (grp && grp.role === 'member' && syncOtherOf(grp.m) === 'own') {
+    body = `<div class="ult-sync">${esc(advT('ultMemberOwn', grp.idx + 1, altarSlotName(grp.g.anchor, roster)))}</div>
+      <div class="seg ult-modes">${ULT_MODES.map(m => `<button type="button" data-ultmode="${m}" data-pos="${pos}" class="${u.mode === m ? 'on' : ''}" title="${esc(altarT('ult_' + m + 'Tip'))}">${esc(altarT('ult_' + m))}</button>`).join('')}</div>
+      <div class="ult-desc">${esc(altarT('ult_' + u.mode + 'Tip'))}</div>
+      <label class="toggle ult-keep${u.mode === 'asap' ? '' : ' dim'}"><input type="checkbox" data-ultkeep="${pos}" ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>`;
+  } else if (grp && grp.role === 'member') {
     body = `<div class="ult-sync">${esc(advT('ultMember', grp.idx + 1, altarSlotName(grp.g.anchor, roster)))}</div>
       <label class="toggle ult-keep"><input type="checkbox" data-ultkeep="${pos}" ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>`;
   } else {
@@ -2082,7 +2096,12 @@ function syncFlowHTML(g, name) {          // 그룹이 만드는 실제 흐름�
     ...after.map(m => `${esc(name(m.p))} ${esc(advT('stepUlt'))}`),
     ...defer.map(m => `${esc(name(m.p))} ${esc(advT('stepBonus'))}`),
   ];
-  return `<div class="sg-flow"><span>${esc(advT('flow', name(g.anchor)))}</span> ${steps.join(' → ')}</div>`;
+  const own = g.members.filter(m => syncOtherOf(m) === 'own').map(m => esc(name(m.p)));
+  const hold = g.members.filter(m => syncOtherOf(m) === 'hold').map(m => esc(name(m.p)));
+  const other = [own.length ? `${own.join(', ')} — ${esc(advT('otherOwn'))}` : '', hold.length ? `${hold.join(', ')} — ${esc(advT('otherHold'))}` : '']
+    .filter(Boolean).join(' · ');
+  return `<div class="sg-flow"><span>${esc(advT('flow', name(g.anchor)))}</span> ${steps.join(' → ')}
+    <br><span>${esc(advT('flowOther'))}</span> ${other}</div>`;
 }
 function renderAdvSync(card) {
   const pane = $('.adv-pane-sync', card); if (!pane) return;
@@ -2114,7 +2133,9 @@ function renderAdvSync(card) {
       const noGrant = (base !== 'fatal' && anchorMeta && !anchorMeta.grantsExtra) ? `<div class="sm-note">${esc(advT('noGrant', name(g.anchor)))}</div>` : '';
       return `<div class="sm-row"><div class="sm-name">${slot ? `<img class="pic" src="${icon(slot.id)}" alt="">` : ''}<b>${esc(name(m.p))}</b></div>
         <div class="sm-opt"><span class="as-lbl">${esc(advT('memberAct'))}</span><span class="seg sm-base">${baseSeg}</span></div>
-        <div class="sm-opt"><span class="as-lbl">${esc(advT('orderLbl'))}</span>${order}</div>${noGrant}</div>`;
+        <div class="sm-opt"><span class="as-lbl">${esc(advT('orderLbl'))}</span>${order}</div>
+        <div class="sm-opt"><span class="as-lbl">${esc(advT('otherLbl'))}</span><span class="seg sm-other">${['own', 'hold'].map(o =>
+          `<button type="button" data-g="${i}" data-p="${m.p}" data-sother="${o}" class="${syncOtherOf(m) === o ? 'on' : ''}">${esc(advT(o === 'own' ? 'otherOwn' : 'otherHold'))}</button>`).join('')}</span></div>${noGrant}</div>`;
     }).join('');
     const miss = g.members.length ? `<div class="as-row as-missrow"><span class="as-lbl">${esc(altarT('syncMiss'))}</span>
         <span class="seg as-miss"><button type="button" data-g="${i}" data-miss="wait" class="${g.miss !== 'asap' ? 'on' : ''}">${esc(altarT('syncMissWait'))}</button><button type="button" data-g="${i}" data-miss="asap" class="${g.miss === 'asap' ? 'on' : ''}">${esc(altarT('syncMissAsap'))}</button></span></div>` : '';
@@ -2312,14 +2333,14 @@ function openAdvPop() {
     if (b.dataset.ultall) {                // 확률 CD 감소 제단 안내의 원클릭 전환 — 연동 멤버는 앵커를 따르므로 제외
       aTeam().forEach((s, i) => {
         if (!s) return;
-        const g = syncGroupOf(i + 1); if (g && g.role === 'member') return;
+        const g = syncGroupOf(i + 1); if (g && g.role === 'member' && syncOtherOf(g.m) !== 'own') return;   // 아끼는 멤버만 제외
         setUlt(s, { ...ultOf(s), mode: 'asap' });
       });
       toast(advT('cdProcDone'));
       if (advScope) markCmpDirty();
       return advRefresh();
     }
-    if (b.classList.contains('as-m') || b.dataset.sord !== undefined || b.dataset.sbase !== undefined
+    if (b.classList.contains('as-m') || b.dataset.sord !== undefined || b.dataset.sbase !== undefined || b.dataset.sother !== undefined
         || b.dataset.miss !== undefined || b.dataset.spreset !== undefined) return;
     // ── 칸 편집기 조작 (그 캐릭터의 항목만 바꾸고 나머지 순서는 그대로 둔다)
     if (b.dataset.cpclose !== undefined) { advCell = null; return renderAdv(); }
@@ -2958,6 +2979,10 @@ function ffat(m) { return (m.firstFatal || 1) + cdPlus(); }    // 첫 궁 가능
 //   추가 행동은 이미 행동을 마친 아군에게만 들어가므로 base 가 있으면 order 는 before 로 고정(엔진 파서와 동일 규칙).
 // 저장: localStorage(woofia_sync) · 기록 snapshot.sync · 공유 코드 v2 꼬리 필드. 옛 기록의 altar.groups 도 읽는다.
 let syncGroups = [];
+// 앵커가 궁을 안 쓰는 턴의 처리: 'own' = 내 사용 방식대로(계획·준비되면 바로 등) / 'hold' = 궁을 아껴 앵커 궁 턴에만.
+// 기본: '받은 추가 행동에서 궁' 멤버는 own(평소엔 궁을 쓰다 앵커 턴에만 맞춤), '같이 궁' 멤버는 hold(앵커 턴에 모아 씀).
+const syncOtherDefault = m => (m && m.base ? 'own' : 'hold');
+const syncOtherOf = m => (m && (m.other === 'own' || m.other === 'hold') ? m.other : syncOtherDefault(m));
 const SYNC_KEY = 'woofia_sync';
 const SYNC_MAX_GROUPS = 3;
 const SYNC_BASES = ['fatal', 'defend', 'basic'];
@@ -2974,6 +2999,8 @@ function normalizeSyncGroups(raw) {
       const base = (obj && SYNC_BASES.includes(m.base) && m.base !== 'fatal') ? m.base : null;
       const mem = { p, order: (!base && obj && m.order === 'after') ? 'after' : 'before' };
       if (base) mem.base = base;                    // 기본(같이 궁)이면 키를 두지 않는다 — 기록/공유 코드 looseEq
+      const other = (obj && (m.other === 'own' || m.other === 'hold')) ? m.other : null;
+      if (other && other !== syncOtherDefault(mem)) mem.other = other;   // 기본과 같으면 키 없음(looseEq)
       members.push(mem);
     });
     if (!(anchor >= 1 && anchor <= 5) || used.has(anchor)) {
@@ -3001,13 +3028,18 @@ function syncGroupOf(pos) {               // 이 포지션이 속한 그룹 → 
 const _SYNC_BASE_CH = { defend: 'd', basic: 'p' }, _SYNC_CH_BASE = { d: 'defend', p: 'basic' };
 function _encGroups(gs) {
   return (gs || []).filter(g => g && g.anchor && g.members && g.members.length)
-    .map(g => g.anchor + g.members.map(m => m.p + (m.order === 'after' ? 'a' : 'b') + (_SYNC_BASE_CH[m.base] || '')).join('') + (g.miss === 'asap' ? '*' : '')).join(';');
+    .map(g => g.anchor + g.members.map(m => m.p + (m.order === 'after' ? 'a' : 'b') + (_SYNC_BASE_CH[m.base] || '')
+      + (syncOtherOf(m) !== syncOtherDefault(m) ? 'x' : '')).join('') + (g.miss === 'asap' ? '*' : '')).join(';');
 }
 function _decGroups(str) {
   if (!str) return [];
   return normalizeSyncGroups(String(str).split(';').map(t => {
-    const m = /^(\d)((?:\d[ab][dp]?)*)(\*?)$/.exec(t); if (!m) return null;
-    return { anchor: +m[1], members: (m[2].match(/\d[ab][dp]?/g) || []).map(x => ({ p: +x[0], order: x[1] === 'a' ? 'after' : 'before', base: _SYNC_CH_BASE[x[2]] })), miss: m[3] ? 'asap' : 'wait' };
+    const m = /^(\d)((?:\d[ab][dp]?x?)*)(\*?)$/.exec(t); if (!m) return null;
+    return { anchor: +m[1], members: (m[2].match(/\d[ab][dp]?x?/g) || []).map(x => {
+      const base = _SYNC_CH_BASE[x[2]], mem = { p: +x[0], order: x[1] === 'a' ? 'after' : 'before', base };
+      if (x.endsWith('x')) mem.other = syncOtherDefault(mem) === 'own' ? 'hold' : 'own';
+      return mem;
+    }), miss: m[3] ? 'asap' : 'wait' };
   }).filter(Boolean));
 }
 function loadSyncState() {
@@ -3127,7 +3159,7 @@ function _decAltar(str) {
 function ultSummaryHTML(slot, pos) {
   const u = ultOf(slot), grp = syncGroupOf(pos);
   const now = (grp && grp.role === 'member')
-    ? advT('ultSyncShort', grp.idx + 1, altarSlotName(grp.g.anchor))
+    ? advT('ultSyncShort', grp.idx + 1, altarSlotName(grp.g.anchor)) + (syncOtherOf(grp.m) === 'own' ? ' · ' + altarT('ult_' + u.mode) : '')
     : `${altarT('ult_' + u.mode)}${u.mode === 'asap' && u.keepDef ? ' · ' + altarT('ultKeepDef') : ''}${grp && grp.role === 'anchor' ? ' · ' + altarT('ultAnchorInfo', grp.idx + 1) : ''}`;
   return `<div class="mc-ult i18n-skip"><div class="ult-title"><img src="icons/altar_moon.webp" alt=""><b>${esc(altarT('ultTitle'))}</b><em>${esc(now)}</em>
     <button type="button" class="btn-ghost sm ult-open" data-advopen="ult">${esc(advT('openUlt'))}</button></div></div>`;
@@ -3356,6 +3388,10 @@ function initAltar() {
     if (sb && sb.dataset.g != null) return setSyncGroup(+sb.dataset.g, g => {
       const m = g.members.find(x => x.p === +sb.dataset.p); if (!m) return;
       if (sb.dataset.sbase === 'fatal') delete m.base; else { m.base = sb.dataset.sbase; m.order = 'before'; }
+    });
+    const so = e.target.closest('[data-sother]');          // 앵커가 궁을 안 쓰는 턴: 내 방식대로 / 아끼기
+    if (so && so.dataset.g != null) return setSyncGroup(+so.dataset.g, g => {
+      const m = g.members.find(x => x.p === +so.dataset.p); if (m) m.other = so.dataset.sother === 'hold' ? 'hold' : 'own';
     });
     const ms = e.target.closest('[data-miss]');           // 미준비 시 처리
     if (ms && ms.dataset.g != null) return setSyncGroup(+ms.dataset.g, g => { g.miss = ms.dataset.miss === 'asap' ? 'asap' : 'wait'; });

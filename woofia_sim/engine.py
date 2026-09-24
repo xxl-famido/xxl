@@ -248,6 +248,7 @@ class Unit:
     sync_base: str = "fatal"          # 앵커 궁 턴의 내 기본 행동: fatal=같이 궁(종전) / defend / basic (궁 보류)
     sync_bonus_ult: bool = False      # 앵커가 궁으로 준 추가 행동에서 궁(준비돼 있으면). 부여는 '이미 행동한' 아군에게만
                                       # 들어가므로 앵커보다 먼저 행동(sync_order=before)해야 한다 — 파서가 강제
+    sync_own: bool = False            # 앵커가 궁을 안 쓰는 턴엔 내 사용 방식(계획·asap 등)대로. False=그 턴엔 궁을 아낌(종전)
     died: bool = False                # 전투불능(HP 0) 이력 — 사망 로그 1회 표시·부활 대상 판별용
 
     @property
@@ -1723,17 +1724,19 @@ def _sync_anchor_ulted(unit: Unit, state: BattleState) -> bool:
     return getattr(anchor._kit, "char_id", 0) in state.turn_exes   # type: ignore[attr-defined]
 
 
-def _sync_member(m) -> tuple[int, str, str, bool]:
-    """sync_groups 멤버 항목 정규화 — (slot, order) 2-튜플(구 계약)과 (slot, order, base, bonus) 4-튜플 모두 허용.
-    base ∉ {fatal, defend, basic} 이면 fatal, bonus 는 bool 로. bonus 면 order 는 before 로 강제(부여 규칙)."""
+def _sync_member(m) -> tuple[int, str, str, bool, bool]:
+    """sync_groups 멤버 항목 정규화 — (slot, order) 2-튜플(구 계약) · (slot, order, base, bonus) 4-튜플 ·
+    (…, own) 5-튜플 모두 허용. base ∉ {fatal, defend, basic} 이면 fatal, bonus 는 bool 로. bonus 면 order 는 before
+    로 강제(부여 규칙). own 미지정이면 base 가 보류(defend/basic)일 때 True(다른 턴은 내 방식대로), fatal 이면 False."""
     seq = list(m) if isinstance(m, (list, tuple)) else [m]
     slot = int(seq[0]) if seq and seq[0] is not None else -1
     order = "after" if len(seq) > 1 and seq[1] == "after" else "before"
     base = seq[2] if len(seq) > 2 and seq[2] in ("fatal", "defend", "basic") else "fatal"
     bonus = bool(seq[3]) if len(seq) > 3 else False
+    own = bool(seq[4]) if len(seq) > 4 else base != "fatal"
     if bonus:
         order = "before"
-    return slot, order, base, bonus
+    return slot, order, base, bonus, own
 
 
 def _next_token(unit: Unit) -> str | None:
@@ -2027,11 +2030,15 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
     policy_fatal: bool | None = None
     orig_token = token                 # 정책이 토큰을 바꾸기 전 값 — 욱영 보류(defer_uk)의 로테이션 되감기 판정용
     natural = forced_token is None and not forced_basic and not is_bonus and not unit.is_fed_carry
-    if natural and bool(kit_fatal.effects) and (unit.sync_anchor is not None or unit.ult_mode != "fixed"):
+    # 연동 적용 여부: sync_own 멤버는 앵커가 이번 턴 궁을 안 쓰면 연동을 적용하지 않고 자기 사용 방식(아래 asap/strict,
+    # fixed 면 계획 그대로)으로 간다 — "궁 있으면 바로 쓰다가 앵커 궁 턴에만 방어 → 받은 추가 행동에서 궁".
+    sync_on = unit.sync_anchor is not None and not (
+        unit.sync_own and not _anchor_will_ult(unit.sync_anchor, state))
+    if natural and bool(kit_fatal.effects) and (sync_on or unit.ult_mode != "fixed"):
         ready = unit.cd_remaining <= 0
         holding = any(unit.stacks.get(s, 0) > 0 for s in unit.hold_fatal_stacks)
         slot_ok = token != "defend" or not unit.ult_keep_def     # 방어 지정 턴은 기본적으로 지킨다
-        if unit.sync_anchor is not None:
+        if sync_on:
             anchor_ults = _anchor_will_ult(unit.sync_anchor, state)
             if anchor_ults and unit.sync_base != "fatal":
                 # 연동 옵션: 앵커 궁 턴엔 내 기본 행동을 방어/평타로 두고 궁은 보류한다(궁은 앵커가 준
@@ -2569,13 +2576,13 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
             continue
         miss = "asap" if g.get("miss") == "asap" else "wait"
         for entry in g.get("members", []):
-            slot, order, base, bonus = _sync_member(entry)
+            slot, order, base, bonus, own = _sync_member(entry)
             m = by_slot.get(slot)
             if m is None or m is anchor:
                 continue
             m.sync_anchor, m.sync_miss = anchor, miss
             m.sync_order = order
-            m.sync_base, m.sync_bonus_ult = base, bonus
+            m.sync_base, m.sync_bonus_ult, m.sync_own = base, bonus, own
     enemies = [make_dummy(i) for i in range(max(1, min(n_dummies, 5)))]
     for e in enemies:
         e.element = dummy_element        # 더미 속성 → 공격자 속성과 상성 판정

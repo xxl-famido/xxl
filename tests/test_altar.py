@@ -258,8 +258,8 @@ def test_parse_sync_groups_rules():
     ]
     got = parse_sync_groups(raw, pos)
     assert got == [
-        {"anchor": 1, "members": [(2, "before", "fatal", False), (3, "after", "fatal", False)], "miss": "asap"},
-        {"anchor": 4, "members": [(5, "before", "fatal", False)], "miss": "wait"},
+        {"anchor": 1, "members": [(2, "before", "fatal", False, False), (3, "after", "fatal", False, False)], "miss": "asap"},
+        {"anchor": 4, "members": [(5, "before", "fatal", False, False)], "miss": "wait"},
     ]
     assert parse_sync_groups("x", pos) == []
     assert parse_sync_groups([{"anchor": 1, "members": []}], pos) == []
@@ -271,9 +271,12 @@ def test_parse_sync_groups_base_and_bonus():
     raw = [{"anchor": 2, "members": [{"p": 1, "order": "after", "base": "defend"},
                                      {"p": 3, "order": "after", "base": "basic"}]}]
     assert parse_sync_groups(raw, pos) == [
-        {"anchor": 2, "members": [(1, "before", "defend", True), (3, "before", "basic", True)], "miss": "wait"}]
+        {"anchor": 2, "members": [(1, "before", "defend", True, True), (3, "before", "basic", True, True)], "miss": "wait"}]
     # 알 수 없는 base 는 기본(fatal · 같이 궁)
-    assert parse_sync_groups([{"anchor": 2, "members": [{"p": 1, "base": "??", "order": "after"}]}], pos)         == [{"anchor": 2, "members": [(1, "after", "fatal", False)], "miss": "wait"}]
+    assert parse_sync_groups([{"anchor": 2, "members": [{"p": 1, "base": "??", "order": "after"}]}], pos)         == [{"anchor": 2, "members": [(1, "after", "fatal", False, False)], "miss": "wait"}]
+    # other: 앵커가 궁을 안 쓰는 턴의 처리(hold=아낌 / own=내 방식대로). 미지정 기본 = 보류 멤버 own, 같이 궁 hold
+    assert parse_sync_groups([{"anchor": 2, "members": [{"p": 1, "base": "defend", "other": "hold"},
+                                                        {"p": 3, "other": "own"}]}], pos)         == [{"anchor": 2, "members": [(1, "before", "defend", True, False), (3, "before", "fatal", False, True)], "miss": "wait"}]
 
 
 UK, MATAYA, RICANO = 10439, 10442, 10428   # 욱영(인접 아군 행동 회복) · 마타야 · 리카노
@@ -314,7 +317,7 @@ def test_sync_basic_base_and_no_grant_falls_back_by_miss_policy():
     miss=wait 는 궁을 아끼고(대기), miss=asap 은 다음 준비된 행동에서 쓴다."""
     team = [CharSpec(RICANO, position=1), CharSpec(FIGHTER, position=2)]   # 전사 궁은 행동 회복 없음
     for miss, expect_after in (("wait", False), ("asap", True)):
-        groups = [{"anchor": 2, "members": [(1, "before", "basic", True)], "miss": miss}]
+        groups = [{"anchor": 2, "members": [(1, "before", "basic", True, False)], "miss": miss}]   # 다른 턴=아낌
         res = run_team(team, altar=None, sync_groups=groups, n_dummies=1, max_turn=8,
                        enemy_hits=0, force_proc=True, seed=0)
         ults = _ult_turns(res, RICANO)
@@ -420,3 +423,25 @@ def test_probe_altar_procs_off_uses_guaranteed_cd():
     assert ult_turns_full == list(range(3, 9))
     # 프로브: 확률 CD감소는 보장이 아니므로 제외 → 보장 CD(4)만 반영해 5턴에 한 번(8턴 이내)
     assert ult_turns_probe == [5]
+
+
+def test_sync_own_uses_own_plan_on_other_turns():
+    """피드백(2026-09-24): 1CD 마타야 = '궁 있으면 바로' + 욱영 궁 턴에만 방어 → 욱영 추가 행동 → 궁.
+    연동 멤버(방어→추가 행동 궁)는 앵커가 궁을 안 쓰는 턴에 자기 계획(여기선 매 턴 궁)을 따라야 한다.
+    (종전엔 그 턴을 평타로 막아 2125만 < 수동 타임라인 2376만.)"""
+    team = [CharSpec(MATAYA, position=1, rotation="방" + "궁" * 12), CharSpec(UK, position=2), CharSpec(RICANO, position=3)]
+    own = run_team(team, altar=None, sync_groups=[{"anchor": 2, "members": [(1, "before", "defend", True)], "miss": "wait"}],
+                   n_dummies=1, max_turn=8, enemy_hits=0, force_proc=True, seed=0)
+    hold = run_team(team, altar=None, sync_groups=[{"anchor": 2, "members": [(1, "before", "defend", True, False)], "miss": "wait"}],
+                    n_dummies=1, max_turn=8, enemy_hits=0, force_proc=True, seed=0)
+    names = {u._kit.char_id: u.name for u in own.state.allies}
+    per_turn = lambda res, t: [k for n, k in _turn_seq(res, t) if n == names[MATAYA]]
+    assert per_turn(own, 4) == ["방어", "필살기"] and per_turn(own, 7) == ["방어", "필살기"]
+    assert all(per_turn(own, t) == ["필살기"] for t in (2, 3, 5, 6, 8))        # 다른 턴 = 계획대로 궁
+    assert all(per_turn(hold, t) == ["보통공격"] for t in (2, 3, 5, 6, 8))       # hold = 종전(아낌)
+    assert own.total_damage > hold.total_damage
+    # 계획 없이 '준비되면 바로'(asap)도 같은 흐름
+    asap = run_team([CharSpec(MATAYA, position=1, ult_mode="asap"), CharSpec(UK, position=2), CharSpec(RICANO, position=3)],
+                    altar=None, sync_groups=[{"anchor": 2, "members": [(1, "before", "defend", True)], "miss": "wait"}],
+                    n_dummies=1, max_turn=8, enemy_hits=0, force_proc=True, seed=0)
+    assert per_turn(asap, 4) == ["방어", "필살기"] and per_turn(asap, 5) == ["필살기"]
