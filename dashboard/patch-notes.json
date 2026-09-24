@@ -2,6 +2,82 @@
   "_comment": "패치 히스토리. 최신이 위. 버전 규칙: 캐릭터 추가 릴리스 = 메이저 1.x(펼친 상태로 표시), 그 사이 업데이트 = 패치 1.x.x(접힌 상태, 단 목록 맨 위=최신이면 펼침). 1.0은 첫 공개(파미도 초상). cat: new|balance|fix|qol. 텍스트/details 는 {kr,en,zh,zhs,ja} — 없는 언어는 kr 폴백. char: 대표 캐릭터 id(icons/{id}.png + skill:true면 icons/skills/Rune{id}.png). charImg: 커스텀 프로필 경로(char 대신). items[].chars: 항목 인라인 아이콘(5명 이상이면 생략). items[].details: 펼쳤을 때 보이는 구체 수치.",
   "releases": [
     {
+      "version": "1.9",
+      "date": "2026-09-24",
+      "highlight": true,
+      "title": {
+        "kr": "행동 고급 설정 — 궁극기 사용 방식 · 연동 탭 통합",
+        "en": "Advanced Action Setup — Ultimate policy & Sync tabs",
+        "zh": "行動進階設定 — 整合必殺技使用方式・連動分頁",
+        "zhs": "行动进阶设置 — 整合必杀技使用方式・联动分页",
+        "ja": "行動詳細設定 — 必殺技の使い方・連動タブを統合"
+      },
+      "items": [
+        {
+          "cat": "qol",
+          "chars": [
+            10442,
+            10439
+          ],
+          "text": {
+            "kr": "궁극기 사용 방식과 궁극기 맞추기(연동)가 행동 고급 설정의 탭으로 옮겨졌습니다. 길드 제단을 켜지 않아도 항상 쓸 수 있고, 캐릭터 창과 제단 패널의 버튼으로 바로 열립니다.",
+            "en": "Ultimate policy and Ultimate sync moved into tabs of Advanced Action Setup. They now work without Guild Altar settings, and open directly from the character window and the altar panel.",
+            "zh": "必殺技使用方式與必殺同步（連動）已移至行動進階設定的分頁。不開公會祭壇也能使用，並可從角色視窗與祭壇面板的按鈕直接開啟。",
+            "zhs": "必杀技使用方式与必杀同步（联动）已移至行动进阶设置的分页。不开公会祭坛也能使用，并可从角色窗口与祭坛面板的按钮直接打开。",
+            "ja": "必殺技の使い方と必殺同期（連動）が行動詳細設定のタブに移りました。ギルド祭壇を使わなくても常に利用でき、キャラ画面と祭壇パネルのボタンからすぐ開けます。"
+          },
+          "details": {
+            "kr": "이전에는 두 기능이 길드 제단 설정 ON에 묶여 있어 제단을 쓰지 않으면 화면에 나타나지 않았습니다. 설정은 기록·공유 코드에 그대로 저장되며(옛 기록의 제단 안 그룹도 자동으로 옮겨집니다), 비교 시뮬에도 공통 적용됩니다.",
+            "en": "Previously both features were tied to Guild Altar ON and disappeared when altars were not used. Settings are still saved in records and share codes (groups from old records stored inside the altar block are migrated automatically) and apply to compare runs too.",
+            "zh": "以前兩項功能綁定在公會祭壇設定 ON，不用祭壇時就不會出現。設定仍會存入紀錄與分享碼（舊紀錄中祭壇區塊內的群組會自動搬移），比較模擬也共用。",
+            "zhs": "以前两项功能绑定在公会祭坛设置 ON，不用祭坛时就不会出现。设置仍会存入记录与分享码（旧记录中祭坛区块内的群组会自动搬移），比较模拟也共用。",
+            "ja": "以前は両機能がギルド祭壇設定ONに結び付いており、祭壇を使わないと表示されませんでした。設定は引き続き記録・共有コードに保存され（旧記録で祭壇内に保存されたグループも自動で移行）、比較シミュにも共通で適用されます。"
+          }
+        },
+        {
+          "cat": "new",
+          "chars": [
+            10442,
+            10439
+          ],
+          "text": {
+            "kr": "연동 멤버의 새 행동: ‘방어 → 받은 추가 행동에서 궁’ · ‘평타 → 받은 추가 행동에서 궁’. 앵커 궁 턴에 방어(또는 평타)를 하고, 앵커의 필살기가 만들어 준 추가 행동에서 궁을 씁니다. 예: 마타야 방어 → 욱영 궁 → 마타야 궁.",
+            "en": "New sync member actions: ‘Defend → ultimate in the granted extra action’ and ‘Attack → ultimate in the granted extra action’. The member defends (or attacks) on the anchor’s ultimate turn and uses its ultimate in the extra action the anchor’s ultimate grants. Example: Mataya defends → Xuying ultimate → Mataya ultimate.",
+            "zh": "連動成員新增行動：「防禦 → 用獲得的追加行動放必殺」「普攻 → 用獲得的追加行動放必殺」。錨點必殺回合先防禦（或普攻），再用錨點必殺給予的追加行動放必殺。例：又彌防禦 → 旭影必殺 → 又彌必殺。",
+            "zhs": "联动成员新增行动：「防御 → 用获得的追加行动放必杀」「普攻 → 用获得的追加行动放必杀」。锚点必杀回合先防御（或普攻），再用锚点必杀给予的追加行动放必杀。例：又弥防御 → 旭影必杀 → 又弥必杀。",
+            "ja": "連動メンバーの新しい行動：「防御 → もらった追加行動で必殺」「通常攻撃 → もらった追加行動で必殺」。アンカーの必殺ターンに防御（または通常攻撃）し、アンカーの必殺が与えた追加行動で必殺を使います。例：又弥が防御 → 旭影が必殺 → 又弥が必殺。"
+          },
+          "details": {
+            "kr": "추가 행동은 이미 행동을 마친 아군에게만 들어가므로 이 멤버는 자동으로 앵커 앞에서 행동합니다. 추가 행동을 주지 않는 앵커라면 안내가 뜨고, 보류한 궁은 ‘미준비면’ 규칙(대기/준비되면 바로)을 따릅니다. 욱영이 편성에 있으면 ‘연동 자동 설정’ 버튼이 인접 아군을 한 번에 묶어 줍니다. 그룹마다 실제 흐름이 문장으로 표시됩니다.",
+            "en": "Extra actions only go to allies who already acted, so such members automatically act before the anchor. If the anchor grants no extra actions a note appears and the held ultimate follows the ‘If not ready’ rule (Wait / Use when ready). With Xuying on the team, a ‘sync preset’ button groups the adjacent allies in one click. Each group shows its actual flow as a sentence.",
+            "zh": "追加行動只會給已行動的隊員，因此此類成員會自動在錨點前行動。若錨點不給追加行動會顯示提示，保留的必殺依「未就緒時」規則（等待／就緒即用）處理。旭影在隊中時，「連動快速設定」按鈕可一鍵綁定相鄰隊員。每組都會以一句話顯示實際流程。",
+            "zhs": "追加行动只会给已行动的队员，因此此类成员会自动在锚点前行动。若锚点不给追加行动会显示提示，保留的必杀依「未就绪时」规则（等待／就绪即用）处理。旭影在队中时，「联动快速设置」按钮可一键绑定相邻队员。每组都会以一句话显示实际流程。",
+            "ja": "追加行動は行動済みの味方にしか入らないため、このメンバーは自動的にアンカーより先に行動します。追加行動を与えないアンカーなら案内が出て、保留した必殺は「未準備なら」のルール（待つ／準備でき次第）に従います。旭影が編成にいれば「連動プリセット」ボタンで隣接する味方を一括設定できます。各グループの実際の流れが一文で表示されます。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "길드 제단의 ‘행동 시·필살 시 확률로 CD 감소’가 걸려 있으면 궁극기 사용 방식 탭에 안내가 뜨고, 버튼 하나로 전원을 ‘준비되면 바로’로 바꿀 수 있습니다. 확률 감소는 계획 도구가 예측할 수 없어 ‘정해진 턴’은 앞당겨진 쿨을 살리지 못했습니다.",
+            "en": "When the Guild Altar ‘chance to cut CD on action / on ultimate’ effects are active, the Ultimate policy tab shows a notice and one button switches everyone to ‘As soon as ready’. The planner cannot predict chance-based cuts, so ‘Planned turns’ could not use the earlier cooldown.",
+            "zh": "若公會祭壇的「行動時・必殺時有機率縮短CD」生效，必殺技使用方式分頁會顯示提示，並可一鍵將全員改為「就緒即用」。機率縮短無法被規劃工具預測，「指定回合」無法利用提早的冷卻。",
+            "zhs": "若公会祭坛的「行动时・必杀时有概率缩短CD」生效，必杀技使用方式分页会显示提示，并可一键将全员改为「就绪即用」。概率缩短无法被规划工具预测，「指定回合」无法利用提早的冷却。",
+            "ja": "ギルド祭壇の「行動時・必殺時に確率でCD短縮」が有効なら、必殺技の使い方タブに案内が出て、ボタン1つで全員を「準備でき次第」に切り替えられます。確率短縮はプランナーが予測できず、「指定ターン」では早まったクールを活かせませんでした。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "타임라인이 켜져 있는데 ‘특정 턴만 다르게’나 ‘캐릭터별 턴 계획’이 남아 있으면, 지금 적용되지 않는다는 안내가 타임라인 탭에 표시됩니다. ‘기존 설정 불러오기’로 타임라인에 옮길 수 있습니다.",
+            "en": "If the timeline is on while ‘Per-turn order’ or ‘Per-character turn plans’ remain, the timeline tab now says they are not applied. ‘Import current settings’ moves them into the timeline.",
+            "zh": "時間軸開啟時若仍有「特定回合順序」或「角色回合計畫」，時間軸分頁會提示目前不套用。可用「匯入現有設定」搬到時間軸。",
+            "zhs": "时间轴开启时若仍有「特定回合顺序」或「角色回合计划」，时间轴分页会提示目前不应用。可用「导入现有设置」搬到时间轴。",
+            "ja": "タイムラインがオンのまま「特定ターンの順序」や「キャラ別ターン計画」が残っていると、タイムラインタブに現在は適用されない旨が表示されます。「既存設定を読み込む」でタイムラインへ移せます。"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.8.2",
       "date": "2026-09-23",
       "highlight": true,

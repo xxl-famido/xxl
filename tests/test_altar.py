@@ -258,11 +258,85 @@ def test_parse_sync_groups_rules():
     ]
     got = parse_sync_groups(raw, pos)
     assert got == [
-        {"anchor": 1, "members": [(2, "before"), (3, "after")], "miss": "asap"},
-        {"anchor": 4, "members": [(5, "before")], "miss": "wait"},
+        {"anchor": 1, "members": [(2, "before", "fatal", False), (3, "after", "fatal", False)], "miss": "asap"},
+        {"anchor": 4, "members": [(5, "before", "fatal", False)], "miss": "wait"},
     ]
     assert parse_sync_groups("x", pos) == []
     assert parse_sync_groups([{"anchor": 1, "members": []}], pos) == []
+
+
+def test_parse_sync_groups_base_and_bonus():
+    """base=defend/basic 이면 궁 보류 + 추가 행동에서 궁(bonus) — 부여는 이미 행동한 아군에게만 오므로 order 는 before 강제."""
+    pos = [1, 2, 3]
+    raw = [{"anchor": 2, "members": [{"p": 1, "order": "after", "base": "defend"},
+                                     {"p": 3, "order": "after", "base": "basic"}]}]
+    assert parse_sync_groups(raw, pos) == [
+        {"anchor": 2, "members": [(1, "before", "defend", True), (3, "before", "basic", True)], "miss": "wait"}]
+    # 알 수 없는 base 는 기본(fatal · 같이 궁)
+    assert parse_sync_groups([{"anchor": 2, "members": [{"p": 1, "base": "??", "order": "after"}]}], pos)         == [{"anchor": 2, "members": [(1, "after", "fatal", False)], "miss": "wait"}]
+
+
+UK, MATAYA, RICANO = 10439, 10442, 10428   # 욱영(인접 아군 행동 회복) · 마타야 · 리카노
+
+
+def _turn_seq(res, turn):
+    """그 턴의 아군 행동 순서 [(이름, 종류)] — 액션 id 로 묶는다."""
+    seen, out = set(), []
+    for ev in res.state.log:
+        if ev.turn != turn or ev.action_id in seen or ev.action_kind not in ("보통공격", "필살기", "방어"):
+            continue
+        seen.add(ev.action_id)
+        out.append((ev.actor, ev.action_kind))
+    return out
+
+
+def test_sync_defend_then_ult_in_granted_action():
+    """사용자 예시(2026-09-24): 마타야(P1)가 방어 → 욱영(P2) 궁(인접 아군 행동 회복) → 마타야가 받은 추가 행동에서 궁.
+    제단 OFF 에서도 연동이 돌아야 한다(제단 게이팅 해제)."""
+    team = [CharSpec(MATAYA, position=1), CharSpec(UK, position=2), CharSpec(RICANO, position=3)]
+    groups = [{"anchor": 2, "members": [(1, "before", "defend", True)], "miss": "wait"}]
+    res = run_team(team, altar=None, sync_groups=groups, n_dummies=1, max_turn=7,
+                   enemy_hits=0, force_proc=True, seed=0)
+    names = {u._kit.char_id: u.name for u in res.state.allies}
+    seq = _turn_seq(res, 4)                       # 욱영 CD 3 → 4턴 첫 궁
+    mine = [k for n, k in seq if n == names[MATAYA]]
+    assert mine == ["방어", "필살기"], seq
+    order = [n for n, _ in seq]
+    assert order.index(names[MATAYA]) < order.index(names[UK]) < len(order) - 1 - order[::-1].index(names[MATAYA])
+    # 구 계약(2-튜플 멤버)도 그대로 — 같이 궁(앵커 앞에서 궁, 추가 행동은 평타)
+    old = run_team(team, altar=None, sync_groups=[{"anchor": 2, "members": [(1, "before")], "miss": "wait"}],
+                   n_dummies=1, max_turn=7, enemy_hits=0, force_proc=True, seed=0)
+    assert [k for n, k in _turn_seq(old, 4) if n == names[MATAYA]] == ["필살기", "보통공격"]
+
+
+def test_sync_basic_base_and_no_grant_falls_back_by_miss_policy():
+    """base=basic: 앵커 궁 턴에 평타 후 추가 행동에서 궁. 앵커가 추가 행동을 안 주는 캐릭이면
+    miss=wait 는 궁을 아끼고(대기), miss=asap 은 다음 준비된 행동에서 쓴다."""
+    team = [CharSpec(RICANO, position=1), CharSpec(FIGHTER, position=2)]   # 전사 궁은 행동 회복 없음
+    for miss, expect_after in (("wait", False), ("asap", True)):
+        groups = [{"anchor": 2, "members": [(1, "before", "basic", True)], "miss": miss}]
+        res = run_team(team, altar=None, sync_groups=groups, n_dummies=1, max_turn=8,
+                       enemy_hits=0, force_proc=True, seed=0)
+        ults = _ult_turns(res, RICANO)
+        anchor_ults = _ult_turns(res, FIGHTER)
+        assert anchor_ults and anchor_ults[0] not in ults          # 앵커 턴엔 평타(보류)
+        assert (len(ults) > 0) is expect_after, (miss, ults, anchor_ults)
+
+
+def test_ult_policy_and_sync_apply_without_altar_via_api():
+    """sim_api: 제단 OFF 여도 team[].ult · cfg.sync 가 적용된다(게이팅 해제). 구 위치(altar.groups)도 계속 받는다."""
+    import sim_api
+    team = [{"id": FIGHTER, "position": 1, "skill": 10, "rune": True, "ult": {"mode": "strict"}, "rotation": "평" * 7 + "궁|평"},
+            {"id": HEALER, "position": 2, "skill": 10, "rune": True}]
+    base = {"team": team, "turns": 10, "dummies": 1, "enemyHits": "0", "forceProc": True, "runs": 1, "noBand": True}
+    plain = sim_api.run_sim(base)
+    synced = sim_api.run_sim({**base, "sync": [{"anchor": 1, "members": [{"p": 2}]}]})
+    fu = sorted({ev["turn"] for ev in synced["log"] if ev["kind"] == "필살기" and ev["actorId"] == FIGHTER})
+    hu = sorted({ev["turn"] for ev in synced["log"] if ev["kind"] == "필살기" and ev["actorId"] == HEALER})
+    assert fu == [8] and hu == [8], (fu, hu)                     # strict 8턴 + 힐러 맞춤
+    assert synced["meta"]["sync"] == 1 and plain["meta"]["sync"] == 0 and synced["meta"]["altar"] is None
+    legacy = sim_api.run_sim({**base, "altar": {"on": False, "groups": [{"anchor": 1, "members": [{"p": 2}]}]}})
+    assert legacy["meta"]["sync"] == 1
 
 
 def test_default_policy_is_previous_behaviour():

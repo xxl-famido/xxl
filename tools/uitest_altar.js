@@ -245,71 +245,31 @@ async function main() {
     if (dp.indexOf('궁') !== m0.firstFatal) bad(`기본 계획 첫 궁 턴이 +1 밀려야 함: ${dp.indexOf('궁') + 1} vs ${m0.firstFatal + 1}`);
     else ok('기본 계획의 궁 주기가 402 를 반영');
     await app.openModal(0); await sleep(30);
+    // 궁극기 사용 방식·연동은 행동 고급 설정으로 옮겨졌다 — 캐릭터 창엔 현재 방식 요약 + 열기 버튼만 뜬다
     const ub = $('#modalCard .mc-ult');
-    if (!ub) bad('제단 ON인데 캐릭터 창에 궁극기 사용 방식 섹션이 없음');
+    if (!ub) bad('캐릭터 창에 궁극기 사용 방식 요약이 없음');
+    else if ($('[data-ultmode]', ub)) bad('캐릭터 창엔 방식 버튼 대신 요약만 있어야 함(편집은 행동 고급 설정)');
+    else if (!$('[data-advopen="ult"]', ub)) bad('캐릭터 창 요약에 행동 고급 설정 열기 버튼이 없음');
     else {
-      if ($$('[data-ultmode]', ub).length !== 3) bad('방식 버튼 3개 기대');
-      if (!$('[data-ultmode="fixed"]', ub).classList.contains('on')) bad('기본 방식은 정해진 턴(fixed)');
-      click($('[data-ultmode="asap"]', ub));
-      const u = app.ultOf(app.team[0]);
-      if (u.mode !== 'asap' || u.keepDef !== true) bad(`asap 선택 반영 실패: ${JSON.stringify(u)}`);
-      change($('[data-ultkeep]', ub), false);
-      if (app.ultOf(app.team[0]).keepDef !== false) bad('방어 유지 해제 반영 실패');
-      else ok('캐릭터 창: 방식 선택 · 방어 유지 토글');
-      const ps = app.packSlot(JSON.parse(JSON.stringify(app.team[0])));
-      if (ps[ps.length - 1] !== 'a!') bad(`슬롯 공유 코드 꼬리 'a!' 기대, ${JSON.stringify(ps[ps.length - 1])}`);
-      const us = app.unpackSlot(JSON.parse(JSON.stringify(ps)));
-      if (!us.ult || us.ult.mode !== 'asap' || us.ult.keepDef !== false) bad('슬롯 공유 코드 ult 왕복 실패');
-      else ok('슬롯 공유 코드: ult 꼬리 왕복');
-      click($('[data-ultmode="fixed"]', ub)); change($('[data-ultkeep]', ub), true);   // 기본으로 되돌리면 키가 지워져야 한다
-      if ('ult' in app.team[0]) bad('기본 방식으로 되돌리면 slot.ult 키가 없어야 함(공유 코드 왕복)');
-      const ps0 = app.packSlot(JSON.parse(JSON.stringify(app.team[0])));
-      if (typeof ps0[ps0.length - 1] === 'string' && /^[fsa]!?$/.test(ps0[ps0.length - 1])) bad('기본 방식이면 슬롯 꼬리가 생략돼야 함');
+      click($('[data-advopen="ult"]', ub)); await sleep(30);
+      const card = $('.adv-card');
+      if (!card) bad('열기 버튼으로 행동 고급 설정이 열리지 않음');
+      else if (!$('#modal').hidden) bad('열기 시 캐릭터 창은 닫혀야 함');
+      else if (!$('[data-advtab="ult"]', card).classList.contains('on') || $('.adv-pane-ult', card).hidden) bad('궁극기 사용 방식 탭이 선택돼 있어야 함');
+      else ok('캐릭터 창 요약 → 행동 고급 설정(궁극기 사용 방식 탭) 열림');
+      click($('[data-advclose]', card)); await sleep(30);
     }
     app.closeCharModal();
     app.closeAltar(); await sleep(450); app.openAltar(); await sleep(30);
-    const gsel = $('#altarSide [data-anchor="0"]');
-    if (!gsel) bad('맞추기 그룹 앵커 선택이 없음');
-    else if ($$('#altarSide .as-group').length !== 1) bad(`처음엔 그룹 1개만 보여야 함, ${$$('#altarSide .as-group').length}`);
-    else {
-      gsel.value = '1'; gsel.dispatchEvent(new window.Event('change', { bubbles: true }));
-      await sleep(10);
-      if ($$('#altarSide .as-group').length !== 2) bad(`그룹1 앵커 지정 후 그룹2가 나타나야 함, ${$$('#altarSide .as-group').length}`);
-      else ok('그룹은 앞 그룹을 정해야 다음이 나타남(1→2)');
-      const mem = $('#altarSide .as-group[data-g="0"] .as-m[data-p="2"]');
-      if (!mem || mem.disabled) bad('앵커 지정 후 멤버 버튼이 활성이어야 함(팀 2번 자리 필요)');
-      else {
-        click(mem); await sleep(10);
-        const pay = app.altarPayload();
-        if (!pay.groups || pay.groups.length !== 1 || pay.groups[0].anchor !== 1 || pay.groups[0].members[0].p !== 2 || pay.groups[0].members[0].order !== 'before') bad(`그룹 payload 이상: ${JSON.stringify(pay.groups)}`);
-        else ok('맞추기 그룹: 앵커 P1 · 멤버 P2(앞)');
-        click($('#altarSide .as-group[data-g="0"] .as-ord[data-p="2"]')); await sleep(10);
-        if (app.altarPayload().groups[0].members[0].order !== 'after') bad('앞/뒤 전환 실패');
-        click($('#altarSide .as-group[data-g="0"] [data-miss="asap"]')); await sleep(10);
-        if (app.altarPayload().groups[0].miss !== 'asap') bad('미준비 처리 전환 실패');
-        const a1 = $('#altarSide [data-anchor="1"] option[value="1"]'), a2 = $('#altarSide [data-anchor="1"] option[value="2"]');
-        if (!a1 || !a1.disabled || !a2 || !a2.disabled) bad('다른 그룹에서 이미 쓰인 포지션은 비활성이어야 함');
-        else ok('앞/뒤 · 미준비 처리 전환 · 포지션 중복 차단');
-        const snapG = app.snapshot();
-        const packedG = app.packSnapV2(snapG);
-        const tailG = packedG[packedG.length - 1];
-        if (tailG !== '3:402//|12a*') bad(`그룹 포함 공유 코드 꼬리 기대 '3:402//|12a*', ${JSON.stringify(tailG)}`);
-        const backG = app.unpackSnapV2(JSON.parse(JSON.stringify(packedG)));
-        if (!app.looseEq(snapG, backG)) bad('그룹 포함 공유 코드 왕복 불일치');
-        else ok(`공유 코드 v2 왕복 (그룹 꼬리 ${tailG})`);
-        await app.openModal(1); await sleep(30);
-        const info = $('#modalCard .mc-ult .ult-sync');
-        if (!info || $('#modalCard .mc-ult [data-ultmode]')) bad('멤버 캐릭터 창엔 방식 버튼 대신 맞추기 안내가 떠야 함');
-        else ok('멤버 캐릭터 창: 맞추기 안내 표시');
-        app.closeCharModal();
-      }
-    }
+    if ($('#altarSide .altar-sync') || $('#altarSide [data-anchor]')) bad('제단 패널에 맞추기 그룹 편집이 남아 있으면 안 됨(행동 고급 설정으로 이동)');
+    else if (!$('#altarSide .altar-moved [data-advopen="sync"]')) bad('제단 패널 하단에 연동 이동 안내·열기 버튼이 없음');
+    else ok('제단 패널: 연동·사용 방식 이동 안내 + 열기');
     app.applyAltarSnap(null);
     if (app.altarOn) bad('applyAltarSnap(null) 이면 제단 OFF 여야 함');
     if (app.cdPlus() !== 0) bad('제단 OFF면 cdPlus 0');
     await app.openModal(0); await sleep(30);
-    if ($('#modalCard .mc-ult')) bad('제단 OFF면 캐릭터 창에 궁극기 사용 방식이 보이면 안 됨');
-    else ok('제단 OFF → 방식 섹션 숨김');
+    if (!$('#modalCard .mc-ult')) bad('제단 OFF 여도 캐릭터 창 요약은 보여야 함(제단 게이팅 해제)');
+    else ok('제단 OFF → 방식 요약 유지(게이팅 해제)');
     app.closeCharModal();
     app.openAltar(); await sleep(30);
     if (!/피격 데미지 모드|Incoming Damage|被擊傷害|被击伤害|被ダメージ/.test($('#altarSide .altar-note').textContent)) bad('패널 하단 안내(피격 모드) 문구 없음');

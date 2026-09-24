@@ -109,7 +109,7 @@ class CharSpec:
     priority: int | None = None  # 행동 순서 (None=position). 낮을수록 먼저 행동
     atk_bonus: int = 0           # 도장 강화: 기본 ATK 가산
     hp_bonus: int = 0            # 도장 강화: 기본 HP 가산
-    ult_mode: str = "fixed"      # 궁극기 사용 방식(길드 제단): fixed(계획 턴·차면 즉시) / strict(계획 턴만) / asap(준비되면 바로)
+    ult_mode: str = "fixed"      # 궁극기 사용 방식: fixed(계획 턴·차면 즉시) / strict(계획 턴만) / asap(준비되면 바로)
     ult_keep_def: bool = True    # asap·궁 맞추기 에서 계획의 방어 턴은 방어 유지
 
     def investment(self) -> Investment:
@@ -151,7 +151,8 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
     turn_damage: 턴 피해 모드 — 턴별 아군 전체 최대HP n%(index=turn-1). None=끔.
 
     altar: 걸려 있는 길드 제단 Id 목록(altar.resolve_altars). None/[] = 미사용(결과 불변).
-    sync_groups: 궁 맞추기 그룹 — **포지션(1-based)** 기준 [{"anchor": p, "members": [(p, order)], "miss": …}].
+    sync_groups: 궁 맞추기(연동) 그룹 — **포지션(1-based)** 기준 [{"anchor": p, "members": [(p, order[, base, bonus])], "miss": …}].
+                 base: 앵커 궁 턴의 멤버 기본 행동(fatal=같이 궁 / defend / basic), bonus: 앵커가 준 추가 행동에서 궁.
                  여기서 슬롯(0-based)으로 바꿔 simulate 에 넘긴다.
     altar_procs: False = 제단 확률 트리거 미설치(플래너 프로브).
     """
@@ -180,8 +181,9 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
     fed_actions = [s.fed_action for s in specs]   # 이태호 임부언 fed 추가행동 토큰(None=기본 평타)
     ult_policies = [{"mode": s.ult_mode, "keepDef": s.ult_keep_def} for s in specs]
     pos2slot = {s.position if s.position else i + 1: slot for i, (s, slot) in enumerate(zip(specs, slots))}
+    # 멤버 항목은 (포지션, order) 또는 (포지션, order, base, bonus) — 첫 원소만 슬롯으로 바꾸고 나머지는 그대로
     groups_slot = [{"anchor": pos2slot.get(g.get("anchor"), -1),
-                    "members": [(pos2slot.get(p, -1), o) for p, o in g.get("members", [])],
+                    "members": [(pos2slot.get(m[0], -1), *m[1:]) for m in g.get("members", [])],
                     "miss": g.get("miss", "wait")}
                    for g in (sync_groups or [])]
     ally_ult_afters = [s.ally_ult_after for s in specs]   # 욱영 토글

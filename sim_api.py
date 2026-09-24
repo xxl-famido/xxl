@@ -94,6 +94,22 @@ def _has_auto_extra(kit) -> bool:
     return found
 
 
+def _grants_extra(kit) -> bool:
+    """이 캐릭터가 '다른 아군'에게 추가 행동을 주는가(욱영 인접 행동 회복=필살 시 발동 패시브 · 임부언 P1 회복=필살 효과).
+    연동 탭이 '방어/평타 → 받은 추가 행동에서 궁' 멤버에게 앵커가 추가 행동을 안 주는 경우를 미리 알려 주는 용도라
+    슬롯을 가리지 않고 전부 훑는다(안내용 — 판정은 엔진이 한다)."""
+    from woofia_sim.effects import EXTRA_ACTION
+
+    def walk(effs) -> bool:
+        for e in effs:
+            if e.kind == EXTRA_ACTION and (e.target or "self") != "self":
+                return True
+            if walk(e.sub_effects):
+                return True
+        return False
+    return any(walk(sl.effects) for sl in [kit.basic, kit.fatal, *kit.passives])
+
+
 def _cd_defend_info(kit) -> dict:
     """방어 시 자신 필살 CD를 줄이는 메커니즘의 상세.
 
@@ -157,6 +173,8 @@ def char_meta(cid: int) -> dict:
             # 제토·히토하: 확률·체이닝 자기 추가행동 보유(정보용). 실제 import 제외는 plan_probe seq의
             # per-행동 'x' 태그로 정밀 처리한다(외부 grant는 유지, 자기 체이닝만 제외).
             "autoExtra": _has_auto_extra(kit),
+            # 필살기가 다른 아군에게 추가 행동을 주는가(욱영·임부언) — 연동 탭의 '추가 행동에서 궁' 안내용
+            "grantsExtra": _grants_extra(kit),
             "actionsPerTurn": _actions_per_turn(kit),
             # 도장강화 한계: XL(rarity 3)=18000, XXL은 빛/어둠 23000 / 그 외 20000
             "sealLimit": 18000 if c.get("rarity") == 3 else (23000 if kit.element in (4, 5) else 20000),
@@ -305,7 +323,8 @@ def _parse_turn_damage(td, turns: int) -> list[float] | None:
 def run_sim(cfg: dict) -> dict:
     # 길드 제단: {"on", "floors":{"1":{"on","off":[id]}}, "groups":[…]} → 걸리는 제단 Id 목록(층 누적·별/달 부호 반영).
     # 미지정/off = [] → 엔진 경로 불변(회귀 기준). 보스 ATK·주는뎀·아군 받뎀 별 제단은 피격 모드에서만 작동.
-    # 궁극기 사용 방식(team[].ult)·궁 맞추기 그룹(altar.groups)은 제단이 켜진 경우에만 받는다(UI 도 그때만 노출).
+    # 궁극기 사용 방식(team[].ult)·연동 그룹(cfg.sync, 구: altar.groups)은 제단과 무관하게 항상 받는다 —
+    # 제단은 CD 를 바꾸는 여러 요인 중 하나일 뿐이라 제단 ON 에 묶어 두면 기능이 화면에서 사라졌다(사용자 피드백).
     altar_ids = resolve_altars(cfg.get("altar"))
     specs = []
     for m in cfg["team"]:
@@ -322,7 +341,7 @@ def run_sim(cfg: dict) -> dict:
             ally_ult_after=bool(m.get("allyUltAfter", False)),   # 욱영 토글
             priority=(float(m["priority"]) if m.get("priority") not in (None, "") else None),
             atk_bonus=int(m.get("sealAtk", 0) or 0), hp_bonus=int(m.get("sealHp", 0) or 0),
-            **(parse_ult_policy(m.get("ult")) if altar_ids else {})))
+            **parse_ult_policy(m.get("ult"))))
     turns = int(cfg.get("turns", 30))
     # per-turn order override: {turn: [position,...]} -> {turn:[slot,...]}
     torders = {int(t): [int(p) - 1 for p in order]
@@ -375,7 +394,11 @@ def run_sim(cfg: dict) -> dict:
     except (TypeError, ValueError):
         turn_damage_hits = 0
     positions = [int(m["position"]) for m in cfg["team"]]
-    sync_groups = parse_sync_groups((cfg.get("altar") or {}).get("groups"), positions) if altar_ids else []
+    # 연동(궁 맞추기) 그룹: cfg.sync 가 정본. 옛 기록/공유 코드는 altar.groups 에 실려 오므로 그것도 받는다.
+    sync_raw = cfg.get("sync")
+    if not isinstance(sync_raw, list) and isinstance(cfg.get("altar"), dict):
+        sync_raw = cfg["altar"].get("groups")
+    sync_groups = parse_sync_groups(sync_raw, positions)
     # 플래너 프로브(plan_probe)는 '보장되는 CD'로 계획을 세운다 — 제단 확률 CD감소는 설치하지 않는다.
     altar_procs = cfg.get("altarProcs", True) is not False
     # 평균 모드: 확률(난수) 판정은 시드마다 달라지므로 N회(다른 시드) 돌려 평균을 낸다.
@@ -514,6 +537,8 @@ def run_sim(cfg: dict) -> dict:
                      # 걸린 길드 제단(별 n·달 m·Id 목록) — 미사용이면 None (UI는 표시 생략)
                      "altar": ({**altar_summary(altar_ids), "groups": len(sync_groups)}
                                if altar_ids else None),
+                     # 연동(궁 맞추기) 그룹 수 — 제단과 무관하게 결과 헤더에 표시(0 = 미사용)
+                     "sync": len(sync_groups),
                      # 턴 피해 모드 요약(결과 헤더) — 균일이면 pct 하나, 턴별이면 min~max. 미사용=None
                      "turnDamage": ({"min": min(turn_damage), "max": max(turn_damage),
                                      "uniform": len(set(turn_damage)) == 1}

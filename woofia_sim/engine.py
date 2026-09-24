@@ -245,7 +245,10 @@ class Unit:
     sync_order: str = "before"       # before: 앵커 바로 앞에 행동 / after: 바로 뒤
     sync_miss: str = "wait"          # 앵커 궁 턴에 미준비면: wait=다음 앵커 궁까지 대기 / asap=준비되는 대로 쓰고 재동기
     sync_missed: bool = False         # sync_miss=asap 에서 놓친 상태(준비되면 발동) 표시
-    died: bool = False                 # 전투불능(HP 0) 이력 — 사망 로그 1회 표시·부활 대상 판별용
+    sync_base: str = "fatal"          # 앵커 궁 턴의 내 기본 행동: fatal=같이 궁(종전) / defend / basic (궁 보류)
+    sync_bonus_ult: bool = False      # 앵커가 궁으로 준 추가 행동에서 궁(준비돼 있으면). 부여는 '이미 행동한' 아군에게만
+                                      # 들어가므로 앵커보다 먼저 행동(sync_order=before)해야 한다 — 파서가 강제
+    died: bool = False                # 전투불능(HP 0) 이력 — 사망 로그 1회 표시·부활 대상 판별용
 
     @property
     def alive(self) -> bool:
@@ -1710,6 +1713,29 @@ def _anchor_will_ult(anchor: Unit, state: BattleState) -> bool:
     return anchor.ult_mode == "fixed" and anchor.auto_fatal_pending and tok == "basic"
 
 
+def _sync_anchor_ulted(unit: Unit, state: BattleState) -> bool:
+    """연동(궁 맞추기)의 앵커가 이번 턴 '실제로' 궁을 썼는가 — 부여받은 추가 행동에서 궁을 쓸지(sync_bonus_ult)
+    판정할 때 쓴다. 예측이 아니라 실적(turn_exes)만 본다: 추가 행동은 앵커의 궁이 만들어 준 것이라 그 시점엔
+    앵커가 이미 행동을 마쳤다."""
+    anchor = unit.sync_anchor
+    if anchor is None or anchor.turn_acts == 0:
+        return False
+    return getattr(anchor._kit, "char_id", 0) in state.turn_exes   # type: ignore[attr-defined]
+
+
+def _sync_member(m) -> tuple[int, str, str, bool]:
+    """sync_groups 멤버 항목 정규화 — (slot, order) 2-튜플(구 계약)과 (slot, order, base, bonus) 4-튜플 모두 허용.
+    base ∉ {fatal, defend, basic} 이면 fatal, bonus 는 bool 로. bonus 면 order 는 before 로 강제(부여 규칙)."""
+    seq = list(m) if isinstance(m, (list, tuple)) else [m]
+    slot = int(seq[0]) if seq and seq[0] is not None else -1
+    order = "after" if len(seq) > 1 and seq[1] == "after" else "before"
+    base = seq[2] if len(seq) > 2 and seq[2] in ("fatal", "defend", "basic") else "fatal"
+    bonus = bool(seq[3]) if len(seq) > 3 else False
+    if bonus:
+        order = "before"
+    return slot, order, base, bonus
+
+
 def _next_token(unit: Unit) -> str | None:
     """Next action token from the rotation, or None if no rotation is set."""
     if not unit.rotation_prefix and not unit.rotation_loop:
@@ -1981,6 +2007,14 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
         token = _next_token(unit)
         unit.uk_defer_pending = False      # 보류했던 궁 토큰을 이 행동에서 소비 완료
 
+    # 연동(궁 맞추기) '앵커가 준 추가 행동에서 궁': 앵커가 이번 턴 실제로 궁을 썼고 내 궁이 준비돼 있으면
+    # 그 추가 행동을 궁으로 쓴다(기본 행동은 sync_base 로 방어/평타 두고 보류한 궁). 명시 타임라인·이태호 fed 는 제외.
+    sync_bonus = (is_bonus and forced_token is None and not forced_basic and unit.sync_bonus_ult
+                  and bool(kit_fatal.effects) and unit.cd_remaining <= 0 and _sync_anchor_ulted(unit, state))
+    if sync_bonus:
+        token = "fatal"
+        unit.sync_missed = False           # 연동 궁이 여기서 나간다 → '준비되면 바로' 재동기 대기 해제
+
     # 제토(single_ult): 전투당 1회 필살을 '마지막 턴'에 자동 발동. 앞 턴에 이미 썼으면 cd>0라 스킵,
     # 명시 타임라인(forced_token)·추가행동(is_bonus)엔 개입하지 않는다(수동 배치 존중).
     if (unit.single_ult and forced_token is None and not is_bonus and token != "fatal"
@@ -1999,7 +2033,15 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
         slot_ok = token != "defend" or not unit.ult_keep_def     # 방어 지정 턴은 기본적으로 지킨다
         if unit.sync_anchor is not None:
             anchor_ults = _anchor_will_ult(unit.sync_anchor, state)
-            if anchor_ults and ready and slot_ok:
+            if anchor_ults and unit.sync_base != "fatal":
+                # 연동 옵션: 앵커 궁 턴엔 내 기본 행동을 방어/평타로 두고 궁은 보류한다(궁은 앵커가 준
+                # 추가 행동에서 — sync_bonus_ult). 미준비여도 지정 행동은 지킨다(사용자가 정한 그 턴의 행동).
+                token = unit.sync_base
+                policy_fatal = False
+                # 추가 행동이 안 오면(앵커가 행동 회복을 안 주는 캐릭·미준비) miss=asap 일 때만 준비되는 대로 쓴다.
+                # 추가 행동에서 궁이 나가면 그 자리에서 해제(sync_bonus).
+                unit.sync_missed = unit.sync_miss == "asap"
+            elif anchor_ults and ready and slot_ok:
                 policy_fatal, unit.sync_missed = True, False
             elif anchor_ults and not ready:
                 if unit.sync_miss == "asap":
@@ -2526,12 +2568,14 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
         if anchor is None:
             continue
         miss = "asap" if g.get("miss") == "asap" else "wait"
-        for slot, order in g.get("members", []):
+        for entry in g.get("members", []):
+            slot, order, base, bonus = _sync_member(entry)
             m = by_slot.get(slot)
             if m is None or m is anchor:
                 continue
             m.sync_anchor, m.sync_miss = anchor, miss
-            m.sync_order = "after" if order == "after" else "before"
+            m.sync_order = order
+            m.sync_base, m.sync_bonus_ult = base, bonus
     enemies = [make_dummy(i) for i in range(max(1, min(n_dummies, 5)))]
     for e in enemies:
         e.element = dummy_element        # 더미 속성 → 공격자 속성과 상성 판정

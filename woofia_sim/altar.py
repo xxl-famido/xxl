@@ -189,10 +189,17 @@ def parse_ult_policy(raw: object) -> dict:
     return out
 
 
-def parse_sync_groups(raw: object, positions: list[int]) -> list[dict]:
-    """altar.groups → 검증된 궁 맞추기 그룹(포지션 1-based).
+SYNC_BASES = ("fatal", "defend", "basic")
 
-    입력: [{"anchor": p, "members": [{"p": p, "order": "before"|"after"}, ...], "miss": "wait"|"asap"}]
+
+def parse_sync_groups(raw: object, positions: list[int]) -> list[dict]:
+    """cfg.sync(구: altar.groups) → 검증된 궁 맞추기(연동) 그룹(포지션 1-based).
+
+    입력: [{"anchor": p, "members": [{"p": p, "order": "before"|"after", "base": "fatal"|"defend"|"basic"}, ...],
+            "miss": "wait"|"asap"}]
+    출력 멤버: (p, order, base, bonus) — base 는 앵커 궁 턴의 멤버 기본 행동(기본 fatal=같이 궁). base 가 defend/basic
+    이면 궁을 보류하고 **앵커가 준 추가 행동에서 궁**(bonus=True). 추가 행동은 이미 행동한 아군에게만 들어가므로
+    그 경우 order 는 before 로 강제한다.
     규칙: 최대 3그룹 · 앵커/멤버는 출전 포지션이어야 함 · 한 포지션은 그룹 전체에서 한 역할만
     (앵커는 다른 그룹 멤버 불가 → 순환·연쇄 원천 차단) · 멤버 없는 그룹은 버림.
     """
@@ -210,20 +217,23 @@ def parse_sync_groups(raw: object, positions: list[int]) -> list[dict]:
             continue
         if anchor not in present or anchor in used:
             continue
-        members: list[tuple[int, str]] = []
+        members: list[tuple[int, str, str, bool]] = []
         for m in (g.get("members") or []):
             try:
                 p = int(m.get("p") if isinstance(m, dict) else m)
             except (TypeError, ValueError, AttributeError):
                 continue
-            if p not in present or p == anchor or p in used or any(p == q for q, _ in members):
+            if p not in present or p == anchor or p in used or any(p == q[0] for q in members):
                 continue
             order = (m.get("order") if isinstance(m, dict) else None)
-            members.append((p, "after" if order == "after" else "before"))
+            base = (m.get("base") if isinstance(m, dict) else None)
+            base = base if base in SYNC_BASES else "fatal"
+            bonus = base != "fatal"
+            members.append((p, "before" if bonus or order != "after" else "after", base, bonus))
         if not members:
             continue
         used.add(anchor)
-        used.update(p for p, _ in members)
+        used.update(p for p, *_ in members)
         groups.append({"anchor": anchor, "members": members,
                        "miss": "asap" if g.get("miss") == "asap" else "wait"})
     return groups
