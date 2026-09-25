@@ -1465,11 +1465,11 @@ const ADV_T = {
                zh: '其他角色（及「依自己的使用方式」成員）依下方選擇的方式。「指定回合」的計畫是角色視窗中的逐回合行動計畫，關閉時為自動計畫。',
                zhs: '其他角色（及「依自己的使用方式」成员）依下方选择的方式。「指定回合」的计划是角色窗口中的逐回合行动计划，关闭时为自动计划。',
                ja: 'それ以外のキャラ（と「自分の使い方で」のメンバー）は下で選んだ方式に従います。「指定ターン」の計画はキャラ画面のターン別行動計画で、オフなら自動計画です。' },
-  order4:    { kr: '동료가 준 추가 행동은 평타로 씁니다. 연동에서 ‘받은 추가 행동에서 궁’을 고른 멤버와, 임부언이 쿨을 채워 주는 1번 자리 캐릭터만 그 추가 행동에서 필살기를 씁니다.',
-               en: 'Extra actions granted by allies are used as attacks. Only sync members set to ‘ultimate in the granted extra action’ and the position-1 character whose cooldown Boss Ren refills use the ultimate there.',
-               zh: '隊友給予的追加行動以普攻使用。只有在連動中選擇「用獲得的追加行動放必殺」的成員，以及由任富言補滿冷卻的 1 號位角色，會在該追加行動中放必殺。',
-               zhs: '队友给予的追加行动以普攻使用。只有在联动中选择「用获得的追加行动放必杀」的成员，以及由任富言补满冷却的 1 号位角色，会在该追加行动中放必杀。',
-               ja: '味方からもらった追加行動は通常攻撃になります。連動で「もらった追加行動で必殺」を選んだメンバーと、任富言がクールを満たす1番位置のキャラだけが、その追加行動で必殺技を使います。' },
+  order4:    { kr: '동료가 준 추가 행동은 평타로 씁니다. 연동에서 ‘받은 추가 행동에서 궁’을 고른 멤버와, 동료의 필살기로 쿨이 되돌아온 캐릭터는 그 추가 행동에서 필살기를 씁니다. 같은 턴에 쿨을 되돌려 주는 캐릭터와 그 대상이 함께 추가 행동을 받으면, 대상의 필살기가 준비돼 있을 때 대상이 먼저 행동합니다.',
+               en: 'Extra actions granted by allies are used as attacks. Sync members set to ‘ultimate in the granted extra action’, and characters whose cooldown an ally’s ultimate just refilled, use the ultimate there. If a cooldown-refilling character and its target both get extra actions in the same turn, the target acts first when its ultimate is ready.',
+               zh: '隊友給予的追加行動以普攻使用。在連動中選擇「用獲得的追加行動放必殺」的成員，以及冷卻被隊友必殺補滿的角色，會在該追加行動中放必殺。同一回合補滿冷卻的角色與其對象都獲得追加行動時，若對象的必殺已就緒則由對象先行動。',
+               zhs: '队友给予的追加行动以普攻使用。在联动中选择「用获得的追加行动放必杀」的成员，以及冷却被队友必杀补满的角色，会在该追加行动中放必杀。同一回合补满冷却的角色与其对象都获得追加行动时，若对象的必杀已就绪则由对象先行动。',
+               ja: '味方からもらった追加行動は通常攻撃になります。連動で「もらった追加行動で必殺」を選んだメンバーと、味方の必殺でクールが戻ったキャラは、その追加行動で必殺技を使います。同じターンにクールを戻すキャラとその対象が両方追加行動をもらうと、対象の必殺が準備できていれば対象が先に行動します。' },
 };
 function advT(key, ...args) {             // 로컬 사전 → 현재 언어(없으면 kr) + {n} 치환
   const v = ADV_T[key];

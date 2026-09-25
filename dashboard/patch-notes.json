@@ -6,19 +6,15 @@
       "date": "2026-09-24",
       "highlight": true,
       "title": {
-        "kr": "연동 — 앵커가 궁을 안 쓰는 턴 설정",
-        "en": "Sync — turns the anchor doesn’t ultimate",
-        "zh": "連動 — 錨點不放必殺的回合設定",
-        "zhs": "联动 — 锚点不放必杀的回合设置",
-        "ja": "連動 — アンカーが必殺を使わないターンの設定"
+        "kr": "연동 — 앵커가 궁을 안 쓰는 턴 · 쿨 되돌림 캐릭터",
+        "en": "Sync — turns the anchor doesn’t ultimate · cooldown-refilling characters",
+        "zh": "連動 — 錨點不放必殺的回合・補滿冷卻的角色",
+        "zhs": "联动 — 锚点不放必杀的回合・补满冷却的角色",
+        "ja": "連動 — アンカーが必殺を使わないターン・クールを戻すキャラ"
       },
       "items": [
         {
           "cat": "balance",
-          "chars": [
-            10442,
-            10439
-          ],
           "text": {
             "kr": "연동 멤버마다 앵커가 궁을 안 쓰는 턴의 행동을 ‘궁 아끼기’ 또는 ‘내 사용 방식대로’로 고릅니다. ‘받은 추가 행동에서 궁’ 멤버는 기본이 내 사용 방식대로라, 평소엔 준비되는 대로 궁을 쓰다가 앵커 궁 턴에만 방어 → 받은 추가 행동에서 궁으로 맞춥니다.",
             "en": "Each sync member chooses what to do on turns the anchor doesn’t use its ultimate: ‘Save the ultimate’ or ‘Use my own policy’. Members set to ‘ultimate in the granted extra action’ default to their own policy — they use the ultimate whenever ready and only on the anchor’s ultimate turn switch to defend → ultimate in the granted extra action.",
@@ -27,11 +23,38 @@
             "ja": "連動メンバーごとに、アンカーが必殺を使わないターンの行動を「必殺を温存」か「自分の使い方で」から選びます。「もらった追加行動で必殺」のメンバーは既定が「自分の使い方で」なので、普段は準備でき次第必殺を使い、アンカーの必殺ターンだけ防御 → もらった追加行動で必殺に合わせます。"
           },
           "details": {
-            "kr": "예: 필살기 쿨 1턴인 마타야를 욱영에 ‘방어 → 받은 추가 행동에서 궁’으로 연동하면, 매 턴 궁을 쓰고 욱영 궁 턴에만 방어 → 욱영 궁 → 마타야 궁 순서가 됩니다. 궁극기 사용 방식 탭에서는 ‘내 사용 방식대로’ 멤버도 방식을 고를 수 있고, 연동 탭의 그룹 흐름 문장에 그 밖의 턴 처리가 함께 표시됩니다.",
-            "en": "Example: with Mataya (1-turn ultimate cooldown) synced to Xuying as ‘Defend → ultimate in the granted extra action’, Mataya uses the ultimate every turn and only on Xuying’s ultimate turn goes defend → Xuying ultimate → Mataya ultimate. In the Ultimate policy tab, ‘own policy’ members can choose a policy too, and each group’s flow sentence in the Sync tab also shows how other turns are handled.",
-            "zh": "例：將必殺冷卻 1 回合的又彌以「防禦 → 用獲得的追加行動放必殺」連動到旭影時，又彌每回合放必殺，只在旭影必殺回合依防禦 → 旭影必殺 → 又彌必殺的順序。必殺技使用方式分頁中「依自己的使用方式」成員也可選擇方式，連動分頁的組流程句也會一併顯示其他回合的處理。",
-            "zhs": "例：将必杀冷却 1 回合的又弥以「防御 → 用获得的追加行动放必杀」联动到旭影时，又弥每回合放必杀，只在旭影必杀回合依防御 → 旭影必杀 → 又弥必杀的顺序。必杀技使用方式分页中「依自己的使用方式」成员也可选择方式，联动分页的组流程句也会一并显示其他回合的处理。",
-            "ja": "例：必殺クール1ターンの又弥を旭影に「防御 → もらった追加行動で必殺」で連動すると、毎ターン必殺を使い、旭影の必殺ターンだけ防御 → 旭影必殺 → 又弥必殺の順になります。必殺技の使い方タブでは「自分の使い方で」のメンバーも方式を選べ、連動タブのグループの流れの文にそれ以外のターンの扱いも表示されます。"
+            "kr": "예: 필살기 쿨이 1턴인 캐릭터를 ‘방어 → 받은 추가 행동에서 궁’으로 연동하면, 평소엔 매 턴 궁을 쓰고 앵커 궁 턴에만 방어 → 앵커 궁 → 받은 추가 행동으로 궁 순서가 됩니다. 궁극기 사용 방식 탭에서는 ‘내 사용 방식대로’ 멤버도 방식을 고를 수 있고, 연동 탭의 그룹 흐름 문장에 그 밖의 턴 처리가 함께 표시됩니다.",
+            "en": "Example: a character with a 1-turn ultimate cooldown synced as ‘Defend → ultimate in the granted extra action’ uses the ultimate every turn, and only on the anchor’s ultimate turn goes defend → anchor ultimate → ultimate in the granted extra action. In the Ultimate policy tab, ‘own policy’ members can choose a policy too, and each group’s flow sentence in the Sync tab also shows how other turns are handled.",
+            "zh": "例：將必殺冷卻 1 回合的角色以「防禦 → 用獲得的追加行動放必殺」連動時，平時每回合放必殺，只在錨點必殺回合依防禦 → 錨點必殺 → 用獲得的追加行動放必殺的順序。必殺技使用方式分頁中「依自己的使用方式」成員也可選擇方式，連動分頁的組流程句也會一併顯示其他回合的處理。",
+            "zhs": "例：将必杀冷却 1 回合的角色以「防御 → 用获得的追加行动放必杀」联动时，平时每回合放必杀，只在锚点必杀回合依防御 → 锚点必杀 → 用获得的追加行动放必杀的顺序。必杀技使用方式分页中「依自己的使用方式」成员也可选择方式，联动分页的组流程句也会一并显示其他回合的处理。",
+            "ja": "例：必殺クール1ターンのキャラを「防御 → もらった追加行動で必殺」で連動すると、普段は毎ターン必殺を使い、アンカーの必殺ターンだけ防御 → アンカーの必殺 → もらった追加行動で必殺の順になります。必殺技の使い方タブでは「自分の使い方で」のメンバーも方式を選べ、連動タブのグループの流れの文にそれ以外のターンの扱いも表示されます。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "필살기로 동료의 쿨을 되돌려 받는 캐릭터도 연동 설정대로 행동합니다. 앵커 궁 턴에 ‘평타 → 받은 추가 행동에서 궁’으로 두면 그 턴 기본 행동은 평타입니다.",
+            "en": "Characters whose cooldown an ally’s ultimate refills also follow their sync setting. Set to ‘Attack → ultimate in the granted extra action’, their regular action on the anchor’s ultimate turn is an attack.",
+            "zh": "冷卻會被隊友必殺補滿的角色也依連動設定行動。設為「普攻 → 用獲得的追加行動放必殺」時，錨點必殺回合的基本行動為普攻。",
+            "zhs": "冷却会被队友必杀补满的角色也依联动设置行动。设为「普攻 → 用获得的追加行动放必杀」时，锚点必杀回合的基本行动为普攻。",
+            "ja": "味方の必殺でクールが戻るキャラも連動設定どおりに行動します。「通常攻撃 → もらった追加行動で必殺」にすると、アンカーの必殺ターンの基本行動は通常攻撃です。"
+          }
+        },
+        {
+          "cat": "balance",
+          "text": {
+            "kr": "같은 턴에 쿨을 되돌려 주는 캐릭터와 그 대상이 함께 추가 행동을 받으면, 대상의 필살기가 준비돼 있을 때 대상이 먼저 행동합니다. 대상이 필살기를 쓴 뒤 쿨이 돌아와 그 턴에 필살기를 한 번 더 씁니다.",
+            "en": "When a cooldown-refilling character and its target both get extra actions in the same turn, the target acts first if its ultimate is ready. Its cooldown comes back after it ults, so it uses the ultimate once more that turn.",
+            "zh": "同一回合補滿冷卻的角色與其對象都獲得追加行動時，若對象的必殺已就緒則對象先行動。對象放完必殺後冷卻被補回，該回合再放一次必殺。",
+            "zhs": "同一回合补满冷却的角色与其对象都获得追加行动时，若对象的必杀已就绪则对象先行动。对象放完必杀后冷却被补回，该回合再放一次必杀。",
+            "ja": "同じターンにクールを戻すキャラとその対象が両方追加行動をもらうと、対象の必殺が準備できていれば対象が先に行動します。対象が必殺を使った後にクールが戻り、そのターンにもう一度必殺を使います。"
+          },
+          "details": {
+            "kr": "예: 앵커 궁 턴에 쿨 되돌림 캐릭터 평타 → 대상 평타 → 앵커 궁 → 대상 궁 → 쿨 되돌림 캐릭터 궁 → 대상 궁. 두 캐릭터를 모두 ‘평타 → 받은 추가 행동에서 궁’으로 연동하면 이 흐름이 됩니다.",
+            "en": "Example on the anchor’s ultimate turn: refilling character attacks → target attacks → anchor ultimate → target ultimate → refilling character ultimate → target ultimate. Syncing both as ‘Attack → ultimate in the granted extra action’ gives this flow.",
+            "zh": "例：錨點必殺回合 補滿冷卻的角色普攻 → 對象普攻 → 錨點必殺 → 對象必殺 → 補滿冷卻的角色必殺 → 對象必殺。兩者都以「普攻 → 用獲得的追加行動放必殺」連動即為此流程。",
+            "zhs": "例：锚点必杀回合 补满冷却的角色普攻 → 对象普攻 → 锚点必杀 → 对象必杀 → 补满冷却的角色必杀 → 对象必杀。两者都以「普攻 → 用获得的追加行动放必杀」联动即为此流程。",
+            "ja": "例：アンカーの必殺ターンに クールを戻すキャラ通常攻撃 → 対象通常攻撃 → アンカー必殺 → 対象必殺 → クールを戻すキャラ必殺 → 対象必殺。両方を「通常攻撃 → もらった追加行動で必殺」で連動するとこの流れになります。"
           }
         }
       ]
@@ -50,10 +73,6 @@
       "items": [
         {
           "cat": "qol",
-          "chars": [
-            10442,
-            10439
-          ],
           "text": {
             "kr": "행동 고급 설정이 턴별 타임라인 · 궁극기 사용 방식 · 연동 세 탭으로 구성됩니다. 궁극기 사용 방식과 연동은 항상 적용되고, 턴별 타임라인만 탭 우측 상단의 ‘사용’으로 켜고 끕니다.",
             "en": "Advanced Action Setup has three tabs: Turn timeline · Ultimate policy · Sync. Ultimate policy and Sync always apply; only the Turn timeline is switched on and off with ‘Use’ at the top right of its tab.",
@@ -71,23 +90,19 @@
         },
         {
           "cat": "new",
-          "chars": [
-            10442,
-            10439
-          ],
           "text": {
-            "kr": "연동 멤버는 앵커가 필살기를 쓰는 턴에 ‘같이 궁’ · ‘방어 → 받은 추가 행동에서 궁’ · ‘평타 → 받은 추가 행동에서 궁’ 중 하나를 고릅니다. 예: 마타야 방어 → 욱영 궁 → 마타야 궁.",
-            "en": "On the anchor’s ultimate turn, each sync member chooses ‘Ultimate together’, ‘Defend → ultimate in the granted extra action’, or ‘Attack → ultimate in the granted extra action’. Example: Mataya defends → Xuying ultimate → Mataya ultimate.",
-            "zh": "連動成員在錨點放必殺的回合，可選「一起放必殺」「防禦 → 用獲得的追加行動放必殺」「普攻 → 用獲得的追加行動放必殺」。例：又彌防禦 → 旭影必殺 → 又彌必殺。",
-            "zhs": "联动成员在锚点放必杀的回合，可选「一起放必杀」「防御 → 用获得的追加行动放必杀」「普攻 → 用获得的追加行动放必杀」。例：又弥防御 → 旭影必杀 → 又弥必杀。",
-            "ja": "連動メンバーはアンカーの必殺ターンに「一緒に必殺」「防御 → もらった追加行動で必殺」「通常攻撃 → もらった追加行動で必殺」から選びます。例：又弥が防御 → 旭影が必殺 → 又弥が必殺。"
+            "kr": "연동 멤버는 앵커가 필살기를 쓰는 턴에 ‘같이 궁’ · ‘방어 → 받은 추가 행동에서 궁’ · ‘평타 → 받은 추가 행동에서 궁’ 중 하나를 고릅니다. 예: 방어 → 앵커 궁 → 받은 추가 행동으로 궁.",
+            "en": "On the anchor’s ultimate turn, each sync member chooses ‘Ultimate together’, ‘Defend → ultimate in the granted extra action’, or ‘Attack → ultimate in the granted extra action’. Example: defend → anchor ultimate → ultimate in the granted extra action.",
+            "zh": "連動成員在錨點放必殺的回合，可選「一起放必殺」「防禦 → 用獲得的追加行動放必殺」「普攻 → 用獲得的追加行動放必殺」。例：防禦 → 錨點必殺 → 用獲得的追加行動放必殺。",
+            "zhs": "联动成员在锚点放必杀的回合，可选「一起放必杀」「防御 → 用获得的追加行动放必杀」「普攻 → 用获得的追加行动放必杀」。例：防御 → 锚点必杀 → 用获得的追加行动放必杀。",
+            "ja": "連動メンバーはアンカーの必殺ターンに「一緒に必殺」「防御 → もらった追加行動で必殺」「通常攻撃 → もらった追加行動で必殺」から選びます。例：防御 → アンカーの必殺 → もらった追加行動で必殺。"
           },
           "details": {
-            "kr": "추가 행동은 이미 행동을 마친 아군에게만 들어가므로, 받은 추가 행동에서 궁을 쓰는 멤버는 앵커보다 먼저 행동합니다. 앵커가 추가 행동을 주지 않는 캐릭터면 안내가 뜨고, 보류한 궁은 ‘미준비면’ 규칙(대기 / 준비되면 바로)을 따릅니다. 욱영이 편성에 있으면 ‘연동 자동 설정’ 버튼이 인접 아군을 한 번에 묶어 줍니다. 그룹마다 실제 행동 흐름이 한 문장으로 표시됩니다.",
-            "en": "Extra actions only go to allies who already acted, so members that use the ultimate in the granted extra action act before the anchor. If the anchor grants no extra actions a note appears, and the held ultimate follows the ‘If not ready’ rule (Wait / Use when ready). With Xuying on the team, the ‘sync preset’ button groups the adjacent allies in one click. Each group shows its actual action flow as a sentence.",
-            "zh": "追加行動只會給已行動的隊員，因此用獲得的追加行動放必殺的成員會先於錨點行動。若錨點不給追加行動會顯示提示，保留的必殺依「未就緒時」規則（等待／就緒即用）處理。旭影在隊中時，「連動快速設定」按鈕可一鍵綁定相鄰隊員。每組會以一句話顯示實際行動流程。",
-            "zhs": "追加行动只会给已行动的队员，因此用获得的追加行动放必杀的成员会先于锚点行动。若锚点不给追加行动会显示提示，保留的必杀依「未就绪时」规则（等待／就绪即用）处理。旭影在队中时，「联动快速设置」按钮可一键绑定相邻队员。每组会以一句话显示实际行动流程。",
-            "ja": "追加行動は行動済みの味方にしか入らないため、もらった追加行動で必殺を使うメンバーはアンカーより先に行動します。アンカーが追加行動を与えないキャラなら案内が出て、保留した必殺は「未準備なら」のルール（待つ／準備でき次第）に従います。旭影が編成にいれば「連動プリセット」ボタンで隣接する味方を一括設定できます。各グループの実際の行動の流れが一文で表示されます。"
+            "kr": "추가 행동은 이미 행동을 마친 아군에게만 들어가므로, 받은 추가 행동에서 궁을 쓰는 멤버는 앵커보다 먼저 행동합니다. 앵커가 추가 행동을 주지 않는 캐릭터면 안내가 뜨고, 보류한 궁은 ‘미준비면’ 규칙(대기 / 준비되면 바로)을 따릅니다. 인접 아군에게 추가 행동을 주는 캐릭터가 편성에 있으면 ‘연동 자동 설정’ 버튼이 인접 아군을 한 번에 묶어 줍니다. 그룹마다 실제 행동 흐름이 한 문장으로 표시됩니다.",
+            "en": "Extra actions only go to allies who already acted, so members that use the ultimate in the granted extra action act before the anchor. If the anchor grants no extra actions a note appears, and the held ultimate follows the ‘If not ready’ rule (Wait / Use when ready). If a character that grants extra actions to adjacent allies is on the team, the ‘sync preset’ button groups those allies in one click. Each group shows its actual action flow as a sentence.",
+            "zh": "追加行動只會給已行動的隊員，因此用獲得的追加行動放必殺的成員會先於錨點行動。若錨點不給追加行動會顯示提示，保留的必殺依「未就緒時」規則（等待／就緒即用）處理。隊伍中有會給相鄰隊員追加行動的角色時，「連動快速設定」按鈕可一鍵綁定相鄰隊員。每組會以一句話顯示實際行動流程。",
+            "zhs": "追加行动只会给已行动的队员，因此用获得的追加行动放必杀的成员会先于锚点行动。若锚点不给追加行动会显示提示，保留的必杀依「未就绪时」规则（等待／就绪即用）处理。队伍中有会给相邻队员追加行动的角色时，「联动快速设置」按钮可一键绑定相邻队员。每组会以一句话显示实际行动流程。",
+            "ja": "追加行動は行動済みの味方にしか入らないため、もらった追加行動で必殺を使うメンバーはアンカーより先に行動します。アンカーが追加行動を与えないキャラなら案内が出て、保留した必殺は「未準備なら」のルール（待つ／準備でき次第）に従います。隣接する味方に追加行動を与えるキャラが編成にいれば「連動プリセット」ボタンで隣接する味方を一括設定できます。各グループの実際の行動の流れが一文で表示されます。"
           }
         },
         {

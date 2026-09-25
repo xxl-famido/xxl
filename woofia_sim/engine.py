@@ -2030,11 +2030,14 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
     policy_fatal: bool | None = None
     orig_token = token                 # 정책이 토큰을 바꾸기 전 값 — 욱영 보류(defer_uk)의 로테이션 되감기 판정용
     natural = forced_token is None and not forced_basic and not is_bonus and not unit.is_fed_carry
+    # 연동은 피더가 CD를 되돌려 주는 캐리(is_fed_carry)의 기본 행동에도 적용한다 — 앵커 궁 턴에 캐리가 먼저 궁을
+    # 써 버리면 '평타 → 받은 추가 행동에서 궁 → 피더 궁 → 한 번 더 궁' 흐름이 불가능해진다. 사용 방식(asap 등)은 종전대로 제외.
+    sync_natural = forced_token is None and not forced_basic and not is_bonus
     # 연동 적용 여부: sync_own 멤버는 앵커가 이번 턴 궁을 안 쓰면 연동을 적용하지 않고 자기 사용 방식(아래 asap/strict,
     # fixed 면 계획 그대로)으로 간다 — "궁 있으면 바로 쓰다가 앵커 궁 턴에만 방어 → 받은 추가 행동에서 궁".
     sync_on = unit.sync_anchor is not None and not (
         unit.sync_own and not _anchor_will_ult(unit.sync_anchor, state))
-    if natural and bool(kit_fatal.effects) and (sync_on or unit.ult_mode != "fixed"):
+    if bool(kit_fatal.effects) and ((sync_natural and sync_on) or (natural and unit.ult_mode != "fixed")):
         ready = unit.cd_remaining <= 0
         holding = any(unit.stacks.get(s, 0) > 0 for s in unit.hold_fatal_stacks)
         slot_ok = token != "defend" or not unit.ult_keep_def     # 방어 지정 턴은 기본적으로 지킨다
@@ -2466,6 +2469,24 @@ def _apply_sync_order(queue: list[Unit], state: BattleState) -> list[Unit]:
     return out
 
 
+def _order_pending(pending: list[Unit], allies: list[Unit]) -> list[Unit]:
+    """한꺼번에 받은 추가 행동의 실행 순서(기본은 우선순위). 피더(필살로 특정 자리 동료의 CD를 되돌리고 추가 행동을
+    주는 캐릭 — feeds_position)와 그 캐리가 함께 추가 행동을 받았고 캐리의 궁이 이미 준비돼 있으면, 캐리를 먼저
+    행동시킨다. 피더가 먼저 쓰면 준비된 궁 위에 CD 초기화가 덮여 낭비되고, 캐리가 먼저 궁을 쓴 뒤 피더가 되돌려
+    줘야 한 턴에 궁이 두 번 나간다. 캐리 궁이 아직 안 찼으면 피더가 먼저(초기화가 필요)라 순서를 바꾸지 않는다."""
+    out: list[Unit] = []
+    for v in pending:
+        if v in out:
+            continue
+        if v.feeds_position:
+            carry = next((a for a in allies if a.slot == v.feeds_position - 1), None)
+            if (carry is not None and carry is not v and carry in pending and carry not in out
+                    and carry.is_fed_carry and carry.cd_remaining <= 0):
+                out.append(carry)
+        out.append(v)
+    return out
+
+
 def _ally_phase(allies: list[Unit], state: BattleState) -> None:
     """Run the ally phase as a queue so granted extra actions act right after the
     action that granted them (self-grants like 이태호, or 임부언 -> 아누비로스)."""
@@ -2504,8 +2525,8 @@ def _ally_phase(allies: list[Unit], state: BattleState) -> None:
             state.cur_action_chain = False
             _check_coordination(allies, state)
         # 외부 grant(임부언/욱영) 추가행동만 큐로 재행동 = 고급 설정에 굳힐 수 있음(우선순위 순)
-        pending = [v for v in sorted(allies, key=lambda x: x.priority)
-                   if v.alive and v.extra_actions > 0]
+        pending = _order_pending([v for v in sorted(allies, key=lambda x: x.priority)
+                                  if v.alive and v.extra_actions > 0], allies)
         for v in pending:
             v.extra_actions -= 1
             budget[v.slot] = budget.get(v.slot, 0) + 1

@@ -445,3 +445,21 @@ def test_sync_own_uses_own_plan_on_other_turns():
                     altar=None, sync_groups=[{"anchor": 2, "members": [(1, "before", "defend", True)], "miss": "wait"}],
                     n_dummies=1, max_turn=8, enemy_hits=0, force_proc=True, seed=0)
     assert per_turn(asap, 4) == ["방어", "필살기"] and per_turn(asap, 5) == ["필살기"]
+
+
+ANUBIROS, IMBUEON = 10401, 10410   # 임부언 = 필살로 1번 자리 동료의 CD 초기화 + 추가 행동(피더)
+
+
+def test_sync_fed_carry_and_feeder_order():
+    """피드백(2026-09-25): 욱영 궁 턴 최적 축 = 임부언 평 → 아누비로스 평 → 욱영 궁 → 아누비로스 궁 → 임부언 궁 → 아누비로스 궁.
+    ① 연동은 피더가 CD를 되돌려 주는 캐리(아누비로스)의 기본 행동에도 적용 ② 추가 행동을 함께 받으면 궁이 준비된 캐리가 피더보다 먼저."""
+    team = [CharSpec(ANUBIROS, position=1), CharSpec(UK, position=2), CharSpec(IMBUEON, position=3)]
+    groups = [{"anchor": 2, "members": [(1, "before", "basic", True), (3, "before", "basic", True)], "miss": "wait"}]
+    res = run_team(team, altar=None, sync_groups=groups, n_dummies=1, max_turn=7, enemy_hits=0, force_proc=True, seed=0)
+    names = {u._kit.char_id: u.name for u in res.state.allies}
+    seq = [(n, k) for n, k in _turn_seq(res, 4)]
+    a, u, i = names[ANUBIROS], names[UK], names[IMBUEON]
+    assert [k for n, k in seq if n == a] == ["보통공격", "필살기", "필살기"], seq
+    assert [k for n, k in seq if n == i] == ["보통공격", "필살기"], seq
+    tail = [n for n, _ in seq][[n for n, _ in seq].index(u):]
+    assert tail == [u, a, i, a], seq                       # 욱영 궁 → 아누 궁 → 임부언 궁 → 아누 궁
