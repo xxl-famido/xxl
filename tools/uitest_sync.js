@@ -140,7 +140,8 @@ async function main() {
     app.closeAdv(); await sleep(30);
     app.applyAltarSnap({ on: true, floors: { 1: { on: true, off: [] }, 2: { on: true, off: [] }, 3: { on: true, off: [] } } });
     app.advTab = 'ult'; app.openAdvPop();
-    const allBtn = await waitFor(() => $('.adv-pane-ult [data-ultall]', $('.adv-card')), '확률 CD 안내');
+    const allBtn = await waitFor(() => $('.adv-pane-ult [data-ultall="asap"]', $('.adv-card')), '확률 CD 안내');
+    if (!$('.adv-pane-ult [data-ultall="assist"]', $('.adv-card'))) bad("확률 CD 안내에 '모두 성공 가정 켜기' 버튼이 없음");
     click(allBtn); await sleep(200);
     if (!app.team.every(s => !s || app.ultOf(s).mode === 'asap')) bad("원클릭 전환 후 전원 '준비되면 바로' 여야 함");
     else ok("확률 CD 감소 제단 안내 → 모두 '준비되면 바로'");

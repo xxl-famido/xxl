@@ -525,6 +525,22 @@ def run_sim(cfg: dict) -> dict:
         floor_total, ceil_total = round(min(floor_total, avg_total), 2), round(max(ceil_total, avg_total), 2)
         floor_dps, ceil_dps = round(min(floor_dps, avg_dps), 2), round(max(ceil_dps, avg_dps), 2)
 
+    # 확률 쿨 감소 가정(궁극기 사용 방식 옵션): 적용 유닛이 있으면 앞당긴 궁 횟수와 그 가정이 실제로 모두 나올 확률.
+    # 확률은 런마다 다를 수 있어(다른 확률 효과가 흐름을 바꿈) 평균을 낸다. 적용 유닛이 없으면 None(헤더 생략).
+    cd_assist = None
+    if any(u.cd_assist for u in rep.allies):
+        def _run_prob(st) -> float:
+            pr = 1.0
+            for u in st.allies:
+                pr *= u.cd_assist_prob
+            return pr
+        cd_assist = {
+            "uses": round(sum(sum(u.cd_assist_uses for u in st.allies) for st in states) / runs, 2),
+            "prob": round(sum(_run_prob(st) for st in states) / runs, 4),
+            "units": [{"id": u._kit.char_id, "position": u.slot + 1, "uses": u.cd_assist_uses,
+                       "prob": round(u.cd_assist_prob, 4)}
+                      for u in sorted(rep.allies, key=lambda x: x.slot) if u.cd_assist],
+        }
     out_meta = {"turns": turns, "total": round(avg_total, 2), "dps": round(dps_sum / runs, 2),
                      "totalFloor": floor_total, "totalCeil": ceil_total,
                      "dpsFloor": floor_dps, "dpsCeil": ceil_dps,
@@ -539,6 +555,7 @@ def run_sim(cfg: dict) -> dict:
                                if altar_ids else None),
                      # 연동(궁 맞추기) 그룹 수 — 제단과 무관하게 결과 헤더에 표시(0 = 미사용)
                      "sync": len(sync_groups),
+                     "cdAssist": cd_assist,
                      # 턴 피해 모드 요약(결과 헤더) — 균일이면 pct 하나, 턴별이면 min~max. 미사용=None
                      "turnDamage": ({"min": min(turn_damage), "max": max(turn_damage),
                                      "uniform": len(set(turn_damage)) == 1}

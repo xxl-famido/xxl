@@ -81,6 +81,7 @@ em{font-style:normal;color:var(--muted);font-weight:400}
   cursor:pointer;position:relative;transition:.16s;overflow:hidden}
 .slot:hover{border-color:var(--gold-d)}
 .slot.filled{border-style:solid;border-color:var(--el,var(--line2))}
+.slot.target{border-color:var(--gold);box-shadow:0 0 0 2px rgba(232,184,75,.22)}   /* 빈 슬롯을 누르면 다음에 고른 캐릭터가 들어갈 자리 */
 .slot .pos{position:absolute;top:5px;left:7px;font-size:11px;font-weight:600;color:var(--muted);z-index:2}
 .slot .empty{font-size:24px;color:var(--faint)}
 .slot img{width:100%;height:100%;object-fit:cover;object-position:top}
@@ -415,6 +416,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 .plan-legend{font-size:11.5px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;
   justify-content:space-between;gap:10px;flex-wrap:wrap}
 .plan-fill{display:flex;gap:5px;flex:none}
+.plan-fill.uk-after-row{margin:-2px 0 10px}   /* 욱영 「아군 필살 나중」: 직접 계획과 무관한 설정이라 계획 영역 밖(항상 보임) */
 .plan-fill button{font:inherit;font-size:10.5px;font-weight:600;color:var(--text2);background:var(--bg2);
   border:1px solid var(--line2);border-radius:6px;padding:4px 9px;cursor:pointer;transition:.12s;white-space:nowrap}
 .plan-fill button:hover{color:var(--gold);border-color:var(--gold-d)}
@@ -512,6 +514,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
   box-shadow:0 14px 40px rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:.28s}
 #toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 #toast .ti{color:var(--gold);font-size:16px}
+#toast .toast-act{margin-left:10px;flex:none;font:inherit;font-size:12px;font-weight:700;color:#0d0c0a;background:var(--gold);border:0;border-radius:7px;padding:5px 11px;cursor:pointer}
+#toast .toast-act:hover{filter:brightness(1.08)}
 .up-toast{position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:210;cursor:pointer;
   padding:11px 18px;border-radius:11px;font-size:13px;font-weight:700;color:#0d0c0a;
   background:linear-gradient(135deg,var(--gold),var(--gold-d));box-shadow:0 8px 28px rgba(232,184,75,.45);
@@ -1404,6 +1408,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 .ult-desc{font-size:11.5px;color:var(--muted);line-height:1.45;margin:7px 0 8px}
 .ult-keep{font-size:12px}
 .ult-keep.dim{opacity:.45}
+.ult-assist{font-size:12px;margin-top:6px}
+.ult-assist.dim{opacity:.45}
+/* 확률 쿨 감소 성공 가정: 그 가정이 있어야 되는 궁 = 오른쪽 위 작은 점 / 잠겼지만 가정을 켜면 되는 칸 = 도움말 커서(설명은 title) */
+.pcell .acts button.luck,.pp-acts button.luck{position:relative}
+.pcell .acts button.on.a궁.luck::after,.pp-acts button.on.a궁.luck::after{content:'';position:absolute;top:2px;right:2px;width:4px;height:4px;border-radius:50%;background:#0d0c0a;opacity:.7}
+.pcell .acts button.luck-off:disabled,.pp-grid:not(.off) .pp-acts button.luck-off:disabled{cursor:help}
 .ult-sync,.ult-lock{font-size:11.5px;color:var(--text2);background:var(--bg);border:1px dashed var(--line2);border-radius:8px;padding:7px 9px;line-height:1.45;margin-top:6px}
 .ult-lock{color:var(--muted)}
 .pp-card .mc-ult{margin:8px 0 10px}
@@ -1420,6 +1430,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 .adv-note.warn{color:var(--gold);background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.3)}
 .adv-note .btn-ghost.sm{margin:0;flex:none}
 .adv-note span{flex:1;min-width:200px}
+.adv-note .adv-note-btns{flex:none;min-width:0;display:flex;flex-wrap:wrap;gap:6px}
 /* 궁극기 사용 방식 탭: 캐릭터별 행 */
 .au-row{border:1px solid var(--line);border-left:3px solid var(--el,var(--line2));border-radius:10px;background:var(--bg2);padding:9px 11px 9px;margin-top:8px}
 .au-head{display:flex;align-items:center;gap:8px;margin-bottom:7px}

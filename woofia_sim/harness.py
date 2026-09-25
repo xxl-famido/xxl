@@ -111,6 +111,7 @@ class CharSpec:
     hp_bonus: int = 0            # 도장 강화: 기본 HP 가산
     ult_mode: str = "fixed"      # 궁극기 사용 방식: fixed(계획 턴·차면 즉시) / strict(계획 턴만) / asap(준비되면 바로)
     ult_keep_def: bool = True    # asap·궁 맞추기 에서 계획의 방어 턴은 방어 유지
+    ult_assist: bool = False     # 확률 쿨 감소를 계획에 맞춰 성공으로 보기 — 직접 계획·타임라인·연동이 있을 때만 적용
 
     def investment(self) -> Investment:
         return Investment(level=self.level, evo=self.evo, pevo=self.pevo,
@@ -179,8 +180,15 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
     rotations = [s.rotation if s.rotation is not None else auto_rotation(kit)
                  for s, kit in zip(specs, kits)]
     fed_actions = [s.fed_action for s in specs]   # 이태호 임부언 fed 추가행동 토큰(None=기본 평타)
-    ult_policies = [{"mode": s.ult_mode, "keepDef": s.ult_keep_def} for s in specs]
     pos2slot = {s.position if s.position else i + 1: slot for i, (s, slot) in enumerate(zip(specs, slots))}
+    # 확률 쿨 감소 가정은 '궁을 쓸 턴을 정해 둔' 캐릭터에만 — 직접 계획(rotation 지정)·명시 타임라인·연동 멤버/앵커.
+    # 자동(계획 없음) 캐릭터에 켜 두면 확률 감소를 잃고 기본 주기만 남으므로 적용하지 않는다(확률 그대로).
+    synced = {int(g.get("anchor", -1)) for g in (sync_groups or [])}
+    synced |= {int(m[0]) for g in (sync_groups or []) for m in g.get("members", [])}
+    ult_policies = [{"mode": s.ult_mode, "keepDef": s.ult_keep_def,
+                     "assist": s.ult_assist and (s.rotation is not None or bool(turn_plans)
+                                                 or (s.position or i + 1) in synced)}
+                    for i, s in enumerate(specs)]
     # 멤버 항목은 (포지션, order) 또는 (포지션, order, base, bonus) — 첫 원소만 슬롯으로 바꾸고 나머지는 그대로
     groups_slot = [{"anchor": pos2slot.get(g.get("anchor"), -1),
                     "members": [(pos2slot.get(m[0], -1), *m[1:]) for m in g.get("members", [])],

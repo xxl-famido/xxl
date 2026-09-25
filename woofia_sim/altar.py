@@ -179,13 +179,16 @@ MAX_SYNC_GROUPS = 3
 
 
 def parse_ult_policy(raw: object) -> dict:
-    """team[].ult = {"mode": fixed|strict|asap, "keepDef": bool} → CharSpec 키워드. 이상하면 기본(fixed·유지)."""
+    """team[].ult = {"mode": fixed|strict|asap, "keepDef": bool, "assist": bool} → CharSpec 키워드.
+    assist = 확률 쿨 감소를 계획에 맞춰 성공으로 보기(asap 에는 적용 안 됨 — 엔진이 판단). 이상하면 기본(fixed·유지)."""
     if not isinstance(raw, dict):
         return {}
     mode = raw.get("mode")
     out = {"ult_mode": mode if mode in ULT_MODES else "fixed"}
     if raw.get("keepDef") is False:
         out["ult_keep_def"] = False
+    if raw.get("assist") is True:
+        out["ult_assist"] = True
     return out
 
 

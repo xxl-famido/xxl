@@ -463,3 +463,92 @@ def test_sync_fed_carry_and_feeder_order():
     assert [k for n, k in seq if n == i] == ["보통공격", "필살기"], seq
     tail = [n for n, _ in seq][[n for n, _ in seq].index(u):]
     assert tail == [u, a, i, a], seq                       # 욱영 궁 → 아누 궁 → 임부언 궁 → 아누 궁
+
+
+# ── 확률 쿨 감소 성공 가정(궁극기 사용 방식 assist) ────────────────────────────
+
+def _plan(turns, ult_turns):
+    return "".join("궁" if t in ult_turns else "평" for t in range(1, turns + 1))
+
+
+def test_cd_assist_pulls_planned_ult_early_and_reports_probability():
+    """3쿨(첫 4턴) 캐릭 계획 3·6·9·12: 가정 ON 이면 그 턴 그대로(1012 기회 2번 중 1번 = 51%),
+    OFF 면 확률이 안 터진(never_proc) 판에선 원래 쿨로 밀린다. 가정은 '필요한 만큼'만 쓴다(1회)."""
+    import sim_api
+    rot = _plan(13, {3, 6, 9, 12})
+    base = {"turns": 13, "dummies": 1, "enemyHits": "0", "runs": 5, "noBand": True,
+            "altar": {"on": True, "floors": {"1": {"on": True, "off": {}}}}}
+    on = sim_api.run_sim({**base, "team": [{"id": FIGHTER, "position": 1, "rotation": rot,
+                                             "ult": {"mode": "fixed", "assist": True}}]})
+    ults = sorted({ev["turn"] for ev in on["log"] if ev["kind"] == "필살기" and ev["actorId"] == FIGHTER})
+    assert ults == [3, 6, 9, 12]
+    ca = on["meta"]["cdAssist"]
+    assert ca["uses"] == 1 and abs(ca["prob"] - 0.51) < 1e-9, ca
+    off = run_team([CharSpec(FIGHTER, position=1, rotation=rot)], altar=[1012, 1013],
+                   n_dummies=1, max_turn=13, enemy_hits=0, never_proc=True, seed=0)
+    assert _ult_turns(off, FIGHTER) == [4, 7, 10, 13]
+
+
+def test_cd_assist_is_deterministic_under_band_flags():
+    """가정 유닛은 확률 CD 감소를 굴리지 않는다 — 바닥(never)·천장(force)·평균이 같은 궁 턴."""
+    rot = _plan(12, {3, 6, 9, 12})
+    spec = lambda: [CharSpec(FIGHTER, position=1, rotation=rot, ult_assist=True)]   # noqa: E731
+    runs = [run_team(spec(), altar=[1012, 1013], n_dummies=1, max_turn=12, enemy_hits=0, seed=0, **kw)
+            for kw in ({}, {"never_proc": True}, {"force_proc": True})]
+    assert all(_ult_turns(r, FIGHTER) == [3, 6, 9, 12] for r in runs)
+
+
+def test_cd_assist_not_applied_to_auto_or_asap():
+    """자동(계획 없음)·'준비되면 바로'는 가정을 적용하지 않는다 → 확률 그대로, meta.cdAssist 없음."""
+    import sim_api
+    base = {"turns": 10, "dummies": 1, "enemyHits": "0", "runs": 1, "noBand": True, "forceProc": True,
+            "altar": {"on": True, "floors": {"1": {"on": True, "off": {}}}}}
+    auto = sim_api.run_sim({**base, "team": [{"id": FIGHTER, "position": 1, "ult": {"mode": "fixed", "assist": True}}]})
+    asap = sim_api.run_sim({**base, "team": [{"id": FIGHTER, "position": 1, "rotation": _plan(10, {4}),
+                                               "ult": {"mode": "asap", "assist": True}}]})
+    plain = sim_api.run_sim({**base, "team": [{"id": FIGHTER, "position": 1}]})
+    assert auto["meta"]["cdAssist"] is None and asap["meta"]["cdAssist"] is None
+    assert auto["meta"]["total"] == plain["meta"]["total"]
+
+
+def test_cd_assist_cannot_reach_impossible_turn():
+    """기회가 모자란 턴(3쿨의 2턴 = 1턴 행동 1번 = -1뿐)은 가정으로도 불가 → 평타 + 원래 규칙(폴백)."""
+    res = run_team([CharSpec(FIGHTER, position=1, rotation=_plan(8, {2}), ult_assist=True)], altar=[1012, 1013],
+                   n_dummies=1, max_turn=8, enemy_hits=0, seed=0)
+    assert _ult_turns(res, FIGHTER)[0] == 3          # 2턴 불가 → 폴백: 가정으로 준비되는 3턴에 발동
+
+
+def test_cd_assist_zeto_blocks_external_cd_cut():
+    """외부 CD 조작이 막힌 유닛(제토 cd_immune)은 제단 감소 기회가 0 — 가정으로도 앞당겨지지 않는다."""
+    from woofia_sim.engine import Unit, _prob_cd_amount
+    from woofia_sim.altar import altar_effects
+    trig = altar_effects(1012)[0]
+    u = Unit(name="x", side="ally", slot=0, base_atk=1, max_hp=1, hp=1, cd_immune=True)
+    u._kit = type("K", (), {"char_id": 10441})()
+    assert _prob_cd_amount(trig.sub_effects, u) == 0
+    u.cd_immune = False
+    assert _prob_cd_amount(trig.sub_effects, u) == 1
+
+
+def test_cd_assist_sync_member_follows_early_anchor():
+    """연동: 앵커가 가정으로 3턴에 궁 → '같이 궁' 멤버도 가정으로 3턴에 맞춘다(둘 다 옵션 ON)."""
+    import sim_api
+    team = [{"id": FIGHTER, "position": 1, "rotation": _plan(12, {3, 6, 9, 12}), "ult": {"mode": "fixed", "assist": True}},
+            {"id": HEALER, "position": 2, "ult": {"mode": "fixed", "assist": True}}]
+    res = sim_api.run_sim({"team": team, "turns": 12, "dummies": 1, "enemyHits": "0", "runs": 1, "noBand": True,
+                           "altar": {"on": True, "floors": {"1": {"on": True, "off": {}}}},
+                           "sync": [{"anchor": 1, "members": [{"p": 2}]}]})
+    hu = sorted({ev["turn"] for ev in res["log"] if ev["kind"] == "필살기" and ev["actorId"] == HEALER})
+    assert hu == [3, 6, 9, 12], hu
+
+
+def test_cd_assist_probe_opens_timeline_cell():
+    """플래너 프로브(보장 CD 기준)도 가정 ON 이면 3턴 궁을 '가능'으로 본다(타임라인 cdOk)."""
+    import sim_api
+    base = {"team": [{"id": FIGHTER, "position": 1, "ult": {"mode": "fixed", "assist": True}}], "turns": 4, "dummies": 1,
+            "enemyHits": "0", "altar": {"on": True, "floors": {"1": {"on": True, "off": {}}}},
+            "turnPlans": {"3": [{"p": 1, "a": "궁"}]}}
+    pr = sim_api.plan_probe(base)
+    assert pr["plan"]["3"]["cdOk"] == [True] and pr["plan"]["3"]["seq"][0]["a"] == "궁"
+    off = sim_api.plan_probe({**base, "team": [{"id": FIGHTER, "position": 1}]})
+    assert off["plan"]["3"]["cdOk"] == [False]

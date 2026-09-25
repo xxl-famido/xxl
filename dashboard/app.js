@@ -102,7 +102,10 @@ function loadHistory() {
     if (changed) persistHistory();
   } catch { simHistory = []; }
 }
-function persistHistory() { try { localStorage.setItem(HKEY, JSON.stringify(simHistory)); } catch { } }
+function persistHistory() {
+  try { localStorage.setItem(HKEY, JSON.stringify(simHistory)); }
+  catch { toast('기록 저장 공간이 가득 찼어요 — 오래된 기록을 정리해 주세요'); }   // 조용히 실패하면 새 기록이 사라진 줄 모른다
+}
 function fmtShort(n) {
   if (n >= 1e8) return (n / 1e8).toFixed(2).replace(/\.?0+$/, '') + '억';
   if (n >= 1e4) return Math.round(n / 1e4).toLocaleString('ko-KR') + '만';
@@ -152,9 +155,23 @@ function setSeg(id, val) {
   seg.dataset.val = val;
   seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v == val));
 }
-function restoreRecord(rec) {
+// 기록 불러오기: 그 기록의 조건을 재현한다. 사용자가 고른 경우(undo=true)엔 불러오기 직전 상태로 돌아갈 수 있게
+// 되돌리기 알림을 띄운다 — 편성·제단·연동·턴 피해가 기록 값으로 바뀌기 때문(옛 기록엔 연동이 없어 그룹이 비는 등).
+function restoreRecord(rec, undo = false) {
+  const prev = undo ? { snap: snapshot(), rec: activeRecId, touched: [...advTouched] } : null;
   activeRecId = rec.id;       // 이 기록을 UI에 로드 → 선택 상태로 추적
-  const s = rec.snap;
+  applySnap(rec.snap);
+  if (rec.data) { lastResult = rec.data; renderResults(rec.data); }   // 구버전 기록(결과 내장)
+  else { run(false); }                  // 결과 미저장 기록 → 동일 설정으로 재실행 (저장 안 함)
+  saveDraft();
+  if (prev) toast('기록을 불러왔어요', { label: '되돌리기', fn: () => {
+    activeRecId = prev.rec; applySnap(prev.snap);
+    advTouched = new Set(prev.touched.filter(t => turnPlans[t]));   // 직접 편집한 턴 표시도 그대로
+    renderHistory(activeRecId); run(false); saveDraft();
+  } });
+}
+// 스냅샷(기록·작업 중 상태)을 화면 상태로 적용한다. 결과 계산은 호출부가 한다.
+function applySnap(s) {
   team = s.team.map(x => x ? promoteLegacySpec(JSON.parse(JSON.stringify(x))) : null);
   turnOverrides = JSON.parse(JSON.stringify(s.turnOverrides || {}));
   advOn = !!s.advOn;                                            // 행동 고급 설정
@@ -182,8 +199,21 @@ function restoreRecord(rec) {
   applySyncSnap(s.sync || (s.altar && s.altar.groups) || null);   // 연동 그룹(옛 기록은 제단 안에 있었다)
   applyTdmgSnap(s.turnDamage);                           // 턴 피해 설정 복원(옛 기록=OFF)
   buildFilters(); renderRoster(); renderTeam(); renderPrio();
-  if (rec.data) { lastResult = rec.data; renderResults(rec.data); }   // 구버전 기록(결과 내장)
-  else { run(false); }                  // 결과 미저장 기록 → 동일 설정으로 재실행 (저장 안 함)
+}
+// ── 작업 중 상태(초안) — 새로고침해도 하던 설정 그대로 돌아온다. 기록은 사용자가 불러올 때만 적용한다.
+const DRAFT_KEY = 'woofia_draft';
+let draftReady = false;                  // 초기 복원이 끝나기 전엔 저장하지 않는다(빈 화면으로 덮어쓰기 방지)
+function saveDraft() {
+  if (!draftReady) return;
+  try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ v: 1, rec: activeRecId, snap: snapshot(), touched: [...advTouched] })); } catch { }
+}
+let _draftT = 0;
+function queueDraft() { clearTimeout(_draftT); _draftT = setTimeout(saveDraft, 300); }
+function loadDraft() {
+  try {
+    const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');
+    return (d && d.snap && Array.isArray(d.snap.team)) ? d : null;
+  } catch { return null; }
 }
 function renderHistList() {
   const list = $('#histList'); if (!list) return;
@@ -206,7 +236,7 @@ function updateHselCount() {
 }
 function afterHistChange() { persistHistory(); renderHistList(); renderHistory(activeRecId); }   // 로드된 기록 선택 유지(가져오기로 강제 점프 안 함)
 function bindHistory() {
-  $('#history').onchange = e => { const r = simHistory.find(x => x.id == e.target.value); if (r) restoreRecord(r); };
+  $('#history').onchange = e => { const r = simHistory.find(x => x.id == e.target.value); if (r) restoreRecord(r, true); };
   $('#histManage').onclick = () => { renderHistList(); $('#histModal').hidden = false; };
   $('#histModal').onclick = e => { if (e.target.dataset.hclose !== undefined) $('#histModal').hidden = true; };
   $('#hAll').onclick = () => { $$('#histList input').forEach(c => c.checked = true); updateHselCount(); };
@@ -587,6 +617,8 @@ let cmpPending = false;                  // 편집 후 재계산 대기 상태
 let cmpTurnOv = { a: {}, b: {} };        // 비교군별 턴 오버라이드 {turn:[position,...]}
 let cmpAdv = { a: null, b: null };       // 비교군별 타임라인(보관) — 꺼도 지우지 않는다
 let cmpAdvOn = { a: false, b: false };   // 그 타임라인을 실제로 적용할지 (메인 스위치와 같은 의미)
+// 비교군별 연동 그룹 — 그 기록의 연동을 들고 온다. 비교 화면에서 고쳐도 메인 연동(저장값)은 바뀌지 않는다.
+let cmpSync = { a: [], b: [] };
 let cmpManual = false;                   // 사용자가 직접 위치를 옮기기 시작하면 true → 자동매칭 끄고 위치기반
 function cmpSideRec(side) {              // 드롭다운 값 → 저장기록 또는 빈(커스텀) 그룹
   const val = $('#cmp' + (side === 'a' ? 'A' : 'B')).value;
@@ -595,8 +627,10 @@ function cmpSideRec(side) {              // 드롭다운 값 → 저장기록 �
 }
 function loadCmpTeam(side, rec) {        // 기록이 바뀔 때만 snap에서 새로 복사(편집 보존)
   if (cmpLoaded[side] === rec.id) return;
-  cmpTeam[side] = (rec.snap.team || []).map(t => t ? JSON.parse(JSON.stringify(t)) : null);
+  // 옛 기록의 스킬 레벨·도장 표기도 메인 불러오기와 같게 정리(안 하면 비교에서만 조용히 풀육성)
+  cmpTeam[side] = (rec.snap.team || []).map(t => t ? promoteLegacySpec(JSON.parse(JSON.stringify(t))) : null);
   cmpTurnOv[side] = JSON.parse(JSON.stringify(rec.snap.turnOverrides || {}));
+  cmpSync[side] = normalizeSyncGroups(JSON.parse(JSON.stringify(rec.snap.sync || (rec.snap.altar && rec.snap.altar.groups) || [])));
   // 고급 설정으로 만든 기록이면 그 타임라인을 그대로 들고 온다 (없으면 null = 기존 방식)
   const tp = rec.snap.turnPlans && Object.keys(rec.snap.turnPlans).length
     ? JSON.parse(JSON.stringify(rec.snap.turnPlans)) : null;
@@ -618,23 +652,18 @@ function cmpAdvInvalidate(side) {
 }
 
 function cfgFromTeam(side, snap) {        // 편집된 팀 + 공통설정으로 API cfg
-  const picked = (cmpTeam[side] || []).map((t, i) => t ? { ...t, position: i + 1 } : null).filter(Boolean);
+  const roster = cmpTeam[side] || [];
   const adv = cmpAdvOn[side] ? cmpAdv[side] : null;   // 켜져 있을 때만 적용
   return {
     // 고급 설정 타임라인이 있으면 메인과 같은 규칙: 계획·우선순위·특정 턴 순서는 보내지 않는다
-    team: picked.map(t => ({ id: t.id, position: t.position, skill: t.skill, rune: t.rune,
-      rotation: adv ? null : (t.usePlan ? ((t.plan && t.plan.length) ? t.plan.join('') : (t.rotation || null)) : null),
-      fedActions: (t.usePlan && t.fedActions && Object.keys(t.fedActions).length) ? t.fedActions : null,
-      allyUltAfter: !!t.allyUltAfter,
-      priority: adv ? null : t.priority, sealAtk: t.sealOn ? (t.sealAtk ?? 0) : 0, sealHp: t.sealOn ? (t.sealHp ?? 0) : 0,
-      ult: ultPayload(t),
-      ...specPayload(t) })),
+    team: roster.map((t, i) => t && slotPayload(t, i + 1, roster, snap.turns, !!adv)).filter(Boolean),
     turns: +snap.turns, turnOrders: adv ? {} : (cmpTurnOv[side] || {}), turnPlans: adv || {},
     dummies: cmpCommon.dummies, enemyHits: cmpCommon.enemyHits, dummyElement: cmpCommon.dummyElement,
-    forceProc: cmpCommon.forceProc, hp10: cmpCommon.hp10, runs: cmpCommon.forceProc ? 1 : +(snap.runs || 50),
+    // 제단이 켜져 있으면 100% 모드는 쓰지 않는다(메인과 같은 규칙 — 확률 제단이 전부 터지는 비현실적 결과)
+    forceProc: cmpCommon.forceProc && !altarOn, hp10: cmpCommon.hp10, runs: (cmpCommon.forceProc && !altarOn) ? 1 : +(snap.runs || 50),
     incomingHpPct: cmpCommon.incomingOn ? cmpCommon.incomingPct : 0,   // 피격 데미지 모드 (비교 공통설정)
     altar: altarPayload(),           // 길드 제단은 메인 설정을 양쪽 비교군에 공통 적용
-    sync: syncPayload(),             // 연동 그룹도 공통(포지션 기준)
+    sync: syncPayloadOf(cmpSync[side]),   // 그 비교군의 연동(기록에서 가져온 것 · 비교 화면에서 고친 것)
     turnDamage: tdmgPayload(),       // 턴 피해도 메인 설정을 양쪽에 공통 적용
   };
 }
@@ -647,17 +676,26 @@ function positionMatch(A, B) {            // 위치(행) 기반 1:1 — 같은�
 const cmpMatch = () => (cmpManual ? positionMatch : autoMatch)(cmpChars('a'), cmpChars('b'));
 function cmpRelayout() { cmpPairs = cmpMatch(); markCmpDirty(); }
 // 사용자가 처음 직접 옮길 때: 현재 화면(autoMatch) 배치를 슬롯 순서로 확정 → 이후 자동매칭 끔(완전 수동)
-function cmpGoManual() {
-  if (cmpManual) return;
-  for (const sd of ['a', 'b']) {
-    const remap = {}, newTeam = [];
-    cmpPairs.forEach((r, i) => { const ch = r[sd];
-      if (ch && ch.cfg) { remap[ch.slotIdx + 1] = i + 1; newTeam[i] = ch.cfg; } else newTeam[i] = null; });
-    cmpTeam[sd] = newTeam;
-    const ov = cmpTurnOv[sd];
-    if (ov) for (const t in ov) ov[t] = ov[t].map(p => remap[p] ?? p);
+// 수동(위치 기준) 보기로 전환 — 실제 자리는 건드리지 않는다. 예전엔 화면 줄 순서대로 양쪽 편성을 다시 깔아서
+// 한 칸만 옮겨도 B 비교군의 자리까지 바뀌었다(자리는 데미지에 영향). 이제 옮긴 두 캐릭터만 자리를 바꾼다.
+function cmpGoManual() { cmpManual = true; }
+// 비교군 sd 의 두 자리(0-based) 교체 — 특정 턴 순서·타임라인·연동의 포지션 번호도 함께 바꾼다. 임부언 1번 자리 금지.
+function cmpSwapSlots(sd, k, t) {
+  const arr = cmpTeam[sd]; if (!arr) return false;
+  if ((arr[k] && arr[k].id === IMBUEON_ID && t === 0) || (arr[t] && arr[t].id === IMBUEON_ID && k === 0)) {
+    toast('임부언은 <b>1번 자리</b>에 배치할 수 없어요'); return false;
   }
-  cmpManual = true;
+  [arr[k], arr[t]] = [arr[t], arr[k]];
+  const p1 = k + 1, p2 = t + 1, sw = p => (p === p1 ? p2 : (p === p2 ? p1 : p));
+  cmpSwapTurnOv(sd, p1, p2);
+  if (cmpAdv[sd]) for (const tn in cmpAdv[sd]) cmpAdv[sd][tn] = cmpAdv[sd][tn].map(e => ({ ...e, p: sw(e.p) }));
+  cmpSync[sd] = normalizeSyncGroups((cmpSync[sd] || []).map(g => ({ ...g, anchor: sw(g.anchor), members: g.members.map(m => ({ ...m, p: sw(m.p) })) })));
+  return true;
+}
+// 비교군 sd 의 자리 pos(1-based)가 비거나 다른 캐릭터로 바뀌면 그 자리의 연동 역할을 걷어낸다.
+function cmpDropSyncAt(sd, pos) {
+  cmpSync[sd] = normalizeSyncGroups((cmpSync[sd] || []).filter(g => g.anchor !== pos)
+    .map(g => ({ ...g, members: g.members.filter(m => m.p !== pos) }))).filter(g => g.members.length);
 }
 // 슬롯(포지션) 교체 시 turnOverrides의 포지션 번호도 함께 교체 — 턴별 우선순위가 같은 캐릭을 계속 가리키게
 function cmpSwapTurnOv(side, p1, p2) {
@@ -798,7 +836,6 @@ function updateCiStats(c) {                // 도장 변경 시 정보카드 ATK
 }
 function openSealPop(c) {
   const meta = CHARS[c.id] || {}, limit = meta.sealLimit || 20000, cf = c.cfg;
-  if (cf.sealAtk == null) { cf.sealAtk = 0; cf.sealHp = limit; }
   document.querySelector('.sealpop')?.remove();
   const pop = document.createElement('div'); pop.className = 'sealpop';
   pop.innerHTML = `<div class="sp-card"><button class="mc-close" data-spclose>×</button>
@@ -812,14 +849,16 @@ function openSealPop(c) {
       <div class="seal-ratio" id="spRatio"></div>
     </div></div>`;
   document.body.appendChild(pop);
-  const sync = atk => {
+  // commit=false: 처음 열 때 화면만 채운다(값을 쓰거나 비교 결과를 '변경됨'으로 만들지 않음)
+  const sync = (atk, commit = true) => {
     atk = Math.max(0, Math.min(limit, Math.round((atk || 0) / 100) * 100));
-    cf.sealAtk = atk; cf.sealHp = limit - atk;
-    $('#spAtkR').value = atk; $('#spAtkN').value = atk; $('#spHpR').value = cf.sealHp; $('#spHpN').value = cf.sealHp;
-    $('#spAtkR').style.setProperty('--p', (atk / limit * 100) + '%'); $('#spHpR').style.setProperty('--p', (cf.sealHp / limit * 100) + '%');
+    const hp = limit - atk;
+    if (commit) { cf.sealAtk = atk; cf.sealHp = hp; }
+    $('#spAtkR').value = atk; $('#spAtkN').value = atk; $('#spHpR').value = hp; $('#spHpN').value = hp;
+    $('#spAtkR').style.setProperty('--p', (atk / limit * 100) + '%'); $('#spHpR').style.setProperty('--p', (hp / limit * 100) + '%');
     const ap = Math.round(atk / limit * 100);
     $('#spRatio').innerHTML = `공격력 <b class="atk">${ap}%</b> : 체력 <b class="hp">${100 - ap}%</b>`;
-    updateCiStats(c); markCmpDirty();
+    if (commit) { updateCiStats(c); markCmpDirty(); }
   };
   $('#spOn').checked = !!cf.sealOn; $('#spBody').classList.toggle('off', !cf.sealOn);
   $('#spOn').onchange = () => { cf.sealOn = $('#spOn').checked; $('#spBody').classList.toggle('off', !cf.sealOn); sync(cf.sealAtk); };
@@ -827,7 +866,7 @@ function openSealPop(c) {
   $('#spAtkN').onchange = e => sync(+e.target.value);
   $('#spHpR').oninput = e => sync(limit - +e.target.value);
   $('#spHpN').onchange = e => sync(limit - +e.target.value);
-  sync(cf.sealAtk);
+  sync(cf.sealAtk ?? 0, false);
   pop.onclick = e => { if (e.target.dataset.spclose !== undefined || e.target === pop) pop.remove(); };
 }
 function openAddPop(side) {
@@ -877,7 +916,7 @@ function openSwapPop(c) {
       const idx = c.slotIdx;
       if (idx >= 0 && cmpTeam[c.side]) {
         if (b.dataset.id === 'none') {            // 로스터에서 제외(빈 슬롯)
-          cmpAdvInvalidate(c.side); cmpTeam[c.side][idx] = null; pop.remove();
+          cmpAdvInvalidate(c.side); cmpDropSyncAt(c.side, idx + 1); cmpTeam[c.side][idx] = null; pop.remove();
           document.querySelector('.cmpinfo')?.remove(); cmpRelayout(); return;
         }
         const newId = +b.dataset.id;
@@ -885,7 +924,7 @@ function openSwapPop(c) {
           if (newId === IMBUEON_ID && idx === 0) {
             toast('임부언은 <b>1번 자리</b>에 배치할 수 없어요'); return;
           }
-          cmpAdvInvalidate(c.side);
+          cmpAdvInvalidate(c.side); cmpDropSyncAt(c.side, idx + 1);
           cmpTeam[c.side][idx] = { id: newId, skill: 10, rune: true, rotation: '' };
           pop.remove(); cmpRelayout();
           openCmpInfo({ id: newId, name: (CHARS[newId] || {}).name || String(newId), elementKey: (CHARS[newId] || {}).elementKey, position: c.position, damage: null, cfg: cmpTeam[c.side][idx], slotIdx: idx, side: c.side });
@@ -907,7 +946,7 @@ function openPlanPopup(c) {
     ${ultSectionHTML(c.cfg, c.position || (c.slotIdx + 1), !!(cmpAdvOn && cmpAdvOn[c.side]))}
     <div id="ppGrid"></div></div>`;
   document.body.appendChild(pop);
-  bindUltSection(pop, c.cfg, markCmpDirty);      // 궁극기 사용 방식(비교군 슬롯 — 여기서 바로 편집)
+  bindUltSection(pop, c.cfg, () => { markCmpDirty(); renderPlanPop(c); });   // 궁극기 사용 방식(비교군 슬롯 — 여기서 바로 편집). 가정 토글은 플래너 칸도 바꾼다
   $('#ppOn').checked = !!c.cfg.usePlan;
   $('#ppOn').onchange = () => {
     c.cfg.usePlan = $('#ppOn').checked;
@@ -921,12 +960,16 @@ function openPlanPopup(c) {
 function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게이팅·방어 CD감소·궁 재배치 적용
   const grid = $('#ppGrid'); if (!grid) return;
   const meta = CHARS[c.id] || {}, apt = meta.actionsPerTurn || 1, on = !!c.cfg.usePlan, turns = cmpCommon.turns || 30;
-  let plan = (c.cfg.plan && c.cfg.plan.length) ? c.cfg.plan : (c.cfg.plan = defaultPlan(meta, turns));
-  padPlan(plan, meta, turns);                        // 턴 수를 늘렸으면 기본 궁 주기로 이어붙임
+  // 화면용 사본 — 여는 것만으로 저장된 계획을 만들거나 바꾸지 않는다(메인 플래너와 같은 규칙). 칸을 누르면 저장.
+  const plan = ((c.cfg.plan && c.cfg.plan.length) ? c.cfg.plan : defaultPlan(meta, turns)).slice();
+  padPlan(plan, meta, turns);                        // 턴 수를 늘렸으면 기본 궁 주기로 이어붙임(화면만)
   const teamArr = cmpTeam[c.side] || [];             // 이태호(1포지션)+임부언 → 임부언 궁 턴에 fed 슬롯
   const ab = allyBasicCounts(teamArr, c.slotIdx, turns);   // 모이루: 아군 평타 → 추격 → 방어 시 CD 감소
-  if (apt === 1) normalizePlan(plan, meta, ab);      // CD 검증·게이팅 (단일행동 캐릭)
-  const ok = apt === 1 ? ultAvail(plan, meta, ab) : null;
+  const src = cdAssistSrc(c.cfg, meta);              // 확률 쿨 감소 성공 가정(궁극기 사용 방식)
+  if (apt === 1) normalizePlan(plan, meta, ab, src); // CD 검증·게이팅 (단일행동 캐릭)
+  const ok = apt === 1 ? ultAvail(plan, meta, ab, src) : null;
+  const okIf = (apt === 1 && !src && ultOf(c.cfg).mode !== 'asap' && cdProcSources(meta).length)
+    ? ultAvail(plan, meta, ab, cdProcSources(meta)) : null;
   const fedTurns = (on && c.id === TAEHO_ID && c.slotIdx === 0 && teamArr.some(t => t && t.id === IMBUEON_ID))
     ? imbueonUltTurns(teamArr, turns) : null;
   if (fedTurns) c.cfg.fedActions = c.cfg.fedActions || {};
@@ -939,7 +982,7 @@ function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게�
       const idx = ti * apt + a, act = plan[idx];
       const btn = (k, l) => {
         const lockUlt = apt === 1 && k === '궁' && !ok[ti] && !(meta.cdDefendReduce > 0);   // CD 안 찬 턴 궁 잠금
-        return `<button class="a${k}${act === k ? ' on' : ''}" data-idx="${idx}" data-a="${k}"${(!on || lockUlt) ? ' disabled' : ''}>${l}</button>`;
+        return `<button class="a${k}${act === k ? ' on' : ''}${planUltMark(k, act, ok, okIf, ti, lockUlt)}" data-idx="${idx}" data-a="${k}"${(!on || lockUlt) ? ' disabled' : ''}>${l}</button>`;
       };
       cells += `<div class="pp-acts">${btn('평', '평')}${btn('궁', '궁')}${btn('방', '방')}</div>`;
     }
@@ -959,33 +1002,53 @@ function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게�
       ? `매 턴 <b style="color:var(--gold)">${apt}회 행동</b> · 궁은 턴당 1회 (궁궁 불가) · 임부언 추가행동은 평타`
       : `필살 CD <b style="color:var(--gold)">${fcd(meta)}턴</b> · 첫 사용 <b style="color:var(--gold)">${ffat(meta)}턴</b> · 궁은 CD 안 찬 턴 비활성`;
     rules.innerHTML = `<span>${ruleTxt}</span><span class="plan-fill">
-      <button data-fill="평"${on ? '' : ' disabled'}>모두 평타</button><button data-fill="방"${on ? '' : ' disabled'}>모두 방어</button>${c.id === PASSIVE_DEF_ID ? `<button data-pdef${on ? '' : ' disabled'} title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>` : ''}${ULT3_IDS.has(c.id) ? `<button data-u3${on ? '' : ' disabled'} title="${ULT3_TITLE[c.id]}">3턴궁</button>` : ''}${c.id === UK_ID ? `<button data-ukafter${c.cfg.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군 먼저 필살, 회복은 평타(+45% 평타뎀)">아군 필살 나중</button>` : ''}</span>`;
+      <button data-fill="평"${on ? '' : ' disabled'}>모두 평타</button><button data-fill="방"${on ? '' : ' disabled'}>모두 방어</button>${c.id === PASSIVE_DEF_ID ? `<button data-pdef${on ? '' : ' disabled'} title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>` : ''}${ULT3_IDS.has(c.id) ? `<button data-u3${on ? '' : ' disabled'} title="${ULT3_TITLE[c.id]}">3턴궁</button>` : ''}${canEarlyUlt(meta) ? `<button data-early${on ? '' : ' disabled'} title="${EARLY_ULT_TITLE}">첫 궁 당기기</button>` : ''}${c.id === UK_ID ? `<button data-ukafter${c.cfg.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군 먼저 필살, 회복은 평타(+45% 평타뎀)">아군 필살 나중</button>` : ''}</span>`;
+    // 프리셋·채우기는 기록의 계획 길이(보통 30)를 유지한다 — 비교 턴 수(예: 13)로 만들면 뒤쪽이 잘렸다.
+    // 켜짐 판정은 보이는 턴(turns)까지만 비교한다.
+    const plen = Math.max(30, turns, (c.cfg.plan || []).length);
+    const same = (a, b) => !!(a && b) && a.slice(0, turns).join('') === b.slice(0, turns).join('');
+    const refreshUlt = () => {
+      const box = document.querySelector('.planpop .mc-ult');
+      if (box) { box.outerHTML = ultSectionHTML(c.cfg, c.position || (c.slotIdx + 1), !!(cmpAdvOn && cmpAdvOn[c.side])); bindUltSection(document.querySelector('.planpop'), c.cfg, () => { markCmpDirty(); renderPlanPop(c); }); }
+    };
+    const togglePreset = (isOn, target) => {             // 켤 때 지금 계획 보관, 끄면 그 계획으로(메인 플래너와 같은 규칙)
+      if (!isOn) { presetPrev.set(c.cfg, (c.cfg.plan || defaultPlan(meta, plen)).slice()); c.cfg.plan = target; }
+      else { c.cfg.plan = presetPrev.get(c.cfg) || fillPlan(meta, '평', plen); presetPrev.delete(c.cfg); }
+      c.cfg.rotation = c.cfg.plan.join(''); markCmpDirty(); renderPlanPop(c);
+    };
     rules.querySelectorAll('[data-fill]').forEach(b => b.onclick = () => {
       // 3턴궁 토글 ON이면 궁턴(4·7·10)을 유지한 채 나머지만 평타/방어로 채운다.
       // 아니면 fillPlan — 홀드필살(마타야)은 순수 채움(자동 궁 없음), 일반은 궁 cadence 유지.
       c.cfg.plan = isUlt3Plan(c.cfg.plan, meta)
-        ? ult3Plan(meta, turns, b.dataset.fill)
-        : fillPlan(meta, b.dataset.fill, turns);
+        ? ult3Plan(meta, plen, b.dataset.fill)
+        : fillPlan(meta, b.dataset.fill, plen);
       c.cfg.rotation = c.cfg.plan.join(''); markCmpDirty(); renderPlanPop(c);
     });
     const pdb = rules.querySelector('[data-pdef]');           // 파미도: 궁 직전 턴 방어 토글 (메인 모달과 동일)
     if (pdb) {
-      const tgt = passiveDefendPlan(meta, turns);
-      pdb.classList.toggle('on', on && !!(c.cfg.plan && c.cfg.plan.join('') === tgt.join('')));
-      pdb.onclick = () => {
-        const isOn = c.cfg.plan && c.cfg.plan.join('') === tgt.join('');
-        c.cfg.plan = isOn ? fillPlan(meta, '평', turns) : passiveDefendPlan(meta, turns);
-        c.cfg.rotation = c.cfg.plan.join(''); markCmpDirty(); renderPlanPop(c);
-      };
+      const tgt = passiveDefendPlan(meta, plen), cur = on && same(c.cfg.plan, tgt);
+      pdb.classList.toggle('on', cur);
+      pdb.onclick = () => togglePreset(cur, tgt);
     }
     const u3b = rules.querySelector('[data-u3]');             // 3턴궁 사이클 토글 (투명인간·마타야)
     if (u3b) {
-      const cur3 = isUlt3Plan(c.cfg.plan, meta);              // 채움 액션(평/방) 무관하게 궁턴만으로 판정
-      u3b.classList.toggle('on', on && cur3);
-      u3b.onclick = () => {
-        // 해제 시 fillPlan 기본: 마타야=순수 평타, 투명인간=2턴궁 cadence.
-        c.cfg.plan = cur3 ? fillPlan(meta, '평', turns) : ult3Plan(meta, turns);
-        c.cfg.rotation = c.cfg.plan.join(''); markCmpDirty(); renderPlanPop(c);
+      const tgt = ult3Plan(meta, plen), cur3 = on && same(c.cfg.plan, tgt);
+      u3b.classList.toggle('on', cur3);
+      u3b.onclick = () => togglePreset(cur3, tgt);
+    }
+    const eb = rules.querySelector('[data-early]');          // 첫 궁 당기기(확률 쿨 감소 성공 가정 함께 켬 · 끌 때 함께 끔)
+    if (eb) {
+      const tgt = earlyUltPlan(meta, plen, allyBasicCounts(teamArr, c.slotIdx, plen), cdProcSources(meta));
+      const curE = on && !!src && same(c.cfg.plan, tgt);
+      eb.classList.toggle('on', curE);
+      eb.onclick = () => {
+        if (!curE && !ultOf(c.cfg).assist) {
+          setUlt(c.cfg, { ...ultOf(c.cfg), assist: true }); assistByEarly.add(c.cfg);
+          toast('확률 쿨 감소 성공 가정을 켰어요'); refreshUlt();
+        } else if (curE && assistByEarly.has(c.cfg)) {
+          setUlt(c.cfg, { ...ultOf(c.cfg), assist: false }); assistByEarly.delete(c.cfg); refreshUlt();
+        }
+        togglePreset(curE, tgt);
       };
     }
     const ukb = rules.querySelector('[data-ukafter]');       // 욱영: 인접 아군 필살 타이밍 토글
@@ -1006,6 +1069,9 @@ function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게�
     }
     const btn = e.target.closest('button[data-a]'); if (!btn || btn.disabled) return;
     const idx = +btn.dataset.idx, a = btn.dataset.a;
+    if (plan[idx] === a) return;                      // 이미 그 행동
+    const pristine = apt === 1 && isPristinePlan(plan, meta, turns, ab, src);
+    const before = plan.slice();
     plan[idx] = a;
     if (apt > 1 && a === '궁') {                      // 궁은 턴당 1회 — 같은 턴 다른 슬롯의 궁 제거
       const ti0 = Math.floor(idx / apt);
@@ -1014,13 +1080,20 @@ function renderPlanPop(c) {                 // 본 플래너와 동일: CD 게�
     if (a === '궁' && meta.singleUlt)                 // 제토: 필살은 전투당 1회 — 다른 턴 궁은 모두 평으로
       for (let j = 0; j < plan.length; j++) if (j !== idx && plan[j] === '궁') plan[j] = '평';
     const ab2 = allyBasicCounts(cmpTeam[c.side] || [], c.slotIdx, turns);
-    if (a === '궁' && meta.cdDefendReduce > 0) {      // 모이루(추격)·히토하(입질): 앞턴 방어 자동 배치
-      if (enforceCdDefend(plan, meta, idx + 1, ab2))
+    const def = (a === '궁' && meta.cdDefendReduce > 0) ? enforceCdDefend(plan, meta, idx + 1, ab2, src) : undefined;
+    if (def === null) { if (pristine) reflowUlts(plan, meta, idx + 1); }   // 확률 쿨 감소 가정으로 이미 가능 — 방어 없이
+    else if (a === '궁' && meta.cdDefendReduce > 0) {      // 모이루(추격)·히토하(입질): 앞턴 방어 자동 배치
+      if (def)
         toast(`${meta.name}: 필살 CD를 맞추려고 앞 턴을 <b>방어</b>로 자동 배치했어요`);
-      else
-        toast(`${meta.name}: <b>${idx + 1}턴엔 필살 불가</b> — 아군 평타가 부족해 방어로도 CD를 못 맞춰요`);
-    } else if (apt === 1 && a === '궁') reflowUlts(plan, meta, idx + 1);   // 단일행동: 궁 자동 재배치
-    if (apt === 1) normalizePlan(plan, meta, ab2);
+      else {                                         // 불가 — 누른 칸 되돌림(메인 플래너와 같은 안내)
+        toast(meta.cdDefendPerStack
+          ? `${meta.name}: <b>${idx + 1}턴엔 필살 불가</b> — 아군 평타가 부족해 방어로도 CD를 못 맞춰요`
+          : `${meta.name}: <b>${idx + 1}턴엔 필살 불가</b> — 방어로 앞당겨도 그 턴까진 CD가 안 차요`);
+        plan.splice(0, plan.length, ...before);
+        return;
+      }
+    } else if (apt === 1 && a === '궁' && pristine) reflowUlts(plan, meta, idx + 1);   // 기본 계획: 궁 자동 재배치
+    if (apt === 1) normalizePlan(plan, meta, ab2, src);
     c.cfg.plan = plan; c.cfg.rotation = plan.join('');
     markCmpDirty(); renderPlanPop(c);
   }) : null;
@@ -1171,7 +1244,7 @@ function bindCompare() {
     $('#cmpA').innerHTML = `<option value="">＋ 비교군 A (빈 편성)</option>` + opts();
     $('#cmpB').innerHTML = `<option value="">＋ 비교군 B (빈 편성)</option>` + opts();
     $('#cmpA').value = ''; $('#cmpB').value = '';
-    cmpLoaded = { a: null, b: null }; cmpTeam = { a: null, b: null }; cmpTurnOv = { a: {}, b: {} };
+    cmpLoaded = { a: null, b: null }; cmpTeam = { a: null, b: null }; cmpTurnOv = { a: {}, b: {} }; cmpSync = { a: [], b: [] };
     cmpTurnsManual = false; cmpManual = false;
     const ct0 = $('#cmpTurns'); if (ct0) { ct0.value = 30; ct0.style.setProperty('--p', '100%'); $('#cmpTurnsVal').textContent = 30; }
     syncCommon();
@@ -1230,7 +1303,7 @@ function bindCompare() {
       if (dir === 'up') { for (let x = k - 1; x >= 0; x--) if (arr[x]) { t = x; break; } }
       else { for (let x = k + 1; x < arr.length; x++) if (arr[x]) { t = x; break; } }
       if (t < 0) return;
-      [arr[k], arr[t]] = [arr[t], arr[k]]; cmpSwapTurnOv(sd, k + 1, t + 1); cmpRelayout(); return;
+      if (cmpSwapSlots(sd, k, t)) cmpRelayout(); return;
     }
     const add = e.target.closest('.cmp-cell.empty[data-side]');     // 빈칸 클릭 → 캐릭터 추가
     if (add) { openAddPop(add.dataset.side); return; }
@@ -1259,7 +1332,7 @@ function bindCompare() {
       if (ca && cb && ca.cfg && cb.cfg) {
         cmpGoManual();
         const arr = cmpTeam[dragSide], ka = arr.indexOf(ca.cfg), kb = arr.indexOf(cb.cfg);
-        if (ka >= 0 && kb >= 0) { [arr[ka], arr[kb]] = [arr[kb], arr[ka]]; cmpSwapTurnOv(dragSide, ka + 1, kb + 1); cmpRelayout(); }
+        if (ka >= 0 && kb >= 0 && cmpSwapSlots(dragSide, ka, kb)) cmpRelayout();
       }
     }
     dragRow = dragSide = null;
@@ -1276,14 +1349,31 @@ function bindCompare() {
   initTdmg();
   bindHistory();
   bindCompare();
-  renderHistory(simHistory[0]?.id);
-  if (simHistory.length) {                 // 재진입 시 가장 최근 기록으로 복원
+  // 재진입: 작업 중이던 상태(초안)가 있으면 그대로, 없으면(첫 방문·옛 버전) 가장 최근 기록, 그것도 없으면 기본 편성.
+  const draft = loadDraft();
+  if (draft) {
+    migrateSnapSync(draft.snap);
+    activeRecId = simHistory.some(r => r.id === draft.rec) ? draft.rec : null;
+    renderHistory(activeRecId);
+    applySnap(draft.snap);
+    // 직접 편집한 턴 표시(advTouched)는 초안에 따로 둔다 — 기록 복원처럼 전 턴을 '편집됨'으로 보면 자동 채움과 구분이 안 된다
+    if (Array.isArray(draft.touched)) advTouched = new Set(draft.touched.map(Number).filter(t => turnPlans[t]));
+    run(false);
+  } else if (simHistory.length) {
+    renderHistory(simHistory[0].id);
     restoreRecord(simHistory[0]);
   } else {
+    renderHistory(null);
     const def = [10401, 10410, 10421, 10428, 10425];
     def.forEach((id, i) => team[i] = { id, skill: 10, rune: true, rotation: '' });
     buildFilters(); renderRoster(); renderTeam(); renderPrio();
   }
+  draftReady = true;
+  saveDraft();
+  // 편집할 때마다(클릭·입력·변경) 잠시 뒤 저장, 페이지를 떠날 때 즉시 저장
+  ['click', 'input', 'change'].forEach(ev => document.addEventListener(ev, queueDraft, true));
+  window.addEventListener('pagehide', saveDraft);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) saveDraft(); });
 })();
 
 // ── roster ──
@@ -1305,23 +1395,106 @@ function renderRoster() {
   }).join('');
   wrap.onclick = e => { const el = e.target.closest('.rc'); if (el) pick(+el.dataset.id); };
 }
+// ── 편성 변경: 자리(포지션) 기준 설정이 캐릭터를 따라가게 ─────────────────────────────
+// 연동 그룹·턴별 타임라인·특정 턴 순서는 '포지션'으로 저장된다. 캐릭터를 빼고 다른 캐릭터를 넣으면 옛 설정이
+// 새 캐릭터에게 조용히 넘어가던 문제를 막는다: 뺄 때 그 자리 몫을 걷어내고(같은 캐릭터를 다시 넣으면 복원),
+// 넣을 때 빈 자리를 채운다. benchCache = 이번 세션에 뺀 캐릭터의 설정 {id: {slot, sync}}.
+let benchCache = {};
+let pickTarget = null;                    // 빈 슬롯을 누른 뒤 고른 캐릭터가 들어갈 자리(0-based)
+function removeFromTeam(i) {
+  const s = team[i]; if (!s) return;
+  const pos = i + 1;
+  const sync = detachSync(pos);
+  benchCache[s.id] = { slot: JSON.parse(JSON.stringify(s)), sync };
+  team[i] = null;
+  afterTeamChange([pos], []);
+}
+function addToTeam(id, prefer) {
+  // 임부언은 1번 자리 배치 금지 — P1에 있으면 자기 궁의 CD-3+추가행동이 자신에게 걸려
+  // 무한 자가피드가 되는데 인게임에선 불가능하므로 시스템적으로 차단(P1은 건너뛰고 배치).
+  const okAt = i => i >= 0 && i < team.length && !team[i] && !(id === IMBUEON_ID && i === 0);
+  const at = (prefer != null && okAt(prefer)) ? prefer : team.findIndex((_, i) => okAt(i));
+  if (at < 0) {
+    if (id === IMBUEON_ID && team.some(x => !x)) toast('임부언은 <b>1번 자리</b>에 배치할 수 없어요 — 2~5번 중 한 자리를 비워주세요');
+    return false;
+  }
+  const cached = benchCache[id];
+  const slot = cached ? cached.slot : { id, skill: 10, rune: true, rotation: '' };
+  delete benchCache[id];
+  // 행동 우선순위를 직접 정해 둔 팀이면 새 캐릭터는 맨 뒤(기본값이 사용자 순서 사이에 끼어들지 않게)
+  const others = team.map((x, i) => x ? { x, i } : null).filter(Boolean);
+  if (others.some(o => o.x.priority != null)) {
+    slot.priority = Math.max(...others.map(o => o.x.priority ?? basePriority(o.x, o.i + 1))) + 1;
+  } else delete slot.priority;
+  team[at] = slot;
+  if (cached && cached.sync) attachSync(cached.sync, at + 1);
+  afterTeamChange([], [at + 1]);
+  return true;
+}
 function pick(id) {
   const at = team.findIndex(s => s && s.id === id);
-  if (at >= 0) { team[at] = null; }            // toggle off
-  else {
-    // 임부언은 1번 자리 배치 금지 — P1에 있으면 자기 궁의 CD-3+추가행동이 자신에게 걸려
-    // 무한 자가피드가 되는데 인게임에선 불가능하므로 시스템적으로 차단(P1은 건너뛰고 배치).
-    let empty;
-    if (id === IMBUEON_ID) {
-      empty = team.findIndex((s, i) => !s && i !== 0);
-      if (empty < 0) { toast('임부언은 <b>1번 자리</b>에 배치할 수 없어요 — 2~5번 중 한 자리를 비워주세요'); return; }
-    } else {
-      empty = team.findIndex(s => !s);
-      if (empty < 0) return;
-    }
-    team[empty] = { id, skill: 10, rune: true, rotation: '' };
-  }
+  if (at >= 0) removeFromTeam(at);            // toggle off
+  else addToTeam(id, pickTarget);
+  pickTarget = null;
   renderRoster(); renderTeam(); renderPrio();
+}
+// 뺀 자리의 연동 역할을 걷어내고, 다시 넣을 때 복원할 수 있게 캐릭터 id 기준으로 돌려준다.
+function detachSync(pos) {
+  const gs = normalizeSyncGroups(syncGroups);
+  const idAt = p => (team[p - 1] || {}).id;
+  let out = null;
+  const keep = [];
+  gs.forEach(g => {
+    if (g.anchor === pos) {                                   // 앵커가 빠지면 그룹은 해제(멤버 설정은 보관)
+      out = { role: 'anchor', miss: g.miss, members: g.members.map(m => ({ ...m, id: idAt(m.p) })) };
+      toast('연동 그룹의 앵커가 빠져 그 그룹을 해제했어요 — 같은 캐릭터를 다시 넣으면 복원됩니다');
+      return;
+    }
+    const m = g.members.find(x => x.p === pos);
+    if (m) { out = { role: 'member', anchorId: idAt(g.anchor), m: { ...m } }; g.members = g.members.filter(x => x.p !== pos); }
+    if (g.members.length) keep.push(g);
+  });
+  if (out) { syncGroups = keep; saveSyncState(); }
+  return out;
+}
+function attachSync(c, pos) {
+  const gs = normalizeSyncGroups(syncGroups);
+  const used = new Set(gs.flatMap(g => [g.anchor, ...g.members.map(m => m.p)]));
+  if (used.has(pos)) return;
+  const posOf = id => team.findIndex(x => x && x.id === id) + 1;
+  if (c.role === 'member') {
+    const g = gs.find(x => x.anchor === posOf(c.anchorId));
+    if (!g) return;
+    g.members.push({ ...c.m, p: pos });
+  } else {
+    if (gs.length >= SYNC_MAX_GROUPS) return;
+    const members = c.members.map(m => ({ ...m, p: posOf(m.id) })).filter(m => m.p > 0 && !used.has(m.p))
+      .map(({ id, ...m }) => m);
+    if (!members.length) return;
+    gs.push({ anchor: pos, members, miss: c.miss });
+  }
+  syncGroups = normalizeSyncGroups(gs); saveSyncState();
+}
+// 편성이 바뀐 뒤 자리 기준 설정 정리. removed/added = 포지션(1-based) 목록.
+function afterTeamChange(removed, added) {
+  // 특정 턴 순서: 빈 자리는 빼고, 새로 들어온 자리는 맨 뒤에 붙인다(편집기에서 빠지던 문제)
+  const present = team.map((x, i) => x ? i + 1 : 0).filter(Boolean);
+  Object.keys(turnOverrides).forEach(t => {
+    const ord = turnOverrides[t].filter(p => team[p - 1]);
+    present.forEach(p => { if (!ord.includes(p)) ord.push(p); });
+    turnOverrides[t] = ord;
+  });
+  // 턴별 타임라인: 사용자가 손대지 않은(자동으로 채운) 턴은 지우고 새 편성으로 다시 채운다.
+  // 직접 편집한 턴은 지키되 빠진 자리의 행동만 걷어낸다. 새 캐릭터 행동이 없는 편집 턴은 실행 때 알린다.
+  if (Object.keys(turnPlans).length) {
+    Object.keys(turnPlans).forEach(t => {
+      if (!advTouched.has(+t)) delete turnPlans[t];
+      else if (removed.length) turnPlans[t] = turnPlans[t].filter(e => !removed.includes(e.p));
+    });
+    advPrevBudget = {};
+    advTeamSig = advTeamFingerprint();
+  }
+  advRerender();
 }
 
 // ── team slots ──
@@ -1339,10 +1512,15 @@ function renderTeam() {
       <img src="${icon(s.id)}" alt=""><span class="nm">${c.name}</span>${badge}</div>`;
   }).join('');
   $('#teamSlots').onclick = e => {
-    const rm = e.target.closest('.rm'); if (rm) { team[+rm.dataset.rm] = null; renderRoster(); renderTeam(); renderPrio(); return; }
+    const rm = e.target.closest('.rm'); if (rm) { removeFromTeam(+rm.dataset.rm); renderRoster(); renderTeam(); renderPrio(); return; }
     const sl = e.target.closest('.slot'); if (!sl) return;
     const i = +sl.dataset.i;
-    if (team[i]) openModal(i); else { filter = 'all'; buildFilters(); renderRoster(); $('#roster').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+    if (team[i]) openModal(i);
+    else {                                         // 빈 슬롯: 다음에 고른 캐릭터가 바로 이 자리로
+      pickTarget = i;
+      $$('#teamSlots .slot').forEach(x => x.classList.toggle('target', +x.dataset.i === i));
+      filter = 'all'; buildFilters(); renderRoster(); $('#roster').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   };
 }
 
@@ -1385,11 +1563,17 @@ const ADV_T = {
                zh: '為每位角色決定何時使用必殺技。預設為「指定回合」— 在計畫的回合使用，若該回合未就緒則一就緒立即使用。',
                zhs: '为每位角色决定何时使用必杀技。默认为「指定回合」— 在计划的回合使用，若该回合未就绪则一就绪立即使用。',
                ja: 'キャラごとに必殺技をいつ使うか決めます。既定は「指定ターン」— 計画したターンに使い、そのターンに準備できていなければ準備でき次第使います。' },
-  cdProcWarn: { kr: '길드 제단 효과(행동 시·필살 시 확률로 쿨 감소)로 필살기 쿨타임이 앞당겨질 수 있어요. ‘정해진 턴’은 앞당겨진 쿨을 살리지 못하니 ‘준비되면 바로’를 권장합니다.',
-               en: 'Guild altar effects (chance to cut the cooldown on action / on ultimate) can bring the ultimate earlier. ‘Planned turns’ cannot use that earlier cooldown, so ‘As soon as ready’ is recommended.',
-               zh: '公會祭壇效果（行動時・必殺時有機率縮短CD）可能提早必殺技冷卻。「指定回合」無法利用提早的CD，建議改用「就緒即用」。',
-               zhs: '公会祭坛效果（行动时・必杀时有概率缩短CD）可能提早必杀技冷却。「指定回合」无法利用提早的CD，建议改用「就绪即用」。',
-               ja: 'ギルド祭壇の効果（行動時・必殺時に確率でCD短縮）で必殺技のクールが早まることがあります。「指定ターン」では早まったクールを活かせないため「準備でき次第」をおすすめします。' },
+  cdProcWarn: { kr: '확률로 필살기 쿨이 줄어드는 효과(길드 제단)가 켜져 있어요. 실제 확률대로 보려면 ‘준비되면 바로’를, 정해 둔 턴(예: 3·6·9·12턴)에 궁을 쓰는 흐름을 보려면 ‘확률 쿨 감소 성공 가정’을 켜세요.',
+               en: 'Chance-based ultimate cooldown cuts (guild altar) are on. Use ‘As soon as ready’ to see the real odds, or turn on ‘Assume chance cooldown cuts succeed’ to see ultimates land on the turns you planned (e.g. 3·6·9·12).',
+               zh: '已開啟機率縮短必殺CD的效果（公會祭壇）。想依實際機率計算請用「就緒即用」；想看在指定回合（例：3・6・9・12回合）使用必殺的流程，請開啟「假設機率CD縮短成功」。',
+               zhs: '已开启概率缩短必杀CD的效果（公会祭坛）。想依实际概率计算请用「就绪即用」；想看在指定回合（例：3・6・9・12回合）使用必杀的流程，请开启「假设概率CD缩短成功」。',
+               ja: '確率で必殺技のクールが減る効果（ギルド祭壇）がオンです。実際の確率で見るなら「準備でき次第」を、決めたターン（例：3・6・9・12ターン）に必殺を使う流れを見るなら「確率CD短縮の成功を仮定」をオンにしてください。' },
+  undo: { kr: '되돌리기', en: 'Undo', zh: '復原', zhs: '撤销', ja: '元に戻す' },
+  syncCleared: { kr: '연동 그룹을 해제했어요', en: 'Sync group removed', zh: '已解除連動組', zhs: '已解除联动组', ja: '連動グループを解除しました' },
+  syncPresetDone: { kr: '연동 프리셋을 적용했어요', en: 'Sync preset applied', zh: '已套用連動預設', zhs: '已应用联动预设', ja: '連動プリセットを適用しました' },
+  cdAssistAll: { kr: '모두 성공 가정 켜기', en: 'Assume success for all', zh: '全部假設成功', zhs: '全部假设成功', ja: '全員成功を仮定' },
+  cdAssistDone: { kr: '확률 쿨 감소 성공 가정을 모두 켰어요 (‘준비되면 바로’ 캐릭터 제외)', en: 'Turned on ‘Assume chance cooldown cuts succeed’ for everyone (except ‘As soon as ready’)',
+               zh: '已全部開啟「假設機率CD縮短成功」（「就緒即用」角色除外）', zhs: '已全部开启「假设概率CD缩短成功」（「就绪即用」角色除外）', ja: '「確率CD短縮の成功を仮定」を全員オンにしました（「準備でき次第」のキャラを除く）' },
   cdProcAll: { kr: '모두 ‘준비되면 바로’로', en: 'Set all to ‘As soon as ready’', zh: '全部改為「就緒即用」', zhs: '全部改为「就绪即用」', ja: '全員「準備でき次第」にする' },
   cdProcDone: { kr: '궁극기 사용 방식을 모두 ‘준비되면 바로’로 바꿨어요 (연동 멤버 제외)', en: 'Set every ultimate policy to ‘As soon as ready’ (sync members excluded)',
                zh: '已將所有必殺技使用方式改為「就緒即用」（連動成員除外）', zhs: '已将所有必杀技使用方式改为「就绪即用」（联动成员除外）', ja: '必殺技の使い方をすべて「準備でき次第」にしました（連動メンバーを除く）' },
@@ -1487,6 +1671,17 @@ function altarProcCdActive() {
   if (!f || f.on === false) return [];
   return ALTAR_CD_PROC_IDS.filter(id => !(f.off && f.off[id]));
 }
+// 확률 쿨 감소 효과의 계획 모델(엔진 altar.py 와 같은 값). on: 'act' = 행동할 때마다 / 'ult' = 궁을 쓸 때마다.
+const ALTAR_CD_PROC = { 1012: { on: 'act', amt: 1, ch: 30 }, 1013: { on: 'ult', amt: 3, ch: 30 } };
+// 이 캐릭터에게 걸리는 확률 쿨 감소 — 제토는 외부 CD 조작이 막혀 있어 제단 감소가 안 걸린다(엔진 cd_immune).
+function cdProcSources(meta) { return (meta && meta.singleUlt) ? [] : altarProcCdActive().map(id => ALTAR_CD_PROC[id]).filter(Boolean); }
+// '확률 쿨 감소 성공 가정'이 실제로 적용되는가(옵션 ON · '준비되면 바로' 아님 · 걸린 확률 감소가 있음) → 계획 모델의 출처 목록, 아니면 null
+function cdAssistSrc(slot, meta) {
+  const u = ultOf(slot);
+  if (!u.assist || u.mode === 'asap') return null;
+  const src = cdProcSources(meta);
+  return src.length ? src : null;
+}
 
 function advTurns() { return advScope ? (+cmpCommon.turns || 30) : (+$('#turns').value || 30); }
 // 타임라인은 '포지션' 기준이라 캐릭터가 바뀌면 같은 자리의 계획을 다른 캐릭터가 물려받는다.
@@ -1514,41 +1709,22 @@ function advCfg(plansOverride, useLegacy) {
   if (advScope) {                    // 비교군: 비교 공통 설정 + 그 비교군 편성으로 구성
     const sd = advScope;
     return {
-      team: (cmpTeam[sd] || []).map((t, i) => t && ({
-        id: t.id, position: i + 1, skill: t.skill, rune: t.rune,
-        rotation: (advOn && !useLegacy) ? null
-          : (t.usePlan ? ((t.plan && t.plan.length) ? t.plan.join('') : (t.rotation || null)) : null),
-        fedActions: (t.usePlan && t.fedActions && Object.keys(t.fedActions).length) ? t.fedActions : null,
-        allyUltAfter: !!t.allyUltAfter,
-        priority: (advOn && !useLegacy) ? null : (t.priority ?? null),
-        sealAtk: t.sealOn ? (t.sealAtk ?? 0) : 0, sealHp: t.sealOn ? (t.sealHp ?? 0) : 0,
-        ult: ultPayload(t),
-        ...specPayload(t),
-      })).filter(Boolean),
+      team: (cmpTeam[sd] || []).map((t, i, roster) => t && slotPayload(t, i + 1, roster, advTurns(), advOn && !useLegacy)).filter(Boolean),
       turns: advTurns(), dummies: cmpCommon.dummies, enemyHits: cmpCommon.enemyHits,
       dummyElement: cmpCommon.dummyElement,
       turnOrders: (advOn && !useLegacy) ? {} : (cmpTurnOv[sd] || {}),
       turnPlans: plans, forceProc: true, hp10: !!cmpCommon.hp10, runs: 1,
       incomingHpPct: cmpCommon.incomingOn ? +(cmpCommon.incomingPct || 0) : 0,
       altar: altarPayload(),         // 길드 제단(메인과 공통) — 최대 CD+1 등이 타임라인에 그대로 반영되게
-      sync: syncPayload(),           // 연동 그룹(메인과 공통 · 포지션 기준)
+      sync: syncPayload(),           // 연동 그룹(편집 중인 비교군의 것 — openAdvFor 가 갈아끼운다)
       turnDamage: tdmgPayload(),     // 턴 피해(메인과 공통)
     };
   }
   return {
-    team: team.map((s, i) => s && ({
-      id: s.id, position: i + 1, skill: s.skill, rune: s.rune,
-      // 고급 설정이 켜지면 캐릭터별 턴 계획을 물려받지 않는다 — 물려받으면 파미도의
-      // '패시브 방어'처럼 사용자화가 기본값인 척 딸려 들어와, 기본값으로 되돌려도
-      // 궁 앞 턴이 방어로 남는다. 고급 설정은 기본 세팅에서 출발해 사용자가 다 정한다.
-      // (전 턴이 지정 상태라 rotation은 행동 선택에 쓰이지 않으므로 결과에도 영향 없음)
-      rotation: (advOn && !useLegacy) ? null : (s.rotation || null),
-      fedActions: s.fedActions || null, allyUltAfter: !!s.allyUltAfter,
-      priority: (advOn && !useLegacy) ? null : (s.priority ?? null),
-      sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0,
-      ult: ultPayload(s),
-      ...specPayload(s),
-    })).filter(Boolean),
+    // 고급 설정이 켜지면 캐릭터별 턴 계획을 물려받지 않는다 — 물려받으면 파미도의
+    // '패시브 방어'처럼 사용자화가 기본값인 척 딸려 들어와, 기본값으로 되돌려도
+    // 궁 앞 턴이 방어로 남는다. 고급 설정은 기본 세팅에서 출발해 사용자가 다 정한다.
+    team: team.map((s, i) => s && slotPayload(s, i + 1, team, advTurns(), advOn && !useLegacy)).filter(Boolean),
     turns: advTurns(), dummies: +$('#dummies').dataset.val,
     enemyHits: $('#enemyHits').dataset.val, dummyElement: +$('#dummyElement').dataset.val,
     turnOrders: (advOn && !useLegacy) ? {} : turnOverrides,
@@ -1565,17 +1741,20 @@ function advCfg(plansOverride, useLegacy) {
 // 예산이 늘면 뒤에 자동으로 붙이고, 줄면 실행 못 하는 뒷부분을 걷어낸다.
 // 기준을 '직전 예산'으로 잡는 게 핵심 — 항상 예산까지 채우면 사용자가 지운 행동이
 // 곧바로 되살아나 삭제가 불가능해진다. 늘어난 델타만 반영하면 삭제는 그대로 유지된다.
+// 기준선(advPrevBudget)은 매 프로브마다 '모든 턴'을 갱신한다. 예전엔 선택된 턴만 갱신해서, 다른 턴을
+// 편집하는 사이 기준선이 낡았다가 나중에 그 턴을 고를 때 엉뚱한 차이로 행동이 붙거나 지워졌다.
+// 반환: { changed, added, removed } — 알림은 advReconcileAll 이 한 번에 띄운다.
 function advReconcile(turn) {
   const seq = turnPlans[turn];
-  if (!seq) return false;                       // 아직 편집 전인 턴은 기본값 그대로 둔다
   const live = (advProbe && advProbe.plan && advProbe.plan[String(turn)]) || {};
   const budget = live.budget || {};
   const prev = advPrevBudget[turn];
   advPrevBudget[turn] = { ...budget };
-  if (!prev) return false;                      // 첫 프로브는 기준선만 잡고 넘어간다
+  const none = { changed: false, added: 0, removed: 0 };
+  if (!seq || !prev) return none;               // 편집 전인 턴 · 첫 프로브는 기준선만 잡는다
   const want = {};
   seq.forEach(e => { want[e.p] = (want[e.p] || 0) + 1; });
-  let changed = false, added = 0;
+  let changed = false, added = 0, removed = 0;
   for (const key of new Set([...Object.keys(budget), ...Object.keys(prev)])) {
     const pos = +key, now = budget[key] || 0, was = prev[key] || 0;
     const grew = now - was;
@@ -1587,10 +1766,19 @@ function advReconcile(turn) {
     while (excess > 0) {                        // 예산이 줄어 실행 못 하는 꼬리를 제거
       const at = seq.map(e => e.p).lastIndexOf(pos);
       if (at < 0) break;
-      seq.splice(at, 1); excess--; changed = true;
+      seq.splice(at, 1); excess--; changed = true; removed++;
     }
   }
-  if (added) toast(`추가 행동 ${added}개를 뒤에 넣었어요 — 순서는 끌어서 바꿀 수 있어요`);
+  return { changed, added, removed };
+}
+// 모든 턴을 직전 프로브 대비로 맞춘다 — 한 턴의 궁을 바꿔 다른 턴의 추가 행동이 늘거나 줄어도 그 자리에서 반영·안내.
+function advReconcileAll() {
+  let changed = false, added = 0, removed = 0;
+  const turns = new Set([...Object.keys(turnPlans), ...Object.keys((advProbe && advProbe.plan) || {})].map(Number));
+  turns.forEach(t => { if (t >= 1) { const r = advReconcile(t); changed = changed || r.changed; added += r.added; removed += r.removed; } });
+  const msg = [added ? `추가 행동 ${added}개를 뒤에 넣었어요 — 순서는 끌어서 바꿀 수 있어요` : '',
+    removed ? `추가 행동이 줄어 실행할 수 없는 행동 ${removed}개를 뺐어요` : ''].filter(Boolean).join('<br>');
+  if (msg) toast(msg);
   return changed;
 }
 
@@ -1604,13 +1792,32 @@ function advMaterialize() {
     if (turnPlans[t]) continue;
     const src = advProbe.plan[String(t)];
     if (!src) continue;
-    turnPlans[t] = src.seq.map(e => ({ p: e.p, a: e.a }));
+    turnPlans[t] = src.seq.filter(e => !e.x).map(e => ({ p: e.p, a: e.a }));   // 제토 체이닝 등 엔진이 자동으로 붙이는 행동(x)은 굳히지 않는다(불러오기와 같은 규칙)
     filled = true;
   }
   if (filled) advTeamSig = advTeamFingerprint();
   return filled;
 }
 
+// 실행 직전 보정: 비어 있는 턴(턴 수 증가·편성 변경)을 지금 진행대로 채운다. 팝업이 닫혀 있어도 동작.
+async function advFill() {
+  if (!advOn || advScope) return;
+  let need = false;
+  for (let t = 1; t <= advTurns(); t++) if (!turnPlans[t]) { need = true; break; }
+  if (!need) return;
+  advProbe = await API.probe(advCfg());
+  advMaterialize();
+}
+// 직접 편집한 턴 중 지금 편성의 캐릭터 행동이 하나도 없는 턴이 있으면 그 캐릭터 이름들
+function advMissingActors() {
+  const names = new Set();
+  const present = team.map((x, i) => x ? i + 1 : 0).filter(Boolean);
+  advTouched.forEach(t => {
+    const seq = turnPlans[t]; if (!seq || t > advTurns()) return;
+    present.forEach(p => { if (!seq.some(e => e.p === p)) names.add((CHARS[team[p - 1].id] || {}).name || `P${p}`); });
+  });
+  return [...names];
+}
 // 진행 중이면 요청을 '버리지' 않고 뒤에 한 번만 예약해 두고 그 결과를 함께 기다린다.
 // 예전엔 그냥 return 해버려서, 빠르게 두 번 누르면 두 번째 편집이 프로브·검증·렌더를
 // 통째로 건너뛰고 화면이 낡은 판정을 보여줬다(실행 안 됨 표시 누락, 잘못된 강등 배지).
@@ -1632,7 +1839,7 @@ async function advRefresh(render = true) {
     if (gen !== advGen) { advBusy = false; return advProbe; }
     // 예산 변화를 반영해 타임라인을 맞춘 뒤, 바뀌었으면 한 번 더 물어 최종 상태를 받는다.
     // 붙이는 건 평타뿐이라 새 추가 행동을 만들지 않으므로 여기서 수렴한다.
-    if (advReconcile(advSel)) advProbe = await API.probe(advCfg());
+    if (advReconcileAll()) advProbe = await API.probe(advCfg());
   } catch (err) { toast(`행동을 계산하지 못했어요 — ${err.message}`); }
   advBusy = false;
   if (gen !== advGen) return advProbe;
@@ -2052,21 +2259,27 @@ function renderAdv() {
 }
 
 // ── 궁극기 사용 방식 탭: 캐릭터별 fixed/strict/asap + 방어 턴 유지. 연동 멤버는 앵커를 따르므로 방식 대신 안내만.
+// 확률 쿨 감소 성공 가정 토글 — 걸린 확률 쿨 감소가 있을 때만 보인다. '준비되면 바로'에선 흐리게(적용 안 됨).
+function ultAssistHTML(u, attr, meta) {
+  if (!cdProcSources(meta).length) return '';
+  return `<label class="toggle ult-assist${u.mode === 'asap' ? ' dim' : ''}" title="${esc(altarT(u.mode === 'asap' ? 'ultAssistAsap' : 'ultAssistTip'))}"><input type="checkbox" ${attr} ${u.assist ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultAssist'))}</label>`;
+}
 function ultRowHTML(s, pos) {
   const c = CHARS[s.id] || {}, u = ultOf(s), grp = syncGroupOf(pos), roster = aTeam();
+  const assist = ultAssistHTML(u, `data-ultassist="${pos}"`, c);
   let body;
   if (grp && grp.role === 'member' && syncOtherOf(grp.m) === 'own') {
     body = `<div class="ult-sync">${esc(advT('ultMemberOwn', grp.idx + 1, altarSlotName(grp.g.anchor, roster)))}</div>
       <div class="seg ult-modes">${ULT_MODES.map(m => `<button type="button" data-ultmode="${m}" data-pos="${pos}" class="${u.mode === m ? 'on' : ''}" title="${esc(altarT('ult_' + m + 'Tip'))}">${esc(altarT('ult_' + m))}</button>`).join('')}</div>
       <div class="ult-desc">${esc(altarT('ult_' + u.mode + 'Tip'))}</div>
-      <label class="toggle ult-keep${u.mode === 'asap' ? '' : ' dim'}"><input type="checkbox" data-ultkeep="${pos}" ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>`;
+      <label class="toggle ult-keep${u.mode === 'asap' ? '' : ' dim'}"><input type="checkbox" data-ultkeep="${pos}" ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>${assist}`;
   } else if (grp && grp.role === 'member') {
     body = `<div class="ult-sync">${esc(advT('ultMember', grp.idx + 1, altarSlotName(grp.g.anchor, roster)))}</div>
-      <label class="toggle ult-keep"><input type="checkbox" data-ultkeep="${pos}" ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>`;
+      <label class="toggle ult-keep"><input type="checkbox" data-ultkeep="${pos}" ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>${assist}`;
   } else {
     body = `<div class="seg ult-modes">${ULT_MODES.map(m => `<button type="button" data-ultmode="${m}" data-pos="${pos}" class="${u.mode === m ? 'on' : ''}" title="${esc(altarT('ult_' + m + 'Tip'))}">${esc(altarT('ult_' + m))}</button>`).join('')}</div>
       <div class="ult-desc">${esc(altarT('ult_' + u.mode + 'Tip'))}</div>
-      <label class="toggle ult-keep${u.mode === 'asap' ? '' : ' dim'}"><input type="checkbox" data-ultkeep="${pos}" ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>
+      <label class="toggle ult-keep${u.mode === 'asap' ? '' : ' dim'}"><input type="checkbox" data-ultkeep="${pos}" ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>${assist}
       ${grp && grp.role === 'anchor' ? `<div class="ult-sync">${esc(altarT('ultAnchorInfo', grp.idx + 1))}</div>` : ''}`;
   }
   return `<div class="au-row" style="--el:var(--${c.elementKey || 'none'})">
@@ -2079,7 +2292,8 @@ function renderAdvUlt(card) {
   html += `<div class="adv-order"><b>${esc(advT('orderTitle'))}</b><ol>${[1, 2, 3, 4].map(n => `<li>${esc(advT('order' + n))}</li>`).join('')}</ol></div>`;
   if (advOn) html += `<div class="adv-note lock">${esc(advT('timeOn'))}</div>`;
   if (altarProcCdActive().length) html += `<div class="adv-note warn"><span>${esc(advT('cdProcWarn'))}</span>
-    <button type="button" class="btn-ghost sm" data-ultall="asap">${esc(advT('cdProcAll'))}</button></div>`;
+    <span class="adv-note-btns"><button type="button" class="btn-ghost sm" data-ultall="assist">${esc(advT('cdAssistAll'))}</button>
+    <button type="button" class="btn-ghost sm" data-ultall="asap">${esc(advT('cdProcAll'))}</button></span></div>`;
   html += roster.map((s, i) => (s ? ultRowHTML(s, i + 1) : '')).join('');
   pane.innerHTML = html;
 }
@@ -2199,8 +2413,9 @@ function openAdvFor(scope) {
   if (advCloseFn) advCloseFn();        // 열려 있으면 먼저 정리 (advSaved 덮어쓰기 방지)
   advSaved = { on: advOn, plans: turnPlans, touched: advTouched, prev: advPrevBudget,
                sig: advTeamSig, sel: advSel, selSet: advSelSet, undo: advUndo,
-               clip: advClip, grid: advGrid, cell: advCell, probe: advProbe };
+               clip: advClip, grid: advGrid, cell: advCell, probe: advProbe, sync: syncGroups };
   advScope = scope;
+  syncGroups = JSON.parse(JSON.stringify(cmpSync[scope] || []));   // 그 비교군의 연동(메인 연동은 보관)
   advOn = !!cmpAdvOn[scope];
   turnPlans = cmpAdv[scope] ? JSON.parse(JSON.stringify(cmpAdv[scope])) : {};
   advTouched = new Set(Object.keys(turnPlans).map(Number));
@@ -2221,7 +2436,10 @@ function advLeaveScope() {
   cmpAdv[advScope] = nextPlans;
   cmpAdvOn[advScope] = nextOn;
   if (changed) markCmpDirty();       // 아무것도 안 바꿨으면 비교 결과를 무효화하지 않는다
+  const syncNow = normalizeSyncGroups(syncGroups);
+  if (JSON.stringify(syncNow) !== JSON.stringify(normalizeSyncGroups(cmpSync[advScope] || []))) { cmpSync[advScope] = syncNow; markCmpDirty(); }
   const v = advSaved;
+  syncGroups = v.sync;                          // 메인 연동 복귀(비교 화면 편집은 메인에 남지 않는다)
   advOn = v.on; turnPlans = v.plans; advTouched = v.touched; advPrevBudget = v.prev;
   advTeamSig = v.sig; advSel = v.sel; advSelSet = v.selSet; advUndo = v.undo;
   advClip = v.clip; advGrid = v.grid; advCell = v.cell; advProbe = v.probe;
@@ -2323,10 +2541,18 @@ function openAdvPop() {
     const b = e.target.closest('button');
     if (!b || b.disabled) return;
     // ── 탭 · 궁극기 사용 방식 탭 (연동 탭의 버튼은 전역 상태라 body 핸들러(initAltar)가 받는다)
-    if (b.dataset.advtab) { advTab = b.dataset.advtab; return renderAdv(); }
+    if (b.dataset.advtab) { advTab = advTabUser = b.dataset.advtab; return renderAdv(); }
     if (b.dataset.ultmode && b.dataset.pos) {
       const s = aTeam()[+b.dataset.pos - 1]; if (!s) return;
       setUlt(s, { ...ultOf(s), mode: b.dataset.ultmode });
+      if (advScope) markCmpDirty();
+      return advRefresh();
+    }
+    const ultBefore = aTeam().map(s => (s ? ultOf(s) : null));   // 일괄 버튼 되돌리기용
+    const ultUndo = { label: advT('undo'), fn: () => { aTeam().forEach((s, i) => { if (s && ultBefore[i]) setUlt(s, ultBefore[i]); }); if (advScope) markCmpDirty(); advRefresh(); } };
+    if (b.dataset.ultall === 'assist') {   // 확률 쿨 감소 성공 가정 전체 켜기 — '준비되면 바로'는 적용 대상이 아니라 제외
+      aTeam().forEach(s => { if (s && ultOf(s).mode !== 'asap') setUlt(s, { ...ultOf(s), assist: true }); });
+      toast(advT('cdAssistDone'), ultUndo);
       if (advScope) markCmpDirty();
       return advRefresh();
     }
@@ -2336,7 +2562,7 @@ function openAdvPop() {
         const g = syncGroupOf(i + 1); if (g && g.role === 'member' && syncOtherOf(g.m) !== 'own') return;   // 아끼는 멤버만 제외
         setUlt(s, { ...ultOf(s), mode: 'asap' });
       });
-      toast(advT('cdProcDone'));
+      toast(advT('cdProcDone'), ultUndo);
       if (advScope) markCmpDirty();
       return advRefresh();
     }
@@ -2391,11 +2617,12 @@ function openAdvPop() {
     if (b.dataset.add !== undefined) { seq.push({ p: +b.dataset.add, a: '평' }); return advCommit(advSel, seq); }
   });
 
-  card.addEventListener('change', e => {   // 궁극기 사용 방식 탭: 방어 턴 유지 토글
+  card.addEventListener('change', e => {   // 궁극기 사용 방식 탭: 방어 턴 유지 · 확률 쿨 감소 성공 가정 토글
     const t = e.target;
-    if (!(t instanceof HTMLInputElement) || !t.dataset.ultkeep) return;
-    const s = aTeam()[+t.dataset.ultkeep - 1]; if (!s) return;
-    setUlt(s, { ...ultOf(s), keepDef: t.checked });
+    if (!(t instanceof HTMLInputElement) || !(t.dataset.ultkeep || t.dataset.ultassist)) return;
+    const s = aTeam()[+(t.dataset.ultkeep || t.dataset.ultassist) - 1]; if (!s) return;
+    if (t.dataset.ultassist) setUlt(s, { ...ultOf(s), assist: t.checked });
+    else setUlt(s, { ...ultOf(s), keepDef: t.checked });
     if (advScope) markCmpDirty();
     advRefresh();
   });
@@ -2571,7 +2798,8 @@ function renderTurnEditor() {
   };
   const ct = $('#clearTurn'); if (ct) ct.onclick = () => { sel.forEach(t => delete turnOverrides[t]); renderTurnChips(); };
 }
-$('#advOpen').onclick = () => openAdvPop();
+let advTabUser = 'time';          // 팝업 안에서 사용자가 마지막으로 고른 탭(바로가기로 연 탭은 기억하지 않는다)
+$('#advOpen').onclick = () => { advTab = advTabUser; openAdvPop(); };
 syncAdvLock();
 $('#prioReset').onclick = () => { team.forEach(s => { if (s) delete s.priority; }); turnOverrides = {}; selTurns.clear(); renderPrio(); };
 
@@ -2916,6 +3144,19 @@ const ALTAR_T = {
   ult_asapTip: { kr: '궁이 준비되는 행동마다 바로 씁니다. 계획의 궁 자리는 무시합니다.', en: 'Uses the ultimate on every action where it is ready, ignoring planned ultimate slots.',
                 zh: '必殺技一就緒就立即使用，忽略計畫中的必殺位置。', zhs: '必杀技一就绪就立即使用，忽略计划中的必杀位置。', ja: '必殺技が準備できた行動で即座に使います。計画の必殺枠は無視します。' },
   ultKeepDef: { kr: '계획의 방어 턴은 방어 유지', en: 'Keep planned defend turns', zh: '保留計畫的防禦回合', zhs: '保留计划的防御回合', ja: '計画の防御ターンは防御を維持' },
+  ultAssist:  { kr: '확률 쿨 감소 성공 가정', en: 'Assume chance cooldown cuts succeed', zh: '假設機率CD縮短成功', zhs: '假设概率CD缩短成功', ja: '確率CD短縮の成功を仮定' },
+  ultAssistShort: { kr: '확률 쿨 감소 성공 가정', en: 'chance CD cuts assumed', zh: '假設機率CD縮短成功', zhs: '假设概率CD缩短成功', ja: '確率CD短縮を仮定' },
+  ultAssistTip: { kr: '확률로 쿨이 줄어드는 효과를 굴리지 않고, 계획·연동으로 정한 궁 턴에 필요한 만큼만 터진 것으로 계산합니다. 원래 쿨로는 안 되는 턴(예: 3쿨 캐릭터의 3턴)에도 궁을 계획할 수 있어요. 결과 머리말에 그대로 나올 확률이 함께 표시됩니다.',
+                en: 'Instead of rolling chance-based cooldown cuts, counts just enough of them as successful on the ultimate turns set by your plan or sync. Lets you plan ultimates on turns the base cooldown cannot reach (e.g. turn 3 for a 3-turn cooldown). The result header shows how likely that exact flow is.',
+                zh: '不擲骰機率縮短CD的效果，而是在計畫・連動指定的必殺回合只計算所需的成功次數。即使原本CD趕不上的回合（例：3回合CD角色的第3回合）也能安排必殺。結果標題會一併顯示此流程實際出現的機率。',
+                zhs: '不掷骰概率缩短CD的效果，而是在计划・联动指定的必杀回合只计算所需的成功次数。即使原本CD赶不上的回合（例：3回合CD角色的第3回合）也能安排必杀。结果标题会一并显示此流程实际出现的概率。',
+                ja: '確率でクールが減る効果を抽選せず、計画・連動で決めた必殺ターンに必要な分だけ発動したものとして計算します。本来のクールでは届かないターン（例：3ターンCDキャラの3ターン目）にも必殺を計画できます。結果の見出しに、その流れがそのまま起きる確率も表示されます。' },
+  ultAssistAsap: { kr: '‘준비되면 바로’는 실제 확률대로 계산해요 — 이 옵션은 ‘정해진 턴’·‘정해진 턴만’에 적용됩니다',
+                en: '‘As soon as ready’ uses the real chances — this option applies to ‘Planned turns’ and ‘Planned turns only’',
+                zh: '「就緒即用」依實際機率計算 — 此選項適用於「指定回合」・「僅指定回合」', zhs: '「就绪即用」依实际概率计算 — 此选项适用于「指定回合」・「仅指定回合」',
+                ja: '「準備でき次第」は実際の確率で計算します — このオプションは「指定ターン」・「指定ターンのみ」に適用されます' },
+  resultAssist: { kr: ' · 확률 쿨 감소 가정 {0}회 (그대로 나올 확률 {1}%)', en: ' · {0} chance CD cut(s) assumed ({1}% chance of this flow)', zh: ' · 假設機率CD縮短 {0} 次（此流程出現機率 {1}%）',
+                zhs: ' · 假设概率CD缩短 {0} 次（此流程出现概率 {1}%）', ja: ' · 確率CD短縮を{0}回仮定（この流れになる確率 {1}%）' },
   ultLocked:  { kr: '행동 고급 설정이 켜져 있어요 — 타임라인이 궁 시점을 정합니다', en: 'Advanced action settings are on — the timeline decides ultimate timing',
                 zh: '已開啟進階行動設定 — 由時間軸決定必殺時機', zhs: '已开启高级行动设置 — 由时间轴决定必杀时机', ja: '高度な行動設定がオンです — タイムラインが必殺のタイミングを決めます' },
   ultSyncInfo: { kr: '연동 그룹 {0} · {1}이(가) 궁을 쓰는 턴에 {2} 같이 씁니다 (행동 고급 설정 › 연동에서 변경)', en: 'Sync group {0} · uses its ultimate {2} {1} on the turns they ultimate (change in Advanced Action Setup › Sync)',
@@ -2962,13 +3203,21 @@ const altarIsMobile = () => window.matchMedia(ALTAR_MQ).matches;
 //   strict = 계획 턴에만, 미준비면 건너뜀
 //   asap   = 준비되면 바로(계획의 궁 자리 무시). keepDef=true 면 계획의 방어 턴은 방어 유지
 const ULT_MODES = ['fixed', 'strict', 'asap'];
-function ultOf(s) { const u = (s && s.ult) || {}; return { mode: ULT_MODES.includes(u.mode) ? u.mode : 'fixed', keepDef: u.keepDef !== false }; }
-function ultPayload(s) { const u = ultOf(s); return (u.mode === 'fixed' && u.keepDef) ? null : u; }
-// 기본(fixed·유지)이면 키를 지운다 — 기록/공유 코드 왕복(looseEq)에서 '기본 객체' 와 '누락' 이 같아지도록
-function setUlt(slot, u) { if (u.mode === 'fixed' && u.keepDef) delete slot.ult; else slot.ult = { mode: u.mode, keepDef: u.keepDef }; }
-// 공유 코드: '' = 기본(fixed·유지) / 'a' 'a!' 's' 'f!' (첫 글자 = 방식, '!' = 방어 턴을 궁으로 덮음)
-const _encUlt = s => { const u = ultOf(s); if (u.mode === 'fixed' && u.keepDef) return ''; return u.mode[0] + (u.keepDef ? '' : '!'); };
-const _decUlt = str => { const m = /^([fsa])(!?)$/.exec(String(str || '')); if (!m) return null; return { mode: { f: 'fixed', s: 'strict', a: 'asap' }[m[1]], keepDef: !m[2] }; };
+// assist = 확률 쿨 감소를 계획에 맞춰 성공으로 보기 — 계획·연동으로 정한 궁 턴에 필요한 만큼만 터진 것으로 계산한다
+//   (엔진 cd_assist). '준비되면 바로'에는 적용되지 않는다(실제 확률 그대로).
+function ultOf(s) { const u = (s && s.ult) || {}; return { mode: ULT_MODES.includes(u.mode) ? u.mode : 'fixed', keepDef: u.keepDef !== false, assist: u.assist === true }; }
+const _ultDefault = u => u.mode === 'fixed' && u.keepDef && !u.assist;
+function ultPayload(s) { const u = ultOf(s); return _ultDefault(u) ? null : u; }
+// 기본(fixed·유지·가정 끔)이면 키를 지운다 — 기록/공유 코드 왕복(looseEq)에서 '기본 객체' 와 '누락' 이 같아지도록
+function setUlt(slot, u) {
+  if (_ultDefault(u)) { delete slot.ult; return; }
+  slot.ult = { mode: u.mode, keepDef: u.keepDef };
+  if (u.assist) slot.ult.assist = true;
+}
+// 공유 코드: '' = 기본 / 'a' 'a!' 's' 'f!' 'f+' 's!+' … (첫 글자 = 방식, '!' = 방어 턴을 궁으로 덮음, '+' = 확률 쿨 감소 성공 가정)
+const _encUlt = s => { const u = ultOf(s); if (_ultDefault(u)) return ''; return u.mode[0] + (u.keepDef ? '' : '!') + (u.assist ? '+' : ''); };
+const _decUlt = str => { const m = /^([fsa])(!?)(\+?)$/.exec(String(str || '')); if (!m) return null;
+  const u = { mode: { f: 'fixed', s: 'strict', a: 'asap' }[m[1]], keepDef: !m[2] }; if (m[3]) u.assist = true; return u; };
 // 402 "필살기 최대 CD +1" 이 걸려 있는가(마스터 ON · 1층 ON · 402 해제=서 있음). 플래너 CD 모델이 이 값을 더한다.
 function cdPlus() { const f = altarOn && altarCfg.floors[1]; return (f && f.on !== false && f.off && f.off[402]) ? 1 : 0; }
 function fcd(m) { return (m.fatalCd || 0) + cdPlus(); }        // 계획 도구가 보는 필살 CD (보장 CD: 402 반영, 확률 감소 제외)
@@ -3013,7 +3262,8 @@ function normalizeSyncGroups(raw) {
   return out.filter(g => g.anchor || g.members.length);
 }
 // 엔진 cfg.sync / 기록 snapshot.sync 계약: 유효 그룹(앵커+멤버) 배열, 없으면 null(키 생략과 동치 → 공유 코드 왕복)
-function syncPayload() { const g = normalizeSyncGroups(syncGroups).filter(x => x.anchor && x.members.length); return g.length ? g : null; }
+function syncPayloadOf(groups) { const g = normalizeSyncGroups(groups).filter(x => x.anchor && x.members.length); return g.length ? g : null; }
+function syncPayload() { return syncPayloadOf(syncGroups); }
 function syncGroupOf(pos) {               // 이 포지션이 속한 그룹 → { g, idx, role:'anchor'|'member', m }
   const gs = normalizeSyncGroups(syncGroups);
   for (let i = 0; i < gs.length; i++) {
@@ -3050,7 +3300,7 @@ function loadSyncState() {
     syncGroups = normalizeSyncGroups(a && a.groups);
   } catch { syncGroups = []; }
 }
-function saveSyncState() { try { localStorage.setItem(SYNC_KEY, JSON.stringify(normalizeSyncGroups(syncGroups))); } catch { } }
+function saveSyncState() { if (advScope) return; try { localStorage.setItem(SYNC_KEY, JSON.stringify(normalizeSyncGroups(syncGroups))); } catch { } }
 // 기록/공유 코드에서 온 연동 그룹을 현재 설정으로(null·[] = 없음). 옛 기록은 altar.groups 에 실려 온다(restoreRecord 가 넘겨줌).
 function applySyncSnap(g) { syncGroups = normalizeSyncGroups(g); saveSyncState(); advRerender(); }
 function setSyncGroup(i, fn) {            // 그룹 i 를 수정(fn) → 정규화·저장·재렌더(고급 설정이 열려 있으면 프로브까지)
@@ -3123,7 +3373,8 @@ function altarPayload() {
 // 제단이 없는 옛 기록을 불러오면 제단도 꺼진다.
 function applyAltarSnap(a) {
   altarOn = !!(a && a.on);
-  ALTAR_FLOORS.forEach(f => {
+  // OFF·옛 기록(null)은 켜짐 여부만 바꾸고 사용자가 맞춰 둔 층·제단 구성은 그대로 둔다 — 다시 켜면 그 구성으로.
+  if (a && a.floors) ALTAR_FLOORS.forEach(f => {
     const v = a && a.floors && (a.floors[f] || a.floors[String(f)]);
     const off = {};
     (v && Array.isArray(v.off) ? v.off : []).forEach(id => { if (+id > 0) off[+id] = true; });
@@ -3161,20 +3412,27 @@ function ultSummaryHTML(slot, pos) {
   const now = (grp && grp.role === 'member')
     ? advT('ultSyncShort', grp.idx + 1, altarSlotName(grp.g.anchor)) + (syncOtherOf(grp.m) === 'own' ? ' · ' + altarT('ult_' + u.mode) : '')
     : `${altarT('ult_' + u.mode)}${u.mode === 'asap' && u.keepDef ? ' · ' + altarT('ultKeepDef') : ''}${grp && grp.role === 'anchor' ? ' · ' + altarT('ultAnchorInfo', grp.idx + 1) : ''}`;
-  return `<div class="mc-ult i18n-skip"><div class="ult-title"><img src="icons/altar_moon.webp" alt=""><b>${esc(altarT('ultTitle'))}</b><em>${esc(now)}</em>
+  const nowFull = now + (cdAssistSrc(slot, CHARS[slot.id] || {}) ? ' · ' + altarT('ultAssistShort') : '');
+  return `<div class="mc-ult i18n-skip"><div class="ult-title"><img src="icons/altar_moon.webp" alt=""><b>${esc(altarT('ultTitle'))}</b><em>${esc(nowFull)}</em>
     <button type="button" class="btn-ghost sm ult-open" data-advopen="ult">${esc(advT('openUlt'))}</button></div></div>`;
 }
 // 비교 팝업(행동 카드)에 넣는 '궁극기 사용 방식' 섹션 — 비교군 슬롯은 자기 팀 컨텍스트라 여기서 바로 편집한다. i18n-skip.
+// 캐릭터 모달의 궁극기 사용 방식 요약을 다시 그린다(첫 궁 당기기가 가정을 켰을 때).
+function refreshUltSummary(card, slot, pos) {
+  const box = card && card.querySelector('.mc-ult'); if (!box) return;
+  box.outerHTML = ultSummaryHTML(slot, pos);
+}
 function ultSectionHTML(slot, pos, locked) {
   const u = ultOf(slot), grp = pos ? syncGroupOf(pos) : null;
+  const assist = ultAssistHTML(u, 'data-ultassist', CHARS[slot.id] || {});
   const inSync = grp && grp.role === 'member' && grp.g.anchor;
   let body;
   if (locked) body = `<div class="ult-lock">${esc(altarT('ultLocked'))}</div>`;
   else if (inSync) body = `<div class="ult-sync">${esc(altarT('ultSyncInfo', grp.idx + 1, altarSlotName(grp.g.anchor), altarT(grp.m.order === 'after' ? 'syncAfter' : 'syncBefore')))}</div>
-      <label class="toggle ult-keep"><input type="checkbox" data-ultkeep ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>`;
+      <label class="toggle ult-keep"><input type="checkbox" data-ultkeep ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>${assist}`;
   else body = `<div class="seg ult-modes">${ULT_MODES.map(m => `<button type="button" data-ultmode="${m}" class="${u.mode === m ? 'on' : ''}" title="${esc(altarT('ult_' + m + 'Tip'))}">${esc(altarT('ult_' + m))}</button>`).join('')}</div>
       <div class="ult-desc">${esc(altarT('ult_' + u.mode + 'Tip'))}</div>
-      <label class="toggle ult-keep${u.mode === 'asap' ? '' : ' dim'}"><input type="checkbox" data-ultkeep ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>
+      <label class="toggle ult-keep${u.mode === 'asap' ? '' : ' dim'}"><input type="checkbox" data-ultkeep ${u.keepDef ? 'checked' : ''}><span class="sw"></span>${esc(altarT('ultKeepDef'))}</label>${assist}
       ${grp && grp.role === 'anchor' ? `<div class="ult-sync">${esc(altarT('ultAnchorInfo', grp.idx + 1))}</div>` : ''}`;
   return `<div class="mc-ult i18n-skip"><div class="ult-title"><img src="icons/altar_moon.webp" alt=""><b>${esc(altarT('ultTitle'))}</b><em>${esc(altarT('ultSub'))}</em></div>${body}</div>`;
 }
@@ -3185,10 +3443,13 @@ function bindUltSection(root, slot, after) {
     $$('[data-ultmode]', box).forEach(x => x.classList.toggle('on', x === b));
     const d = $('.ult-desc', box); if (d) d.textContent = altarT('ult_' + b.dataset.ultmode + 'Tip');
     const k = $('.ult-keep', box); if (k) k.classList.toggle('dim', b.dataset.ultmode !== 'asap');
+    const as = $('.ult-assist', box); if (as) as.classList.toggle('dim', b.dataset.ultmode === 'asap');
     if (after) after();
   });
   const keep = $('[data-ultkeep]', box);
   if (keep) keep.onchange = () => { setUlt(slot, { ...ultOf(slot), keepDef: keep.checked }); if (after) after(); };
+  const assist = $('[data-ultassist]', box);
+  if (assist) assist.onchange = () => { setUlt(slot, { ...ultOf(slot), assist: assist.checked }); if (after) after(); };
 }
 
 // 층은 1층부터 쌓인다 — 게임에서 아래층을 지나야 위층에 가므로 '1층 끔 + 2층 켬' 같은 역관계는 없다.
@@ -3225,6 +3486,13 @@ function syncAltarFloorUI() {
 
 // 제단 설정 ON ⇄ 확률 100% 상호배제. 기록 복원(restoreRecord)이 forceProc 를 되살려도 여기서 최종 판정.
 function syncAltarLock() {
+  const cf = $('#cmpForce');                 // 비교하기의 100% 모드도 같은 규칙
+  if (cf) {
+    if (altarOn) cf.classList.remove('on');
+    cf.disabled = altarOn;
+    cf.title = altarOn ? altarT('lock') : '';
+    if (typeof syncCommon === 'function' && $('#cmpModal') && !$('#cmpModal').hidden) syncCommon();
+  }
   const fp = $('#forceProc');
   if (fp) {
     if (altarOn && forceProc) { forceProc = false; fp.classList.remove('on'); syncRunsField(); }
@@ -3369,7 +3637,9 @@ function initAltar() {
     const t = e.target;
     if (!(t instanceof HTMLSelectElement) || t.dataset.anchor == null) return;
     const i = +t.dataset.anchor, p = +t.value;
+    const before = JSON.parse(JSON.stringify(syncGroups));
     setSyncGroup(i, g => { g.anchor = p; g.members = g.members.filter(m => m.p !== p); });
+    if (!p) toast(advT('syncCleared'), { label: advT('undo'), fn: () => applySyncSnap(before) });   // 그룹 해제 = 멤버 설정도 사라진다
   });
   document.body.addEventListener('click', e => {
     if (e.target.closest('[data-altarclose]')) return closeAltar();
@@ -3387,7 +3657,10 @@ function initAltar() {
     const sb = e.target.closest('[data-sbase]');           // 앵커 궁 턴의 내 행동(같이 궁 / 방어→추가 행동에서 궁 / 평타→…)
     if (sb && sb.dataset.g != null) return setSyncGroup(+sb.dataset.g, g => {
       const m = g.members.find(x => x.p === +sb.dataset.p); if (!m) return;
+      // 사용자가 직접 고른 '그 밖의 턴' 처리(기본과 다른 값)는 행동 종류를 바꿔도 유지한다. 고르지 않았으면 새 행동의 기본을 따른다.
+      const chosen = m.other;
       if (sb.dataset.sbase === 'fatal') delete m.base; else { m.base = sb.dataset.sbase; m.order = 'before'; }
+      if (chosen) m.other = chosen;
     });
     const so = e.target.closest('[data-sother]');          // 앵커가 궁을 안 쓰는 턴: 내 방식대로 / 아끼기
     if (so && so.dataset.g != null) return setSyncGroup(+so.dataset.g, g => {
@@ -3396,7 +3669,11 @@ function initAltar() {
     const ms = e.target.closest('[data-miss]');           // 미준비 시 처리
     if (ms && ms.dataset.g != null) return setSyncGroup(+ms.dataset.g, g => { g.miss = ms.dataset.miss === 'asap' ? 'asap' : 'wait'; });
     const pr = e.target.closest('[data-spreset]');         // 프리셋(욱영: 인접 아군 평타 → 욱영 궁 → 추가 행동에서 궁)
-    if (pr) return applySyncPreset(pr.dataset.spreset);
+    if (pr) {
+      const before = JSON.parse(JSON.stringify(syncGroups));
+      applySyncPreset(pr.dataset.spreset);
+      return toast(advT('syncPresetDone'), { label: advT('undo'), fn: () => applySyncSnap(before) });
+    }
   });
   document.body.addEventListener('keydown', e => {
     const row = e.target.closest ? e.target.closest('.altar-row') : null; if (!row) return;
@@ -3460,6 +3737,40 @@ function specAtkHp(s) {
   return SPEC.scaleAtkHp(c.baseATK, c.baseHP, c.rarity, specInv(s));
 }
 /** 서버로 보낼 조각. 꺼져 있으면 아무것도 안 보내 = 풀육성 기본값. */
+// ── 엔진에 보내는 캐릭터 항목(메인 실행 · 타임라인 프로브 · 비교하기 공용) ──
+// 계획은 사용자가 편집한 원본(s.plan)에서 실행할 때 만든다. 저장된 rotation 문자열을 따로 들고 다니면
+// 화면의 계획과 실제 실행이 어긋난다(모달을 열어 계획이 정리되거나 턴 수가 늘어난 경우).
+// 턴 수보다 짧은 계획은 사본에만 기본 궁 주기로 이어 붙인다 — 엔진은 계획이 끝나면 마지막 토큰을 반복한다.
+function planRotation(s, turns) {
+  if (!s || !s.usePlan || !(s.plan && s.plan.length)) return null;
+  const meta = CHARS[s.id] || {};
+  const plan = s.plan.slice();
+  padPlan(plan, meta, Math.max(1, +turns || 30));
+  return plan.join('');
+}
+// 이태호의 '임부언 추가 행동' 선택 — 직접 계획이 켜져 있고, 지금 화면에 보이는 fed 턴(임부언 궁 턴)만 보낸다.
+// 임부언 궁 턴이 바뀐 뒤 숨어 남은 옛 선택이 결과에 들어가지 않게 한다.
+function fedPayload(s, roster, turns) {
+  if (!s || !s.usePlan || !s.fedActions) return null;
+  const ft = taehoFedTurns(s, roster, Math.max(1, +turns || 30));
+  if (!ft) return null;
+  const out = {};
+  Object.entries(s.fedActions).forEach(([t, v]) => { if (v && ft.has(+t)) out[t] = v; });
+  return Object.keys(out).length ? out : null;
+}
+// adv = 행동 고급 설정(타임라인)이 켜져 있음 → 캐릭터별 계획·우선순위는 보내지 않는다(타임라인이 대체).
+function slotPayload(s, pos, roster, turns, adv) {
+  return {
+    id: s.id, position: pos, skill: s.skill, rune: s.rune,
+    rotation: adv ? null : planRotation(s, turns),
+    fedActions: fedPayload(s, roster, turns),
+    allyUltAfter: !!s.allyUltAfter,
+    priority: adv ? null : (s.priority ?? null),
+    sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0,
+    ult: ultPayload(s),          // 궁극기 사용 방식(기본이면 null)
+    ...specPayload(s),           // 캐릭터 스펙(육성) — 빠지면 화면 표시만 바뀌고 결과는 풀육성이 된다
+  };
+}
 function specPayload(s) {
   if (!specOn(s)) return { specOn: false };
   const p = specOf(s);
@@ -3730,12 +4041,13 @@ async function openModal(i) {
       ${advOn ? '<div class="adv-lock">행동 고급 설정이 켜져 있어요 — 이 캐릭터의 턴별 행동도 고급 설정에서 정합니다</div>' : ''}
       <div class="mc-plan${advOn ? ' locked' : ''}">
       <label class="toggle" style="margin-bottom:10px"><input type="checkbox" id="usePlan" ${s.usePlan ? 'checked' : ''}${advOn ? ' disabled' : ''}><span class="sw"></span>턴별 행동 직접 계획 <em style="margin-left:4px">(끄면 자동)</em></label>
+      ${c.id === UK_ID ? `<div class="plan-fill uk-after-row"><button data-ukafter${s.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군이 먼저 필살, 회복 행동은 평타(도장 +45% 평타뎀 수령)">아군 필살 나중</button></div>` : ''}
       <div id="plannerWrap" ${s.usePlan ? '' : 'hidden'}>
         <div class="plan-legend">
           <span>${(c.actionsPerTurn || 1) > 1
             ? `매 턴 <b style="color:var(--gold)">${c.actionsPerTurn}회 행동</b> · <b style="color:var(--gold)">궁은 턴당 1회</b> (궁궁 불가, 궁평/평궁만) · 임부언 추가행동은 평타`
             : `필살 CD <b style="color:var(--gold)">${fcd(c)}턴</b> · 첫 사용 <b style="color:var(--gold)">${ffat(c)}턴</b> — <b style="color:var(--gold)">궁</b>은 CD 안 찬 턴엔 비활성`}</span>
-          <span class="plan-fill"><button data-fill="평">모두 평타</button><button data-fill="방">모두 방어</button>${c.id === PASSIVE_DEF_ID ? '<button data-pdef title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>' : ''}${ULT3_IDS.has(c.id) ? `<button data-u3 title="${ULT3_TITLE[c.id]}">3턴궁</button>` : ''}${c.id === UK_ID ? `<button data-ukafter${s.allyUltAfter ? ' class="on"' : ''} title="ON: 인접 아군이 욱영 궁 '후' 회복 행동으로 필살(욱영 버프 받고 궁). OFF(기본): 인접 아군이 먼저 필살, 회복 행동은 평타(도장 +45% 평타뎀 수령)">아군 필살 나중</button>` : ''}</span>
+          <span class="plan-fill"><button data-fill="평">모두 평타</button><button data-fill="방">모두 방어</button>${c.id === PASSIVE_DEF_ID ? '<button data-pdef title="궁극기 직전 턴을 방어로 (패시브 활용) · 다시 누르면 평타로 복원">패시브 방어</button>' : ''}${ULT3_IDS.has(c.id) ? `<button data-u3 title="${ULT3_TITLE[c.id]}">3턴궁</button>` : ''}${canEarlyUlt(c) ? `<button data-early title="${EARLY_ULT_TITLE}">첫 궁 당기기</button>` : ''}${(c.actionsPerTurn || 1) === 1 && !c.singleUlt ? '<button data-reflow title="첫 궁은 그대로 두고, 이후 궁을 쿨이 차는 턴마다 다시 놓아요 (궁 개수·방어 턴 유지)">궁 간격 맞추기</button>' : ''}</span>
         </div>
         <div class="planner" id="planner"></div>
       </div>
@@ -3783,28 +4095,55 @@ async function openModal(i) {
   };
   const pdefBtn = $('.plan-fill [data-pdef]', card);
   const u3Btn = $('.plan-fill [data-u3]', card);
-  const syncPdef = () => {   // 현재 plan이 '패시브 방어'/'3턴궁' 배치와 정확히 일치하면 버튼 활성 표시
+  const earlyBtn = $('.plan-fill [data-early]', card);
+  const earlyTarget = () => {
+    const n = Math.max(30, +$('#turns').value || 30);
+    return earlyUltPlan(c, n, allyBasicCounts(team, team.indexOf(s), n), cdProcSources(c));
+  };
+  const syncPdef = () => {   // 현재 plan이 '패시브 방어'/'3턴궁'/'첫 궁 당기기' 배치와 정확히 일치하면 버튼 활성 표시
     const n = (s.plan?.length || 30) / (c.actionsPerTurn || 1);
     if (pdefBtn)
       pdefBtn.classList.toggle('on', !!(s.usePlan && s.plan && s.plan.join('') === passiveDefendPlan(c, n).join('')));
     if (u3Btn)
       u3Btn.classList.toggle('on', !!(s.usePlan && isUlt3Plan(s.plan, c)));
+    if (earlyBtn)
+      earlyBtn.classList.toggle('on', !!(s.usePlan && s.plan && cdAssistSrc(s, c) && s.plan.join('') === earlyTarget().join('')));
   };
+  const planLen = () => Math.max(30, +$('#turns').value || 30);
   $$('.plan-fill button[data-fill]', card).forEach(b => b.onclick = () => {
     // 3턴궁 ON이면 궁턴 유지하고 나머지만 채움 / 아니면 fillPlan(마타야=순수 채움).
-    s.plan = isUlt3Plan(s.plan, c) ? ult3Plan(c, 30, b.dataset.fill) : fillPlan(c, b.dataset.fill, 30);
+    s.plan = isUlt3Plan(s.plan, c) ? ult3Plan(c, planLen(), b.dataset.fill) : fillPlan(c, b.dataset.fill, planLen());
     s.rotation = s.plan.join(''); renderPlanner(s, c); syncPdef();
   });
-  if (pdefBtn) pdefBtn.onclick = () => {
-    const target = passiveDefendPlan(c, 30);
-    const isOn = s.plan && s.plan.join('') === target.join('');
-    s.plan = isOn ? fillPlan(c, '평', 30) : target;   // 켜져 있으면 모두 평타로 복원, 아니면 패시브 방어 적용
+  // 프리셋 토글: 켤 때 지금 계획을 보관하고, 끄면 그 계획으로 돌아간다(수동 편집이 사라지지 않게).
+  const togglePreset = (isOn, target) => {
+    if (!isOn) { presetPrev.set(s, (s.plan || []).slice()); s.plan = target; }
+    else { s.plan = presetPrev.get(s) || fillPlan(c, '평', planLen()); presetPrev.delete(s); }
     s.rotation = s.plan.join(''); renderPlanner(s, c); syncPdef();
   };
-  if (u3Btn) u3Btn.onclick = () => {
-    const isOn = isUlt3Plan(s.plan, c);
-    s.plan = isOn ? fillPlan(c, '평', 30) : ult3Plan(c, 30);   // 해제 시 기본(마타야=순수 평타/투명인간=2턴궁)
-    s.rotation = s.plan.join(''); renderPlanner(s, c); syncPdef();
+  if (pdefBtn) pdefBtn.onclick = () => togglePreset(pdefBtn.classList.contains('on'), passiveDefendPlan(c, planLen()));
+  if (u3Btn) u3Btn.onclick = () => togglePreset(u3Btn.classList.contains('on'), ult3Plan(c, planLen()));
+  if (earlyBtn) earlyBtn.onclick = () => {   // 첫 궁 당기기 — 확률 쿨 감소 성공 가정이 꺼져 있으면 함께 켜고, 끌 때 함께 끈다
+    const isOn = earlyBtn.classList.contains('on');
+    if (!isOn && !ultOf(s).assist) {
+      setUlt(s, { ...ultOf(s), assist: true });
+      assistByEarly.add(s);
+      toast('확률 쿨 감소 성공 가정을 켰어요');
+      refreshUltSummary(card, s, i + 1);
+    } else if (isOn && assistByEarly.has(s)) {
+      setUlt(s, { ...ultOf(s), assist: false });
+      assistByEarly.delete(s);
+      refreshUltSummary(card, s, i + 1);
+    }
+    togglePreset(isOn, earlyTarget());
+  };
+  $('#planner', card).addEventListener('planchange', syncPdef);   // 칸을 고치면 버튼 켜짐 표시도 실제 계획대로
+  const reflowBtn = $('.plan-fill [data-reflow]', card);
+  if (reflowBtn) reflowBtn.onclick = () => {
+    const plan = (s.plan || defaultPlan(c)).slice();
+    padPlan(plan, c, +$('#turns').value || 30);
+    reflowFromFirst(plan, c);
+    s.plan = plan; s.rotation = plan.join(''); renderPlanner(s, c); syncPdef();
   };
   const ukBtn = $('.plan-fill [data-ukafter]', card);   // 욱영: 인접 아군 필살 타이밍 토글(불리언)
   if (ukBtn) ukBtn.onclick = () => {
@@ -3818,6 +4157,9 @@ async function openModal(i) {
   renderSkills(detail, s);
 }
 
+// 프리셋(패시브 방어·3턴궁·첫 궁 당기기)을 켜기 직전 계획 — 끄면 여기로 돌아간다(세션 메모리, 슬롯 객체 기준).
+const presetPrev = new WeakMap();
+const assistByEarly = new WeakSet();       // '첫 궁 당기기'가 켠 확률 쿨 감소 가정(끌 때 함께 끈다)
 // ── per-turn action planner (apt = actions per turn; 이태호 = 2) ──
 function fillPlan(meta, action, n = 30) {
   const apt = meta.actionsPerTurn || 1;
@@ -3901,12 +4243,21 @@ function allyBasicCounts(roster, selfIdx, n) {
 }
 // ok[i] = 궁 usable on turn i+1, given the plan.
 // allyBasics: 스택 기반 캐릭(모이루)일 때 턴별 아군 평타 수 — 없으면 캡(최대 스택) 가정으로 폴백.
-function ultAvail(plan, meta, allyBasics) {
-  const ok = []; const red = meta.cdDefendReduce || 0;
+// src(선택): 확률 쿨 감소 성공 가정의 출처(cdAssistSrc). 직전 궁 이후 쌓인 감소 기회(bank)로 남은 쿨을 채울 수 있으면
+// 궁 가능으로 본다 — 엔진 _ult_ready 와 같은 규칙. 반환 배열의 .luck[i] = 그 턴은 확률 감소가 있어야 궁 가능.
+function _procAmts(src) {
+  let act = 0, ult = 0;
+  (src || []).forEach(x => { if (x.on === 'act') act += x.amt; else if (x.on === 'ult') ult += x.amt; });
+  return [act, ult];
+}
+function ultAvail(plan, meta, allyBasics, src) {
+  const ok = [], luck = []; const red = meta.cdDefendReduce || 0;
   const per = meta.cdDefendPerStack || 0, cap = meta.cdDefendStackCap || 0;
-  let cd = ffat(meta) - 1, hooked = false, stk = 0, pending = false;
+  const [actAmt, ultAmt] = _procAmts(src);
+  let cd = ffat(meta) - 1, hooked = false, stk = 0, pending = false, bank = 0;
   for (let t = 1; t <= plan.length; t++) {
-    ok[t - 1] = cd <= 0;
+    ok[t - 1] = cd <= 0 || (!!src && cd <= bank);
+    luck[t - 1] = ok[t - 1] && cd > 0;
     // 엔진과 동일: 불발 궁 → 평타로 대체 + 폴백 예약 / 예약 상태의 '평타' 턴에 쿨이 차면 그 턴에 궁 발동.
     // (대체된 평타도 스택을 준다 — 모이루 추격) 폴백으로 CD가 리셋되는 것까지 반영해야
     // enforceCdDefend의 검증이 실제와 맞는다.
@@ -3927,18 +4278,21 @@ function ultAvail(plan, meta, allyBasics) {
       if (act === '방' && red && hooked) cd -= red;     // 히토하: 입질 보유 방어 = CD 가속
       if (act === '평') hooked = true;                  // 평타가 입질 부여
     }
-    if (fires) { cd = fcd(meta); hooked = false; }  // 궁 발동(지정/폴백): CD 리셋 + 입질 제거
+    if (fires) { cd = fcd(meta); hooked = false; bank = 0; }  // 궁 발동(지정/폴백): CD 리셋 + 입질 제거 + 감소 기회 비움
+    bank += actAmt + (fires ? ultAmt : 0);            // 이 행동의 확률 감소 기회(궁 리셋 뒤에 쌓인다 — 엔진과 같은 순서)
     cd -= 1;                                          // 턴 종료 자연 감소
   }
+  ok.luck = luck;
   return ok;
 }
 // drop 궁s that fall on a CD-locked turn. ultAvail과 반드시 같은 CD 모델이어야 표시·재배치가 일치한다.
-function normalizePlan(plan, meta, allyBasics) {
+function normalizePlan(plan, meta, allyBasics, src) {
   const red = meta.cdDefendReduce || 0;
   const per = meta.cdDefendPerStack || 0, cap = meta.cdDefendStackCap || 0;
-  let cd = ffat(meta) - 1, hooked = false, stk = 0, pending = false;
+  const [actAmt, ultAmt] = _procAmts(src);
+  let cd = ffat(meta) - 1, hooked = false, stk = 0, pending = false, bank = 0;
   for (let t = 1; t <= plan.length; t++) {
-    const ready = cd <= 0;
+    const ready = cd <= 0 || (!!src && cd <= bank);
     // 엔진(_take_action)과 동일 판정:
     //  · 지정 궁이 쿨 미충족 → 평타로 대체하고 '폴백 예약'(auto_fatal_pending)
     //  · 예약된 상태에서 '평타' 턴에 쿨이 차면 그 턴에 자동으로 궁 발동 (방어 턴엔 폴백 없음)
@@ -3958,10 +4312,23 @@ function normalizePlan(plan, meta, allyBasics) {
       if (act === '방' && red && hooked) cd -= red;
       if (act === '평') hooked = true;
     }
-    if (act === '궁') { cd = fcd(meta); hooked = false; }   // ready였던 궁만 남음
+    if (act === '궁') { cd = fcd(meta); hooked = false; bank = 0; }   // ready였던 궁만 남음
+    bank += actAmt + (act === '궁' ? ultAmt : 0);
     cd -= 1;
   }
 }
+// 첫 궁 당기기: 확률 쿨 감소로 첫 궁을 가장 이른 턴에 두고, 이후는 원래 쿨 주기(fcd)로 채운다.
+// 예) 3쿨 → 3·6·9·12…, 2쿨 → 2·4·6… (궁 뒤의 감소 기회로 주기를 더 줄이지는 않는다 — 원래 주기 유지)
+const EARLY_ULT_TITLE = '확률 쿨 감소로 첫 궁을 가장 이른 턴에 두고, 이후는 원래 쿨 주기로 채웁니다 (확률 쿨 감소 성공 가정이 함께 켜집니다) · 다시 누르면 기본으로';
+function earlyUltPlan(meta, n, allyBasics, src) {
+  const plan = Array(n).fill('평');
+  const ok = ultAvail(plan, meta, allyBasics, src);
+  const first = ok.findIndex(Boolean) + 1 || ffat(meta);
+  for (let t = first; t <= n; t += (fcd(meta) || 1)) plan[t - 1] = '궁';
+  normalizePlan(plan, meta, allyBasics, src);
+  return plan;
+}
+function canEarlyUlt(meta) { return (meta.actionsPerTurn || 1) === 1 && !meta.singleUlt && !HOLD_ULT_IDS.has(meta.id) && cdProcSources(meta).length > 0; }
 // 임부언이 궁을 쓰는 턴 집합 — 이태호의 fed 추가행동이 생기는 위치. 임부언 apt=1이라 plan 인덱스=턴-1.
 // 임부언이 턴별 계획(usePlan)이면 그 계획의 궁 턴, 아니면 자동 CD 주기(firstFatal+fatalCd).
 function imbueonUltTurns(teamArr, turns) {
@@ -3971,7 +4338,7 @@ function imbueonUltTurns(teamArr, turns) {
   const set = new Set();
   if (im.usePlan && im.plan && im.plan.length) {
     const plan = im.plan.slice();
-    normalizePlan(plan, meta);                       // CD 미충족으로 못 쓰는 궁 제거 → 실제 궁 턴만
+    normalizePlan(plan, meta, null, cdAssistSrc(im, meta));   // CD 미충족으로 못 쓰는 궁 제거 → 실제 궁 턴만
     for (let t = 0; t < turns; t++) if (plan[t] === '궁') set.add(t + 1);
   } else {
     for (let t = ffat(meta) || 1; t <= turns; t += (fcd(meta) || 1)) set.add(t);
@@ -3990,7 +4357,11 @@ function taehoFedTurns(slot, teamArr, turns) {
 // ultTurn(1-based)에 궁이 나가도록 앞 턴들을 방어로 채운다. 필요한 방어 수는 캐릭마다 다르다:
 // 히토하는 감소 1/방어라 1개 + 입질용 평타면 되지만, 모이루는 CD 6에 최대 3/방어라 2개가 필요하다.
 // 반환: 배치 성공 여부 (false면 그 턴엔 어떤 구성으로도 궁 불가 → 호출부가 안내).
-function enforceCdDefend(plan, meta, ultTurn, allyBasics) {
+function enforceCdDefend(plan, meta, ultTurn, allyBasics, src) {
+  if (src) {                                      // 확률 쿨 감소 가정만으로 그 턴에 궁이 되면 방어를 강제하지 않는다
+    const t0 = plan.slice(); t0[ultTurn - 1] = '궁';
+    if (ultAvail(t0, meta, allyBasics, src)[ultTurn - 1]) return null;
+  }
   if (!(meta.cdDefendReduce > 0) || ultTurn < 2) return false;
   const per = meta.cdDefendPerStack || 0, cap = meta.cdDefendStackCap || 0;
   if (per && cap) {
@@ -4000,7 +4371,7 @@ function enforceCdDefend(plan, meta, ultTurn, allyBasics) {
       const test = plan.slice();
       for (let k = 0; k < nDef; k++) test[ultTurn - 2 - k] = '방';
       test[ultTurn - 1] = '궁';
-      if (ultAvail(test, meta, allyBasics)[ultTurn - 1]) {
+      if (ultAvail(test, meta, allyBasics, src)[ultTurn - 1]) {
         for (let k = 0; k < nDef; k++) plan[ultTurn - 2 - k] = '방';
         return true;
       }
@@ -4020,7 +4391,7 @@ function enforceCdDefend(plan, meta, ultTurn, allyBasics) {
   if (!hasBasic) for (let t = lastUlt + 1; t <= ultTurn - 2; t++)
     if (test[t - 1] !== '궁') { test[t - 1] = '평'; break; }   // 입질용 평타 1개 확보
   test[ultTurn - 1] = '궁';                       // 호출부가 이미 넣었지만 사본에도 명시
-  if (!ultAvail(test, meta, allyBasics)[ultTurn - 1]) return false;
+  if (!ultAvail(test, meta, allyBasics, src)[ultTurn - 1]) return false;
   for (let i = 0; i < plan.length; i++) plan[i] = test[i];
   return true;
 }
@@ -4035,14 +4406,43 @@ function reflowUlts(plan, meta, anchor) { // re-place 궁s AFTER `anchor` at the
     plan[t - 1] = '궁'; next = t + fcd(meta); count--;
   }
 }
+// 궁 버튼 표식: 확률 쿨 감소가 있어야 되는 궁(.luck) / 잠겼지만 가정을 켜면 되는 칸(.luck-off). 설명은 title.
+function planUltMark(k, act, ok, okIf, ti, locked) {
+  if (k !== '궁' || !ok) return '';
+  if (act === '궁' && ok.luck && ok.luck[ti]) return ' luck" title="확률 쿨 감소가 필요한 턴 (성공 가정)';
+  if (locked && okIf && okIf[ti]) return ' luck-off" title="궁극기 사용 방식에서 ‘확률 쿨 감소 성공 가정’을 켜면 이 턴에 궁을 쓸 수 있어요';
+  return '';
+}
+// 아직 아무것도 손대지 않은 기본 계획인가(화면 기준) — 기본 궁 주기 + 평타 그대로.
+function isPristinePlan(view, meta, n, ab, src) {
+  const base = defaultPlan(meta, n);
+  padPlan(base, meta, n);
+  if ((meta.actionsPerTurn || 1) === 1) normalizePlan(base, meta, ab, src);
+  const len = Math.min(view.length, base.length);
+  for (let i = 0; i < len; i++) if (view[i] !== base[i]) return false;
+  return true;
+}
+// '궁 간격 다시 맞추기': 첫 궁은 그대로 두고 이후 궁을 쿨이 차는 턴마다 다시 놓는다(개수·방어 턴 유지).
+function reflowFromFirst(plan, meta) {
+  const first = plan.indexOf('궁');
+  if (first >= 0) reflowUlts(plan, meta, first + 1);
+}
 function renderPlanner(s, meta) {
   const wrap = $('#planner'); if (!wrap) return;
   const apt = meta.actionsPerTurn || 1;
   const n = +$('#turns').value;
-  padPlan(s.plan, meta, n);                               // 턴 수를 늘렸으면 기본 궁 주기로 이어붙임
+  // 화면용 사본(view) — 저장된 계획(s.plan)은 여기서 바꾸지 않는다. 402·확률 쿨 감소 가정·팀원 변화로
+  // 지금 못 쓰는 궁은 화면에서만 실제대로(평타·폴백) 보이고, 설정을 되돌리면 원래 계획이 그대로 돌아온다.
+  // 사용자가 칸을 누르면 그때 보이는 계획(view)에 그 편집을 더해 저장한다.
+  const view = (s.plan || []).slice();
+  padPlan(view, meta, n);                                 // 턴 수를 늘렸으면 기본 궁 주기로 이어붙임(화면만)
   const ab = allyBasicCounts(team, team.indexOf(s), n);   // 모이루: 아군 평타 → 추격 → 방어 시 CD 감소
-  if (apt === 1) normalizePlan(s.plan, meta, ab);     // CD 검증·게이팅은 단일행동 캐릭만
-  const ok = apt === 1 ? ultAvail(s.plan, meta, ab) : null;
+  const src = cdAssistSrc(s, meta);                        // 확률 쿨 감소 성공 가정(궁극기 사용 방식)
+  if (apt === 1) normalizePlan(view, meta, ab, src);       // CD 검증·게이팅은 단일행동 캐릭만
+  const ok = apt === 1 ? ultAvail(view, meta, ab, src) : null;
+  // 가정이 꺼져 있을 때 '켜면 가능한' 턴 — 잠긴 궁 칸에 켜는 곳을 알려 준다('준비되면 바로'는 제외)
+  const okIf = (apt === 1 && !src && ultOf(s).mode !== 'asap' && cdProcSources(meta).length)
+    ? ultAvail(view, meta, ab, cdProcSources(meta)) : null;
   const fedTurns = taehoFedTurns(s, team, n);     // 이태호+임부언: 임부언 궁 턴에 fed 슬롯 추가
   if (fedTurns) s.fedActions = s.fedActions || {};
   const prevFed = wrap._fedShown || new Set();    // 직전에 없던 fed 슬롯 = 새로 생성 → 발광
@@ -4051,12 +4451,12 @@ function renderPlanner(s, meta) {
     const t = ti + 1;
     let cells = '';
     for (let a = 0; a < apt; a++) {
-      const idx = ti * apt + a, act = s.plan[idx];
+      const idx = ti * apt + a, act = view[idx];
       // cdDefendReduce 캐릭(모이루 등)은 궁을 누르면 앞 턴 방어를 자동 배치해 쿨을 맞추므로
       // 현재 ok[]로 비활성하지 않는다(누른 뒤 enforceCdDefend+normalizePlan이 검증·정리).
       const b = (k, l) => {
         const lockUlt = apt === 1 && k === '궁' && !ok[ti] && !(meta.cdDefendReduce > 0);
-        return `<button class="a${k} ${act === k ? 'on' : ''}" data-idx="${idx}" data-a="${k}"${lockUlt ? ' disabled' : ''}>${l}</button>`;
+        return `<button class="a${k} ${act === k ? 'on' : ''}${planUltMark(k, act, ok, okIf, ti, lockUlt)}" data-idx="${idx}" data-a="${k}"${lockUlt ? ' disabled' : ''}>${l}</button>`;
       };
       cells += `<div class="acts">${b('평', '평')}${b('궁', '궁')}${b('방', '방')}</div>`;
     }
@@ -4080,26 +4480,37 @@ function renderPlanner(s, meta) {
       return;
     }
     const idx = +btn.dataset.idx, a = btn.dataset.a;
-    s.plan[idx] = a;
+    if (view[idx] === a) return;                        // 이미 그 행동 — 아무것도 바꾸지 않는다
+    // 뒤 궁 자동 재배치는 아직 아무것도 손대지 않은 기본 계획일 때만(가볍게 쓰는 경우). 편집·프리셋 뒤엔 누른 칸만 바꾼다.
+    const pristine = isPristinePlan(view, meta, n, ab, src);
+    const plan = view.slice();                          // 지금 보이는 계획 + 이 편집
+    plan[idx] = a;
     if (apt > 1 && a === '궁') {                        // 궁은 턴당 1회 — 같은 턴 다른 슬롯의 궁은 평으로
       const ti0 = Math.floor(idx / apt);
-      for (let a2 = 0; a2 < apt; a2++) { const j = ti0 * apt + a2; if (j !== idx && s.plan[j] === '궁') s.plan[j] = '평'; }
+      for (let a2 = 0; a2 < apt; a2++) { const j = ti0 * apt + a2; if (j !== idx && plan[j] === '궁') plan[j] = '평'; }
     }
     if (a === '궁' && meta.singleUlt)                   // 제토: 필살은 전투당 1회 — 다른 턴 궁은 모두 평으로
-      for (let j = 0; j < s.plan.length; j++) if (j !== idx && s.plan[j] === '궁') s.plan[j] = '평';
+      for (let j = 0; j < plan.length; j++) if (j !== idx && plan[j] === '궁') plan[j] = '평';
     const abM = allyBasicCounts(team, team.indexOf(s), +$('#turns').value);
-    if (a === '궁' && meta.cdDefendReduce > 0) {       // 모이루(추격)·히토하(입질): 앞턴 방어 강제 = CD 가속
-      if (enforceCdDefend(s.plan, meta, idx + 1, abM))
+    const srcM = cdAssistSrc(s, meta);
+    const def = (a === '궁' && meta.cdDefendReduce > 0) ? enforceCdDefend(plan, meta, idx + 1, abM, srcM) : undefined;
+    if (def === null) { if (pristine) reflowUlts(plan, meta, idx + 1); }   // 확률 쿨 감소 가정으로 이미 가능 — 방어 없이 일반 캐릭처럼
+    else if (a === '궁' && meta.cdDefendReduce > 0) {       // 모이루(추격)·히토하(입질): 앞턴 방어 강제 = CD 가속
+      if (def)
         toast(`${meta.name}: 필살 CD를 맞추려고 앞 턴을 <b>방어</b>로 자동 배치했어요`);
-      else if (meta.cdDefendPerStack)   // 모이루형: 스택이 아군 평타에서 오므로 부족할 수 있다
-        toast(`${meta.name}: <b>${idx + 1}턴엔 필살 불가</b> — 아군 평타가 부족해 방어로도 CD를 못 맞춰요`);
-      else                              // 히토하형: 방어를 넣어도 그 턴까진 CD가 안 찬다
-        toast(`${meta.name}: <b>${idx + 1}턴엔 필살 불가</b> — 방어로 앞당겨도 그 턴까진 CD가 안 차요`);
+      else {                            // 그 턴엔 어떤 구성으로도 불가 — 누른 칸을 되돌린다(다른 턴에 궁이 생기지 않게)
+        toast(meta.cdDefendPerStack
+          ? `${meta.name}: <b>${idx + 1}턴엔 필살 불가</b> — 아군 평타가 부족해 방어로도 CD를 못 맞춰요`
+          : `${meta.name}: <b>${idx + 1}턴엔 필살 불가</b> — 방어로 앞당겨도 그 턴까진 CD가 안 차요`);
+        return;
+      }
     }
-    else if (apt === 1 && a === '궁') reflowUlts(s.plan, meta, idx + 1);   // 단일행동: 궁 자동 재배치
-    if (apt === 1) normalizePlan(s.plan, meta, abM);
-    s.rotation = s.plan.join('');
+    else if (apt === 1 && a === '궁' && pristine) reflowUlts(plan, meta, idx + 1);   // 기본 계획: 궁 자동 재배치
+    if (apt === 1) normalizePlan(plan, meta, abM, srcM);
+    s.plan = plan;
+    s.rotation = plan.join('');
     renderPlanner(s, meta);
+    wrap.dispatchEvent(new CustomEvent('planchange'));  // 캐릭터 창의 프리셋 버튼 표시를 실제 계획에 맞춘다
   };
 }
 function renderSkills(detail, slot) {
@@ -4132,11 +4543,19 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') {
   closeCharModal(); $('#histModal').hidden = true; $('#cmpModal').hidden = true; $('#guideModal').hidden = true; $('#patchModal').hidden = true;
 } });
 
-function toast(msg) {
+// action = { label, fn } — 알림 안에 버튼(예: 되돌리기)을 붙인다. 버튼이 있으면 조금 더 오래 보인다.
+function toast(msg, action) {
   let t = $('#toast');
   if (!t) { t = document.createElement('div'); t.id = 'toast'; t.onclick = () => t.classList.remove('show'); document.body.appendChild(t); }
-  t.innerHTML = `<span class="ti">⚠</span>${msg}`; t.classList.add('show');
-  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 5000);
+  t.innerHTML = `<span class="ti">⚠</span>${msg}`;
+  if (action && typeof action.fn === 'function') {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'toast-act'; b.textContent = action.label || '되돌리기';
+    b.onclick = e => { e.stopPropagation(); t.classList.remove('show'); action.fn(); };
+    t.appendChild(b);
+  }
+  t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), action ? 9000 : 5000);
 }
 function notifyUpdate(stale) {   // 새 배포 감지(또는 stale=옛 캐시 사용 중) 시 고정 알림(눌러서 새로고침)
   if ($('#upToast')) return;
@@ -4197,12 +4616,17 @@ async function run(save = true) {
   const hpSchedChar = picked.find(s => CHARS[s.id].hpSchedule);   // 카라트: 적 HP 의존
     if (hpSchedChar && !hp10) toast(`${CHARS[hpSchedChar.id].name} 동반 — 적 HP%가 진행 턴을 4등분해 단계적으로 감소합니다 (앞 1/4 ≥75% → 막 1/4 &lt;25%)`);
   const btn = $('#runBtn'); btn.classList.add('busy'); btn.querySelector('span').innerHTML = '<span class="spin"></span>계산 중…';
+  if (advOn) {
+    // 턴 수를 늘렸거나 편성이 바뀌어 비어 있는 턴은 지금 진행대로 채운다 — 비워 두면 그 턴만 자동으로 돌아
+    // 계획이 밀린다. 직접 편집한 턴에 없는 캐릭터가 있으면 알린다(그 턴엔 행동하지 않는다).
+    try { await advFill(); } catch (err) { toast(`행동을 계산하지 못했어요 — ${err.message}`); }
+    const missing = advMissingActors();
+    if (missing.length) toast(`행동 고급 설정: 직접 편집한 턴에 ${missing.map(esc).join(', ')}의 행동이 없어요 — 그 턴엔 행동하지 않습니다`);
+  }
   const cfg = {
     // 고급 설정 중에는 캐릭터별 계획·우선순위를 보내지 않는다 (advCfg의 프로브와 동일해야
     // 화면에 보이는 타임라인이 곧 실행 결과가 된다). 전 턴이 지정 상태라 결과는 동일.
-    team: picked.map(s => ({ id: s.id, position: s.position, skill: s.skill, rune: s.rune, rotation: advOn ? null : (s.rotation || null), fedActions: s.fedActions || null, allyUltAfter: !!s.allyUltAfter, priority: advOn ? null : s.priority, sealAtk: s.sealOn ? (s.sealAtk ?? 0) : 0, sealHp: s.sealOn ? (s.sealHp ?? 0) : 0,
-      ult: ultPayload(s),      // 궁극기 사용 방식(길드 제단 ON · 기본 아니면)
-      ...specPayload(s) })),   // 캐릭터 스펙(육성) — 빠지면 화면 표시만 바뀌고 결과는 풀육성이 된다
+    team: picked.map(s => slotPayload(s, s.position, team, +$('#turns').value, advOn)),
     turns: +$('#turns').value, dummies: +$('#dummies').dataset.val, enemyHits: $('#enemyHits').dataset.val,
     dummyElement: +$('#dummyElement').dataset.val,
     turnOrders: advOn ? {} : turnOverrides, turnPlans: advOn ? turnPlans : {},
@@ -4210,6 +4634,7 @@ async function run(save = true) {
     incomingHpPct: incomingOn ? +$('#incoming').value : 0,   // 피격 데미지 모드
     altar: altarPayload(),                 // 길드 제단 설정(OFF면 null) — 엔진이 층 누적·별/달 부호로 풀어 적용
     sync: syncPayload(),                   // 연동(궁 맞추기) 그룹 — 제단과 무관하게 항상
+    turnDamage: tdmgPayload(),             // 턴 피해(OFF면 null) — 타임라인 프로브·비교하기·기록과 같은 조건
   };
   try {
     const data = await API.simulate(cfg);
@@ -4243,6 +4668,7 @@ function renderResults(d) {
     : '확률 100% · 결정론')
     + (m.altar ? ` · ${altarT('result', m.altar.star, m.altar.moon)}` : '')   // 걸린 길드 제단(별 n · 달 m)
     + ((m.sync || (m.altar && m.altar.groups)) ? altarT('resultGroups', m.sync || m.altar.groups) : '')   // 연동 그룹 수(구 결과는 altar.groups)
+    + ((m.cdAssist && m.cdAssist.uses > 0) ? altarT('resultAssist', +m.cdAssist.uses.toFixed(1), Math.round(m.cdAssist.prob * 1000) / 10) : '')   // 확률 쿨 감소 성공 가정
     + (m.turnDamage ? ` · ${m.turnDamage.uniform ? tdmgT('result', m.turnDamage.max) : tdmgT('resultRange', m.turnDamage.min, m.turnDamage.max)}` : '');   // 턴 피해 모드
   $('#logOrder').textContent = '행동 순서: ' + m.order.join(' → ') + (multi ? `  ·  로그는 평균에 가까운 1회 표본` : '');
 

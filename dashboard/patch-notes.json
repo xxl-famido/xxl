@@ -2,6 +2,173 @@
   "_comment": "패치 히스토리. 최신이 위. 버전 규칙: 캐릭터 추가 릴리스 = 메이저 1.x(펼친 상태로 표시), 그 사이 업데이트 = 패치 1.x.x(접힌 상태, 단 목록 맨 위=최신이면 펼침). 1.0은 첫 공개(파미도 초상). cat: new|balance|fix|qol. 텍스트/details 는 {kr,en,zh,zhs,ja} — 없는 언어는 kr 폴백. char: 대표 캐릭터 id(icons/{id}.png + skill:true면 icons/skills/Rune{id}.png). charImg: 커스텀 프로필 경로(char 대신). items[].chars: 항목 인라인 아이콘(5명 이상이면 생략). items[].details: 펼쳤을 때 보이는 구체 수치.",
   "releases": [
     {
+      "version": "1.8.5",
+      "date": "2026-09-26",
+      "highlight": true,
+      "title": {
+        "kr": "확률 쿨 감소 성공 가정 · 설정 보존 · 편의 기능 전체 정리",
+        "en": "Assume chance cooldown cuts succeed · keeping your settings · convenience overhaul",
+        "zh": "假設機率CD縮短成功・保留設定・便利功能全面整理",
+        "zhs": "假设概率CD缩短成功・保留设置・便利功能全面整理",
+        "ja": "確率CD短縮の成功を仮定・設定の保持・便利機能の全面整理"
+      },
+      "items": [
+        {
+          "cat": "new",
+          "text": {
+            "kr": "궁극기 사용 방식에 ‘확률 쿨 감소 성공 가정’이 있습니다. 켜면 확률로 쿨이 줄어드는 효과를 굴리지 않고, 계획·연동으로 정한 궁 턴에 필요한 만큼만 터진 것으로 계산합니다. 원래 쿨로는 안 되는 턴(예: 3쿨 캐릭터의 3·6·9·12턴, 2쿨 캐릭터의 2·4·6턴)에도 궁을 계획할 수 있습니다.",
+            "en": "The ultimate policy has ‘Assume chance cooldown cuts succeed’. With it on, chance-based cooldown cuts are not rolled; just enough of them count as successful on the ultimate turns set by your plan or sync. You can plan ultimates on turns the base cooldown cannot reach (e.g. turns 3·6·9·12 for a 3-turn cooldown, 2·4·6 for a 2-turn cooldown).",
+            "zh": "必殺技使用方式新增「假設機率CD縮短成功」。開啟後不擲骰機率縮短CD的效果，而是在計畫・連動指定的必殺回合只計算所需的成功次數。即使原本CD趕不上的回合（例：3回合CD角色的第3・6・9・12回合、2回合CD角色的第2・4・6回合）也能安排必殺。",
+            "zhs": "必杀技使用方式新增「假设概率CD缩短成功」。开启后不掷骰概率缩短CD的效果，而是在计划・联动指定的必杀回合只计算所需的成功次数。即使原本CD赶不上的回合（例：3回合CD角色的第3・6・9・12回合、2回合CD角色的第2・4・6回合）也能安排必杀。",
+            "ja": "必殺技の使い方に「確率CD短縮の成功を仮定」があります。オンにすると確率でクールが減る効果を抽選せず、計画・連動で決めた必殺ターンに必要な分だけ発動したものとして計算します。本来のクールでは届かないターン（例：3ターンCDキャラの3・6・9・12ターン目、2ターンCDキャラの2・4・6ターン目）にも必殺を計画できます。"
+          },
+          "details": {
+            "kr": "확률로 쿨이 줄어드는 효과(현재는 길드 제단)가 걸려 있을 때 캐릭터마다 켤 수 있고, ‘준비되면 바로’는 실제 확률대로 계산합니다. 턴별 계획과 행동 고급 설정 타임라인에서 그 턴의 궁 칸이 열리고, 확률 감소가 필요한 궁은 작은 점으로 표시됩니다. 결과 머리말에 가정한 횟수와 그 흐름이 그대로 나올 확률이 함께 표시됩니다.",
+            "en": "Available per character while a chance-based cooldown cut (currently the guild altar) is active; ‘As soon as ready’ keeps the real odds. The per-turn plan and the Advanced Action Setup timeline open those ultimate cells, and ultimates that need a cut are marked with a small dot. The result header shows how many cuts were assumed and how likely that exact flow is.",
+            "zh": "在機率縮短CD的效果（目前為公會祭壇）生效時可逐角色開啟，「就緒即用」依實際機率計算。逐回合計畫與行動進階設定時間軸會開放該回合的必殺格，需要機率縮短的必殺以小圓點標示。結果標題會一併顯示假設次數與此流程實際出現的機率。",
+            "zhs": "在概率缩短CD的效果（目前为公会祭坛）生效时可逐角色开启，「就绪即用」依实际概率计算。逐回合计划与行动高级设置时间轴会开放该回合的必杀格，需要概率缩短的必杀以小圆点标示。结果标题会一并显示假设次数与此流程实际出现的概率。",
+            "ja": "確率でクールが減る効果（現在はギルド祭壇）がかかっているときにキャラごとにオンにでき、「準備でき次第」は実際の確率で計算します。ターン別計画と行動詳細設定のタイムラインでそのターンの必殺枠が開き、確率短縮が必要な必殺は小さな点で表示されます。結果の見出しに、仮定した回数とその流れがそのまま起きる確率が表示されます。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "턴별 계획에 ‘첫 궁 당기기’ 버튼이 있습니다. 첫 궁을 확률 쿨 감소로 가능한 가장 이른 턴에 두고, 이후는 원래 쿨 주기로 채웁니다. 누르면 확률 쿨 감소 성공 가정도 함께 켜집니다.",
+            "en": "The per-turn plan has an ‘Earliest first EX’ button. It puts the first ultimate on the earliest turn chance cooldown cuts allow and fills the rest with the normal cooldown cycle. It also turns on ‘Assume chance cooldown cuts succeed’.",
+            "zh": "逐回合計畫新增「提前首次必殺」按鈕。以機率縮短CD把第一次必殺放在最早可行的回合，之後依原本CD週期排入。按下時也會一併開啟「假設機率CD縮短成功」。",
+            "zhs": "逐回合计划新增「提前首次必杀」按钮。以概率缩短CD把第一次必杀放在最早可行的回合，之后依原本CD周期排入。按下时也会一并开启「假设概率CD缩短成功」。",
+            "ja": "ターン別計画に「初回必殺を前倒し」ボタンがあります。最初の必殺を確率CD短縮で可能な最も早いターンに置き、以降は本来のクール周期で埋めます。押すと「確率CD短縮の成功を仮定」も一緒にオンになります。"
+          },
+          "details": {
+            "kr": "확률 쿨 감소가 걸려 있는 단일 행동 캐릭터에게 보입니다. 예를 들어 필살기 쿨이 3턴이고 첫 사용이 4턴인 캐릭터는 3·6·9·12턴, 쿨 2턴 캐릭터는 2·4·6턴으로 채워집니다. 궁 직후의 감소 기회로 주기를 더 줄이지는 않고 원래 쿨 주기를 지킵니다.",
+            "en": "Shown for single-action characters when a chance-based cooldown cut applies. For example, a character with a 3-turn cooldown whose first EX Skill is on turn 4 gets turns 3·6·9·12, and a 2-turn cooldown gets 2·4·6. It keeps the normal cooldown cycle instead of shortening it further with the cuts right after each EX Skill.",
+            "zh": "在機率縮短CD生效時，對單次行動角色顯示。例如CD 3回合、第一次於第4回合使用的角色會排為第3・6・9・12回合，CD 2回合的角色為第2・4・6回合。不會再用必殺後的縮短機會進一步縮短週期，而是維持原本的CD週期。",
+            "zhs": "在概率缩短CD生效时，对单次行动角色显示。例如CD 3回合、第一次于第4回合使用的角色会排为第3・6・9・12回合，CD 2回合的角色为第2・4・6回合。不会再用必杀后的缩短机会进一步缩短周期，而是维持原本的CD周期。",
+            "ja": "確率CD短縮がかかっているとき、1回行動のキャラに表示されます。例えばクール3ターン・初回4ターンのキャラは3・6・9・12ターン、クール2ターンのキャラは2・4・6ターンで埋まります。必殺直後の短縮機会で周期をさらに縮めることはせず、本来のクール周期を守ります。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "시뮬레이션 실행 결과에 턴 피해 설정이 반영됩니다. 턴별 계획 화면에 보이는 계획이 그대로 실행되고, 화면에 보이지 않는 선택은 결과에 들어가지 않습니다.",
+            "en": "Simulation results now include the turn damage setting. The plan shown in the per-turn planner is exactly what runs, and choices that aren’t visible on screen no longer affect results.",
+            "zh": "模擬結果會反映回合傷害設定。逐回合計畫畫面顯示的計畫就是實際執行的計畫，畫面上看不到的選擇不會影響結果。",
+            "zhs": "模拟结果会反映回合伤害设置。逐回合计划画面显示的计划就是实际执行的计划，画面上看不到的选择不会影响结果。",
+            "ja": "シミュレーション結果にターンダメージ設定が反映されます。ターン別計画に表示された計画がそのまま実行され、画面に見えない選択は結果に入りません。"
+          },
+          "details": {
+            "kr": "턴 피해는 메인 실행 · 타임라인 미리보기 · 비교하기 · 기록 모두 같은 조건으로 계산됩니다. 실행되는 계획은 편집한 계획에서 바로 만들어지며, 턴 수보다 짧은 계획은 기본 궁 주기로 이어서 실행합니다. 직접 계획을 끈 캐릭터의 추가 행동 지정, 궁 턴이 바뀌어 화면에서 사라진 옛 추가 행동 지정은 적용되지 않습니다. ‘아군 필살 나중’ 토글은 직접 계획과 무관하게 항상 보입니다.",
+            "en": "Turn damage is calculated under the same conditions in the main run, the timeline preview, Compare and records. The plan that runs is built straight from the edited plan, and a plan shorter than the turn count continues with the default EX Skill cycle. Extra-action picks of characters whose manual plan is off, and old picks that vanished from the screen because EX Skill turns moved, are not applied. The ‘Ally EX later’ toggle is always visible, regardless of the manual plan.",
+            "zh": "回合傷害在主執行・時間軸預覽・比較・紀錄中都以相同條件計算。執行的計畫直接由編輯後的計畫產生，比回合數短的計畫會以預設必殺週期接續執行。關閉逐回合計畫的角色的追加行動指定、因必殺回合變動而從畫面消失的舊指定都不會套用。「隊友必殺延後」切換不論逐回合計畫都會顯示。",
+            "zhs": "回合伤害在主执行・时间轴预览・比较・记录中都以相同条件计算。执行的计划直接由编辑后的计划生成，比回合数短的计划会以默认必杀周期接续执行。关闭逐回合计划的角色的追加行动指定、因必杀回合变动而从画面消失的旧指定都不会应用。「队友必杀延后」切换不论逐回合计划都会显示。",
+            "ja": "ターンダメージはメイン実行・タイムラインのプレビュー・比較・記録のすべてで同じ条件で計算されます。実行される計画は編集した計画から直接作られ、ターン数より短い計画は既定の必殺周期で続けて実行します。手動計画をオフにしたキャラの追加行動指定や、必殺ターンが変わって画面から消えた古い指定は適用されません。「味方の必殺を後に」トグルは手動計画に関係なく常に表示されます。"
+          }
+        },
+        {
+          "cat": "fix",
+          "text": {
+            "kr": "턴별 타임라인이 사용자가 정한 행동을 스스로 바꾸지 않습니다.",
+            "en": "The per-turn timeline no longer changes the actions you set on its own.",
+            "zh": "逐回合時間軸不會再自行更改使用者設定的行動。",
+            "zhs": "逐回合时间轴不会再自行更改用户设置的行动。",
+            "ja": "ターン別タイムラインがユーザーの決めた行動を勝手に変えません。"
+          },
+          "details": {
+            "kr": "추가 행동이 늘거나 줄면 모든 턴을 직전 계산과 비교해 그 자리에서 반영하고, 넣거나 뺀 행동 수를 알려 줍니다. 확률로 이어지는 자동 추가 행동은 타임라인에 고정 항목으로 굳히지 않습니다. 턴 수를 늘리거나 편성을 바꿔 비어 있는 턴은 실행 직전에 지금 진행대로 채웁니다.",
+            "en": "When extra actions increase or decrease, every turn is compared with the previous calculation and updated right away, with a notice of how many actions were added or removed. Automatic extra actions that chain by chance are not frozen into the timeline. Turns left empty by raising the turn count or changing the team are filled with the current flow right before running.",
+            "zh": "追加行動增減時，會將所有回合與前一次計算比較並立即反映，同時告知加入或移除的行動數。機率連鎖的自動追加行動不會固定進時間軸。因增加回合數或變更編成而空出的回合，會在執行前依目前流程補上。",
+            "zhs": "追加行动增减时，会将所有回合与前一次计算比较并立即反映，同时告知加入或移除的行动数。概率连锁的自动追加行动不会固定进时间轴。因增加回合数或变更编成而空出的回合，会在执行前依目前流程补上。",
+            "ja": "追加行動が増減すると、すべてのターンを直前の計算と比べてその場で反映し、入れた・外した行動の数を知らせます。確率で連鎖する自動追加行動はタイムラインに固定項目として残しません。ターン数を増やしたり編成を変えたりして空いたターンは、実行直前に今の進行どおり埋めます。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "새로고침하거나 페이지를 다시 열면 마지막으로 작업하던 설정이 그대로 돌아옵니다.",
+            "en": "Reloading or reopening the page brings back the settings you were last working on.",
+            "zh": "重新整理或再次開啟頁面時，會恢復最後正在編輯的設定。",
+            "zhs": "刷新或再次打开页面时，会恢复最后正在编辑的设置。",
+            "ja": "再読み込みやページを開き直したとき、最後に作業していた設定がそのまま戻ります。"
+          },
+          "details": {
+            "kr": "편성 · 턴별 계획 · 행동 순서 · 길드 제단 · 연동 · 턴 피해 · 타임라인까지 실행하지 않은 편집도 함께 남습니다. 기록을 불러오면 그 기록의 편성과 조건으로 바뀌고, 알림의 ‘되돌리기’로 불러오기 전 상태로 돌아갈 수 있습니다. 길드 제단의 층 · 제단 구성은 제단을 끄거나 제단이 없는 기록을 불러와도 유지됩니다. 기록 저장 공간이 가득 차면 알려 드립니다.",
+            "en": "Edits you haven’t run yet are kept too — team, per-turn plans, action order, guild altar, sync, turn damage and the timeline. Loading a record switches to that record’s team and conditions, and ‘Undo’ in the notice takes you back to the state before loading. The guild altar floor/altar setup is kept when the altar is turned off or a record without the altar is loaded. You are notified when record storage is full.",
+            "zh": "編成・逐回合計畫・行動順序・公會祭壇・連動・回合傷害・時間軸等尚未執行的編輯也會保留。載入紀錄會切換為該紀錄的編成與條件，可用通知中的「復原」回到載入前的狀態。公會祭壇的樓層・祭壇配置在關閉祭壇或載入沒有祭壇的紀錄時也會保留。紀錄儲存空間已滿時會通知。",
+            "zhs": "编成・逐回合计划・行动顺序・公会祭坛・联动・回合伤害・时间轴等尚未执行的编辑也会保留。载入记录会切换为该记录的编成与条件，可用通知中的「撤销」回到载入前的状态。公会祭坛的楼层・祭坛配置在关闭祭坛或载入没有祭坛的记录时也会保留。记录存储空间已满时会通知。",
+            "ja": "編成・ターン別計画・行動順・ギルド祭壇・連動・ターンダメージ・タイムラインまで、まだ実行していない編集も残ります。記録を読み込むとその記録の編成と条件に切り替わり、通知の「元に戻す」で読み込む前の状態に戻れます。ギルド祭壇の階・祭壇構成は、祭壇をオフにしたり祭壇のない記録を読み込んだりしても保持されます。記録の保存容量がいっぱいになると知らせます。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "편성을 바꾸면 연동 · 턴별 타임라인 · 특정 턴 순서가 캐릭터를 따라갑니다.",
+            "en": "When the team changes, sync, the per-turn timeline and per-turn order follow the characters.",
+            "zh": "變更編成時，連動・逐回合時間軸・特定回合順序會跟著角色走。",
+            "zhs": "变更编成时，联动・逐回合时间轴・特定回合顺序会跟着角色走。",
+            "ja": "編成を変えると、連動・ターン別タイムライン・特定ターンの順番がキャラについていきます。"
+          },
+          "details": {
+            "kr": "캐릭터를 빼면 그 캐릭터의 몫만 정리되고, 같은 캐릭터를 다시 넣으면 스펙 · 계획 · 궁극기 사용 방식 · 연동 역할이 복원됩니다. 연동 앵커가 빠지면 그 그룹을 해제하고 알려 드립니다. 빈 슬롯을 누른 뒤 고른 캐릭터는 그 자리에 들어가고, 행동 순서를 직접 정해 둔 팀이면 새 캐릭터는 맨 뒤에 섭니다. 타임라인이 켜져 있으면 자동으로 채운 턴은 새 편성으로 다시 계산하고, 직접 편집한 턴은 빠진 캐릭터의 행동만 걷어냅니다. 새 캐릭터의 행동이 없는 편집 턴이 있으면 실행할 때 알려 드립니다.",
+            "en": "Removing a character clears only that character’s part, and adding the same character back restores its spec · plan · ultimate policy · sync role. If a sync anchor leaves, that group is removed with a notice. A character picked after clicking an empty slot goes into that slot, and in a team with a custom action order the new character goes to the end. With the timeline on, auto-filled turns are recalculated for the new team, and edited turns only lose the removed character’s actions. If an edited turn has no action for a new character, you are told when running.",
+            "zh": "移出角色時只會清除該角色的部分，重新放入同一角色會恢復規格・計畫・必殺技使用方式・連動角色。連動錨點離隊時會解除該組並通知。點擊空位後選擇的角色會放進該位置；若隊伍自訂了行動順序，新角色會排在最後。時間軸開啟時，自動填入的回合會以新編成重新計算，手動編輯的回合只移除被移出角色的行動。若編輯過的回合沒有新角色的行動，執行時會通知。",
+            "zhs": "移出角色时只会清除该角色的部分，重新放入同一角色会恢复规格・计划・必杀技使用方式・联动角色。联动锚点离队时会解除该组并通知。点击空位后选择的角色会放进该位置；若队伍自定义了行动顺序，新角色会排在最后。时间轴开启时，自动填入的回合会以新编成重新计算，手动编辑的回合只移除被移出角色的行动。若编辑过的回合没有新角色的行动，执行时会通知。",
+            "ja": "キャラを外すとそのキャラの分だけ整理され、同じキャラを戻すとスペック・計画・必殺技の使い方・連動の役割が復元されます。連動のアンカーが外れるとそのグループを解除して知らせます。空きスロットを押してから選んだキャラはその位置に入り、行動順を手動で決めたチームでは新しいキャラは最後に並びます。タイムラインがオンなら、自動で埋めたターンは新しい編成で計算し直し、手動で編集したターンは外したキャラの行動だけを取り除きます。新しいキャラの行動がない編集ターンがあると、実行時に知らせます。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "턴별 계획은 누른 칸만 바뀌고, 캐릭터 창을 여는 것만으로는 계획이 바뀌지 않습니다.",
+            "en": "In the per-turn plan only the clicked cell changes, and just opening the character window never changes the plan.",
+            "zh": "逐回合計畫只會改變點擊的格子，只開啟角色視窗不會改變計畫。",
+            "zhs": "逐回合计划只会改变点击的格子，只打开角色窗口不会改变计划。",
+            "ja": "ターン別計画は押したマスだけが変わり、キャラ画面を開くだけでは計画は変わりません。"
+          },
+          "details": {
+            "kr": "최대 CD +1 제단 · 확률 쿨 감소 가정 · 동료 구성이 바뀌어 지금 쓸 수 없는 궁은 화면에서만 실제대로 보이고, 설정을 되돌리면 원래 계획이 그대로 돌아옵니다. 뒤쪽 궁이 함께 옮겨지는 것은 아무것도 손대지 않은 기본 계획에서 궁을 누를 때뿐이며, 필요하면 ‘궁 간격 맞추기’로 첫 궁 이후를 쿨 주기에 맞춰 다시 정렬할 수 있습니다. 3턴궁 · 패시브 방어 · 첫 궁 당기기 같은 배치 버튼은 다시 누르면 켜기 직전 계획으로 돌아가고, 버튼의 켜짐 표시는 실제 계획을 따릅니다. 어떤 구성으로도 궁을 쓸 수 없는 턴을 누르면 그 칸은 바뀌지 않습니다.",
+            "en": "EX Skills that can’t be used right now because of the max CD +1 altar, the chance-cut assumption or a teammate change are shown as they would actually play out only on screen, and the original plan comes back when you undo that setting. Later EX Skills move along only when you click an EX Skill on the untouched default plan; use ‘Re-space EX’ to re-align everything after the first EX Skill to the cooldown cycle. Layout buttons such as 3-turn EX · Passive Def · Earliest first EX return to the plan from just before you turned them on when clicked again, and their on-state follows the actual plan. Clicking a turn where no setup allows the EX Skill leaves the cell unchanged.",
+            "zh": "因最大CD+1祭壇・機率縮短假設・隊友變動而目前無法使用的必殺，只會在畫面上依實際情況顯示，取消該設定後原本的計畫會原樣恢復。只有在尚未修改的預設計畫上點必殺時，之後的必殺才會一起移動；需要時可用「重排必殺間隔」依冷卻週期重新排列第一次之後的必殺。3回合必殺・被動防禦・提前首次必殺等配置按鈕再按一次會回到開啟前的計畫，按鈕的開啟狀態會依實際計畫顯示。點擊任何配置都無法使用必殺的回合時，該格不會改變。",
+            "zhs": "因最大CD+1祭坛・概率缩短假设・队友变动而目前无法使用的必杀，只会在画面上依实际情况显示，取消该设置后原本的计划会原样恢复。只有在尚未修改的默认计划上点必杀时，之后的必杀才会一起移动；需要时可用「重排必杀间隔」依冷却周期重新排列第一次之后的必杀。3回合必杀・被动防御・提前首次必杀等配置按钮再按一次会回到开启前的计划，按钮的开启状态会依实际计划显示。点击任何配置都无法使用必杀的回合时，该格不会改变。",
+            "ja": "最大CD+1の祭壇・確率短縮の仮定・味方構成の変化で今は使えない必殺は画面上だけ実際どおりに表示され、その設定を戻すと元の計画がそのまま戻ります。以降の必殺が一緒に動くのは、何も触っていない既定の計画で必殺を押したときだけです。必要なら「必殺の間隔を整える」で最初の必殺以降をクール周期に合わせて並べ直せます。3ターン必殺・パッシブ防御・初回必殺を前倒しなどの配置ボタンは、もう一度押すとオンにする直前の計画に戻り、ボタンのオン表示は実際の計画に従います。どの構成でも必殺を使えないターンを押しても、そのマスは変わりません。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "한 번에 여러 설정을 바꾸는 버튼에 ‘되돌리기’가 있습니다.",
+            "en": "Buttons that change several settings at once now have ‘Undo’.",
+            "zh": "一次變更多項設定的按鈕提供「復原」。",
+            "zhs": "一次变更多项设置的按钮提供「撤销」。",
+            "ja": "一度に複数の設定を変えるボタンに「元に戻す」があります。"
+          },
+          "details": {
+            "kr": "궁극기 사용 방식의 ‘모두 준비되면 바로’ · ‘모두 성공 가정 켜기’, 연동 그룹 해제(앵커를 ‘없음’으로), 연동 프리셋이 해당합니다. 연동 멤버의 행동 종류를 바꿔도 직접 고른 ‘앵커가 궁을 안 쓰는 턴’ 처리는 유지됩니다. 캐릭터 창 · 제단 패널의 바로가기로 연 탭은 기억하지 않아, 메인 버튼은 마지막으로 직접 고른 탭으로 열립니다.",
+            "en": "This covers ‘All as soon as ready’ · ‘Assume success for all’ in the ultimate policy, removing a sync group (anchor set to ‘none’) and the sync preset. Changing a sync member’s action type keeps the ‘turns the anchor doesn’t ultimate’ choice you picked. Tabs opened through shortcuts in the character window or altar panel aren’t remembered, so the main button opens the tab you last chose yourself.",
+            "zh": "包括必殺技使用方式的「全部改為就緒即用」・「全部假設成功」、解除連動組（錨點設為「無」）與連動預設。變更連動成員的行動類型時，手動選擇的「錨點不放必殺的回合」處理會保留。從角色視窗・祭壇面板捷徑開啟的分頁不會被記住，主按鈕會開啟最後手動選擇的分頁。",
+            "zhs": "包括必杀技使用方式的「全部改为就绪即用」・「全部假设成功」、解除联动组（锚点设为「无」）与联动预设。变更联动成员的行动类型时，手动选择的「锚点不放必杀的回合」处理会保留。从角色窗口・祭坛面板快捷方式打开的分页不会被记住，主按钮会打开最后手动选择的分页。",
+            "ja": "必殺技の使い方の「全員準備でき次第」・「全員成功を仮定」、連動グループの解除（アンカーを「なし」に）、連動プリセットが対象です。連動メンバーの行動の種類を変えても、手動で選んだ「アンカーが必殺を使わないターン」の扱いは保持されます。キャラ画面・祭壇パネルのショートカットで開いたタブは記憶しないので、メインボタンは最後に自分で選んだタブで開きます。"
+          }
+        },
+        {
+          "cat": "qol",
+          "text": {
+            "kr": "비교하기에서 고친 설정은 그 비교군에만 적용되고, 메인 설정은 바뀌지 않습니다.",
+            "en": "Settings changed in Compare apply only to that group, and the main settings stay as they are.",
+            "zh": "在比較中修改的設定只套用於該比較組，主設定不會改變。",
+            "zhs": "在比较中修改的设置只应用于该比较组，主设置不会改变。",
+            "ja": "比較で変えた設定はその比較グループにだけ適用され、メインの設定は変わりません。"
+          },
+          "details": {
+            "kr": "비교군의 연동은 불러온 기록의 연동을 사용합니다. 자리를 옮기면 옮긴 두 캐릭터만 자리가 바뀌고, 특정 턴 순서 · 타임라인 · 연동이 캐릭터를 따라갑니다. 도장 강화 창은 열기만 해서는 값이나 ‘변경됨’ 표시가 바뀌지 않고, 배치 버튼은 기록의 계획 길이를 그대로 유지합니다. 옛 기록의 스킬 레벨 · 도장 표기는 메인과 같게 정리되며, 길드 제단이 켜져 있으면 비교하기에서도 확률 100% 모드를 쓸 수 없습니다.",
+            "en": "A compare group’s sync uses the sync of the record it was loaded from. Moving a position swaps only the two characters, and per-turn order · timeline · sync follow them. Just opening the Rune Boost window doesn’t change values or mark the result as changed, and layout buttons keep the record’s plan length. Skill levels · runes of old records are read the same way as in the main view, and 100% proc mode can’t be used in Compare either while the guild altar is on.",
+            "zh": "比較組的連動使用所載入紀錄的連動。移動位置時只交換那兩個角色的位置，特定回合順序・時間軸・連動會跟著角色走。只開啟符文強化視窗不會改變數值或「已變更」標示，配置按鈕會保留紀錄的計畫長度。舊紀錄的技能等級・符文會與主畫面相同方式整理；公會祭壇開啟時，比較中也無法使用機率100%模式。",
+            "zhs": "比较组的联动使用所载入记录的联动。移动位置时只交换那两个角色的位置，特定回合顺序・时间轴・联动会跟着角色走。只打开符文强化窗口不会改变数值或「已变更」标示，配置按钮会保留记录的计划长度。旧记录的技能等级・符文会与主画面相同方式整理；公会祭坛开启时，比较中也无法使用概率100%模式。",
+            "ja": "比較グループの連動は、読み込んだ記録の連動を使います。位置を動かすとその2キャラだけが入れ替わり、特定ターンの順番・タイムライン・連動がキャラについていきます。刻印強化の画面は開くだけでは値や「変更あり」表示が変わらず、配置ボタンは記録の計画の長さを保ちます。古い記録のスキルレベル・刻印はメインと同じ方法で整理され、ギルド祭壇がオンのときは比較でも確率100%モードを使えません。"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.8.4",
       "date": "2026-09-24",
       "highlight": true,

@@ -249,6 +249,14 @@ class Unit:
     sync_bonus_ult: bool = False      # 앵커가 궁으로 준 추가 행동에서 궁(준비돼 있으면). 부여는 '이미 행동한' 아군에게만
                                       # 들어가므로 앵커보다 먼저 행동(sync_order=before)해야 한다 — 파서가 강제
     sync_own: bool = False            # 앵커가 궁을 안 쓰는 턴엔 내 사용 방식(계획·asap 등)대로. False=그 턴엔 궁을 아낌(종전)
+    # 확률 쿨 감소를 계획에 맞춰 성공으로 보기(궁극기 사용 방식 옵션). 켜진 유닛은 '확률 CD 감소' 트리거를 굴리지 않고
+    # 감소 기회(cd_opps: [(확률%, 감소량)])로 적립한다. 계획·연동이 궁을 요구하는 행동에서 남은 쿨을 이 기회로 채울 수
+    # 있으면 필요한 만큼만 성공한 것으로 보고 궁을 쓴다(_consume_cd_assist). 궁을 쓰면 기회는 비운다.
+    cd_assist: bool = False
+    cd_bank: int = 0                  # 적립된 감소량 합(직전 궁 이후)
+    cd_opps: list = field(default_factory=list)
+    cd_assist_uses: int = 0           # 가정한 성공으로 궁을 앞당긴 횟수
+    cd_assist_prob: float = 1.0       # 가정한 성공들이 실제로 모두 나올 확률(곱)
     died: bool = False                # 전투불능(HP 0) 이력 — 사망 로그 1회 표시·부활 대상 판별용
 
     @property
@@ -287,6 +295,7 @@ class Unit:
         self.hp = max(1.0, round(self.max_hp * hp_pct / 100, 2))
         self.died = False
         self.cd_remaining = self.fatal_cd
+        self.cd_bank, self.cd_opps = 0, []
         self.turn_acts = 0
         self.auto_fatal_pending = False
 
@@ -1494,6 +1503,68 @@ def _is_poisoned(tgt: "Unit | None", state: BattleState) -> bool:
     return any(e[0] is tgt for u in state.allies + state.enemies for e in u.dots)
 
 
+def _prob_cd_amount(effects: list, owner: Unit) -> int:
+    """이 트리거가 '확률로 자기 필살 CD를 줄이는 효과만' 담고 있으면 그 감소량(양수), 아니면 0.
+    제단 1012·1013 같은 효과를 ID 가 아니라 모양(자기 대상 CD_MOD 음수)으로 판별한다 — 새 제단·캐릭터에도 그대로.
+    외부 CD 조작을 막는 유닛(cd_immune)은 남이 준 감소가 안 걸리므로 그 몫은 0."""
+    if not effects:
+        return 0
+    total = 0
+    own = getattr(getattr(owner, "_kit", None), "char_id", 0)
+    for eff in effects:
+        if eff.kind != CD_MOD or eff.target != "self" or eff.magnitude >= 0:
+            return 0
+        if owner.cd_immune and eff.owner != own:
+            continue
+        total += int(-eff.magnitude)
+    return total
+
+
+def _sub_misses(sub: Subscription, owner: Unit, state: BattleState) -> bool:
+    """확률 트리거가 이번에 '안 터지는가'. 확률 쿨 감소를 계획에 맞춰 성공으로 보는 유닛(cd_assist)은
+    확률 CD 감소를 굴리지 않고 기회로 적립한다(실제 감소는 계획한 궁에서 필요한 만큼만 — _consume_cd_assist)."""
+    if sub.chance >= 100:
+        return False
+    if owner.cd_assist:
+        amt = _prob_cd_amount(sub.effects, owner)
+        if amt:
+            owner.cd_bank += amt
+            owner.cd_opps.append((float(sub.chance), amt))
+            return True
+    return state.never_proc or ((not state.force_proc or sub.chain_action)
+                                and state.rng.random() * 100 >= sub.chance)
+
+
+def _ult_ready(unit: Unit) -> bool:
+    """계획·연동이 궁을 요구할 때의 준비 판정 — 실제 쿨이 찼거나, 확률 쿨 감소 가정(cd_assist)으로 채울 수 있다."""
+    return unit.cd_remaining <= 0 or (unit.cd_assist and unit.cd_remaining <= unit.cd_bank)
+
+
+def _assist_prob(opps: list, need: int) -> float:
+    """기회 [(확률%, 감소량)] 중 성공한 감소량 합이 need 이상일 확률."""
+    dist = {0: 1.0}
+    for chance, amt in opps:
+        p = chance / 100.0
+        nxt: dict[int, float] = {}
+        for s, pr in dist.items():
+            hit = min(need, s + amt)
+            nxt[hit] = nxt.get(hit, 0.0) + pr * p
+            nxt[s] = nxt.get(s, 0.0) + pr * (1 - p)
+        dist = nxt
+    return dist.get(need, 0.0)
+
+
+def _consume_cd_assist(unit: Unit, state: BattleState) -> None:
+    """남은 쿨을 적립된 확률 감소로 채워 지금 궁을 쓸 수 있게 한다(필요한 만큼만 성공한 것으로 본다)."""
+    need = unit.cd_remaining
+    if need <= 0:
+        return
+    unit.cd_assist_prob *= _assist_prob(unit.cd_opps, need)
+    unit.cd_assist_uses += 1
+    unit.cd_remaining = 0
+    state.record(unit.name, f"확률 쿨 감소 성공 가정 → 필살 CD -{need}", amount=0)
+
+
 def _ready_subs(caster: Unit, event: str, state: BattleState,
                 current_target: Unit | None) -> list[tuple[Subscription, str]]:
     """Subs that fire for `event` now: gate/barrier/once-qualified and chance rolled.
@@ -1511,7 +1582,7 @@ def _ready_subs(caster: Unit, event: str, state: BattleState,
              and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]
     out: list[tuple[Subscription, str]] = []
     for sub in ready:
-        if sub.chance < 100 and (state.never_proc or ((not state.force_proc or sub.chain_action) and state.rng.random() * 100 >= sub.chance)):
+        if _sub_misses(sub, caster, state):
             continue
         if sub.once:
             sub.armed = False                       # 1회 발동 후 소진 (다음 재발동에 재장전)
@@ -1537,7 +1608,7 @@ def _fire_subs(caster: Unit, event: str, state: BattleState,
              and (not s.once or s.armed)           # once-sub: 장전된 동안만
              and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]
     for sub in ready:
-        if sub.chance < 100 and (state.never_proc or ((not state.force_proc or sub.chain_action) and state.rng.random() * 100 >= sub.chance)):
+        if _sub_misses(sub, caster, state):
             continue
         if sub.once:
             sub.armed = False                       # 1회 발동 후 소진 (다음 재발동에 재장전)
@@ -1626,7 +1697,7 @@ def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
                     and (not s.need_team_barrier or _team_has_barrier(caster, state))
                     and (not s.need_self_barrier or bsnap > 0)
                     and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]:
-            if sub.chance < 100 and (state.never_proc or ((not state.force_proc or sub.chain_action) and state.rng.random() * 100 >= sub.chance)):
+            if _sub_misses(sub, caster, state):
                 continue
             src = _trigger_src(caster, sub)
             fired.append((sub, src))
@@ -1673,7 +1744,7 @@ def _fire_time_subs(unit: Unit, state: BattleState) -> None:
             continue
         if not fire:
             continue
-        if sub.chance < 100 and (state.never_proc or ((not state.force_proc or sub.chain_action) and state.rng.random() * 100 >= sub.chance)):
+        if _sub_misses(sub, unit, state):
             continue
         for eff in sub.effects:
             apply_effect(eff, unit, state, target, source="trigger")
@@ -1700,7 +1771,7 @@ def _anchor_will_ult(anchor: Unit, state: BattleState) -> bool:
     cid = getattr(anchor._kit, "char_id", 0)
     if anchor.turn_acts > 0:
         return cid in state.turn_exes
-    if anchor.cd_remaining > 0:
+    if not _ult_ready(anchor):
         return False
     tok = _peek_token(anchor)
     if anchor.ult_mode == "asap":
@@ -2013,7 +2084,7 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
     # 연동(궁 맞추기) '앵커가 준 추가 행동에서 궁': 앵커가 이번 턴 실제로 궁을 썼고 내 궁이 준비돼 있으면
     # 그 추가 행동을 궁으로 쓴다(기본 행동은 sync_base 로 방어/평타 두고 보류한 궁). 명시 타임라인·이태호 fed 는 제외.
     sync_bonus = (is_bonus and forced_token is None and not forced_basic and unit.sync_bonus_ult
-                  and bool(kit_fatal.effects) and unit.cd_remaining <= 0 and _sync_anchor_ulted(unit, state))
+                  and bool(kit_fatal.effects) and _ult_ready(unit) and _sync_anchor_ulted(unit, state))
     if sync_bonus:
         token = "fatal"
         unit.sync_missed = False           # 연동 궁이 여기서 나간다 → '준비되면 바로' 재동기 대기 해제
@@ -2038,7 +2109,8 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
     sync_on = unit.sync_anchor is not None and not (
         unit.sync_own and not _anchor_will_ult(unit.sync_anchor, state))
     if bool(kit_fatal.effects) and ((sync_natural and sync_on) or (natural and unit.ult_mode != "fixed")):
-        ready = unit.cd_remaining <= 0
+        ready = _ult_ready(unit)                  # 계획·연동이 요구하는 궁: 확률 쿨 감소 가정 포함
+        ready_now = unit.cd_remaining <= 0       # '준비되는 대로'(asap·놓친 연동 재동기): 실제 쿨만
         holding = any(unit.stacks.get(s, 0) > 0 for s in unit.hold_fatal_stacks)
         slot_ok = token != "defend" or not unit.ult_keep_def     # 방어 지정 턴은 기본적으로 지킨다
         if sync_on:
@@ -2057,12 +2129,12 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
                 if unit.sync_miss == "asap":
                     unit.sync_missed = True    # 준비되는 대로 쓰고 다음부터 다시 맞춤
                 policy_fatal = False
-            elif unit.sync_missed and ready and slot_ok:
+            elif unit.sync_missed and ready_now and slot_ok:
                 policy_fatal, unit.sync_missed = True, False
             else:
                 policy_fatal = False
         elif unit.ult_mode == "asap":
-            policy_fatal = ready and slot_ok and not holding
+            policy_fatal = ready_now and slot_ok and not holding
         elif unit.ult_mode == "strict":
             policy_fatal = token == "fatal" and ready
         if policy_fatal is True:
@@ -2099,20 +2171,21 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
     if forced_token is not None:
         # 명시 타임라인: 지정한 행동만 수행한다. 궁이 쿨 미충족이면 평타로 내리되 자동 폴백은
         # 예약하지 않는다 — 사용자가 순서를 직접 짠 것이므로 엉뚱한 턴에 궁이 튀어나오면 안 된다.
-        use_fatal = token == "fatal" and unit.cd_remaining <= 0 and bool(kit_fatal.effects)
+        use_fatal = token == "fatal" and _ult_ready(unit) and bool(kit_fatal.effects)
     elif (not forced_basic and unit.is_fed_carry and bool(kit_fatal.effects)
             and not (has_rotation and token == "basic")):
         # a feeder (e.g. 임부언) resets this carry's CD mid-turn -> fatal on every
         # CD-ready action (natural + the granted bonus). 단, 사용자가 짠 turn-by-turn 플랜의
         # '평타' 자연행동은 존중한다(명시 플랜이 있으면 그 턴을 앞당겨 궁으로 바꾸지 않음).
-        use_fatal = unit.cd_remaining <= 0
+        # 계획이 궁을 요구하는 행동이면 확률 쿨 감소 가정(cd_assist)도 본다.
+        use_fatal = unit.cd_remaining <= 0 or (token == "fatal" and _ult_ready(unit))
     elif token == "fatal":
-        use_fatal = unit.cd_remaining <= 0 and bool(kit_fatal.effects)
+        use_fatal = _ult_ready(unit) and bool(kit_fatal.effects)
         if not use_fatal and bool(kit_fatal.effects):
             unit.auto_fatal_pending = True   # 지정 궁이 쿨 미충족으로 불발 → 오토 폴백 예약
     elif token == "basic":
         # 폴백: 앞서 지정 궁이 불발됐으면, 쿨이 차는 대로 자동으로 궁 발동 (오토 전환)
-        use_fatal = (unit.auto_fatal_pending and unit.cd_remaining <= 0
+        use_fatal = (unit.auto_fatal_pending and _ult_ready(unit)
                      and bool(kit_fatal.effects))
     else:  # no rotation -> default policy: fatal if ready, unless holding it
         holding = any(unit.stacks.get(s, 0) > 0 for s in unit.hold_fatal_stacks)
@@ -2126,7 +2199,10 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
     cid = getattr(unit._kit, "char_id", 0)
     if use_fatal:
         skill, label, event = kit_fatal, "fatal", "on_ex"
+        if unit.cd_remaining > 0:           # 확률 쿨 감소 가정으로만 준비된 궁 — 필요한 만큼 성공 처리
+            _consume_cd_assist(unit, state)
         unit.cd_remaining = unit.fatal_cd
+        unit.cd_bank, unit.cd_opps = 0, []  # 적립은 직전 궁 이후 기회만 — 이번 궁 뒤의 기회는 새로 쌓는다
         unit.auto_fatal_pending = False     # 궁 발동했으니 폴백 예약 해제
         state.cur_action_kind = "필살기"
         state.turn_exes.add(cid)            # 다양수이 협동: 이 아군이 이번 턴 필살 사용
@@ -2300,9 +2376,12 @@ def _install_altars(active: list[int], allies: list[Unit], state: BattleState) -
             # 다음 제단 Effect에 재사용돼 '같은 효과 갱신'으로 오인된다(409·410이 사라지던 버그).
             state.altar_effects.append(eff)
             if eff.kind == TRIGGER:
-                if eff.chance < 100 and not state.altar_procs:
-                    continue            # 프로브: 확률 CD감소 등은 '보장'이 아니므로 계획 기준에서 제외
                 for u in allies:
+                    # 프로브: 확률 CD감소 등은 '보장'이 아니므로 계획 기준에서 제외 — 단 확률 쿨 감소 가정 유닛은
+                    # 굴리지 않고 기회로만 적립하므로(결정론) 설치한다.
+                    if eff.chance < 100 and not state.altar_procs and not (
+                            u.cd_assist and _prob_cd_amount(eff.sub_effects, u)):
+                        continue
                     apply_effect(eff, u, state, None, source="passive")
             else:
                 apply_effect(eff, allies[0], state, None, source="passive")
@@ -2365,7 +2444,7 @@ def _check_coordination(allies: list[Unit], state: BattleState) -> None:
             if not peers or not all(getattr(a._kit, "char_id", 0) in acted for a in peers):
                 continue
             state.coord_fired.add(id(sub))      # 이번 턴 1회만
-            if sub.chance < 100 and (state.never_proc or ((not state.force_proc or sub.chain_action) and state.rng.random() * 100 >= sub.chance)):
+            if _sub_misses(sub, u, state):
                 continue
             state.cur_action += 1
             state.cur_actor_id = getattr(u._kit, "char_id", 0)
@@ -2413,7 +2492,7 @@ def _prescribed_phase(allies: list[Unit], state: BattleState, entries: list) -> 
             continue
         # 이 항목 '직전'의 필살 가능 여부. 같은 턴 앞쪽의 방어(히토하·모이루)나 임부언의
         # CD -3이 여기 반영되므로, 플래너가 '방어 → 궁' 같은 수를 막지 않게 된다.
-        cdok.append(unit.cd_remaining <= 0 and bool(unit._kit.fatal.effects))
+        cdok.append(_ult_ready(unit) and bool(unit._kit.fatal.effects))
         if budget.get(slot, 0) <= 0:
             # 예산 없음 = 아직 부여받지 못했거나 이미 다 썼다. 추가 행동을 그걸 만들어 준
             # 필살기보다 앞에 두면 여기로 온다(부여 시점 이전이라 예산이 아직 0).
@@ -2589,6 +2668,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
             mode = str(pol.get("mode", "fixed"))
             u.ult_mode = mode if mode in ("fixed", "strict", "asap") else "fixed"
             u.ult_keep_def = pol.get("keepDef", True) is not False
+            # '준비되면 바로'는 확률 그대로 — 가정은 궁 턴을 정해 둔 방식(fixed·strict)에만
+            u.cd_assist = bool(pol.get("assist")) and u.ult_mode != "asap"
         allies.append(u)
     by_slot = {u.slot: u for u in allies}
     for g in (sync_groups or []):        # 궁 맞추기 그룹(슬롯 기준). 검증은 sim_api 에서 끝났다고 본다.
@@ -2645,7 +2726,7 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
         # 그 턴 시작 시점의 '필살 가능' 슬롯 — 플래너가 궁 버튼을 사전 차단하는 근거
         state.turn_ready[state.turn] = [
             u.slot for u in allies
-            if u.alive and u.cd_remaining <= 0 and bool(u._kit.fatal.effects)]
+            if u.alive and _ult_ready(u) and bool(u._kit.fatal.effects)]
         # --- ally phase (queue: priority order + granted extra actions) ---
         _ally_phase(allies, state)
         _tick_buffs(state)                   # half-turn tick (after ally phase)
