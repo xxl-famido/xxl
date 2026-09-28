@@ -288,6 +288,7 @@ async function verify(env, req, id, body) {
 /** 고정 글은 비밀번호만으로는 못 바꾼다 — 운영자 토큰이 있어야 한다(누가 비밀번호를 알아내도 첫 댓글이 바뀌지 않게). */
 async function assertPinnedEditable(env, req, row) {
   if (row.pinned && !(await isOperator(env, req))) throw E(403, 'pinnedLocked');
+  if (row.op && !(await isOperator(env, req))) throw E(403, 'opLocked');   // 운영자('파미도')가 쓴 글·티어표·팀은 비밀번호로 못 바꾼다
 }
 
 async function editPost(env, req, id, body) {
@@ -306,7 +307,7 @@ async function editPost(env, req, id, body) {
 async function deleteItem(env, req, id, body) {
   await limit(env, 'verify', await ipHash(env, req));
   const { table, row } = await getItem(env, id);
-  if (table === 'posts') await assertPinnedEditable(env, req, row);
+  await assertPinnedEditable(env, req, row);
   await checkPin(env, table, row, body.pin);
   return removeItem(env, table, row);
 }
@@ -445,6 +446,7 @@ async function editTier(env, req, id, body) {
   await limit(env, 'verify', await ipHash(env, req));
   const { table, row } = await getItem(env, id);
   const op = await isOperator(env, req);
+  if (row.op && !op) throw E(403, 'opLocked');
   if (!op) await checkPin(env, table, row, body.pin);
   const { title, basis, descr, rows } = parseTierInput(body, op);
   await env.DB.batch([
@@ -541,6 +543,7 @@ async function editTeam(env, req, id, body) {
   await limit(env, 'verify', await ipHash(env, req));
   const { table, row } = await getItem(env, id);
   const op = await isOperator(env, req);
+  if (row.op && !op) throw E(403, 'opLocked');
   if (!op) await checkPin(env, table, row, body.pin);
   const title = cleanText(body.title, LIMITS.title, 'title');
   const basis = TEAM_BASIS_KEYS.has(body.basis) ? body.basis : null;

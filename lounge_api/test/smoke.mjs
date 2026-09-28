@@ -153,6 +153,16 @@ const noSecrets = (text) => !/dislike|pin_hash|pin_salt|pin_fail|ip_hash|"voter"
   ok(!JSON.stringify(th3.data).includes(r1.data.id), '숨긴 글은 목록에서 빠짐');
   ok((await post('/v1/admin/moderate', { target: 'post:' + r1.data.id, action: 'show' }, A)).data.ok, '관리자: 다시 보이기');
 
+  // ── 운영자 글 보호: 비밀번호를 알아도 운영자('파미도') 글은 토큰 없이 못 바꾼다 ──
+  const opPost = await post('/v1/posts', { thread: 'char:10406', body: '운영자 보호 검사 글', pin: '4321', ts: TS }, A);
+  ok(opPost.status === 200 && opPost.data.op, '운영자 글 작성');
+  const opEdit = await post(`/v1/posts/${opPost.data.id}/edit`, { pin: '4321', body: '비밀번호로 바꾸기 시도' });
+  ok(opEdit.status === 403 && opEdit.data.code === 'opLocked', `운영자 글: 맞는 비밀번호로 수정 → 403 opLocked (${opEdit.status} ${opEdit.data.code})`);
+  const opDel = await post(`/v1/items/${opPost.data.id}/delete`, { pin: '4321' });
+  ok(opDel.status === 403 && opDel.data.code === 'opLocked', `운영자 글: 맞는 비밀번호로 삭제 → 403 opLocked (${opDel.status} ${opDel.data.code})`);
+  const opEdit2 = await post(`/v1/posts/${opPost.data.id}/edit`, { pin: '4321', body: '운영자 토큰으로 수정' }, A);
+  ok(opEdit2.status === 200, `운영자 토큰으로는 수정 가능 (${opEdit2.status})`);
+
   // ── 도배 방지 ──
   const as = (ip, extra = {}) => ({ headers: { 'CF-Connecting-IP': ip, 'X-Test-Rate-Scale': '1', 'X-Test-Gap-Scale': '1', ...extra } });
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

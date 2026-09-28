@@ -102,6 +102,7 @@
  "err.notEditable": "此內容無法編輯。",
  "err.notFound": "找不到內容。",
  "err.oneCharNeeded": "請指定一位夥伴。",
+ "err.opLocked": "只有管理員能編輯或刪除管理員的內容。",
  "err.opOnly": "只有在管理員模式下才能置頂。",
  "err.opTokenBad": "權杖錯誤。",
  "err.opTokenFormat": "管理員權杖格式錯誤（64 字元）。",

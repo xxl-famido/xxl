@@ -102,6 +102,7 @@
  "err.notEditable": "編集できない投稿です。",
  "err.notFound": "投稿が見つかりません。",
  "err.oneCharNeeded": "仲間を1人指定してください。",
+ "err.opLocked": "運営の投稿は運営のみ編集・削除できます。",
  "err.opOnly": "固定は運営モードでのみ可能です。",
  "err.opTokenBad": "トークンが違います。",
  "err.opTokenFormat": "管理者トークンの形式ではありません（64文字）。",

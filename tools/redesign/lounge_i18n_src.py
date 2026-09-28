@@ -315,6 +315,7 @@ S = {
     'err.continueOther': ('이 게시판에서 쓴 이름만 이어 쓸 수 있습니다.', 'You can only continue with a name used on this board.', 'この掲示板で使った名前でのみ続けて書けます。', '只能延續在此討論區使用過的名稱。'),
     'err.continueOp': ('운영자 글의 이름은 이어 쓸 수 없습니다.', 'The moderator\'s name cannot be used.', '運営の名前では続けて書けません。', '無法使用管理員的名稱。'),
     'err.pinnedLocked': ('고정된 글은 운영자만 수정·삭제할 수 있습니다.', 'Only the moderator can edit or delete pinned posts.', '固定された投稿は運営のみ編集・削除できます。', '只有管理員能編輯或刪除置頂內容。'),
+    'err.opLocked': ('운영자가 쓴 글은 운영자만 수정·삭제할 수 있습니다.', 'Only the moderator can edit or delete posts by the moderator.', '運営の投稿は運営のみ編集・削除できます。', '只有管理員能編輯或刪除管理員的內容。'),
     'err.notEditable': ('수정할 수 있는 글이 아닙니다.', 'This post cannot be edited.', '編集できない投稿です。', '此內容無法編輯。'),
     'err.deletedPost': ('삭제된 의견입니다.', 'This comment was deleted.', '削除されたコメントです。', '此留言已刪除。'),
     'err.targetBad': ('잘못된 대상입니다.', 'Invalid target.', '対象が正しくありません。', '對象錯誤。'),

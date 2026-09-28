@@ -102,6 +102,7 @@
  "err.notEditable": "This post cannot be edited.",
  "err.notFound": "Post not found.",
  "err.oneCharNeeded": "Specify one companion.",
+ "err.opLocked": "Only the moderator can edit or delete posts by the moderator.",
  "err.opOnly": "Pinning is only available in moderator mode.",
  "err.opTokenBad": "Wrong token.",
  "err.opTokenFormat": "Not a valid admin token (64 characters).",
