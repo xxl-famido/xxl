@@ -150,7 +150,9 @@ export function openAdvanced(base) {
     if (dispose) { dispose(); dispose = null; }
     const host = C.h('div', { class: 'adv' });
     const sheet = sess.ctx.components.openSheet({ root: true, title: t('plan.adv.title'), body: host, size: 'sheet-lg adv-sheet', ariaLabel: t('plan.close') });
-    const d = mountAdvanced(host, sess.ctx, { sheet, restoreScroll: () => { if (sheet.body) sheet.body.scrollTop = scrollTop; } });
+    let d = () => {};
+    try { d = mountAdvanced(host, sess.ctx, { sheet, restoreScroll: () => { if (sheet.body) sheet.body.scrollTop = scrollTop; } }); }
+    catch (err) { showFail(host, err); }
     if (my === gen) dispose = d; else d();
     if (sheet.body) { sheet.body.scrollTop = scrollTop; sheet.body.addEventListener('scroll', () => { scrollTop = sheet.body.scrollTop; }, { passive: true }); }
   }
@@ -301,7 +303,7 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
       if (my !== planGen) { d(); return; }
       planDispose = d;
       if (restoreScroll) restoreScroll();
-    } catch (err) { console.error('[advanced] plan.js', err); } finally { if (my === planGen) planBusy = false; }
+    } catch (err) { console.error('[advanced] plan.js', err); showFail(planHost, err); } finally { if (my === planGen) planBusy = false; }
   }
   function unmountPlan() { planGen++; planBusy = false; if (planDispose) { planDispose(); planDispose = null; } planHost.replaceChildren(); }
 
@@ -755,4 +757,15 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
     unsubs.push(() => mq.removeEventListener('change', onMq));
   }
   return () => { clearTimeout(probeTimer); probeSeq++; unmountPlan(); unsubs.forEach((u) => { try { u && u(); } catch { /* noop */ } }); };
+}
+
+/** 창 내용을 그리다 실패하면 빈 창 대신 오류를 보여 준다(기기별 브라우저 문제를 사용자가 캡처해 알릴 수 있게). */
+function showFail(host, err) {
+  console.error('[advanced]', err);
+  const msg = String((err && (err.stack || err.message)) || err).split('
+').slice(0, 3).join('
+');
+  host.replaceChildren(Object.assign(document.createElement('pre'), { className: 'adv-fail', textContent: `고급 설정을 불러오지 못했습니다.
+${navigator.userAgent}
+${msg}` }));
 }
