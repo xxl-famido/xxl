@@ -16,6 +16,7 @@ cp data/chars.json data/skills.json "$OUT/data/"
 VER="$(git log -1 --format=%cI)"
 printf '{"updated":"%s"}' "$VER" > "$OUT/version.json"
 sed -i "s|__BUILD_VERSION__|$VER|" "$OUT/src/ui/update.js"   # 새 배포 알림: 실행 중인 코드가 자기 버전을 알게
+python "$(dirname "$0")/bust_modules.py" "$OUT" "$VER"   # ES 모듈 캐시 버스팅(이전 배포 모듈이 섞여 화면이 비는 문제 방지)
 
 # 구버전(v1): 현재 deploy.yml 의 조립 절차 그대로 v1/ 하위에 둔다(≡ 메뉴 「구버전」 → v1/).
 # v1 은 Pyodide 모드에서 전부 상대 경로(sim-worker.js·version.json·data/·woofia_sim/)라 하위 경로에서 그대로 동작한다.
