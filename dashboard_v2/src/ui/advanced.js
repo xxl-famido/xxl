@@ -762,10 +762,7 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
 /** 창 내용을 그리다 실패하면 빈 창 대신 오류를 보여 준다(기기별 브라우저 문제를 사용자가 캡처해 알릴 수 있게). */
 function showFail(host, err) {
   console.error('[advanced]', err);
-  const msg = String((err && (err.stack || err.message)) || err).split('
-').slice(0, 3).join('
-');
-  host.replaceChildren(Object.assign(document.createElement('pre'), { className: 'adv-fail', textContent: `고급 설정을 불러오지 못했습니다.
-${navigator.userAgent}
-${msg}` }));
+  const NL = String.fromCharCode(10);
+  const msg = String((err && (err.stack || err.message)) || err).split(NL).slice(0, 4).join(NL);
+  host.replaceChildren(Object.assign(document.createElement('pre'), { className: 'adv-fail', textContent: ['고급 설정을 불러오지 못했습니다.', navigator.userAgent, msg].join(NL) }));
 }
