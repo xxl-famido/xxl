@@ -152,8 +152,14 @@ export function menu(anchor, items) {
     h('button', { type: 'button', role: 'menuitem', class: it.danger ? 'danger' : '', onClick: () => { close(); it.onSelect?.(); } }, it.iconName && icon(it.iconName), it.label)));
   document.body.append(el);
   const r = anchor.getBoundingClientRect();
-  el.style.top = `${r.bottom + 4 + scrollY}px`;
-  el.style.left = `${Math.min(r.left, innerWidth - el.offsetWidth - 8)}px`;
+  // 아래 공간이 모자라면 위로 띄우고, 위아래 모두 모자라면 화면 안에 맞춰 붙인다(잘려서 안 보이는 항목이 없게)
+  const gap = 4, pad = 8, mh = el.offsetHeight, mw = el.offsetWidth;
+  const below = innerHeight - r.bottom - gap - pad, above = r.top - gap - pad;
+  let top = (mh <= below || below >= above) ? r.bottom + gap : r.top - gap - mh;
+  top = Math.max(pad, Math.min(top, innerHeight - mh - pad));
+  el.style.top = `${top + scrollY}px`;
+  el.style.left = `${Math.max(pad, Math.min(r.left, innerWidth - mw - pad))}px`;
+  if (mh > innerHeight - pad * 2) { el.style.maxHeight = `${innerHeight - pad * 2}px`; el.style.overflowY = 'auto'; el.style.top = `${pad + scrollY}px`; }
   const close = () => { el.remove(); document.removeEventListener('click', onDoc, true); document.removeEventListener('keydown', onKey); };
   const onDoc = e => { if (!el.contains(e.target) && e.target !== anchor) close(); };
   const onKey = e => { if (e.key === 'Escape') close(); };
