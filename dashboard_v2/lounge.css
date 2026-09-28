@@ -431,3 +431,6 @@ body.lg-dragging, body.lg-dragging * { cursor: grabbing !important; user-select:
 /* 언어 선택 메뉴 */
 .lg-langmenu-check { display: inline-flex; align-items: center; width: 16px; color: var(--accent-text); }
 .lg-langmenu-check .ic { width: 14px; height: 14px; }
+
+/* 등급 배지(XXL = rarity04, XL = rarity03 — sectionhunk 아이콘, brand/) */
+.lg-rarity { display: inline-block; height: 18px; width: auto; vertical-align: middle; }

@@ -97,7 +97,7 @@ export async function charPage(view, id) {
         img,
         h('div', { class: 'lg-hero-text' },
           h('h1', { class: 'lg-display' }, i18n.nameOf(id)),
-          h('p', { class: 'lg-hero-meta' }, elTag(c.el), h('span', {}, roleLabel(c.role)), h('span', { 'aria-label': t('chars.rarity.aria', { n: c.rarity || 0 }) }, '★'.repeat(c.rarity || 0))),
+          h('p', { class: 'lg-hero-meta' }, elTag(c.el), h('span', {}, roleLabel(c.role)), (c.rarity >= 3) && h('img', { class: 'lg-rarity', src: `brand/rarity0${Math.min(4, c.rarity)}.webp`, alt: c.rarity >= 4 ? 'XXL' : 'XL', title: c.rarity >= 4 ? 'XXL' : 'XL', width: c.rarity >= 4 ? 53 : 35, height: 18, decoding: 'async' })),
           h('div', { class: 'lg-hero-actions' },
             h('a', { class: 'btn btn-secondary btn-sm', href: `index.html#add=${id}` }, icon('swords'), t('chars.toSim'))))),
       h('div', { class: 'lg-stats' },
