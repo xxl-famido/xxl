@@ -1600,5 +1600,8 @@
  "top.tip.simulatorFeatureGuide": "模擬器功能說明",
  "top.tip.simulatorUpdateHistory": "模擬器更新記錄",
  "top.tip.xfb0734": "新版本",
- "top.undo": "復原"
+ "top.undo": "復原",
+ "update.new": "有新版本 — 點擊重新整理",
+ "update.reloading": "重新整理中",
+ "update.stale": "正在使用舊版本 — 點擊重新整理"
 }

@@ -375,3 +375,12 @@ input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18p
 .busy { pointer-events: none; opacity: .6; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 [hidden] { display: none !important; }
+
+/* ── 새 배포 알림(src/ui/update.js) — 누르면 다시 불러오기 ── */
+.up-toast { position: fixed; left: 50%; bottom: var(--space-6); z-index: var(--z-toast); transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); border: 0; border-radius: var(--radius-full);
+  background: var(--accent-solid); color: var(--on-accent); font: var(--text-body-strong); box-shadow: var(--shadow-lg); cursor: pointer;
+  animation: toast-in var(--dur-slow) var(--ease-enter) both; }
+.up-toast:hover { background: var(--accent-hover); }
+.up-toast.busy { pointer-events: none; opacity: .8; }
+@media (max-width: 900px) { .up-toast { bottom: calc(88px + env(safe-area-inset-bottom)); } }

@@ -1600,5 +1600,8 @@
  "top.tip.simulatorFeatureGuide": "シミュレーター機能の案内",
  "top.tip.simulatorUpdateHistory": "シミュレーター更新履歴",
  "top.tip.xfb0734": "新しいバージョン",
- "top.undo": "元に戻す"
+ "top.undo": "元に戻す",
+ "update.new": "新しいバージョンがあります — タップして再読み込み",
+ "update.reloading": "再読み込み中",
+ "update.stale": "古いバージョンを使用中です — タップして再読み込み"
 }

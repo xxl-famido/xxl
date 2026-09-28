@@ -1,0 +1,5 @@
+{
+ "update.new": "有新版本 — 點擊重新整理",
+ "update.stale": "正在使用舊版本 — 點擊重新整理",
+ "update.reloading": "重新整理中"
+}

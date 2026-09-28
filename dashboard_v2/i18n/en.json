@@ -1600,5 +1600,8 @@
  "top.tip.simulatorFeatureGuide": "Simulator feature guide",
  "top.tip.simulatorUpdateHistory": "Simulator update history",
  "top.tip.xfb0734": "New version",
- "top.undo": "Undo"
+ "top.undo": "Undo",
+ "update.new": "A new version is available — tap to reload",
+ "update.reloading": "Reloading",
+ "update.stale": "You're on an older version — tap to reload"
 }

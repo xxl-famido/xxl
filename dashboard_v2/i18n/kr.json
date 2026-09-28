@@ -1600,5 +1600,8 @@
  "top.tip.simulatorFeatureGuide": "시뮬레이터 기능 안내",
  "top.tip.simulatorUpdateHistory": "시뮬레이터 업데이트 내역",
  "top.tip.xfb0734": "새 버전",
- "top.undo": "되돌리기"
+ "top.undo": "되돌리기",
+ "update.new": "새 버전이 배포되었습니다 — 눌러서 새로고침",
+ "update.reloading": "새로고침 중",
+ "update.stale": "이전 버전을 쓰는 중입니다 — 눌러서 새로고침"
 }

@@ -1,0 +1,5 @@
+{
+ "update.new": "A new version is available — tap to reload",
+ "update.stale": "You're on an older version — tap to reload",
+ "update.reloading": "Reloading"
+}

@@ -8,7 +8,7 @@ import * as components from './ui/components.js';
 import { parseDeepLink, applyDeepLink, clearDeepLink } from './core/deeplink.js';
 
 const MODULES = ['topbar', 'team', 'plan', 'cond', 'results', 'runbar'];   // 마운트 순서 = 화면 순서
-const INSTALLS = ['patch', 'feedback', 'compare', 'guide'];                 // ctx.open* 를 등록하는 모듈(마운트 없음)
+const INSTALLS = ['patch', 'feedback', 'compare', 'guide', 'update'];                 // ctx.open* 를 등록하는 모듈(마운트 없음)
 const THEME_KEY = 'woofia_theme';
 
 const boot = {
