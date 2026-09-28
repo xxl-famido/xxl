@@ -1,0 +1,3052 @@
+{
+ "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
+ "releases": [
+  {
+   "version": "2.0",
+   "date": "2026-09-28",
+   "highlight": true,
+   "char": 10421,
+   "charName": {
+    "kr": "파미도",
+    "en": "Famido",
+    "ja": "ファミド",
+    "zh": "法米多",
+    "zhs": "法米多"
+   },
+   "title": {
+    "kr": "대규모 업데이트 — 새 디자인 · 행동 계획 · 전투 로그 · XXL 라운지",
+    "en": "Major update — new design · action plan · battle log · XXL Lounge",
+    "ja": "大型アップデート — 新デザイン · 行動計画 · 戦闘ログ · XXLラウンジ",
+    "zh": "大型更新 — 全新設計・行動計畫・戰鬥紀錄・XXL 交流區",
+    "zhs": "大型更新 — 全新设计・行动计划・战斗纪录・XXL 交流区"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "시뮬레이터가 새 디자인으로 열립니다.",
+      "en": "The simulator opens in a new design.",
+      "ja": "シミュレーターが新しいデザインで開きます。",
+      "zh": "模擬器以全新設計開啟。",
+      "zhs": "模拟器以全新设计开启。"
+     },
+     "details": [
+      {
+       "kr": "테마는 기본으로 기기의 시스템 설정을 따르고, ≡ 메뉴에서 라이트 · 다크 · 시스템 설정 중에 고를 수 있습니다.",
+       "en": "The theme follows your device's system setting by default; choose Light · Dark · System from the ≡ menu.",
+       "ja": "テーマは既定で端末のシステム設定に従い、≡ メニューでライト · ダーク · システム設定から選べます。",
+       "zh": "主題預設跟隨裝置的系統設定，可在 ≡ 選單中選擇淺色・深色・系統設定。",
+       "zhs": "主题预设跟随装置的系统设定，可在 ≡ 选单中选择浅色・深色・系统设定。"
+      },
+      {
+       "kr": "편성 카드 테두리가 동료의 속성색으로 표시되고, 동료 목록에서 이름으로 검색할 수 있습니다.",
+       "en": "Team cards are outlined in the companion's element color, and you can search the companion list by name.",
+       "ja": "編成カードの枠が仲間の属性色で表示され、仲間一覧で名前検索ができます。",
+       "zh": "編成卡片的邊框以夥伴的屬性色顯示，並可在夥伴列表中以名稱搜尋。",
+       "zhs": "编成卡片的边框以伙伴的属性色显示，并可在伙伴列表中以名称搜寻。"
+      },
+      {
+       "kr": "로딩 · 편성 · 결과 표시에 전환 효과가 있습니다.",
+       "en": "Loading, team setup and results use transitions.",
+       "ja": "読み込み · 編成 · 結果表示にトランジション効果があります。",
+       "zh": "載入・編成・結果顯示皆有轉場效果。",
+       "zhs": "载入・编成・结果显示皆有转场效果。"
+      },
+      {
+       "kr": "휴대폰에서는 상단 점프 칩(편성 · 행동 · 조건 · 결과)과 화면 아래 고정 실행 막대를 씁니다.",
+       "en": "On phones, use the jump chips at the top (Team · Actions · Conditions · Results) and the fixed Run bar at the bottom.",
+       "ja": "スマートフォンでは上部のジャンプチップ（編成 · 行動 · 条件 · 結果）と画面下部に固定された実行バーを使います。",
+       "zh": "手機上使用頂部跳轉標籤（編成・行動・條件・結果）與畫面底部固定的執行列。",
+       "zhs": "手机上使用顶部跳转标签（编成・行动・条件・结果）与画面底部固定的执行列。"
+      },
+      {
+       "kr": "상단바에는 기록 · 팀 비교 · 라운지가, ≡ 메뉴에는 가이드 · 패치 히스토리 · 피드백 · 언어 · 테마가 있습니다.",
+       "en": "The top bar holds History · Team Comparison · Lounge; the ≡ menu holds Guide · Patch History · Feedback · language · theme.",
+       "ja": "上部バーには記録 · 編成比較 · ラウンジ、≡ メニューにはガイド · パッチ履歴 · フィードバック · 言語 · テーマがあります。",
+       "zh": "上方列有紀錄・隊伍比較・交流區，≡ 選單有指南・更新歷史・意見回饋・語言・主題。",
+       "zhs": "上方列有纪录・队伍比较・交流区，≡ 选单有指南・更新历史・意见回馈・语言・主题。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "XXL 라운지가 열렸습니다.",
+      "en": "XXL Lounge is open.",
+      "ja": "XXLラウンジがオープンしました。",
+      "zh": "XXL 交流區開放。",
+      "zhs": "XXL 交流区开放。"
+     },
+     "details": [
+      {
+       "kr": "로그인 없이 ‘익명의 ○○(동료 이름)’으로 참여하며, 글마다 정한 숫자 4자리 비밀번호로 수정 · 삭제 · 같은 이름으로 이어 쓰기를 합니다.",
+       "en": "Join without logging in as ‘Anonymous ○○ (a companion name)’; a 4-digit PIN set per post lets you edit, delete, and keep posting under the same name.",
+       "ja": "ログインなしで「匿名の○○（仲間の名前）」として参加し、投稿ごとに決めた4桁の暗証番号で編集 · 削除 · 同じ名前での続きの投稿ができます。",
+       "zh": "無需登入，以「匿名的○○（夥伴名稱）」參與；以每篇設定的 4 位數密碼進行編輯・刪除・以同一名稱接續發文。",
+       "zhs": "无需登入，以「匿名的○○（伙伴名称）」参与；以每篇设定的 4 位数密码进行编辑・删除・以同一名称接续发文。"
+      },
+      {
+       "kr": "동료 게시판: 동료마다 의견을 남기고 답글 · 좋아요로 이야기합니다.",
+       "en": "Companion Boards: leave comments on each companion and talk with replies and likes.",
+       "ja": "仲間掲示板：仲間ごとにコメントを書き込み、返信 · いいねで交流します。",
+       "zh": "夥伴討論區：為每位夥伴留言，透過回覆・按讚交流。",
+       "zhs": "伙伴讨论区：为每位伙伴留言，透过回复・按赞交流。"
+      },
+      {
+       "kr": "티어표: 끌어서 나만의 티어표를 만들어 공개하거나 이미지로 저장하고, 공개된 티어표를 모은 커뮤니티 평균 티어를 봅니다.",
+       "en": "Tier Lists: drag to build your own tier list, publish it or save it as an image, and see the community average tiers from published lists.",
+       "ja": "ティア表：ドラッグで自分だけのティア表を作って公開したり画像で保存したりでき、公開されたティア表を集計したコミュニティ平均ティアも見られます。",
+       "zh": "梯度表：拖曳製作自己的梯度表並公開或存成圖片，也能查看彙整公開梯度表的社群平均梯度。",
+       "zhs": "梯度表：拖曳制作自己的梯度表并公开或存成图片，也能查看汇整公开梯度表的社群平均梯度。"
+      },
+      {
+       "kr": "팀 공유: 공유 코드로 팀과 설명을 올리고, ‘시뮬하러 가기’로 그 팀을 시뮬레이터에서 바로 실행합니다.",
+       "en": "Team Sharing: post a team with a share code and description, and run it right away in the simulator with ‘Simulate this team’.",
+       "ja": "チーム共有：共有コードでチームと説明を投稿し、「シミュレーションする」でそのチームをすぐシミュレーターで実行できます。",
+       "zh": "隊伍分享：以分享碼發布隊伍與說明，按「前往模擬」即可在模擬器中立即執行該隊伍。",
+       "zhs": "队伍分享：以分享码发布队伍与说明，按「前往模拟」即可在模拟器中立即执行该队伍。"
+      },
+      {
+       "kr": "시뮬레이터에서는 상단바 ‘라운지’, 결과 머리의 ‘팀 공유에 올리기’, 동료 육성 창의 ‘의견 보기’로 이어집니다.",
+       "en": "From the simulator, use ‘Lounge’ in the top bar, ‘Share to Lounge’ in the result header, and ‘See comments’ in the companion build window.",
+       "ja": "シミュレーターからは、上部バーの「ラウンジ」、結果見出しの「チーム共有に投稿」、仲間育成ウィンドウの「コメントを見る」から移動できます。",
+       "zh": "在模擬器中可從上方列的「交流區」、結果標題的「分享到隊伍分享」、夥伴培養視窗的「查看留言」前往。",
+       "zhs": "在模拟器中可从上方列的「交流区」、结果标题的「分享到队伍分享」、伙伴培养视窗的「查看留言」前往。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "행동 순서 · 예외 턴 · 턴별 행동을 한 패널(행동 계획)에서 정하고, 실행 미리보기로 확인합니다.",
+      "en": "Action order, exception turns and per-turn actions are set in one panel (Action plan) and checked with the Run preview.",
+      "ja": "行動順 · 例外ターン · ターン別行動を1つのパネル（行動計画）で決め、実行プレビューで確認します。",
+      "zh": "行動順序・例外回合・逐回合行動在單一面板（行動計畫）中設定，並以執行預覽確認。",
+      "zhs": "行动顺序・例外回合・逐回合行动在单一面板（行动计划）中设定，并以执行预览确认。"
+     },
+     "details": [
+      {
+       "kr": "턴별 행동은 행동 계획의 그 동료 행에서 ‘직접 지정’으로 정합니다.",
+       "en": "Per-turn actions are set on that companion's row in the action plan with ‘Per turn’.",
+       "ja": "ターン別行動は、行動計画のその仲間の行で「直接指定」から決めます。",
+       "zh": "逐回合行動在行動計畫中該夥伴的列以「直接指定」決定。",
+       "zhs": "逐回合行动在行动计划中该伙伴的列以「直接指定」决定。"
+      },
+      {
+       "kr": "실행 미리보기에 지금 설정이 30턴 × 5인 격자로 바로 나타나, 실행 전에 필살기 턴을 확인할 수 있습니다.",
+       "en": "Run preview shows the current setup as a 30-turn × 5-companion grid right away, so you can check EX Skill turns before running.",
+       "ja": "実行プレビューに現在の設定が30ターン × 5人のグリッドですぐに表示され、実行前に必殺ターンを確認できます。",
+       "zh": "執行預覽會以 30 回合 × 5 人的網格即時顯示目前設定，執行前即可確認必殺技回合。",
+       "zhs": "执行预览会以 30 回合 × 5 人的网格即时显示目前设定，执行前即可确认必杀技回合。"
+      },
+      {
+       "kr": "초기화 메뉴에서 순서만 · 예외 턴만 · 직접 지정만 · 전체 중 되돌릴 범위를 고릅니다.",
+       "en": "The Reset menu lets you choose what to restore: Order only · Exception turns only · Per-turn plans only · Everything.",
+       "ja": "初期化メニューで順番のみ · 例外ターンのみ · 直接指定のみ · すべてを選んで元に戻します。",
+       "zh": "可在重設選單中選擇僅順序・僅例外回合・僅直接指定・全部來還原。",
+       "zhs": "可在重设选单中选择仅顺序・仅例外回合・仅直接指定・全部来还原。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "고급 설정에서 규칙과 고정을 함께 씁니다.",
+      "en": "Advanced settings use rules and pins together.",
+      "ja": "詳細設定でルールと固定を同時に使います。",
+      "zh": "進階設定中規則與固定可一併使用。",
+      "zhs": "进阶设定中规则与固定可一并使用。"
+     },
+     "details": [
+      {
+       "kr": "④ 턴별 행동 계획 격자에서 원하는 칸만 고정하면 나머지 칸은 필살기 방식 · 연동 규칙대로 진행합니다.",
+       "en": "Pin only the cells you want in the ④ Turn-by-Turn Action Plan grid, and the rest follows EX Skill mode · EX Skill link rules.",
+       "ja": "④ ターン別行動計画のグリッドで好きなマスだけを固定すると、残りのマスは必殺技の使い方 · 連動ルールどおりに進行します。",
+       "zh": "在 ④ 逐回合行動計畫網格中只固定想要的格子，其餘格子依必殺技方式・連動規則進行。",
+       "zhs": "在 ④ 逐回合行动计划网格中只固定想要的格子，其余格子依必杀技方式・连动规则进行。"
+      },
+      {
+       "kr": "턴을 통째로 잠그거나, 턴 번호를 눌러 그 턴의 순서 · 행동을 편집하고 N턴 간격으로 반복할 수 있습니다.",
+       "en": "You can lock whole turns, or tap a turn number to edit that turn's order · actions and repeat it every N turns.",
+       "ja": "ターンを丸ごとロックしたり、ターン番号を押してそのターンの順番 · 行動を編集し、Nターン間隔で繰り返したりできます。",
+       "zh": "可整個鎖定回合，或點擊回合編號編輯該回合的順序・行動，並以每 N 回合的間隔重複。",
+       "zhs": "可整个锁定回合，或点击回合编号编辑该回合的顺序・行动，并以每 N 回合的间隔重复。"
+      },
+      {
+       "kr": "같은 칸에 설정이 겹치면 잠긴 턴 > 필살기 연동 > 필살기 방식 > 고정 칸 > 예외 턴 순으로 앞쪽이 이기고, 고정과 실제 실행이 다른 칸은 표시됩니다.",
+       "en": "When settings overlap on the same cell, earlier wins: locked turns > EX Skill link > EX Skill mode > pinned cells > exception turns. Cells where the pin differs from what actually runs are flagged.",
+       "ja": "同じマスに設定が重なった場合は ロックしたターン > 必殺技連動 > 必殺技の使い方 > 固定マス > 例外ターン の順で前が優先され、固定と実際の実行が異なるマスは表示されます。",
+       "zh": "同一格設定重疊時，依鎖定回合 > 必殺技連動 > 必殺技方式 > 固定格 > 例外回合的順序前者優先，固定與實際執行不同的格子會標示出來。",
+       "zhs": "同一格设定重叠时，依锁定回合 > 必杀技连动 > 必杀技方式 > 固定格 > 例外回合的顺序前者优先，固定与实际执行不同的格子会标示出来。"
+      },
+      {
+       "kr": "‘고급 설정 사용’을 끄면 방식 · 성공 가정 · 연동 · 잠긴 턴이 보관되고, 다시 켜면 돌아옵니다.",
+       "en": "Turning off ‘Use advanced settings’ keeps modes · success assumptions · links · locked turns, and they come back when you turn it on again.",
+       "ja": "「詳細設定を使う」をオフにすると使い方 · 成功の仮定 · 連動 · ロックしたターンが保管され、再びオンにすると戻ります。",
+       "zh": "關閉「使用進階設定」時，方式・成功假設・連動・鎖定回合會被保留，再次開啟即恢復。",
+       "zhs": "关闭「使用进阶设定」时，方式・成功假设・连动・锁定回合会被保留，再次开启即恢复。"
+      },
+      {
+       "kr": "방탈출 제단을 켜거나 고급 값이 든 기록 · 공유 코드를 불러오면 고급 설정이 자동으로 켜집니다.",
+       "en": "Advanced settings turn on automatically when you enable Escape Room Altars or load a record · share code with advanced values.",
+       "ja": "脱出部屋の祭壇をオンにするか、詳細設定の値を含む記録 · 共有コードを読み込むと、詳細設定が自動でオンになります。",
+       "zh": "開啟密室祭壇，或載入含進階設定值的紀錄・分享碼時，會自動開啟進階設定。",
+       "zhs": "开启密室祭坛，或载入含进阶设定值的纪录・分享码时，会自动开启进阶设定。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "전투 로그는 턴 목록 + 상세 화면으로 봅니다.",
+      "en": "The battle log is a turn list + detail view.",
+      "ja": "戦闘ログはターン一覧 + 詳細画面で見ます。",
+      "zh": "戰鬥紀錄以回合列表＋詳細畫面查看。",
+      "zhs": "战斗纪录以回合列表＋详细画面查看。"
+     },
+     "details": [
+      {
+       "kr": "왼쪽 턴 목록에서 턴을 고르면 그 턴의 행동이 카드로 나오고, 행동 → 타격 → 계산 내역 → 출처 순으로 파고들 수 있습니다.",
+       "en": "Pick a turn in the list on the left to see its actions as cards, then drill down action → hit → calculation → source.",
+       "ja": "左のターン一覧でターンを選ぶとそのターンの行動がカードで表示され、行動 → ヒット → 計算内訳 → 出所の順に掘り下げられます。",
+       "zh": "在左側回合列表選擇回合後，該回合的行動會以卡片顯示，可依行動 → 命中 → 計算明細 → 來源的順序深入查看。",
+       "zhs": "在左侧回合列表选择回合后，该回合的行动会以卡片显示，可依行动 → 命中 → 计算明细 → 来源的顺序深入查看。"
+      },
+      {
+       "kr": "계산 내역이 수식 칩(ATK 합계 × 스킬 계수 × … = 최종)과 단계별 막대로 그려집니다.",
+       "en": "Calculation is drawn as formula chips (total ATK × skill multiplier × … = final) with step-by-step bars.",
+       "ja": "計算内訳は式チップ（ATK合計 × スキル係数 × … = 最終値）と段階ごとのバーで示します。",
+       "zh": "計算明細以算式標籤（ATK 合計 × 技能係數 × … = 最終）與各階段長條顯示。",
+       "zhs": "计算明细以算式标签（ATK 合计 × 技能系数 × … = 最终）与各阶段长条显示。"
+      },
+      {
+       "kr": "곱한 값이 엔진 값과 다르면 ‘설명되지 않은 차이’ 행으로 드러납니다.",
+       "en": "If the multiplied value differs from the engine value, it appears as an ‘Unexplained difference’ row.",
+       "ja": "掛け合わせた値がエンジンの値と異なる場合は「説明できない差分」の行として表示されます。",
+       "zh": "相乘結果與引擎數值不同時，會以「無法解釋的差異」列顯示。",
+       "zhs": "相乘结果与引擎数值不同时，会以「无法解释的差异」列显示。"
+      },
+      {
+       "kr": "방탈출 제단이 출처인 효과에는 별 · 달 제단 그림이 붙습니다.",
+       "en": "Effects sourced from Escape Room Altars show a Star · Moon altar icon.",
+       "ja": "脱出部屋の祭壇が出所の効果には、星 · 月の祭壇の絵が付きます。",
+       "zh": "來源為密室祭壇的效果會附上星之祭壇・月之祭壇圖示。",
+       "zhs": "来源为密室祭坛的效果会附上星之祭坛・月之祭坛图示。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "결과 화면에 실행 조건 요약과 턴 이동이 있습니다.",
+      "en": "The result screen has a run-conditions summary and turn jumping.",
+      "ja": "結果画面に実行条件の要約とターン移動があります。",
+      "zh": "結果畫面有執行條件摘要與回合跳轉。",
+      "zhs": "结果画面有执行条件摘要与回合跳转。"
+     },
+     "details": [
+      {
+       "kr": "결과 머리에 실행한 조건(턴 수 · 반복 · 적 · 제단 · 턴 데미지 등)이 요약되어, 지금 보는 숫자가 어떤 조건의 결과인지 알 수 있습니다.",
+       "en": "The result header summarizes the run conditions (turns · iterations · enemy · altars · turn damage, etc.), so you know which conditions the numbers come from.",
+       "ja": "結果の見出しに、実行した条件（ターン数 · 繰り返し · 敵 · 祭壇 · ターンダメージなど）がまとめて表示され、今見ている数字がどの条件の結果か分かります。",
+       "zh": "結果標題會摘要執行時的條件（回合數・重複次數・敵人・祭壇・回合傷害等），可得知目前看到的數字是哪種條件的結果。",
+       "zhs": "结果标题会摘要执行时的条件（回合数・重复次数・敌人・祭坛・回合伤害等），可得知目前看到的数字是哪种条件的结果。"
+      },
+      {
+       "kr": "턴별 데미지 막대를 누르면 전투 로그의 그 턴으로 이동합니다.",
+       "en": "Tapping a per-turn damage bar jumps to that turn in the battle log.",
+       "ja": "ターン別ダメージのバーを押すと、戦闘ログのそのターンに移動します。",
+       "zh": "點擊逐回合傷害長條會跳到戰鬥紀錄的該回合。",
+       "zhs": "点击逐回合伤害长条会跳到战斗纪录的该回合。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "육성 · 도장 제련 · 스킬 레벨을 동료 육성 창 하나에서 정합니다.",
+      "en": "Build, Sigil boost and skill levels are set in a single Companion Build window.",
+      "ja": "育成 · 刻印強化 · スキルレベルを仲間の育成ウィンドウ1つで設定します。",
+      "zh": "培養・印章強化・技能等級可在單一夥伴培養視窗中設定。",
+      "zhs": "培养・印章强化・技能等级可在单一伙伴培养视窗中设定。"
+     },
+     "details": [
+      {
+       "kr": "편성 카드의 초상을 누르면 열리고, 스킬 레벨 목록에 현재 레벨의 스킬 설명이 함께 나옵니다.",
+       "en": "Tap a portrait on a team card to open it; the skill level list shows skill descriptions at the current level.",
+       "ja": "編成カードの肖像を押すと開き、スキルレベル一覧に現在のレベルのスキル説明が一緒に表示されます。",
+       "zh": "點擊編成卡片的頭像即可開啟，技能等級列表會一併顯示目前等級的技能說明。",
+       "zhs": "点击编成卡片的头像即可开启，技能等级列表会一并显示目前等级的技能说明。"
+      },
+      {
+       "kr": "최대 육성과 다른 동료는 편성 카드에 차이 칩(★3 · Lv50 · 적합도 2 등)이 붙습니다.",
+       "en": "Companions that differ from max build get difference chips on their team card (★3 · Lv50 · Compatibility 2, etc.).",
+       "ja": "最大育成と異なる仲間は、編成カードに差分チップ（★3 · Lv50 · 適合度 2 など）が付きます。",
+       "zh": "與滿培養不同的夥伴，編成卡片上會附上差異標籤（★3・Lv50・適合度 2 等）。",
+       "zhs": "与满培养不同的伙伴，编成卡片上会附上差异标签（★3・Lv50・适合度 2 等）。"
+      },
+      {
+       "kr": "‘행동 계획에서 보기’로 그 동료의 행동 계획 행으로 바로 이동합니다.",
+       "en": "‘View in action plan’ jumps straight to that companion's action plan row.",
+       "ja": "「行動計画で見る」でその仲間の行動計画の行へ直接移動します。",
+       "zh": "用「在行動計畫中查看」可直接跳到該夥伴的行動計畫列。",
+       "zhs": "用「在行动计划中查看」可直接跳到该伙伴的行动计划列。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "스킬 리듬에 맞춘 동료별 행동 프리셋이 있습니다.",
+      "en": "Per-companion action presets match each skill rhythm.",
+      "ja": "スキルのリズムに合わせた仲間ごとの行動プリセットがあります。",
+      "zh": "有配合技能節奏的各夥伴行動預設。",
+      "zhs": "有配合技能节奏的各伙伴行动预设。"
+     },
+     "details": [
+      {
+       "kr": "방어로 쌓은 효과가 다음 필살기를 키우는 동료: ‘필살기 직전 방어’ · ‘3턴마다 · 직전 방어’로 그 리듬을 한 번에 배치합니다.",
+       "en": "Companions whose defending builds up their next EX Skill: ‘Passive Def’ · ‘Every 3 turns · Def before’ place that rhythm in one go.",
+       "ja": "防御で溜めた効果が次の必殺技を強化する仲間：「パッシブ防御」 · 「3ターンごと · 直前に防御」でそのリズムを一度に配置します。",
+       "zh": "以防禦累積效果來強化下一次必殺技的夥伴：以「被動防禦」・「每 3 回合・前一回合防禦」一次配置該節奏。",
+       "zhs": "以防御累积效果来强化下一次必杀技的伙伴：以「被动防御」・「每 3 回合・前一回合防御」一次配置该节奏。"
+      },
+      {
+       "kr": "방어로 필살기 CD를 줄이는 동료: ‘방어로 필살기 앞당기기’로 그 리듬을 한 번에 배치합니다.",
+       "en": "Companions whose defending cuts their EX Skill CD: ‘Pull EX Skill forward with Def’ places that rhythm in one go.",
+       "ja": "防御で必殺技のCDを縮める仲間：「防御で必殺技を早める」でそのリズムを一度に配置します。",
+       "zh": "以防禦縮短必殺技CD的夥伴：以「以防禦提前必殺技」一次配置該節奏。",
+       "zhs": "以防御缩短必杀技CD的伙伴：以「以防御提前必杀技」一次配置该节奏。"
+      },
+      {
+       "kr": "프리셋 버튼에 마우스를 올리면 근거가 되는 스킬 원문과 발동 조건이 표시됩니다.",
+       "en": "Hovering a preset button shows the source skill text and trigger conditions it is based on.",
+       "ja": "プリセットボタンにマウスを乗せると、根拠となるスキル原文と発動条件が表示されます。",
+       "zh": "將滑鼠移到預設按鈕上會顯示作為依據的技能原文與發動條件。",
+       "zhs": "将滑鼠移到预设按钮上会显示作为依据的技能原文与发动条件。"
+      }
+     ]
+    },
+    {
+     "cat": "balance",
+     "text": {
+      "kr": "포지션 1 동료에게 ‘필살기 CD 변동 면역’을 거는 필살기가 계산에 반영됩니다.",
+      "en": "EX Skills that make the position 1 ally ‘immune to EX Skill CD changes’ are included in the calculation.",
+      "ja": "ポジション1の仲間に「必殺CD変動無効」を付与する必殺技が計算に反映されます。",
+      "zh": "對位置1夥伴施加「必殺技CD變動免疫」的必殺技已納入計算。",
+      "zhs": "对位置1伙伴施加「必杀技CD变动免疫」的必杀技已纳入计算。"
+     },
+     "details": [
+      {
+       "kr": "면역 기간(필살기 턴부터 3턴) 동안 포지션 1 동료의 필살기 CD를 바꾸는 효과(아군 · 자신 스킬의 CD 감소, 방탈출 제단 확률 CD 감소 등)는 무효입니다. 필살기 사용 후 CD 초기화와 턴 종료 시 자연 충전은 그대로입니다.",
+       "en": "During the immunity (3 turns from the EX Skill turn), effects that change the position 1 ally's EX Skill CD (CD cuts from ally · own skills, Escape Room Altar chance CD cuts, etc.) do nothing. The CD reset after using an EX Skill and the natural charge at turn end still apply.",
+       "ja": "無効期間（必殺ターンから3ターン）中は、ポジション1の仲間の必殺CDを変える効果（味方 · 自身のスキルによるCD短縮、脱出部屋の祭壇の確率CD短縮など）が無効になります。必殺技使用後のCDリセットとターン終了時の自然回復はそのままです。",
+       "zh": "免疫期間（自必殺技回合起 3 回合）內，改變位置1夥伴必殺技CD的效果（我方・自身技能的CD縮短、密室祭壇機率CD縮短等）無效。必殺技使用後的CD重置與回合結束時的自然充能維持不變。",
+       "zhs": "免疫期间（自必杀技回合起 3 回合）内，改变位置1伙伴必杀技CD的效果（我方・自身技能的CD缩短、密室祭坛机率CD缩短等）无效。必杀技使用后的CD重置与回合结束时的自然充能维持不变。"
+      },
+      {
+       "kr": "면역 중에 같은 필살기를 다시 쓰면 CD 감소는 막히고 면역 기간만 갱신됩니다.",
+       "en": "If the same EX Skill is used again during the immunity, the CD cut is blocked and only the immunity duration is refreshed.",
+       "ja": "無効期間中に同じ必殺技を再び使うと、CD短縮は防がれ、無効期間だけが更新されます。",
+       "zh": "免疫期間再次使用同一必殺技時，CD縮短會被阻擋，只會刷新免疫期間。",
+       "zhs": "免疫期间再次使用同一必杀技时，CD缩短会被阻挡，只会刷新免疫期间。"
+      },
+      {
+       "kr": "면역 기간에는 확률 CD 감소 성공 가정으로도 포지션 1 동료의 필살기가 당겨지지 않습니다. 이 필살기가 없는 팀은 영향이 없습니다.",
+       "en": "During the immunity, ‘Assume chance cooldown cuts succeed’ does not pull the position 1 ally's EX Skill forward either. Teams without this EX Skill are unaffected.",
+       "ja": "無効期間中は、確率CD短縮の成功の仮定でもポジション1の仲間の必殺技は前倒しされません。この必殺技がないチームには影響しません。",
+       "zh": "免疫期間即使假設機率CD縮短成功，位置1夥伴的必殺技也不會提前。沒有此必殺技的隊伍不受影響。",
+       "zhs": "免疫期间即使假设机率CD缩短成功，位置1伙伴的必杀技也不会提前。没有此必杀技的队伍不受影响。"
+      },
+      {
+       "kr": "행동 계획에서도 면역으로 필살기를 쓸 수 없는 칸은 막히고 이유가 표시됩니다.",
+       "en": "In the action plan, cells where the immunity prevents an EX Skill are blocked with the reason shown.",
+       "ja": "行動計画でも、無効により必殺技を使えないマスはブロックされ、理由が表示されます。",
+       "zh": "行動計畫中因免疫而無法使用必殺技的格子也會被封鎖並顯示原因。",
+       "zhs": "行动计划中因免疫而无法使用必杀技的格子也会被封锁并显示原因。"
+      }
+     ]
+    },
+    {
+     "cat": "balance",
+     "text": {
+      "kr": "확률 CD 감소 성공 가정은 ‘준비되면 바로’를 뺀 필살기 방식(자동 · 정해진 턴만)에서 씁니다.",
+      "en": "‘Assume chance cooldown cuts succeed’ works in every EX Skill mode except ‘As soon as ready’ (Auto · Planned turns only).",
+      "ja": "確率CD短縮の成功の仮定は「準備でき次第」を除く必殺技の使い方（自動 · 指定ターンのみ）で使えます。",
+      "zh": "假設機率CD縮短成功可用於「就緒即用」以外的必殺技方式（自動・僅指定回合）。",
+      "zhs": "假设机率CD缩短成功可用于「就绪即用」以外的必杀技方式（自动・仅指定回合）。"
+     },
+     "details": [
+      {
+       "kr": "확률 CD 감소 제단이 켜져 있으면 동료별로 성공 가정을 켤 수 있고, 켜면 첫 필살기가 당겨집니다(CD 3턴 → 3 · 6 · 9턴, CD 2턴 → 2턴부터).",
+       "en": "With a chance CD cut altar on, the success assumption can be turned on per companion, and doing so pulls the first EX Skill forward (3-turn CD → turns 3 · 6 · 9, 2-turn CD → from turn 2).",
+       "ja": "確率CD短縮の祭壇がオンなら、仲間ごとに成功の仮定をオンにでき、オンにすると初回の必殺技が前倒しされます（CD 3ターン → 3 · 6 · 9ターン目、CD 2ターン → 2ターン目から）。",
+       "zh": "機率CD縮短祭壇開啟時，可為各夥伴開啟成功假設，開啟後首次必殺技會提前（CD 3回合 → 第3・6・9回合，CD 2回合 → 從第2回合起）。",
+       "zhs": "机率CD缩短祭坛开启时，可为各伙伴开启成功假设，开启后首次必杀技会提前（CD 3回合 → 第3・6・9回合，CD 2回合 → 从第2回合起）。"
+      },
+      {
+       "kr": "‘준비되면 바로’ 동료, 전투당 1회 필살기 동료, 제단이 꺼진 경우에는 체크가 흐리게 표시되고 이유가 나옵니다.",
+       "en": "For ‘As soon as ready’ companions, once-per-battle EX Skill companions, or when the altar is off, the checkbox is dimmed with the reason shown.",
+       "ja": "「準備でき次第」の仲間、戦闘ごとに1回の必殺技を持つ仲間、祭壇がオフの場合は、チェックが薄く表示され理由が出ます。",
+       "zh": "「就緒即用」的夥伴、每場戰鬥僅能使用 1 次必殺技的夥伴，或祭壇關閉時，勾選框會變淡並顯示原因。",
+       "zhs": "「就绪即用」的伙伴、每场战斗仅能使用 1 次必杀技的伙伴，或祭坛关闭时，勾选框会变淡并显示原因。"
+      },
+      {
+       "kr": "첫 필살기를 특정 턴에 두려면 ④ 턴별 행동 계획 격자에서 그 칸을 고정합니다.",
+       "en": "To place the first EX Skill on a specific turn, pin that cell in the ④ Turn-by-Turn Action Plan grid.",
+       "ja": "初回の必殺技を特定のターンに置くには、④ ターン別行動計画のグリッドでそのマスを固定します。",
+       "zh": "若要將首次必殺技放在特定回合，請在 ④ 逐回合行動計畫網格中固定該格。",
+       "zhs": "若要将首次必杀技放在特定回合，请在 ④ 逐回合行动计划网格中固定该格。"
+      }
+     ]
+    },
+    {
+     "cat": "balance",
+     "text": {
+      "kr": "인접 동료의 필살기를 뒤로 미루는 동료 설정은 필살기 연동 그룹으로 처리됩니다.",
+      "en": "A companion setting that delays adjacent allies' EX Skills is handled as an EX Skill link group.",
+      "ja": "隣接する仲間の必殺技を後回しにする仲間の設定は、必殺技連動グループとして処理されます。",
+      "zh": "延後相鄰夥伴必殺技的夥伴設定以必殺技連動組處理。",
+      "zhs": "延后相邻伙伴必杀技的伙伴设定以必杀技连动组处理。"
+     },
+     "details": [
+      {
+       "kr": "그 동료 행의 체크와 고급 설정의 인접 동료 연동은 같은 설정입니다.",
+       "en": "The checkbox on that companion's row and the adjacent-companion link in Advanced settings are the same setting.",
+       "ja": "その仲間の行のチェックと、詳細設定の隣接する仲間の連動は同じ設定です。",
+       "zh": "該夥伴列的勾選與進階設定中的相鄰夥伴連動為同一設定。",
+       "zhs": "该伙伴列的勾选与进阶设定中的相邻伙伴连动为同一设定。"
+      },
+      {
+       "kr": "연동 그룹에서는 인접 동료의 보통 공격이 한 칸 먼저 들어갈 수 있어, 버프를 받는 순서에 따라 데미지가 조금 다를 수 있습니다.",
+       "en": "In a link group, an adjacent companion's Basic Attack may come one step earlier, so damage can differ slightly depending on the order buffs are received.",
+       "ja": "連動グループでは隣接する仲間の通常攻撃が1つ先に入ることがあり、バフを受ける順番によってダメージが少し変わる場合があります。",
+       "zh": "連動組中相鄰夥伴的普通攻擊可能提前一格，依獲得增益的順序不同，傷害可能略有差異。",
+       "zhs": "连动组中相邻伙伴的普通攻击可能提前一格，依获得增益的顺序不同，伤害可能略有差异。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "전투 로그의 효과 이름은 모두 게임 표기로 나옵니다.",
+      "en": "Effect names in the battle log all use the game's terms.",
+      "ja": "戦闘ログの効果名はすべてゲームの表記で表示されます。",
+      "zh": "戰鬥紀錄的效果名稱皆以遊戲用語顯示。",
+      "zhs": "战斗纪录的效果名称皆以游戏用语显示。"
+     },
+     "details": [
+      {
+       "kr": "예: 받는 치료 증가 · 받는 배리어 증가 · 필살기로 받는 데미지 증가.",
+       "en": "e.g. Healing received up · Barrier received up · EX Skill Damage Taken up.",
+       "ja": "例：被回復増加 · 被バリア増加 · 必殺技による被ダメージ増加。",
+       "zh": "例：受到治療增加・受到護盾增加・受到必殺技傷害增加。",
+       "zhs": "例：受到治疗增加・受到护盾增加・受到必杀技伤害增加。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "모든 문구가 게임 공식 표기를 따릅니다.",
+      "en": "All wording follows the game's official terms.",
+      "ja": "すべての文言がゲームの公式表記に従います。",
+      "zh": "所有文字皆依遊戲官方用語。",
+      "zhs": "所有文字皆依游戏官方用语。"
+     },
+     "details": [
+      {
+       "kr": "필살기 · 보통 공격 · 동료 · 도장 잠금해제 · 적합도 · 도장 제련 · 사망 · 방탈출 제단 등.",
+       "en": "EX Skill · Basic Attack · Companion · Unlock Sigil · Compatibility · Sigil boost · Death · Escape Room Altar, and more.",
+       "ja": "必殺技 · 通常攻撃 · 仲間 · 刻印解放 · 適合度 · 刻印強化 · 死亡 · 脱出部屋の祭壇 など。",
+       "zh": "必殺技・普通攻擊・夥伴・印章解鎖・適合度・印章強化・陣亡・密室祭壇等。",
+       "zhs": "必杀技・普通攻击・伙伴・印章解锁・适合度・印章强化・阵亡・密室祭坛等。"
+      },
+      {
+       "kr": "가이드는 현재 화면 기준이고, 패치 히스토리의 지난 내용도 같은 표기입니다.",
+       "en": "The guide matches the current screens, and past patch history entries use the same terms.",
+       "ja": "ガイドは現在の画面に合わせてあり、パッチ履歴の過去の内容も同じ表記です。",
+       "zh": "指南依目前畫面撰寫，更新歷史的過往內容也使用相同用語。",
+       "zhs": "指南依目前画面撰写，更新历史的过往内容也使用相同用语。"
+      },
+      {
+       "kr": "지원 언어는 한국어 · 영어 · 일본어 · 중국어(번체)입니다. 간체 설정은 번체로 표시됩니다.",
+       "en": "Supported languages are Korean · English · Japanese · Chinese (Traditional). A Simplified setting is shown in Traditional.",
+       "ja": "対応言語は韓国語 · 英語 · 日本語 · 中国語（繁体字）です。簡体字の設定は繁体字で表示されます。",
+       "zh": "支援語言為韓文・英文・日文・中文（繁體）。簡體設定會以繁體顯示。",
+       "zhs": "支援语言为韩文・英文・日文・中文（繁体）。简体设定会以繁体显示。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "v1 기록과 공유 코드를 그대로 열 수 있고, 여러 작업을 되돌릴 수 있습니다.",
+      "en": "v1 records and share codes open as-is, and many actions can be undone.",
+      "ja": "v1の記録と共有コードをそのまま開け、多くの操作を元に戻せます。",
+      "zh": "可直接開啟 v1 紀錄與分享碼，許多操作也能復原。",
+      "zhs": "可直接开启 v1 纪录与分享码，许多操作也能复原。"
+     },
+     "details": [
+      {
+       "kr": "v1의 기록 · 공유 코드 · 파일은 새 구조로 자동 변환되고, 현재 규칙(필살기 CD 면역 · 성공 가정 · 필살기 연동)으로 계산됩니다.",
+       "en": "v1 records · share codes · files are converted to the new structure automatically and calculated with the current rules (EX Skill CD immunity · success assumption · EX Skill link).",
+       "ja": "v1の記録 · 共有コード · ファイルは新しい構造に自動変換され、現在のルール（必殺CD変動無効 · 成功の仮定 · 必殺技連動）で計算されます。",
+       "zh": "v1 的紀錄・分享碼・檔案會自動轉換為新結構，並以目前的規則（必殺技CD變動免疫・成功假設・必殺技連動）計算。",
+       "zhs": "v1 的纪录・分享码・档案会自动转换为新结构，并以目前的规则（必杀技CD变动免疫・成功假设・必杀技连动）计算。"
+      },
+      {
+       "kr": "행동 계획 초기화 · 프리셋 · 예외 턴 삭제 · 고급 설정 켜기/끄기 등은 알림의 ‘되돌리기’로 취소할 수 있습니다.",
+       "en": "Action plan reset · presets · deleting exception turns · turning Advanced settings on/off and more can be cancelled with ‘Undo’ in the notification.",
+       "ja": "行動計画の初期化 · プリセット · 例外ターンの削除 · 詳細設定のオン/オフなどは、通知の「元に戻す」で取り消せます。",
+       "zh": "重設行動計畫・預設・刪除例外回合・開關進階設定等操作，可用通知中的「復原」取消。",
+       "zhs": "重设行动计划・预设・删除例外回合・开关进阶设定等操作，可用通知中的「复原」取消。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "≡ 메뉴의 ‘구버전’에서 v1 화면을 쓸 수 있습니다.",
+      "en": "The v1 screen is available from ‘Classic version’ in the ≡ menu.",
+      "ja": "≡メニューの「旧バージョン」からv1の画面を使えます。",
+      "zh": "可從 ≡ 選單的「舊版」使用 v1 畫面。",
+      "zhs": "可从 ≡ 选单的「旧版」使用 v1 画面。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.8.5",
+   "date": "2026-09-26",
+   "highlight": true,
+   "title": {
+    "kr": "확률 CD 감소 성공 가정 · 설정 보존 · 편의 기능 정리",
+    "en": "Assume chance cooldown cuts succeed · settings kept · convenience cleanup",
+    "ja": "確率CD短縮の成功を仮定 · 設定の保持 · 便利機能の整理",
+    "zh": "假設機率CD縮短成功 · 保留設定 · 便利功能整理",
+    "zhs": "假设机率CD缩短成功 · 保留设定 · 便利功能整理"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "필살기 사용 방식에 ‘확률 CD 감소 성공 가정’이 추가되었습니다.",
+      "en": "Added ‘Assume chance cooldown cuts succeed’ to the EX Skill policy.",
+      "ja": "必殺技の使い方に「確率CD短縮の成功を仮定」を追加しました。",
+      "zh": "必殺技使用方式新增「假設機率CD縮短成功」。",
+      "zhs": "必杀技使用方式新增「假设机率CD缩短成功」。"
+     },
+     "details": [
+      {
+       "kr": "켜면 확률로 CD가 줄어드는 효과를 추첨하지 않고, 계획·연동으로 정한 필살기 턴에 필요한 만큼만 성공한 것으로 계산합니다.",
+       "en": "When on, chance-based CD cuts are not rolled; only as many as needed count as successful for the EX Skill turns set by your plan or sync.",
+       "ja": "オンにすると、確率でCDが短縮される効果を抽選せず、計画・連動で決めた必殺ターンに必要な分だけ成功したものとして計算します。",
+       "zh": "開啟後不抽選機率縮短CD的效果，而是在計畫・連動指定的必殺技回合，只計算所需次數為成功。",
+       "zhs": "开启后不抽选机率缩短CD的效果，而是在计划・连动指定的必杀技回合，只计算所需次数为成功。"
+      },
+      {
+       "kr": "원래 CD로는 닿지 않는 턴에도 필살기를 계획할 수 있습니다. 예: CD 3턴 동료의 3·6·9·12턴, CD 2턴 동료의 2·4·6턴.",
+       "en": "You can plan EX Skills on turns the base CD can't reach. Example: turns 3·6·9·12 for a companion with a 3-turn CD, turns 2·4·6 for a 2-turn CD.",
+       "ja": "本来のCDでは届かないターンにも必殺技を計画できます。例：CD 3ターンの仲間の3・6・9・12ターン目、CD 2ターンの仲間の2・4・6ターン目。",
+       "zh": "原本CD趕不上的回合也能安排必殺技。例：CD 3回合夥伴的第3・6・9・12回合、CD 2回合夥伴的第2・4・6回合。",
+       "zhs": "原本CD赶不上的回合也能安排必杀技。例：CD 3回合伙伴的第3・6・9・12回合、CD 2回合伙伴的第2・4・6回合。"
+      },
+      {
+       "kr": "확률 CD 감소 효과(현재는 방탈출 제단)가 걸려 있을 때 동료마다 켤 수 있습니다. ‘준비되면 바로’는 실제 확률대로 계산합니다.",
+       "en": "It can be turned on per companion while a chance CD cut effect (currently the Escape Room Altar) is active. ‘As soon as ready’ uses the real odds.",
+       "ja": "確率CD短縮効果（現在は脱出部屋の祭壇）がかかっているとき、仲間ごとにオンにできます。「準備でき次第」は実際の確率で計算します。",
+       "zh": "有機率縮短CD的效果（目前為密室祭壇）生效時，可逐一為夥伴開啟。「就緒即用」依實際機率計算。",
+       "zhs": "有机率缩短CD的效果（目前为密室祭坛）生效时，可逐一为伙伴开启。「就绪即用」依实际机率计算。"
+      },
+      {
+       "kr": "턴별 계획과 턴별 타임라인에서 해당 턴의 필살기 칸이 열리고, 확률 감소가 필요한 필살기에는 작은 점이 표시됩니다.",
+       "en": "The per-turn plan and the Turn timeline open the EX Skill cells for those turns, and EX Skills that need a chance cut are marked with a small dot.",
+       "ja": "ターン別計画とターン別タイムラインでそのターンの必殺枠が開き、確率短縮が必要な必殺技には小さな点が表示されます。",
+       "zh": "逐回合計畫與回合時間軸會開放該回合的必殺技格，需要機率縮短的必殺技會標示小圓點。",
+       "zhs": "逐回合计划与回合时间轴会开放该回合的必杀技格，需要机率缩短的必杀技会标示小圆点。"
+      },
+      {
+       "kr": "결과 머리말에 가정한 성공 횟수와 그 흐름이 실제로 나올 확률이 함께 표시됩니다.",
+       "en": "The result header shows how many successes were assumed and how likely that exact flow is.",
+       "ja": "結果の見出しに、仮定した成功回数とその流れが実際に起きる確率が表示されます。",
+       "zh": "結果標題會一併顯示假設的成功次數，以及此流程實際出現的機率。",
+       "zhs": "结果标题会一并显示假设的成功次数，以及此流程实际出现的机率。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "턴별 계획에 ‘첫 필살기 당기기’ 버튼이 추가되었습니다.",
+      "en": "Added an ‘Earliest first EX’ button to the per-turn plan.",
+      "ja": "ターン別計画に「初回必殺を前倒し」ボタンを追加しました。",
+      "zh": "逐回合計畫新增「提前首次必殺」按鈕。",
+      "zhs": "逐回合计划新增「提前首次必杀」按钮。"
+     },
+     "details": [
+      {
+       "kr": "첫 필살기를 확률 CD 감소로 가능한 가장 이른 턴에 두고, 이후는 원래 CD 주기로 채웁니다.",
+       "en": "It puts the first EX Skill on the earliest turn chance CD cuts allow, and fills the rest with the normal CD cycle.",
+       "ja": "初回の必殺技を確率CD短縮で可能な最も早いターンに置き、以降は本来のCD周期で埋めます。",
+       "zh": "以機率縮短CD將第一次必殺技放在最早可行的回合，之後依原本CD週期排入。",
+       "zhs": "以机率缩短CD将第一次必杀技放在最早可行的回合，之后依原本CD周期排入。"
+      },
+      {
+       "kr": "누르면 확률 CD 감소 성공 가정도 함께 켜집니다.",
+       "en": "Pressing it also turns on ‘Assume chance cooldown cuts succeed’.",
+       "ja": "押すと「確率CD短縮の成功を仮定」も同時にオンになります。",
+       "zh": "按下時也會一併開啟「假設機率CD縮短成功」。",
+       "zhs": "按下时也会一并开启「假设机率CD缩短成功」。"
+      },
+      {
+       "kr": "확률 CD 감소가 걸려 있는 1회 행동 동료에게 표시됩니다.",
+       "en": "Shown for single-action companions while a chance CD cut is active.",
+       "ja": "確率CD短縮がかかっている1回行動の仲間に表示されます。",
+       "zh": "在機率縮短CD生效時，對單次行動的夥伴顯示。",
+       "zhs": "在机率缩短CD生效时，对单次行动的伙伴显示。"
+      },
+      {
+       "kr": "예: CD 3턴·첫 사용 4턴인 동료는 3·6·9·12턴, CD 2턴 동료는 2·4·6턴으로 채워집니다.",
+       "en": "Example: a companion with a 3-turn CD whose first use is turn 4 gets turns 3·6·9·12; a companion with a 2-turn CD gets turns 2·4·6.",
+       "ja": "例：CD 3ターン・初回使用4ターン目の仲間は3・6・9・12ターン目、CD 2ターンの仲間は2・4・6ターン目で埋まります。",
+       "zh": "例：CD 3回合・首次使用第4回合的夥伴會排為第3・6・9・12回合，CD 2回合的夥伴為第2・4・6回合。",
+       "zhs": "例：CD 3回合・首次使用第4回合的伙伴会排为第3・6・9・12回合，CD 2回合的伙伴为第2・4・6回合。"
+      },
+      {
+       "kr": "필살기 직후의 감소 기회로 주기를 더 줄이지 않고 원래 CD 주기를 지킵니다.",
+       "en": "It keeps the normal CD cycle instead of shortening it further with the cut chances right after each EX Skill.",
+       "ja": "必殺技直後の短縮チャンスで周期をさらに縮めず、本来のCD周期を守ります。",
+       "zh": "不會利用必殺技後的縮短機會進一步縮短週期，而是維持原本的CD週期。",
+       "zhs": "不会利用必杀技后的缩短机会进一步缩短周期，而是维持原本的CD周期。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "시뮬레이션 결과에 턴 피해 설정이 반영되지 않던 문제와, 화면과 다른 계획이 실행되던 문제가 수정되었습니다.",
+      "en": "Fixed simulation results ignoring the turn damage setting, and a plan different from the screen being run.",
+      "ja": "シミュレーション結果にターンダメージ設定が反映されない問題と、画面と異なる計画が実行される問題を修正しました。",
+      "zh": "修正模擬結果未反映回合傷害設定，以及執行的計畫與畫面不同的問題。",
+      "zhs": "修正模拟结果未反映回合伤害设定，以及执行的计划与画面不同的问题。"
+     },
+     "details": [
+      {
+       "kr": "턴 피해는 메인 실행 · 타임라인 미리보기 · 팀 비교 · 기록 모두 같은 조건으로 계산됩니다.",
+       "en": "Turn damage is calculated under the same conditions in the main run, the timeline preview, Team Comparison and records.",
+       "ja": "ターンダメージはメイン実行・タイムラインのプレビュー・チーム比較・記録のすべてで同じ条件で計算されます。",
+       "zh": "回合傷害在主執行・時間軸預覽・隊伍比較・紀錄中皆以相同條件計算。",
+       "zhs": "回合伤害在主执行・时间轴预览・队伍比较・纪录中皆以相同条件计算。"
+      },
+      {
+       "kr": "턴별 계획 화면에 보이는 계획이 그대로 실행되며, 턴 수보다 짧은 계획은 기본 필살기 주기로 이어서 실행합니다.",
+       "en": "The plan shown in the per-turn plan is exactly what runs, and a plan shorter than the turn count continues with the default EX Skill cycle.",
+       "ja": "ターン別計画の画面に表示された計画がそのまま実行され、ターン数より短い計画は既定の必殺周期で続けて実行します。",
+       "zh": "逐回合計畫畫面上顯示的計畫會照原樣執行；比回合數短的計畫，後續以預設必殺技週期接續執行。",
+       "zhs": "逐回合计划画面上显示的计划会照原样执行；比回合数短的计划，后续以预设必杀技周期接续执行。"
+      },
+      {
+       "kr": "직접 계획을 끈 동료의 추가 행동 지정, 필살기 턴이 바뀌어 화면에서 사라진 이전 추가 행동 지정은 적용되지 않습니다.",
+       "en": "Extra action picks of companions whose manual plan is off, and old extra action picks that disappeared from the screen because EX Skill turns moved, are no longer applied.",
+       "ja": "直接計画をオフにした仲間の追加行動指定や、必殺ターンが変わって画面から消えた以前の追加行動指定は適用されません。",
+       "zh": "已關閉手動計畫的夥伴所指定的追加行動，以及因必殺技回合變動而從畫面消失的舊追加行動指定，都不會套用。",
+       "zhs": "已关闭手动计划的伙伴所指定的追加行动，以及因必杀技回合变动而从画面消失的旧追加行动指定，都不会套用。"
+      },
+      {
+       "kr": "‘아군 필살기 나중’ 토글은 직접 계획 여부와 관계없이 항상 표시됩니다.",
+       "en": "The ‘Ally EX later’ toggle is always shown, whether or not the manual plan is on.",
+       "ja": "「味方の必殺技を後に」トグルは、直接計画の有無に関係なく常に表示されます。",
+       "zh": "「隊友必殺技延後」切換鈕無論是否手動計畫都會顯示。",
+       "zhs": "「队友必杀技延后」切换钮无论是否手动计划都会显示。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "턴별 타임라인이 사용자가 정한 행동을 임의로 바꾸던 문제가 수정되었습니다.",
+      "en": "Fixed the Turn timeline changing the actions you set on its own.",
+      "ja": "ターン別タイムラインがユーザーの決めた行動を勝手に変えていた問題を修正しました。",
+      "zh": "修正回合時間軸擅自更改使用者指定行動的問題。",
+      "zhs": "修正回合时间轴擅自更改使用者指定行动的问题。"
+     },
+     "details": [
+      {
+       "kr": "추가 행동이 늘거나 줄면 모든 턴을 직전 계산과 비교해 바로 반영하고, 넣거나 뺀 행동 수를 알려 줍니다.",
+       "en": "When extra actions increase or decrease, every turn is compared with the previous calculation and updated right away, with a notice of how many actions were added or removed.",
+       "ja": "追加行動が増減すると、すべてのターンを直前の計算と比較してすぐに反映し、追加・削除した行動の数をお知らせします。",
+       "zh": "追加行動增減時，所有回合會與上次計算比對並立即反映，同時告知加入或移除的行動數。",
+       "zhs": "追加行动增减时，所有回合会与上次计算比对并立即反映，同时告知加入或移除的行动数。"
+      },
+      {
+       "kr": "확률로 이어지는 자동 추가 행동은 타임라인에 고정 항목으로 저장하지 않습니다.",
+       "en": "Automatic extra actions that chain by chance are not saved into the timeline as fixed entries.",
+       "ja": "確率で続く自動の追加行動は、タイムラインに固定項目として保存しません。",
+       "zh": "由機率接續的自動追加行動不會以固定項目存入時間軸。",
+       "zhs": "由机率接续的自动追加行动不会以固定项目存入时间轴。"
+      },
+      {
+       "kr": "턴 수를 늘리거나 편성을 바꿔 비어 있는 턴은 실행 직전에 현재 진행대로 채웁니다.",
+       "en": "Turns left empty by raising the turn count or changing the team are filled with the current flow right before running.",
+       "ja": "ターン数を増やしたり編成を変えたりして空いたターンは、実行直前に現在の進行どおりに埋めます。",
+       "zh": "因增加回合數或變更編成而空出的回合，會在執行前依目前的進行狀況補上。",
+       "zhs": "因增加回合数或变更编成而空出的回合，会在执行前依目前的进行状况补上。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "새로고침하거나 페이지를 다시 열어도 마지막으로 작업하던 설정이 유지됩니다.",
+      "en": "Refreshing or reopening the page now keeps the settings you were last working on.",
+      "ja": "再読み込みやページを開き直しても、最後に作業していた設定が保持されるようになりました。",
+      "zh": "重新整理或重新開啟頁面後，仍會保留最後作業中的設定。",
+      "zhs": "重新整理或重新开启页面后，仍会保留最后作业中的设定。"
+     },
+     "details": [
+      {
+       "kr": "편성 · 턴별 계획 · 행동 순서 · 방탈출 제단 · 연동 · 턴 피해 · 타임라인까지, 실행하지 않은 편집도 함께 남습니다.",
+       "en": "Edits you haven't run yet are kept too: team · per-turn plan · action order · Escape Room Altar · sync · turn damage · timeline.",
+       "ja": "編成・ターン別計画・行動順・脱出部屋の祭壇・連動・ターンダメージ・タイムラインまで、実行していない編集も残ります。",
+       "zh": "編成・逐回合計畫・行動順序・密室祭壇・連動・回合傷害・時間軸，連同尚未執行的編輯都會保留。",
+       "zhs": "编成・逐回合计划・行动顺序・密室祭坛・连动・回合伤害・时间轴，连同尚未执行的编辑都会保留。"
+      },
+      {
+       "kr": "기록을 불러오면 그 기록의 편성과 조건으로 바뀌며, 알림의 ‘되돌리기’로 불러오기 전 상태로 돌아갈 수 있습니다.",
+       "en": "Loading a record switches to that record's team and conditions, and ‘Undo’ in the notice returns you to the state before loading.",
+       "ja": "記録を読み込むとその記録の編成と条件に切り替わり、通知の「元に戻す」で読み込む前の状態に戻せます。",
+       "zh": "載入紀錄後會切換為該紀錄的編成與條件，可用通知中的「復原」回到載入前的狀態。",
+       "zhs": "载入纪录后会切换为该纪录的编成与条件，可用通知中的「复原」回到载入前的状态。"
+      },
+      {
+       "kr": "방탈출 제단의 층 · 제단 구성은 제단을 끄거나 제단이 없는 기록을 불러와도 유지됩니다.",
+       "en": "The Escape Room Altar floor and altar setup are kept even if you turn the altar off or load a record without altars.",
+       "ja": "脱出部屋の祭壇の階・祭壇構成は、祭壇をオフにしたり祭壇のない記録を読み込んだりしても保持されます。",
+       "zh": "密室祭壇的樓層・祭壇配置，即使關閉祭壇或載入沒有祭壇的紀錄也會保留。",
+       "zhs": "密室祭坛的楼层・祭坛配置，即使关闭祭坛或载入没有祭坛的纪录也会保留。"
+      },
+      {
+       "kr": "기록 저장 공간이 가득 차면 알려 줍니다.",
+       "en": "You are notified when record storage is full.",
+       "ja": "記録の保存容量がいっぱいになるとお知らせします。",
+       "zh": "紀錄儲存空間已滿時會提示。",
+       "zhs": "纪录储存空间已满时会提示。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "편성을 바꾸면 연동 · 턴별 타임라인 · 특정 턴 순서가 해당 동료를 따라갑니다.",
+      "en": "When the team changes, sync · the Turn timeline · per-turn order now follow each companion.",
+      "ja": "編成を変えると、連動・ターン別タイムライン・特定ターンの順序がその仲間についていくようになりました。",
+      "zh": "變更編成時，連動・回合時間軸・指定回合順序會跟隨該夥伴。",
+      "zhs": "变更编成时，连动・回合时间轴・指定回合顺序会跟随该伙伴。"
+     },
+     "details": [
+      {
+       "kr": "동료를 빼면 그 동료의 설정만 정리되고, 같은 동료를 다시 넣으면 스펙 · 계획 · 필살기 사용 방식 · 연동 역할이 복원됩니다.",
+       "en": "Removing a companion clears only that companion's settings, and adding the same companion back restores its spec · plan · EX Skill policy · sync role.",
+       "ja": "仲間を外すとその仲間の設定だけが整理され、同じ仲間を再び入れるとスペック・計画・必殺技の使い方・連動の役割が復元されます。",
+       "zh": "移除夥伴時只清理該夥伴的設定，重新放入同一夥伴時會恢復規格・計畫・必殺技使用方式・連動角色。",
+       "zhs": "移除伙伴时只清理该伙伴的设定，重新放入同一伙伴时会恢复规格・计划・必杀技使用方式・连动角色。"
+      },
+      {
+       "kr": "연동의 기준 동료가 빠지면 그 그룹을 해제하고 알려 줍니다.",
+       "en": "If a sync group's lead companion is removed, that group is cleared with a notice.",
+       "ja": "連動の基準キャラが外れると、そのグループを解除してお知らせします。",
+       "zh": "連動的基準夥伴被移除時，會解除該組並提示。",
+       "zhs": "连动的基准伙伴被移除时，会解除该组并提示。"
+      },
+      {
+       "kr": "빈 자리를 누른 뒤 고른 동료는 그 자리에 들어가고, 행동 순서를 직접 정해 둔 팀이면 새 동료는 맨 뒤에 섭니다.",
+       "en": "A companion picked after clicking an empty slot goes into that slot, and in a team with a custom action order the new companion goes last.",
+       "ja": "空き枠を押してから選んだ仲間はその枠に入り、行動順を直接決めているチームでは新しい仲間は最後尾に並びます。",
+       "zh": "點擊空位後選擇的夥伴會放入該位置；若隊伍已手動設定行動順序，新夥伴會排在最後。",
+       "zhs": "点击空位后选择的伙伴会放入该位置；若队伍已手动设定行动顺序，新伙伴会排在最后。"
+      },
+      {
+       "kr": "타임라인이 켜져 있으면 자동으로 채운 턴은 새 편성으로 다시 계산하고, 직접 편집한 턴은 빠진 동료의 행동만 걷어냅니다.",
+       "en": "With the timeline on, auto-filled turns are recalculated for the new team, and edited turns only lose the removed companion's actions.",
+       "ja": "タイムラインがオンの場合、自動で埋めたターンは新しい編成で再計算し、直接編集したターンは外れた仲間の行動だけを取り除きます。",
+       "zh": "時間軸開啟時，自動補上的回合會以新編成重新計算，手動編輯的回合只移除離隊夥伴的行動。",
+       "zhs": "时间轴开启时，自动补上的回合会以新编成重新计算，手动编辑的回合只移除离队伙伴的行动。"
+      },
+      {
+       "kr": "새 동료의 행동이 없는 편집 턴이 있으면 실행할 때 알려 줍니다.",
+       "en": "If an edited turn has no action for a new companion, you are told when running.",
+       "ja": "新しい仲間の行動がない編集ターンがあれば、実行時にお知らせします。",
+       "zh": "若有編輯過的回合沒有新夥伴的行動，執行時會提示。",
+       "zhs": "若有编辑过的回合没有新伙伴的行动，执行时会提示。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "턴별 계획은 누른 칸만 바뀌며, 동료 창을 여는 것만으로는 계획이 바뀌지 않습니다.",
+      "en": "In the per-turn plan only the clicked cell changes, and just opening the companion window no longer changes the plan.",
+      "ja": "ターン別計画は押したマスだけが変わり、仲間の画面を開くだけでは計画が変わらないようになりました。",
+      "zh": "逐回合計畫只會變更點擊的格子，僅開啟夥伴視窗不會改變計畫。",
+      "zhs": "逐回合计划只会变更点击的格子，仅开启伙伴视窗不会改变计划。"
+     },
+     "details": [
+      {
+       "kr": "최대 CD +1 제단 · 확률 CD 감소 가정 · 동료 구성 변화로 지금 쓸 수 없는 필살기는 화면에서만 실제대로 표시되고, 설정을 되돌리면 원래 계획이 그대로 돌아옵니다.",
+       "en": "EX Skills that can't be used right now because of the Max CD +1 altar · the chance CD cut assumption · a team change are shown as they would actually play out only on screen, and the original plan comes back when you undo that setting.",
+       "ja": "最大CD +1 祭壇・確率CD短縮の仮定・仲間構成の変化で今は使えない必殺技は画面上でのみ実際どおりに表示され、設定を戻すと元の計画がそのまま戻ります。",
+       "zh": "因最大CD +1祭壇・假設機率CD縮短・夥伴組成變化而目前無法使用的必殺技，只在畫面上依實際情況顯示；還原設定後，原本的計畫會照原樣回來。",
+       "zhs": "因最大CD +1祭坛・假设机率CD缩短・伙伴组成变化而目前无法使用的必杀技，只在画面上依实际情况显示；还原设定后，原本的计划会照原样回来。"
+      },
+      {
+       "kr": "뒤쪽 필살기가 함께 옮겨지는 경우는 아무것도 손대지 않은 기본 계획에서 필살기 칸을 누를 때뿐입니다.",
+       "en": "Later EX Skills move along only when you click an EX Skill cell on the untouched default plan.",
+       "ja": "後ろの必殺技が一緒に移動するのは、何も触っていない既定の計画で必殺枠を押したときだけです。",
+       "zh": "後方必殺技會一起移動的情況，僅限於在完全未修改的預設計畫中點擊必殺技格時。",
+       "zhs": "后方必杀技会一起移动的情况，仅限于在完全未修改的预设计划中点击必杀技格时。"
+      },
+      {
+       "kr": "‘필살기 간격 맞추기’로 첫 필살기 이후를 CD 주기에 맞춰 다시 정렬할 수 있습니다.",
+       "en": "‘Re-space EX’ re-aligns everything after the first EX Skill to the CD cycle.",
+       "ja": "「必殺の間隔を整える」で、初回の必殺技以降をCD周期に合わせて並べ直せます。",
+       "zh": "可用「重排必殺間隔」將第一次必殺技之後的回合依CD週期重新排列。",
+       "zhs": "可用「重排必杀间隔」将第一次必杀技之后的回合依CD周期重新排列。"
+      },
+      {
+       "kr": "3턴 필살기 · 패시브 방어 · 첫 필살기 당기기 같은 배치 버튼은 다시 누르면 켜기 직전 계획으로 돌아가며, 버튼의 켜짐 표시는 실제 계획을 따릅니다.",
+       "en": "Layout buttons such as 3-turn EX · Passive Def · Earliest first EX return to the plan from just before they were turned on when pressed again, and their on-state follows the actual plan.",
+       "ja": "3ターン必殺・パッシブ防御・初回必殺を前倒しなどの配置ボタンは、もう一度押すとオンにする直前の計画に戻り、ボタンのオン表示は実際の計画に従います。",
+       "zh": "3回合必殺・被動防禦・提前首次必殺等配置按鈕，再按一次會回到開啟前的計畫，按鈕的開啟標示依實際計畫而定。",
+       "zhs": "3回合必杀・被动防御・提前首次必杀等配置按钮，再按一次会回到开启前的计划，按钮的开启标示依实际计划而定。"
+      },
+      {
+       "kr": "어떤 구성으로도 필살기를 쓸 수 없는 턴을 누르면 그 칸은 바뀌지 않습니다.",
+       "en": "Clicking a turn where the EX Skill can't be used under any setup leaves that cell unchanged.",
+       "ja": "どの構成でも必殺技を使えないターンを押しても、そのマスは変わりません。",
+       "zh": "點擊任何組成下都無法使用必殺技的回合時，該格不會變更。",
+       "zhs": "点击任何组成下都无法使用必杀技的回合时，该格不会变更。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "여러 설정을 한 번에 바꾸는 버튼에 ‘되돌리기’가 추가되었습니다.",
+      "en": "Added ‘Undo’ to buttons that change several settings at once.",
+      "ja": "複数の設定を一度に変えるボタンに「元に戻す」を追加しました。",
+      "zh": "一次變更多項設定的按鈕新增「復原」。",
+      "zhs": "一次变更多项设定的按钮新增「复原」。"
+     },
+     "details": [
+      {
+       "kr": "대상: 필살기 사용 방식의 ‘모두 준비되면 바로’ · ‘모두 성공 가정 켜기’, 연동 그룹 해제(기준 동료를 ‘없음’으로), 연동 프리셋.",
+       "en": "Covers: ‘Set all to As soon as ready’ · ‘Assume success for all’ in the EX Skill policy, removing a sync group (lead set to ‘none’), and the sync preset.",
+       "ja": "対象：必殺技の使い方の「全員準備でき次第」・「全員成功を仮定」、連動グループの解除（基準キャラを「なし」に）、連動プリセット。",
+       "zh": "對象：必殺技使用方式的「全部改為就緒即用」・「全部假設成功」、解除連動組（將基準夥伴設為「無」）、連動預設。",
+       "zhs": "对象：必杀技使用方式的「全部改为就绪即用」・「全部假设成功」、解除连动组（将基准伙伴设为「无」）、连动预设。"
+      },
+      {
+       "kr": "따라가는 동료의 행동 종류를 바꿔도 직접 고른 ‘기준 동료가 필살기를 쓰지 않는 턴’ 처리는 유지됩니다.",
+       "en": "Changing a sync member's action type keeps the ‘turns the lead doesn't use its EX Skill’ choice you picked.",
+       "ja": "メンバーの行動の種類を変えても、直接選んだ「基準キャラが必殺を使わないターン」の処理は保持されます。",
+       "zh": "變更連動成員的行動種類時，手動選擇的「基準夥伴不放必殺的回合」處理方式會保留。",
+       "zhs": "变更连动成员的行动种类时，手动选择的「基准伙伴不放必杀的回合」处理方式会保留。"
+      },
+      {
+       "kr": "동료 창 · 제단 패널의 바로가기로 연 탭은 기억하지 않으며, 메인 버튼은 마지막으로 직접 고른 탭으로 열립니다.",
+       "en": "Tabs opened through shortcuts in the companion window or altar panel aren't remembered; the main button opens the tab you last chose yourself.",
+       "ja": "仲間の画面・祭壇パネルのショートカットで開いたタブは記憶せず、メインボタンは最後に直接選んだタブで開きます。",
+       "zh": "從夥伴視窗・祭壇面板的捷徑開啟的分頁不會被記住，主按鈕會開啟最後手動選擇的分頁。",
+       "zhs": "从伙伴视窗・祭坛面板的捷径开启的分页不会被记住，主按钮会开启最后手动选择的分页。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "팀 비교에서 고친 설정은 그 비교군에만 적용되고, 메인 설정은 바뀌지 않습니다.",
+      "en": "Settings changed in Team Comparison now apply only to that group, and the main settings stay unchanged.",
+      "ja": "チーム比較で変更した設定はその比較群にのみ適用され、メインの設定は変わらないようになりました。",
+      "zh": "在隊伍比較中修改的設定只套用於該比較組，不會改變主設定。",
+      "zhs": "在队伍比较中修改的设定只套用于该比较组，不会改变主设定。"
+     },
+     "details": [
+      {
+       "kr": "비교군의 연동은 불러온 기록의 연동을 사용합니다.",
+       "en": "A comparison group's sync uses the sync of the record it was loaded from.",
+       "ja": "比較群の連動は、読み込んだ記録の連動を使います。",
+       "zh": "比較組的連動使用所載入紀錄的連動。",
+       "zhs": "比较组的连动使用所载入纪录的连动。"
+      },
+      {
+       "kr": "자리를 옮기면 옮긴 두 동료만 자리가 바뀌고, 특정 턴 순서 · 타임라인 · 연동이 동료를 따라갑니다.",
+       "en": "Moving a slot swaps only the two companions, and per-turn order · timeline · sync follow them.",
+       "ja": "位置を入れ替えると入れ替えた2人の仲間だけが移動し、特定ターンの順序・タイムライン・連動が仲間についていきます。",
+       "zh": "調換位置時只有被調換的兩名夥伴交換位置，指定回合順序・時間軸・連動會跟隨夥伴。",
+       "zhs": "调换位置时只有被调换的两名伙伴交换位置，指定回合顺序・时间轴・连动会跟随伙伴。"
+      },
+      {
+       "kr": "도장 제련 창은 열기만 해서는 값이나 ‘변경됨’ 표시가 바뀌지 않고, 배치 버튼은 기록의 계획 길이를 그대로 유지합니다.",
+       "en": "Just opening the Sigil boost window no longer changes values or the ‘Changed’ mark, and layout buttons keep the record's plan length.",
+       "ja": "刻印強化の画面は開くだけでは値や「変更済み」表示が変わらず、配置ボタンは記録の計画の長さをそのまま保ちます。",
+       "zh": "印章強化視窗只開啟時不會改變數值或「已變更」標示，配置按鈕會維持紀錄的計畫長度。",
+       "zhs": "印章强化视窗只开启时不会改变数值或「已变更」标示，配置按钮会维持纪录的计划长度。"
+      },
+      {
+       "kr": "이전 기록의 스킬 레벨 · 도장 표기는 메인과 같게 정리됩니다.",
+       "en": "Skill levels · Sigil info in older records are read the same way as in the main view.",
+       "ja": "以前の記録のスキルレベル・刻印の表記はメインと同じに整理されます。",
+       "zh": "舊紀錄的技能等級・印章標示會整理成與主畫面相同。",
+       "zhs": "旧纪录的技能等级・印章标示会整理成与主画面相同。"
+      },
+      {
+       "kr": "방탈출 제단이 켜져 있으면 팀 비교에서도 ‘확률 효과 항상 발동’을 쓸 수 없습니다.",
+       "en": "While the Escape Room Altar is on, ‘Always trigger chance effects’ can't be used in Team Comparison either.",
+       "ja": "脱出部屋の祭壇がオンの場合、チーム比較でも「確率効果を常に発動」は使えません。",
+       "zh": "密室祭壇開啟時，隊伍比較中也無法使用「機率效果必定觸發」。",
+       "zhs": "密室祭坛开启时，队伍比较中也无法使用「机率效果必定触发」。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.8.4",
+   "date": "2026-09-24",
+   "highlight": true,
+   "title": {
+    "kr": "필살기 연동 — 기준 동료가 필살기를 쓰지 않는 턴 · CD 되돌림 동료",
+    "en": "EX Skill sync — turns the lead doesn't use its EX Skill · CD-refilling companions",
+    "ja": "必殺技の連動 — 基準キャラが必殺を使わないターン · CDを戻す仲間",
+    "zh": "必殺技連動 — 基準夥伴不放必殺的回合 · CD返還夥伴",
+    "zhs": "必杀技连动 — 基准伙伴不放必杀的回合 · CD返还伙伴"
+   },
+   "items": [
+    {
+     "cat": "balance",
+     "text": {
+      "kr": "따라가는 동료마다 ‘기준 동료가 필살기를 쓰지 않는 턴’의 행동을 고를 수 있습니다.",
+      "en": "Each sync member can now choose what to do on ‘turns the lead doesn't use its EX Skill’.",
+      "ja": "メンバーごとに「基準キャラが必殺を使わないターン」の行動を選べるようになりました。",
+      "zh": "可為每名連動成員選擇「基準夥伴不放必殺的回合」的行動。",
+      "zhs": "可为每名连动成员选择「基准伙伴不放必杀的回合」的行动。"
+     },
+     "details": [
+      {
+       "kr": "선택지: ‘필살기 아끼기’ 또는 ‘내 사용 방식대로’.",
+       "en": "Options: ‘Save the EX Skill’ or ‘Use my own policy’.",
+       "ja": "選択肢：「必殺技を温存」または「自分の方式で」。",
+       "zh": "選項：「保留必殺」或「依自己的使用方式」。",
+       "zhs": "选项：「保留必杀」或「依自己的使用方式」。"
+      },
+      {
+       "kr": "‘받은 추가 행동에서 필살기’ 동료는 기본값이 ‘내 사용 방식대로’입니다. 평소엔 준비되는 대로 필살기를 쓰고, 기준 동료의 필살기 턴에만 방어 → 받은 추가 행동에서 필살기로 맞춥니다.",
+       "en": "Members set to ‘EX Skill in the granted extra action’ default to ‘Use my own policy’. They use the EX Skill whenever ready, and only on the lead's EX Skill turn switch to Defend → EX Skill in the granted extra action.",
+       "ja": "「もらった追加行動で必殺技」の仲間は既定値が「自分の方式で」です。普段は準備でき次第必殺技を使い、基準キャラの必殺ターンだけ防御 → もらった追加行動で必殺技に合わせます。",
+       "zh": "「用獲得的追加行動放必殺」的夥伴預設為「依自己的使用方式」。平時就緒即放必殺技，只在基準夥伴的必殺技回合配合為防禦 → 用獲得的追加行動放必殺。",
+       "zhs": "「用获得的追加行动放必杀」的伙伴预设为「依自己的使用方式」。平时就绪即放必杀技，只在基准伙伴的必杀技回合配合为防御 → 用获得的追加行动放必杀。"
+      },
+      {
+       "kr": "예: CD 1턴 동료를 ‘방어 → 받은 추가 행동에서 필살기’로 연동하면 평소엔 매 턴 필살기, 기준 동료의 필살기 턴에만 방어 → 기준 동료 필살기 → 받은 추가 행동으로 필살기 순서가 됩니다.",
+       "en": "Example: a companion with a 1-turn CD synced as ‘Defend → EX Skill in the granted extra action’ uses the EX Skill every turn, and only on the lead's EX Skill turn goes Defend → lead's EX Skill → EX Skill in the granted extra action.",
+       "ja": "例：CD 1ターンの仲間を「防御 → もらった追加行動で必殺技」で連動すると、普段は毎ターン必殺技、基準キャラの必殺ターンだけ防御 → 基準キャラの必殺技 → もらった追加行動で必殺技の順になります。",
+       "zh": "例：將CD 1回合的夥伴以「防禦 → 用獲得的追加行動放必殺」連動時，平時每回合放必殺技，只在基準夥伴的必殺技回合依防禦 → 基準夥伴必殺技 → 用獲得的追加行動放必殺技的順序行動。",
+       "zhs": "例：将CD 1回合的伙伴以「防御 → 用获得的追加行动放必杀」连动时，平时每回合放必杀技，只在基准伙伴的必杀技回合依防御 → 基准伙伴必杀技 → 用获得的追加行动放必杀技的顺序行动。"
+      },
+      {
+       "kr": "필살기 사용 방식 탭에서 ‘내 사용 방식대로’ 동료도 방식을 고를 수 있고, 연동 탭의 그룹 흐름 문장에 그 밖의 턴 처리가 함께 표시됩니다.",
+       "en": "In the EX Skill policy tab, ‘Use my own policy’ members can also choose a policy, and each group's flow sentence in the Sync tab also shows how other turns are handled.",
+       "ja": "必殺技の使い方タブで「自分の方式で」の仲間も方式を選べ、連動タブのグループの流れの文にそれ以外のターンの処理も表示されます。",
+       "zh": "在必殺技使用方式分頁中，「依自己的使用方式」的夥伴也能選擇方式；連動分頁的組別流程說明也會一併顯示其他回合的處理。",
+       "zhs": "在必杀技使用方式分页中，「依自己的使用方式」的伙伴也能选择方式；连动分页的组别流程说明也会一并显示其他回合的处理。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "필살기로 CD를 되돌려 받는 동료가 연동 설정을 따르지 않던 문제가 수정되었습니다.",
+      "en": "Fixed companions whose CD is refilled by an EX Skill not following their sync setting.",
+      "ja": "必殺技でCDを戻してもらう仲間が連動設定に従わない問題を修正しました。",
+      "zh": "修正以必殺技返還CD的夥伴不遵守連動設定的問題。",
+      "zhs": "修正以必杀技返还CD的伙伴不遵守连动设定的问题。"
+     },
+     "details": [
+      {
+       "kr": "기준 동료의 필살기 턴에 ‘보통 공격 → 받은 추가 행동에서 필살기’로 두면 그 턴의 기본 행동은 보통 공격입니다.",
+       "en": "Set to ‘Attack → EX Skill in the granted extra action’, their regular action on the lead's EX Skill turn is a Basic Attack.",
+       "ja": "基準キャラの必殺ターンに「通常攻撃 → もらった追加行動で必殺技」にすると、そのターンの基本行動は通常攻撃になります。",
+       "zh": "在基準夥伴的必殺技回合設為「普攻 → 用獲得的追加行動放必殺」時，該回合的基本行動為普通攻擊。",
+       "zhs": "在基准伙伴的必杀技回合设为「普攻 → 用获得的追加行动放必杀」时，该回合的基本行动为普通攻击。"
+      }
+     ]
+    },
+    {
+     "cat": "balance",
+     "text": {
+      "kr": "CD를 되돌려 주는 동료와 그 대상이 같은 턴에 추가 행동을 받으면, 필살기가 준비된 대상이 먼저 행동합니다.",
+      "en": "When a CD-refilling companion and its target both get extra actions in the same turn, the target acts first if its EX Skill is ready.",
+      "ja": "CDを戻す仲間とその対象が同じターンに追加行動を受けた場合、必殺技の準備ができた対象が先に行動するようになりました。",
+      "zh": "返還CD的夥伴與其對象在同一回合獲得追加行動時，必殺技已就緒的對象會先行動。",
+      "zhs": "返还CD的伙伴与其对象在同一回合获得追加行动时，必杀技已就绪的对象会先行动。"
+     },
+     "details": [
+      {
+       "kr": "대상이 필살기를 쓴 뒤 CD가 돌아와 그 턴에 필살기를 한 번 더 씁니다.",
+       "en": "After the target uses its EX Skill, its CD is refilled and it uses the EX Skill once more that turn.",
+       "ja": "対象が必殺技を使った後にCDが戻り、そのターンにもう一度必殺技を使います。",
+       "zh": "對象使用必殺技後CD返還，在該回合再使用一次必殺技。",
+       "zhs": "对象使用必杀技后CD返还，在该回合再使用一次必杀技。"
+      },
+      {
+       "kr": "예: 기준 동료의 필살기 턴에 CD 되돌림 동료 보통 공격 → 대상 보통 공격 → 기준 동료 필살기 → 대상 필살기 → CD 되돌림 동료 필살기 → 대상 필살기.",
+       "en": "Example on the lead's EX Skill turn: CD-refilling companion Basic Attack → target Basic Attack → lead EX Skill → target EX Skill → CD-refilling companion EX Skill → target EX Skill.",
+       "ja": "例：基準キャラの必殺ターンに、CDを戻す仲間の通常攻撃 → 対象の通常攻撃 → 基準キャラの必殺技 → 対象の必殺技 → CDを戻す仲間の必殺技 → 対象の必殺技。",
+       "zh": "例：在基準夥伴的必殺技回合，CD返還夥伴普通攻擊 → 對象普通攻擊 → 基準夥伴必殺技 → 對象必殺技 → CD返還夥伴必殺技 → 對象必殺技。",
+       "zhs": "例：在基准伙伴的必杀技回合，CD返还伙伴普通攻击 → 对象普通攻击 → 基准伙伴必杀技 → 对象必杀技 → CD返还伙伴必杀技 → 对象必杀技。"
+      },
+      {
+       "kr": "두 동료를 모두 ‘보통 공격 → 받은 추가 행동에서 필살기’로 연동하면 이 흐름이 됩니다.",
+       "en": "Syncing both companions as ‘Attack → EX Skill in the granted extra action’ gives this flow.",
+       "ja": "2人とも「通常攻撃 → もらった追加行動で必殺技」で連動すると、この流れになります。",
+       "zh": "兩名夥伴都以「普攻 → 用獲得的追加行動放必殺」連動時，就會是這個流程。",
+       "zhs": "两名伙伴都以「普攻 → 用获得的追加行动放必杀」连动时，就会是这个流程。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.8.3",
+   "date": "2026-09-24",
+   "highlight": true,
+   "title": {
+    "kr": "행동 고급 설정 — 필살기 사용 방식 · 필살기 연동 탭",
+    "en": "Advanced Action Setup — EX Skill policy · EX Skill sync tabs",
+    "ja": "行動詳細設定 — 必殺技の使い方 · 必殺技の連動タブ",
+    "zh": "行動進階設定 — 必殺技使用方式 · 必殺技連動分頁",
+    "zhs": "行动进阶设定 — 必杀技使用方式 · 必杀技连动分页"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "행동 고급 설정이 턴별 타임라인 · 필살기 사용 방식 · 필살기 연동 세 탭으로 재구성되었습니다.",
+      "en": "Advanced Action Setup is reorganized into three tabs: Turn timeline · EX Skill policy · EX Skill sync.",
+      "ja": "行動詳細設定をターン別タイムライン・必殺技の使い方・必殺技の連動の3タブに再構成しました。",
+      "zh": "行動進階設定重新整理為回合時間軸・必殺技使用方式・必殺技連動三個分頁。",
+      "zhs": "行动进阶设定重新整理为回合时间轴・必杀技使用方式・必杀技连动三个分页。"
+     },
+     "details": [
+      {
+       "kr": "필살기 사용 방식과 연동은 항상 적용되고, 턴별 타임라인만 탭 우측 상단의 ‘사용’으로 켜고 끕니다.",
+       "en": "EX Skill policy and sync always apply; only the Turn timeline is turned on and off with ‘Use’ at the top right of its tab.",
+       "ja": "必殺技の使い方と連動は常に適用され、ターン別タイムラインだけをタブ右上の「使用」でオン・オフします。",
+       "zh": "必殺技使用方式與連動始終套用，只有回合時間軸以分頁右上角的「使用」開關。",
+       "zhs": "必杀技使用方式与连动始终套用，只有回合时间轴以分页右上角的「使用」开关。"
+      },
+      {
+       "kr": "필살기 사용 방식 탭 위쪽에 필살기 사용 우선순위(턴별 타임라인 → 연동 → 사용 방식 → 추가 행동)가 정리되어 있습니다.",
+       "en": "The top of the EX Skill policy tab lists what decides the EX Skill, in priority order (Turn timeline → sync → policy → extra actions).",
+       "ja": "必殺技の使い方タブの上部に、必殺技を使う優先順位（ターン別タイムライン → 連動 → 使い方 → 追加行動）がまとめられています。",
+       "zh": "必殺技使用方式分頁上方整理了決定是否使用必殺技的優先順序（回合時間軸 → 連動 → 使用方式 → 追加行動）。",
+       "zhs": "必杀技使用方式分页上方整理了决定是否使用必杀技的优先顺序（回合时间轴 → 连动 → 使用方式 → 追加行动）。"
+      },
+      {
+       "kr": "동료 창에 현재 방식이 요약되고, 옆 버튼으로 이 탭을 바로 열 수 있습니다.",
+       "en": "The companion window summarizes the current policy, and the button next to it opens this tab directly.",
+       "ja": "仲間の画面に現在の方式が要約され、横のボタンでこのタブを直接開けます。",
+       "zh": "夥伴視窗會摘要顯示目前的方式，可用旁邊的按鈕直接開啟此分頁。",
+       "zhs": "伙伴视窗会摘要显示目前的方式，可用旁边的按钮直接开启此分页。"
+      },
+      {
+       "kr": "설정은 기록 · 공유 코드에 저장되며 팀 비교에도 적용됩니다.",
+       "en": "Settings are saved in records · share codes and also apply to Team Comparison.",
+       "ja": "設定は記録・共有コードに保存され、チーム比較にも適用されます。",
+       "zh": "設定會存入紀錄・分享碼，也會套用於隊伍比較。",
+       "zhs": "设定会存入纪录・分享码，也会套用于队伍比较。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "따라가는 동료의 행동에 ‘같이 필살기’ · ‘방어 → 받은 추가 행동에서 필살기’ · ‘보통 공격 → 받은 추가 행동에서 필살기’가 추가되었습니다.",
+      "en": "Added ‘EX Skill together’ · ‘Defend → EX Skill in the granted extra action’ · ‘Attack → EX Skill in the granted extra action’ as sync member actions.",
+      "ja": "メンバーの行動に「一緒に必殺」・「防御 → もらった追加行動で必殺技」・「通常攻撃 → もらった追加行動で必殺技」を追加しました。",
+      "zh": "連動成員的行動新增「一起放必殺」・「防禦 → 用獲得的追加行動放必殺」・「普攻 → 用獲得的追加行動放必殺」。",
+      "zhs": "连动成员的行动新增「一起放必杀」・「防御 → 用获得的追加行动放必杀」・「普攻 → 用获得的追加行动放必杀」。"
+     },
+     "details": [
+      {
+       "kr": "예: 방어 → 기준 동료 필살기 → 받은 추가 행동으로 필살기.",
+       "en": "Example: Defend → lead's EX Skill → EX Skill in the granted extra action.",
+       "ja": "例：防御 → 基準キャラの必殺技 → もらった追加行動で必殺技。",
+       "zh": "例：防禦 → 基準夥伴必殺技 → 用獲得的追加行動放必殺技。",
+       "zhs": "例：防御 → 基准伙伴必杀技 → 用获得的追加行动放必杀技。"
+      },
+      {
+       "kr": "추가 행동은 이미 행동을 마친 아군에게만 들어가므로, 받은 추가 행동에서 필살기를 쓰는 동료는 기준 동료보다 먼저 행동합니다.",
+       "en": "Extra actions only go to allies who have already acted, so members that use the EX Skill in the granted extra action act before the lead.",
+       "ja": "追加行動はすでに行動を終えた味方にしか入らないため、もらった追加行動で必殺技を使う仲間は基準キャラより先に行動します。",
+       "zh": "追加行動只會給本回合已行動的隊友，因此用獲得的追加行動放必殺技的夥伴會先於基準夥伴行動。",
+       "zhs": "追加行动只会给本回合已行动的队友，因此用获得的追加行动放必杀技的伙伴会先于基准伙伴行动。"
+      },
+      {
+       "kr": "기준 동료가 추가 행동을 주지 않는 동료면 안내가 표시되고, 보류한 필살기는 ‘준비 안 됐으면’ 규칙(대기 / 준비되면 바로)을 따릅니다.",
+       "en": "If the lead grants no extra actions, a notice appears, and the held EX Skill follows the ‘If not ready’ rule (Wait / Use when ready).",
+       "ja": "基準キャラが追加行動を与えない仲間の場合は案内が表示され、保留した必殺技は「準備できていなければ」の規則（待機／準備でき次第）に従います。",
+       "zh": "若基準夥伴不會給予追加行動，會顯示提示，保留的必殺技依「未就緒時」規則（等待 / 就緒即用）處理。",
+       "zhs": "若基准伙伴不会给予追加行动，会显示提示，保留的必杀技依「未就绪时」规则（等待 / 就绪即用）处理。"
+      },
+      {
+       "kr": "인접 아군에게 추가 행동을 주는 동료가 편성에 있으면 ‘연동 자동 설정’ 버튼으로 인접 아군을 한 번에 묶을 수 있습니다.",
+       "en": "If a companion that grants extra actions to adjacent allies is on the team, the ‘sync preset’ button groups those adjacent allies in one click.",
+       "ja": "隣接する味方に追加行動を与える仲間が編成にいる場合、「連動プリセット」ボタンで隣接する味方を一括でまとめられます。",
+       "zh": "編成中有給予相鄰隊友追加行動的夥伴時，可用「連動快速設定」按鈕一次綁定相鄰隊友。",
+       "zhs": "编成中有给予相邻队友追加行动的伙伴时，可用「连动快速设定」按钮一次绑定相邻队友。"
+      },
+      {
+       "kr": "그룹마다 실제 행동 흐름이 한 문장으로 표시됩니다.",
+       "en": "Each group shows its actual action flow as one sentence.",
+       "ja": "グループごとに実際の行動の流れが1文で表示されます。",
+       "zh": "每組的實際行動流程會以一句話顯示。",
+       "zhs": "每组的实际行动流程会以一句话显示。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "방탈출 제단의 ‘행동 시 · 필살기 시 확률로 CD 감소’가 걸려 있으면 필살기 사용 방식 탭에 안내가 표시됩니다.",
+      "en": "The EX Skill policy tab now shows a notice when the Escape Room Altar's ‘chance to cut CD on action · on EX Skill’ is active.",
+      "ja": "脱出部屋の祭壇の「行動時・必殺技時に確率でCD短縮」がかかっている場合、必殺技の使い方タブに案内が表示されるようになりました。",
+      "zh": "套用密室祭壇的「行動時・必殺技時機率縮短CD」時，必殺技使用方式分頁會顯示提示。",
+      "zhs": "套用密室祭坛的「行动时・必杀技时机率缩短CD」时，必杀技使用方式分页会显示提示。"
+     },
+     "details": [
+      {
+       "kr": "확률로 앞당겨진 CD는 ‘정해진 턴’ 계획에 반영되지 않기 때문입니다.",
+       "en": "This is because a CD shortened by chance is not reflected in ‘Planned turns’ plans.",
+       "ja": "確率で早まったCDは「指定ターン」の計画に反映されないためです。",
+       "zh": "因為機率提前的CD不會反映在「指定回合」計畫中。",
+       "zhs": "因为机率提前的CD不会反映在「指定回合」计划中。"
+      },
+      {
+       "kr": "버튼 하나로 전원을 ‘준비되면 바로’로 바꿀 수 있습니다.",
+       "en": "One button switches everyone to ‘As soon as ready’.",
+       "ja": "ボタン1つで全員を「準備でき次第」に変更できます。",
+       "zh": "可用一個按鈕將全員改為「就緒即用」。",
+       "zhs": "可用一个按钮将全员改为「就绪即用」。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "턴별 타임라인이 켜져 있을 때 적용되지 않는 ‘특정 턴만 다르게’ · ‘동료별 턴 계획’이 남아 있으면 안내가 표시됩니다.",
+      "en": "A notice now appears when ‘Per-turn override’ · ‘Per-companion turn plans’ remain but are not applied because the Turn timeline is on.",
+      "ja": "ターン別タイムラインがオンのときに適用されない「特定ターンだけ変更」・「キャラ別ターン計画」が残っている場合、案内が表示されるようになりました。",
+      "zh": "回合時間軸開啟時，若仍有不會套用的「指定回合不同」・「角色回合計畫」，會顯示提示。",
+      "zhs": "回合时间轴开启时，若仍有不会套用的「指定回合不同」・「角色回合计划」，会显示提示。"
+     },
+     "details": [
+      {
+       "kr": "‘기존 설정 불러오기’로 그 설정을 타임라인에 옮길 수 있습니다.",
+       "en": "‘Import current settings’ moves those settings into the timeline.",
+       "ja": "「既存設定を読み込む」でその設定をタイムラインに移せます。",
+       "zh": "可用「匯入現有設定」將該設定移入時間軸。",
+       "zhs": "可用「汇入现有设定」将该设定移入时间轴。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.8.2",
+   "date": "2026-09-23",
+   "highlight": true,
+   "title": {
+    "kr": "턴 피해 — 피해 대상 아군 수 선택",
+    "en": "Turn damage — choose how many allies are hit",
+    "ja": "ターンダメージ — ダメージ対象の人数を選択",
+    "zh": "回合傷害 — 選擇受擊隊友人數",
+    "zhs": "回合伤害 — 选择受击队友人数"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "턴 피해 설정에서 매 턴 피해를 받는 아군 수(1~5명, 기본 전체)를 고를 수 있습니다.",
+      "en": "The turn damage setting now lets you choose how many allies take damage each turn (1–5, default All).",
+      "ja": "ターンダメージ設定で、毎ターンダメージを受ける味方の人数（1〜5人、既定は全体）を選べるようになりました。",
+      "zh": "回合傷害設定可選擇每回合受到傷害的隊友人數（1~5名，預設全體）。",
+      "zhs": "回合伤害设定可选择每回合受到伤害的队友人数（1~5名，预设全体）。"
+     },
+     "details": [
+      {
+       "kr": "전체보다 적게 두면 현재 HP%가 높은 아군부터 맞고, 같으면 무작위로 정해집니다.",
+       "en": "With fewer than all, allies with the highest current HP% are hit first; ties are decided at random.",
+       "ja": "全体より少なくすると現在HP%が高い味方から攻撃を受け、同じ場合はランダムで決まります。",
+       "zh": "少於全體時，從目前HP%較高的隊友開始受擊，相同時隨機決定。",
+       "zhs": "少于全体时，从目前HP%较高的队友开始受击，相同时随机决定。"
+      },
+      {
+       "kr": "치료나 부활로 살아난 아군이 다시 표적이 되는 상황을 재현할 수 있습니다.",
+       "en": "This reproduces allies brought back by healing or revival becoming targets again.",
+       "ja": "治療や蘇生で立ち直った味方が再び標的になる状況を再現できます。",
+       "zh": "可重現因治療或復活而存活的隊友再次成為目標的情況。",
+       "zhs": "可重现因治疗或复活而存活的队友再次成为目标的情况。"
+      },
+      {
+       "kr": "설정은 기록 · 공유 코드에 함께 저장되며(기본값 ‘전체’는 코드 길이에 영향 없음), 팀 비교에도 같은 값이 적용됩니다.",
+       "en": "The setting is saved with records · share codes (the default ‘All’ doesn't affect code length) and the same value applies to Team Comparison.",
+       "ja": "設定は記録・共有コードに一緒に保存され（既定値「全体」はコードの長さに影響しません）、チーム比較にも同じ値が適用されます。",
+       "zh": "設定會一併存入紀錄・分享碼（預設值「全體」不影響碼長），隊伍比較也套用相同數值。",
+       "zhs": "设定会一并存入纪录・分享码（预设值「全体」不影响码长），队伍比较也套用相同数值。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.8.1",
+   "date": "2026-09-23",
+   "highlight": true,
+   "char": 10415,
+   "charName": {
+    "kr": "기리안"
+   },
+   "skill": true,
+   "title": {
+    "kr": "사망(전투 이탈) · 기리안 부활",
+    "en": "Death (leaving the battle) · Kyrian revival",
+    "ja": "戦闘不能（離脱） · キリエの蘇生",
+    "zh": "陣亡（退出戰鬥） · 奇里葉復活",
+    "zhs": "阵亡（退出战斗） · 奇里叶复活"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "피격 데미지 · 턴 피해로 HP가 0이 된 아군은 사망해 전투에서 이탈합니다.",
+      "en": "Allies whose HP reaches 0 from Incoming Damage · turn damage now die and leave the battle.",
+      "ja": "被弾ダメージ・ターンダメージでHPが0になった味方は戦闘不能になり、戦闘から離脱するようになりました。",
+      "zh": "因受擊傷害・回合傷害使HP歸零的隊友會陣亡並退出戰鬥。",
+      "zhs": "因受击伤害・回合伤害使HP归零的队友会阵亡并退出战斗。"
+     },
+     "details": [
+      {
+       "kr": "이전에는 HP 1에서 멈췄습니다.",
+       "en": "Previously they stopped at 1 HP.",
+       "ja": "以前はHP1で止まっていました。",
+       "zh": "先前會停在HP 1。",
+       "zhs": "先前会停在HP 1。"
+      },
+      {
+       "kr": "사망한 아군은 이후 행동 · 타격 · 버프에서 빠지므로, 치료 동료가 HP를 지켜 주는 가치가 결과에 그대로 드러납니다.",
+       "en": "A dead ally is left out of later actions · hits · buffs, so the value of a healing companion keeping HP up shows directly in the result.",
+       "ja": "戦闘不能の味方は以降の行動・被弾・バフから外れるため、治療役の仲間がHPを守る価値が結果にそのまま表れます。",
+       "zh": "陣亡的隊友不再參與之後的行動・攻擊・增益，因此治療夥伴守住HP的價值會直接反映在結果中。",
+       "zhs": "阵亡的队友不再参与之后的行动・攻击・增益，因此治疗伙伴守住HP的价值会直接反映在结果中。"
+      },
+      {
+       "kr": "사망하면 배리어 · 버프 · 중첩 · 조롱 등 임시 상태가 모두 사라지고, 행동 순서와 적의 타격 대상에서 제외됩니다.",
+       "en": "On death, all temporary states such as barriers · buffs · stacks · taunt are removed, and the ally is excluded from the action order and enemy targeting.",
+       "ja": "戦闘不能になるとバリア・バフ・層・ターゲット集中などの一時的な状態がすべて消え、行動順と敵の攻撃対象から外れます。",
+       "zh": "陣亡時護盾・增益・層數・嘲諷等臨時狀態全部消失，並從行動順序與敵方的攻擊目標中移除。",
+       "zhs": "阵亡时护盾・增益・层数・嘲讽等临时状态全部消失，并从行动顺序与敌方的攻击目标中移除。"
+      },
+      {
+       "kr": "무명은 필살기로 자신의 HP를 깎기 때문에 다른 피해와 겹치면 스스로 사망할 수 있습니다.",
+       "en": "Mumei cuts its own HP with the EX Skill, so combined with other damage it can die by itself.",
+       "ja": "無名は必殺技で自分のHPを削るため、他のダメージと重なると自ら戦闘不能になることがあります。",
+       "zh": "無名會以必殺技削減自身HP，與其他傷害疊加時可能使自己陣亡。",
+       "zhs": "无名会以必杀技削减自身HP，与其他伤害叠加时可能使自己阵亡。"
+      },
+      {
+       "kr": "피격 데미지 · 턴 피해 설정의 안내 문구도 이에 맞게 바뀌었습니다.",
+       "en": "The help texts for Incoming Damage · turn damage were updated to match.",
+       "ja": "被弾ダメージ・ターンダメージ設定の説明文もこれに合わせて変更しました。",
+       "zh": "受擊傷害・回合傷害設定的說明文字也已配合更新。",
+       "zhs": "受击伤害・回合伤害设定的说明文字也已配合更新。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "기리안의 도장에 부활 효과가 반영되었습니다.",
+      "en": "Kyrian's Sigil revival effect is now applied.",
+      "ja": "キリエの刻印に蘇生効果を反映しました。",
+      "zh": "奇里葉的印章已反映復活效果。",
+      "zhs": "奇里叶的印章已反映复活效果。"
+     },
+     "details": [
+      {
+       "kr": "필살기 발동 시 일정 확률로 사망한 아군 한 명을 최대 HP 25%로 되살립니다.",
+       "en": "When the EX Skill fires, there is a set chance to revive one dead ally at 25% of Max HP.",
+       "ja": "必殺技発動時に一定確率で、戦闘不能の味方1人を最大HP25%で蘇生します。",
+       "zh": "發動必殺技時有一定機率使一名陣亡的隊友以最大HP 25%復活。",
+       "zhs": "发动必杀技时有一定机率使一名阵亡的队友以最大HP 25%复活。"
+      },
+      {
+       "kr": "확률 효과이므로 확률 범위에 함께 반영됩니다. ‘확률 효과 항상 발동’에서는 항상, 최소값 계산에서는 발동하지 않습니다.",
+       "en": "As a chance effect, it is included in the chance range. With ‘Always trigger chance effects’ it always fires; in the minimum calculation it never does.",
+       "ja": "確率効果のため、確率範囲にも反映されます。「確率効果を常に発動」では必ず、最小値の計算では発動しません。",
+       "zh": "屬機率效果，會一併反映在機率範圍中。「機率效果必定觸發」時必定發動，計算最小值時不發動。",
+       "zhs": "属机率效果，会一并反映在机率范围中。「机率效果必定触发」时必定发动，计算最小值时不发动。"
+      },
+      {
+       "kr": "사망한 아군이 없으면 발동해도 대상이 없어 넘어갑니다.",
+       "en": "If no ally is dead, it has no target and is skipped even when it fires.",
+       "ja": "戦闘不能の味方がいなければ、発動しても対象がなくスキップされます。",
+       "zh": "若沒有陣亡的隊友，即使發動也因無目標而略過。",
+       "zhs": "若没有阵亡的队友，即使发动也因无目标而略过。"
+      },
+      {
+       "kr": "되살아난 아군은 버프 없이 HP만 회복되며, 그 턴의 행동 순서가 이미 지났으면 다음 턴부터 다시 행동합니다.",
+       "en": "A revived ally recovers only HP without buffs, and if its place in that turn's action order has already passed, it acts again from the next turn.",
+       "ja": "蘇生した味方はバフなしでHPのみ回復し、そのターンの行動順がすでに過ぎていれば次のターンから再び行動します。",
+       "zh": "復活的隊友只恢復HP、不帶增益；若該回合行動順序已過，則自下一回合起再行動。",
+       "zhs": "复活的队友只恢复HP、不带增益；若该回合行动顺序已过，则自下一回合起再行动。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.8",
+   "date": "2026-09-23",
+   "highlight": true,
+   "char": 10443,
+   "charName": {
+    "kr": "이세계의 검 무명"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘이세계의 검 무명’ 추가",
+    "en": "New companion ‘Otherworld Blade Mumei’",
+    "ja": "新しい仲間「異世界の刃無名」を追加",
+    "zh": "新增夥伴「異世之刃無名」",
+    "zhs": "新增伙伴「异世之刃无名」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘이세계의 검 무명’이 추가되었습니다. 필살기로 자신의 HP를 깎아 위험할수록 강해지고, 보통 공격으로 쌓은 중첩을 방어로 터뜨려 연타와 치료를 얻는 어둠속성 전사입니다.",
+      "en": "Added new companion ‘Otherworld Blade Mumei’ — a Dark-element Fighter who cuts its own HP with the EX Skill to grow stronger the closer it is to the brink, and releases stacks built with Basic Attacks on Defend for multi-hits and healing.",
+      "ja": "新しい仲間「異世界の刃無名」を追加しました。必殺技で自分のHPを削り、危険なほど強くなり、通常攻撃で溜めた層を防御で放って連撃と治療を得る闇属性のファイターです。",
+      "zh": "新增夥伴「異世之刃無名」。以必殺技削減自身HP、越危險越強，並在防禦時引爆普通攻擊累積的層數，獲得連擊與治療的闇屬性戰士。",
+      "zhs": "新增伙伴「异世之刃无名」。以必杀技削减自身HP、越危险越强，并在防御时引爆普通攻击累积的层数，获得连击与治疗的暗属性战士。"
+     },
+     "details": [
+      {
+       "kr": "필살기 ‘염묵·광사분룡’(CD 4턴): 적 전체에 ATK 210.6%(도장 239.85%) 데미지, 불굴 3중첩 획득 후 자신의 현재 HP 40%를 실제 데미지로 잃습니다(배리어로 막을 수 없음). 필살기 시 최대 HP 25% 배리어(3턴).",
+       "en": "EX Skill ‘Inkveil: Raging Dragon’ (4-turn CD): deals 210.6% ATK (239.85% with the Sigil) to all enemies, gains 3 Fearless stacks, then loses 40% of its current HP as real damage (barriers can't block it). On EX Skill, gains a barrier worth 25% of Max HP (3 turns).",
+       "ja": "必殺技「墨染・狂獅竜」（CD 4ターン）：敵全体にATK 210.6%（刻印 239.85%）のダメージを与え、恐れ知らずを3層獲得した後、自分の現在HPの40%をリアルダメージとして失います（バリアで防げません）。必殺技時に最大HP25%のバリア（3ターン）。",
+       "zh": "必殺技「染墨・狂獅奔龍」（CD 4回合）：對敵方全體造成ATK 210.6%（印章239.85%）傷害，獲得無畏3層後，以真實傷害失去自身當前HP 40%（護盾無法阻擋）。必殺技時獲得最大HP 25%護盾（3回合）。",
+       "zhs": "必杀技「染墨・狂狮奔龙」（CD 4回合）：对敌方全体造成ATK 210.6%（印章239.85%）伤害，获得无畏3层后，以真实伤害失去自身当前HP 40%（护盾无法阻挡）。必杀技时获得最大HP 25%护盾（3回合）。"
+      },
+      {
+       "kr": "도장 패시브: 기초 최대 HP +30%, 1턴 필살기 CD −4 — 1턴부터 필살기를 쓸 수 있습니다.",
+       "en": "Sigil passive: base Max HP +30%, EX Skill CD −4 on turn 1 — the EX Skill can be used from turn 1.",
+       "ja": "刻印パッシブ：基礎最大HP +30%、1ターン目の必殺技CD −4 — 1ターン目から必殺技を使えます。",
+       "zh": "印章被動：基礎最大HP +30%，第1回合必殺技CD −4 — 從第1回合起即可使用必殺技。",
+       "zhs": "印章被动：基础最大HP +30%，第1回合必杀技CD −4 — 从第1回合起即可使用必杀技。"
+      },
+      {
+       "kr": "보통 공격마다 불굴 · 봉망을 1중첩씩 얻습니다(각각 최대 5).",
+       "en": "Every Basic Attack grants 1 stack each of Fearless · Sharpness (max 5 each).",
+       "ja": "通常攻撃のたびに恐れ知らず・切っ先を1層ずつ獲得します（各最大5）。",
+       "zh": "每次普通攻擊獲得無畏・鋒芒各1層（各最多5層）。",
+       "zhs": "每次普通攻击获得无畏・锋芒各1层（各最多5层）。"
+      },
+      {
+       "kr": "불굴(1중첩당 받는 데미지 +7%): 1중첩 이상 — 보통 공격 시 추가 20%, 방어 시 중첩 수만큼 ATK 75% 자신 치료 후 제거 · 2중첩 이상 — 주는 데미지 +15%, 필살기 효과 +21.15% · 3중첩 이상 — 보통 공격 시 추가 40%와 ATK 70% 배리어(2턴) · 4중첩 이상 — 공격 시 기초 ATK의 20.4%만큼 ATK 증가(2턴) · 5중첩 — 행동할 때마다 추가 65%, 방어 시 행동 1회 회복.",
+       "en": "Fearless (+7% damage taken per stack): 1+ stacks — extra 20% on Basic Attack; on Defend, heals itself for 75% ATK per stack, then removes them · 2+ stacks — damage dealt +15%, EX Skill effect +21.15% · 3+ stacks — extra 40% on Basic Attack and a 70% ATK barrier (2 turns) · 4+ stacks — on attack, ATK increases by 20.4% of base ATK (2 turns) · 5 stacks — extra 65% on every action, and Defend recovers 1 action.",
+       "ja": "恐れ知らず（1層ごとに被ダメージ +7%）：1層以上 — 通常攻撃時に追加20%、防御時に層数分ATK 75%の自己治療後に除去 · 2層以上 — 与ダメージ +15%、必殺技効果 +21.15% · 3層以上 — 通常攻撃時に追加40%とATK 70%のバリア（2ターン） · 4層以上 — 攻撃時に基礎ATKの20.4%分ATK増加（2ターン） · 5層 — 行動するたびに追加65%、防御時に行動を1回回復。",
+       "zh": "無畏（每層受到傷害 +7%）：1層以上 — 普通攻擊時追加20%，防禦時依層數以ATK 75%治療自身後移除 · 2層以上 — 造成傷害 +15%，必殺技效果 +21.15% · 3層以上 — 普通攻擊時追加40%與ATK 70%護盾（2回合） · 4層以上 — 攻擊時ATK提升基礎ATK的20.4%（2回合） · 5層 — 每次行動追加65%，防禦時恢復1次行動。",
+       "zhs": "无畏（每层受到伤害 +7%）：1层以上 — 普通攻击时追加20%，防御时依层数以ATK 75%治疗自身后移除 · 2层以上 — 造成伤害 +15%，必杀技效果 +21.15% · 3层以上 — 普通攻击时追加40%与ATK 70%护盾（2回合） · 4层以上 — 攻击时ATK提升基础ATK的20.4%（2回合） · 5层 — 每次行动追加65%，防御时恢复1次行动。"
+      },
+      {
+       "kr": "봉망: 방어 시 중첩 수만큼 ATK 40% 연타 후 제거. 적 3명 이상이면 보통 공격 시 전체 17.5%, 2명 이하면 단일 27.5% 추가.",
+       "en": "Sharpness: on Defend, hits for 40% ATK once per stack, then removes them. On Basic Attack, adds 17.5% to all enemies with 3+ enemies, or 27.5% to a single target with 2 or fewer.",
+       "ja": "切っ先：防御時に層数分ATK 40%の連撃後に除去。敵が3体以上なら通常攻撃時に全体17.5%、2体以下なら単体27.5%を追加。",
+       "zh": "鋒芒：防禦時依層數造成ATK 40%連擊後移除。敵方3名以上時普通攻擊追加全體17.5%，2名以下時追加單體27.5%。",
+       "zhs": "锋芒：防御时依层数造成ATK 40%连击后移除。敌方3名以上时普通攻击追加全体17.5%，2名以下时追加单体27.5%。"
+      },
+      {
+       "kr": "HP 조건: 75% 이하 — 보통 공격 시 배리어 수치의 16.2%만큼 추가 데미지 · 50% 이하 — 보통 공격 데미지 +30% · 30% 이하 — 준 데미지의 20.4% 흡혈.",
+       "en": "HP conditions: 75% or less — extra damage on Basic Attack equal to 16.2% of barrier value · 50% or less — Basic Attack damage +30% · 30% or less — lifesteal of 20.4% of damage dealt.",
+       "ja": "HP条件：75%以下 — 通常攻撃時にバリア値の16.2%分の追加ダメージ · 50%以下 — 通常攻撃ダメージ +30% · 30%以下 — 与えたダメージの20.4%を吸血。",
+       "zh": "HP條件：75%以下 — 普通攻擊時追加護盾數值16.2%的傷害 · 50%以下 — 普通攻擊傷害 +30% · 30%以下 — 吸取造成傷害的20.4%。",
+       "zhs": "HP条件：75%以下 — 普通攻击时追加护盾数值16.2%的伤害 · 50%以下 — 普通攻击伤害 +30% · 30%以下 — 吸取造成伤害的20.4%。"
+      },
+      {
+       "kr": "시뮬레이터 참고: 자동 계획은 방어를 하지 않으므로 방어 연타 · 자신 치료 · 행동 회복은 행동 설정에 ‘방어’를 넣어야 나오며, 회복한 행동은 보통 공격으로 쓰입니다.",
+       "en": "Simulator note: the automatic plan never defends, so the Defend multi-hits · self-heal · action recovery only appear if you put ‘Defend’ in the action settings, and the recovered action is used as a Basic Attack.",
+       "ja": "シミュレーターの注意：自動計画は防御しないため、防御連撃・自己治療・行動回復は行動設定に「防御」を入れる必要があり、回復した行動は通常攻撃として使われます。",
+       "zh": "模擬器說明：自動計畫不會防禦，需在行動設定中放入「防禦」才會出現防禦連擊・自身治療・行動恢復，恢復的行動以普通攻擊使用。",
+       "zhs": "模拟器说明：自动计划不会防御，需在行动设定中放入「防御」才会出现防御连击・自身治疗・行动恢复，恢复的行动以普通攻击使用。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "전투 설정에 ‘방탈출 제단 설정’이 추가되었습니다.",
+      "en": "Added ‘Escape Room Altar settings’ to the battle settings.",
+      "ja": "戦闘設定に「脱出部屋の祭壇設定」を追加しました。",
+      "zh": "戰鬥設定新增「密室祭壇設定」。",
+      "zhs": "战斗设定新增「密室祭坛设定」。"
+     },
+     "details": [
+      {
+       "kr": "길드 방탈출 1~3층의 별의 제단(보스가 유리해지는 페널티)과 달의 제단(아군이 얻는 효과)을 층별로 점등하면 그 조건대로 데미지를 계산합니다.",
+       "en": "Light the Star Altars (penalties that favor the boss) and Moon Altars (effects your team gains) on floors 1–3 of the Guild Escape Room per floor, and damage is calculated under those conditions.",
+       "ja": "ギルド脱出部屋1〜3階の星の祭壇（ボスが有利になるペナルティ）と月の祭壇（味方が得る効果）を階ごとに点灯すると、その条件でダメージを計算します。",
+       "zh": "依樓層為公會密室1~3層的星之祭壇（對頭目有利的懲罰）與月之祭壇（我方獲得的效果）點燈後，會以該條件計算傷害。",
+       "zhs": "依楼层为公会密室1~3层的星之祭坛（对头目有利的惩罚）与月之祭坛（我方获得的效果）点灯后，会以该条件计算伤害。"
+      },
+      {
+       "kr": "별의 제단은 점등하면 페널티가 빠지고, 달의 제단은 점등한 것만 효과가 적용됩니다.",
+       "en": "Lighting a Star Altar removes its penalty; only lit Moon Altars apply their effects.",
+       "ja": "星の祭壇は点灯するとペナルティが外れ、月の祭壇は点灯したものだけ効果が適用されます。",
+       "zh": "星之祭壇點燈後會移除懲罰，月之祭壇只套用已點燈的效果。",
+       "zhs": "星之祭坛点灯后会移除惩罚，月之祭坛只套用已点灯的效果。"
+      },
+      {
+       "kr": "층은 아래층부터 누적됩니다. 2층이면 1·2층, 3층이면 1·2·3층 제단이 모두 걸립니다.",
+       "en": "Floors accumulate from the bottom. Floor 2 applies the altars of floors 1·2, and floor 3 applies those of floors 1·2·3.",
+       "ja": "階は下の階から累積します。2階なら1・2階、3階なら1・2・3階の祭壇がすべてかかります。",
+       "zh": "樓層由下往上累積。2層套用1・2層，3層套用1・2・3層的全部祭壇。",
+       "zhs": "楼层由下往上累积。2层套用1・2层，3层套用1・2・3层的全部祭坛。"
+      },
+      {
+       "kr": "같은 효과가 여러 층에 있으면(받는 배리어 +25%, 받는 치료 +25% 등) 모두 더해집니다.",
+       "en": "If the same effect is on several floors (barrier received +25%, healing received +25%, etc.), they all add up.",
+       "ja": "同じ効果が複数の階にある場合（被バリア +25%、被回復 +25% など）はすべて加算されます。",
+       "zh": "相同效果出現在多個樓層時（受到護盾 +25%、受到治療 +25%等）會全部相加。",
+       "zhs": "相同效果出现在多个楼层时（受到护盾 +25%、受到治疗 +25%等）会全部相加。"
+      },
+      {
+       "kr": "보스 ATK · 보스 주는 데미지 · 아군 받는 데미지 별의 제단은 피격 데미지 모드를 켰을 때만 결과에 나타납니다.",
+       "en": "The Boss ATK · Boss damage dealt · ally damage taken Star Altars only show in results when Incoming Damage mode is on.",
+       "ja": "ボスATK・ボスの与ダメージ・味方の被ダメージの星の祭壇は、被弾ダメージモードをオンにしたときだけ結果に表れます。",
+       "zh": "頭目ATK・頭目造成傷害・我方受到傷害的星之祭壇，只在開啟受擊傷害模式時才會反映在結果中。",
+       "zhs": "头目ATK・头目造成伤害・我方受到伤害的星之祭坛，只在开启受击伤害模式时才会反映在结果中。"
+      },
+      {
+       "kr": "제단이 켜져 있으면 ‘확률 효과 항상 발동’은 함께 쓸 수 없으며, 설정은 기록과 공유 코드에 함께 저장됩니다.",
+       "en": "While the altars are on, ‘Always trigger chance effects’ can't be used, and the setting is saved with records and share codes.",
+       "ja": "祭壇がオンの間は「確率効果を常に発動」を併用できず、設定は記録と共有コードに一緒に保存されます。",
+       "zh": "祭壇開啟時無法同時使用「機率效果必定觸發」，設定會一併存入紀錄與分享碼。",
+       "zhs": "祭坛开启时无法同时使用「机率效果必定触发」，设定会一并存入纪录与分享码。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "동료마다 ‘필살기 사용 방식’과 ‘필살기 맞추기’를 정할 수 있습니다.",
+      "en": "Each companion can now set an ‘EX Skill policy’ and ‘EX Skill sync’.",
+      "ja": "仲間ごとに「必殺技の使い方」と「必殺技の同期」を設定できるようになりました。",
+      "zh": "可為每名夥伴設定「必殺技使用方式」與「必殺技連動」。",
+      "zhs": "可为每名伙伴设定「必杀技使用方式」与「必杀技连动」。"
+     },
+     "details": [
+      {
+       "kr": "제단으로 필살기 CD가 달라질 때를 위한 설정으로, 제단 설정을 켜면 동료 창에 표시됩니다.",
+       "en": "These settings are for when the altars change EX Skill CDs, and they appear in the companion window when the altar settings are on.",
+       "ja": "祭壇で必殺技のCDが変わる場合のための設定で、祭壇設定をオンにすると仲間の画面に表示されます。",
+       "zh": "此設定用於祭壇改變必殺技CD的情況，開啟祭壇設定後會顯示在夥伴視窗。",
+       "zhs": "此设定用于祭坛改变必杀技CD的情况，开启祭坛设定后会显示在伙伴视窗。"
+      },
+      {
+       "kr": "방식: 정해진 턴(기본) · 정해진 턴만 · 준비되면 바로. ‘준비되면 바로’에서도 계획한 방어 턴은 기본적으로 지킵니다.",
+       "en": "Policies: Planned turns (default) · Planned turns only · As soon as ready. Even with ‘As soon as ready’, planned Defend turns are kept by default.",
+       "ja": "方式：指定ターン（既定）・指定ターンのみ・準備でき次第。「準備でき次第」でも、計画した防御ターンは既定で維持します。",
+       "zh": "方式：指定回合（預設）・僅指定回合・就緒即用。即使選擇「就緒即用」，計畫中的防禦回合預設仍會保留。",
+       "zhs": "方式：指定回合（预设）・仅指定回合・就绪即用。即使选择「就绪即用」，计划中的防御回合预设仍会保留。"
+      },
+      {
+       "kr": "필살기 맞추기: 최대 3개 그룹으로 보조 동료를 주력 동료의 필살기 턴에 맞춥니다. 따라가는 동료는 기준 동료 바로 앞 또는 뒤에서 행동하며, 그 턴에 준비가 안 됐으면 다음 필살기까지 기다리거나 준비되는 대로 쓰도록 고릅니다.",
+       "en": "EX Skill sync: in up to 3 groups, align support companions to a main companion's EX Skill turns. Synced companions act right before or after the lead companion, and if not ready on that turn, you choose whether they wait for the next EX Skill or use it when ready.",
+       "ja": "必殺技の同期：最大3グループで、サポート役の仲間をメインの仲間の必殺ターンに合わせます。メンバーは基準キャラの直前または直後に行動し、そのターンに準備できていなければ次の必殺技まで待つか、準備でき次第使うかを選びます。",
+       "zh": "必殺技連動：最多3組，讓輔助夥伴配合主力夥伴的必殺技回合。連動成員在基準夥伴正前或正後行動；若該回合未就緒，可選擇等待下一次必殺技或就緒即用。",
+       "zhs": "必杀技连动：最多3组，让辅助伙伴配合主力伙伴的必杀技回合。连动成员在基准伙伴正前或正后行动；若该回合未就绪，可选择等待下一次必杀技或就绪即用。"
+      },
+      {
+       "kr": "턴별 계획은 확률로 줄어드는 CD를 계산에 넣지 않고, 보장되는 CD(최대 CD +1 포함)로 필살기 턴을 표시합니다. 확률로 일찍 준비된 필살기는 ‘준비되면 바로’나 맞추기 그룹이 사용합니다.",
+       "en": "The per-turn plan doesn't count chance-based CD cuts and shows EX Skill turns based on the guaranteed CD (including Max CD +1). EX Skills that come early by chance are used by ‘As soon as ready’ or by sync groups.",
+       "ja": "ターン別計画は確率で短縮されるCDを計算に入れず、保証されるCD（最大CD +1 を含む）で必殺ターンを表示します。確率で早く準備できた必殺技は「準備でき次第」や同期グループが使います。",
+       "zh": "逐回合計畫不計入機率縮短的CD，以保證的CD（含最大CD +1）顯示必殺技回合。因機率提早就緒的必殺技由「就緒即用」或連動組使用。",
+       "zhs": "逐回合计划不计入机率缩短的CD，以保证的CD（含最大CD +1）显示必杀技回合。因机率提早就绪的必杀技由「就绪即用」或连动组使用。"
+      },
+      {
+       "kr": "우선순위: 행동 고급 설정 > 필살기 사용 방식 · 맞추기. 고급 설정에서 편집한 턴은 그 타임라인대로만 행동하고, 편집하지 않은 턴에만 맞추기가 적용됩니다.",
+       "en": "Priority: Advanced Action Setup > EX Skill policy · sync. Turns edited in Advanced Action Setup follow that timeline only, and sync applies only to unedited turns.",
+       "ja": "優先順位：行動詳細設定 > 必殺技の使い方・同期。詳細設定で編集したターンはそのタイムラインどおりにのみ行動し、編集していないターンにだけ同期が適用されます。",
+       "zh": "優先順序：行動進階設定 > 必殺技使用方式・連動。在進階設定中編輯的回合只依該時間軸行動，連動只套用於未編輯的回合。",
+       "zhs": "优先顺序：行动进阶设定 > 必杀技使用方式・连动。在进阶设定中编辑的回合只依该时间轴行动，连动只套用于未编辑的回合。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "‘턴 피해 설정’이 추가되었습니다.",
+      "en": "Added ‘Turn Damage Settings’.",
+      "ja": "「ターンダメージ設定」を追加しました。",
+      "zh": "新增「回合傷害設定」。",
+      "zhs": "新增「回合伤害设定」。"
+     },
+     "details": [
+      {
+       "kr": "적 페이즈가 끝날 때마다 아군 전체가 최대 HP의 지정 %(1~99%)만큼 피해를 받습니다.",
+       "en": "At the end of every enemy phase, the whole team takes damage equal to the set % of Max HP (1–99%).",
+       "ja": "敵フェーズが終わるたびに、味方全員が最大HPの指定%（1〜99%）のダメージを受けます。",
+       "zh": "每次敵方階段結束時，我方全體受到最大HP指定%（1~99%）的傷害。",
+       "zhs": "每次敌方阶段结束时，我方全体受到最大HP指定%（1~99%）的伤害。"
+      },
+      {
+       "kr": "피격 데미지 모드와 같은 규칙: 배리어가 먼저 흡수하고, 방어한 턴은 절반만 받으며, 받는 데미지 증감(무명 불굴 중첩당 +7%, 몽규 인접 HP 50% 이하 −11% 등)이 적용됩니다. 반격은 발동하지 않습니다.",
+       "en": "Same rules as Incoming Damage mode: barriers absorb first, a defending turn takes half, and damage taken modifiers apply (Mumei's +7% per Fearless stack, Mengkui's −11% for adjacent allies at 50% HP or less, etc.). Counters don't trigger.",
+       "ja": "被弾ダメージモードと同じ規則：バリアが先に吸収し、防御したターンは半分だけ受け、被ダメージの増減（無名の恐れ知らず1層ごと +7%、蒙奎の隣接HP50%以下 −11% など）が適用されます。反撃は発動しません。",
+       "zh": "規則與受擊傷害模式相同：護盾先吸收，防禦的回合只受一半，套用受到傷害增減（無名每層無畏 +7%、蒙奎相鄰HP 50%以下 −11%等）。不會觸發反擊。",
+       "zhs": "规则与受击伤害模式相同：护盾先吸收，防御的回合只受一半，套用受到伤害增减（无名每层无畏 +7%、蒙奎相邻HP 50%以下 −11%等）。不会触发反击。"
+      },
+      {
+       "kr": "‘고급 · 턴별로 다르게’를 켜면 턴마다 %를 따로 정할 수 있습니다(빈 칸은 기본값, 진행 턴 수에 맞춰 칸이 늘고 줆). ‘턴별 값 비우기’로 초기화합니다.",
+       "en": "Turn on ‘Advanced · vary by turn’ to set a different % for each turn (blank cells use the default; cells grow and shrink with the turn count). ‘Clear per-turn values’ resets them.",
+       "ja": "「詳細 · ターンごとに変える」をオンにすると、ターンごとに%を個別に設定できます（空欄は既定値、進行ターン数に合わせて欄が増減）。「ターン別の値を消去」で初期化します。",
+       "zh": "開啟「進階・逐回合設定」可為每回合分別設定%（空格=預設值，格數隨進行回合數增減）。可用「清除逐回合數值」重設。",
+       "zhs": "开启「进阶・逐回合设定」可为每回合分别设定%（空格=预设值，格数随进行回合数增减）。可用「清除逐回合数值」重设。"
+      },
+      {
+       "kr": "아군 HP가 전투 흐름대로 움직입니다. 자신 피해 · 피격 · 턴 피해로 줄고 치료 · 지속형 치료 · 흡혈로 차며, ‘HP가 N% 이하일 때’ 효과는 매 발동 · 매 타격 시점의 현재 HP로 판정합니다.",
+       "en": "Ally HP now follows the flow of battle. It drops from self-damage · hits · turn damage and refills from healing · healing over time · lifesteal, and ‘when HP is N% or less’ effects are judged on the current HP at every trigger and hit.",
+       "ja": "味方のHPが戦闘の流れどおりに変動します。自傷・被弾・ターンダメージで減り、治療・継続治療・吸血で回復し、「HPがN%以下のとき」の効果は毎回の発動・毎回の攻撃時点の現在HPで判定します。",
+       "zh": "隊友HP會隨戰鬥流程變動。因自身傷害・受擊・回合傷害減少，因治療・持續治療・吸血回復；「HP在N%以下時」的效果於每次發動・每次攻擊時以當前HP判定。",
+       "zhs": "队友HP会随战斗流程变动。因自身伤害・受击・回合伤害减少，因治疗・持续治疗・吸血回复；「HP在N%以下时」的效果于每次发动・每次攻击时以当前HP判定。"
+      },
+      {
+       "kr": "설정은 기록과 공유 코드에 저장되고(켠 경우에만 짧게 덧붙음), 팀 비교와 행동 고급 설정에도 같은 값이 적용됩니다.",
+       "en": "The setting is saved in records and share codes (added briefly only when on), and the same value applies to Team Comparison and Advanced Action Setup.",
+       "ja": "設定は記録と共有コードに保存され（オンの場合のみ短く付加）、チーム比較と行動詳細設定にも同じ値が適用されます。",
+       "zh": "設定會存入紀錄與分享碼（僅在開啟時短短附加），隊伍比較與行動進階設定也套用相同數值。",
+       "zhs": "设定会存入纪录与分享码（仅在开启时短短附加），队伍比较与行动进阶设定也套用相同数值。"
+      },
+      {
+       "kr": "방탈출 제단 설정과 같은 자리에서 탭처럼 전환되며, 둘을 동시에 켤 수 있습니다.",
+       "en": "It switches like a tab in the same place as the Escape Room Altar settings, and both can be on at the same time.",
+       "ja": "脱出部屋の祭壇設定と同じ場所でタブのように切り替わり、両方を同時にオンにできます。",
+       "zh": "與密室祭壇設定在同一位置像分頁一樣切換，兩者可同時開啟。",
+       "zhs": "与密室祭坛设定在同一位置像分页一样切换，两者可同时开启。"
+      },
+      {
+       "kr": "참고: 무명의 필살기 배리어(최대 HP 25%)와 불굴 배리어가 10% 정도는 모두 흡수하므로, 저체력 효과를 보려면 20~30% 이상으로 두거나 필살기 자신 피해와 함께 쓰세요.",
+       "en": "Note: Mumei's EX Skill barrier (25% of Max HP) and Fearless barrier absorb all of about 10%, so to see low-HP effects set it to 20–30% or higher, or combine it with the EX Skill's self-damage.",
+       "ja": "参考：無名の必殺技バリア（最大HP25%）と恐れ知らずのバリアが10%程度はすべて吸収するため、低HP効果を見るには20〜30%以上に設定するか、必殺技の自傷と併用してください。",
+       "zh": "提示：無名的必殺技護盾（最大HP 25%）與無畏護盾會完全吸收10%左右的傷害，若要看到低HP效果，請設為20~30%以上或搭配必殺技的自身傷害。",
+       "zhs": "提示：无名的必杀技护盾（最大HP 25%）与无畏护盾会完全吸收10%左右的伤害，若要看到低HP效果，请设为20~30%以上或搭配必杀技的自身伤害。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.7.1",
+   "date": "2026-09-15",
+   "title": {
+    "kr": "확률 범위 표시 · 투명인간 필살기 추가 데미지 수정",
+    "en": "Chance range display · Invisible Man EX Skill bonus damage fix",
+    "ja": "確率範囲の表示 · 透明人間の必殺技追加ダメージを修正",
+    "zh": "機率範圍顯示 · 透明人必殺技追加傷害修正",
+    "zhs": "机率范围显示 · 透明人必杀技追加伤害修正"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "결과에 확률 범위(최소~최대)가 함께 표시됩니다.",
+      "en": "Results now show a chance range (minimum–maximum).",
+      "ja": "結果に確率範囲（最小〜最大）が表示されるようになりました。",
+      "zh": "結果會一併顯示機率範圍（最小~最大）。",
+      "zhs": "结果会一并显示机率范围（最小~最大）。"
+     },
+     "details": [
+      {
+       "kr": "확률 효과가 한 번도 발동하지 않았을 때(최소)와 전부 발동했을 때(최대)를 함께 보여 줍니다.",
+       "en": "It shows the result when no chance effects trigger at all (minimum) and when all of them trigger (maximum).",
+       "ja": "確率効果が一度も発動しなかった場合（最小）と、すべて発動した場合（最大）を一緒に表示します。",
+       "zh": "同時顯示機率效果完全未發動時（最小）與全部發動時（最大）的數值。",
+       "zhs": "同时显示机率效果完全未发动时（最小）与全部发动时（最大）的数值。"
+      },
+      {
+       "kr": "범위가 좁을수록 확률에 덜 의존하는 안정적인 팀이고, 넓을수록 운에 따라 결과가 크게 갈립니다.",
+       "en": "A narrower range means a stable team that relies less on chance; a wider range means results swing more with luck.",
+       "ja": "範囲が狭いほど確率に左右されにくい安定したチームで、広いほど運によって結果が大きく変わります。",
+       "zh": "範圍越窄，代表越不依賴機率、越穩定；越寬則結果越受運氣左右。",
+       "zhs": "范围越窄，代表越不依赖机率、越稳定；越宽则结果越受运气左右。"
+      },
+      {
+       "kr": "팀 비교 화면에도 양쪽 범위가 표시됩니다.",
+       "en": "Team Comparison shows the range for both sides too.",
+       "ja": "チーム比較の画面にも両方の範囲が表示されます。",
+       "zh": "隊伍比較畫面也會顯示雙方的範圍。",
+       "zhs": "队伍比较画面也会显示双方的范围。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "chars": [
+      10437,
+      10435
+     ],
+     "text": {
+      "kr": "투명인간이 필살기 발동 시 주는 추가 데미지에 필살기 강화 효과가 적용되지 않던 문제가 수정되었습니다.",
+      "en": "Fixed EX Skill boosts not applying to the bonus damage Invisible Man deals when using the EX Skill.",
+      "ja": "透明人間が必殺技発動時に与える追加ダメージに、必殺技の強化効果が適用されていなかった問題を修正しました。",
+      "zh": "修正透明人發動必殺技時造成的追加傷害未套用必殺技強化效果的問題。",
+      "zhs": "修正透明人发动必杀技时造成的追加伤害未套用必杀技强化效果的问题。"
+     },
+     "details": [
+      {
+       "kr": "대상: 목표물 단일 · 적 전체 추가 데미지.",
+       "en": "Affected: single-target and all-enemy bonus damage.",
+       "ja": "対象：ターゲット単体・敵全体への追加ダメージ。",
+       "zh": "對象：目標單體・敵方全體追加傷害。",
+       "zhs": "对象：目标单体・敌方全体追加伤害。"
+      },
+      {
+       "kr": "‘필살기 효과 증가’와 아군이 걸어 주는 필살기 강화 버프가 모두 적용됩니다.",
+       "en": "Both ‘EX Skill effect up’ and EX Skill boost buffs from allies now apply.",
+       "ja": "「必殺技効果アップ」と、味方が付与する必殺技強化バフの両方が適用されます。",
+       "zh": "「必殺技效果提升」與隊友施加的必殺技強化增益都會套用。",
+       "zhs": "「必杀技效果提升」与队友施加的必杀技强化增益都会套用。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.7",
+   "date": "2026-09-11",
+   "highlight": true,
+   "char": 10442,
+   "charName": {
+    "kr": "오야마다 마타야"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘오야마다 마타야’ 추가",
+    "en": "New companion ‘Oyamada Mataya’",
+    "ja": "新しい仲間「小山田又弥」を追加",
+    "zh": "新增夥伴「小山田又彌」",
+    "zhs": "新增伙伴「小山田又弥」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘오야마다 마타야’가 추가되었습니다. 목표물을 공격할수록 필살기 위력이 쌓여 폭발적인 데미지를 내고, 방어 시 반격 자세로 전환해 공격을 되받아치는 불속성 전사입니다.",
+      "en": "Added new companion ‘Oyamada Mataya’ — a Fire-element Fighter who builds EX Skill power by attacking the target for explosive damage, and switches to a counter stance on Defend to strike back at attacks.",
+      "ja": "新しい仲間「小山田又弥」を追加しました。ターゲットを攻撃するほど必殺技の威力が蓄積して爆発的なダメージを与え、防御時には反撃の構えに移行して攻撃を受け返す火属性のファイターです。",
+      "zh": "新增夥伴「小山田又彌」。攻擊目標越多，必殺技威力越是累積並造成爆發性傷害，防禦時切換為反擊架勢反擊敵人的火屬性戰士。",
+      "zhs": "新增伙伴「小山田又弥」。攻击目标越多，必杀技威力越是累积并造成爆发性伤害，防御时切换为反击架势反击敌人的火属性战士。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.6",
+   "date": "2026-08-26",
+   "highlight": true,
+   "char": 10441,
+   "charName": {
+    "kr": "제토"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘제토’ 추가",
+    "en": "New companion ‘Zetto’",
+    "ja": "新しい仲間「ゼット」を追加",
+    "zh": "新增夥伴「桀特」",
+    "zhs": "新增伙伴「桀特」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘제토’가 추가되었습니다. 보통 공격을 할수록 필살기 위력이 쌓여 단 한 번의 필살기로 폭발적인 데미지를 내는 물속성 전사입니다.",
+      "en": "Added new companion ‘Zetto’ — a Water-element Fighter who builds EX Skill power with every Basic Attack and unleashes explosive damage with a single EX Skill.",
+      "ja": "新しい仲間「ゼット」を追加しました。通常攻撃を重ねるほど必殺技の威力が蓄積し、たった一度の必殺技で爆発的なダメージを与える水属性のファイターです。",
+      "zh": "新增夥伴「桀特」。普通攻擊越多，必殺技威力越是累積，以一次必殺技造成爆發性傷害的水屬性戰士。",
+      "zhs": "新增伙伴「桀特」。普通攻击越多，必杀技威力越是累积，以一次必杀技造成爆发性伤害的水属性战士。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.5.2",
+   "date": "2026-08-21",
+   "highlight": true,
+   "title": {
+    "kr": "패치 내역 정리 · 세부 수치 추가",
+    "en": "Patch notes tidied · detailed numbers added",
+    "ja": "パッチ履歴の整理 · 詳細な数値を追加",
+    "zh": "整理更新內容 · 新增詳細數值",
+    "zhs": "整理更新内容 · 新增详细数值"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "패치 내역을 어려운 용어 없이 다시 정리했습니다.",
+      "en": "Rewrote the patch notes without difficult jargon.",
+      "ja": "パッチ履歴を難しい用語なしで書き直しました。",
+      "zh": "重新整理更新內容，去除艱澀用語。",
+      "zhs": "重新整理更新内容，去除艰涩用语。"
+     }
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "각 항목을 펼치면 세부 수치를 확인할 수 있습니다.",
+      "en": "Expand an entry to see the detailed numbers.",
+      "ja": "各項目を展開すると詳細な数値を確認できるようになりました。",
+      "zh": "展開各項目即可查看詳細數值。",
+      "zhs": "展开各项目即可查看详细数值。"
+     },
+     "details": [
+      {
+       "kr": "배율 · 중첩 · 지속 턴 · 발동 확률까지 표시합니다.",
+       "en": "Multipliers · stacks · durations · trigger chances are shown.",
+       "ja": "倍率・層・持続ターン・発動確率まで表示します。",
+       "zh": "顯示倍率・層數・持續回合・發動機率。",
+       "zhs": "显示倍率・层数・持续回合・发动机率。"
+      },
+      {
+       "kr": "수치는 모두 게임 스킬 데이터에서 그대로 가져왔습니다.",
+       "en": "All numbers are taken directly from the game's skill data.",
+       "ja": "数値はすべてゲームのスキルデータからそのまま取得しています。",
+       "zh": "所有數值皆直接取自遊戲技能資料。",
+       "zhs": "所有数值皆直接取自游戏技能资料。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "팀 비교 항목에 관계없는 동료 아이콘이 표시되던 문제가 수정되었습니다.",
+      "en": "Fixed an unrelated companion icon showing on a Team Comparison entry.",
+      "ja": "チーム比較の項目に無関係な仲間のアイコンが表示される問題を修正しました。",
+      "zh": "修正隊伍比較項目中顯示無關夥伴圖示的問題。",
+      "zhs": "修正队伍比较项目中显示无关伙伴图示的问题。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.5.1",
+   "date": "2026-08-20",
+   "highlight": true,
+   "title": {
+    "kr": "패치 히스토리 추가",
+    "en": "Patch history added",
+    "ja": "パッチ履歴を追加",
+    "zh": "新增更新歷史",
+    "zhs": "新增更新历史"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "패치 히스토리가 추가되었습니다.",
+      "en": "Added patch history.",
+      "ja": "パッチ履歴を追加しました。",
+      "zh": "新增更新歷史。",
+      "zhs": "新增更新历史。"
+     },
+     "details": [
+      {
+       "kr": "지금까지의 변경 사항을 한눈에 보고, 신규 · 개선 · 버그 수정 · 편의로 걸러 볼 수 있습니다.",
+       "en": "See all changes so far at a glance, and filter by New · Improvements · Bug fixes · Quality of life.",
+       "ja": "これまでの変更をひと目で確認でき、新規・改善・バグ修正・便利機能で絞り込めます。",
+       "zh": "可一覽至今的變更，並依新增・調整・修正・便利篩選。",
+       "zhs": "可一览至今的变更，并依新增・调整・修正・便利筛选。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "마지막으로 확인한 뒤 새 소식이 올라오면 버튼에 점으로 알려 줍니다.",
+      "en": "A dot on the button tells you when something new is posted since you last checked.",
+      "ja": "最後に確認した後に新しいお知らせが追加されると、ボタンに点でお知らせします。",
+      "zh": "自上次查看後有新內容時，按鈕上會以圓點提示。",
+      "zhs": "自上次查看后有新内容时，按钮上会以圆点提示。"
+     }
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "특정 동료의 변경 사항에는 그 동료의 얼굴이 함께 표시되고, 신규 동료가 추가된 버전은 크게 표시됩니다.",
+      "en": "Changes to a specific companion show that companion's face, and versions that added a new companion are shown larger.",
+      "ja": "特定の仲間に関する変更にはその仲間の顔が表示され、新しい仲間が追加されたバージョンは大きく表示されます。",
+      "zh": "特定夥伴的變更會一併顯示該夥伴的頭像，新增夥伴的版本會放大顯示。",
+      "zhs": "特定伙伴的变更会一并显示该伙伴的头像，新增伙伴的版本会放大显示。"
+     }
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "패치 내역을 한국어 · 영어 · 중국어(번체/간체) · 일본어로 볼 수 있습니다.",
+      "en": "Patch notes can be read in Korean · English · Chinese (Traditional/Simplified) · Japanese.",
+      "ja": "パッチ履歴を韓国語・英語・中国語（繁体字／簡体字）・日本語で見られるようになりました。",
+      "zh": "更新內容可用韓文・英文・中文（繁體／簡體）・日文查看。",
+      "zhs": "更新内容可用韩文・英文・中文（繁体／简体）・日文查看。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.5",
+   "date": "2026-08-20",
+   "highlight": true,
+   "char": 10440,
+   "charName": {
+    "kr": "몽규"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘몽규’ 추가",
+    "en": "New companion ‘Mengkui’",
+    "ja": "新しい仲間「蒙奎」を追加",
+    "zh": "新增夥伴「蒙奎」",
+    "zhs": "新增伙伴「蒙奎」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘몽규’가 추가되었습니다. 양옆 아군을 치료하고 쓰러질 위기의 아군을 연달아 구해 내는 나무속성 치료 동료입니다.",
+      "en": "Added new companion ‘Mengkui’ — a Wood-element healer who heals the allies on either side and rescues allies on the brink one after another.",
+      "ja": "新しい仲間「蒙奎」を追加しました。両隣の味方を治療し、倒れそうな味方を次々に救う木属性の治療役です。",
+      "zh": "新增夥伴「蒙奎」。治療左右兩側隊友，並接連救援瀕危隊友的木屬性治療夥伴。",
+      "zhs": "新增伙伴「蒙奎」。治疗左右两侧队友，并接连救援濒危队友的木属性治疗伙伴。"
+     }
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "동료 스펙 설정 화면을 보기 편하게 다듬었습니다.",
+      "en": "Made the companion spec settings screen easier to read.",
+      "ja": "仲間のスペック設定画面を見やすく調整しました。",
+      "zh": "調整夥伴規格設定畫面，使其更易閱讀。",
+      "zhs": "调整伙伴规格设定画面，使其更易阅读。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.4.4",
+   "date": "2026-08-20",
+   "highlight": false,
+   "title": {
+    "kr": "시간이 지나도 버프가 사라지지 않던 문제 수정",
+    "en": "Fixed buffs that never wore off",
+    "ja": "時間が経ってもバフが消えない問題を修正",
+    "zh": "修正增益不隨時間消失的問題",
+    "zhs": "修正增益不随时间消失的问题"
+   },
+   "items": [
+    {
+     "cat": "fix",
+     "chars": [
+      10435,
+      10424
+     ],
+     "text": {
+      "kr": "크로크라인 · 루테닉스의 지속 시간이 있는 버프가 사라지지 않던 문제가 수정되었습니다.",
+      "en": "Fixed timed buffs of Croklein · Rutenix never wearing off.",
+      "ja": "クロックライン・ラトニックスの持続時間があるバフが消えない問題を修正しました。",
+      "zh": "修正庫克萊恩・魯特尼希有持續時間的增益不會消失的問題。",
+      "zhs": "修正库克莱恩・鲁特尼希有持续时间的增益不会消失的问题。"
+     },
+     "details": [
+      {
+       "kr": "크로크라인 【센 불에 볶기】 · 【약한 불에 끓이기】 · 【비법 향신료】: 각 30턴 지속, 최대 10중첩.",
+       "en": "Croklein 【Stir-Fry】 · 【Slow Cook】 · 【Secret Spices】: 30 turns each, up to 10 stacks.",
+       "ja": "クロックライン【強火炒め】・【弱火煮込み】・【秘伝スパイス】：各30ターン持続、最大10層。",
+       "zh": "庫克萊恩【大火快炒】・【小火慢燉】・【祕法香料】：各持續30回合，最多10層。",
+       "zhs": "库克莱恩【大火快炒】・【小火慢炖】・【秘法香料】：各持续30回合，最多10层。"
+      },
+      {
+       "kr": "루테닉스: 보통 공격 시 50% 확률로 기초 ATK +15%(3턴, 최대 2중첩), 아군 보통 공격 시 50% 확률로 기초 ATK +12%(2턴, 최대 4중첩).",
+       "en": "Rutenix: 50% chance on Basic Attack for base ATK +15% (3 turns, max 2 stacks); 50% chance on an ally's Basic Attack for base ATK +12% (2 turns, max 4 stacks).",
+       "ja": "ラトニックス：通常攻撃時に50%の確率で基礎ATK +15%（3ターン、最大2層）、味方の通常攻撃時に50%の確率で基礎ATK +12%（2ターン、最大4層）。",
+       "zh": "魯特尼希：普通攻擊時50%機率基礎ATK +15%（3回合，最多2層），隊友普通攻擊時50%機率基礎ATK +12%（2回合，最多4層）。",
+       "zhs": "鲁特尼希：普通攻击时50%机率基础ATK +15%（3回合，最多2层），队友普通攻击时50%机率基础ATK +12%（2回合，最多4层）。"
+      },
+      {
+       "kr": "중첩이 가득 찬 상태에서 새로 얻으면 가장 오래된 중첩 하나만 교체됩니다. 이전에는 전체 지속 시간이 초기화돼 영구히 남았습니다.",
+       "en": "Gaining a stack while full now replaces only the oldest stack. Previously every duration was reset, so they lasted forever.",
+       "ja": "層が上限の状態で新たに獲得すると、最も古い層1つだけが置き換わります。以前は全体の持続時間がリセットされ、永久に残っていました。",
+       "zh": "層數已滿時再獲得，只會替換最舊的一層。先前會重置全部持續時間而永久保留。",
+       "zhs": "层数已满时再获得，只会替换最旧的一层。先前会重置全部持续时间而永久保留。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.4.3",
+   "date": "2026-08-03",
+   "highlight": false,
+   "title": {
+    "kr": "동료 스펙 반영 · 확률 발동 수정",
+    "en": "Companion spec applied · chance trigger fixes",
+    "ja": "仲間のスペック反映 · 確率発動の修正",
+    "zh": "套用夥伴規格 · 機率發動修正",
+    "zhs": "套用伙伴规格 · 机率发动修正"
+   },
+   "items": [
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "설정한 동료 스펙이 결과에 반영되지 않던 문제가 수정되었습니다.",
+      "en": "Fixed the companion spec you set not being reflected in the result.",
+      "ja": "設定した仲間のスペックが結果に反映されない問題を修正しました。",
+      "zh": "修正所設定的夥伴規格未反映到結果的問題。",
+      "zhs": "修正所设定的伙伴规格未反映到结果的问题。"
+     },
+     "details": [
+      {
+       "kr": "패널의 ATK · HP 숫자는 정확했지만 실행 요청에 스펙이 빠져 있어 최대 육성 기준으로 계산되었습니다.",
+       "en": "The ATK · HP numbers in the panel were correct, but the spec was missing from the run request, so the calculation used full growth.",
+       "ja": "パネルのATK・HPの数値は正確でしたが、実行リクエストにスペックが含まれておらず、フル育成基準で計算されていました。",
+       "zh": "面板上的ATK・HP數值正確，但執行請求遺漏了規格，因此以滿培養為準計算。",
+       "zhs": "面板上的ATK・HP数值正确，但执行请求遗漏了规格，因此以满培养为准计算。"
+      },
+      {
+       "kr": "예: 스타 0 · Lv30으로 설정하면 총 데미지가 최대 육성 대비 42.3%로 내려갑니다(수정 전에는 같았습니다).",
+       "en": "Example: at Star 0 · Lv30, total damage drops to 42.3% of full growth (before the fix it was the same).",
+       "ja": "例：スター0・Lv30に設定すると、総ダメージがフル育成比42.3%まで下がります（修正前は同じでした）。",
+       "zh": "例：設定為星級0・Lv30時，總傷害降至滿培養的42.3%（修正前則相同）。",
+       "zhs": "例：设定为星级0・Lv30时，总伤害降至满培养的42.3%（修正前则相同）。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "chars": [
+      10427,
+      10408
+     ],
+     "text": {
+      "kr": "던컨의 추가 발동이 필살기에서도 발동하던 문제와 탐랑의 수면 적용이 수정되었습니다.",
+      "en": "Fixed Duncan's extra trigger also firing on EX Skills, and Covetous Wolf's Sleep application.",
+      "ja": "ダンカンの追加発動が必殺技でも発動していた問題と、貪狼の睡眠の適用を修正しました。",
+      "zh": "修正鄧肯的追加發動在必殺技上也會發動的問題，以及貪狼的睡眠套用。",
+      "zhs": "修正邓肯的追加发动在必杀技上也会发动的问题，以及贪狼的睡眠套用。"
+     },
+     "details": [
+      {
+       "kr": "던컨: 보통 공격 시 아군 전체 ATK +16%(2턴), 50% 확률로 ATK +32%(2턴) 추가 발동 — 필살기에서는 발동하지 않습니다.",
+       "en": "Duncan: Basic Attack grants all allies ATK +16% (2 turns), with a 50% chance to also trigger ATK +32% (2 turns) — it doesn't trigger on EX Skills.",
+       "ja": "ダンカン：通常攻撃時に味方全体のATK +16%（2ターン）、50%の確率でATK +32%（2ターン）が追加発動 — 必殺技では発動しません。",
+       "zh": "鄧肯：普通攻擊時我方全體ATK +16%（2回合），並有50%機率追加發動ATK +32%（2回合） — 必殺技不會發動。",
+       "zhs": "邓肯：普通攻击时我方全体ATK +16%（2回合），并有50%机率追加发动ATK +32%（2回合） — 必杀技不会发动。"
+      },
+      {
+       "kr": "탐랑 필살기: 적 전체에 40% 확률로 수면(2턴). ‘확률 효과 항상 발동’에서는 반드시 걸립니다.",
+       "en": "Covetous Wolf EX Skill: 40% chance to Sleep all enemies (2 turns). With ‘Always trigger chance effects’ it always lands.",
+       "ja": "貪狼の必殺技：敵全体に40%の確率で睡眠（2ターン）。「確率効果を常に発動」では必ずかかります。",
+       "zh": "貪狼必殺技：對敵方全體40%機率施加睡眠（2回合）。「機率效果必定觸發」時必定生效。",
+       "zhs": "贪狼必杀技：对敌方全体40%机率施加睡眠（2回合）。「机率效果必定触发」时必定生效。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.4.2",
+   "date": "2026-08-02",
+   "highlight": false,
+   "title": {
+    "kr": "동료 스펙 · 행동 설정 번역",
+    "en": "Companion spec · action settings translated",
+    "ja": "仲間のスペック · 行動設定の翻訳",
+    "zh": "夥伴規格 · 行動設定翻譯",
+    "zhs": "伙伴规格 · 行动设定翻译"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "동료 스펙 설정과 행동 고급 설정이 영어 · 중국어(번체/간체) · 일본어로 번역되었습니다.",
+      "en": "Companion spec settings and Advanced Action Setup are now translated into English · Chinese (Traditional/Simplified) · Japanese.",
+      "ja": "仲間のスペック設定と行動詳細設定を英語・中国語（繁体字／簡体字）・日本語に翻訳しました。",
+      "zh": "夥伴規格設定與行動進階設定已翻譯為英文・中文（繁體／簡體）・日文。",
+      "zhs": "伙伴规格设定与行动进阶设定已翻译为英文・中文（繁体／简体）・日文。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.4.1",
+   "date": "2026-08-01",
+   "highlight": true,
+   "title": {
+    "kr": "동료 스펙 설정 · 행동 고급 설정",
+    "en": "Companion spec settings · Advanced Action Setup",
+    "ja": "仲間のスペック設定 · 行動詳細設定",
+    "zh": "夥伴規格設定 · 行動進階設定",
+    "zhs": "伙伴规格设定 · 行动进阶设定"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "동료 스펙 설정이 추가되었습니다.",
+      "en": "Added companion spec settings.",
+      "ja": "仲間のスペック設定を追加しました。",
+      "zh": "新增夥伴規格設定。",
+      "zhs": "新增伙伴规格设定。"
+     },
+     "details": [
+      {
+       "kr": "동료마다 스타 1~5 · 진화 단계 · 레벨 1~60 · 적합도 1~5 · 스킬 8종 레벨을 지정합니다.",
+       "en": "Set Star 1–5 · Evolution Phase · Level 1–60 · Compatibility 1–5 · levels for all 8 skills per companion.",
+       "ja": "仲間ごとにスター1〜5・進化段階・レベル1〜60・適合度1〜5・8種類のスキルレベルを指定します。",
+       "zh": "可為每名夥伴指定星級1~5・進化階段・等級1~60・適合度1~5・8種技能等級。",
+       "zhs": "可为每名伙伴指定星级1~5・进化阶段・等级1~60・适合度1~5・8种技能等级。"
+      },
+      {
+       "kr": "끄면 최대 육성(레벨 60 · 스타 5 · 적합도 5 · 스킬 레벨 10 · 도장 잠금해제) 기준으로 계산합니다.",
+       "en": "When off, everything is calculated at full growth (Level 60 · Star 5 · Compatibility 5 · skill level 10 · Sigil unlocked).",
+       "ja": "オフの場合はフル育成（レベル60・スター5・適合度5・スキルレベル10・刻印解放）を基準に計算します。",
+       "zh": "關閉時以滿培養（等級60・星級5・適合度5・技能等級10・印章解鎖）為準計算。",
+       "zhs": "关闭时以满培养（等级60・星级5・适合度5・技能等级10・印章解锁）为准计算。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "행동 고급 설정이 추가되었습니다.",
+      "en": "Added Advanced Action Setup.",
+      "ja": "行動詳細設定を追加しました。",
+      "zh": "新增行動進階設定。",
+      "zhs": "新增行动进阶设定。"
+     },
+     "details": [
+      {
+       "kr": "턴마다 누가 무엇을 할지 직접 정할 수 있습니다.",
+       "en": "Decide yourself who does what on every turn.",
+       "ja": "ターンごとに誰が何をするかを自分で決められます。",
+       "zh": "可自行決定每回合由誰做什麼。",
+       "zhs": "可自行决定每回合由谁做什么。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "공유 코드가 개선되었습니다.",
+      "en": "Improved share codes.",
+      "ja": "共有コードを改善しました。",
+      "zh": "改善分享碼。",
+      "zhs": "改善分享码。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.4",
+   "date": "2026-07-30",
+   "highlight": true,
+   "char": 10439,
+   "charName": {
+    "kr": "욱영"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘욱영’ 추가",
+    "en": "New companion ‘Xuying’",
+    "ja": "新しい仲間「旭影」を追加",
+    "zh": "新增夥伴「旭影」",
+    "zhs": "新增伙伴「旭影」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘욱영’이 추가되었습니다. 양옆에 선 아군을 대상으로 하는 효과를 씁니다.",
+      "en": "Added new companion ‘Xuying’ — uses effects that target the allies standing on either side.",
+      "ja": "新しい仲間「旭影」を追加しました。両隣に並ぶ味方を対象とする効果を使います。",
+      "zh": "新增夥伴「旭影」。使用以左右兩側隊友為對象的效果。",
+      "zhs": "新增伙伴「旭影」。使用以左右两侧队友为对象的效果。"
+     }
+    },
+    {
+     "cat": "balance",
+     "chars": [
+      10410
+     ],
+     "text": {
+      "kr": "욱영의 ‘양옆’ 판정이 팀을 둥글게 잇도록 바뀌고, 임부언과 함께 쓰면 욱영이 필살기를 두 번 쓰는 조합이 반영되었습니다.",
+      "en": "Xuying's ‘either side’ now wraps around the team in a circle, and the combo where Xuying uses the EX Skill twice alongside Boss Ren is applied.",
+      "ja": "旭影の「両隣」判定をチームが輪のようにつながる形に変更し、任富言と組むと旭影が必殺技を2回使う組み合わせを反映しました。",
+      "zh": "旭影的「左右兩側」判定改為隊伍首尾相連，並反映搭配任富言時旭影使用兩次必殺技的組合。",
+      "zhs": "旭影的「左右两侧」判定改为队伍首尾相连，并反映搭配任富言时旭影使用两次必杀技的组合。"
+     }
+    },
+    {
+     "cat": "fix",
+     "chars": [
+      10431,
+      10435,
+      10403,
+      10410
+     ],
+     "text": {
+      "kr": "세숭 · 크로크라인 · 골든라이더 · 임부언의 효과 계산 오류가 수정되었습니다.",
+      "en": "Fixed effect calculation errors for Suichong · Croklein · Golden Ryder · Boss Ren.",
+      "ja": "歳崇・クロックライン・ゴールデンライダー・任富言の効果の計算ミスを修正しました。",
+      "zh": "修正歲崇・庫克萊恩・金鳴連駕・任富言的效果計算錯誤。",
+      "zhs": "修正岁崇・库克莱恩・金鸣连驾・任富言的效果计算错误。"
+     },
+     "details": [
+      {
+       "kr": "크로크라인: 【센 불에 볶기】 · 【약한 불에 끓이기】 · 【비법 향신료】가 하나로 묶여, 각각 4 · 4 · 3중첩부터 열리는 필살기 효과가 발동하지 않았습니다. 세 종류를 따로 셉니다.",
+       "en": "Croklein: 【Stir-Fry】 · 【Slow Cook】 · 【Secret Spices】 were counted as one, so the EX Skill effects unlocking at 4 · 4 · 3 stacks never triggered. The three are now counted separately.",
+       "ja": "クロックライン：【強火炒め】・【弱火煮込み】・【秘伝スパイス】が1つにまとめられ、それぞれ4・4・3層から開く必殺技効果が発動していませんでした。3種類を個別に数えます。",
+       "zh": "庫克萊恩：【大火快炒】・【小火慢燉】・【祕法香料】被合併計算，導致分別於4・4・3層開啟的必殺技效果未發動。現已分開計算三種。",
+       "zhs": "库克莱恩：【大火快炒】・【小火慢炖】・【秘法香料】被合并计算，导致分别于4・4・3层开启的必杀技效果未发动。现已分开计算三种。"
+      },
+      {
+       "kr": "세숭: 방어로 얻는 ‘주는 데미지 +15%(5턴, 최대 2중첩)’가 필살기를 써도 사라지지 않던 문제를 수정했습니다.",
+       "en": "Suichong: fixed ‘damage dealt +15% (5 turns, max 2 stacks)’ gained from Defend not being removed when using the EX Skill.",
+       "ja": "歳崇：防御で得る「与ダメージ +15%（5ターン、最大2層）」が必殺技を使っても消えなかった問題を修正しました。",
+       "zh": "歲崇：修正透過防禦獲得的「造成傷害 +15%（5回合，最多2層）」使用必殺技後也不會消失的問題。",
+       "zhs": "岁崇：修正透过防御获得的「造成伤害 +15%（5回合，最多2层）」使用必杀技后也不会消失的问题。"
+      },
+      {
+       "kr": "골든라이더: 【열화질보】(보통 공격 데미지 +10%, 최대 6중첩)의 중첩당 2턴 지속이 무시돼 영구히 남았습니다. 이제 중첩마다 2턴 뒤 사라집니다.",
+       "en": "Golden Ryder: the 2-turn duration per stack of 【Blazing Stride】 (Basic Attack damage +10%, max 6 stacks) was ignored, so it lasted forever. Each stack now expires after 2 turns.",
+       "ja": "ゴールデンライダー：【烈火疾走】（通常攻撃ダメージ +10%、最大6層）の層ごとの2ターン持続が無視され、永久に残っていました。現在は層ごとに2ターン後に消えます。",
+       "zh": "金鳴連駕：【烈火疾步】（普通攻擊傷害 +10%，最多6層）每層持續2回合的設定被忽略而永久保留。現在每層會在2回合後消失。",
+       "zhs": "金鸣连驾：【烈火疾步】（普通攻击伤害 +10%，最多6层）每层持续2回合的设定被忽略而永久保留。现在每层会在2回合后消失。"
+      },
+      {
+       "kr": "임부언: 버프가 모두 ‘포지션 1 아군’을 향하므로 본인이 1번 자리에 서면 대상이 어긋납니다. 1번 배치를 막고, 행동 순서 표시도 실제 계산과 맞췄습니다.",
+       "en": "Boss Ren: all his buffs target the ‘ally in slot 1’, so placing him in slot 1 broke the target. Slot 1 is now blocked, and the action order display matches the actual calculation.",
+       "ja": "任富言：バフがすべて「ポジション1の味方」を対象とするため、本人が1番の位置に立つと対象がずれます。1番への配置を禁止し、行動順の表示も実際の計算と一致させました。",
+       "zh": "任富言：增益全部指向「位置1的隊友」，本人站在1號位時對象會錯亂。現已禁止配置於1號位，行動順序顯示也與實際計算一致。",
+       "zhs": "任富言：增益全部指向「位置1的队友」，本人站在1号位时对象会错乱。现已禁止配置于1号位，行动顺序显示也与实际计算一致。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "양옆 아군이 받은 추가 행동 때문에 이후 행동 계획이 밀리던 문제가 수정되었습니다.",
+      "en": "Fixed extra actions received by adjacent allies pushing back later action plans.",
+      "ja": "両隣の味方が受けた追加行動によって、その後の行動計画がずれる問題を修正しました。",
+      "zh": "修正左右隊友獲得的追加行動導致之後的行動計畫往後推的問題。",
+      "zhs": "修正左右队友获得的追加行动导致之后的行动计划往后推的问题。"
+     },
+     "details": [
+      {
+       "kr": "예: 방어 뒤 필살기를 쓰도록 계획한 파미도가 옆의 욱영에게 추가 행동을 받으면 계획이 한 칸씩 밀려, 필살기를 쓸 턴에 방어를 했습니다.",
+       "en": "Example: Famido planned to Defend then use the EX Skill received an extra action from Xuying next to him, shifting the plan by one, so he defended on the turn he should have used the EX Skill.",
+       "ja": "例：防御の後に必殺技を使うよう計画したファミドが、隣の旭影から追加行動を受けると計画が1マスずつずれ、必殺技を使うターンに防御していました。",
+       "zh": "例：計畫防禦後使用必殺技的法米多，從身旁的旭影獲得追加行動時，計畫會逐格往後推，在該使用必殺技的回合改為防禦。",
+       "zhs": "例：计划防御后使用必杀技的法米多，从身旁的旭影获得追加行动时，计划会逐格往后推，在该使用必杀技的回合改为防御。"
+      },
+      {
+       "kr": "이제 계획을 정해 둔 동료가 받는 추가 행동은 계획을 소비하지 않고 보통 공격으로 처리합니다.",
+       "en": "Extra actions received by a companion with a set plan now don't consume the plan and are handled as Basic Attacks.",
+       "ja": "現在は、計画を決めた仲間が受ける追加行動は計画を消費せず、通常攻撃として処理します。",
+       "zh": "現在已設定計畫的夥伴所獲得的追加行動，不會消耗計畫，而是以普通攻擊處理。",
+       "zhs": "现在已设定计划的伙伴所获得的追加行动，不会消耗计划，而是以普通攻击处理。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.3.1",
+   "date": "2026-07-19",
+   "highlight": false,
+   "title": {
+    "kr": "투명인간 얼굴 아이콘 교체",
+    "en": "Invisible Man face icon replaced",
+    "ja": "透明人間の顔アイコンを差し替え",
+    "zh": "更換透明人頭像圖示",
+    "zhs": "更换透明人头像图示"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "chars": [
+      10437
+     ],
+     "text": {
+      "kr": "투명인간의 얼굴 아이콘이 교체되었습니다.",
+      "en": "Replaced Invisible Man's face icon.",
+      "ja": "透明人間の顔アイコンを差し替えました。",
+      "zh": "更換了透明人的頭像圖示。",
+      "zhs": "更换了透明人的头像图示。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.3",
+   "date": "2026-07-16",
+   "highlight": true,
+   "char": 10437,
+   "charName": {
+    "kr": "투명인간"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘투명인간’ 추가",
+    "en": "New companion ‘Invisible Man’",
+    "ja": "新しい仲間「透明人間」を追加",
+    "zh": "新增夥伴「透明人」",
+    "zhs": "新增伙伴「透明人」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘투명인간’이 추가되었습니다. 적에게 ‘네온 표식’을 쌓아 데미지를 줍니다.",
+      "en": "Added new companion ‘Invisible Man’ — stacks ‘Neon Mark’ on enemies to deal damage.",
+      "ja": "新しい仲間「透明人間」を追加しました。敵に「ネオンマーク」を重ねてダメージを与えます。",
+      "zh": "新增夥伴「透明人」。在敵人身上疊加「霓虹印記」造成傷害。",
+      "zhs": "新增伙伴「透明人」。在敌人身上叠加「霓虹印记」造成伤害。"
+     }
+    },
+    {
+     "cat": "fix",
+     "chars": [
+      10436
+     ],
+     "text": {
+      "kr": "모이루의 쿨타임 계산 오류가 수정되었습니다.",
+      "en": "Fixed Moyru's cooldown calculation error.",
+      "ja": "モイルのクールタイム計算のミスを修正しました。",
+      "zh": "修正莫伊魯的冷卻計算錯誤。",
+      "zhs": "修正莫伊鲁的冷却计算错误。"
+     },
+     "details": [
+      {
+       "kr": "모이루의 필살기 CD는 6턴입니다. 쿨타임을 잘못 세어 필살기를 쓸 수 있는 턴이 어긋나던 문제를 수정했습니다.",
+       "en": "Moyru's EX Skill CD is 6 turns. Fixed the cooldown being counted wrong, which shifted the turns the EX Skill could be used.",
+       "ja": "モイルの必殺技のCDは6ターンです。クールタイムの数え方が誤っており、必殺技を使えるターンがずれていた問題を修正しました。",
+       "zh": "莫伊魯的必殺技CD為6回合。修正冷卻計算錯誤，導致可使用必殺技的回合偏移的問題。",
+       "zhs": "莫伊鲁的必杀技CD为6回合。修正冷却计算错误，导致可使用必杀技的回合偏移的问题。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.2.1",
+   "date": "2026-07-06",
+   "highlight": false,
+   "title": {
+    "kr": "배리어 표시 · 수면 · 확률 발동",
+    "en": "Barrier display · Sleep · chance triggers",
+    "ja": "バリア表示 · 睡眠 · 確率発動",
+    "zh": "護盾顯示 · 睡眠 · 機率發動",
+    "zhs": "护盾显示 · 睡眠 · 机率发动"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "배리어가 늘어난 이유(받는 배리어 +24% 등)를 눌러서 확인할 수 있습니다.",
+      "en": "You can click to see why a barrier grew (barrier received +24%, etc.).",
+      "ja": "バリアが増えた理由（被バリア +24% など）をタップして確認できるようになりました。",
+      "zh": "可點擊查看護盾增加的原因（受到護盾 +24%等）。",
+      "zhs": "可点击查看护盾增加的原因（受到护盾 +24%等）。"
+     }
+    },
+    {
+     "cat": "new",
+     "chars": [
+      10408
+     ],
+     "text": {
+      "kr": "탐랑의 수면 상태가 계산에 반영되었습니다.",
+      "en": "Covetous Wolf's Sleep is now included in the calculation.",
+      "ja": "貪狼の睡眠状態を計算に反映しました。",
+      "zh": "貪狼的睡眠狀態已納入計算。",
+      "zhs": "贪狼的睡眠状态已纳入计算。"
+     }
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "확률 효과를 실행할 때마다 새로 추첨합니다.",
+      "en": "Chance effects are now rolled fresh on every run.",
+      "ja": "確率効果を実行のたびに新たに抽選するようにしました。",
+      "zh": "機率效果改為每次執行時重新抽選。",
+      "zhs": "机率效果改为每次执行时重新抽选。"
+     },
+     "details": [
+      {
+       "kr": "같은 설정이어도 실행마다 다른 흐름이 나올 수 있습니다.",
+       "en": "Even with the same settings, each run can play out differently.",
+       "ja": "同じ設定でも、実行ごとに異なる流れになることがあります。",
+       "zh": "即使設定相同，每次執行也可能出現不同的流程。",
+       "zhs": "即使设定相同，每次执行也可能出现不同的流程。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "chars": [
+      10419
+     ],
+     "text": {
+      "kr": "오렘의 패시브 1 배리어가 잘못 적용되던 문제가 수정되었습니다.",
+      "en": "Fixed Orem's Passive 1 barrier being applied incorrectly.",
+      "ja": "オレムのパッシブ1のバリアが誤って適用される問題を修正しました。",
+      "zh": "修正奧雷姆的被動1護盾套用錯誤的問題。",
+      "zhs": "修正奥雷姆的被动1护盾套用错误的问题。"
+     },
+     "details": [
+      {
+       "kr": "오렘 패시브 1: 자신 최대 HP의 20%(도장 잠금해제 시 25%)만큼 아군 전체에 배리어(2턴).",
+       "en": "Orem Passive 1: grants all allies a barrier worth 20% of his Max HP (25% with Sigil unlocked) (2 turns).",
+       "ja": "オレムのパッシブ1：自身の最大HPの20%（刻印解放時25%）分のバリアを味方全体に付与（2ターン）。",
+       "zh": "奧雷姆被動1：以自身最大HP的20%（印章解鎖時25%）為我方全體提供護盾（2回合）。",
+       "zhs": "奥雷姆被动1：以自身最大HP的20%（印章解锁时25%）为我方全体提供护盾（2回合）。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.2",
+   "date": "2026-07-02",
+   "highlight": true,
+   "char": 10438,
+   "charName": {
+    "kr": "다라완"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘다라완’ 추가",
+    "en": "New companion ‘Dallawan’",
+    "ja": "新しい仲間「ダラワン」を追加",
+    "zh": "新增夥伴「達拉萬」",
+    "zhs": "新增伙伴「达拉万」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘다라완’이 추가되었습니다. 아군에게 배리어를 씌우고 받는 데미지를 줄여 줍니다.",
+      "en": "Added new companion ‘Dallawan’ — grants allies barriers and reduces the damage they take.",
+      "ja": "新しい仲間「ダラワン」を追加しました。味方にバリアを付与し、被ダメージを軽減します。",
+      "zh": "新增夥伴「達拉萬」。為隊友提供護盾並降低受到的傷害。",
+      "zhs": "新增伙伴「达拉万」。为队友提供护盾并降低受到的伤害。"
+     }
+    },
+    {
+     "cat": "balance",
+     "text": {
+      "kr": "다라완의 패시브 4와, 조롱이 여럿일 때 적의 공격이 몰리는 처리가 반영되었습니다.",
+      "en": "Applied Dallawan's Passive 4, and how enemy attacks concentrate when several taunts are active.",
+      "ja": "ダラワンのパッシブ4と、ターゲット集中が複数あるときに敵の攻撃が集中する処理を反映しました。",
+      "zh": "反映達拉萬的被動4，以及存在多個嘲諷時敵方攻擊集中的處理。",
+      "zhs": "反映达拉万的被动4，以及存在多个嘲讽时敌方攻击集中的处理。"
+     },
+     "details": [
+      {
+       "kr": "패시브 4: 치료를 받을 때 자신이 받는 배리어 효과 +24%(2턴), 필살기 시 최대 HP 30%만큼 배리어(1턴).",
+       "en": "Passive 4: when receiving healing, own barrier received +24% (2 turns); on EX Skill, a barrier worth 30% of Max HP (1 turn).",
+       "ja": "パッシブ4：治療を受けると自身の被バリア効果 +24%（2ターン）、必殺技時に最大HPの30%分のバリア（1ターン）。",
+       "zh": "被動4：受到治療時自身受到護盾效果 +24%（2回合），必殺技時以最大HP 30%提供護盾（1回合）。",
+       "zhs": "被动4：受到治疗时自身受到护盾效果 +24%（2回合），必杀技时以最大HP 30%提供护盾（1回合）。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "chars": [
+      10423
+     ],
+     "text": {
+      "kr": "이태호의 오봉만상을 줄 대상을 턴마다 정할 수 있고, 공유 코드가 더 짧아졌습니다.",
+      "en": "You can now choose per turn who receives Lee Taeho's Five-Peak Myriad, and share codes are shorter.",
+      "ja": "イ・テホの五峰万象を付与する対象をターンごとに選べるようになり、共有コードがさらに短くなりました。",
+      "zh": "可逐回合指定李泰虎的五峰萬象要給予的對象，分享碼也更短了。",
+      "zhs": "可逐回合指定李泰虎的五峰万象要给予的对象，分享码也更短了。"
+     },
+     "details": [
+      {
+       "kr": "오봉만상: 아군 전체에 1중첩씩(5턴, 최대 6중첩). 2 · 4 · 6중첩에서 반격 데미지가 각각 ATK 50% · 40% · 30%.",
+       "en": "Five-Peak Myriad: 1 stack to all allies (5 turns, max 6 stacks). At 2 · 4 · 6 stacks, counter damage is 50% · 40% · 30% ATK respectively.",
+       "ja": "五峰万象：味方全体に1層ずつ（5ターン、最大6層）。2・4・6層で反撃ダメージがそれぞれATK 50%・40%・30%。",
+       "zh": "五峰萬象：我方全體各1層（5回合，最多6層）。2・4・6層時反擊傷害分別為ATK 50%・40%・30%。",
+       "zhs": "五峰万象：我方全体各1层（5回合，最多6层）。2・4・6层时反击伤害分别为ATK 50%・40%・30%。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.1.9",
+   "date": "2026-06-27",
+   "highlight": false,
+   "title": {
+    "kr": "업데이트 알림 · 턴 설정 수정",
+    "en": "Update notice · turn setting fix",
+    "ja": "更新通知 · ターン設定の修正",
+    "zh": "更新通知 · 回合設定修正",
+    "zhs": "更新通知 · 回合设定修正"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "새 버전이 올라오면 알림에서 바로 새로 고칠 수 있고, 이전 화면을 보고 있으면 알려 줍니다.",
+      "en": "When a new version is out you can refresh straight from the notice, and you're told if you're viewing an outdated page.",
+      "ja": "新しいバージョンが公開されると通知からすぐに更新でき、古い画面を見ている場合はお知らせします。",
+      "zh": "有新版本時可直接從通知重新整理，正在瀏覽舊畫面時也會提示。",
+      "zhs": "有新版本时可直接从通知重新整理，正在浏览旧画面时也会提示。"
+     }
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "‘특정 턴만 다르게’를 해제해도 완전히 꺼지지 않던 문제가 수정되었습니다.",
+      "en": "Fixed ‘Per-turn override’ not turning off completely when cleared.",
+      "ja": "「特定ターンだけ変更」を解除しても完全にオフにならない問題を修正しました。",
+      "zh": "修正解除「指定回合不同」後仍未完全關閉的問題。",
+      "zhs": "修正解除「指定回合不同」后仍未完全关闭的问题。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.1.8",
+   "date": "2026-06-24",
+   "highlight": false,
+   "title": {
+    "kr": "파미도 방어 · 추가 행동 선택",
+    "en": "Famido Defend · extra action choice",
+    "ja": "ファミドの防御 · 追加行動の選択",
+    "zh": "法米多防禦 · 追加行動選擇",
+    "zhs": "法米多防御 · 追加行动选择"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "chars": [
+      10421,
+      10423,
+      10410
+     ],
+     "text": {
+      "kr": "파미도의 패시브 방어를 켜고 끌 수 있고, 이태호 · 임부언이 얻는 추가 행동으로 무엇을 할지 고를 수 있습니다.",
+      "en": "Famido's passive Defend can be toggled on and off, and you can choose what Lee Taeho · Boss Ren do with the extra actions they gain.",
+      "ja": "ファミドのパッシブ防御をオン・オフでき、イ・テホ・任富言が得る追加行動で何をするかを選べるようになりました。",
+      "zh": "可開關法米多的被動防禦，並可選擇李泰虎・任富言獲得的追加行動要做什麼。",
+      "zhs": "可开关法米多的被动防御，并可选择李泰虎・任富言获得的追加行动要做什么。"
+     },
+     "details": [
+      {
+       "kr": "파미도는 방어할 때 기초 ATK +30%(2턴) — 데미지를 포기하고 방어를 넣는 쪽이 이득인지 켜고 끄며 비교할 수 있습니다.",
+       "en": "Famido gains base ATK +30% when defending (2 turns) — toggle it to compare whether giving up damage to Defend is worth it.",
+       "ja": "ファミドは防御時に基礎ATK +30%（2ターン） — ダメージを捨てて防御を挟むほうが得かを、オン・オフして比較できます。",
+       "zh": "法米多防禦時基礎ATK +30%（2回合） — 可開關比較放棄傷害改為防禦是否更划算。",
+       "zhs": "法米多防御时基础ATK +30%（2回合） — 可开关比较放弃伤害改为防御是否更划算。"
+      },
+      {
+       "kr": "임부언은 포지션 1 아군에게 공격 시 기초 ATK의 22.5%(50% 확률로 36%)를 더해 줍니다. 이때 얻는 추가 행동을 보통 공격으로 쓸지 필살기로 쓸지 고를 수 있습니다.",
+       "en": "Boss Ren gives the slot 1 ally 22.5% of his base ATK on attack (36% at a 50% chance). You can choose whether the extra action gained then is a Basic Attack or an EX Skill.",
+       "ja": "任富言はポジション1の味方に、攻撃時に基礎ATKの22.5%（50%の確率で36%）を加算します。このとき得る追加行動を通常攻撃に使うか必殺技に使うかを選べます。",
+       "zh": "任富言攻擊時為位置1的隊友增加基礎ATK的22.5%（50%機率為36%）。可選擇此時獲得的追加行動要用普通攻擊還是必殺技。",
+       "zhs": "任富言攻击时为位置1的队友增加基础ATK的22.5%（50%机率为36%）。可选择此时获得的追加行动要用普通攻击还是必杀技。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.1.7",
+   "date": "2026-06-23",
+   "highlight": false,
+   "title": {
+    "kr": "모바일 세로 화면",
+    "en": "Mobile portrait screen",
+    "ja": "モバイル縦画面",
+    "zh": "行動裝置直向畫面",
+    "zhs": "行动装置直向画面"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "휴대폰 세로 화면 전용 배치가 적용되었습니다.",
+      "en": "Applied a layout made for phone portrait screens.",
+      "ja": "スマートフォンの縦画面専用レイアウトを適用しました。",
+      "zh": "套用手機直向畫面專用版面。",
+      "zhs": "套用手机直向画面专用版面。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.1.6",
+   "date": "2026-06-22",
+   "highlight": false,
+   "char": 10426,
+   "charName": {
+    "kr": "란"
+   },
+   "skill": true,
+   "title": {
+    "kr": "가이드 · 란 패시브 4",
+    "en": "Guide · Souran Passive 4",
+    "ja": "ガイド · 蒼嵐のパッシブ4",
+    "zh": "指南 · 蒼嵐被動4",
+    "zhs": "指南 · 苍岚被动4"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "시뮬레이터 사용법을 안내하는 가이드가 추가되었습니다.",
+      "en": "Added a guide that explains how to use the simulator.",
+      "ja": "シミュレーターの使い方を案内するガイドを追加しました。",
+      "zh": "新增說明模擬器使用方式的指南。",
+      "zhs": "新增说明模拟器使用方式的指南。"
+     }
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "란의 패시브 4 ‘허물 매미 교전’이 반영되었습니다.",
+      "en": "Applied Souran's Passive 4 ‘Molting Cicada Engagement’.",
+      "ja": "蒼嵐のパッシブ4「蝉の抜け殻交戦」を反映しました。",
+      "zh": "反映蒼嵐的被動4「金蟬脫殼交戰」。",
+      "zhs": "反映苍岚的被动4「金蝉脱壳交战」。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.1.5",
+   "date": "2026-06-22",
+   "highlight": true,
+   "title": {
+    "kr": "다국어 · 피드백",
+    "en": "Languages · feedback",
+    "ja": "多言語 · フィードバック",
+    "zh": "多語系 · 意見回饋",
+    "zhs": "多语系 · 意见回馈"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "한국어 · 영어 · 중국어(번체/간체) · 일본어를 지원합니다.",
+      "en": "Korean · English · Chinese (Traditional/Simplified) · Japanese are supported.",
+      "ja": "韓国語・英語・中国語（繁体字／簡体字）・日本語に対応しました。",
+      "zh": "支援韓文・英文・中文（繁體／簡體）・日文。",
+      "zhs": "支援韩文・英文・中文（繁体／简体）・日文。"
+     }
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "피드백 기능이 추가되었습니다.",
+      "en": "Added a feedback feature.",
+      "ja": "フィードバック機能を追加しました。",
+      "zh": "新增意見回饋功能。",
+      "zhs": "新增意见回馈功能。"
+     }
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "언어를 바꿔도 화면에 바로 반영되지 않던 문제가 수정되었습니다.",
+      "en": "Fixed the screen not updating right away when changing language.",
+      "ja": "言語を変更しても画面にすぐ反映されない問題を修正しました。",
+      "zh": "修正切換語言後畫面未立即反映的問題。",
+      "zhs": "修正切换语言后画面未立即反映的问题。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.1.4",
+   "date": "2026-06-21",
+   "highlight": false,
+   "title": {
+    "kr": "계산 정확도 수정",
+    "en": "Calculation accuracy fixes",
+    "ja": "計算精度の修正",
+    "zh": "計算精確度修正",
+    "zhs": "计算精确度修正"
+   },
+   "items": [
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "조롱이 1턴 더 유지되던 문제가 수정되었습니다.",
+      "en": "Fixed taunt lasting 1 turn too long.",
+      "ja": "ターゲット集中が1ターン長く続いていた問題を修正しました。",
+      "zh": "修正嘲諷多持續1回合的問題。",
+      "zhs": "修正嘲讽多持续1回合的问题。"
+     },
+     "details": [
+      {
+       "kr": "적에게 건 조롱에 1턴을 더하는 보정이 있어, 조롱을 조건으로 하는 효과(리카노의 주는 데미지 +18% 등)가 다음 턴까지 적용되었습니다.",
+       "en": "A correction added 1 turn to taunts on enemies, so taunt-conditioned effects (such as Ricano's damage dealt +18%) applied into the next turn.",
+       "ja": "敵に付与したターゲット集中に1ターン加算する補正があり、ターゲット集中を条件とする効果（リカノの与ダメージ +18% など）が次のターンまで適用されていました。",
+       "zh": "對敵方施加的嘲諷有多加1回合的修正，導致以嘲諷為條件的效果（瑞卡諾的造成傷害 +18%等）延續到下一回合。",
+       "zhs": "对敌方施加的嘲讽有多加1回合的修正，导致以嘲讽为条件的效果（瑞卡诺的造成伤害 +18%等）延续到下一回合。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "상어수탄처럼 중첩과 지속 시간이 섞인 효과의 계산 오류가 수정되었습니다.",
+      "en": "Fixed calculation errors for effects that mix stacks and durations, such as Shark Torpedo.",
+      "ja": "シャーク水弾のように層と持続時間が混在する効果の計算ミスを修正しました。",
+      "zh": "修正鯊魚水彈這類層數與持續時間混合的效果計算錯誤。",
+      "zhs": "修正鲨鱼水弹这类层数与持续时间混合的效果计算错误。"
+     },
+     "details": [
+      {
+       "kr": "포르베어의 상어수탄은 필살기로 얻으면 지속 시간이 있고 보통 공격으로 얻으면 없어, 섞이면 중첩이 3→2→1→0으로 무너졌습니다.",
+       "en": "Paul's Shark Torpedo has a duration when gained from the EX Skill but none from Basic Attacks, so mixing them collapsed the stacks 3→2→1→0.",
+       "ja": "ポラベアのシャーク水弾は必殺技で得ると持続時間があり、通常攻撃で得ると持続時間がないため、混ざると層が3→2→1→0と崩れていました。",
+       "zh": "波勒佩爾的鯊魚水彈由必殺技獲得時有持續時間，由普通攻擊獲得時則無，兩者混合時層數會以3→2→1→0崩壞。",
+       "zhs": "波勒佩尔的鲨鱼水弹由必杀技获得时有持续时间，由普通攻击获得时则无，两者混合时层数会以3→2→1→0崩坏。"
+      },
+      {
+       "kr": "이제 3~4중첩이 유지되어 3중첩 이상에서 열리는 효과가 계속 발동합니다.",
+       "en": "Stacks now hold at 3–4, so effects that unlock at 3+ stacks keep triggering.",
+       "ja": "現在は3〜4層が維持され、3層以上で開く効果が発動し続けます。",
+       "zh": "現在會維持3~4層，3層以上開啟的效果會持續發動。",
+       "zhs": "现在会维持3~4层，3层以上开启的效果会持续发动。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "chars": [
+      10418,
+      10427,
+      10409
+     ],
+     "text": {
+      "kr": "제트블랙의 체력응축, 던컨의 마도집중, 카 라트의 저체력 발동 효과가 수정되었습니다.",
+      "en": "Fixed Jet Black's Energy Charge, Duncan's Arcane Focus, and Capt. Locke's low-HP trigger effects.",
+      "ja": "ジェットブラックの体力凝縮、ダンカンの魔道集中、カアフ・ラットの低HP時の発動効果を修正しました。",
+      "zh": "修正噴射布萊克的體力凝聚、鄧肯的魔道集中、卡‧拉特的低HP發動效果。",
+      "zhs": "修正喷射布莱克的体力凝聚、邓肯的魔道集中、卡‧拉特的低HP发动效果。"
+     },
+     "details": [
+      {
+       "kr": "던컨 마도집중: 필살기마다 1중첩(최대 2, 30턴). 2중첩이면 주는 데미지 +150%, 공격 시 효과 소멸.",
+       "en": "Duncan's Arcane Focus: 1 stack per EX Skill (max 2, 30 turns). At 2 stacks, damage dealt +150%; the effect is removed on attack.",
+       "ja": "ダンカンの魔道集中：必殺技ごとに1層（最大2、30ターン）。2層で与ダメージ +150%、攻撃時に効果が消滅。",
+       "zh": "鄧肯魔道集中：每次必殺技1層（最多2層，30回合）。2層時造成傷害 +150%，攻擊時效果消失。",
+       "zhs": "邓肯魔道集中：每次必杀技1层（最多2层，30回合）。2层时造成伤害 +150%，攻击时效果消失。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.1.3",
+   "date": "2026-06-21",
+   "highlight": false,
+   "title": {
+    "kr": "기록 관리 · 공유 코드 · 업데이트 알림",
+    "en": "Record management · share codes · update notice",
+    "ja": "記録管理 · 共有コード · 更新通知",
+    "zh": "紀錄管理 · 分享碼 · 更新通知",
+    "zhs": "纪录管理 · 分享码 · 更新通知"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "새 버전이 올라오면 보고 있던 화면에 알림이 표시됩니다.",
+      "en": "A notice now appears on the screen you're viewing when a new version is released.",
+      "ja": "新しいバージョンが公開されると、表示中の画面に通知が表示されるようになりました。",
+      "zh": "有新版本時，正在瀏覽的畫面會顯示通知。",
+      "zhs": "有新版本时，正在浏览的画面会显示通知。"
+     }
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "기록 잠금 · 이름 변경 · 상단 고정 · 검색 · 정렬 · 파일 내보내기/가져오기가 추가되었습니다.",
+      "en": "Added record lock · rename · pin to top · search · sort · file export/import.",
+      "ja": "記録のロック・名前の変更・上部固定・検索・並べ替え・ファイルの書き出し／取り込みを追加しました。",
+      "zh": "新增紀錄鎖定・重新命名・置頂・搜尋・排序・檔案匯出／匯入。",
+      "zhs": "新增纪录锁定・重新命名・置顶・搜寻・排序・档案汇出／汇入。"
+     }
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "공유 코드 길이가 크게 줄었습니다.",
+      "en": "Share codes are much shorter.",
+      "ja": "共有コードの長さを大幅に短縮しました。",
+      "zh": "分享碼長度大幅縮短。",
+      "zhs": "分享码长度大幅缩短。"
+     },
+     "details": [
+      {
+       "kr": "압축과 코드 방식 개선으로 이전보다 최대 약 16배 짧아졌습니다.",
+       "en": "Compression and a better encoding make them up to about 16× shorter than before.",
+       "ja": "圧縮とコード方式の改善により、以前より最大約16倍短くなりました。",
+       "zh": "透過壓縮與編碼方式改善，最多比先前縮短約16倍。",
+       "zhs": "透过压缩与编码方式改善，最多比先前缩短约16倍。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "비교 창을 옮길 때와 기록이 없을 때 선택이 어긋나던 문제가 수정되었습니다.",
+      "en": "Fixed the selection getting out of sync when moving the comparison window and when there are no records.",
+      "ja": "比較ウィンドウを移動したときと記録がないときに、選択がずれる問題を修正しました。",
+      "zh": "修正移動比較視窗時與沒有紀錄時選取錯位的問題。",
+      "zhs": "修正移动比较视窗时与没有纪录时选取错位的问题。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.1.2",
+   "date": "2026-06-21",
+   "highlight": true,
+   "title": {
+    "kr": "팀 비교",
+    "en": "Team Comparison",
+    "ja": "チーム比較",
+    "zh": "隊伍比較",
+    "zhs": "队伍比较"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "팀 비교가 추가되었습니다.",
+      "en": "Added Team Comparison.",
+      "ja": "チーム比較を追加しました。",
+      "zh": "新增隊伍比較。",
+      "zhs": "新增队伍比较。"
+     },
+     "details": [
+      {
+       "kr": "저장한 두 기록을 동료별로 나란히 놓고 비교합니다.",
+       "en": "Put two saved records side by side and compare them companion by companion.",
+       "ja": "保存した2つの記録を仲間ごとに並べて比較します。",
+       "zh": "將兩筆已儲存的紀錄依夥伴並排比較。",
+       "zhs": "将两笔已储存的纪录依伙伴并排比较。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.1.1",
+   "date": "2026-06-20",
+   "highlight": false,
+   "title": {
+    "kr": "지속 효과 · 발동 순서 · 전체 공격",
+    "en": "Lasting effects · trigger order · full attack",
+    "ja": "継続効果 · 発動順序 · 全体攻撃",
+    "zh": "持續效果 · 發動順序 · 全體攻擊",
+    "zhs": "持续效果 · 发动顺序 · 全体攻击"
+   },
+   "items": [
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "오봉만상처럼 여러 번 쌓이는 효과가 사라지지 않던 문제가 수정되었습니다.",
+      "en": "Fixed effects that stack several times, such as Five-Peak Myriad, never wearing off.",
+      "ja": "五峰万象のように複数回重なる効果が消えない問題を修正しました。",
+      "zh": "修正五峰萬象這類可多次疊加的效果不會消失的問題。",
+      "zhs": "修正五峰万象这类可多次叠加的效果不会消失的问题。"
+     },
+     "details": [
+      {
+       "kr": "오봉만상(5턴 지속, 최대 6중첩)은 이제 중첩마다 따로 시간이 흘러 순서대로 사라집니다.",
+       "en": "Five-Peak Myriad (5 turns, max 6 stacks) now runs a separate timer per stack and expires in order.",
+       "ja": "五峰万象（5ターン持続、最大6層）は、層ごとに個別に時間が進み、順番に消えるようになりました。",
+       "zh": "五峰萬象（持續5回合，最多6層）現在每層各自計時並依序消失。",
+       "zhs": "五峰万象（持续5回合，最多6层）现在每层各自计时并依序消失。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "발동 스킬 효과의 적용 순서와 적 전체 공격의 데미지 계산을 게임과 같게 맞췄습니다.",
+      "en": "Matched the order in which triggered skill effects apply, and the damage calculation of enemy full attacks, to the game.",
+      "ja": "発動スキル効果の適用順序と、敵全体攻撃のダメージ計算をゲームと同じに合わせました。",
+      "zh": "將觸發技效果的套用順序與敵方全體攻擊的傷害計算調整為與遊戲一致。",
+      "zhs": "将触发技效果的套用顺序与敌方全体攻击的伤害计算调整为与游戏一致。"
+     }
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "적 공격에 전체 공격 옵션이 추가되었습니다.",
+      "en": "Added a full-attack option for enemy attacks.",
+      "ja": "敵の攻撃に全体攻撃オプションを追加しました。",
+      "zh": "敵方攻擊新增全體攻擊選項。",
+      "zhs": "敌方攻击新增全体攻击选项。"
+     },
+     "details": [
+      {
+       "kr": "아군 전체가 한 번에 맞습니다.",
+       "en": "All allies are hit at once.",
+       "ja": "味方全員が一度に攻撃を受けます。",
+       "zh": "我方全體同時受擊。",
+       "zhs": "我方全体同时受击。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.1",
+   "date": "2026-06-19",
+   "highlight": true,
+   "char": 10303,
+   "charName": {
+    "kr": "최유희"
+   },
+   "skill": true,
+   "title": {
+    "kr": "최유희(XL) 추가",
+    "en": "Choi Yuhee (XL) added",
+    "ja": "チェ・ユヒ（XL）を追加",
+    "zh": "新增崔鼬熙（XL）",
+    "zhs": "新增崔鼬熙（XL）"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "‘최유희’가 추가되었습니다.",
+      "en": "Added ‘Choi Yuhee’.",
+      "ja": "「チェ・ユヒ」を追加しました。",
+      "zh": "新增「崔鼬熙」。",
+      "zhs": "新增「崔鼬熙」。"
+     },
+     "details": [
+      {
+       "kr": "중독된 적에게만 발동하는 효과와 방어 시 1회 반격 효과가 반영되었습니다.",
+       "en": "Effects that trigger only on poisoned enemies and a one-time counter on Defend are applied.",
+       "ja": "毒状態の敵にのみ発動する効果と、防御時に1回反撃する効果を反映しました。",
+       "zh": "反映僅對中毒敵人發動的效果，以及防禦時反擊1次的效果。",
+       "zhs": "反映仅对中毒敌人发动的效果，以及防御时反击1次的效果。"
+      },
+      {
+       "kr": "도장 제련 한도: 최유희(XL) 18000 · XXL 20000 · 빛/어둠속성 XXL 23000.",
+       "en": "Sigil boost cap: Choi Yuhee (XL) 18000 · XXL 20000 · Light/Dark-element XXL 23000.",
+       "ja": "刻印強化の上限：チェ・ユヒ（XL）18000・XXL 20000・光／闇属性XXL 23000。",
+       "zh": "印章強化上限：崔鼬熙（XL）18000・XXL 20000・光／闇屬性XXL 23000。",
+       "zhs": "印章强化上限：崔鼬熙（XL）18000・XXL 20000・光／暗属性XXL 23000。"
+      }
+     ]
+    },
+    {
+     "cat": "balance",
+     "chars": [
+      10419,
+      10436
+     ],
+     "text": {
+      "kr": "오렘의 배리어 기준과 모이루의 배리어 발동 횟수가 수정되었습니다.",
+      "en": "Fixed Orem's barrier basis and Moyru's barrier trigger count.",
+      "ja": "オレムのバリアの基準とモイルのバリアの発動回数を修正しました。",
+      "zh": "修正奧雷姆的護盾基準與莫伊魯的護盾發動次數。",
+      "zhs": "修正奥雷姆的护盾基准与莫伊鲁的护盾发动次数。"
+     },
+     "details": [
+      {
+       "kr": "오렘 배리어는 자신 최대 HP의 20%(도장 잠금해제 시 25%) 기준으로 계산합니다.",
+       "en": "Orem's barrier is calculated from 20% of his Max HP (25% with Sigil unlocked).",
+       "ja": "オレムのバリアは自身の最大HPの20%（刻印解放時25%）を基準に計算します。",
+       "zh": "奧雷姆的護盾以自身最大HP的20%（印章解鎖時25%）為基準計算。",
+       "zhs": "奥雷姆的护盾以自身最大HP的20%（印章解锁时25%）为基准计算。"
+      },
+      {
+       "kr": "모이루의 배리어는 한 번만 발동합니다.",
+       "en": "Moyru's barrier triggers only once.",
+       "ja": "モイルのバリアは1回だけ発動します。",
+       "zh": "莫伊魯的護盾只會發動一次。",
+       "zhs": "莫伊鲁的护盾只会发动一次。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.0.2",
+   "date": "2026-06-19",
+   "highlight": false,
+   "title": {
+    "kr": "마지막 업데이트 시각 · 모바일 행동 순서",
+    "en": "Last update time · mobile action order",
+    "ja": "最終更新時刻 · モバイルの行動順",
+    "zh": "最後更新時間 · 行動裝置行動順序",
+    "zhs": "最后更新时间 · 行动装置行动顺序"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "화면 오른쪽 아래에 마지막 업데이트 시각이 표시되고, 휴대폰에서 위아래 화살표로 행동 순서를 바꿀 수 있습니다.",
+      "en": "The last update time is shown at the bottom right of the screen, and on phones you can change the action order with up/down arrows.",
+      "ja": "画面右下に最終更新時刻を表示し、スマートフォンでは上下の矢印で行動順を変更できるようになりました。",
+      "zh": "畫面右下角會顯示最後更新時間，手機上可用上下箭頭調整行動順序。",
+      "zhs": "画面右下角会显示最后更新时间，手机上可用上下箭头调整行动顺序。"
+     }
+    }
+   ]
+  },
+  {
+   "version": "1.0.1",
+   "date": "2026-06-19",
+   "highlight": false,
+   "title": {
+    "kr": "초기 밸런스 · 버그 수정",
+    "en": "Early balance · bug fixes",
+    "ja": "初期バランス · バグ修正",
+    "zh": "初期平衡 · 錯誤修正",
+    "zhs": "初期平衡 · 错误修正"
+   },
+   "items": [
+    {
+     "cat": "balance",
+     "chars": [
+      10428
+     ],
+     "text": {
+      "kr": "리카노가 조롱에 걸린 적에게 주는 데미지 +18%가 반영되었습니다.",
+      "en": "Applied Ricano's damage dealt +18% against taunted enemies.",
+      "ja": "リカノがターゲット集中状態の敵に与える与ダメージ +18% を反映しました。",
+      "zh": "反映瑞卡諾對陷入嘲諷的敵人造成傷害 +18%。",
+      "zhs": "反映瑞卡诺对陷入嘲讽的敌人造成伤害 +18%。"
+     },
+     "details": [
+      {
+       "kr": "리카노 패시브 4: 자신을 제외한 아군 전체의 목표물이 조롱 상태일 때 자신이 주는 데미지 +18%.",
+       "en": "Ricano Passive 4: damage dealt +18% while the target of every ally except himself is taunted.",
+       "ja": "リカノのパッシブ4：自身を除く味方全体のターゲットがターゲット集中状態のとき、自身の与ダメージ +18%。",
+       "zh": "瑞卡諾被動4：除自身以外我方全體的目標處於嘲諷狀態時，自身造成傷害 +18%。",
+       "zhs": "瑞卡诺被动4：除自身以外我方全体的目标处于嘲讽状态时，自身造成伤害 +18%。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "chars": [
+      10410,
+      10423
+     ],
+     "text": {
+      "kr": "지속형 데미지 · 받는 데미지 계산과 임부언 · 이태호의 행동 처리가 수정되었습니다.",
+      "en": "Fixed damage over time · damage taken calculations and Boss Ren · Lee Taeho's action handling.",
+      "ja": "継続ダメージ・被ダメージの計算と、任富言・イ・テホの行動処理を修正しました。",
+      "zh": "修正持續傷害・受到傷害的計算，以及任富言・李泰虎的行動處理。",
+      "zhs": "修正持续伤害・受到伤害的计算，以及任富言・李泰虎的行动处理。"
+     },
+     "details": [
+      {
+       "kr": "지속형 데미지는 걸었을 때의 ATK · 주는 데미지 증가로 고정되고, 대상의 받는 데미지만 매 턴 현재 값으로 계산합니다.",
+       "en": "Damage over time is locked to the ATK · damage dealt bonus at the moment it was applied; only the target's damage taken uses the current value each turn.",
+       "ja": "継続ダメージは付与時のATK・与ダメージ増加で固定され、対象の被ダメージのみ毎ターン現在の値で計算します。",
+       "zh": "持續傷害以施加當下的ATK・造成傷害增加固定計算，只有目標的受到傷害每回合以當前數值計算。",
+       "zhs": "持续伤害以施加当下的ATK・造成伤害增加固定计算，只有目标的受到伤害每回合以当前数值计算。"
+      },
+      {
+       "kr": "받는 데미지는 일반 증가와 속성 증가를 곱해서 계산합니다(게임과 같은 방식).",
+       "en": "Damage taken multiplies the normal bonus by the elemental bonus (the same way as the game).",
+       "ja": "被ダメージは通常の増加と属性の増加を掛け合わせて計算します（ゲームと同じ方式）。",
+       "zh": "受到傷害以一般增加乘上屬性增加計算（與遊戲相同方式）。",
+       "zhs": "受到伤害以一般增加乘上属性增加计算（与游戏相同方式）。"
+      },
+      {
+       "kr": "임부언은 지정한 행동 순서를 지키고, 이태호는 필살기를 연속으로 쓰지 않습니다.",
+       "en": "Boss Ren keeps the action order you set, and Lee Taeho no longer uses EX Skills back to back.",
+       "ja": "任富言は指定した行動順を守り、イ・テホは必殺技を連続で使いません。",
+       "zh": "任富言會遵守指定的行動順序，李泰虎不再連續使用必殺技。",
+       "zhs": "任富言会遵守指定的行动顺序，李泰虎不再连续使用必杀技。"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "version": "1.0",
+   "date": "2026-06-19",
+   "highlight": true,
+   "charName": {
+    "kr": "파미도",
+    "en": "Famido",
+    "zh": "法米多",
+    "zhs": "法米多",
+    "ja": "ファミド"
+   },
+   "charImg": "icons/v1_pamido.png",
+   "title": {
+    "kr": "XXL WOOFIA 시뮬레이터 출시",
+    "en": "XXL WOOFIA Simulator launch",
+    "ja": "XXL WOOFIA シミュレーター公開",
+    "zh": "XXL WOOFIA 模擬器上線",
+    "zhs": "XXL WOOFIA 模拟器上线"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "XXL WOOFIA 데미지 시뮬레이터가 공개되었습니다.",
+      "en": "The XXL WOOFIA damage simulator is released.",
+      "ja": "XXL WOOFIA ダメージシミュレーターを公開しました。",
+      "zh": "公開XXL WOOFIA傷害模擬器。",
+      "zhs": "公开XXL WOOFIA伤害模拟器。"
+     },
+     "details": [
+      {
+       "kr": "5인 팀을 편성하고 스펙과 행동을 정하면 데미지를 수치로 확인할 수 있습니다.",
+       "en": "Build a 5-companion team, set specs and actions, and see the damage in numbers.",
+       "ja": "5人チームを編成し、スペックと行動を決めると、ダメージを数値で確認できます。",
+       "zh": "編成5人隊伍並設定規格與行動，即可以數值確認傷害。",
+       "zhs": "编成5人队伍并设定规格与行动，即可以数值确认伤害。"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

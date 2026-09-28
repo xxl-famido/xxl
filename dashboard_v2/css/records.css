@@ -1,0 +1,40 @@
+/* 기록 관리 시트 전용 — 토큰만. */
+.rec-sheet { display: flex; flex-direction: column; gap: var(--space-4); }
+.rec-tools { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+.rec-tools .search { flex: 1; min-width: 160px; width: auto; }
+.rec-sort { height: var(--control-md); padding: 0 var(--space-3); border-radius: var(--radius-md); border: var(--border-w) solid var(--border-default); background: var(--bg-surface); font: var(--text-body-sm); color: var(--text-primary); }
+.rec-import { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); border-radius: var(--radius-md); background: var(--bg-subtle); }
+.rec-code { width: 100%; resize: vertical; min-height: 72px; padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); border: var(--border-w) solid var(--border-default); background: var(--bg-surface); color: var(--text-primary); font: var(--text-body-sm); font-family: var(--font-mono); word-break: break-all; }
+.rec-code:focus { outline: none; border-color: var(--accent-solid); box-shadow: var(--focus-ring); }
+.rec-row-btns { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+.rec-selbar { display: flex; flex-direction: column; gap: var(--space-2); padding-bottom: var(--space-3); border-bottom: var(--border-w) solid var(--border-subtle); }
+.rec-selrow { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-2); align-items: center; }
+.rec-count { font: var(--text-body-sm); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.rec-sel-gap { flex: 1; }
+.rec-list { list-style: none; padding: 0; display: flex; flex-direction: column; }
+.rec-item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: var(--space-2); align-items: center; min-height: 56px; padding: var(--space-1); border-radius: var(--radius-md); }
+.rec-item:hover { background: var(--bg-subtle); }
+.rec-item.active { background: var(--accent-subtle); }
+.rec-check { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; cursor: pointer; }
+.rec-check input { width: 16px; height: 16px; accent-color: var(--accent-solid); cursor: pointer; }
+.rec-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.rec-name { font: var(--text-body); color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rec-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); font: var(--text-caption); color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+.rec-badge { display: inline-flex; align-items: center; gap: 3px; height: 18px; padding: 0 6px; border-radius: var(--radius-sm); background: var(--bg-selected); color: var(--text-secondary); }
+.rec-badge .ic { width: 12px; height: 12px; }
+.rec-rename { width: 100%; height: var(--control-md); padding: 0 var(--space-2); border-radius: var(--radius-md); border: var(--border-w) solid var(--accent-solid); background: var(--bg-surface); font: var(--text-body); }
+.rec-rename:focus { outline: none; box-shadow: var(--focus-ring); }
+.rec-empty { list-style: none; }
+.rec-share { display: flex; flex-direction: column; gap: var(--space-3); }
+
+@media (max-width: 900px) {
+  .rec-item { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "chk main more" "chk load load"; row-gap: var(--space-1); padding: var(--space-2) 0; }
+  .rec-check { grid-area: chk; width: 44px; height: 44px; }
+  .rec-main { grid-area: main; }
+  .rec-item > .btn-icon { grid-area: more; width: 44px; height: 44px; }
+  .rec-item > .btn-sm { grid-area: load; justify-self: start; min-height: 44px; }
+  .rec-selbar .btn, .rec-row-btns .btn, .rec-tools .btn { min-height: 44px; }
+  .rec-sort { height: 44px; }
+  .rec-tools .search { flex-basis: 100%; height: 44px; }
+}
+.rec-sheet .btn:disabled { color: var(--text-disabled); border-color: var(--border-subtle); background: transparent; cursor: default; }

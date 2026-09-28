@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>목업 — 라이트 메인 / 고급 설정 창</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+  /* 목업 전용 보조 */
+  .stage { max-width: 1280px; margin: 0 auto; padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-8); }
+  .stage h1 { font: var(--text-title); letter-spacing: var(--tracking-title); }
+  .stage > p { color: var(--text-tertiary); font: var(--text-body-sm); }
+  .row-toggle { display: inline-flex; align-items: center; gap: var(--space-2); font: var(--text-caption); color: var(--text-secondary); }
+  .adv-line { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-4); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--bg-subtle); font: var(--text-body-sm); color: var(--text-secondary); }
+  .adv-line b { color: var(--text-primary); font-weight: 600; }
+  .adv-line .btn { margin-left: auto; }
+  /* 고급 설정 창(정지 목업: 시트를 인라인 박스로) */
+  .adv-sheet { background: var(--bg-overlay); border: var(--border-w) solid var(--border-default); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); max-width: 1120px; }
+  .adv-head { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-4) var(--space-5); border-bottom: var(--border-w) solid var(--border-subtle); }
+  .adv-head h2 { flex: 1; }
+  .adv-body { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-6); }
+  .start { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+  .start button { text-align: left; padding: var(--space-4); border-radius: var(--radius-lg); border: var(--border-w) solid var(--border-default); background: var(--bg-surface); cursor: pointer; }
+  .start button:hover { border-color: var(--border-strong); }
+  .start button.rec { border-color: var(--accent-solid); box-shadow: 0 0 0 1px var(--accent-solid); }
+  .start b { display: block; font: var(--text-body-strong); margin-bottom: 4px; }
+  .start span { font: var(--text-body-sm); color: var(--text-tertiary); }
+  .sec { display: flex; flex-direction: column; gap: var(--space-3); }
+  .sec-h { display: flex; align-items: center; gap: var(--space-3); }
+  .sec-h h3 { font: var(--text-title-sm); }
+  .sec-h .kv { margin-left: auto; }
+  .grid-rows { display: flex; flex-direction: column; gap: 4px; }
+  .gr { display: grid; grid-template-columns: 24px 28px 88px 150px 1fr; align-items: center; gap: var(--space-2); height: 36px; }
+  .gr img { width: 28px; height: 28px; border-radius: var(--radius-sm); }
+  .gr .nm { font: var(--text-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gr select { height: 28px; padding: 0 22px 0 8px; border-radius: var(--radius-md); border: var(--border-w) solid var(--border-default); background: var(--bg-surface); font: var(--text-body-sm); appearance: none; }
+  .cells { display: grid; grid-template-columns: repeat(30, 1fr); gap: 3px; }
+  .cells i { display: block; height: 22px; border-radius: 3px; background: var(--bg-selected); }
+  .cells i.r { background: var(--accent-muted); }
+  .cells i.p { background: var(--accent-solid); position: relative; }
+  .cells i.p::after { content: ''; position: absolute; top: 3px; right: 3px; width: 5px; height: 5px; border-radius: 50%; background: var(--bg-surface); }
+  .cells i.d { background: var(--border-strong); }
+  .cells i.x { background: var(--accent-muted); box-shadow: inset 0 0 0 2px var(--accent-solid); }
+  .cells i.w { outline: 2px solid var(--status-warning-solid); outline-offset: -2px; }
+  .axis { display: grid; grid-template-columns: 24px 28px 88px 150px 1fr; gap: var(--space-2); }
+  .axis .t { display: grid; grid-template-columns: repeat(30, 1fr); font: var(--text-caption); color: var(--text-tertiary); text-align: center; }
+  .axis .t span.lock { color: var(--text-primary); font-weight: 600; }
+  .sentence { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding: var(--space-3); border-radius: var(--radius-md); background: var(--bg-subtle); font: var(--text-body-sm); color: var(--text-secondary); }
+  .sentence select { height: 28px; padding: 0 22px 0 8px; border-radius: var(--radius-md); border: var(--border-w) solid var(--border-default); background: var(--bg-surface); font: var(--text-body-sm); color: var(--text-primary); appearance: none; }
+  .altar-q { display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: center; }
+  .altar-q img { width: 20px; height: 20px; }
+  .legend { display: flex; gap: var(--space-4); font: var(--text-caption); color: var(--text-tertiary); }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+  .badges { display: inline-flex; gap: 4px; }
+  .badge { height: 18px; padding: 0 6px; border-radius: var(--radius-sm); background: var(--bg-selected); color: var(--text-secondary); font: var(--text-caption); line-height: 18px; }
+  .prio li { display: flex; align-items: center; gap: var(--space-3); height: 44px; }
+  .prio .ult-mode { width: 150px; }
+  .prio .ult-mode select { width: 100%; height: 28px; padding: 0 22px 0 8px; border-radius: var(--radius-md); border: var(--border-w) solid var(--border-default); background: var(--bg-surface); font: var(--text-body-sm); appearance: none; }
+  .prio-name { flex: 1; display: flex; align-items: center; gap: var(--space-2); }
+  .pv-cells { display: grid; grid-template-columns: repeat(30, 1fr); gap: 3px; }
+  .pv-cells i { display: block; height: 16px; border-radius: 3px; background: var(--bg-selected); }
+  .pv-cells i.ult { background: var(--accent-solid); }
+  .pv-cells i.def { background: var(--border-strong); }
+  .pv-cells i.extra { background: var(--accent-muted); box-shadow: inset 0 0 0 2px var(--accent-solid); }
+  .pv-row { display: grid; grid-template-columns: 80px 1fr; gap: var(--space-2); align-items: center; }
+  .pv-name { font: var(--text-body-sm); color: var(--text-secondary); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <h1>A. 메인 — 행동 계획 패널(라이트)</h1>
+  <p>목업 B안 그대로. 방식은 자동/직접 지정 둘뿐, 맞추기·제단·성공 가정·칸 고정은 여기 없음. 고급 설정이 켜져 있을 때만 아래 요약 한 줄이 나타난다.</p>
+
+  <section class="panel" style="max-width:960px">
+    <div class="panel-head">
+      <h2>행동 계획</h2>
+      <div class="panel-tools"><button class="btn btn-ghost btn-sm"><span>초기화</span></button></div>
+    </div>
+    <div class="acc">
+      <details open>
+        <summary><span class="step-n">1</span><span class="acc-title">순서와 필살기</span><span class="acc-sum acc-sum-text">리카노 → 파미도 → 무명 → 욱영 → 아누비로스</span></summary>
+        <div class="acc-body">
+          <ol class="prio">
+            <li><span class="prio-n">1</span><img src="icons/10428.png" alt=""><span class="prio-name">리카노</span><label class="ult-mode"><select><option>자동 · 4·7·10턴</option><option>직접 지정</option></select></label><span class="mv"><button class="btn-icon" aria-label="위로" disabled>↑</button><button class="btn-icon" aria-label="아래로">↓</button></span></li>
+            <li><span class="prio-n">2</span><img src="icons/10421.png" alt=""><span class="prio-name">파미도</span><label class="ult-mode"><select><option>직접 지정</option><option>자동</option></select></label><span class="mv"><button class="btn-icon">↑</button><button class="btn-icon">↓</button></span></li>
+            <li style="height:auto;flex-wrap:wrap;padding-left:52px"><div class="plan-strip" style="margin:0;flex-basis:100%">
+              <div class="plan-tools"><span class="plan-label">턴별 행동 <span class="hint">칸을 눌러 보통 공격 → 필살기 → 방어</span></span><div class="plan-presets"><button class="btn btn-ghost btn-sm">모두 필살기</button><button class="btn btn-ghost btn-sm">3턴마다</button><button class="btn btn-ghost btn-sm">첫 필살기 당기기</button><button class="btn btn-ghost btn-sm" aria-pressed="true" style="background:var(--bg-selected)">필살기 직전 방어</button></div></div>
+              <div class="plan-cells"><button class="atk">1</button><button class="atk">2</button><button class="def">3</button><button class="ult">4</button><button class="atk">5</button><button class="def">6</button><button class="ult">7</button><button class="atk">8</button><button class="def">9</button><button class="ult">10</button><button class="atk">11</button><button class="def">12</button><button class="ult">13</button><button class="atk">14</button><button class="def">15</button><button class="atk">16</button><button class="atk">17</button><button class="atk">18</button><button class="atk">19</button><button class="atk">20</button><button class="atk">21</button><button class="atk">22</button><button class="atk">23</button><button class="atk">24</button><button class="atk">25</button><button class="atk">26</button><button class="atk">27</button><button class="atk">28</button><button class="atk">29</button><button class="atk">30</button></div>
+            </div></li>
+            <li><span class="prio-n">3</span><img src="icons/10443.png" alt=""><span class="prio-name">무명</span><label class="ult-mode"><select><option>자동 · 4·7·10턴</option><option>직접 지정</option></select></label><span class="mv"><button class="btn-icon">↑</button><button class="btn-icon">↓</button></span></li>
+            <li><span class="prio-n">4</span><img src="icons/10439.png" alt=""><span class="prio-name">욱영 <label class="row-toggle"><input type="checkbox" checked> 아군 필살기 나중</label></span><label class="ult-mode"><select><option>자동 · 4·7·10턴</option><option>직접 지정</option></select></label><span class="mv"><button class="btn-icon">↑</button><button class="btn-icon">↓</button></span></li>
+            <li><span class="prio-n">5</span><img src="icons/10401.png" alt=""><span class="prio-name">아누비로스</span><label class="ult-mode"><select><option>자동 · 4·7·10턴</option><option>직접 지정</option></select></label><span class="mv"><button class="btn-icon">↑</button><button class="btn-icon" disabled>↓</button></span></li>
+          </ol>
+        </div>
+      </details>
+      <details>
+        <summary><span class="step-n">2</span><span class="acc-title">예외 턴</span><span class="acc-sum acc-sum-text">4·7·10·13·16·19·22·25·28턴 순서 다름</span></summary>
+      </details>
+    </div>
+
+    <figure class="preview">
+      <figcaption><span>실행 미리보기</span></figcaption>
+      <div class="pv-grid">
+        <div class="pv-row"><span class="pv-name">리카노</span><span class="pv-cells" data-p="ooo#oo#oo#oo#oo#oo#oo#oo#oo#oo"></span></div>
+        <div class="pv-row"><span class="pv-name">파미도</span><span class="pv-cells" data-p="ood#od#od#od#od#oooooooooooooo"></span></div>
+        <div class="pv-row"><span class="pv-name">무명</span><span class="pv-cells" data-p="ooo#oo#oo#oo#oo#oo#oo#oo#oo#oo"></span></div>
+        <div class="pv-row"><span class="pv-name">욱영</span><span class="pv-cells" data-p="ooo#oo#oo#oo#oo#oo#oo#oo#oo#oo"></span></div>
+        <div class="pv-row"><span class="pv-name">아누비로스</span><span class="pv-cells" data-p="ooo#oo#oo#oo#oo#oo#oo#oo#oo#oo"></span></div>
+      </div>
+    </figure>
+
+    <div class="adv-line">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+      <span><b>고급 설정 사용 중</b> · 방탈출 제단 켜짐 · 맞추기 1 · 고정 4칸 · 성공 가정 2명</span>
+      <button class="btn btn-secondary btn-sm"><span>고급 설정 열기</span></button>
+    </div>
+  </section>
+
+  <h1>B. 고급 설정 창(딥) — 처음 열었을 때</h1>
+  <p>창 머리에 사용 스위치. 처음이면 출발점 세 가지. 이후엔 바로 작업 공간.</p>
+  <div class="adv-sheet">
+    <div class="adv-head">
+      <h2>고급 설정</h2>
+      <label class="switch"><input type="checkbox"><span class="sw"></span>사용</label>
+      <button class="btn btn-ghost btn-icon" aria-label="닫기">✕</button>
+    </div>
+    <div class="adv-body">
+      <div class="start">
+        <button class="rec"><b>기존 행동 설정 가져오기</b><span>지금 메인의 순서·직접 지정·예외 턴을 그대로 가져와 시작합니다.</span></button>
+        <button><b>기본 설정</b><span>역할 기본 리듬에서 시작합니다.</span></button>
+        <button><b>이전 설정 이어하기</b><span>마지막 고급 설정(9월 28일 · 제단 켜짐 · 고정 4칸)을 불러옵니다.</span></button>
+      </div>
+    </div>
+  </div>
+
+  <h1>B′. 고급 설정 창 — 작업 공간</h1>
+  <p>한 창에 네 구역이 전부 보인다: 제단 → 필살기 방식·맞추기 → 30턴 격자(고정·잠금). 위에서 아래로 규칙이 이긴다.</p>
+  <div class="adv-sheet">
+    <div class="adv-head">
+      <h2>고급 설정</h2>
+      <span class="badges"><span class="badge">제단 켜짐</span><span class="badge">맞추기 1</span><span class="badge">고정 4</span></span>
+      <label class="switch"><input type="checkbox" checked><span class="sw"></span>사용</label>
+      <button class="btn btn-ghost btn-icon" aria-label="닫기">✕</button>
+    </div>
+    <div class="adv-body">
+
+      <div class="sec">
+        <div class="sec-h"><h3>방탈출 제단</h3><span class="kv">쿨감 제단만</span></div>
+        <div class="altar-q">
+          <label class="switch"><input type="checkbox" checked><span class="sw"></span>제단 효과 사용</label>
+          <label class="switch"><input type="checkbox" checked><span class="sw"></span><img src="icons/altar_moon.webp" alt="">쿨감 제단만 (행동 30% CD −1 · 필살기 30% CD −3)</label>
+          <button class="btn btn-secondary btn-sm"><span>층별 점등 설정</span></button>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><h3>필살기 방식</h3><label class="switch" style="margin-left:auto"><input type="checkbox"><span class="sw"></span>전원 확률 CD 감소 성공 가정</label><button class="btn btn-ghost btn-sm"><span>전원 준비되면 바로</span></button></div>
+        <div class="grid-rows">
+          <div class="gr"><span class="prio-n">1</span><img src="icons/10428.png" alt=""><span class="nm">리카노</span><select><option>정해진 턴만</option></select><span class="badges"><span class="badge">성공 가정</span></span></div>
+          <div class="gr"><span class="prio-n">2</span><img src="icons/10421.png" alt=""><span class="nm">파미도</span><select><option>직접 지정</option></select><span class="badges"><span class="badge">방어 턴 무시</span></span></div>
+          <div class="gr"><span class="prio-n">3</span><img src="icons/10443.png" alt=""><span class="nm">무명</span><select><option>자동 · 4·7·10턴</option></select><span></span></div>
+          <div class="gr"><span class="prio-n">4</span><img src="icons/10439.png" alt=""><span class="nm">욱영</span><select><option>자동 · 4·7·10턴</option></select><span></span></div>
+          <div class="gr"><span class="prio-n">5</span><img src="icons/10401.png" alt=""><span class="nm">아누비로스</span><select><option>준비되면 바로</option></select><span class="badges"><span class="badge">성공 가정</span></span></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><h3>맞추기</h3><span class="kv">1개</span></div>
+        <div class="sentence"><select><option>욱영</option></select><span>이 필살기를 쓰는 턴에</span><select><option>무명, 아누비로스</option></select><span>는</span><select><option>보통 공격 → 받은 추가 행동에서 필살기</option></select><span>, 평소에는</span><select><option>내 방식대로</option></select></div>
+        <button class="btn btn-secondary btn-sm" style="align-self:flex-start"><span>+ 맞추기 추가</span></button>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><h3>30턴 고정</h3><span class="legend"><i style="background:var(--accent-muted)"></i>규칙 <i style="background:var(--accent-solid)"></i>고정 <i style="background:var(--border-strong)"></i>방어 <i style="background:var(--accent-muted);box-shadow:inset 0 0 0 2px var(--accent-solid)"></i>추가 행동 <i style="outline:2px solid var(--status-warning-solid);outline-offset:-2px"></i>실행이 다름</span><span class="kv">턴 번호를 누르면 그 턴 전체를 편집</span></div>
+        <div class="axis"><span></span><span></span><span></span><span></span><div class="t"><span>1</span><span>2</span><span class="lock">3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span></div></div>
+        <div class="grid-rows">
+          <div class="gr"><span class="prio-n">1</span><img src="icons/10428.png" alt=""><span class="nm">리카노</span><span></span><div class="cells" data-p="ooo#oo#oo#oo#oo#oo#oo#oo#oo#oo"></div></div>
+          <div class="gr"><span class="prio-n">2</span><img src="icons/10421.png" alt=""><span class="nm">파미도</span><span></span><div class="cells" data-p="ooDPoDPoDPoDPoDPoooooooooooooo"></div></div>
+          <div class="gr"><span class="prio-n">3</span><img src="icons/10443.png" alt=""><span class="nm">무명</span><span></span><div class="cells" data-p="ooo#oo#oo#oo#oo#oo#oo#oo#oo#oo"></div></div>
+          <div class="gr"><span class="prio-n">4</span><img src="icons/10439.png" alt=""><span class="nm">욱영</span><span></span><div class="cells" data-p="ooo#oo#oo#oo#oo#oo#oo#oo#oo#oo"></div></div>
+          <div class="gr"><span class="prio-n">5</span><img src="icons/10401.png" alt=""><span class="nm">아누비로스</span><span></span><div class="cells" data-p="ooo#oo#ooWoo#oo#oo#oo#oo#oo#oo"></div></div>
+        </div>
+        <div style="display:flex;gap:var(--space-2)"><button class="btn btn-ghost btn-sm"><span>되돌리기</span></button><button class="btn btn-ghost btn-sm"><span>고정 전부 해제</span></button><button class="btn btn-ghost btn-sm"><span>모든 턴 잠그기</span></button></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const M = { o: 'r', '#': 'r', d: 'd', D: 'd p', P: 'p', W: 'r w', x: 'x' };
+  for (const el of document.querySelectorAll('.cells')) el.innerHTML = [...el.dataset.p].map(c => `<i class="${c === '#' ? 'r' : (M[c] || 'r')}" style="${c === '#' ? 'background:var(--accent-muted)' : c === 'o' ? 'background:var(--bg-selected)' : ''}"></i>`).join('');
+  for (const el of document.querySelectorAll('.pv-cells')) el.innerHTML = [...el.dataset.p].map(c => `<i class="${({o:'',"#":'ult',d:'def','+':'extra'})[c]}"></i>`).join('');
+</script>
+</body>
+</html>

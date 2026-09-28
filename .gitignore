@@ -31,3 +31,19 @@ tools/xbuff.py
 # 데이터 백업본 — 신캐 병합 전 스냅샷이라 저장소에 남길 이유가 없다
 data/*.bak
 data/*.bak*
+_site_v2/
+_backup/
+
+# 사용자 제공 APK·서명 파일 — 공개 저장소 금지
+docs/redesign/user_impl/
+
+# 로컬 전용 · 검수 산출물
+_backup/
+_site*/
+logs/
+tools/redesign/shots/
+tools/redesign/tmp_inventory/
+tools/redesign/__pycache__/
+docs/redesign/bench/
+lounge_api/deploy_state.json
+*.bat

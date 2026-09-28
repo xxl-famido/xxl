@@ -1,0 +1,37 @@
+{
+  "_설명": "복사해서 C:/Users/ZRUN/Documents/secrets/lounge_initial_content.json 으로 저장 후 채운다. key 는 중복 방지용 이름(영소문자·숫자·_-). hoursAgo 는 몇 시간 전 글로 보일지(선택). 익명 이름은 자동.",
+  "pin": "0000",
+  "posts": [
+    {
+      "key": "zeto-1",
+      "thread": "char:10441",
+      "tags": ["스킬 해석"],
+      "body": "제토에 대한 첫 의견을 여기에 씁니다.",
+      "hoursAgo": 5,
+      "replies": [{ "body": "같은 사람이 이어서 단 답글(선택)" }]
+    },
+    { "key": "tier-1-comment", "thread": "tier:tier-1", "body": "티어표에 다는 의견(선택)" }
+  ],
+  "tiers": [
+    {
+      "key": "tier-1",
+      "title": "0922 보스전 티어",
+      "basis": "boss",
+      "descr": "기준 설명(선택)",
+      "rows": [
+        { "label": "S", "ids": [10441, 10401] },
+        { "label": "A", "ids": [10421, 10425] },
+        { "label": "B", "ids": [] }
+      ]
+    }
+  ],
+  "teams": [
+    {
+      "key": "team-1",
+      "code": "#eJyLjjbUUVLSMdAx0ImOjjYxMIzViTYxNACRRmC2kQWYNI0FAQACxguo",
+      "title": "아누비로스 중심 30턴",
+      "basis": "boss",
+      "descr": "팀 설명(긴 글은 목록에서 2줄, 상세에서 전문)"
+    }
+  ]
+}

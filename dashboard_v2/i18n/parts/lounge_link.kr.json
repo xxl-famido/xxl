@@ -1,0 +1,21 @@
+{
+ "top.lounge": "라운지",
+ "top.lounge.short": "라운지",
+ "top.tip.lounge": "XXL 라운지 — 동료 의견 · 티어표 · 팀 공유",
+ "top.compare.short": "비교",
+ "result.share.lounge": "팀 공유에 올리기",
+ "result.share.lounge.tip": "이 편성을 XXL 라운지 팀 공유에 올립니다",
+ "result.share.lounge.fail": "공유 코드를 만들지 못했습니다",
+ "grow.lounge": "의견 보기",
+ "grow.lounge.tip": "XXL 라운지에서 이 동료에 대한 의견 보기",
+ "deeplink.loaded": "XXL 라운지에서 보낸 팀을 불러왔습니다",
+ "deeplink.added": "빈 자리에 추가했습니다: {name}",
+ "deeplink.bad": "링크의 공유 코드를 읽을 수 없습니다",
+ "deeplink.empty": "링크의 팀에 동료가 없습니다",
+ "deeplink.unknown": "링크에 시뮬레이터에 없는 동료가 있습니다",
+ "deeplink.full": "팀에 동료가 꽉 찼습니다",
+ "deeplink.dup": "이미 편성된 동료입니다",
+ "deeplink.imbueonP1": "임부언은 1번 자리에 둘 수 없습니다",
+ "top.brand.aria": "XXL WOOFIA 시뮬레이터",
+ "top.brand.sub": "시뮬레이터"
+}

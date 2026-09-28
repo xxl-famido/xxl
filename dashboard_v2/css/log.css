@@ -1,0 +1,286 @@
+/* 전투 로그(ui/log.js) — 턴 목록 + 상세 패널 + 계산 그래픽. 토큰만 참조.
+   색 규칙(의미당 한 색): 파랑(강조색) = 준 데미지 '결과' 숫자 전용 · 본문색 = 과정 숫자 · --viz-* = 계산 그룹 5색 ·
+   초록 = 치료·버프·유리 · 빨강 = 받은 데미지·디버프·불리 · 무채색(먹) = 필살기·선택·링크·반격 · 초상 테두리 = 속성색. */
+
+.bl { margin-top: var(--space-8); scroll-margin-top: calc(56px + var(--space-4)); }
+.bl-head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-3); row-gap: var(--space-1); margin-bottom: var(--space-3); }
+.bl-head h3 { font: var(--text-title-sm); letter-spacing: var(--tracking-title); }
+.bl-note { font: var(--text-body-sm); color: var(--text-tertiary); }
+.bl-order { flex-basis: 100%; font: var(--text-body-sm); color: var(--text-secondary); }
+
+.bl-body { display: grid; grid-template-columns: 300px minmax(0, 1fr); align-items: start;
+  border: var(--border-w) solid var(--border-default); border-radius: var(--radius-lg); background: var(--bg-surface); }
+
+/* ── 초상(속성 테두리) ── */
+.bl-pic, .bl-pic-sm, .bl-pic-xs, .bl-skill-pic { flex: none; border-radius: var(--radius-sm); object-fit: cover; background: var(--bg-subtle); }
+.bl-pic { width: 28px; height: 28px; box-shadow: 0 0 0 2px var(--el, var(--border-default)); }
+.bl-pic-sm { width: 22px; height: 22px; box-shadow: 0 0 0 1.5px var(--el, var(--border-default)); }
+.bl-pic-xs { width: 18px; height: 18px; box-shadow: 0 0 0 1.5px var(--el, var(--border-default)); }
+.bl-pic.sys, .bl-pic-xs.sys { display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary); box-shadow: none; background: var(--bg-selected); }
+.bl-pic.sys .ic { width: 16px; height: 16px; }
+/* 제단 출처 그림 — 투명 배경에 빛나는 그림이라 라이트에서도 보이도록 어두운 타일 위에 */
+.bl-altar-ic { display: inline-flex; align-items: center; justify-content: center; overflow: hidden; background: var(--bg-inverse); box-shadow: none; }
+.bl-altar-ic img { width: 100%; height: 100%; object-fit: contain; transform: scale(1.15); }
+:root[data-theme="dark"] .bl-altar-ic { background: var(--bg-selected); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bl-altar-ic { background: var(--bg-selected); } }
+.bl-sk-static.is-altar { color: var(--text-secondary); }
+.bl-src-altar { display: inline-flex; align-items: center; gap: 6px; }
+
+/* ── 턴 목록 ── */
+.bl-turns { position: sticky; top: calc(56px + var(--space-3)); max-height: calc(100vh - 56px - var(--space-6)); overflow-y: auto; overscroll-behavior: contain;
+  border-right: var(--border-w) solid var(--border-subtle); padding: var(--space-2); display: flex; flex-direction: column; gap: 2px; }
+.bl-t { position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: var(--space-2);
+  min-height: 48px; padding: var(--space-1) var(--space-3) var(--space-1) var(--space-2); border: 0; border-radius: var(--radius-md);
+  background: transparent; text-align: left; color: var(--text-primary); isolation: isolate; }
+/* 데미지 비율 막대 — 행 배경에 옅게 */
+.bl-t::before { content: ""; position: absolute; inset: 6px auto 6px 0; width: var(--w); border-radius: var(--radius-sm); background: var(--bg-subtle); z-index: -1; }
+.bl-t:hover { background: var(--bg-subtle); }
+.bl-t:hover::before { background: var(--bg-selected); }
+.bl-t[aria-selected="true"] { background: var(--bg-selected); box-shadow: inset 3px 0 0 var(--text-primary); }
+.bl-t[aria-selected="true"]::before { background: var(--border-default); opacity: .7; }
+.bl-t.flash { animation: bl-flash-row 1400ms var(--ease-standard); }
+@keyframes bl-flash-row { 0%, 100% { box-shadow: inset 3px 0 0 var(--text-primary); } 20% { box-shadow: inset 3px 0 0 var(--text-primary), 0 0 0 2px var(--border-strong); } }
+.bl-t-n { font: var(--text-body-strong); color: var(--text-secondary); text-align: right; font-variant-numeric: tabular-nums; }
+.bl-t.has-ult .bl-t-n { color: var(--text-primary); }
+.bl-t-pics { display: flex; gap: 5px; min-width: 0; overflow: hidden; padding: 3px 2px 5px; }
+.bl-t-pic { position: relative; display: inline-flex; }
+.bl-t-pic.is-ult::after { content: ""; position: absolute; left: 3px; right: 3px; bottom: -5px; height: 2px; border-radius: 1px; background: var(--text-primary); }
+.bl-t-pic.is-extra img { opacity: .6; }
+.bl-t-v { display: flex; flex-direction: column; align-items: flex-end; font-variant-numeric: tabular-nums; }
+.bl-t-v b { font: var(--text-body-strong); }
+.bl-t-v small { display: flex; gap: var(--space-2); font: var(--text-caption); }
+.bl-t-v small span { display: inline-flex; align-items: center; gap: 2px; }
+.bl-t-v small .ic { width: 11px; height: 11px; }
+.s-heal { color: var(--status-success-text); }
+.s-bar { color: var(--text-secondary); }
+
+/* ── 상세 패널 ── */
+.bl-insp { min-width: 0; padding: var(--space-5) var(--space-6) var(--space-6); outline: none; scroll-margin-top: calc(56px + var(--space-4)); }
+.bl-insp.flash { animation: bl-flash 1400ms var(--ease-standard); }
+.bl-insp-head { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-6); }
+.bl-insp-head h4 { font: var(--text-title); letter-spacing: var(--tracking-title); font-variant-numeric: tabular-nums; }
+.bl-back { display: none; }
+.bl-back .ic { transform: rotate(180deg); }
+.bl-stats { display: flex; gap: var(--space-6); margin: 0; }
+.bl-stat dt { font: var(--text-caption); color: var(--text-tertiary); }
+.bl-stat dd { margin: 0; font: var(--text-title-sm); font-variant-numeric: tabular-nums; }
+.bl-stat.s-heal dd { color: var(--status-success-text); }
+.bl-nav { display: flex; gap: var(--space-1); margin-left: auto; }
+.bl-crumb { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; margin: var(--space-3) 0 var(--space-4); font: var(--text-body-sm); color: var(--text-tertiary); min-height: 20px; }
+.bl-crumb button { border: 0; background: none; padding: 0 2px; color: var(--text-secondary); border-radius: var(--radius-sm); }
+.bl-crumb button:hover { color: var(--text-primary); text-decoration: underline; }
+.bl-crumb span { color: var(--text-primary); font-weight: 500; }
+.bl-crumb .ic { width: 12px; height: 12px; color: var(--text-disabled); }
+
+/* ── 행동 카드 ── */
+.bl-acts { display: flex; flex-direction: column; gap: var(--space-2); }
+.bl-act { border: var(--border-w) solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-surface); scroll-margin-top: calc(56px + var(--space-4)); }
+.bl-act.open { border-color: var(--border-default); }
+.bl-act.is-ult { box-shadow: inset 3px 0 0 var(--border-strong); }
+.bl-act.flash { animation: bl-flash 1400ms var(--ease-standard); }
+@keyframes bl-flash { 0%, 100% { background: var(--bg-surface); } 20% { background: var(--bg-selected); } }
+.bl-act-h { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 52px; padding: var(--space-2) var(--space-4) var(--space-2) var(--space-3);
+  border: 0; border-radius: inherit; background: transparent; text-align: left; font: var(--text-body); color: var(--text-primary); }
+.bl-act-h:hover { background: var(--bg-subtle); }
+.bl-chev { width: 14px; height: 14px; color: var(--text-tertiary); flex: none; transition: transform var(--dur-fast) var(--ease-standard); }
+[aria-expanded="true"] > .bl-chev { transform: rotate(90deg); }
+.bl-chev-sp { width: 14px; flex: none; }
+.bl-by { font: var(--text-body-sm); color: var(--text-tertiary); white-space: nowrap; }
+.bl-an { font: var(--text-body-strong); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bl-kind { flex: none; height: 22px; padding: 0 var(--space-2); border-radius: var(--radius-sm); display: inline-flex; align-items: center;
+  font: var(--text-caption); background: var(--bg-selected); color: var(--text-secondary); }
+.bl-kind.k-ult { background: var(--bg-inverse); color: var(--text-inverse); }
+.bl-kind.k-hit { background: var(--status-danger-subtle); color: var(--status-danger-text); }
+.bl-sub-n { font: var(--text-body-sm); color: var(--text-tertiary); white-space: nowrap; }
+.bl-act-v { margin-left: auto; display: inline-flex; align-items: center; gap: var(--space-2); font: var(--text-title-sm); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bl-act-v i { font: var(--text-body-sm); font-style: normal; color: var(--text-tertiary); }
+.bl-act-b { padding: 0 var(--space-4) var(--space-4) calc(var(--space-3) + 14px + var(--space-3) + 28px + var(--space-3)); }
+.bl-enemy-b { padding-left: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
+.bl-enemy-b .bl-act-b { padding-left: var(--space-5); }
+.bl-cap { margin: var(--space-4) 0 var(--space-1); font: var(--text-caption); color: var(--text-tertiary); }
+.bl-act-b > .bl-list:first-child { margin-top: 0; }
+
+/* ── 타격·효과 줄 ── */
+.bl-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1px; }
+.bl-row { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: 40px; padding: var(--space-1) var(--space-2);
+  border: 0; border-radius: var(--radius-sm); background: transparent; text-align: left; font: var(--text-body); color: var(--text-primary); cursor: pointer; }
+.bl-row:hover { background: var(--bg-subtle); }
+.bl-row.is-static { cursor: default; }
+.bl-row.is-static:hover { background: transparent; }
+.bl-row:focus-visible { box-shadow: var(--focus-ring); }
+.bl-idx { font: var(--text-body-strong); color: var(--text-secondary); white-space: nowrap; }
+.bl-tgt { color: var(--text-tertiary); white-space: nowrap; }
+.bl-amt { margin-left: auto; padding-left: var(--space-3); font: var(--text-body-strong); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bl-tag { flex: none; height: 20px; padding: 0 6px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; font: var(--text-caption); background: var(--bg-selected); color: var(--text-secondary); }
+.bl-tag.t-adv { background: var(--status-success-subtle); color: var(--status-success-text); }
+.bl-tag.t-dis { background: var(--status-danger-subtle); color: var(--status-danger-text); }
+.bl-tag.t-counter { background: transparent; box-shadow: inset 0 0 0 1px var(--border-strong); color: var(--text-secondary); }
+.bl-txt { flex: 1; min-width: 0; color: var(--text-secondary); overflow-wrap: anywhere; }
+.bl-txt small { margin-left: var(--space-2); font: var(--text-caption); color: var(--text-tertiary); }
+.bl-txt .bl-tag { margin-left: var(--space-2); vertical-align: 1px; }
+.bl-src { flex: none; max-width: 40%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bl-eic { width: 16px; height: 16px; flex: none; color: var(--text-tertiary); }
+.bl-eic.t-heal, .bl-eic.t-buff { color: var(--status-success-text); }
+.bl-eic.t-debuff, .bl-eic.t-incoming, .bl-eic.t-death { color: var(--status-danger-text); }
+.bl-eic.t-barrier { color: var(--text-secondary); }
+.bl-eic.t-tempo { color: var(--status-warning-text); }
+.bl-eff.t-heal .bl-amt { color: var(--status-success-text); }
+.t-hp { color: var(--status-danger-text); }
+
+/* 스킬 링크 — 누르면 스킬 설명 */
+.bl-sk { display: inline; padding: 0; border: 0; background: none; font: inherit; color: var(--text-primary); text-align: left; text-decoration: underline dotted; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.bl-sk:hover { text-decoration-style: solid; text-decoration-color: currentColor; }
+.bl-sk-static { color: var(--text-tertiary); }
+.bl-src .bl-sk, .bl-src .bl-sk-static { font: var(--text-body-sm); }
+
+.bl-sub { margin: var(--space-1) 0 var(--space-3) calc(14px + var(--space-2) + var(--space-2)); }
+
+/* 받은 데미지 */
+.bl-in-body { display: flex; flex-direction: column; gap: 6px; padding: 0 var(--space-2) var(--space-2) calc(14px + 16px + var(--space-2) * 3); }
+.bl-gauge { display: flex; height: 6px; border-radius: var(--radius-full); overflow: hidden; background: var(--bg-selected); max-width: 360px; }
+.g-remain { background: var(--text-secondary); }
+.g-lost { background: var(--status-danger-solid); }
+.bl-in-out { display: flex; flex-wrap: wrap; gap: var(--space-3); font: var(--text-body-sm); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+
+/* 배리어 구성 */
+.bl-barcomp { margin-top: var(--space-3); }
+.bl-barcomp > .bl-cap { margin-top: 0; }
+.bl-row-wrap { display: flex; align-items: center; gap: var(--space-2); }
+.bl-row-wrap > .bl-row { flex: 1; min-width: 0; }
+.bl-go { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 var(--space-2); border: var(--border-w) solid var(--border-default);
+  border-radius: var(--radius-sm); background: var(--bg-surface); font: var(--text-body-sm); color: var(--text-secondary); white-space: nowrap; }
+.bl-go:hover { color: var(--text-primary); border-color: var(--border-strong); }
+.bl-go-ic { width: 12px; height: 12px; }
+
+/* ── 계산 그래픽(ui/calcview.js) — 수식 칩 + 단계 막대 ── */
+[data-cat="atk"]   { --cat: var(--viz-atk); }
+[data-cat="skill"] { --cat: var(--viz-skill); }
+[data-cat="amp"]   { --cat: var(--viz-amp); }
+[data-cat="recv"]  { --cat: var(--viz-recv); }
+[data-cat="elem"]  { --cat: var(--viz-elem); }
+[data-cat="diff"]  { --cat: var(--status-warning-solid); }
+.cv { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-3) 0 var(--space-2); }
+
+/* 수식 칩 */
+.cv-eq { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.cv-chip { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 1px; min-width: 64px; padding: 6px var(--space-3) 7px;
+  border: var(--border-w) solid color-mix(in oklab, var(--cat) 35%, var(--bg-surface)); border-left: 4px solid var(--cat); border-radius: var(--radius-md);
+  background: color-mix(in oklab, var(--cat) 9%, var(--bg-surface)); text-align: left; color: var(--text-primary); }
+button.cv-chip:hover { background: color-mix(in oklab, var(--cat) 16%, var(--bg-surface)); }
+.cv-chip small { font: var(--text-caption); color: var(--text-secondary); white-space: nowrap; }
+.cv-chip b { font: var(--text-title-sm); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cv-chip.is-final { border: 0; background: var(--accent-solid); color: var(--on-accent); padding-left: var(--space-4); padding-right: var(--space-4); }
+.cv-chip.is-final small { color: color-mix(in oklab, var(--on-accent) 80%, var(--accent-solid)); }
+.cv-op { font: var(--text-title-sm); color: var(--text-tertiary); }
+
+/* 범례 */
+.cv-legend { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); font: var(--text-caption); color: var(--text-secondary); }
+.cv-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.cv-sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: var(--cat); flex: none; }
+
+/* 단계 막대 */
+.cv-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.cv-row, .cv-sub, .cv-final { display: grid; grid-template-columns: minmax(150px, 1.1fr) 92px minmax(120px, 2fr) 92px 64px; align-items: center; column-gap: var(--space-3); }
+.cv-row { width: 100%; min-height: 44px; padding: var(--space-1) var(--space-2); border: 0; border-radius: var(--radius-sm); background: transparent; text-align: left; font: var(--text-body); color: var(--text-primary); }
+button.cv-row:hover { background: var(--bg-subtle); }
+.cv-row.is-static { cursor: default; }
+.cv-step.flash > .cv-row { animation: bl-flash 1400ms var(--ease-standard); }
+.cv-step.open > .cv-row { background: var(--bg-subtle); }
+.cv-l { display: flex; flex-wrap: wrap; align-items: center; gap: 2px var(--space-2); min-width: 0; }
+.cv-l small { flex-basis: 100%; padding-left: 18px; font: var(--text-caption); color: var(--text-tertiary); }
+.cv-skill { flex-basis: 100%; padding-left: 18px; font: var(--text-body-sm); }
+.cv-v { display: flex; flex-direction: column; align-items: flex-end; font-variant-numeric: tabular-nums; }
+.cv-v b { font: var(--text-body-strong); white-space: nowrap; }
+.cv-v small { font: var(--text-caption); color: var(--text-tertiary); }
+.cv-track { position: relative; height: 14px; border-radius: 3px; background: var(--bg-subtle); overflow: hidden; }
+.cv-track i { position: absolute; top: 0; bottom: 0; left: 0; }
+.cv-keep { background: var(--bg-selected); }
+.cv-gain { background: var(--cat); border-radius: 0 3px 3px 0; box-shadow: -2px 0 0 var(--bg-surface); }
+.k-base .cv-gain { border-radius: 3px; box-shadow: none; }
+.cv-loss { background: repeating-linear-gradient(135deg, transparent 0 3px, color-mix(in oklab, var(--text-tertiary) 55%, transparent) 3px 4.5px);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--text-tertiary) 60%, transparent); border-radius: 0 3px 3px 0; }
+.cv-run { text-align: right; font: var(--text-body-strong); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cv-step.is-down .cv-v b { color: var(--text-secondary); }
+.cv-more { display: inline-flex; align-items: center; justify-content: flex-end; gap: 2px; font: var(--text-caption); color: var(--text-tertiary); white-space: nowrap; }
+.cv-more .ic { width: 12px; height: 12px; transition: transform var(--dur-fast) var(--ease-standard); }
+.cv-step.open .cv-more .ic { transform: rotate(180deg); }
+.cv-sub { min-height: 34px; padding: 0 var(--space-2); margin: 2px 0; border-top: var(--border-w) dashed var(--border-default); border-bottom: var(--border-w) dashed var(--border-default); font: var(--text-body-sm); color: var(--text-secondary); }
+.cv-sub .cv-l { grid-column: 1 / 4; padding-left: 18px; }
+.cv-sub .cv-run { grid-column: 4; font: var(--text-body-strong); color: var(--text-primary); }
+.cv-final { min-height: 48px; padding: var(--space-2); margin-top: var(--space-1); border-top: 2px solid var(--border-strong); }
+.cv-final .cv-l { font: var(--text-body-strong); padding-left: 18px; }
+.cv-final .cv-track { grid-column: 3; }
+.cv-final .cv-run { grid-column: 4; font: var(--text-title-sm); color: var(--accent-text); }   /* 결과 숫자 = 강조색(과정 숫자는 본문색) */
+.cv-final .cv-l { color: var(--accent-text); }
+.cv-total { background: var(--accent-solid); border-radius: 3px; }
+
+/* 출처 */
+.cv-panel { margin: 2px 0 var(--space-2) 18px; padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--bg-subtle); border-left: 3px solid var(--cat); }
+.cv-src { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.cv-src-row { display: grid; grid-template-columns: minmax(0, 1fr) 120px 72px; align-items: center; column-gap: var(--space-3); min-height: 32px; font: var(--text-body-sm); }
+.cv-src-who { display: flex; flex-wrap: wrap; align-items: center; gap: 2px var(--space-2); min-width: 0; }
+.cv-src-name { color: var(--text-secondary); }
+.cv-cond { height: 18px; padding: 0 6px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; background: var(--bg-selected); font: var(--text-caption); color: var(--text-secondary); }
+.cv-src-bar { height: 6px; border-radius: var(--radius-full); background: var(--bg-selected); overflow: hidden; }
+.cv-src-bar i { display: block; height: 100%; background: var(--cat); border-radius: inherit; }
+.cv-src-v { text-align: right; font: var(--text-body-strong); font-variant-numeric: tabular-nums; }
+.cv-src-v.is-result { color: var(--accent-text); }   /* 부여 계산의 결과(고정 ATK) */
+.cv-step.is-last .cv-run { color: var(--accent-text); }   /* 마지막 단계 누적 = 최종 */
+.cv-grant { margin: var(--space-1) 0 var(--space-2) 26px; padding: var(--space-2) 0 0 var(--space-3); border-left: 2px solid var(--border-default); }
+.cv-grant-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); font: var(--text-body-sm); color: var(--text-secondary); }
+.cv-grant-miss { margin: 2px 0 var(--space-2) 26px; font: var(--text-caption); color: var(--text-tertiary); }
+.cv-grant .cv { padding-top: var(--space-1); }
+
+/* 중첩(배리어 생성식·고정 ATK 부여 계산) — 한 단계 작게 */
+.cv.is-compact .cv-row, .cv.is-compact .cv-sub, .cv.is-compact .cv-final { grid-template-columns: minmax(130px, 1.1fr) 84px minmax(90px, 2fr) 84px 56px; }
+.cv.is-compact .cv-row { min-height: 36px; font: var(--text-body-sm); }
+.cv.is-compact .cv-v b, .cv.is-compact .cv-run { font: var(--text-body-sm); font-weight: 600; }
+.cv.is-compact .cv-track { height: 10px; }
+.cv.is-compact .cv-final { min-height: 40px; }
+.cv.is-compact .cv-final .cv-run { font: var(--text-body-strong); }
+
+.rc-warn { display: flex; align-items: flex-start; gap: var(--space-2); margin-top: var(--space-2); font: var(--text-body-sm); color: var(--status-warning-text); }
+.rc-warn .ic { margin-top: 1px; }
+
+/* ── 스킬 설명 시트 ── */
+.bl-skill { display: flex; flex-direction: column; gap: var(--space-4); }
+.bl-skill-head { display: flex; gap: var(--space-3); align-items: center; }
+.bl-skill-pic { width: 56px; height: 56px; box-shadow: 0 0 0 2px var(--el, var(--border-default)); }
+.bl-skill-head b { font: var(--text-body-sm); color: var(--text-tertiary); }
+.bl-skill-name { font: var(--text-title-sm); }
+.bl-skill-meta { font: var(--text-body-sm); color: var(--text-tertiary); }
+.bl-skill-desc { font: var(--text-body); line-height: 1.7; color: var(--text-primary); white-space: pre-line; }
+
+@media (max-width: 900px) {
+  .bl, .bl-insp, .bl-act { scroll-margin-top: 112px; }   /* 모바일 상단바 + 탭 */
+  .bl-body { grid-template-columns: minmax(0, 1fr); }
+  .bl-turns { position: static; max-height: none; border-right: 0; }
+  .bl-insp { display: none; padding: var(--space-4); }
+  .bl.is-detail .bl-turns { display: none; }
+  .bl.is-detail .bl-insp { display: block; }
+  .bl-back { display: inline-flex; flex-basis: 100%; justify-content: flex-start; margin-left: calc(-1 * var(--space-2)); }
+  .bl-stats { gap: var(--space-4); }
+  .bl-act-b { padding-left: var(--space-3); padding-right: var(--space-3); }
+  .bl-sub { margin-left: 0; }
+  .bl-in-body { padding-left: var(--space-2); }
+  /* 계산 그래픽: 1줄 = 이름 · 값 · 누적, 2줄 = 막대 */
+  .cv-row, .cv.is-compact .cv-row { grid-template-columns: minmax(0, 1fr) auto 20px; grid-template-areas: "l v m" "t r m"; row-gap: 4px; padding-top: var(--space-2); padding-bottom: var(--space-2); }
+  .cv-row .cv-run { min-width: 72px; }
+  .cv-row .cv-l { grid-area: l; } .cv-row .cv-v { grid-area: v; } .cv-row .cv-run { grid-area: r; } .cv-row .cv-more { grid-area: m; } .cv-row .cv-track { grid-area: t; }
+  .cv-more { font-size: 0; }
+  .cv-sub, .cv.is-compact .cv-sub { grid-template-columns: minmax(0, 1fr) auto; }
+  .cv-sub .cv-l { grid-column: 1; } .cv-sub .cv-run { grid-column: 2; }
+  .cv-final, .cv.is-compact .cv-final { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "l l" "t r"; row-gap: 4px; }
+  .cv-final .cv-l { grid-area: l; } .cv-final .cv-run { grid-area: r; } .cv-final .cv-track { grid-area: t; }
+  .cv-src-row { grid-template-columns: minmax(0, 1fr) 56px 64px; }
+  .cv-panel { margin-left: 0; }
+  .cv-grant { margin-left: var(--space-2); }
+  .cv-chip { min-width: 0; padding: 4px var(--space-2) 5px; }
+  .cv-chip b { font: var(--text-body-strong); }
+  .bl-src { max-width: 50%; }
+  .bl-sub-n { display: none; }
+}
+
+/* 결과 숫자(준 데미지) = 강조색 — 타격·행동 합계·턴 데미지 */
+.bl-hit .bl-amt, .bl-act-v, .bl-stat.s-dmg dd { color: var(--accent-text); }
+.bl-act-v i { color: var(--text-tertiary); }

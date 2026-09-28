@@ -1,0 +1,80 @@
+/* v2 모션 — 토큰(--dur-*, --ease-*)만 쓴다. 사용자 행동에 답하거나 기다림을 설명하는 모션만. 장식 반복 없음.
+   JS 오케스트레이션(src/motion/)은 Web Animations API 를 쓰고, 여기는 CSS 만으로 되는 전환을 둔다. */
+
+/* 패널 진입(첫 로드·재방문): main.js 가 .enter 를 붙였다 떼며 스태거(--i) */
+.enter { animation: enter var(--dur-slow) var(--ease-enter) both; animation-delay: calc(var(--i, 0) * 40ms); }
+@keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* 아코디언 본문: grid-template-rows 트릭으로 높이 전환 */
+.acc details > .acc-body { display: grid; grid-template-rows: 1fr; }
+.acc details:not([open]) > .acc-body { display: none; }
+.acc details.closing > .acc-body { display: grid; grid-template-rows: 0fr; }
+.acc details.opening > .acc-body { animation: acc-open var(--dur-base) var(--ease-standard); }
+@keyframes acc-open { from { grid-template-rows: 0fr; opacity: 0; } to { grid-template-rows: 1fr; opacity: 1; } }
+.acc details > .acc-body > * { min-height: 0; }
+.acc-sum { transition: opacity var(--dur-fast) var(--ease-standard); }
+.acc-sum.swap { opacity: 0; }
+
+/* 로스터 타일 → 슬롯 FLIP 비행체 */
+.fly { position: fixed; z-index: var(--z-toast); pointer-events: none; border-radius: var(--radius-lg); object-fit: cover; box-shadow: var(--shadow-lg); }
+
+/* 슬롯 안착 */
+.slot.landed .slot-btn { animation: land var(--dur-slow) var(--ease-enter); }
+@keyframes land { 0% { transform: scale(.96); } 60% { transform: scale(1.01); } 100% { transform: none; } }
+
+/* 실행 버튼 → 진행 바 */
+.btn-run { position: relative; overflow: hidden; }
+.btn-run .prog { position: absolute; left: 0; top: 0; bottom: 0; width: var(--p, 0%); background: var(--accent-active); transition: width var(--dur-base) linear; }
+.btn-run > span, .btn-run > svg { position: relative; }
+.btn-run.running { cursor: progress; }
+
+/* 결과 공개: 30턴 막대가 순서대로 올라옴(--i = 턴 인덱스) */
+.turn-strip.reveal i { animation: bar-up var(--dur-slow) var(--ease-enter) both; animation-delay: calc(var(--i, 0) * 28ms); }
+.turn-strip.reveal i.ult { animation-duration: 400ms; animation-delay: calc(var(--i, 0) * 28ms + 60ms); }
+@keyframes bar-up { from { transform: scaleY(0); transform-origin: bottom; } to { transform: none; } }
+.c-bar i { transition: width 600ms var(--ease-enter); }
+.contrib.reveal li { animation: enter var(--dur-slow) var(--ease-enter) both; animation-delay: calc(var(--i, 0) * 50ms + 300ms); }
+.band-pt { transition: left 700ms var(--ease-enter); }
+
+/* 미리보기 칸 갱신 하이라이트 */
+.pv-cells i { transition: background-color var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard); }
+.pv-cells i.changed { animation: cell-flash 600ms var(--ease-standard); }
+@keyframes cell-flash { 0%, 100% { outline: 2px solid transparent; } 30% { outline: 2px solid var(--text-primary); outline-offset: 1px; } }
+
+/* 시트·스크림 */
+.scrim { animation: fade var(--dur-base) var(--ease-standard) both; }
+.scrim.out { animation: fade var(--dur-base) var(--ease-exit) reverse both; }
+.sheet { animation: sheet-in var(--dur-slow) var(--ease-enter) both; }
+.sheet.out { animation: sheet-out var(--dur-base) var(--ease-exit) both; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sheet-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@keyframes sheet-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateX(24px); } }
+@media (max-width: 900px) {
+  @keyframes sheet-in { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
+  @keyframes sheet-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(32px); } }
+}
+
+/* 토스트 */
+.toast { animation: toast-in var(--dur-fast) var(--ease-enter) both; }
+.toast.out { animation: fade var(--dur-fast) var(--ease-exit) reverse both; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* 테마 전환 */
+html.theming, html.theming * { transition: background-color var(--dur-base) var(--ease-standard), color var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard) !important; }
+
+/* 로딩 로고: 막대 4개가 진행에 맞춰 차오름 */
+.boot-mark rect { transition: fill var(--dur-base) var(--ease-standard); }
+.boot-mark.pulse rect { animation: pulse 900ms var(--ease-standard) 1; }
+@keyframes pulse { 0% { transform: scaleY(1); } 40% { transform: scaleY(.6); } 100% { transform: scaleY(1); } }
+.boot.done { animation: boot-out var(--dur-slow) var(--ease-exit) both; }
+@keyframes boot-out { to { opacity: 0; transform: translateY(-16px); } }
+
+/* 움직임 줄이기: 이동 제거, 페이드만 */
+@media (prefers-reduced-motion: reduce) {
+  .enter, .contrib.reveal li, .toast, .sheet, .sheet.out, .boot.done { animation-name: fade; animation-duration: 150ms; }
+  .turn-strip.reveal i { animation: none; }
+  .slot.landed .slot-btn, .boot-mark.pulse rect, .pv-cells i.changed { animation: none; }
+  .fly { display: none; }
+  .acc details.opening > .acc-body { animation: none; }
+  .c-bar i, .band-pt { transition: none; }
+}

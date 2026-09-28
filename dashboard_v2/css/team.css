@@ -1,0 +1,34 @@
+/* 팀 편성 패널 전용(app.css 의 .slot/.tile 계승) — 토큰만. */
+.slots { user-select: none; -webkit-user-select: none; }
+.slot-btn { -webkit-touch-callout: none; touch-action: manipulation; }
+.slot-btn img { pointer-events: none; }
+.slot-empty .slot-btn { min-height: 132px; gap: var(--space-1); }
+.slot-plus { display: inline-flex; color: inherit; }
+.slot-empty.is-target .slot-btn { border-style: solid; border-color: var(--accent-solid); color: var(--accent-text); box-shadow: 0 0 0 1px var(--accent-solid); }
+.slot-empty.is-target .slot-pos { background: var(--accent-solid); color: var(--on-accent); }
+.slot-meta .chip { flex: none; }
+.chip-more { background: var(--bg-selected); color: var(--text-secondary); }
+
+/* 드래그 교체 */
+.slot.is-dragging .slot-btn { opacity: .35; }
+.slot.is-over .slot-btn { border-color: var(--accent-solid); box-shadow: 0 0 0 1px var(--accent-solid); }
+.slot-ghost { position: fixed; z-index: var(--z-toast); pointer-events: none; margin: 0; box-shadow: var(--shadow-lg); cursor: grabbing; opacity: .95; }
+
+/* 목록 머리: 자리 지정 안내 */
+.pick-hint { display: inline-flex; align-items: center; gap: var(--space-2); margin-left: auto; font: var(--text-body-sm); color: var(--accent-text); }
+.pick-cancel { border: 0; background: transparent; padding: 0 var(--space-1); min-height: 28px; font: var(--text-body-sm); font-weight: 600; color: var(--text-secondary); text-decoration: underline; text-underline-offset: 2px; }
+.pick-cancel:hover { color: var(--text-primary); }
+.roster-empty { grid-column: 1 / -1; }
+.tile img { pointer-events: none; }
+
+@media (max-width: 900px) {
+  .slot-empty .slot-btn { min-height: 96px; }
+  .slot-empty .slot-name { font-size: 11px; line-height: 14px; text-align: center; white-space: normal; padding: 0 4px; }
+  .roster-tools { flex-direction: column; align-items: stretch; }
+  .roster-tools .seg { display: flex; }
+  .roster-tools .seg button { flex: 1 0 auto; justify-content: center; min-height: 44px; }
+  .roster-head { flex-wrap: wrap; }
+  .pick-hint { margin-left: 0; flex-basis: 100%; }
+  .pick-cancel { min-height: 44px; }
+  .tile { min-height: 44px; }
+}

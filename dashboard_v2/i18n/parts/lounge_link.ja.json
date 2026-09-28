@@ -1,0 +1,21 @@
+{
+ "top.lounge": "ラウンジ",
+ "top.lounge.short": "ラウンジ",
+ "top.tip.lounge": "XXL ラウンジ — 仲間のコメント・ティア表・チーム共有",
+ "top.compare.short": "比較",
+ "result.share.lounge": "チーム共有に投稿",
+ "result.share.lounge.tip": "この編成を XXL ラウンジのチーム共有に投稿します",
+ "result.share.lounge.fail": "共有コードを作成できませんでした",
+ "grow.lounge": "コメントを見る",
+ "grow.lounge.tip": "XXL ラウンジでこの仲間へのコメントを見る",
+ "deeplink.loaded": "XXL ラウンジから送られた編成を読み込みました",
+ "deeplink.added": "空き枠に追加しました: {name}",
+ "deeplink.bad": "リンクの共有コードを読み取れません",
+ "deeplink.empty": "リンクの編成に仲間がいません",
+ "deeplink.unknown": "リンクにシミュレーターにない仲間が含まれています",
+ "deeplink.full": "チームの仲間がいっぱいです",
+ "deeplink.dup": "すでに編成済みの仲間です",
+ "deeplink.imbueonP1": "任富言は1番に配置できません",
+ "top.brand.aria": "XXL WOOFIA シミュレーター",
+ "top.brand.sub": "シミュレーター"
+}

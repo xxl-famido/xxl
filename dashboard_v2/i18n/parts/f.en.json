@@ -1,0 +1,11 @@
+{
+ "boot.error": "Couldn't load the engine: {error}",
+ "common.close": "Close",
+ "patch.cat.all": "All",
+ "patch.cat.balance": "Improvements & balance",
+ "patch.cat.fix": "Bug fixes",
+ "patch.cat.new": "New",
+ "patch.cat.qol": "Quality of life",
+ "patch.filter.aria": "Patch category",
+ "patch.empty": "No patches in this category."
+}

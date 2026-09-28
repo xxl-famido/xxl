@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>XXL 라운지</title>
+<!-- 라운지 서버 주소(https://….workers.dev). 비어 있으면 목업(이 브라우저에만 저장)으로 동작. 배포 절차: lounge_api/README.md -->
+<meta name="lounge-api" content="https://xxl-lounge-api.xxl-famido.workers.dev">
+<!-- Turnstile 사이트 키(공개값). 비밀키는 서버에만 있다. -->
+<meta name="lounge-turnstile" content="0x4AAAAAAFGDc7xf-L-gKNQy">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="motion.css">
+<link rel="stylesheet" href="lounge.css">
+<script>
+  try { const t = localStorage.getItem('woofia_theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch {}
+</script>
+</head>
+<body class="lg">
+
+<header class="topbar">
+  <div class="lg-top">
+    <a class="brand" href="#/">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.2 3.6A.5.5 0 0 1 6 19.2V16h0a2 2 0 0 1-2-2z"/></svg>
+      <span class="brand-name" data-i18n="brand">XXL 라운지</span>
+    </a>
+    <nav class="topnav" aria-label="바로 가기" data-i18n-aria="nav.shortcuts">
+      <a class="btn btn-ghost" href="index.html"><svg class="ic"><use href="ui-icons/sprite.svg#i-swords"/></svg><span data-i18n="nav.sim">시뮬레이터</span></a>
+      <button class="btn-icon" id="langBtn" aria-label="언어" data-i18n-aria="lang.aria" aria-haspopup="menu"><svg class="ic"><use href="ui-icons/sprite.svg#i-languages"/></svg></button>
+      <button class="btn-icon" id="themeBtn" aria-label="테마 전환"><svg class="ic"><use href="ui-icons/sprite.svg#i-moon"/></svg></button>
+    </nav>
+  </div>
+</header>
+
+<div class="lg-shell">
+  <nav class="lg-side" aria-label="라운지 메뉴" data-i18n-aria="nav.menu">
+    <a href="#/" data-nav="char"><svg class="ic"><use href="ui-icons/sprite.svg#i-message-square"/></svg><span data-i18n="nav.chars">동료 게시판</span></a>
+    <a href="#/tier" data-nav="tier"><svg class="ic"><use href="ui-icons/sprite.svg#i-rows-3"/></svg><span data-i18n="nav.tier">티어표</span></a>
+    <a href="#/team" data-nav="team"><svg class="ic"><use href="ui-icons/sprite.svg#i-users"/></svg><span data-i18n="nav.team">팀 공유</span></a>
+    <a href="#/me" data-nav="me"><svg class="ic"><use href="ui-icons/sprite.svg#i-history"/></svg><span data-i18n="nav.me">내 활동</span></a>
+  </nav>
+  <main id="view" class="lg-main" tabindex="-1"></main>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<script type="module" src="src/lounge/main.js"></script>
+</body>
+</html>

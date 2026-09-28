@@ -1,0 +1,11 @@
+{
+  "patch.cat.all": "전체",
+  "patch.cat.new": "신규",
+  "patch.cat.balance": "개선·밸런스",
+  "patch.cat.fix": "버그 수정",
+  "patch.cat.qol": "편의",
+  "patch.filter.aria": "패치 분류",
+  "common.close": "닫기",
+  "boot.error": "엔진을 불러오지 못했습니다: {error}",
+  "patch.empty": "이 분류의 패치가 없습니다."
+}

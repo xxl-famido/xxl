@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v2 토큰 미리보기</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* 미리보기 전용 — 컴포넌트 CSS의 초안이 아니라 토큰이 어떻게 보이는지 확인하는 판 */
+  * { box-sizing: border-box; margin: 0; }
+  body { font: var(--text-body); color: var(--text-primary); background: var(--bg-canvas); padding: var(--space-8); }
+  h1 { font: var(--text-title); letter-spacing: var(--tracking-title); margin-bottom: var(--space-2); }
+  h2 { font: var(--text-title-sm); margin: var(--space-8) 0 var(--space-3); }
+  .sub { color: var(--text-tertiary); font: var(--text-body-sm); }
+  .row { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; }
+  .sw { width: 96px; padding: var(--space-2); border: var(--border-w) solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-surface); }
+  .sw i { display: block; height: 40px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); }
+  .sw b { display: block; font: var(--text-caption); color: var(--text-secondary); margin-top: var(--space-1); font-weight: 500; }
+  .sw small { display: block; font: 11px/14px var(--font-mono); color: var(--text-tertiary); }
+  .panel { background: var(--bg-surface); border: var(--border-w) solid var(--border-default); border-radius: var(--radius-lg); padding: var(--space-5); max-width: 720px; }
+  .btn { height: var(--control-md); padding: 0 var(--space-3); border-radius: var(--radius-md); border: var(--border-w) solid transparent;
+         font: var(--text-body-strong); cursor: pointer; transition: background-color var(--dur-instant) var(--ease-standard); }
+  .btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .btn-primary { background: var(--accent-solid); color: var(--on-accent); }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary { background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-strong); }
+  .btn-secondary:hover { background: var(--bg-subtle); }
+  .btn-ghost { background: transparent; color: var(--text-secondary); }
+  .btn-ghost:hover { background: var(--bg-subtle); color: var(--text-primary); }
+  .btn-danger { background: transparent; color: var(--status-danger-text); border-color: var(--border-default); }
+  .btn-danger:hover { background: var(--status-danger-subtle); }
+  .btn-lg { height: var(--control-lg); padding: 0 var(--space-5); }
+  .seg { display: inline-flex; background: var(--bg-subtle); border-radius: var(--radius-md); padding: 2px; }
+  .seg button { height: 28px; min-width: 40px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--text-secondary); font: var(--text-body); cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--bg-surface); color: var(--text-primary); box-shadow: var(--shadow-sm); font-weight: 600; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: var(--radius-full); margin-right: 6px; vertical-align: middle; }
+  .tile { width: 72px; height: 72px; border-radius: var(--radius-lg); background: var(--bg-subtle); border: 1px solid var(--border-subtle); position: relative; overflow: hidden; }
+  .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tile.sel { box-shadow: 0 0 0 2px var(--accent-solid); border-color: transparent; }
+  .tile .dot { position: absolute; right: 6px; bottom: 6px; margin: 0; box-shadow: 0 0 0 2px var(--bg-surface); }
+  .type p { margin: var(--space-1) 0; }
+  .num { font-variant-numeric: tabular-nums; }
+  .display { font: var(--text-display); letter-spacing: var(--tracking-display); }
+  .status { display: inline-block; padding: 2px 8px; border-radius: var(--radius-sm); font: var(--text-caption); }
+  .accent-toggle { position: fixed; top: 16px; right: 16px; display: flex; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="accent-toggle">
+  <button class="btn btn-secondary" onclick="document.documentElement.dataset.theme='light'">라이트</button>
+  <button class="btn btn-secondary" onclick="document.documentElement.dataset.theme='dark'">다크</button>
+</div>
+
+<h1>v2 디자인 토큰</h1>
+<p class="sub">tokens.css 확인용. 강조색 후보 3개를 같은 컴포넌트에 얹어 비교한다.</p>
+
+<h2>중립 램프</h2>
+<div class="row" id="neutrals"></div>
+
+<h2>강조색 후보</h2>
+<div class="row" id="accents"></div>
+
+<h2>같은 버튼에 후보 3개</h2>
+<div class="row">
+  <button class="btn btn-primary btn-lg" style="--accent-solid:var(--accent-cobalt-solid);--accent-hover:var(--accent-cobalt-hover)">시뮬레이션 실행 · cobalt</button>
+  <button class="btn btn-primary btn-lg" style="--accent-solid:var(--accent-azure-solid);--accent-hover:var(--accent-azure-hover)">시뮬레이션 실행 · azure</button>
+  <button class="btn btn-primary btn-lg" style="--accent-solid:var(--accent-indigo-less-solid);--accent-hover:var(--accent-indigo-less-hover)">시뮬레이션 실행 · indigo-less</button>
+</div>
+
+<h2>버튼 4계층 · 세그먼트</h2>
+<div class="row">
+  <button class="btn btn-primary">실행</button>
+  <button class="btn btn-secondary">기록 불러오기</button>
+  <button class="btn btn-ghost">가이드</button>
+  <button class="btn btn-danger">기록 삭제</button>
+  <span class="seg"><button aria-pressed="true">무</button><button>불</button><button>물</button><button>풀</button><button>빛</button></span>
+</div>
+
+<h2>로스터 타일 · 속성 점 · 선택 링</h2>
+<div class="row">
+  <div class="tile sel"><img src="icons/10401.png" alt=""><span class="dot" style="background:var(--element-fire)"></span></div>
+  <div class="tile"><img src="icons/10402.png" alt=""><span class="dot" style="background:var(--element-water)"></span></div>
+  <div class="tile"><img src="icons/10403.png" alt=""><span class="dot" style="background:var(--element-wood)"></span></div>
+  <div class="tile"><img src="icons/10404.png" alt=""><span class="dot" style="background:var(--element-light)"></span></div>
+  <div class="tile"><img src="icons/10405.png" alt=""><span class="dot" style="background:var(--element-dark)"></span></div>
+  <div class="tile"><img src="icons/10406.png" alt=""><span class="dot" style="background:var(--element-none)"></span></div>
+  <div class="tile sel" style="--accent-solid:var(--accent-azure-solid)"><img src="icons/10407.png" alt=""></div>
+  <div class="tile sel" style="--accent-solid:var(--accent-indigo-less-solid)"><img src="icons/10408.png" alt=""></div>
+</div>
+
+<h2>패널 · 타이포 위계 · 상태</h2>
+<div class="panel type">
+  <p class="display num">52,723,932</p>
+  <p class="sub">평균 50회 · 최소 <span class="num">48,105,220</span> · 최대 <span class="num">57,912,004</span></p>
+  <p style="font:var(--text-title-sm);margin-top:var(--space-4)">전투 설정</p>
+  <p style="font:var(--text-body)">반복 50 · 30턴 <span style="color:var(--text-tertiary)">· 기본값</span></p>
+  <p style="font:var(--text-body-sm);color:var(--text-secondary)">더미 속성 무 · 적 1 · 피격 5 · 30%</p>
+  <p style="font:var(--text-caption);color:var(--text-tertiary)">마지막 업데이트 2026-09-26</p>
+  <p style="margin-top:var(--space-4)" class="row">
+    <span class="status" style="background:var(--status-danger-subtle);color:var(--status-danger-text)">충돌 1</span>
+    <span class="status" style="background:var(--status-success-subtle);color:var(--status-success-text)">저장됨</span>
+    <span class="status" style="background:var(--status-warning-subtle);color:var(--status-warning-text)">기본값 아님</span>
+    <a href="#" style="color:var(--accent-text)">초기화</a>
+  </p>
+</div>
+
+<script>
+  const cs = getComputedStyle(document.documentElement);
+  const sw = (name) => `<div class="sw"><i style="background:var(--${name})"></i><b>${name}</b><small>${cs.getPropertyValue('--'+name).trim()}</small></div>`;
+  const render = () => {
+    document.getElementById('neutrals').innerHTML = ['bg-canvas','bg-surface','bg-subtle','bg-selected','bg-overlay','border-subtle','border-default','border-strong','text-tertiary','text-secondary','text-primary','bg-inverse'].map(sw).join('');
+    document.getElementById('accents').innerHTML = ['cobalt','azure','indigo-less'].flatMap(a => ['solid','hover','text','muted','subtle'].map(s => sw(`accent-${a}-${s}`))).join('');
+  };
+  render();
+  new MutationObserver(() => setTimeout(render, 50)).observe(document.documentElement, { attributes: true });
+</script>
+</body>
+</html>

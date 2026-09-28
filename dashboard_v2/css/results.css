@@ -1,0 +1,56 @@
+/* 결과(ui/results.js) · 모바일 실행 바(ui/runbar.js). 토큰만 참조. 차트 색 = 강조색(필살기 턴·주 시리즈) + 중립. */
+
+#app-result { scroll-margin-top: calc(56px + var(--space-3)); }
+.result-when { white-space: normal; }
+.result-when small { font: inherit; }
+.result-head { flex-wrap: wrap; row-gap: var(--space-1); }
+.cap-note { font: var(--text-caption); color: var(--text-tertiary); font-weight: 400; }
+
+/* 헤드라인 */
+.hero-row { display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
+.hero-short { font: var(--text-title-sm); color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+.band-cap { display: flex; align-items: center; gap: var(--space-2); }
+.hero-side dt { display: flex; align-items: center; gap: 4px; }
+.hero-side .help { width: 16px; height: 16px; font-size: 10px; }
+
+/* 턴별 스트립 — 막대는 버튼(호버·포커스 툴팁, 클릭 → 로그 해당 행) */
+.turns figcaption { flex-wrap: wrap; }
+.turns .legend { margin-left: auto; }
+.strip-wrap { position: relative; }
+.turn-strip { align-items: stretch; grid-template-rows: 1fr; }
+.turn-strip .tb { display: flex; align-items: flex-end; padding: 0; border: 0; background: transparent; border-radius: 3px 3px 0 0; cursor: pointer; min-width: 0; }
+.turn-strip .tb i { width: 100%; }
+.turn-strip .tb:hover i, .turn-strip .tb:focus-visible i { background: var(--text-tertiary); }
+.turn-strip .tb:hover i.ult, .turn-strip .tb:focus-visible i.ult { background: var(--accent-hover); }
+.turn-strip .tb:focus-visible { box-shadow: none; outline: 2px solid var(--text-primary); outline-offset: 1px; }
+.turn-axis { display: grid; gap: 4px; }
+.turn-axis span { text-align: center; font-variant-numeric: tabular-nums; }
+.strip-tip { position: absolute; bottom: calc(100% + 6px); z-index: var(--z-dropdown); min-width: 168px; padding: var(--space-2) var(--space-3); border-radius: var(--radius-md);
+  background: var(--bg-overlay); border: var(--border-w) solid var(--border-default); box-shadow: var(--shadow-md); font: var(--text-body-sm); pointer-events: none; }
+.st-h { display: flex; justify-content: space-between; gap: var(--space-3); font-variant-numeric: tabular-nums; }
+.st-h span { font-weight: 600; }
+.st-ult { font: var(--text-caption); color: var(--accent-text); }
+.st-r { display: flex; justify-content: space-between; gap: var(--space-3); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.st-hint { margin-top: 2px; font: var(--text-caption); color: var(--text-tertiary); }
+
+/* 동료별 */
+.contrib li { height: auto; min-height: 40px; }
+.contrib h3 { display: flex; align-items: baseline; gap: var(--space-2); }
+.c-name { display: flex; align-items: baseline; flex-wrap: wrap; column-gap: 4px; }
+.c-name small { margin-left: 0; }
+.c-name .c-sub { flex-basis: 100%; }
+
+/* 기록 내보내기 */
+.io-sheet { display: flex; flex-direction: column; gap: var(--space-3); }
+.io-sheet > .btn { align-self: flex-start; }
+.io-code { width: 100%; padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); border: var(--border-w) solid var(--border-default); background: var(--bg-subtle); color: var(--text-secondary); font: var(--text-caption); font-family: var(--font-mono); resize: vertical; word-break: break-all; }
+
+@media (max-width: 900px) {
+  #app-result { scroll-margin-top: 104px; }
+  .hero-short { font: var(--text-body-strong); }
+  .turns .legend { margin-left: 0; }
+  .turn-axis { gap: 2px; }
+  .strip-tip { min-width: 150px; }
+  /* 하단 실행 바의 실행 버튼 진행 표시 */
+  .runbar .btn-run { position: relative; overflow: hidden; }
+}

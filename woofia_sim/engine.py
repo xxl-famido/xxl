@@ -20,7 +20,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 
 from .effects import (
-    BARRIER, BUFF, CC, CD_MOD, COND_DMG, DAMAGE, DEBUFF, EXTRA_ACTION, HEAL,
+    BARRIER, BUFF, CC, CD_IMMUNE, CD_MOD, COND_DMG, DAMAGE, DEBUFF, EXTRA_ACTION, HEAL,
     MARKER, ENTER_DEFENSE, SELF_DAMAGE, LIFESTEAL, REVIVE, STACK, TRANSFORM, TRIGGER, STAT_ATK, STAT_BASE_ATK, STAT_ATK_FLAT,
     STAT_MAX_HP, STAT_BASE_MAX_HP,
     STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_DOT_TAKEN, STAT_DOT_DEALT,
@@ -203,6 +203,8 @@ class Unit:
     feeds_position: int = 0          # fatal grants an extra action to this position's ally
     is_fed_carry: bool = False       # a feeder resets my CD -> fatal on every CD-ready action
     cd_immune: bool = False          # 제토: 외부(아군 피더)의 필살 CD 조작 차단 (자기 CD_MOD은 허용)
+    cd_immune_turns: int = 0         # 시한부 CD 변동 면역(임부언 필살 → 포지션1 동료, 남은 half-turns). >0이면
+                                     #   자기·아군·제단·확률(성공 가정 포함) CD_MOD 전부 무효. 필살 후 CD 재설정·턴 경과 충전은 허용
     single_ult: bool = False         # 제토: 전투당 1회 필살(cd≥30). 기본 로테는 마지막 턴에 자동 발동
     target_cond_dmg: list = field(default_factory=list)  # [(stack,+dmg%,owner,skill,hp_op,hp_val,count)] while target holds ≥count
     target_ex_scale: list = field(default_factory=list)  # 마타야 파세: [(stack,per_pct,owner,skill)] EX효과 += per_pct×target.stacks[stack]
@@ -285,6 +287,7 @@ class Unit:
         self.dots = []
         self.defending = False
         self.taunt_turns = 0
+        self.cd_immune_turns = 0
         self.barrier_pre_hit = None
         self.barrier_absorbed = 0.0
 
@@ -1364,14 +1367,36 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                 state.record(caster.name, f"{act_kr} → {who} {label} {amt}",
                              amount=0, src_id=effect.owner, src_skill=effect.src_skill)
     elif kind == CD_MOD:
+        applied, blocked = [], []           # blocked = 시한부 CD 변동 면역(cd_immune_turns)으로 무효된 대상
         for tgt in targets:
+            # 시한부 CD 변동 면역(임부언 필살): 출처(자기·아군·제단) 무관하게 모든 CD 변동을 무효화
+            if tgt.cd_immune_turns != 0:
+                blocked.append(tgt)
+                continue
+            applied.append(tgt)             # 제토 차단분도 종전처럼 로그 대상에 남긴다(로그 불변)
             # 제토: CD 불변 유닛은 '외부' 소스의 CD 조작을 무시. 자기 자신의 CD_MOD
             # (passive1 1턴 -30)은 owner==자기 char_id 이므로 허용.
             if getattr(tgt, "cd_immune", False) and effect.owner != getattr(getattr(tgt, "_kit", None), "char_id", 0):
                 continue
             tgt.cd_remaining = max(0, tgt.cd_remaining + int(effect.magnitude))
+        if applied:
+            state.record(caster.name, f"{act_kr} → {_who(applied, caster, state, effect)} 필살 CD {int(effect.magnitude):+d}", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+        if blocked:
+            state.record(caster.name, f"{act_kr} → {_who(blocked, caster, state, effect)} 필살 CD {int(effect.magnitude):+d} "
+                         f"(CD 변동 면역으로 무효)", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+    elif kind == CD_IMMUNE:
+        # 시한부 CD 변동 면역 부여/갱신(임부언 필살 → 포지션1 동료). 같은 필살의 CD 감소는 효과 순서상 먼저 적용된다.
+        # 이미 면역 중이면 남은 기간과 새 기간 중 긴 쪽으로 갱신(중첩 X). duration≤0(기간 없음)=전투 내 영구(-1).
+        ht = _half_turns(effect.duration) if effect.duration > 0 else -1
+        for tgt in targets:
+            if ht < 0 or tgt.cd_immune_turns < 0:
+                tgt.cd_immune_turns = -1
+            else:
+                tgt.cd_immune_turns = max(tgt.cd_immune_turns, ht)
         if targets:
-            state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} 필살 CD {int(effect.magnitude):+d}", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
+            span = f"{effect.duration}턴" if effect.duration > 0 else "영구"
+            state.record(caster.name, f"{act_kr} → {_who(targets, caster, state, effect)} CD 변동 면역({span})",
+                         amount=0, src_id=effect.owner, src_skill=effect.src_skill)
     elif kind == HEAL:
         atk = caster.atk_eff()
         mult = caster.support_mult(action)
@@ -1527,6 +1552,12 @@ def _sub_misses(sub: Subscription, owner: Unit, state: BattleState) -> bool:
         return False
     if owner.cd_assist:
         amt = _prob_cd_amount(sub.effects, owner)
+        if amt and owner.cd_immune_turns != 0:
+            # 시한부 CD 변동 면역 중: 확률 CD 감소는 성공으로 가정하더라도 무효 → 적립하지 않고 무효로 기록
+            src = sub.effects[0] if sub.effects else None
+            state.record(owner.name, f"발동 → 자신 필살 CD -{amt} (CD 변동 면역으로 무효 · 성공 가정 적립 안 함)",
+                         amount=0, src_id=getattr(src, "owner", 0), src_skill=getattr(src, "src_skill", ""))
+            return True
         if amt:
             owner.cd_bank += amt
             owner.cd_opps.append((float(sub.chance), amt))
@@ -2247,6 +2278,8 @@ def _tick_buffs(state: BattleState) -> None:
     Decrements buff and stack lifetimes; expires those that reach 0.
     """
     for unit in state.allies + state.enemies:
+        if unit.cd_immune_turns > 0:              # 시한부 CD 변동 면역 감소(버프와 같은 half-turn 수명)
+            unit.cd_immune_turns -= 1
         if unit.ran_p4_turns > 0:                 # 란 P4 피드백 창 감소
             unit.ran_p4_turns -= 1
             if unit.ran_p4_turns <= 0:

@@ -1,0 +1,313 @@
+/* woofia_sim v2 디자인 토큰 — 생성 파일. 손으로 고치지 말고 tools/redesign/gen_tokens.py 를 실행할 것.
+   계층: 여기 있는 것은 전부 시맨틱 토큰. 컴포넌트 CSS는 이 변수만 참조한다(hex 직접 사용 금지).
+   대비 근거: docs/redesign/TOKENS_CONTRAST.md */
+
+:root {
+  /* 배경 */
+  --bg-canvas: #f8f6f4;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f2f0ed;
+  --bg-selected: #e9e7e5;
+  --bg-overlay: #ffffff;
+  --bg-inverse: #201f1d;
+  /* 보더 */
+  --border-subtle: #e3e1de;
+  --border-default: #d2d1ce;
+  --border-strong: #8c8a88;
+  /* 텍스트 */
+  --text-primary: #1c1a19;
+  --text-secondary: #4d4b49;
+  --text-tertiary: #696765;
+  --text-disabled: #a6a4a2;
+  --text-inverse: #fcfaf7;
+  /* 강조색 후보(스와치) */
+  --accent-cobalt-solid: #1a73d5;
+  --accent-cobalt-hover: #0064c3;
+  --accent-cobalt-active: #0159ae;
+  --accent-cobalt-text: #1f68bc;
+  --accent-cobalt-subtle: #ecf4fe;
+  --accent-cobalt-muted: #d4e6ff;
+  --accent-azure-solid: #0278b6;
+  --accent-azure-hover: #0269a0;
+  --accent-azure-active: #035d8f;
+  --accent-azure-text: #046fa8;
+  --accent-azure-subtle: #e9f5ff;
+  --accent-azure-muted: #cee9fe;
+  --accent-indigo-less-solid: #456cd7;
+  --accent-indigo-less-hover: #385cc6;
+  --accent-indigo-less-active: #2d50b8;
+  --accent-indigo-less-text: #4062be;
+  --accent-indigo-less-subtle: #eef4ff;
+  --accent-indigo-less-muted: #d9e5fe;
+  /* 상태 */
+  --status-danger-solid: #c74b43;
+  --status-danger-text: #ab413a;
+  --status-danger-subtle: #ffefed;
+  --status-success-solid: #028844;
+  --status-success-text: #037e3f;
+  --status-success-subtle: #e8f9eb;
+  --status-warning-solid: #a66704;
+  --status-warning-text: #935a00;
+  --status-warning-subtle: #fef1e3;
+  /* 속성 — 기본=점·카드 테두리, -text=글자, -subtle=선택 배경 */
+  --element-fire: #d15e49;
+  --element-fire-subtle: #ffebe7;
+  --element-fire-text: #b54c3a;
+  --element-water: #068dc9;
+  --element-water-subtle: #e2f3ff;
+  --element-water-text: #0574a6;
+  --element-wood: #2c9647;
+  --element-wood-subtle: #e3f6e5;
+  --element-wood-text: #187e36;
+  --element-light: #a47f00;
+  --element-light-subtle: #f9f0da;
+  --element-light-text: #876904;
+  --element-dark: #956ed2;
+  --element-dark-subtle: #f2edfe;
+  --element-dark-text: #7d5ab5;
+  --element-none: #696765;
+  --element-none-subtle: #e9e7e5;
+  --element-none-text: #4d4b49;
+  /* 계산 그래픽 그룹(데이터 시각화 범주 슬롯 1~5, 표식 전용 — 글자에 쓰지 않음) */
+  --viz-atk: #eb6834;
+  --viz-skill: #1baf7a;
+  --viz-amp: #eda100;
+  --viz-recv: #e87ba4;
+  --viz-elem: #008300;
+  /* 기본 강조색 = cobalt (2단계 목업에서 확정) */
+  --accent-solid: var(--accent-cobalt-solid);
+  --accent-hover: var(--accent-cobalt-hover);
+  --accent-active: var(--accent-cobalt-active);
+  --accent-text: var(--accent-cobalt-text);
+  --accent-subtle: var(--accent-cobalt-subtle);
+  --accent-muted: var(--accent-cobalt-muted);
+  --on-accent: #ffffff;
+
+  /* 그림자 — 떠 있는 요소에만, 중립색 */
+  --shadow-sm: 0 1px 2px rgba(20, 18, 14, 0.06);
+  --shadow-md: 0 4px 12px rgba(20, 18, 14, 0.08), 0 1px 3px rgba(20, 18, 14, 0.06);
+  --shadow-lg: 0 12px 32px rgba(20, 18, 14, 0.12), 0 2px 6px rgba(20, 18, 14, 0.06);
+
+  /* 타이포 — 크기 6단계, 굵기 400/500/600만 */
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", Consolas, "Cascadia Mono", monospace;
+  --text-caption: 500 12px/16px var(--font-sans);
+  --text-body-sm: 400 13px/18px var(--font-sans);
+  --text-body: 400 14px/20px var(--font-sans);
+  --text-body-strong: 600 14px/20px var(--font-sans);
+  --text-title-sm: 600 16px/24px var(--font-sans);
+  --text-title: 600 20px/28px var(--font-sans);
+  --text-display: 600 28px/36px var(--font-sans);
+  --tracking-title: -0.01em;
+  --tracking-display: -0.02em;
+
+  /* 간격 — 4px 기반 */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px;
+  --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px;
+
+  /* 컨트롤 높이·터치 타깃 */
+  --control-sm: 28px; --control-md: 32px; --control-lg: 40px;
+  --touch-min: 44px;
+
+  /* 라운드 — 4값. 중첩 시 안쪽 = 바깥 − 패딩 */
+  --radius-sm: 4px; --radius-md: 6px; --radius-lg: 10px; --radius-full: 999px;
+
+  /* 보더 */
+  --border-w: 1px;
+  --focus-ring: 0 0 0 2px var(--bg-surface), 0 0 0 4px var(--accent-solid);
+
+  /* 모션 — 4단계, 등장 decelerate / 퇴장 accelerate */
+  --dur-instant: 100ms; --dur-fast: 150ms; --dur-base: 200ms; --dur-slow: 300ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+
+  /* z-index — 5단계 */
+  --z-sticky: 10; --z-dropdown: 20; --z-overlay: 30; --z-modal: 40; --z-toast: 50;
+  color-scheme: light;
+}
+
+/* 다크 — 명시적 선택 */
+:root[data-theme="dark"] {
+  /* 배경 */
+  --bg-canvas: #100f0e;
+  --bg-surface: #191817;
+  --bg-subtle: #21201f;
+  --bg-selected: #2b2a29;
+  --bg-overlay: #252423;
+  --bg-inverse: #efeeed;
+  /* 보더 */
+  --border-subtle: #272625;
+  --border-default: #333332;
+  --border-strong: #6e6d6c;
+  /* 텍스트 */
+  --text-primary: #ecebea;
+  --text-secondary: #b8b7b6;
+  --text-tertiary: #939291;
+  --text-disabled: #5e5d5c;
+  --text-inverse: #100f0e;
+  /* 강조색 후보(스와치) */
+  --accent-cobalt-solid: #72aaf2;
+  --accent-cobalt-hover: #86bafe;
+  --accent-cobalt-active: #9dc7fe;
+  --accent-cobalt-text: #6fa7ee;
+  --accent-cobalt-subtle: #162232;
+  --accent-cobalt-muted: #1d3451;
+  --accent-azure-solid: #5cb0ec;
+  --accent-azure-hover: #6cc0fd;
+  --accent-azure-active: #8accfe;
+  --accent-azure-text: #59ade9;
+  --accent-azure-subtle: #122431;
+  --accent-azure-muted: #12364f;
+  --accent-indigo-less-solid: #84a5f3;
+  --accent-indigo-less-hover: #96b6fe;
+  --accent-indigo-less-active: #a9c3fe;
+  --accent-indigo-less-text: #81a2f0;
+  --accent-indigo-less-subtle: #1a2133;
+  --accent-indigo-less-muted: #243251;
+  /* 상태 */
+  --status-danger-solid: #eb8278;
+  --status-danger-text: #e6867b;
+  --status-danger-subtle: #2f1c1a;
+  --status-success-solid: #5ebc7b;
+  --status-success-text: #66ba7f;
+  --status-success-subtle: #16261a;
+  --status-warning-solid: #da943f;
+  --status-warning-text: #d6954a;
+  --status-warning-subtle: #2b1f12;
+  /* 속성 — 기본=점·카드 테두리, -text=글자, -subtle=선택 배경 */
+  --element-fire: #c46857;
+  --element-fire-subtle: #3a211c;
+  --element-fire-text: #e18a79;
+  --element-water: #2d8fc6;
+  --element-water-subtle: #142c3a;
+  --element-water-text: #5baee1;
+  --element-wood: #4e9a5b;
+  --element-wood-subtle: #1b2e1e;
+  --element-wood-text: #73b87d;
+  --element-light: #a48118;
+  --element-light-subtle: #312810;
+  --element-light-text: #c1a04c;
+  --element-dark: #9274c3;
+  --element-dark-subtle: #2c243a;
+  --element-dark-text: #af95df;
+  --element-none: #939291;
+  --element-none-subtle: #2b2a29;
+  --element-none-text: #b8b7b6;
+  /* 계산 그래픽 그룹(데이터 시각화 범주 슬롯 1~5, 표식 전용 — 글자에 쓰지 않음) */
+  --viz-atk: #d95926;
+  --viz-skill: #199e70;
+  --viz-amp: #c98500;
+  --viz-recv: #d55181;
+  --viz-elem: #008300;
+  /* 기본 강조색 = cobalt (2단계 목업에서 확정) */
+  --accent-solid: var(--accent-cobalt-solid);
+  --accent-hover: var(--accent-cobalt-hover);
+  --accent-active: var(--accent-cobalt-active);
+  --accent-text: var(--accent-cobalt-text);
+  --accent-subtle: var(--accent-cobalt-subtle);
+  --accent-muted: var(--accent-cobalt-muted);
+  --on-accent: var(--text-inverse);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border-default);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-default);
+  color-scheme: dark;
+}
+
+/* 다크 — 시스템 설정 추종(테마를 고르지 않았을 때) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+  /* 배경 */
+  --bg-canvas: #100f0e;
+  --bg-surface: #191817;
+  --bg-subtle: #21201f;
+  --bg-selected: #2b2a29;
+  --bg-overlay: #252423;
+  --bg-inverse: #efeeed;
+  /* 보더 */
+  --border-subtle: #272625;
+  --border-default: #333332;
+  --border-strong: #6e6d6c;
+  /* 텍스트 */
+  --text-primary: #ecebea;
+  --text-secondary: #b8b7b6;
+  --text-tertiary: #939291;
+  --text-disabled: #5e5d5c;
+  --text-inverse: #100f0e;
+  /* 강조색 후보(스와치) */
+  --accent-cobalt-solid: #72aaf2;
+  --accent-cobalt-hover: #86bafe;
+  --accent-cobalt-active: #9dc7fe;
+  --accent-cobalt-text: #6fa7ee;
+  --accent-cobalt-subtle: #162232;
+  --accent-cobalt-muted: #1d3451;
+  --accent-azure-solid: #5cb0ec;
+  --accent-azure-hover: #6cc0fd;
+  --accent-azure-active: #8accfe;
+  --accent-azure-text: #59ade9;
+  --accent-azure-subtle: #122431;
+  --accent-azure-muted: #12364f;
+  --accent-indigo-less-solid: #84a5f3;
+  --accent-indigo-less-hover: #96b6fe;
+  --accent-indigo-less-active: #a9c3fe;
+  --accent-indigo-less-text: #81a2f0;
+  --accent-indigo-less-subtle: #1a2133;
+  --accent-indigo-less-muted: #243251;
+  /* 상태 */
+  --status-danger-solid: #eb8278;
+  --status-danger-text: #e6867b;
+  --status-danger-subtle: #2f1c1a;
+  --status-success-solid: #5ebc7b;
+  --status-success-text: #66ba7f;
+  --status-success-subtle: #16261a;
+  --status-warning-solid: #da943f;
+  --status-warning-text: #d6954a;
+  --status-warning-subtle: #2b1f12;
+  /* 속성 — 기본=점·카드 테두리, -text=글자, -subtle=선택 배경 */
+  --element-fire: #c46857;
+  --element-fire-subtle: #3a211c;
+  --element-fire-text: #e18a79;
+  --element-water: #2d8fc6;
+  --element-water-subtle: #142c3a;
+  --element-water-text: #5baee1;
+  --element-wood: #4e9a5b;
+  --element-wood-subtle: #1b2e1e;
+  --element-wood-text: #73b87d;
+  --element-light: #a48118;
+  --element-light-subtle: #312810;
+  --element-light-text: #c1a04c;
+  --element-dark: #9274c3;
+  --element-dark-subtle: #2c243a;
+  --element-dark-text: #af95df;
+  --element-none: #939291;
+  --element-none-subtle: #2b2a29;
+  --element-none-text: #b8b7b6;
+  /* 계산 그래픽 그룹(데이터 시각화 범주 슬롯 1~5, 표식 전용 — 글자에 쓰지 않음) */
+  --viz-atk: #d95926;
+  --viz-skill: #199e70;
+  --viz-amp: #c98500;
+  --viz-recv: #d55181;
+  --viz-elem: #008300;
+  /* 기본 강조색 = cobalt (2단계 목업에서 확정) */
+  --accent-solid: var(--accent-cobalt-solid);
+  --accent-hover: var(--accent-cobalt-hover);
+  --accent-active: var(--accent-cobalt-active);
+  --accent-text: var(--accent-cobalt-text);
+  --accent-subtle: var(--accent-cobalt-subtle);
+  --accent-muted: var(--accent-cobalt-muted);
+  --on-accent: var(--text-inverse);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border-default);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-default);
+  color-scheme: dark;
+  }
+}
+
+/* 움직임 줄이기 — 이동은 없애고 페이드만 남긴다. 전역 0.01ms 리셋은 쓰지 않는다(요소가 영구히 안 보일 수 있음). */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0ms; --dur-fast: 150ms; --dur-base: 150ms; --dur-slow: 150ms;
+  }
+}

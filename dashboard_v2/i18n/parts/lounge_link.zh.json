@@ -1,0 +1,21 @@
+{
+ "top.lounge": "交流區",
+ "top.lounge.short": "交流區",
+ "top.tip.lounge": "XXL 交流區 — 夥伴留言 · 梯度表 · 隊伍分享",
+ "top.compare.short": "比較",
+ "result.share.lounge": "分享到隊伍分享",
+ "result.share.lounge.tip": "將此隊伍發佈到 XXL 交流區的隊伍分享",
+ "result.share.lounge.fail": "無法產生分享代碼",
+ "grow.lounge": "查看留言",
+ "grow.lounge.tip": "在 XXL 交流區查看此夥伴的留言",
+ "deeplink.loaded": "已載入 XXL 交流區傳來的隊伍",
+ "deeplink.added": "已加入空位：{name}",
+ "deeplink.bad": "無法讀取連結中的分享代碼",
+ "deeplink.empty": "連結中的隊伍沒有夥伴",
+ "deeplink.unknown": "連結中含有模擬器沒有的夥伴",
+ "deeplink.full": "隊伍的夥伴已滿",
+ "deeplink.dup": "此夥伴已在隊伍中",
+ "deeplink.imbueonP1": "任富言無法放在 1 號位",
+ "top.brand.aria": "XXL WOOFIA 模擬器",
+ "top.brand.sub": "模擬器"
+}

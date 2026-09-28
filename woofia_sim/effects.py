@@ -32,6 +32,7 @@ MARKER = "MARKER"           # section header / non-mechanical note
 ENTER_DEFENSE = "ENTER_DEFENSE"  # 자신을 방어 상태로 전환(다라완 필살) — 받는 데미지 50% 감소
 SELF_DAMAGE = "SELF_DAMAGE"  # 자해: 자기 현재 HP의 N% 실제 데미지(무명 필살) — 배리어·받뎀 우회, 0까지 감소(사망 가능)
 LIFESTEAL = "LIFESTEAL"     # 흡혈: 피해를 줄 때 그 피해의 N%만큼 자기 HP 회복(무명 파4, HP≦ 게이트)
+CD_IMMUNE = "CD_IMMUNE"     # 시한부 필살 CD 변동 면역(임부언 필살: 포지션1 동료 N턴) — 외부·자기·확률·제단 CD 변동 전부 무효
 REVIVE = "REVIVE"           # 부활: 사망한 랜덤 아군 1명을 최대HP N%로 되살림(기리안 도장, on_ex 확률 트리거)
 UNPARSED = "UNPARSED"       # no template matched -> flagged
 
@@ -412,6 +413,16 @@ def _b_basic_dmg(m):
     return Effect(BUFF, m.group(0), target="self", stat=STAT_BASIC_DMG_DEALT,
                   magnitude=_f(m.group(1)), duration=_opt_dur(m, 2),
                   max_stacks=int(m.group(3)) if m.group(3) else 1)
+
+
+@_leaf(r"^(?:Immunity|Immune) to EX Skill CD changes for (\d+) turn\(s\)\.?$")
+def _b_cd_immunity_timed(m):
+    # 임부언 필살/도장: "Grant Buddy in Position 1 Immunity to EX Skill CD changes for N turn(s)."
+    # (_POS_BUDDY가 앞의 "Grant Buddy in Position N "을 벗기고 target=position_N 을 붙인다.)
+    # 지속 N턴의 CD 변동 면역 상태 — 엔진이 Unit.cd_immune_turns 로 관리하고, 그동안 대상의 필살 CD를
+    # 바꾸는 모든 CD_MOD(아군·자기·제단 확률·성공 가정)를 무효화한다. 필살 사용 시 CD 최대치 재설정은 변동이 아님.
+    # 제토의 영구 "Immune to EX Skill CD changes."(기간 없음)는 아래 _b_immune(MARKER → Unit.cd_immune)로 따로 간다.
+    return Effect(CD_IMMUNE, m.group(0), target="self", duration=int(m.group(1)))
 
 
 @_leaf(r"^Immunity to .+$")

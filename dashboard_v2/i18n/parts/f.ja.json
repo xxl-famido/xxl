@@ -1,0 +1,11 @@
+{
+ "boot.error": "エンジンを読み込めませんでした：{error}",
+ "common.close": "閉じる",
+ "patch.cat.all": "すべて",
+ "patch.cat.balance": "改善・バランス",
+ "patch.cat.fix": "不具合修正",
+ "patch.cat.new": "新規",
+ "patch.cat.qol": "利便性",
+ "patch.filter.aria": "パッチの分類",
+ "patch.empty": "この分類のパッチはありません。"
+}

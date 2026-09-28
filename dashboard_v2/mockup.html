@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Woofia Sim — 목업 (2단계)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="mockup.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="13" width="3" height="9" rx="1"/><rect x="7" y="8" width="3" height="14" rx="1"/><rect x="12" y="2" width="3" height="20" rx="1"/><rect x="17" y="10" width="3" height="12" rx="1"/></svg>
+      <span class="brand-name">Woofia Sim</span>
+    </a>
+    <label class="history">
+      <span class="history-label">기록</span>
+      <select aria-label="시뮬레이션 기록">
+        <option>아누비로스·임부언·파미도·리카노·하니엘 · 30턴 · 5,272만</option>
+        <option>아누비로스·임부언·파미도·이태호·하니엘 · 30턴 · 5,160만</option>
+      </select>
+    </label>
+    <nav class="topnav" aria-label="주요 기능">
+      <button class="btn btn-ghost"><svg class="ic"><use href="ui-icons/sprite.svg#i-columns-2"/></svg><span>팀 비교</span></button>
+      <button class="btn btn-ghost"><svg class="ic"><use href="ui-icons/sprite.svg#i-book-open"/></svg><span>가이드</span></button>
+      <button class="btn btn-ghost btn-icon" aria-label="메뉴"><svg class="ic"><use href="ui-icons/sprite.svg#i-menu"/></svg></button>
+    </nav>
+  </div>
+  <nav class="jump" aria-label="섹션 이동">
+    <a href="#team" class="on">편성</a><a href="#plan">행동</a><a href="#cond">조건</a><a href="#result">결과</a>
+  </nav>
+</header>
+
+<main class="wrap grid">
+<div class="col-main">
+
+  <!-- ── 팀 편성 ── -->
+  <section class="panel" id="team" aria-labelledby="team-h">
+    <div class="panel-head">
+      <h2 id="team-h">팀 편성</h2>
+      <div class="panel-tools">
+        <button class="btn btn-ghost btn-sm"><svg class="ic"><use href="ui-icons/sprite.svg#i-share-2"/></svg><span>코드 공유</span></button>
+      </div>
+    </div>
+
+    <ol class="slots" aria-label="편성 슬롯">
+      <li class="slot" data-pos="1">
+        <button class="slot-btn" aria-label="1번 · 명계 경비견 아누비로스 · 육성 설정 열기">
+          <img src="icons/10401.png" alt="">
+          <span class="slot-pos">1</span>
+          <span class="slot-name">아누비로스</span>
+          <span class="slot-meta"><i class="dot" style="background:var(--element-dark)"></i>방해</span>
+        </button>
+        <button class="slot-rm btn-icon" aria-label="아누비로스 편성 해제"><svg class="ic"><use href="ui-icons/sprite.svg#i-x"/></svg></button>
+      </li>
+      <li class="slot" data-pos="2">
+        <button class="slot-btn" aria-label="2번 · 임부언 · 육성 설정 열기">
+          <img src="icons/10410.png" alt="">
+          <span class="slot-pos">2</span>
+          <span class="slot-name">임부언</span>
+          <span class="slot-meta"><i class="dot" style="background:var(--element-water)"></i>보조<span class="chip">도장 없음</span></span>
+        </button>
+        <button class="slot-rm btn-icon" aria-label="임부언 편성 해제"><svg class="ic"><use href="ui-icons/sprite.svg#i-x"/></svg></button>
+      </li>
+      <li class="slot" data-pos="3">
+        <button class="slot-btn" aria-label="3번 · 파미도 · 육성 설정 열기">
+          <img src="icons/10421.png" alt="">
+          <span class="slot-pos">3</span>
+          <span class="slot-name">파미도</span>
+          <span class="slot-meta"><i class="dot" style="background:var(--element-wood)"></i>전사</span>
+        </button>
+        <button class="slot-rm btn-icon" aria-label="파미도 편성 해제"><svg class="ic"><use href="ui-icons/sprite.svg#i-x"/></svg></button>
+      </li>
+      <li class="slot" data-pos="4">
+        <button class="slot-btn" aria-label="4번 · 리카노 · 육성 설정 열기">
+          <img src="icons/10428.png" alt="">
+          <span class="slot-pos">4</span>
+          <span class="slot-name">리카노</span>
+          <span class="slot-meta"><i class="dot" style="background:var(--element-fire)"></i>방해</span>
+        </button>
+        <button class="slot-rm btn-icon" aria-label="리카노 편성 해제"><svg class="ic"><use href="ui-icons/sprite.svg#i-x"/></svg></button>
+      </li>
+      <li class="slot" data-pos="5">
+        <button class="slot-btn" aria-label="5번 · 하니엘 · 육성 설정 열기">
+          <img src="icons/10425.png" alt="">
+          <span class="slot-pos">5</span>
+          <span class="slot-name">하니엘</span>
+          <span class="slot-meta"><i class="dot" style="background:var(--element-fire)"></i>보조</span>
+        </button>
+        <button class="slot-rm btn-icon" aria-label="하니엘 편성 해제"><svg class="ic"><use href="ui-icons/sprite.svg#i-x"/></svg></button>
+      </li>
+    </ol>
+
+    <div class="roster-head">
+      <h3>동료</h3>
+      <span class="count">편성 5/5</span>
+    </div>
+    <div class="roster-tools">
+      <label class="search">
+        <svg class="ic"><use href="ui-icons/sprite.svg#i-search"/></svg>
+        <input type="search" placeholder="이름 검색" aria-label="동료 이름 검색">
+      </label>
+      <div class="seg" role="group" aria-label="속성">
+        <button aria-pressed="true">전체</button>
+        <button><i class="dot" style="background:var(--element-fire)"></i>불</button>
+        <button><i class="dot" style="background:var(--element-water)"></i>물</button>
+        <button><i class="dot" style="background:var(--element-wood)"></i>나무</button>
+        <button><i class="dot" style="background:var(--element-light)"></i>빛</button>
+        <button><i class="dot" style="background:var(--element-dark)"></i>어둠</button>
+      </div>
+      <div class="seg" role="group" aria-label="포지션">
+        <button aria-pressed="true">전체</button><button>전사</button><button>수호</button><button>치료</button><button>보조</button><button>방해</button>
+      </div>
+    </div>
+
+    <ul class="roster" aria-label="동료 목록">
+      <li><button class="tile in" aria-label="명계 경비견 아누비로스, 1번 편성"><img src="icons/10401.png" alt=""><i class="dot" style="background:var(--element-dark)"></i><b>1</b></button></li>
+      <li><button class="tile" aria-label="신리랑"><img src="icons/10402.png" alt=""><i class="dot" style="background:var(--element-water)"></i></button></li>
+      <li><button class="tile" aria-label="골든라이더"><img src="icons/10403.png" alt=""><i class="dot" style="background:var(--element-fire)"></i></button></li>
+      <li><button class="tile" aria-label="맹씨"><img src="icons/10404.png" alt=""><i class="dot" style="background:var(--element-water)"></i></button></li>
+      <li><button class="tile" aria-label="비어녹스"><img src="icons/10405.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile" aria-label="레오"><img src="icons/10406.png" alt=""><i class="dot" style="background:var(--element-fire)"></i></button></li>
+      <li><button class="tile" aria-label="타란디오"><img src="icons/10407.png" alt=""><i class="dot" style="background:var(--element-water)"></i></button></li>
+      <li><button class="tile" aria-label="탐랑"><img src="icons/10408.png" alt=""><i class="dot" style="background:var(--element-fire)"></i></button></li>
+      <li><button class="tile" aria-label="카 라트"><img src="icons/10409.png" alt=""><i class="dot" style="background:var(--element-water)"></i></button></li>
+      <li><button class="tile in" aria-label="임부언, 2번 편성"><img src="icons/10410.png" alt=""><i class="dot" style="background:var(--element-water)"></i><b>2</b></button></li>
+      <li><button class="tile" aria-label="카푸카"><img src="icons/10411.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile" aria-label="다양수이"><img src="icons/10412.png" alt=""><i class="dot" style="background:var(--element-fire)"></i></button></li>
+      <li><button class="tile" aria-label="바드"><img src="icons/10413.png" alt=""><i class="dot" style="background:var(--element-fire)"></i></button></li>
+      <li><button class="tile" aria-label="쿠모야마"><img src="icons/10414.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile" aria-label="기리안"><img src="icons/10415.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile" aria-label="최유현"><img src="icons/10416.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile" aria-label="멍"><img src="icons/10417.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile" aria-label="제트블랙"><img src="icons/10418.png" alt=""><i class="dot" style="background:var(--element-water)"></i></button></li>
+      <li><button class="tile" aria-label="오렘"><img src="icons/10419.png" alt=""><i class="dot" style="background:var(--element-water)"></i></button></li>
+      <li><button class="tile in" aria-label="파미도, 3번 편성"><img src="icons/10421.png" alt=""><i class="dot" style="background:var(--element-wood)"></i><b>3</b></button></li>
+      <li><button class="tile" aria-label="물을 좋아하는 포르베어"><img src="icons/10422.png" alt=""><i class="dot" style="background:var(--element-water)"></i></button></li>
+      <li><button class="tile" aria-label="오봉산군 이태호"><img src="icons/10423.png" alt=""><i class="dot" style="background:var(--element-light)"></i></button></li>
+      <li><button class="tile" aria-label="루테닉스"><img src="icons/10424.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile in" aria-label="하니엘, 5번 편성"><img src="icons/10425.png" alt=""><i class="dot" style="background:var(--element-fire)"></i><b>5</b></button></li>
+      <li><button class="tile" aria-label="란"><img src="icons/10426.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile" aria-label="던컨 찰스"><img src="icons/10427.png" alt=""><i class="dot" style="background:var(--element-fire)"></i></button></li>
+      <li><button class="tile in" aria-label="리카노, 4번 편성"><img src="icons/10428.png" alt=""><i class="dot" style="background:var(--element-fire)"></i><b>4</b></button></li>
+      <li><button class="tile" aria-label="임욱잠"><img src="icons/10429.png" alt=""><i class="dot" style="background:var(--element-fire)"></i></button></li>
+      <li><button class="tile" aria-label="이즈미노스케"><img src="icons/10430.png" alt=""><i class="dot" style="background:var(--element-water)"></i></button></li>
+      <li><button class="tile" aria-label="복을 주시는 제야의 세숭"><img src="icons/10431.png" alt=""><i class="dot" style="background:var(--element-light)"></i></button></li>
+      <li><button class="tile" aria-label="세엔"><img src="icons/10432.png" alt=""><i class="dot" style="background:var(--element-water)"></i></button></li>
+      <li><button class="tile" aria-label="와타나베 히토하"><img src="icons/10433.png" alt=""><i class="dot" style="background:var(--element-fire)"></i></button></li>
+      <li><button class="tile" aria-label="크로크라인"><img src="icons/10435.png" alt=""><i class="dot" style="background:var(--element-fire)"></i></button></li>
+      <li><button class="tile" aria-label="모이루"><img src="icons/10436.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile" aria-label="투명인간"><img src="icons/10437.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile" aria-label="파도를 타는 젖소 다라완"><img src="icons/10438.png" alt=""><i class="dot" style="background:var(--element-fire)"></i></button></li>
+      <li><button class="tile" aria-label="욱영"><img src="icons/10439.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile" aria-label="몽규"><img src="icons/10440.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+      <li><button class="tile" aria-label="제토"><img src="icons/10441.png" alt=""><i class="dot" style="background:var(--element-water)"></i></button></li>
+      <li><button class="tile" aria-label="오야마다 마타야"><img src="icons/10442.png" alt=""><i class="dot" style="background:var(--element-fire)"></i></button></li>
+      <li><button class="tile" aria-label="이세계의 검 무명"><img src="icons/10443.png" alt=""><i class="dot" style="background:var(--element-dark)"></i></button></li>
+      <li><button class="tile" aria-label="최유희"><img src="icons/10303.png" alt=""><i class="dot" style="background:var(--element-wood)"></i></button></li>
+    </ul>
+  </section>
+
+  <!-- ── 행동 계획 (B안: 단계형 + 실행 미리보기) ── -->
+  <section class="panel" id="plan" aria-labelledby="plan-h">
+    <div class="panel-head">
+      <h2 id="plan-h">행동 계획</h2>
+      <div class="panel-tools">
+        <button class="btn btn-ghost btn-sm"><svg class="ic"><use href="ui-icons/sprite.svg#i-rotate-ccw"/></svg><span>초기화</span><svg class="ic"><use href="ui-icons/sprite.svg#i-chevron-down"/></svg></button>
+      </div>
+    </div>
+
+    <div class="acc steps">
+      <details open>
+        <summary>
+          <span class="step-n">1</span>
+          <span class="acc-title">순서와 필살기</span>
+          <span class="acc-sum acc-sum-text">하니엘 → 리카노 → 파미도 → 아누비로스 → 임부언</span>
+          <svg class="ic acc-chev"><use href="ui-icons/sprite.svg#i-chevron-down"/></svg>
+        </summary>
+        <div class="acc-body">
+          <ol class="prio">
+            <li>
+              <span class="prio-n">1</span><img src="icons/10425.png" alt=""><span class="prio-name">하니엘</span>
+              <label class="ult-mode"><span class="sr">하니엘 필살기 방식</span><select><option>자동 · 4·7·10턴</option><option>정해진 턴만</option><option>준비되면 바로</option><option>직접 지정</option></select></label>
+              <span class="mv"><button class="btn-icon" aria-label="위로 이동" disabled><svg class="ic"><use href="ui-icons/sprite.svg#i-arrow-up"/></svg></button><button class="btn-icon" aria-label="아래로 이동"><svg class="ic"><use href="ui-icons/sprite.svg#i-arrow-down"/></svg></button></span>
+            </li>
+            <li>
+              <span class="prio-n">2</span><img src="icons/10428.png" alt=""><span class="prio-name">리카노</span>
+              <label class="ult-mode"><span class="sr">리카노 필살기 방식</span><select><option>직접 지정</option><option>자동</option><option>정해진 턴만</option><option>준비되면 바로</option></select></label>
+              <span class="mv"><button class="btn-icon" aria-label="위로 이동"><svg class="ic"><use href="ui-icons/sprite.svg#i-arrow-up"/></svg></button><button class="btn-icon" aria-label="아래로 이동"><svg class="ic"><use href="ui-icons/sprite.svg#i-arrow-down"/></svg></button></span>
+              <!-- 직접 지정: 기존 캐릭터 창의 턴별 행동 계획(플래너)이 이 행 아래로 옮겨 온 것 -->
+              <div class="plan-strip">
+                <div class="plan-tools">
+                  <span class="plan-label">턴별 행동 <span class="hint">칸을 눌러 보통 공격 → 필살기 → 방어 순으로 바꿉니다</span></span>
+                  <div class="plan-presets">
+                    <button class="btn btn-ghost btn-sm">모두 필살기</button>
+                    <button class="btn btn-ghost btn-sm">3턴마다</button>
+                    <button class="btn btn-ghost btn-sm">첫 필살기 당기기</button>
+                    <button class="btn btn-ghost btn-sm">필살기 직전 방어</button>
+                    <button class="btn btn-ghost btn-sm">간격 맞추기</button>
+                  </div>
+                </div>
+                <div class="plan-cells" role="group" aria-label="리카노 턴별 행동">
+                  <button class="atk" aria-label="1턴 보통 공격">1</button><button class="atk" aria-label="2턴 보통 공격">2</button><button class="def" aria-label="3턴 방어">3</button><button class="ult" aria-label="4턴 필살기">4</button><button class="atk">5</button><button class="def">6</button><button class="ult">7</button><button class="atk">8</button><button class="def">9</button><button class="ult">10</button>
+                  <button class="atk">11</button><button class="atk">12</button><button class="atk">13</button><button class="atk">14</button><button class="atk">15</button><button class="atk">16</button><button class="atk">17</button><button class="atk">18</button><button class="atk">19</button><button class="atk">20</button>
+                  <button class="atk">21</button><button class="atk">22</button><button class="atk">23</button><button class="atk">24</button><button class="atk">25</button><button class="atk">26</button><button class="atk">27</button><button class="atk">28</button><button class="atk">29</button><button class="atk">30</button>
+                </div>
+                <p class="hint">쿨타임이 안 돌아온 턴은 필살기로 지정할 수 없습니다. 지정하지 않은 턴은 보통 공격입니다.</p>
+              </div>
+            </li>
+            <li>
+              <span class="prio-n">3</span><img src="icons/10421.png" alt=""><span class="prio-name">파미도</span>
+              <label class="ult-mode"><span class="sr">파미도 필살기 방식</span><select><option>자동 · 4·7·10턴</option><option>정해진 턴만</option><option>준비되면 바로</option><option>직접 지정</option></select></label>
+              <span class="mv"><button class="btn-icon" aria-label="위로 이동"><svg class="ic"><use href="ui-icons/sprite.svg#i-arrow-up"/></svg></button><button class="btn-icon" aria-label="아래로 이동"><svg class="ic"><use href="ui-icons/sprite.svg#i-arrow-down"/></svg></button></span>
+            </li>
+            <li>
+              <span class="prio-n">4</span><img src="icons/10401.png" alt=""><span class="prio-name">아누비로스 <span class="link-chip"><svg class="ic"><use href="ui-icons/sprite.svg#i-layers"/></svg>임부언에 맞춤</span></span>
+              <label class="ult-mode"><span class="sr">아누비로스 필살기 방식</span><select><option>준비되면 바로</option><option>자동</option><option>정해진 턴만</option><option>직접 지정</option></select></label>
+              <span class="mv"><button class="btn-icon" aria-label="위로 이동"><svg class="ic"><use href="ui-icons/sprite.svg#i-arrow-up"/></svg></button><button class="btn-icon" aria-label="아래로 이동"><svg class="ic"><use href="ui-icons/sprite.svg#i-arrow-down"/></svg></button></span>
+            </li>
+            <li>
+              <span class="prio-n">5</span><img src="icons/10410.png" alt=""><span class="prio-name">임부언</span>
+              <label class="ult-mode"><span class="sr">임부언 필살기 방식</span><select><option>자동 · 4·7·10턴</option><option>정해진 턴만</option><option>준비되면 바로</option><option>직접 지정</option></select></label>
+              <span class="mv"><button class="btn-icon" aria-label="위로 이동"><svg class="ic"><use href="ui-icons/sprite.svg#i-arrow-up"/></svg></button><button class="btn-icon" aria-label="아래로 이동" disabled><svg class="ic"><use href="ui-icons/sprite.svg#i-arrow-down"/></svg></button></span>
+            </li>
+          </ol>
+          <p class="hint">필살기 방식: <b>자동</b>은 역할 기본 리듬, <b>정해진 턴만</b>은 자동 턴 외에는 아껴 둠, <b>준비되면 바로</b>는 쿨타임이 돌면 즉시, <b>직접 지정</b>은 턴마다 찍음.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span class="step-n">2</span>
+          <span class="acc-title">예외 턴</span>
+          <span class="acc-sum acc-sum-text">없음</span>
+          <svg class="ic acc-chev"><use href="ui-icons/sprite.svg#i-chevron-down"/></svg>
+        </summary>
+        <div class="acc-body">
+          <p class="hint">특정 턴에만 행동 순서를 다르게 합니다.</p>
+          <button class="btn btn-secondary btn-sm"><svg class="ic"><use href="ui-icons/sprite.svg#i-plus"/></svg><span>턴 추가</span></button>
+        </div>
+      </details>
+
+      <details open>
+        <summary>
+          <span class="step-n">3</span>
+          <span class="acc-title">맞추기</span>
+          <span class="acc-sum acc-sum-text">1개</span>
+          <svg class="ic acc-chev"><use href="ui-icons/sprite.svg#i-chevron-down"/></svg>
+        </summary>
+        <div class="acc-body">
+          <div class="sentence">
+            <select aria-label="기준 동료"><option>임부언</option><option>하니엘</option><option>리카노</option><option>파미도</option></select>
+            <span>이 필살기를 쓰는 턴에</span>
+            <select aria-label="맞추는 동료"><option>아누비로스</option><option>리카노</option><option>파미도</option></select>
+            <span>는</span>
+            <select aria-label="행동"><option>받은 추가 행동에서 필살기</option><option>앞에서 필살기</option><option>뒤에서 필살기</option><option>방어 → 추가 행동에서 필살기</option></select>
+            <span>, 평소에는</span>
+            <select aria-label="평소 행동"><option>내 방식대로</option><option>필살기 아껴 두기</option></select>
+            <button class="btn-icon" aria-label="이 맞추기 삭제"><svg class="ic"><use href="ui-icons/sprite.svg#i-trash-2"/></svg></button>
+          </div>
+          <button class="btn btn-secondary btn-sm"><svg class="ic"><use href="ui-icons/sprite.svg#i-plus"/></svg><span>맞추기 추가</span></button>
+        </div>
+      </details>
+    </div>
+
+    <figure class="preview">
+      <figcaption>
+        <span>실행 미리보기</span>
+        <span class="legend"><i class="pv ult"></i>필살기 <i class="pv def"></i>방어 <i class="pv atk"></i>보통 공격 <i class="pv extra"></i>추가 행동</span>
+      </figcaption>
+      <div class="pv-grid" role="img" aria-label="30턴 5인 행동 미리보기">
+        <div class="pv-row"><span class="pv-name">하니엘</span><span class="pv-cells" data-p="ooo#oo#oo#oo#oo#oo#oo#oo#oo#oo"></span></div>
+        <div class="pv-row"><span class="pv-name">리카노</span><span class="pv-cells" data-p="ood#od#od#oooooooooooooooooooo"></span></div>
+        <div class="pv-row"><span class="pv-name">파미도</span><span class="pv-cells" data-p="ooo#oo#oo#oo#oo#oo#oo#oo#oo#oo"></span></div>
+        <div class="pv-row"><span class="pv-name">아누비로스</span><span class="pv-cells" data-p="ooo+oo+oo+oo+oo+oo+oo+oo+oo+oo"></span></div>
+        <div class="pv-row"><span class="pv-name">임부언</span><span class="pv-cells" data-p="ooo#oo#oo#oo#oo#oo#oo#oo#oo#oo"></span></div>
+        <div class="pv-axis"><span>1</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span></div>
+      </div>
+      <p class="hint">칸을 누르면 그 행동을 만든 단계로 이동합니다.</p>
+    </figure>
+
+    <div class="manual">
+      <button class="btn btn-secondary"><svg class="ic"><use href="ui-icons/sprite.svg#i-sliders-horizontal"/></svg><span>완전 수동으로 직접 짜기</span></button>
+      <span class="hint">켜면 1·2·3단계가 잠기고 미리보기 칸을 직접 편집합니다.</span>
+    </div>
+  </section>
+</div>
+
+  <!-- ── 전투 조건 ── -->
+  <div class="cond-col">
+  <section class="panel cond" id="cond" aria-labelledby="cond-h">
+    <div class="panel-head">
+      <h2 id="cond-h">전투 조건</h2>
+      <button class="btn btn-ghost btn-sm">기본값 복원</button>
+    </div>
+
+    <div class="acc">
+      <details open>
+        <summary>
+          <span class="acc-title">반복 · 턴</span>
+          <span class="acc-sum"><span class="kv">50회 반복</span><span class="kv">30턴</span></span>
+          <svg class="ic acc-chev"><use href="ui-icons/sprite.svg#i-chevron-down"/></svg>
+        </summary>
+        <div class="acc-body">
+          <div class="field">
+            <div class="field-row"><label for="runs">반복 횟수</label><button class="help" aria-label="반복 횟수 도움말">?</button><input class="num-in" id="runs" type="number" value="50" min="1" max="500"></div>
+            <input type="range" min="1" max="500" value="50" aria-labelledby="runs">
+          </div>
+          <div class="field">
+            <div class="field-row"><label for="turns">턴 수</label><input class="num-in" id="turns" type="number" value="30" min="1" max="30"></div>
+            <input type="range" min="1" max="30" value="30" aria-labelledby="turns">
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span class="acc-title">적</span>
+          <span class="acc-sum"><span class="kv">속성 없음</span><span class="kv">1체</span></span>
+          <svg class="ic acc-chev"><use href="ui-icons/sprite.svg#i-chevron-down"/></svg>
+        </summary>
+        <div class="acc-body">
+          <div class="field">
+            <div class="field-row"><span class="label">적 속성</span><button class="help" aria-label="적 속성 도움말">?</button></div>
+            <div class="seg seg-full" role="group"><button aria-pressed="true">없음</button><button>불</button><button>물</button><button>나무</button><button>빛</button><button>어둠</button></div>
+          </div>
+          <div class="field">
+            <div class="field-row"><span class="label">적 수</span></div>
+            <div class="seg seg-full" role="group"><button aria-pressed="true">1</button><button>2</button><button>3</button><button>4</button><button>5</button></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="changed">
+        <summary>
+          <span class="acc-title">받는 데미지</span>
+          <span class="acc-sum"><span class="kv">적 공격 5명</span><span class="kv">30%</span></span>
+          <svg class="ic acc-chev"><use href="ui-icons/sprite.svg#i-chevron-down"/></svg>
+        </summary>
+        <div class="acc-body">
+          <div class="field">
+            <div class="field-row"><span class="label">적 공격 대상 수</span><button class="help" aria-label="적 공격 대상 수 도움말">?</button></div>
+            <div class="seg seg-full" role="group"><button>0</button><button>1</button><button>2</button><button>3</button><button>4</button><button aria-pressed="true">5</button><button>전체</button></div>
+          </div>
+          <div class="field">
+            <div class="field-row"><label class="switch"><input type="checkbox" checked><span class="sw"></span>적 공격 데미지</label><button class="reset">기본값</button><input class="num-in" type="number" value="30" min="0" max="100" aria-label="적 공격 데미지 (최대 HP %)"><span class="unit">% HP</span></div>
+            <input type="range" min="0" max="100" value="30" aria-label="적 공격 데미지 (최대 HP %)">
+          </div>
+          <div class="field">
+            <div class="field-row"><label class="switch"><input type="checkbox"><span class="sw"></span>턴마다 받는 데미지</label><input class="num-in" type="number" value="10" min="0" max="100" aria-label="턴마다 받는 데미지 (최대 HP %)" disabled><span class="unit">% HP</span></div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span class="acc-title">방탈출 제단</span>
+          <span class="acc-sum"><span class="kv">꺼짐</span></span>
+          <svg class="ic acc-chev"><use href="ui-icons/sprite.svg#i-chevron-down"/></svg>
+        </summary>
+        <div class="acc-body">
+          <label class="switch"><input type="checkbox"><span class="sw"></span>제단 효과 사용</label>
+          <p class="hint">켜면 층마다 별의 제단·달의 제단 점등 여부를 지정합니다.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="run">
+      <button class="btn btn-primary btn-lg btn-block"><svg class="ic"><use href="ui-icons/sprite.svg#i-play"/></svg><span>시뮬레이션 실행</span></button>
+      <span class="run-meta">50회 반복</span>
+    </div>
+  </section>
+  </div>
+
+  <!-- ── 결과 ── -->
+  <section class="result" id="result" aria-labelledby="result-h">
+    <div class="result-head">
+      <h2 id="result-h">결과</h2>
+      <span class="result-when">30턴 · 50회 반복 · 적 1체(속성 없음) · 제단 꺼짐</span>
+      <div class="panel-tools">
+        <button class="btn btn-ghost btn-sm"><svg class="ic"><use href="ui-icons/sprite.svg#i-download"/></svg><span>기록 내보내기</span></button>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-main">
+        <p class="hero-num">52,723,932</p>
+        <p class="hero-label">총 데미지 · 50회 중앙값</p>
+      </div>
+      <div class="hero-band" aria-label="확률 범위 48,105,220 ~ 57,912,004">
+        <span class="band-min">4,811만</span>
+        <span class="band-track"><span class="band-fill"></span><span class="band-pt"></span></span>
+        <span class="band-max">5,791만</span>
+        <span class="band-cap">확률 범위: 확률 효과 전부 미발동 ~ 전부 발동</span>
+      </div>
+      <dl class="hero-side">
+        <div><dt>턴당 데미지 (중앙값)</dt><dd>1,757,464</dd></div>
+        <div><dt>확률 편차</dt><dd>±9.3%</dd></div>
+      </dl>
+    </div>
+
+    <figure class="turns">
+      <figcaption>턴별 데미지 <span class="legend"><i class="lg-ult"></i>필살기 사용 턴</span></figcaption>
+      <div class="turn-strip" role="img" aria-label="턴별 데미지 막대 30턴. 필살기 사용 4·7·10·13·16·19·22·25·28턴">
+        <i style="--h:7%"></i><i style="--h:8%"></i><i style="--h:9%"></i><i class="ult" style="--h:78%"></i><i style="--h:15%"></i><i style="--h:9%"></i><i class="ult" style="--h:100%"></i><i style="--h:15%"></i><i style="--h:9%"></i><i class="ult" style="--h:95%"></i>
+        <i style="--h:14%"></i><i style="--h:8%"></i><i class="ult" style="--h:74%"></i><i style="--h:14%"></i><i style="--h:9%"></i><i class="ult" style="--h:77%"></i><i style="--h:12%"></i><i style="--h:8%"></i><i class="ult" style="--h:74%"></i><i style="--h:15%"></i>
+        <i style="--h:9%"></i><i class="ult" style="--h:100%"></i><i style="--h:15%"></i><i style="--h:9%"></i><i class="ult" style="--h:90%"></i><i style="--h:14%"></i><i style="--h:8%"></i><i class="ult" style="--h:94%"></i><i style="--h:12%"></i><i style="--h:8%"></i>
+      </div>
+      <div class="turn-axis"><span>1</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span></div>
+    </figure>
+
+    <div class="contrib">
+      <h3>동료별 데미지</h3>
+      <ol>
+        <li><img src="icons/10401.png" alt=""><span class="c-name">아누비로스 <small>방해</small></span><span class="c-bar"><i style="--w:100%"></i></span><span class="c-val">35,079,931</span><span class="c-pct">67%</span></li>
+        <li><img src="icons/10421.png" alt=""><span class="c-name">파미도 <small>전사</small></span><span class="c-bar"><i style="--w:26%"></i></span><span class="c-val">9,155,029</span><span class="c-pct">17%</span></li>
+        <li><img src="icons/10428.png" alt=""><span class="c-name">리카노 <small>방해</small></span><span class="c-bar"><i style="--w:12%"></i></span><span class="c-val">4,154,788</span><span class="c-pct">8%</span></li>
+        <li><img src="icons/10410.png" alt=""><span class="c-name">임부언 <small>보조</small></span><span class="c-bar"><i style="--w:7%"></i></span><span class="c-val">2,488,684</span><span class="c-pct">5%</span></li>
+        <li><img src="icons/10425.png" alt=""><span class="c-name">하니엘 <small>보조</small></span><span class="c-bar"><i style="--w:4%"></i></span><span class="c-val">1,476,003</span><span class="c-pct">3%</span></li>
+      </ol>
+    </div>
+
+    <details class="log">
+      <summary><span>전투 로그 (30턴)</span><span class="log-note">총 데미지가 중앙값에 가장 가까운 1회</span><svg class="ic acc-chev"><use href="ui-icons/sprite.svg#i-chevron-down"/></svg></summary>
+      <table class="log-table">
+        <thead><tr><th>턴</th><th>행동</th><th class="r">데미지</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>하니엘 보통 공격 · 리카노 보통 공격 · 파미도 보통 공격 · 아누비로스 보통 공격 · 임부언 보통 공격</td><td class="r">335,062</td></tr>
+          <tr><td>2</td><td>하니엘 보통 공격 · 리카노 보통 공격 · 파미도 보통 공격 · 아누비로스 보통 공격 · 임부언 보통 공격</td><td class="r">365,162</td></tr>
+          <tr><td>3</td><td>하니엘 보통 공격 · 리카노 보통 공격 · 파미도 보통 공격 · 아누비로스 보통 공격 · 임부언 보통 공격</td><td class="r">413,108</td></tr>
+          <tr class="ult-row"><td>4</td><td>하니엘 필살기 · 리카노 필살기 · 파미도 필살기 · 임부언 필살기 · 아누비로스 필살기 (추가 행동)</td><td class="r">4,045,821</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </section>
+</main>
+
+<div class="runbar" aria-hidden="true">
+  <span class="runbar-last"><b>5,272만</b><small>마지막 결과</small></span>
+  <button class="btn btn-primary btn-lg"><svg class="ic"><use href="ui-icons/sprite.svg#i-play"/></svg><span>시뮬레이션 실행</span></button>
+</div>
+
+<div class="swatch-bar" role="group" aria-label="강조색 후보 전환(목업 전용)">
+  <button onclick="setAccent('cobalt')">cobalt</button><button onclick="setAccent('azure')">azure</button><button onclick="setAccent('indigo-less')">indigo-less</button>
+  <button onclick="document.documentElement.dataset.theme='light'">라이트</button><button onclick="document.documentElement.dataset.theme='dark'">다크</button>
+</div>
+<script>
+  function setAccent(a){ for (const s of ['solid','hover','active','text','subtle','muted']) document.documentElement.style.setProperty('--accent-'+s, `var(--accent-${a}-${s})`); }
+  // 미리보기 칸: o=보통 공격 #=필살기 d=방어 +=추가 행동에서 필살기 (목업 데이터)
+  for (const el of document.querySelectorAll('.pv-cells')) {
+    el.innerHTML = [...el.dataset.p].map(c => `<i class="${({o:'atk','#':'ult',d:'def','+':'extra'})[c]}"></i>`).join('');
+  }
+</script>
+</body>
+</html>

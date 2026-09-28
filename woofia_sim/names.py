@@ -83,6 +83,9 @@ STAT_KR_LABEL: dict[str, str] = {
     "dot_taken_pct": "받는 지속딜",
     "dot_dealt_pct": "지속딜 증가",
     "type_adv_dmg_pct": "상성 추가뎀",
+    "heal_recv_pct": "받는회복",
+    "bar_recv_pct": "받는배리어",
+    "dmg_taken_ex_pct": "필살기 받는딜",
 }
 
 

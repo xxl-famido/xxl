@@ -38,7 +38,7 @@
     "byActionKind": {
       "보통공격": 148,
       "피격": 180,
-      "필살기": 144
+      "필살기": 148
     },
     "byOutput": {
       "-": 41,
@@ -47,9 +47,9 @@
       "평타": 22,
       "필살": 24
     },
-    "count": 472
+    "count": 476
   },
-  "logHash": "sha256:ffd0a7ef40f3eb27a7adc5e7f3775469",
+  "logHash": "sha256:7d9c35f5069eca1564ae66ee158d3258",
   "perChar": {
     "명계 경비견 아누비로스": {
       "barrier": 0.0,

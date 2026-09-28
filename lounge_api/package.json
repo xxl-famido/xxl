@@ -1,0 +1,21 @@
+{
+  "name": "lounge_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "wrangler dev --local --port 8787",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 migrations apply xxl-lounge --local",
+    "db:remote": "wrangler d1 migrations apply xxl-lounge --remote",
+    "test": "node test/unit.mjs && node scripts/seed_local.mjs && node test/smoke.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "wrangler": "^4.142.0"
+  },
+  "private": true
+}

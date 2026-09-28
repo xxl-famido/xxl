@@ -1,0 +1,4 @@
+-- 운영자 글 표시: 관리자 토큰으로 쓴 글·티어표·팀만 op = 1 (이름 '파미도', shared.js OPERATOR).
+ALTER TABLE posts ADD COLUMN op INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE tiers ADD COLUMN op INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE teams ADD COLUMN op INTEGER NOT NULL DEFAULT 0;

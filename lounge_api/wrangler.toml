@@ -1,0 +1,21 @@
+# XXL 라운지 API — Cloudflare Worker + D1 (무료 플랜 전제)
+# 이 파일에는 비밀값을 넣지 않는다. 비밀값은 `wrangler secret put` 으로만(PIN_PEPPER, TURNSTILE_SECRET, ADMIN_TOKEN).
+# 로컬 개발용 비밀값은 .dev.vars(깃 제외)에 있다.
+name = "xxl-lounge-api"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+# 요청 로그를 대시보드에 남기지 않는다(개인정보 최소화). 필요 시 true 로 잠시 켠다.
+[observability]
+enabled = false
+
+[vars]
+# 라이브가 받는 출처는 GitHub Pages 하나뿐. 로컬 개발 출처(localhost)는 .dev.vars 가 덮어쓴다(wrangler dev 에서만).
+ALLOWED_ORIGINS = "https://xxl-famido.github.io"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "xxl-lounge"
+# `wrangler d1 create xxl-lounge` 후 나오는 ID 로 교체(ID 는 비밀값이 아님). 로컬 개발에는 쓰이지 않는다.
+database_id = "9e2ec1a5-bdf2-4456-8f72-89e94a286b72"
+migrations_dir = "migrations"

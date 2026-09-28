@@ -1,0 +1,62 @@
+{
+  "_comment": "v1 원본(dashboard/patch-notes.json)에 없는 새 릴리스의 메타. 위에서부터 최신순. items[] 는 kr.json 의 같은 버전 items 와 1:1(cat·chars). date 는 배포하는 날로 고칠 것.",
+  "2.0": {
+    "date": "2026-09-28",
+    "highlight": true,
+    "char": 10421,
+    "charName": {
+      "kr": "파미도",
+      "en": "Famido",
+      "ja": "ファミド",
+      "zh": "法米多",
+      "zhs": "法米多"
+    },
+    "items": [
+      {
+        "cat": "new"
+      },
+      {
+        "cat": "new"
+      },
+      {
+        "cat": "new"
+      },
+      {
+        "cat": "new"
+      },
+      {
+        "cat": "new"
+      },
+      {
+        "cat": "new"
+      },
+      {
+        "cat": "new"
+      },
+      {
+        "cat": "new"
+      },
+      {
+        "cat": "balance"
+      },
+      {
+        "cat": "balance"
+      },
+      {
+        "cat": "balance"
+      },
+      {
+        "cat": "fix"
+      },
+      {
+        "cat": "qol"
+      },
+      {
+        "cat": "qol"
+      },
+      {
+        "cat": "qol"
+      }
+    ]
+  }
+}

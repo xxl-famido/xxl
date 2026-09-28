@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Woofia Sim</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="motion.css">
+<script>
+  // 첫 페인트 전에 테마 적용(깜빡임 방지). 저장값 없으면 시스템 설정 추종(tokens.css @media).
+  try { const t = localStorage.getItem('woofia_theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch {}
+</script>
+</head>
+<body>
+<!-- 로딩 오버레이: main.js 가 엔진 진행에 맞춰 채우고, 준비되면 접는다 -->
+<div id="app-boot" class="boot" role="status" aria-live="polite">
+  <div class="boot-box">
+    <img class="boot-logo" src="brand/logo-240.png" srcset="brand/logo-240.png 2x, brand/logo.png 3x" width="158" height="120" alt="XXL WOOFIA 시뮬레이터" decoding="async" fetchpriority="high">
+    <div class="boot-msg" id="bootMsg"></div>
+    <div class="boot-bar"><i id="bootBar"></i></div>
+  </div>
+</div>
+
+<header id="app-topbar" class="topbar"></header>
+
+<main class="wrap grid">
+  <div class="col-main">
+    <section id="app-team" class="panel" aria-labelledby="team-h"></section>
+    <section id="app-plan" class="panel" aria-labelledby="plan-h"></section>
+  </div>
+  <div class="cond-col">
+    <section id="app-cond" class="panel cond" aria-labelledby="cond-h"></section>
+  </div>
+  <section id="app-result" class="result" aria-labelledby="result-h" hidden></section>
+</main>
+
+<div id="app-runbar" class="runbar"></div>
+<div id="app-sheets"></div>
+<div id="app-toast" class="toasts" role="status" aria-live="polite"></div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

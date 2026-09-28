@@ -1,0 +1,22 @@
+const puppeteer = require('puppeteer-core');
+const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+(async () => {
+  const b = await puppeteer.launch({ executablePath: CHROME, headless: 'new', args: ['--lang=ko-KR'] });
+  const p = await b.newPage();
+  await p.setViewport({ width: 1920, height: 1080 });
+  await p.goto('http://localhost:8777/', { waitUntil: 'domcontentloaded', timeout: 90000 });
+  await sleep(6000);
+  const clickText = async (re) => { const h = await p.evaluateHandle((s) => [...document.querySelectorAll('button')].find(b => new RegExp(s).test(b.textContent) && b.getClientRects().length), re); await h.asElement().click(); await sleep(700); };
+  await clickText('길드 제단 설정');
+  await p.screenshot({ path: 'shots/walkthrough/v1_T1_altar_panel.png' });
+  const txt = await p.evaluate(() => { const e = document.querySelector('#altarPanel, .altar-panel, [id*=altar]'); return e ? e.innerText.slice(0, 600) : ''; });
+  console.log(txt);
+  await p.keyboard.press('Escape'); await sleep(400);
+  await clickText('행동 고급 설정');
+  await clickText('궁극기 사용 방식');
+  await p.screenshot({ path: 'shots/walkthrough/v1_T3_adv_ult_tab.png' });
+  await clickText('^\s*연동\s*$');
+  await p.screenshot({ path: 'shots/walkthrough/v1_T5_adv_sync_tab.png' });
+  await b.close();
+})();

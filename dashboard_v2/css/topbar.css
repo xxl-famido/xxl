@@ -1,0 +1,41 @@
+/* 상단바·메뉴 전용 — 토큰만. */
+.brand-mark-wrap { display: inline-flex; }
+/* 로고 이미지(비율 479:365). app.css 의 .brand-mark(22px SVG 마크) 크기를 이미지에 맞게 덮는다. */
+.brand .brand-logo { display: block; height: 40px; width: auto; fill: none; }
+.brand .brand-sub { font: var(--text-caption); color: var(--text-tertiary); letter-spacing: 0; }
+.brand { border-radius: var(--radius-md); }
+.history select:disabled { color: var(--text-disabled); cursor: default; }
+.topnav .btn:disabled { color: var(--text-disabled); background: transparent; cursor: default; }
+
+/* 팀 비교·라운지: secondary. 라운지는 강조색으로 한 단계 더(같은 탭 이동 링크). */
+.topnav { gap: var(--space-2); }
+.topnav .tb-short { display: none; }
+.topnav a.btn { text-decoration: none; color: var(--text-primary); }
+.topnav a.btn.tb-lounge { color: var(--accent-text); background: var(--accent-subtle); border-color: var(--accent-muted); }
+.topnav a.btn.tb-lounge:hover { color: var(--accent-text); background: var(--accent-muted); border-color: var(--accent-text); }
+.topnav .tb-lounge .ic { color: var(--accent-text); }
+
+.top-menu { min-width: 220px; }
+.menu-h { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3) var(--space-1); font: var(--text-caption); color: var(--text-tertiary); }
+.menu-h .ic { width: 14px; height: 14px; }
+.menu .menu-radio { padding-left: calc(var(--space-3) + 24px); }
+.menu-check { margin-left: auto; color: var(--accent-text); }
+.menu-check.off { visibility: hidden; }
+.menu-over { z-index: calc(var(--z-modal) + 1); }
+
+@media (max-width: 900px) {
+  /* 모바일도 아이콘+짧은 라벨 유지(app.css 의 아이콘 전용 축소를 되돌림). 자리가 모자라면 기록 select 가 줄어든다. */
+  .topnav { gap: var(--space-1); flex: none; }
+  .topnav .btn.tb-nav { width: auto; padding: 0 var(--space-2); gap: 6px; }
+  .topnav .btn.tb-nav .tb-full { display: none; }
+  .topnav .btn.tb-nav .tb-short { display: inline; font: var(--text-body-sm); font-weight: 600; }
+  .history select { min-width: 56px; }
+  .jump a { display: inline-flex; align-items: center; min-height: 36px; }
+  .jump a[hidden] { display: none; }
+  .menu button { height: 44px; }
+}
+/* 모바일: 로고 30px, '시뮬레이터' 라벨은 숨김 — 기록 select 가 읽을 수 있는 폭을 남긴다(비교·라운지 라벨은 그대로). */
+@media (max-width: 900px) {
+  .brand .brand-logo { height: 30px; }
+  .topbar .brand-sub { display: none; }
+}

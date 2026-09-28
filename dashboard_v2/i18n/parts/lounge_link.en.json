@@ -1,0 +1,21 @@
+{
+ "top.lounge": "Lounge",
+ "top.lounge.short": "Lounge",
+ "top.tip.lounge": "XXL Lounge — companion comments · tier lists · team sharing",
+ "top.compare.short": "Compare",
+ "result.share.lounge": "Share to Lounge",
+ "result.share.lounge.tip": "Post this team to Team Sharing in XXL Lounge",
+ "result.share.lounge.fail": "Couldn't create a share code",
+ "grow.lounge": "See comments",
+ "grow.lounge.tip": "See comments on this companion in XXL Lounge",
+ "deeplink.loaded": "Loaded the team sent from XXL Lounge",
+ "deeplink.added": "Added to an empty slot: {name}",
+ "deeplink.bad": "Couldn't read the share code in the link",
+ "deeplink.empty": "The team in the link has no companions",
+ "deeplink.unknown": "The link contains a companion the simulator doesn't have",
+ "deeplink.full": "Your team is full",
+ "deeplink.dup": "This companion is already on the team",
+ "deeplink.imbueonP1": "Boss Ren can't be placed in slot 1",
+ "top.brand.aria": "XXL WOOFIA Simulator",
+ "top.brand.sub": "Simulator"
+}

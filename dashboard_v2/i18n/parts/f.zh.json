@@ -1,0 +1,11 @@
+{
+ "boot.error": "無法載入引擎：{error}",
+ "common.close": "關閉",
+ "patch.cat.all": "全部",
+ "patch.cat.balance": "改善・平衡",
+ "patch.cat.fix": "錯誤修正",
+ "patch.cat.new": "新增",
+ "patch.cat.qol": "便利性",
+ "patch.filter.aria": "更新分類",
+ "patch.empty": "此分類沒有更新內容。"
+}
