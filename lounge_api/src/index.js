@@ -281,7 +281,8 @@ async function createPost(env, req, body) {
 async function verify(env, req, id, body) {
   await limit(env, 'verify', await ipHash(env, req));
   const { table, row } = await getItem(env, id);
-  await checkPin(env, table, row, body.pin);
+  await assertPinnedEditable(env, req, row);   // 수정 창을 여는 비밀번호 확인 단계에서도 운영자 글·고정 글은 막는다
+  if (!((row.op || row.pinned) && await isOperator(env, req))) await checkPin(env, table, row, body.pin);
   return { anon: row.anon, anonNo: row.anon_no };
 }
 

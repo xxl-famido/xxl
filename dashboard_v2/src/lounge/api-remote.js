@@ -147,7 +147,7 @@ export async function createPost(args) {
   remember('post', p.id);
   return p;
 }
-export const verifyPin = (id, pin) => post(`/v1/items/${id}/verify`, { pin });
+export const verifyPin = (id, pin) => post(`/v1/items/${id}/verify`, { pin }, { auth: true });
 export const editPost = (id, pin, body) => post(`/v1/posts/${id}/edit`, { pin, body }, { auth: true });
 export async function deleteItem(id, pin) {
   const r = await post(`/v1/items/${id}/delete`, { pin }, { auth: true });
