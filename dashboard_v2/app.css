@@ -347,10 +347,10 @@ input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18p
 .sheet-lg { width: min(960px, calc(100vw - 32px)); }
 .sheet-head { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); border-bottom: var(--border-w) solid var(--border-subtle); }
 .sheet-head h2 { flex: 1; min-width: 0; }
-.sheet-body { flex: 1; overflow: auto; padding: var(--space-5); }
+.sheet-body { flex: 1 1 auto; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; padding: var(--space-5); }
 .sheet-foot { display: flex; justify-content: flex-end; gap: var(--space-2); padding: var(--space-3) var(--space-5); border-top: var(--border-w) solid var(--border-subtle); }
 @media (max-width: 900px) {
-  .sheet { top: auto; left: 0; right: 0; bottom: 0; width: auto; max-height: 92vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom: 0; }
+  .sheet { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 92vh; height: 92dvh; max-height: 92vh; max-height: 92dvh;  /* 높이를 명시 — 실기기(사파리·삼성 인터넷)에서 flex:1 본문이 0으로 접혀 머리만 보이던 문제 */ border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom: 0; }
   .sheet-body { padding: var(--space-4); }
 }
 
