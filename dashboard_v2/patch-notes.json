@@ -95,6 +95,13 @@
        "zhs": "以每一列所占区间的中点计算(2 列 = A · C，3 列 = S · B · D，5 列 = S～D)。"
       },
       {
+       "kr": "같은 행 안의 순서도 반영됩니다. 왼쪽에 놓은 동료일수록 평균 티어의 같은 칸 안에서 앞(높은 쪽)에 옵니다.",
+       "en": "The order within a row now counts too: companions placed further left appear earlier (higher) within the same tier of the average.",
+       "ja": "同じ行の中の順番も反映されます。左に置いた仲間ほど、平均ティアの同じ段の中で前(上位)に並びます。",
+       "zh": "同一列中的順序也會計入：越靠左的夥伴，在平均梯度的同一梯度中排得越前(越高)。",
+       "zhs": "同一列中的顺序也会计入：越靠左的伙伴，在平均梯度的同一梯度中排得越前(越高)。"
+      },
+      {
        "kr": "이미 공개된 티어표도 새 기준으로 다시 계산했습니다.",
        "en": "Tier lists already published have been recalculated with the new rule.",
        "ja": "公開済みのティア表も新しい基準で再計算しました。",

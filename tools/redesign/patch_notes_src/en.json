@@ -26,6 +26,7 @@
         "text": "The community average tier in XXL Lounge now spreads evenly across the five tiers S–D regardless of how many rows a tier list has.",
         "details": [
           "Each row is placed at the middle of the range it covers (2 rows = A · C, 3 rows = S · B · D, 5 rows = S–D).",
+          "The order within a row now counts too: companions placed further left appear earlier (higher) within the same tier of the average.",
           "Tier lists already published have been recalculated with the new rule."
         ]
       },

@@ -40,11 +40,18 @@ export function aggregateRows(posByChar, sampleCount) {
  * 서버 migrations/0006 이 저장된 값을 이 식으로 다시 계산했다 — 바꾸면 거기도 맞출 것.
  */
 export const rowPos = (i, n) => (n > 0 ? (i + 0.5) / n : 0.5);
-/** 티어표 한 장 → 동료별 정규화 위치(맨 위에 가까울수록 0). */
+/**
+ * 같은 행 안의 순서(왼쪽 = 더 높음)를 담는 미세 보정 폭. 행 가운데 ± IN_ROW_SPAN/2 안에서 왼쪽→오른쪽으로 퍼진다.
+ * 행(1~8행) 가운데와 5칸 경계의 최소 거리가 0.0125 라 ±0.005 로는 칸이 바뀌지 않고, 같은 칸 안의 순서만 정한다.
+ * 서버 migrations/0007 이 저장된 값을 이 식으로 다시 계산했다 — 바꾸면 거기도 맞출 것.
+ */
+export const IN_ROW_SPAN = 0.01;
+export const inRowPos = (i, n, j, k) => rowPos(i, n) + (k > 0 ? ((j + 0.5) / k - 0.5) * IN_ROW_SPAN : 0);
+/** 티어표 한 장 → 동료별 정규화 위치(맨 위·왼쪽에 가까울수록 0). */
 export function tierPositions(rows) {
   const n = rows.length;
   const out = [];
-  rows.forEach((r, i) => r.ids.forEach((cid) => out.push([cid, rowPos(i, n)])));
+  rows.forEach((r, i) => r.ids.forEach((cid, j) => out.push([cid, inRowPos(i, n, j, r.ids.length)])));
   return out;
 }
 export const CURRENT_BUILD = '0922';   // 게임 빌드(글에 도장으로 찍힘). 새 빌드 반영 시 여기만 바꾼다.

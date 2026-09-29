@@ -96,6 +96,22 @@ function fakeD1() {
   ok(bandsOf(8) === 'SSABBCDD', `8행 → 고르게 (${bandsOf(8)})`);
   ok(new Set(bandsOf(6)).size === 5 && new Set(bandsOf(7)).size === 5, '6·7행 → 5칸 모두 사용');
 }
+// 같은 행 안 순서: 왼쪽일수록 앞(높음) · 칸은 바뀌지 않음
+{
+  for (let n = 1; n <= 8; n++) {
+    const rows = Array.from({ length: n }, (_, i) => ({ label: String(i), ids: Array.from({ length: 12 }, (_, j) => 10401 + i * 12 + j) }));
+    const pos = new Map(tierPositions(rows));
+    const bandOk = rows.every((r, i) => { const b = new Set(r.ids.map((id) => Math.min(4, Math.floor(pos.get(id) * 5)))); return b.size === 1; });
+    const orderOk = rows.every((r) => r.ids.every((id, j) => j === 0 || pos.get(r.ids[j - 1]) < pos.get(id)));
+    ok(bandOk && orderOk, `${n}행 × 12명: 행 안 순서 반영 · 칸 유지`);
+  }
+  const byChar = {};
+  const add = (ids) => tierPositions([{ label: 'S', ids }, { label: 'A', ids: [] }, { label: 'B', ids: [] }, { label: 'C', ids: [] }, { label: 'D', ids: [] }])
+    .forEach(([cid, p]) => (byChar[cid] ||= []).push(p));
+  add([10401, 10402, 10403]); add([10401, 10403, 10402]); add([10402, 10401, 10403]);
+  const s = aggregateRows(byChar, 3).rows[0].items.map((x) => x.id).join(',');
+  ok(s === '10401,10402,10403', `평균 티어 같은 칸 안 순서 = 행 안 순서의 중앙값 (${s})`);
+}
 
 console.log(fails ? `${fails} FAILED` : 'ALL PASS');
 process.exit(fails ? 1 : 0);
