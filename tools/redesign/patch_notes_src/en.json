@@ -40,6 +40,12 @@
         "details": [
           "Replies to a pinned comment appear outside the border, and pinning a reply highlights only that reply."
         ]
+      },
+      {
+        "text": "Lounge replies are now connected to their parent comment with a thread line.",
+        "details": [
+          "A line runs down from the parent comment and branches to each reply, so you can see at a glance which comment a reply belongs to."
+        ]
       }
     ]
   },

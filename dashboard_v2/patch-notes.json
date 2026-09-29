@@ -140,6 +140,25 @@
        "zhs": "置顶留言底下的回复会显示在外框之外，置顶回复时只会强调该则回复。"
       }
      ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "라운지 답글이 원댓글과 연결선으로 이어져 표시됩니다.",
+      "en": "Lounge replies are now connected to their parent comment with a thread line.",
+      "ja": "ラウンジの返信が元のコメントと線でつながって表示されます。",
+      "zh": "交流區的回覆會以連接線與原留言相連顯示。",
+      "zhs": "交流区的回复会以连接线与原留言相连显示。"
+     },
+     "details": [
+      {
+       "kr": "원댓글 아래에서 내려오는 선이 답글마다 꺾여 이어지므로 어느 의견에 단 답글인지 한눈에 보입니다.",
+       "en": "A line runs down from the parent comment and branches to each reply, so you can see at a glance which comment a reply belongs to.",
+       "ja": "元のコメントから伸びる線が各返信へ分かれてつながるので、どのコメントへの返信かひと目で分かります。",
+       "zh": "從原留言延伸下來的線會分支連到每則回覆，一眼就能看出是回覆哪則留言。",
+       "zhs": "从原留言延伸下来的线会分支连到每则回复，一眼就能看出是回复哪则留言。"
+      }
+     ]
     }
    ]
   },

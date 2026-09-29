@@ -184,6 +184,19 @@
 .lg-act:hover { background: var(--bg-subtle); color: var(--text-primary); }
 .lg-more { width: 28px; height: 28px; margin-left: auto; }
 .lg-replies { margin: var(--space-3) 0 0 44px; display: flex; flex-direction: column; gap: var(--space-3); }
+/* 답글 연결선(2026-09-29 사용자 요청 — 답글이 누가 봐도 답글로 보이게): 원댓글 아래에서 내려오는 세로선 + 답글 아바타로 꺾이는 └ */
+.lg-replies { --thread-x: 26px; --thread-c: color-mix(in srgb, var(--border-strong) 55%, var(--border-default)); margin-left: 15px; padding-left: var(--thread-x); }
+.lg-replies > .lg-post.is-reply { position: relative; }
+.lg-replies > .lg-post.is-reply::before {
+  content: ''; position: absolute; left: calc(-1 * var(--thread-x)); top: calc(-1 * var(--space-3)); width: calc(var(--thread-x) - 6px); height: calc(var(--space-3) + 12px);
+  border-left: 2px solid var(--thread-c); border-bottom: 2px solid var(--thread-c); border-bottom-left-radius: 10px; pointer-events: none;
+}
+/* 뒤에 답글이 더 있으면 세로선을 다음 답글까지 잇는다 */
+.lg-replies > .lg-post.is-reply:has(~ .lg-post.is-reply)::after {
+  content: ''; position: absolute; left: calc(-1 * var(--thread-x)); top: 10px; bottom: calc(-1 * var(--space-3)); border-left: 2px solid var(--thread-c); pointer-events: none;
+}
+.lg-replies > .lg-post.is-reply.is-pinned::before { left: calc(-1 * var(--thread-x) - var(--border-w)); height: calc(var(--space-3) + var(--space-3) + 12px); }
+.lg-replies > .lg-post.is-reply.is-pinned::after { left: calc(-1 * var(--thread-x) - var(--border-w)); }
 .lg-edit { display: flex; flex-direction: column; gap: var(--space-2); }
 .lg-edit .lg-textarea { padding: var(--space-2) var(--space-3); border: var(--border-w) solid var(--accent-solid); border-radius: var(--radius-md); }
 .lg-edit-foot { display: flex; justify-content: flex-end; gap: var(--space-2); }
@@ -363,7 +376,7 @@ body.lg-dragging, body.lg-dragging * { cursor: grabbing !important; user-select:
   .lg-st-k { font-size: 12px; }
   .lg-composer-foot { flex-direction: column; align-items: stretch; }
   .lg-composer-right { margin-left: 0; justify-content: flex-end; flex-wrap: wrap; }
-  .lg-replies { margin-left: var(--space-5); }
+  .lg-replies { margin-left: 11px; --thread-x: 18px; }
   .lg-row.is-team { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
   .lg-row { flex-wrap: wrap; }
   .lg-row .lg-tprev { width: 100%; flex-direction: row; gap: var(--space-3); }
