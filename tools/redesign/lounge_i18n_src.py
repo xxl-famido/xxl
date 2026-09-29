@@ -29,6 +29,9 @@ S = {
     'testbar.toLive': ('라이브로 전환', 'Switch to live', '本番に切り替え', '切換到正式版'),
 
     # ── 공통 ──
+    'tier.fun.label': ('평균 티어 집계에서 제외', 'Exclude from the average tier', '平均ティアの集計から除外', '不計入平均梯度'),
+    'tier.fun.hint': ('이 티어표는 커뮤니티 평균 티어 계산에 반영되지 않습니다.', 'This tier list is not counted in the community average tier.', 'このティア表はコミュニティ平均ティアの計算に反映されません。', '此梯度表不會計入社群平均梯度。'),
+    'chip.fun': ('집계 제외', 'Not in average', '集計対象外', '不計入平均'),
     'common.all': ('전체', 'All', 'すべて', '全部'),
     'common.cancel': ('취소', 'Cancel', 'キャンセル', '取消'),
     'common.confirm': ('확인', 'OK', 'OK', '確定'),
@@ -168,7 +171,7 @@ S = {
     'tier.edit.hint': ('저장하면 공개된 티어표가 바로 바뀝니다.', 'Saving updates the published tier list right away.', '保存すると公開中のティア表がすぐ更新されます。', '儲存後會立即更新已公開的梯度表。'),
     'tier.delete.title': ('티어표 삭제', 'Delete tier list', 'ティア表を削除', '刪除梯度表'),
     'tier.agg.title': ('커뮤니티 평균 티어', 'Community average tiers', 'コミュニティ平均ティア', '社群平均梯度'),
-    'tier.agg.cap': ('공개 티어표 {n}개의 중앙값 · 티어표 {min}개 미만에 나온 동료는 제외', 'Median of {n} public tier lists · companions in fewer than {min} lists are excluded', '公開ティア表 {n}件の中央値・{min}件未満にしか登場しない仲間は除外', '{n} 份公開梯度表的中位數・出現少於 {min} 份的夥伴不列入'),
+    'tier.agg.cap': ('공개 티어표 {n}개의 중앙값(집계 제외 티어표 빼고) · 티어표 {min}개 미만에 나온 동료는 제외', 'Median of {n} public tier lists (excluding lists marked not in average) · companions in fewer than {min} lists are excluded', '公開ティア表 {n}件の中央値(集計対象外を除く)・{min}件未満にしか登場しない仲間は除外', '{n} 份公開梯度表的中位數(不含不計入平均者)・出現少於 {min} 份的夥伴不列入'),
     'tier.agg.empty': ('이 기준의 티어표가 아직 없습니다.', 'No tier lists in this category yet.', 'この基準のティア表はまだありません。', '此類別還沒有梯度表。'),
     'tier.agg.chip': ('{name} · 티어표 {n}개', '{name} · {n} tier lists', '{name}・ティア表 {n}件', '{name}・{n} 份梯度表'),
     'tier.agg.thin': ('표본 부족:', 'Not enough data:', 'サンプル不足：', '樣本不足：'),

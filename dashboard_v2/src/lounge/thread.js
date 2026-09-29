@@ -84,7 +84,7 @@ export function threadView(opt) {
   function isMe(p) { if (p.op) return false; const a = getAs(opt.key); return a && a.anon === p.anon && a.anonNo === p.anonNo; }
 
   function postBlock(p) {
-    const wrap = h('article', { class: `lg-post-block${p.pinned ? ' is-pinned' : ''}`, 'data-key': p.id, 'aria-label': p.pinned ? t('post.pinned.aria') : null });
+    const wrap = h('article', { class: 'lg-post-block', 'data-key': p.id });
     wrap.append(postItem(p, p));
     const replies = h('div', { class: 'lg-replies' }, p.replies.map((r) => postItem(r, p, true)));
     if (p.replies.length || state.replyOpen === p.id) wrap.append(replies);
@@ -93,7 +93,7 @@ export function threadView(opt) {
     function postItem(x, top, isReply = false) {
       const nameRow = h('div', { class: 'lg-post-name' },
         h('b', { class: x.op ? 'lg-op-name' : '' }, anonName(x.anon, x.anonNo, x.op)),
-        !isReply && x.pinned && h('span', { class: 'lg-chip lg-chip-pin' }, icon('pin'), t('chip.pinned')),
+        x.pinned && h('span', { class: 'lg-chip lg-chip-pin' }, icon('pin'), t('chip.pinned')),
         isOwner(x) && h('span', { class: 'lg-chip lg-chip-accent' }, t('chip.author')),
         isMe(x) && h('span', { class: 'lg-chip' }, t('chip.me')),
         h('span', { class: 'lg-post-meta' }, h('time', { datetime: new Date(x.at).toISOString(), title: new Date(x.at).toLocaleString(locale()) }, ago(x.at)), x.edited && ' · ' + t('chip.edited')),
@@ -114,14 +114,14 @@ export function threadView(opt) {
         h('button', { class: 'lg-act', onclick: () => openReply(top, isReply ? x : null) }, icon('corner-down-right'), isReply || !top.replies.length ? t('post.reply') : t('post.replyN', { n: top.replies.filter((r) => !r.deleted).length })),
         menuButton(t('common.more'), [
           !x.op && { label: t('post.continueAs'), icon: 'key-round', run: () => continueAs(x) },
-          !isReply && api.isOperator() && { label: x.pinned ? t('post.unpin') : t('post.pin'), icon: 'pin', run: () => togglePin(x) },   // 운영자에게만 보임
+          api.isOperator() && { label: x.pinned ? t('post.unpin') : t('post.pin'), icon: 'pin', run: () => togglePin(x) },   // 운영자에게만 보임
           (!x.pinned || api.isOperator()) && { label: t('common.edit'), icon: 'pencil', run: () => startEdit(x, main, bodyEl, more) },
           (!x.pinned || api.isOperator()) && { label: t('common.delete'), icon: 'trash-2', danger: true, run: () => del(x) },
           'sep',
           { label: t('common.report'), icon: 'flag', run: () => doReport(x) },
         ]));
       main.append(actions);
-      return h('div', { class: `lg-post ${isReply ? 'is-reply' : ''}`, 'data-id': x.id }, avatar(x.anon, isReply ? 24 : 32), main);
+      return h('div', { class: `lg-post${isReply ? ' is-reply' : ''}${x.pinned ? ' is-pinned' : ''}`, 'data-id': x.id, 'aria-label': x.pinned ? t('post.pinned.aria') : null }, avatar(x.anon, isReply ? 24 : 32), main);
     }
 
     function openReply(top, target) {

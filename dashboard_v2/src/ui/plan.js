@@ -5,10 +5,11 @@
 //     ② 예외 턴: 목록 + 「턴 추가」 시트.  실행 미리보기: 엔진 프로브 결과(읽기 전용).
 //     패널 맨 아래 전체 폭 진입 버튼(「고급 설정에서 세부 행동 편집」).
 //   main(고급 설정 켜짐) = 같은 패널을 흐리게 + inert(.is-dimmed) + 머리 아래 배너 한 줄(제단 강제면 사유), 진입 버튼 = 「고급 설정 열기 · 사용 중」.
-//   adv(고급 설정 창 안, ctx.planVariant = 'adv') = ① 순서와 필살기(방식 3택 + 필요할 때만 성공 가정·방어 턴 유지)
+//   adv(고급 설정 창 안, ctx.planVariant = 'adv') = ① 순서와 필살기(방식 3택 + 직접 지정 + 필요할 때만 성공 가정·방어 턴 유지)
 //     → ② 예외 턴 → ctx.planExtra(③ 필살기 연동 · ④ 턴별 행동 계획 — ui/advanced.js). 읽기 미리보기 없음(④ 표가 대신).
-//     [ADV_REVIEW D1·D2 결정 2026-09-28] 창의 ①에는 직접 지정 턴 칸·욱영 체크가 없다 — 칸 고정·프리셋은 ④(동료 행 머리 메뉴),
-//     욱영 프리셋은 ③. 메인(라이트)의 직접 지정 턴 칸·욱영 체크는 그대로. [D3] 「첫 필살기 당기기」 프리셋 삭제(옛 기록의 핀은 그대로 읽힘).
+//     [2026-09-29 사용자 요청] 창의 ①에도 메인처럼 직접 지정 턴 칸 줄(프리셋·받은 추가 행동 포함)이 있다 — ④ 격자와 같은 핀을 편집한다.
+//     기본 설정과 고급 설정의 값은 advanced.js 가 따로 보관하므로 여기서 바꿔도 메인 값은 바뀌지 않는다.
+//     욱영 프리셋은 ③. [D3] 「첫 필살기 당기기」 프리셋 삭제(옛 기록의 핀은 그대로 읽힘).
 // 턴 칸 클릭 = 선택 팝오버(plan-helpers cellPicker). 상태·계산은 전부 core(store.plan / store.pins / store.sync).
 import { ultOf, syncGroupOf, normalizeSyncGroups, summary, taehoFedTurns, effectiveTeam, planView } from '../core/plan.js';
 import { UK_ID, IMBUEON_ID } from '../core/format.js';
@@ -81,7 +82,7 @@ export async function mount(host, ctx) {
   const rowCache = new Map();      // 자리(pos) → li — FLIP 이 같은 요소를 추적하도록 재사용
   const openState = { d1: true, d2: false };
   const directOpen = new Set();    // '직접 지정'을 골랐지만 아직 칸을 찍지 않은 자리(핀이 생기면 핀이 기준)
-  const isDirect = (pos) => MAIN && (hasPins(pos) || directOpen.has(pos));   // 창(ADV)에는 직접 지정 칸 줄이 없다(D1)
+  const isDirect = (pos) => hasPins(pos) || directOpen.has(pos);
 
   // ═════════════════════════════════════════════════════════════════════════════
   // 골격
@@ -201,9 +202,9 @@ export async function mount(host, ctx) {
       iconBtn('arrow-down', t('plan.order.down.aria'), { disabled: k === len - 1, 'data-fk': `dn:${pos}`, onClick: () => moveRow(k, 1) }));
     const out = [h('span', { class: 'prio-n' }, String(k + 1)), h('img', { src: `icons/${s.id}.png`, alt: '', draggable: 'false' }), nameEl];
     if (ADV) {
-      // 고급 설정: 방식 3택 + 직접 지정(턴 칸) 토글 + 성공 가정·방어 턴 유지
-      const modeSel = select({ 'data-fk': `amode:${pos}`, 'aria-label': t('plan.step1.ultMode.aria', { name }), onChange: (e) => store.plan.setUltMode(i, e.target.value) },
-        MODES.map((m) => [m, m === 'auto' ? autoLabel : t(`plan.ult.mode.${m}`)]), mode);
+      // 고급 설정: 방식 3택 + 직접 지정(턴 칸 줄 — 메인과 같은 모양) + 성공 가정·방어 턴 유지
+      const modeSel = select({ 'data-fk': `amode:${pos}`, 'aria-label': t('plan.step1.ultMode.aria', { name }), onChange: (e) => setAdvMode(i, e.target.value, direct, name) },
+        [...MODES.map((m) => [m, m === 'auto' ? autoLabel : t(`plan.ult.mode.${m}`)]), ['direct', t('plan.mode.direct')]], direct ? 'direct' : mode);
       out.push(h('label', { class: 'ult-mode' }, h('span', { class: 'sr' }, t('plan.step1.ultMode.aria', { name })), modeSel), mv);
       const asap = mode === 'asap';
       // 효과 없는 조건이면 흐리게 + 이유(모순 4). 기본값이 아닌 채로 남아 있으면 되돌릴 수 있게 입력은 살려 둔다.
@@ -277,6 +278,20 @@ export async function mount(host, ctx) {
       { label: t('plan.sync.preset.confirm.replace'), iconName: 'sparkles', onSelect: apply },
       { label: t('plan.sync.preset.confirm.keep'), iconName: 'x', onSelect: () => {} },
     ] });
+  }
+
+  /**
+   * 창 ① 방식 선택: 직접 지정 = 턴 칸 줄을 연다(준비되면 바로는 칸 고정과 맞지 않아 자동으로). 다른 방식 = 그 방식 + 직접 지정이었으면 칸 해제.
+   */
+  function setAdvMode(i, v, wasDirect, name) {
+    const pos = i + 1;
+    if (v === 'direct') {
+      if (ultOf(S().team[i]).mode === 'asap') store.plan.setUltMode(i, 'auto');
+      setDirect(pos, true, name);
+      return;
+    }
+    store.plan.setUltMode(i, v);
+    if (wasDirect) setDirect(pos, false, name);
   }
 
   /** 직접 지정 켜기/끄기. 끄면 그 동료의 핀(직접 지정 칸)을 전부 지운다(되돌리기 토스트). */
@@ -644,7 +659,7 @@ export async function mount(host, ctx) {
     store.subscribe((s) => s.locked, onChange),
     store.subscribe((s) => s.tdmg, schedule),
     store.subscribe((s) => s.chars, onChange));
-  if (MAIN) unsubs.push(onAdvChange(() => { refresh(); schedule(); }));
+  if (MAIN) unsubs.push(onAdvChange(() => { directOpen.clear(); refresh(); schedule(); }));   // 켜고 끌 때 행동 계획이 통째로 바뀐다
   if (advProbe) unsubs.push(advProbe.on(() => keepFocus(renderStep1)));
   if (i18n.onChange) unsubs.push(i18n.onChange(() => { build(); refresh(); if (lastProbe && MAIN) renderPreview(lastProbe); else schedule(); }));
   /** 해제(창을 다시 열 때 이전 패널의 구독·대기 중 프로브를 끊는다). */

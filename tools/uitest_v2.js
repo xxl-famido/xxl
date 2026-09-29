@@ -175,13 +175,28 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
       && document.querySelector('#app-sheets .adv .pg-th[data-th="5"]').classList.contains('lock')));
     // 성공 가정은 제단이 없어 효과가 없으므로 배지에 세지 않는다(ADV_AUDIT 모순 4)
     ok('머리 배지(필살기 연동 · 고정 · 효과 없는 성공 가정 제외)', await p.evaluate(() => { const b = document.querySelector('#app-sheets .adv-badges').textContent; return /필살기 연동 1/.test(b) && /고정/.test(b) && !/성공 가정/.test(b); }));
-    // 끄기(창 스위치) → 딥 값이 엔진에서 빠짐(라이트 편집은 유지) · ①~④ 흐림 → 다시 켜면 복원
+    // 끄기(창 스위치) → 기본 설정(켜기 전 메인 값)이 그대로 돌아옴 — 고급 설정에서 찍은 고정 칸·방식·연동·잠긴 턴은 없음 · ①~④ 흐림
     await p.evaluate(() => document.querySelector('#app-sheets .adv-use').click()); await sleep(700);
-    s = await S(p); ok('끄기 → 방식·성공 가정·필살기 연동·잠긴 턴 해제(핀·예외 턴 유지) · 창 흐림', !s.sync.length && !Object.keys(s.locked).length && !(s.team[aPos - 1].ult)
-      && !!(s.pins[8] || {})[pinPos] && Array.isArray(s.overrides[3]) && await p.evaluate(() => document.querySelector('#app-sheets .adv-work').classList.contains('is-dimmed')));
+    s = await S(p); ok('끄기 → 기본 설정 복원(고급의 방식·연동·잠긴 턴·고정 칸 없음, 기본 예외 턴 유지) · 창 흐림', !s.sync.length && !Object.keys(s.locked).length && !(s.team[aPos - 1].ult)
+      && !(s.pins[8] || {})[pinPos] && !(s.pins[7] || {})[pinPos] && Array.isArray(s.overrides[3]) && await p.evaluate(() => document.querySelector('#app-sheets .adv-work').classList.contains('is-dimmed')));
+    // 꺼진 동안 기본 설정을 바꿔도 고급 설정에는 영향 없음
+    await p.evaluate(() => window.__woofia.store.plan.clearException([3, 6])); await sleep(300);
     await p.evaluate(() => document.querySelector('#app-sheets .adv-use').click()); await sleep(700);
-    s = await S(p); ok('다시 켜기 → 이전 값 복원(선택지 없음)', s.sync.length === 1 && Array.isArray(s.locked[5]) && (s.team[aPos - 1].ult || {}).mode === 'strict'
-      && await p.evaluate(() => document.querySelector('#app-sheets .adv-start').hidden));
+    s = await S(p); ok('다시 켜기 → 고급 값 복원(고정 칸 포함, 선택지 없음)', s.sync.length === 1 && Array.isArray(s.locked[5]) && (s.team[aPos - 1].ult || {}).mode === 'strict'
+      && (s.pins[8] || {})[pinPos] === '방' && Array.isArray(s.overrides[3]) && await p.evaluate(() => document.querySelector('#app-sheets .adv-start').hidden));
+    // 창 ① 직접 지정 — 메인처럼 턴 칸 줄
+    const dPos = await p.evaluate(() => { const li = [...document.querySelectorAll('#app-sheets .adv-plan .prio > li')].find(x => !x.querySelector('.plan-strip')); return li ? +li.dataset.pos : 0; });
+    await p.select(`#app-sheets [data-fk="amode:${dPos}"]`, 'direct'); await sleep(500);
+    ok('창 ① 방식에 직접 지정 → 턴 칸 줄', await p.evaluate(pos => !!document.querySelector(`#app-sheets .adv-plan .prio > li[data-pos="${pos}"] .plan-strip .plan-cells button`), dPos));
+    await p.evaluate(pos => document.querySelector(`#app-sheets .adv-plan .prio > li[data-pos="${pos}"] .plan-cells button[data-t="4"]`).click(), dPos); await sleep(250);
+    await p.evaluate(() => [...document.querySelectorAll('.menu.pl-pop button')][2].click()); await sleep(400);
+    s = await S(p); ok('창 ① 칸 → 방어 고정', (s.pins[4] || {})[dPos] === '방', JSON.stringify(s.pins[4]));
+    // 기본 설정 가져오기(버튼은 켜져 있을 때 항상) → 고급 값이 기본 설정 복사본으로(되돌리기 가능), 기본 설정 자체는 그대로
+    ok('기본 설정 가져오기 버튼', await p.evaluate(() => { const b = document.querySelector('#app-sheets [data-fk="advImport"]'); return !!b && !b.hidden; }));
+    await p.evaluate(() => document.querySelector('#app-sheets [data-fk="advImport"]').click()); await sleep(600);
+    s = await S(p); ok('가져오기 → 기본 설정 값(예외 턴 없음 · 고정 칸 없음 · 방식 자동)', !Object.keys(s.overrides).length && !Object.keys(s.pins).length && !(s.team[aPos - 1].ult));
+    await p.evaluate(() => [...document.querySelectorAll('.toast button')].pop().click()); await sleep(500);
+    s = await S(p); ok('가져오기 되돌리기 → 고급 값 복귀', (s.pins[8] || {})[pinPos] === '방' && (s.pins[4] || {})[dPos] === '방' && (s.team[aPos - 1].ult || {}).mode === 'strict');
     await p.evaluate(() => document.querySelector('#app-sheets .adv-use').click()); await sleep(500);
     await p.keyboard.press('Escape'); await sleep(400);
     ok('꺼진 뒤 메인: 기본 패널 활성 · 배너 숨김', await p.evaluate(() => !document.querySelector('#app-plan .pl-main').inert && document.querySelector('#app-plan .adv-banner').hidden

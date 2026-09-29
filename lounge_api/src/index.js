@@ -10,7 +10,7 @@
  * 기기 식별(반응 중복 방지)은 GET 은 ?d=, POST 는 본문 dev 로 받는다.
  */
 import charsJson from '../../data/chars.json' with { type: 'json' };
-import { LIMITS, POST_TAGS, TIER_BASIS, TEAM_BASIS, CURRENT_BUILD, ANTISPAM, OPERATOR, isPin, hotScore, aggregateRows, spamReason } from '../../dashboard_v2/src/lounge/shared.js';
+import { LIMITS, POST_TAGS, TIER_BASIS, TEAM_BASIS, CURRENT_BUILD, ANTISPAM, OPERATOR, isPin, hotScore, aggregateRows, tierPositions, spamReason } from '../../dashboard_v2/src/lounge/shared.js';
 import { HttpError, E, hmacHex, safeEqual, randomId, ipHash, voterOf, pinHash, limit, checkGap, markWrite, bodyKey, checkTurnstile, allowedOrigin, corsHeaders, cleanText } from './security.js';
 import { readTeamCode } from './teamcode.js';
 import KR from '../../dashboard_v2/i18n/lounge/kr.json' with { type: 'json' };
@@ -46,7 +46,7 @@ const pubPost = (r, vote = 0) => ({
   edited: r.edited_at || null, deleted: !!r.deleted, pinned: !!r.pinned, likes: r.likes, vote,
 });
 const pubTier = (r, vote = 0, comments = 0) => ({
-  id: r.id, title: r.title, basis: r.basis, rows: JSON.parse(r.rows), descr: r.descr, anon: r.anon, anonNo: r.anon_no, op: !!r.op,
+  id: r.id, title: r.title, basis: r.basis, rows: JSON.parse(r.rows), descr: r.descr, anon: r.anon, anonNo: r.anon_no, op: !!r.op, fun: !!r.fun,
   build: r.build, at: r.created_at, edited: r.edited_at || null, likes: r.likes, vote, comments,
 });
 const pubTeam = (r, vote = 0, comments = 0) => ({
@@ -418,23 +418,23 @@ function parseTierInput(body, op) {
   });
   if (!seen.size) throw E(400, 'tierEmpty');
   if (!op) assertNotSpam(title, descr, ...rows.map((r) => r.label));
-  return { title, basis, descr, rows };
+  return { title, basis, descr, rows, fun: body.fun === true ? 1 : 0 };   // 집계 제외 = 평균 티어에 반영 안 함
 }
-const tierPosStmts = (env, id, rows) => rows.flatMap((r, i) => r.ids.map((cid) =>
-  env.DB.prepare('INSERT INTO tier_pos (tier_id, char_id, pos) VALUES (?1, ?2, ?3)').bind(id, cid, rows.length > 1 ? i / (rows.length - 1) : 0)));
+const tierPosStmts = (env, id, rows) => tierPositions(rows).map(([cid, pos]) =>
+  env.DB.prepare('INSERT INTO tier_pos (tier_id, char_id, pos) VALUES (?1, ?2, ?3)').bind(id, cid, pos));
 
 async function createTier(env, req, body) {
   const op = await isOperator(env, req);
   const ih = await ipHash(env, req);
-  const { title, basis, descr, rows } = parseTierInput(body, op);
+  const { title, basis, descr, rows, fun } = parseTierInput(body, op);
   const { salt, hash } = await newPin(env, body.pin);
   const gapStmt = op ? null : await writeGate(env, req, body, { ih, kind: 'tier' });
   const id = randomId('t');
   const who = op ? OP_WHO : await pickAnon(env, 'tier:' + id);
   const stmts = [
-    env.DB.prepare(`INSERT INTO tiers (id, title, basis, rows, descr, anon, anon_no, build, pin_salt, pin_hash, ip_hash, created_at, op)
-      VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)`)
-      .bind(id, title, basis, JSON.stringify(rows), descr, who.anon, who.anonNo, CURRENT_BUILD, salt, hash, ih, Date.now(), op ? 1 : 0),
+    env.DB.prepare(`INSERT INTO tiers (id, title, basis, rows, descr, anon, anon_no, build, pin_salt, pin_hash, ip_hash, created_at, op, fun)
+      VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)`)
+      .bind(id, title, basis, JSON.stringify(rows), descr, who.anon, who.anonNo, CURRENT_BUILD, salt, hash, ih, Date.now(), op ? 1 : 0, fun),
     who.stmt,
     gapStmt,
     ...tierPosStmts(env, id, rows),
@@ -449,9 +449,9 @@ async function editTier(env, req, id, body) {
   const op = await isOperator(env, req);
   if (row.op && !op) throw E(403, 'opLocked');
   if (!op) await checkPin(env, table, row, body.pin);
-  const { title, basis, descr, rows } = parseTierInput(body, op);
+  const { title, basis, descr, rows, fun } = parseTierInput(body, op);
   await env.DB.batch([
-    env.DB.prepare('UPDATE tiers SET title = ?2, basis = ?3, rows = ?4, descr = ?5, edited_at = ?6 WHERE id = ?1').bind(id, title, basis, JSON.stringify(rows), descr, Date.now()),
+    env.DB.prepare('UPDATE tiers SET title = ?2, basis = ?3, rows = ?4, descr = ?5, edited_at = ?6, fun = ?7 WHERE id = ?1').bind(id, title, basis, JSON.stringify(rows), descr, Date.now(), fun),
     env.DB.prepare('DELETE FROM tier_pos WHERE tier_id = ?1').bind(id),
     ...tierPosStmts(env, id, rows),
   ]);
@@ -462,11 +462,11 @@ async function aggregate(env, url) {
   const basis = url.searchParams.get('basis');
   const filtered = TIER_BASIS_KEYS.has(basis);
   const pos = filtered
-    ? await env.DB.prepare("SELECT tp.char_id, tp.pos FROM tier_pos tp JOIN tiers t ON t.id = tp.tier_id WHERE t.status = 'ok' AND t.basis = ?1").bind(basis).all()
-    : await env.DB.prepare("SELECT tp.char_id, tp.pos FROM tier_pos tp JOIN tiers t ON t.id = tp.tier_id WHERE t.status = 'ok'").all();
-  const cnt = filtered
-    ? await env.DB.prepare("SELECT COUNT(*) AS n FROM tiers WHERE status = 'ok' AND basis = ?1").bind(basis).first()
-    : await env.DB.prepare("SELECT COUNT(*) AS n FROM tiers WHERE status = 'ok'").first();
+    ? await env.DB.prepare("SELECT tp.char_id, tp.pos FROM tier_pos tp JOIN tiers t ON t.id = tp.tier_id WHERE t.status = 'ok' AND t.fun = 0 AND t.basis = ?1").bind(basis).all()
+    : await env.DB.prepare("SELECT tp.char_id, tp.pos FROM tier_pos tp JOIN tiers t ON t.id = tp.tier_id WHERE t.status = 'ok' AND t.fun = 0").all();
+  const cnt = filtered   // 집계 제외(fun = 1) 티어표는 평균 티어에서 뺀다
+    ? await env.DB.prepare("SELECT COUNT(*) AS n FROM tiers WHERE status = 'ok' AND fun = 0 AND basis = ?1").bind(basis).first()
+    : await env.DB.prepare("SELECT COUNT(*) AS n FROM tiers WHERE status = 'ok' AND fun = 0").first();
   const byChar = {};
   for (const r of pos.results) (byChar[r.char_id] ||= []).push(r.pos);
   return aggregateRows(byChar, cnt.n);
@@ -605,7 +605,7 @@ async function adminModerate(env, body) {
   }
   if (body.action === 'delete') return removeItem(env, table, row);
   if (body.action === 'pin' || body.action === 'unpin') {
-    if (table !== 'posts' || row.parent) throw E(400, 'pinTopOnly');
+    if (table !== 'posts') throw E(400, 'pinTopOnly');   // 답글도 고정 가능(그 답글만 강조, 정렬은 그대로)
     await env.DB.prepare('UPDATE posts SET pinned = ?2 WHERE id = ?1').bind(id, body.action === 'pin' ? 1 : 0).run();
     return { ok: true, pinned: body.action === 'pin' };
   }

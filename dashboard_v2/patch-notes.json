@@ -2,6 +2,148 @@
  "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
  "releases": [
   {
+   "version": "2.0.1",
+   "date": "2026-09-29",
+   "highlight": false,
+   "title": {
+    "kr": "행동 설정 분리 · 라운지 티어표 개선",
+    "en": "Separate action settings · Lounge tier list improvements",
+    "ja": "行動設定の分離 · ラウンジのティア表改善",
+    "zh": "行動設定分離 · 交流區梯度表改善",
+    "zhs": "行动设定分离 · 交流区梯度表改善"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "기본 행동 설정과 고급 설정이 서로 영향을 주지 않습니다.",
+      "en": "Basic action settings and advanced settings no longer affect each other.",
+      "ja": "基本の行動設定と詳細設定が互いに影響しなくなりました。",
+      "zh": "基本行動設定與進階設定不再互相影響。",
+      "zhs": "基本行动设定与进阶设定不再互相影响。"
+     },
+     "details": [
+      {
+       "kr": "기본 설정에서 바꾼 내용은 고급 설정에, 고급 설정에서 바꾼 내용은 기본 설정에 반영되지 않습니다.",
+       "en": "Changes made in the basic settings are not applied to the advanced settings, and vice versa.",
+       "ja": "基本設定で変えた内容は詳細設定に、詳細設定で変えた内容は基本設定に反映されません。",
+       "zh": "在基本設定所做的變更不會套用到進階設定，反之亦然。",
+       "zhs": "在基本设定所做的变更不会套用到进阶设定，反之亦然。"
+      },
+      {
+       "kr": "‘고급 설정 사용’을 끄면 기본 설정 그대로 계산하고, 다시 켜면 고급 설정이 그대로 돌아옵니다.",
+       "en": "Turning ‘Use advanced settings’ off runs with the basic settings as they are; turning it back on restores the advanced settings as they were.",
+       "ja": "「詳細設定を使う」をオフにすると基本設定のまま計算し、オンに戻すと詳細設定がそのまま戻ります。",
+       "zh": "關閉「使用進階設定」時以基本設定原樣計算，再次開啟時進階設定會原樣恢復。",
+       "zhs": "关闭「使用进阶设定」时以基本设定原样计算，再次开启时进阶设定会原样恢复。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "고급 설정 ① 순서와 필살기에서도 동료마다 ‘직접 지정’으로 턴별 행동을 정할 수 있습니다.",
+      "en": "In advanced settings ① Order and EX Skill, you can now set per-turn actions for each companion with ‘Per turn’.",
+      "ja": "詳細設定の ① 順番と必殺技でも、仲間ごとに「直接指定」でターン別行動を決められます。",
+      "zh": "進階設定的 ① 順序與必殺技中，也能為每位夥伴用「直接指定」設定每回合行動。",
+      "zhs": "进阶设定的 ① 顺序与必杀技中，也能为每位伙伴用「直接指定」设定每回合行动。"
+     },
+     "details": [
+      {
+       "kr": "기본 설정과 같은 턴 칸 줄과 프리셋이 열리며, ④ 턴별 행동 계획 격자와 같은 값을 편집합니다.",
+       "en": "The same turn-cell row and presets as the basic settings open, editing the same values as the ④ Turn-by-turn plan grid.",
+       "ja": "基本設定と同じターンのマス列とプリセットが開き、④ ターン別行動計画の表と同じ値を編集します。",
+       "zh": "會開啟與基本設定相同的回合格列與預設，編輯的是與 ④ 逐回合行動計畫表相同的值。",
+       "zhs": "会开启与基本设定相同的回合格列与预设，编辑的是与 ④ 逐回合行动计划表相同的值。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "고급 설정에 ‘기본 설정 가져오기’가 추가되었습니다.",
+      "en": "Added ‘Import basic settings’ to advanced settings.",
+      "ja": "詳細設定に「基本設定を取り込む」を追加しました。",
+      "zh": "進階設定新增「匯入基本設定」。",
+      "zhs": "进阶设定新增「汇入基本设定」。"
+     },
+     "details": [
+      {
+       "kr": "기본 설정의 순서 · 직접 지정 · 예외 턴을 고급 설정으로 복사합니다. 되돌리기로 취소할 수 있고, 기본 설정은 바뀌지 않습니다.",
+       "en": "Copies the order, per-turn plans and exception turns from the basic settings into the advanced settings. It can be undone, and the basic settings stay unchanged.",
+       "ja": "基本設定の順番・直接指定・例外ターンを詳細設定にコピーします。元に戻すで取り消せ、基本設定は変わりません。",
+       "zh": "將基本設定的順序、直接指定與例外回合複製到進階設定。可用復原取消，基本設定不變。",
+       "zhs": "将基本设定的顺序、直接指定与例外回合复制到进阶设定。可用复原取消，基本设定不变。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "XXL 라운지의 커뮤니티 평균 티어가 티어표의 행 수와 관계없이 S~D 5칸에 고르게 나뉩니다.",
+      "en": "The community average tier in XXL Lounge now spreads evenly across the five tiers S–D regardless of how many rows a tier list has.",
+      "ja": "XXL ラウンジのコミュニティ平均ティアが、ティア表の行数に関係なく S〜D の5段に均等に分かれます。",
+      "zh": "XXL 交流區的社群平均梯度不論梯度表有幾列，都會平均分配到 S～D 五個梯度。",
+      "zhs": "XXL 交流区的社群平均梯度不论梯度表有几列，都会平均分配到 S～D 五个梯度。"
+     },
+     "details": [
+      {
+       "kr": "각 행이 차지하는 구간의 가운데를 기준으로 계산합니다(2행 = A · C, 3행 = S · B · D, 5행 = S~D).",
+       "en": "Each row is placed at the middle of the range it covers (2 rows = A · C, 3 rows = S · B · D, 5 rows = S–D).",
+       "ja": "各行が占める区間の中央を基準に計算します(2行 = A · C、3行 = S · B · D、5行 = S〜D)。",
+       "zh": "以每一列所佔區間的中點計算(2 列 = A · C，3 列 = S · B · D，5 列 = S～D)。",
+       "zhs": "以每一列所占区间的中点计算(2 列 = A · C，3 列 = S · B · D，5 列 = S～D)。"
+      },
+      {
+       "kr": "이미 공개된 티어표도 새 기준으로 다시 계산했습니다.",
+       "en": "Tier lists already published have been recalculated with the new rule.",
+       "ja": "公開済みのティア表も新しい基準で再計算しました。",
+       "zh": "已公開的梯度表也依新規則重新計算。",
+       "zhs": "已公开的梯度表也依新规则重新计算。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "티어표를 올리거나 수정할 때 ‘평균 티어 집계에서 제외’를 고를 수 있습니다.",
+      "en": "When publishing or editing a tier list, you can choose ‘Exclude from the average tier’.",
+      "ja": "ティア表の投稿・編集時に「平均ティアの集計から除外」を選べます。",
+      "zh": "發布或編輯梯度表時，可選擇「不計入平均梯度」。",
+      "zhs": "发布或编辑梯度表时，可选择「不计入平均梯度」。"
+     },
+     "details": [
+      {
+       "kr": "선택한 티어표는 목록에 ‘집계 제외’로 표시되고, 커뮤니티 평균 티어와 표본 수에 들어가지 않습니다.",
+       "en": "Such tier lists are marked ‘Not in average’ in the list and are not counted in the community average tier or its sample count.",
+       "ja": "選んだティア表は一覧に「集計対象外」と表示され、コミュニティ平均ティアとサンプル数に含まれません。",
+       "zh": "選擇後的梯度表在列表中標示「不計入平均」，不會計入社群平均梯度與樣本數。",
+       "zhs": "选择后的梯度表在列表中标示「不计入平均」，不会计入社群平均梯度与样本数。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "라운지 고정 의견의 강조 테두리가 고정한 글에만 표시됩니다.",
+      "en": "The highlight border on pinned Lounge comments now appears only on the pinned post.",
+      "ja": "ラウンジの固定コメントの強調枠が、固定した投稿だけに表示されます。",
+      "zh": "交流區置頂留言的強調外框只會顯示在置頂的那則貼文上。",
+      "zhs": "交流区置顶留言的强调外框只会显示在置顶的那则贴文上。"
+     },
+     "details": [
+      {
+       "kr": "고정 의견에 달린 답글은 테두리 밖에 표시되고, 답글을 고정하면 그 답글만 강조됩니다.",
+       "en": "Replies to a pinned comment appear outside the border, and pinning a reply highlights only that reply.",
+       "ja": "固定コメントへの返信は枠の外に表示され、返信を固定するとその返信だけが強調されます。",
+       "zh": "置頂留言底下的回覆會顯示在外框之外，置頂回覆時只會強調該則回覆。",
+       "zhs": "置顶留言底下的回复会显示在外框之外，置顶回复时只会强调该则回复。"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "version": "2.0",
    "date": "2026-09-28",
    "highlight": true,

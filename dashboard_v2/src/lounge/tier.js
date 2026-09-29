@@ -76,7 +76,7 @@ export async function tierHome(view) {
       h('span', { class: 'lg-row-lead lg-tprev' }, tl.rows.slice(0, 2).map((r) => h('span', { class: 'lg-tprev-row' }, h('b', {}, r.label), r.ids.slice(0, 5).map((id) => h('img', { src: iconSrc(id), alt: '' }))))),
       h('span', { class: 'lg-row-main' },
         h('span', { class: 'lg-row-title' }, tl.title),
-        h('span', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(tl.basis)), avatar(tl.anon, 16), anonName(tl.anon, tl.anonNo, tl.op), ' · ', ago(tl.at), buildChip(tl.build))),
+        h('span', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(tl.basis)), tl.fun && h('span', { class: 'lg-chip', title: t('tier.fun.hint') }, t('chip.fun')), avatar(tl.anon, 16), anonName(tl.anon, tl.anonNo, tl.op), ' · ', ago(tl.at), buildChip(tl.build))),
       h('span', { class: 'lg-row-stats' }, h('span', {}, icon('thumbs-up'), tl.likes), h('span', {}, icon('message-circle'), tl.comments))))));
     reveal([...list.children]);
   }
@@ -87,7 +87,7 @@ export async function tierHome(view) {
 // ── 편집기 ───────────────────────────────────────────────────────────────
 function loadDraft() { try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch { return null; } }
 function saveDraft(d) { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch { /* 무시 */ } }
-const blank = () => ({ title: '', basis: 'all', descr: '', rows: DEFAULT_LABELS.map((label) => ({ label, ids: [] })) });
+const blank = () => ({ title: '', basis: 'all', descr: '', fun: false, rows: DEFAULT_LABELS.map((label) => ({ label, ids: [] })) });
 
 /**
  * 수정 권한(비밀번호)은 보기 화면에서 확인하고 여기에 잠깐 들고 온다(주소·저장소에 남기지 않음).
@@ -105,7 +105,7 @@ export async function tierEditor(view, params, editId = null) {
     editPin = editGrant && editGrant.id === editId ? editGrant.pin : null;
     const src = await api.tier(editId);
     if (!src) { view.replaceChildren(emptyState(t('tier.notFound'), { href: '#/tier', label: t('tier.backList') })); return; }
-    d = { title: src.title, basis: src.basis, descr: src.descr || '', rows: src.rows.map((r) => ({ label: r.label, ids: [...r.ids] })) };
+    d = { title: src.title, basis: src.basis, descr: src.descr || '', fun: !!src.fun, rows: src.rows.map((r) => ({ label: r.label, ids: [...r.ids] })) };
   }
   const fromId = editId ? null : params.get('from');
   if (fromId) {
@@ -121,6 +121,9 @@ export async function tierEditor(view, params, editId = null) {
   const descr = h('textarea', { class: 'lg-textarea lg-boxed', rows: 5, maxlength: api.LIMITS.tierDesc, placeholder: t('tier.descr.ph') }, d.descr || '');
   const addRowBtn = h('button', { class: 'btn btn-ghost btn-sm', type: 'button' }, icon('plus'), t('tier.addRow'));
   const placedCount = h('span', { class: 'lg-count' });
+  // 평균 티어 집계 제외: 체크하면 평균 티어에서 빠진다(서버 tiers.fun). 체크 상태는 초안에도 남는다.
+  const funBox = h('input', { type: 'checkbox', checked: !!d.fun, onchange: () => { d.fun = funBox.checked; commit(false); } });
+  const funField = h('label', { class: 'lg-check' }, funBox, h('span', {}, h('b', {}, t('tier.fun.label')), h('span', { class: 'lg-hint' }, t('tier.fun.hint'))));
 
   view.replaceChildren(h('div', { class: 'lg-cols is-editor' },
     h('div', { class: 'lg-col-main' },
@@ -137,6 +140,7 @@ export async function tierEditor(view, params, editId = null) {
     h('aside', { class: 'lg-rail lg-publish' },
       h('h2', { class: 'lg-rail-h' }, editId ? t('tier.saveEdit') : t('tier.publish')),
       h('label', { class: 'lg-field' }, h('span', { class: 'lg-label' }, t('field.descr')), descr),
+      funField,
       !editId && pinField('tier-pin'),
       cooldownButton(h('button', { class: 'btn btn-primary btn-block', type: 'button', onclick: publish }, editId ? t('tier.saveEdit') : t('tier.publish'))),
       h('button', { class: 'btn btn-secondary btn-block', type: 'button', onclick: () => exportPng({ title: title.value || t('nav.tier'), rows: d.rows }) }, icon('image-down'), t('tier.savePng')),
@@ -284,7 +288,7 @@ export async function tierEditor(view, params, editId = null) {
     if (why) { toast(spamText(why)); return; }
     if (editId) {
       try {
-        await api.editTier(editId, pin, { title: title.value, basis: d.basis, rows: d.rows.filter((r) => r.ids.length || r.label), descr: descr.value });
+        await api.editTier(editId, pin, { title: title.value, basis: d.basis, rows: d.rows.filter((r) => r.ids.length || r.label), descr: descr.value, fun: !!d.fun });
         editGrant = null;
         toast(t('toast.tierEdited'));
         location.hash = `#/tier/${editId}`;
@@ -292,7 +296,7 @@ export async function tierEditor(view, params, editId = null) {
       return;
     }
     try {
-      const tl = await api.createTier({ title: title.value, basis: d.basis, rows: d.rows.filter((r) => r.ids.length || r.label), descr: descr.value, pin });
+      const tl = await api.createTier({ title: title.value, basis: d.basis, rows: d.rows.filter((r) => r.ids.length || r.label), descr: descr.value, fun: !!d.fun, pin });
       localStorage.removeItem(DRAFT_KEY);
       toast(t('toast.tierPublished'));
       location.hash = `#/tier/${tl.id}`;
@@ -317,7 +321,7 @@ export async function tierView(view, id) {
     h('a', { class: 'lg-back', href: '#/tier' }, icon('arrow-left'), t('nav.tier')),
     h('header', { class: 'lg-page-head is-stack' },
       h('h1', { class: 'lg-h1' }, tl.title),
-      h('p', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(tl.basis)), avatar(tl.anon, 16), anonName(tl.anon, tl.anonNo, tl.op), ' · ', ago(tl.at), tl.edited && ' · ' + t('chip.edited'), ' · ' + t('meta.build', { build: tl.build }), buildChip(tl.build))),
+      h('p', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(tl.basis)), tl.fun && h('span', { class: 'lg-chip', title: t('tier.fun.hint') }, t('chip.fun')), avatar(tl.anon, 16), anonName(tl.anon, tl.anonNo, tl.op), ' · ', ago(tl.at), tl.edited && ' · ' + t('chip.edited'), ' · ' + t('meta.build', { build: tl.build }), buildChip(tl.build))),
     board,
     tl.descr && h('div', { class: 'lg-descr' }, clampText(tl.descr, 8)),
     h('div', { class: 'lg-bar' },

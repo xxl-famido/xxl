@@ -108,6 +108,13 @@ const noSecrets = (text) => !/dislike|pin_hash|pin_salt|pin_fail|ip_hash|"voter"
   ok(t1.status === 200 && t1.data.rows.length === 3, '티어표 공개');
   const tc = await post('/v1/posts', { thread: 'tier:' + t1.data.id, body: '티어표 의견', pin: '1111', asPostId: t1.data.id, asPin: '1111', ts: TS });
   ok(tc.data.anon === t1.data.anon, '티어표 작성자 이름으로 의견 이어 쓰기');
+  // 집계 제외 티어표: 목록에는 보이지만 평균 티어 집계(표본 수)에서는 빠진다
+  const aggBefore = (await get('/v1/tiers/aggregate?basis=any')).data.sampleCount;
+  const tf = await post('/v1/tiers', { title: '집계 제외 검사 티어', basis: 'free', rows: [{ label: '웃김', ids: [10441] }, { label: '안 웃김', ids: [] }], fun: true, pin: '1111', ts: TS },
+    { headers: { 'X-Test-Gap-Scale': '100', 'X-Test-Rate-Scale': '100' } });
+  ok(tf.status === 200 && tf.data.fun === true, '집계 제외 티어표 공개(fun 표시)');
+  ok((await get('/v1/tiers/aggregate?basis=any')).data.sampleCount === aggBefore, '집계 제외 티어표는 평균 티어에서 제외');
+  ok((await get('/v1/tiers?basis=any&sort=new')).data.some((x) => x.id === tf.data.id), '집계 제외 티어표도 목록에는 보임');
 
   // 팀
   const dup = await post('/v1/teams', { code: '#eJyLjjbUUVLSMdAx0ImOjjYxMIzViTYxNACRRmC2kQWYNI0FAQACxguo', title: 'x', basis: 'boss', pin: '2222', ts: TS });
@@ -244,7 +251,14 @@ const noSecrets = (text) => !/dislike|pin_hash|pin_salt|pin_fail|ip_hash|"voter"
   ok((await post(`/v1/posts/${pinP.data.id}/edit`, { pin: '4321', body: '운영자가 고친 고정 글' }, A)).data.body === '운영자가 고친 고정 글', '고정 글: 운영자 토큰이면 수정 가능');
   const rep = await post('/v1/posts', { thread: 'char:10421', parent: pinP.data.id, body: '고정 글에 단 답글', pin: '1234', ts: TS }, { headers: { 'X-Test-Gap-Scale': '100', 'X-Test-Rate-Scale': '100' } });
   ok(rep.status === 200, '고정 글에 답글은 가능');
-  ok((await post('/v1/admin/moderate', { target: 'post:' + rep.data.id, action: 'pin' }, A)).status === 400, '답글은 고정 불가');
+  ok((await post('/v1/admin/moderate', { target: 'post:' + rep.data.id, action: 'pin' }, A)).status === 200, '답글도 고정 가능');
+  {
+    const th = (await get('/v1/threads/char%3A10421')).data;
+    const top = (th.posts || th).find((x) => x.id === pinP.data.id);
+    const r = top && top.replies.find((x) => x.id === rep.data.id);
+    ok(!!r && r.pinned === true && top.pinned === true, '답글 고정은 그 답글에만 표시');
+  }
+  ok((await post('/v1/admin/moderate', { target: 'post:' + rep.data.id, action: 'unpin' }, A)).status === 200, '답글 고정 해제');
   ok((await post('/v1/admin/moderate', { target: 'post:' + pinP.data.id, action: 'pin' }, { headers: { Authorization: 'Bearer ' + 'e'.repeat(64) } })).status === 401, '관리자 토큰 없이는 고정·해제 불가');
   ok((await post('/v1/admin/moderate', { target: 'post:' + pinP.data.id, action: 'unpin' })).status === 401, '토큰 없이 고정 해제 시도 → 401');
   for (let i = 0; i < 12; i++) await post('/v1/report', { target: 'post:' + pinP.data.id, reason: '신고 폭주', dev: (i + 10).toString(16).padStart(32, '0') });

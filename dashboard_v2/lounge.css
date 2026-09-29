@@ -408,15 +408,14 @@ body.lg-dragging, body.lg-dragging * { cursor: grabbing !important; user-select:
 /* 운영자 글 이름 — 익명 이름과 구분되게 강조색 */
 .lg-op-name { color: var(--accent-text); }
 
-/* 고정 의견: 정렬과 무관하게 맨 위, 발광 테두리 카드(사용자 요청 — 이 요소에만 글로우 허용) */
-.lg-post-block.is-pinned {
-  position: relative; margin: var(--space-1) 0 var(--space-5); padding: var(--space-4) var(--space-4) var(--space-3);
+/* 고정 의견: 정렬과 무관하게 맨 위, 발광 테두리 카드(사용자 요청 — 이 요소에만 글로우 허용).
+   테두리는 고정한 그 글 하나에만 — 최상위 고정이면 답글은 카드 밖, 답글 고정이면 그 답글만(2026-09-29 사용자 요청) */
+.lg-post.is-pinned {
+  position: relative; padding: var(--space-3) var(--space-4);
   border: var(--border-w) solid var(--accent-solid); border-radius: var(--radius-lg); background: var(--bg-surface);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-solid) 35%, transparent), 0 0 22px 2px color-mix(in srgb, var(--accent-solid) 30%, transparent);
   animation: lg-pin-glow 1.4s var(--ease-enter) 1 both;
 }
-.lg-post-block.is-pinned + .lg-post-block { border-top: var(--border-w) solid var(--border-subtle); }
-.lg-post-block.is-pinned:last-child { border-bottom: var(--border-w) solid var(--accent-solid); }
 .lg-chip-pin { gap: 3px; background: var(--accent-solid); color: var(--on-accent); }
 .lg-chip-pin .ic { width: 12px; height: 12px; }
 /* 들어올 때 한 번 빛이 번졌다가 가라앉는다(반복 없음) */
@@ -425,8 +424,8 @@ body.lg-dragging, body.lg-dragging * { cursor: grabbing !important; user-select:
   45% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-solid) 55%, transparent), 0 0 36px 6px color-mix(in srgb, var(--accent-solid) 45%, transparent); }
   100% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-solid) 35%, transparent), 0 0 22px 2px color-mix(in srgb, var(--accent-solid) 30%, transparent); }
 }
-@media (prefers-reduced-motion: reduce) { .lg-post-block.is-pinned { animation: none; } }
-@media (max-width: 900px) { .lg-post-block.is-pinned { padding: var(--space-3); } }
+@media (prefers-reduced-motion: reduce) { .lg-post.is-pinned { animation: none; } }
+@media (max-width: 900px) { .lg-post.is-pinned { padding: var(--space-2) var(--space-3); } }
 
 /* 언어 선택 메뉴 */
 .lg-langmenu-check { display: inline-flex; align-items: center; width: 16px; color: var(--accent-text); }
@@ -434,3 +433,9 @@ body.lg-dragging, body.lg-dragging * { cursor: grabbing !important; user-select:
 
 /* 등급 배지(XXL = rarity04, XL = rarity03 — sectionhunk 아이콘, brand/) */
 .lg-rarity { display: inline-block; height: 18px; width: auto; vertical-align: middle; }
+
+/* 평균 티어 집계 제외 체크(티어표 올리기) — 체크 + 굵은 제목 + 한 줄 설명 */
+.lg-check { display: flex; gap: var(--space-2); align-items: flex-start; cursor: pointer; }
+.lg-check input { margin-top: 3px; accent-color: var(--accent-solid); }
+.lg-check > span { display: flex; flex-direction: column; gap: 2px; }
+.lg-check b { font-weight: 600; }

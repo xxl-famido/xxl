@@ -34,11 +34,17 @@ export function aggregateRows(posByChar, sampleCount) {
   rows.forEach((r) => r.items.sort((x, y) => x.m - y.m));
   return { rows, thin, sampleCount };
 }
-/** 티어표 한 장 → 동료별 정규화 위치(맨 위 0, 맨 아래 1). */
+/**
+ * 행 위치(0~1) = 그 행이 차지하는 구간의 가운데. 행이 몇 개든 평균 티어 5칸(S~D)에 고르게 나뉜다:
+ * 2행 → A·C, 3행 → S·B·D, 4행 → S·A·C·D, 5행 → S~D 그대로, 8행 → S·S·A·B·B·C·D·D. (예전 i/(n-1)은 양 끝이 S·D로 쏠렸다)
+ * 서버 migrations/0006 이 저장된 값을 이 식으로 다시 계산했다 — 바꾸면 거기도 맞출 것.
+ */
+export const rowPos = (i, n) => (n > 0 ? (i + 0.5) / n : 0.5);
+/** 티어표 한 장 → 동료별 정규화 위치(맨 위에 가까울수록 0). */
 export function tierPositions(rows) {
   const n = rows.length;
   const out = [];
-  rows.forEach((r, i) => r.ids.forEach((cid) => out.push([cid, n > 1 ? i / (n - 1) : 0])));
+  rows.forEach((r, i) => r.ids.forEach((cid) => out.push([cid, rowPos(i, n)])));
   return out;
 }
 export const CURRENT_BUILD = '0922';   // 게임 빌드(글에 도장으로 찍힘). 새 빌드 반영 시 여기만 바꾼다.

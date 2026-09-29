@@ -3,7 +3,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
 import { limit, cleanText, safeEqual, HttpError, pinHash, rateScale } from '../src/security.js';
-import { spamReason, normalizeForDup } from '../../dashboard_v2/src/lounge/shared.js';
+import { spamReason, normalizeForDup, tierPositions, aggregateRows, AGG_LABELS } from '../../dashboard_v2/src/lounge/shared.js';
 import { readTeamCode } from '../src/teamcode.js';
 import { bytesToB64url, deflate } from '../../dashboard_v2/src/core/codec.js';
 
@@ -79,6 +79,22 @@ function fakeD1() {
   }
   ok(normalizeForDup('같은 내용  검사!!') === normalizeForDup('같은내용검사'), '중복 판정: 띄어쓰기·문장부호 무시');
   ok(normalizeForDup('ＡＢＣ') === normalizeForDup('abc'), '중복 판정: 전각·대소문자 무시');
+}
+
+// 평균 티어 5칸 분포: 행 수가 몇이든 행 구간 가운데 → S~D 에 고르게
+{
+  const bandsOf = (n) => {
+    const rows = Array.from({ length: n }, (_, i) => ({ label: String(i), ids: [10401 + i] }));
+    const byChar = {};
+    for (const [cid, p] of tierPositions(rows)) byChar[cid] = [p, p, p];     // 표본 3개(최소 표본 넘김)
+    const agg = aggregateRows(byChar, 3);
+    return rows.map((r) => AGG_LABELS[agg.rows.findIndex((x) => x.items.some((it) => it.id === r.ids[0]))]).join('');
+  };
+  ok(bandsOf(2) === 'AC', `2행 → A·C (${bandsOf(2)})`);
+  ok(bandsOf(3) === 'SBD', `3행 → S·B·D (${bandsOf(3)})`);
+  ok(bandsOf(5) === 'SABCD', `5행 → S~D 그대로 (${bandsOf(5)})`);
+  ok(bandsOf(8) === 'SSABBCDD', `8행 → 고르게 (${bandsOf(8)})`);
+  ok(new Set(bandsOf(6)).size === 5 && new Set(bandsOf(7)).size === 5, '6·7행 → 5칸 모두 사용');
 }
 
 console.log(fails ? `${fails} FAILED` : 'ALL PASS');

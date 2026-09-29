@@ -3,18 +3,21 @@
 //   [ADV_REVIEW 2026-09-28] 우선순위 한 줄은 ④ 머리 ⓘ + 충돌(주황 점·가려진 고정)이 있을 때만 범례 아래 한 줄. 확률 제단 안내에 「전원 성공 가정」 버튼.
 //   본문(세로): ① 순서와 필살기 · ② 예외 턴(ui/plan.js 의 'adv' 모양) → ③ 맞추기 → ④ N턴 고정 격자(프로브·경고 칸).
 //   꺼짐 = ①~④ 흐리게 + inert(.is-dimmed). 처음 켤 때(이전 값 없음) 스위치 아래 인라인 선택지(가져오기·기본 설정)를 한 번 보인다.
-// 사용 스위치(UI 상태 — core 가 아니라 localStorage 'woofia_adv' = { on, last }):
-//   끄면 딥 값(방식·성공 가정·방어 턴 유지·맞추기(욱영 프리셋 제외)·잠긴 턴)을 last 에 저장하고 스토어를 라이트 값으로 되돌린다.
-//   켜면 last 를 복원(동료는 id 로 다시 찾는다). 핀(직접 지정)·순서·예외 턴·욱영 프리셋 맞추기는 라이트 범위라 건드리지 않는다.
+// 사용 스위치(UI 상태 — core 가 아니라 localStorage 'woofia_adv' = { on, last, basic }) — 기본 설정과 고급 설정은 완전히 따로 보관한다:
+//   켜면 지금 스토어의 행동 계획 전체(순서·직접 지정·예외 턴·욱영 체크·받은 추가 행동 = 기본 설정)를 basic 에 저장하고 last(고급)를 올린다.
+//   끄면 고급 행동 계획 전체를 last 에 저장하고 basic 을 되돌린다. 한쪽에서 무엇을 바꿔도 다른 쪽은 그대로다.
+//   스냅샷은 자리 대신 동료 id 로 적는다(capturePlan/applyPlan) — 켜 둔 사이 편성이 바뀌어도 남은 동료끼리 복원된다.
+//   「기본 설정 가져오기」 = basic 을 복사해 고급 설정 값을 바꾼다(기본 설정은 그대로). 옛 last(v 없음)는 방식·맞추기·잠긴 턴만 담고 있어 옛 방식으로 복원.
 import {
-  ultOf, setUlt, syncOtherOf, normalizeSyncGroups, syncOps, summary, pinCount, lockedWithin, sortLocked, turnSeqFromProbe, makeEnv, taehoFedTurns,
+  ultOf, setUlt, syncOtherOf, normalizeSyncGroups, syncOps, summary, pinCount, lockedWithin, sortLocked, turnSeqFromProbe, makeEnv,
   immuneFor,
 } from '../core/plan.js';
 import { UK_ID, IMBUEON_ID } from '../core/format.js';
+import { afterTeamChange } from '../core/store.js';
 import {
   ACT_KEY, actsOf, cellClass, cellSource, syncAfterNoExtra, syncActionOf, helpTip,
   replaceSyncMember, syncUsedExcept, shortName, ukPresetIndex, deepSyncGroups, getBaseCtx, scopeSession, sheetSession, cellPicker,
-  assistEffect, ukPresetOverwrites, isFedCarry, ACT_CLS, ACT_CYCLE, pinUltWithRules, pinUltNotice, presetTip, presetBlockedByMode,
+  assistEffect, ukPresetOverwrites, isFedCarry, pinUltWithRules, pinUltNotice, presetTip, presetBlockedByMode,
 } from './plan-helpers.js';
 import { openTurnEdit } from './turn-edit.js';
 
@@ -30,25 +33,29 @@ const MOBILE_MQ = '(max-width: 900px)';
 const clone = (v) => (v == null ? v : JSON.parse(JSON.stringify(v)));
 
 // ═════════════════════════════════════════════════════════════════════════════
-// 사용 상태(UI) — { on, last: { at, ids, ults, sync, locked } | null }
+// 사용 상태(UI) — { on, last: 고급 스냅샷 | null, basic: 기본 스냅샷(켜져 있는 동안) | null }
+//   스냅샷 v2 = capturePlan. 옛 last = { at, ids, ults, sync, locked }(자리 기준).
 // ═════════════════════════════════════════════════════════════════════════════
 const listeners = new Set();
 let mem = null;
+const objOrNull = (v) => (v && typeof v === 'object' ? v : null);
 function readState() {
   try {
     const v = JSON.parse((globalThis.localStorage && localStorage.getItem(ADV_KEY)) || 'null');
-    if (v && typeof v === 'object') return { on: !!v.on, last: v.last && typeof v.last === 'object' ? v.last : null };
+    if (v && typeof v === 'object') return { on: !!v.on, last: objOrNull(v.last), basic: objOrNull(v.basic) };
   } catch { /* 손상된 값은 기본으로 */ }
-  return { on: false, last: null };
+  return { on: false, last: null, basic: null };
 }
 const cur = () => (mem || (mem = readState()));
 function commit(next) {
-  mem = { on: !!next.on, last: next.last || null };
+  mem = { on: !!next.on, last: next.last || null, basic: next.basic || null };
   try { localStorage.setItem(ADV_KEY, JSON.stringify(mem)); } catch { /* 저장 못 해도 동작 */ }
   listeners.forEach((f) => { try { f(mem); } catch (err) { console.error('[advanced]', err); } });
 }
 export const advIsOn = () => cur().on;
 export const advLast = () => cur().last;
+/** 켜 둔 동안 보관 중인 기본 설정 스냅샷(없으면 null — 옛 상태에서 켜진 채 올라온 경우). */
+export const advBasic = () => cur().basic;
 export function onAdvChange(fn) { listeners.add(fn); return () => listeners.delete(fn); }
 
 /** 방탈출 제단이 켜져 있으면 고급 설정을 끌 수 없다(행동 계획은 고급 설정 창에서만 편집). */
@@ -79,11 +86,71 @@ export function advLineParts(st) {
     ['plan.adv.line.assist', d.assist], ['plan.adv.line.noKeep', d.noKeep]].filter(([, n]) => n > 0).map(([k, n]) => [k, { n }]);
 }
 
-function captureDeep(st) {
-  const ults = {};
-  st.team.forEach((s, i) => { if (s) ults[i + 1] = ultOf(s); });
-  return { at: Date.now(), ids: st.team.map((s) => (s ? s.id : null)), ults, sync: deepSyncGroups(st.sync, st.team), locked: clone(st.locked || {}) };
+// 행동 계획에 속하는 슬롯 필드(편성·육성 필드는 두 설정이 같이 쓴다)
+const PLAN_SLOT_KEYS = ['priority', 'ult', 'allyUltAfter', 'fedActions', 'usePlan', 'plan', 'rotation'];
+/** 스토어의 행동 계획 전체 → 동료 id 기준 스냅샷(v2). */
+export function capturePlan(st) {
+  const idAt = (p) => { const s = st.team[+p - 1]; return s ? s.id : null; };
+  const slots = {};
+  st.team.forEach((s) => {
+    if (!s) return;
+    const o = {};
+    PLAN_SLOT_KEYS.forEach((k) => { if (s[k] !== undefined) o[k] = clone(s[k]); });
+    slots[s.id] = o;
+  });
+  const pins = {};
+  Object.entries(st.pins || {}).forEach(([tt, row]) => {
+    const r = {};
+    Object.entries(row || {}).forEach(([p, a]) => { const id = idAt(p); if (id != null && a) r[id] = a; });
+    if (Object.keys(r).length) pins[tt] = r;
+  });
+  const locked = {};
+  Object.entries(st.locked || {}).forEach(([tt, seq]) => {
+    if (!Array.isArray(seq)) return;
+    const m = seq.map((e) => ({ id: idAt(e.p), a: e.a }));
+    if (m.every((e) => e.id != null)) locked[tt] = m;
+  });
+  const overrides = {};
+  Object.entries(st.overrides || {}).forEach(([tt, ord]) => { if (Array.isArray(ord)) overrides[tt] = ord.map(idAt).filter((x) => x != null); });
+  const sync = normalizeSyncGroups(st.sync).map((g) => ({ ...g, anchor: idAt(g.anchor), members: g.members.map((m) => ({ ...m, p: idAt(m.p) })).filter((m) => m.p != null) }))
+    .filter((g) => g.anchor != null);
+  return { v: 2, at: Date.now(), slots, pins, locked, overrides, sync };
 }
+/** capturePlan 스냅샷을 지금 편성에 올린다(스냅샷에 없는 동료는 기본값, 빠진 동료의 항목은 버린다). */
+export function applyPlan(store, snap) {
+  const st = store.get();
+  const posOf = {};
+  st.team.forEach((s, i) => { if (s) posOf[s.id] = i + 1; });
+  const P = (id) => posOf[id] || 0;
+  const team = st.team.map((s) => {
+    if (!s) return null;
+    const n = clone(s);
+    PLAN_SLOT_KEYS.forEach((k) => { delete n[k]; });
+    n.rotation = '';
+    const o = (snap.slots || {})[s.id];
+    if (o) Object.assign(n, clone(o));
+    return n;
+  });
+  const pins = {};
+  Object.entries(snap.pins || {}).forEach(([tt, row]) => {
+    const r = {};
+    Object.entries(row || {}).forEach(([id, a]) => { if (P(id)) r[P(id)] = a; });
+    if (Object.keys(r).length) pins[tt] = r;
+  });
+  const locked = {};
+  Object.entries(snap.locked || {}).forEach(([tt, seq]) => {
+    if (!Array.isArray(seq)) return;
+    const m = seq.map((e) => ({ p: P(e.id), a: e.a }));
+    if (m.every((e) => e.p)) locked[tt] = m;       // 빠진 동료가 든 잠긴 턴은 통째로 버린다(순서가 어긋나므로)
+  });
+  const overrides = {};
+  Object.entries(snap.overrides || {}).forEach(([tt, ord]) => { if (Array.isArray(ord)) overrides[tt] = ord.map(P).filter(Boolean); });
+  const sync = (snap.sync || []).map((g) => ({ ...g, anchor: P(g.anchor), members: (g.members || []).map((m) => ({ ...m, p: P(m.p) })).filter((m) => m.p) }))
+    .filter((g) => g.anchor);
+  store.set({ team, ...afterTeamChange(team, overrides, pins, locked) });
+  store.sync.set(normalizeSyncGroups(sync));
+}
+/** 고급 설정 값이 섞여 들어온 스토어를 기본 설정 범위로 정리(방식·성공 가정·방어 턴 유지·잠긴 턴·욱영 프리셋 밖 맞추기 제거). */
 function lightReset(store) {
   const st = store.get();
   const team = st.team.map((s) => {
@@ -119,22 +186,49 @@ function restoreDeep(store, last) {
   store.set({ team, locked: sortLocked(locked) });
   store.sync.set(normalizeSyncGroups([...keep, ...sync]));
 }
+/** 고급 스냅샷(v2 또는 옛 형식)을 스토어에 올린다. */
+function restoreAdv(store, last) {
+  if (last && last.v === 2) applyPlan(store, last);
+  else if (last) restoreDeep(store, last);
+}
+/** 기본 설정 스냅샷 = 지금 스토어를 기본 범위로 정리한 것(스토어는 건드리지 않는다). */
+function captureBasic(st) {
+  const snap = capturePlan(st);
+  Object.values(snap.slots).forEach((o) => { delete o.ult; });
+  snap.locked = {};
+  const k = ukPresetIndex(st.sync, st.team);
+  snap.sync = k >= 0 ? [snap.sync[k]].filter(Boolean) : [];
+  return snap;
+}
 /**
- * 사용 스위치. on: keep=true 면 지금 스토어 그대로 켠다(가져오기·기록으로 들어온 딥 값), 아니면 last 를 복원.
- * off: 딥 값을 last 에 저장하고 라이트 값으로 되돌린다. → 되돌리기 함수
+ * 사용 스위치. → 되돌리기 함수
+ * on: 지금 행동 계획을 기본 설정으로 보관하고 고급 설정(last)을 올린다. keep=true(기록·공유 코드로 고급 값이 들어옴)거나
+ *     이전 고급 값이 없으면(처음 켬 = 기본 설정을 복사해 시작) 스토어는 그대로 둔다.
+ * off: 고급 행동 계획 전체를 last 에 보관하고 기본 설정을 되돌린다.
  */
 export function advSetOn(store, on, { keep = false } = {}) {
   const prev = cur();
   if (on) {
-    if (!keep && prev.last) restoreDeep(store, prev.last);
-    commit({ on: true, last: prev.last });
+    if (prev.on) return () => {};
+    const basic = captureBasic(store.get());
+    if (!keep && prev.last) restoreAdv(store, prev.last);
+    commit({ on: true, last: prev.last, basic });
     return () => advSetOn(store, false);
   }
   if (advForced(store.get())) return () => {};
-  const last = captureDeep(store.get());
+  const last = capturePlan(store.get());
+  if (prev.basic) applyPlan(store, prev.basic);
   lightReset(store);
-  commit({ on: false, last });
+  commit({ on: false, last, basic: null });
   return () => advSetOn(store, true);
+}
+/** 「기본 설정 가져오기」 — 보관 중인 기본 설정을 고급 설정 값으로 복사한다. → 되돌리기 함수 | null(보관된 기본 설정 없음) */
+export function advImportBasic(store) {
+  const basic = cur().basic;
+  if (!cur().on || !basic) return null;
+  const before = capturePlan(store.get());
+  applyPlan(store, basic);
+  return () => applyPlan(store, before);
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -249,8 +343,11 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
   const start = h('div', { class: 'adv-start', hidden: true });
   const work = h('div', { class: 'adv-work dim-able' });
   // [ADV_REVIEW #1] 박스 없이 한 줄(아래 구분선) · 설명은 ⓘ 툴팁. 제단 강제 사유는 상태라 계속 보인다.
+  // 「기본 설정 가져오기」 — 켜져 있고 보관 중인 기본 설정이 있을 때만(되돌리기 토스트). 기본 설정 자체는 바뀌지 않는다.
+  const importBtn = scoped ? null : h('button', { type: 'button', class: 'btn btn-ghost btn-sm adv-import', 'data-fk': 'advImport', title: t('plan.adv.import.tip'), hidden: true,
+    onClick: () => { const undo = advImportBasic(store); if (undo) undoToast(t('plan.adv.import.done'), undo); } }, icon('copy'), h('span', {}, t('plan.adv.import')));
   const swRow = scoped ? null : h('div', { class: 'adv-switch' },
-    h('div', { class: 'adv-switch-row' }, sw, helpTip(C, t('plan.adv.use.desc'), t('plan.adv.help.aria', { what: t('plan.adv.use.label') }))), forced, start);
+    h('div', { class: 'adv-switch-row' }, sw, helpTip(C, t('plan.adv.use.desc'), t('plan.adv.help.aria', { what: t('plan.adv.use.label') })), importBtn), forced, start);
   // [ADV_REVIEW #3] 확률 CD 감소 제단 안내 + 「전원 성공 가정」(사용자가 누를 때만 — 자동으로 켜지 않음)
   const assistAllBtn = h('button', { type: 'button', class: 'btn btn-ghost btn-sm', 'data-fk': 'assistAll', onClick: () => toggleAssistAll() }, h('span', {}));
   const procNote = h('div', { class: 'adv-note', hidden: true }, icon('info'), h('span', { class: 'adv-note-text' }, t('plan.adv.proc.note')), assistAllBtn);
@@ -279,12 +376,11 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
   const clearBtn = h('button', { type: 'button', class: 'btn btn-ghost btn-sm', 'data-fk': 'gClear', onClick: clearAll }, icon('x'), h('span', {}, t('plan.adv.grid.clear')));
   const lockAllBtn = h('button', { type: 'button', class: 'btn btn-ghost btn-sm', 'data-fk': 'gLockAll', title: t('plan.te.lockAll.tip'), onClick: lockAll }, icon('lock'), h('span', {}, t('plan.te.lockAll')));
   const pvMsg = h('p', { class: 'hint pv-msg', hidden: true });
-  const fedBox = h('div', { class: 'adv-fed', hidden: true });   // 이태호가 임부언에게 받은 추가 행동(① 직접 지정 줄에서 옮겨 옴)
   const secGrid = h('section', { class: 'adv-sec', 'aria-labelledby': 'adv-h-grid' },
     h('div', { class: 'adv-sec-h' }, h('h3', { id: 'adv-h-grid' }, h('span', { class: 'step-n' }, '4'), gridTitle),
       helpTip(C, t('plan.adv.prio'), t('plan.adv.help.aria', { what: t('plan.adv.prio.what') })), h('span', { class: 'adv-tools' }, undoBtn, clearBtn, lockAllBtn)),
     h('p', { class: 'hint' }, t('plan.adv.grid.hint')), legend, prioLine,
-    h('div', { class: 'pl adv-pl' }, h('div', { class: 'pg-wrap' }, grid)), fedBox, pvMsg);
+    h('div', { class: 'pl adv-pl' }, h('div', { class: 'pg-wrap' }, grid)), pvMsg);
   work.append(procNote, planHost);
   host.replaceChildren(...(swRow ? [swRow] : []), work);
 
@@ -309,8 +405,9 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
 
   // ── 출발점 3택(꺼져 있을 때) ────────────────────────────────────────────────
   function lastSummary(last) {
-    const d = { modes: 0, assist: 0, sync: normalizeSyncGroups(last.sync || []).filter((g) => g.anchor && g.members.length).length, locked: Object.keys(last.locked || {}).length };
-    Object.values(last.ults || {}).forEach((u) => { if (u && (u.mode === 'strict' || u.mode === 'asap')) d.modes++; if (u && u.assist) d.assist++; });
+    const d = { modes: 0, assist: 0, sync: (last.sync || []).filter((g) => g && g.anchor && (g.members || []).length).length, locked: Object.keys(last.locked || {}).length };
+    const ults = last.v === 2 ? Object.values(last.slots || {}).map((o) => o.ult) : Object.values(last.ults || {});
+    ults.forEach((u) => { if (u && (u.mode === 'strict' || u.mode === 'asap')) d.modes++; if (u && u.assist) d.assist++; });
     const parts = [['plan.adv.line.modes', d.modes], ['plan.adv.line.sync', d.sync], ['plan.adv.line.locked', d.locked], ['plan.adv.line.assist', d.assist]]
       .filter(([, n]) => n > 0).map(([k, n]) => t(k, { n }));
     let date = '';
@@ -328,7 +425,7 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
       choice('', t('plan.adv.start.basic'), t('plan.adv.start.basic.desc'), 'stBasic', startBasic),
       last ? choice('', t('plan.adv.start.resume'), lastSummary(last), 'stResume', () => restoreDeepNow()) : null].filter(Boolean));
   }
-  function restoreDeepNow() { const l = advLast(); if (l) { restoreDeep(store, l); undoToast(t('plan.adv.resume.done')); } }
+  function restoreDeepNow() { const l = advLast(); if (l) { restoreAdv(store, l); undoToast(t('plan.adv.resume.done')); } }
   function startBasic() {
     const st = S();
     const prev = { team: clone(st.team), overrides: clone(st.overrides), pins: clone(st.pins), locked: clone(st.locked), sync: normalizeSyncGroups(st.sync) };
@@ -341,7 +438,7 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
     });
     store.set({ pins: {}, locked: {} });
     store.sync.set([]);
-    commit({ on: true, last: advLast() });
+    commit({ ...cur(), on: true });
     undoToast(t('plan.adv.basic.done'), () => {
       const now = S();
       const same = now.team.length === prev.team.length && now.team.every((s, k) => (s ? s.id : 0) === (prev.team[k] ? prev.team[k].id : 0));
@@ -356,6 +453,7 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
     const f = !scoped && advForced(S());
     if (sw) { sw.set(on); sw.input.disabled = f && on; }
     if (forced) forced.hidden = !f;
+    if (importBtn) importBtn.hidden = !(on && advBasic());
     work.classList.toggle('is-dimmed', !on);
     work.inert = !on;
     // [ADV_REVIEW #23] 배지 = 메인 요약 한 줄과 같은 목록·문구(고정 칸과 잠긴 턴을 따로, 방식 변경·방어 턴 무시 포함)
@@ -658,25 +756,6 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
     } });
     cellPicker(C, anchor, { title: t('plan.grid.row.menu', { name }), items, mobile: isMobile(), closeLabel: t('plan.close') });
   }
-  /** 이태호가 임부언에게 받은 추가 행동 칸(그 줄에 고정 칸이 있을 때만 엔진에 실린다 — core fedPayload). */
-  function renderFed() {
-    const st = S(), n = turnsN();
-    const pos = st.team.findIndex((x) => x && taehoFedTurns(x, st.team, n, store.env())) + 1;
-    const slot = pos ? st.team[pos - 1] : null;
-    if (!slot || !Object.keys(store.pins.row(pos)).length) { fedBox.hidden = true; fedBox.replaceChildren(); return; }
-    const eff = store.effectiveTeam();
-    const turns = [...(taehoFedTurns(eff[pos - 1], eff, n, store.env()) || [])].filter((x) => x <= n).sort((a, b) => a - b);
-    if (!turns.length) { fedBox.hidden = true; fedBox.replaceChildren(); return; }
-    const fed = slot.fedActions || {};
-    const label = t('plan.grid.fed.title', { name: nameOf(IMBUEON_ID) });
-    fedBox.hidden = false;
-    fedBox.replaceChildren(h('span', { class: 'plan-label' }, `${nameOf(slot.id)} · ${label}`),
-      h('div', { class: 'plan-cells fed', role: 'group', 'aria-label': label }, ...turns.map((tt) => {
-        const a = fed[tt] || ATK;
-        return h('button', { type: 'button', class: ACT_CLS[a], 'data-fk': `afed:${tt}`, 'aria-label': t('plan.fed.cell.aria', { turn: tt, action: t(ACT_KEY[a]) }),
-          onClick: () => keepFocus(() => store.plan.setFed(pos - 1, tt, ACT_CYCLE[a])) }, String(tt));
-      })));
-  }
   function lockTurnNow(tt) {
     const seq = turnSeqFromProbe(lastProbe, tt);
     if (!seq) return;
@@ -731,7 +810,7 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
       renderHead();
       renderStart();
       mountPlan();
-      renderSync(); renderGrid(lastProbe); renderFed();
+      renderSync(); renderGrid(lastProbe);
     });
   }
 

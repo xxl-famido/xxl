@@ -241,7 +241,7 @@ export async function tier(id) {
   const t = db().tiers.find((x) => x.id === id);
   return t ? pub(t, 'tier') : null;
 }
-export async function createTier({ title, basis, rows, descr, pin }) {
+export async function createTier({ title, basis, rows, descr, pin, fun = false }) {
   await wait();
   title = String(title || '').trim();
   if (!title) throw fail('fieldEmpty', { field: 'title' });
@@ -250,7 +250,7 @@ export async function createTier({ title, basis, rows, descr, pin }) {
   const ids = (await chars()).map((c) => c.id);
   const id = newId('t');
   const salt = newId('s');
-  const t = { id, title: title.slice(0, LIMITS.title), basis, rows: clone(rows), descr: String(descr || '').slice(0, LIMITS.tierDesc), build: BUILD, at: Date.now(),
+  const t = { id, title: title.slice(0, LIMITS.title), basis, rows: clone(rows), descr: String(descr || '').slice(0, LIMITS.tierDesc), fun: fun === true, build: BUILD, at: Date.now(),
     likes: 0, dislikes: 0, ...pickAnon('tier:' + id, ids), pinSalt: salt, pinHash: await hashPin(pin, salt), pinFail: 0, pinLock: 0 };
   db().tiers.push(t); db().mine.push({ kind: 'tier', id, at: t.at }); save();
   return pub(t, 'tier');
@@ -259,7 +259,7 @@ export async function createTier({ title, basis, rows, descr, pin }) {
 /** 커뮤니티 평균 티어(집계 규칙은 shared.js — 서버와 동일). */
 export async function aggregate(basis = 'all') {
   await wait();
-  const list = db().tiers.filter((t) => basis === 'any' || t.basis === basis);
+  const list = db().tiers.filter((t) => !t.fun && (basis === 'any' || t.basis === basis));   // 집계 제외 표시한 티어표는 빼고
   const pos = {};
   for (const t of list) for (const [cid, v] of tierPositions(t.rows)) (pos[cid] ||= []).push(v);
   return aggregateRows(pos, list.length);
@@ -327,12 +327,12 @@ export function clearOperator() {}
 export async function pinPost() { throw fail('mockPin'); }
 
 // 티어표·팀 수정(목업): 비밀번호 확인 후 필드만 바꾼다.
-export async function editTier(id, pin, { title, basis, rows, descr }) {
+export async function editTier(id, pin, { title, basis, rows, descr, fun = false }) {
   await wait();
   const t = db().tiers.find((x) => x.id === id);
   if (!t) throw fail('tierNotFound');
   if (!(await checkPin(t, pin))) throw fail('pinWrongPlain');
-  Object.assign(t, { title: String(title || '').trim().slice(0, LIMITS.title) || t.title, basis, rows: clone(rows), descr: String(descr || '').slice(0, LIMITS.tierDesc), edited: Date.now() });
+  Object.assign(t, { title: String(title || '').trim().slice(0, LIMITS.title) || t.title, basis, rows: clone(rows), descr: String(descr || '').slice(0, LIMITS.tierDesc), fun: fun === true, edited: Date.now() });
   save();
   return pub(t, 'tier');
 }
