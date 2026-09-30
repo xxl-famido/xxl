@@ -15,7 +15,7 @@ import {
 import { UK_ID, IMBUEON_ID } from '../core/format.js';
 import { afterTeamChange } from '../core/store.js';
 import {
-  ACT_KEY, actsOf, actSegs, segsKey, actsLabel, cellSource, syncAfterNoExtra, syncActionOf, helpTip,
+  ACT_KEY, actsOf, actSegs, segsKey, actsLabel, splitStyle, splitCenter, cellSource, syncAfterNoExtra, syncActionOf, helpTip,
   replaceSyncMember, syncUsedExcept, shortName, ukPresetIndex, deepSyncGroups, getBaseCtx, scopeSession, sheetSession, cellPicker,
   assistEffect, ukPresetOverwrites, isFedCarry, pinUltWithRules, pinUltNotice, presetTip, presetBlockedByMode, fillRowNow, openRepeatSheet,
 } from './plan-helpers.js';
@@ -649,13 +649,15 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
         if (m.masked) lines.push(t('plan.grid.masked', { act: actText(cellsOf(m.masked, apt)) }));
         if (m.locked) lines.push(t('plan.grid.locked.cell'));
         else if (nocd) lines.push(pos === 1 && immune.has(tt) ? t('plan.grid.immune', { name: nameOf(IMBUEON_ID) }) : t('plan.grid.nocd'));
-        const cls = ['pg-c', m.kind, m.pin ? 'pin' : 'rule', m.masked ? 'masked' : '', m.locked ? 'lock' : '', (m.warnIgnored || m.syncAnchor) ? 'warn' : ''].filter(Boolean).join(' ');
+        const split = m.segs.length > 1;
+        const cls = ['pg-c', m.kind, split ? `dsplit k${m.segs.length}` : '', m.pin ? 'pin' : 'rule', m.masked ? 'masked' : '', m.locked ? 'lock' : '', (m.warnIgnored || m.syncAnchor) ? 'warn' : ''].filter(Boolean).join(' ');
         const key = `${pos}:${tt}`;
-        const body = m.segs.length > 1
-          ? h('span', { class: 'pg-segs', 'aria-hidden': 'true' }, ...m.segs.map((sg) => h('span', { class: `pg-seg ${sg.cls}${sg.extra ? ' x' : ''}` }, h('span', { class: 'pg-ab' }, t(`plan.cell.abbr.${sg.cls}`)))))
-          : h('span', { class: 'pg-ab' }, m.kind === 'none' ? '' : t(`plan.cell.abbr.${m.kind}`));
-        const c = h('button', { class: cls, style: `--r:${r};--c:${tt}`, 'data-pos': String(pos), 'data-t': String(tt), title: lines.join('\n'),
-          type: 'button', 'data-cell': `${r + 1}:${tt}`, tabindex: '-1', 'aria-haspopup': 'menu', 'aria-label': lines.join(' · ') }, body);
+        // 여러 번 행동한 칸 = 대각선 분할(splitStyle — 직접 지정 줄 · 실행 미리보기와 같은 모양). 글자(모바일)는 띠마다 그 띠 가운데에.
+        const body = split
+          ? m.segs.map((sg, k) => h('span', { class: `pg-ab ${sg.cls}`, style: `--f:${splitCenter(k, m.segs.length)}`, 'aria-hidden': 'true' }, t(`plan.cell.abbr.${sg.cls}`)))
+          : [h('span', { class: 'pg-ab' }, m.kind === 'none' ? '' : t(`plan.cell.abbr.${m.kind}`))];
+        const c = h('button', { class: cls, style: `--r:${r};--c:${tt}${split ? `;${splitStyle(m.segs)}` : ''}`, 'data-pos': String(pos), 'data-t': String(tt), title: lines.join('\n'),
+          type: 'button', 'data-cell': `${r + 1}:${tt}`, tabindex: '-1', 'aria-haspopup': 'menu', 'aria-label': lines.join(' · ') }, ...body);
         next.set(key, `${cls}|${segsKey(m.segs)}`); cellEls.set(key, c);
         kids.push(c);
       }

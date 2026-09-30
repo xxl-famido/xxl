@@ -67,6 +67,35 @@ export function cellClass(acts, apt = 1) {
  * (임부언·욱영이 준 행동, 불굴·도장 확률로 이어진 행동). 이태호처럼 턴당 2회인 동료는 두 번째 행동까지가 자기 행동이다.
  */
 export const actSegs = (acts, apt = 1) => (acts || []).map((a, k) => ({ a, cls: ACT_CLS[a] || 'atk', extra: k >= apt }));
+/**
+ * 대각선 분할 칸(한 턴 여러 행동 — 실행 미리보기 · ④ 격자, CSS 클래스 dsplit)의 인라인 배경. 직접 지정 줄의 이태호 칸과 같은 모양.
+ * 왼쪽 위부터 실행 순서로 대각선 띠(띠 색 = var(--pc-<행동>) — 화면마다 CSS 가 정한다) + 띠 경계의 가는 선(var(--ds-line))
+ * + 추가 행동 띠가 닿는 아래 변에 막대(두께 var(--ds-bar)). 띠 경계 u = x/w + y/h 가 그라디언트(to bottom right) 위치의 2배라
+ * k 번째 경계 = k/n, 첫 추가 행동 띠 e 부터가 아래 변에 닿는 구간 = 오른쪽 1 − max(2e/n − 1, 0). 조각이 1개 이하면 ''.
+ */
+export function splitStyle(segs) {
+  const n = (segs || []).length;
+  if (n < 2) return '';
+  const pct = (x) => `${+(x * 100).toFixed(3)}%`;
+  const bands = [], lines = [];
+  segs.forEach((s, k) => {
+    const c = `var(--pc-${s.cls})`;
+    bands.push(`${c} ${k ? `calc(${pct(k / n)} + .4px)` : '0%'}`, `${c} ${k < n - 1 ? `calc(${pct((k + 1) / n)} - .4px)` : '100%'}`);
+    if (k) lines.push(`transparent calc(${pct(k / n)} - .6px)`, `var(--ds-line) ${pct(k / n)}`, `transparent calc(${pct(k / n)} + .6px)`);
+  });
+  const img = [`linear-gradient(to bottom right, ${lines.join(', ')})`, `linear-gradient(to bottom right, ${bands.join(', ')})`];
+  const size = ['auto', 'auto'], at = ['0 0', '0 0'];
+  const firstExtra = segs.findIndex((s) => s.extra);
+  if (firstExtra >= 0) {
+    img.unshift('linear-gradient(var(--text-primary), var(--text-primary))');
+    size.unshift(`${pct(1 - Math.max(2 * firstExtra / n - 1, 0))} var(--ds-bar, 3px)`);
+    at.unshift('right bottom');
+  }
+  // 반복 없음도 인라인으로 — 칸 기본 규칙(.pv-cells i · .pg-c)의 background 단축 속성이 repeat 로 되돌린다
+  return `background-image:${img.join(',')};background-size:${size.join(',')};background-position:${at.join(',')};background-repeat:no-repeat`;
+}
+/** 대각선 띠 k(0부터) 가운데 위치(칸 너비·높이에 대한 비율) — ④ 모바일 글자를 그 띠 안에 둔다. */
+export const splitCenter = (k, n) => +((2 * k + 1) / (2 * n)).toFixed(4);
 /** 조각 비교용 문자열(바뀐 칸 반짝임). */
 export const segsKey = (segs) => segs.map((s) => `${s.cls}${s.extra ? '+' : ''}`).join(' ');
 /** 칸 설명 문구: '보통 공격 → 필살기(추가 행동)'. 행동이 없으면 '행동 없음'. */

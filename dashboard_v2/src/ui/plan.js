@@ -15,7 +15,7 @@
 import { ultOf, syncGroupOf, normalizeSyncGroups, summary, taehoFedTurns, effectiveTeam, planView, cellsOf } from '../core/plan.js';
 import { UK_ID, IMBUEON_ID } from '../core/format.js';
 import {
-  ACT_CLS, ACT_KEY, autoUltTurns, groupExceptions, actsOf, actSegs, segsKey, actsLabel, turnsText, sortable, shortName, setBaseCtx, ukPresetIndex, cellPicker,
+  ACT_CLS, ACT_KEY, autoUltTurns, groupExceptions, actsOf, actSegs, segsKey, actsLabel, splitStyle, turnsText, sortable, shortName, setBaseCtx, ukPresetIndex, cellPicker,
   assistEffect, keepDefEffect, ukPresetOverwrites, helpTip, isFedCarry, pinUltWithRules, pinUltNotice, presetTip, stackOrderRisk, presetBlockedByMode,
   fillRowNow, openRepeatSheet,
 } from './plan-helpers.js';
@@ -610,14 +610,14 @@ export async function mount(host, ctx) {
       const pos = o.i + 1, meta = chars[o.s.id] || st.chars[o.s.id] || {}, apt = meta.actionsPerTurn || 1, name = nameOf(o.s.id);
       const cells = h('span', { class: 'pv-cells', style: { gridTemplateColumns: cols } });
       for (let tt = 1; tt <= n; tt++) {
-        // 한 턴에 여러 번 행동하면 칸을 실행 순서대로 나눈다(왼쪽부터) — 추가 행동 조각은 아래 막대
+        // 한 턴에 여러 번 행동하면 칸을 대각선으로 실행 순서대로 나눈다(왼쪽 위부터, splitStyle) — 추가 행동 띠는 아래 막대
         const acts = actsOf(probe, tt, pos);
         const segs = actSegs(acts, apt);
         const title = t('plan.pv.cell', { turn: tt, name, acts: actsLabel(t, acts, apt) });
         const key = `${pos}:${tt}`;
         const data = { pos: String(pos), t: String(tt) };
         const c = segs.length > 1
-          ? h('i', { class: 'multi', title, dataset: data }, ...segs.map((sg) => h('b', { class: `${sg.cls}${sg.extra ? ' x' : ''}` })))
+          ? h('i', { class: 'dsplit', style: splitStyle(segs), title, dataset: data })
           : h('i', { class: segs.length ? segs[0].cls : 'none', title, dataset: data });
         next.set(key, segsKey(segs) || 'none'); cellEls.set(key, c);
         cells.append(c);

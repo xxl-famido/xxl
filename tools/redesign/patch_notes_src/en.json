@@ -12,10 +12,11 @@
     ]
    },
    {
-    "text": "Cells in the run preview and the ④ turn plan show a turn's actions split in execution order.",
+    "text": "Cells in the run preview and the ④ turn plan are now split diagonally, like Lee Taeho's Per turn cells, to show a turn's actions in execution order.",
     "details": [
-     "Two actions per turn, extra actions granted by an ally's EX Skill, and extra actions chained by a companion's own skill all appear inside the cell from left to right.",
-     "Extra-action pieces get a bar underneath, and hovering a cell shows the order, such as ‘Normal Attack → EX Skill (extra action)’."
+     "Two actions per turn, extra actions granted by an ally's EX Skill, and extra actions chained by a companion's own skill all appear inside the cell as diagonal pieces from the top-left.",
+     "Extra-action pieces get a bar underneath, and hovering a cell shows the order, such as ‘Normal Attack → EX Skill (extra action)’.",
+     "The Edit action plan window in Team comparison uses the same cells."
     ]
    },
    {

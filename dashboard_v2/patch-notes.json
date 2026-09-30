@@ -49,19 +49,19 @@
     {
      "cat": "qol",
      "text": {
-      "kr": "실행 미리보기와 ④ 턴별 행동 계획 칸이 한 턴의 행동을 실행 순서대로 나눠 보여 줍니다.",
-      "en": "Cells in the run preview and the ④ turn plan show a turn's actions split in execution order.",
-      "ja": "実行プレビューと④ターン別行動計画のマスが、1ターンの行動を実行順に分けて表示します。",
-      "zh": "執行預覽與④逐回合行動計畫的格子，會依執行順序分段顯示一回合內的行動。",
-      "zhs": "执行预览与④逐回合行动计划的格子，会依执行顺序分段显示一回合内的行动。"
+      "kr": "실행 미리보기와 ④ 턴별 행동 계획 칸도 이태호의 직접 지정 칸처럼 대각선으로 나뉘어 한 턴의 행동을 실행 순서대로 보여 줍니다.",
+      "en": "Cells in the run preview and the ④ turn plan are now split diagonally, like Lee Taeho's Per turn cells, to show a turn's actions in execution order.",
+      "ja": "実行プレビューと④ターン別行動計画のマスも、イ・テホの直接指定のマスと同じく斜めに分かれ、1ターンの行動を実行順に表示します。",
+      "zh": "執行預覽與④逐回合行動計畫的格子，也像李泰虎的直接指定格一樣以對角線分開，依執行順序顯示一回合內的行動。",
+      "zhs": "执行预览与④逐回合行动计划的格子，也像李泰虎的直接指定格一样以对角线分开，依执行顺序显示一回合内的行动。"
      },
      "details": [
       {
-       "kr": "턴당 2번 행동, 동료의 필살기로 받은 추가 행동, 자기 스킬로 이어지는 추가 행동이 모두 칸 안에 왼쪽부터 표시됩니다.",
-       "en": "Two actions per turn, extra actions granted by an ally's EX Skill, and extra actions chained by a companion's own skill all appear inside the cell from left to right.",
-       "ja": "1ターン2回の行動、仲間の必殺技でもらった追加行動、自分のスキルで続く追加行動がすべてマスの中に左から表示されます。",
-       "zh": "每回合 2 次行動、由夥伴必殺技獲得的追加行動、由自身技能接續的追加行動，都會在格子內由左至右顯示。",
-       "zhs": "每回合 2 次行动、由伙伴必杀技获得的追加行动、由自身技能接续的追加行动，都会在格子内由左至右显示。"
+       "kr": "턴당 2번 행동, 동료의 필살기로 받은 추가 행동, 자기 스킬로 이어지는 추가 행동이 모두 칸 안에 왼쪽 위부터 대각선 조각으로 표시됩니다.",
+       "en": "Two actions per turn, extra actions granted by an ally's EX Skill, and extra actions chained by a companion's own skill all appear inside the cell as diagonal pieces from the top-left.",
+       "ja": "1ターン2回の行動、仲間の必殺技でもらった追加行動、自分のスキルで続く追加行動がすべてマスの中に左上から斜めの部分で表示されます。",
+       "zh": "每回合 2 次行動、由夥伴必殺技獲得的追加行動、由自身技能接續的追加行動，都會在格子內由左上起以對角線片段顯示。",
+       "zhs": "每回合 2 次行动、由伙伴必杀技获得的追加行动、由自身技能接续的追加行动，都会在格子内由左上起以对角线片段显示。"
       },
       {
        "kr": "추가 행동 조각에는 아래 막대가 붙고, 칸에 포인터를 두면 ‘보통 공격 → 필살기(추가 행동)’처럼 순서가 보입니다.",
@@ -69,6 +69,13 @@
        "ja": "追加行動の部分には下にバーが付き、マスにポインターを置くと「通常攻撃 → 必殺技(追加行動)」のように順番が見えます。",
        "zh": "追加行動的片段下方有橫條，將游標移到格子上可看到「普通攻擊 → 必殺技(追加行動)」等順序。",
        "zhs": "追加行动的片段下方有横条，将游标移到格子上可看到「普通攻击 → 必杀技(追加行动)」等顺序。"
+      },
+      {
+       "kr": "팀 비교의 행동 계획 편집 창도 같은 모양입니다.",
+       "en": "The Edit action plan window in Team comparison uses the same cells.",
+       "ja": "チーム比較の「行動計画を編集」画面も同じ表示です。",
+       "zh": "隊伍比較的「編輯行動計畫」視窗也是相同的格子。",
+       "zhs": "队伍比较的「编辑行动计划」视窗也是相同的格子。"
       }
      ]
     },
