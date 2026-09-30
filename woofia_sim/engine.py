@@ -65,6 +65,10 @@ def parse_rotation(spec: str) -> tuple[list[str], list[str]]:
 # exception is 이태호's 내기혼신 (Qi Surge: Tiger) extra hit on basic attack,
 # which is judged as a basic attack (평타뎀, not 발동효과).
 BASIC_JUDGED_STACKS = {"Qi Surge: Tiger"}
+# 무명(10443) 불굴(Fearless) ≧1 '목표물에게 ATK 20%' · ≧3 '40%' — 스킬 텍스트 '보통 공격 시, 추가 효과'(이태호 내기혼신과
+# 같은 문구)로 발동 스킬 효과가 아니라 보통 공격 피해로 판정된다(사용자 피드백, 2026-09-30). 같은 불굴 게이트의
+# '=5 행동 시 65%'는 '발동'이라 제외 — 그래서 스택 전체가 아니라 보통 공격 이벤트(on_basic_attack)의 구독으로 한정한다.
+BASIC_JUDGED_ON_BASIC = {"Fearless"}
 
 # on_ex(필살기 발동 시) 추가 피해가 인게임에서 "필살기 데미지"로 취급되어 필살기 효과 증가
 # (크로크라인 등 아군 필살기효과 버프)를 받는 캐릭터(char_id). 게임 스킬 텍스트에 "필살기
@@ -78,12 +82,16 @@ EX_JUDGED_ONEX_CHARS = {10437}   # 투명인간
 def _trigger_src(caster: "Unit", sub: "Subscription") -> str:
     """트리거 데미지의 액션 판정.
 
-    기본은 발동(발동효과 채널). 예외 2종:
+    기본은 발동(발동효과 채널). 예외:
     - 내기혼신(Qi Surge: Tiger) = 평타 판정(평타뎀 채널).
+    - 무명 불굴(Fearless) 게이트의 보통 공격 시 추가 효과 = 평타 판정(BASIC_JUDGED_ON_BASIC).
     - on_ex 추가 피해가 필살기 데미지로 취급되는 캐릭터(EX_JUDGED_ONEX_CHARS) =
       필살기(ex) 판정 → 필살기 효과 증가(크로크라인 등)를 받고 발동효과는 받지 않는다.
     """
     if sub.gate_stack in BASIC_JUDGED_STACKS:
+        return "basic"
+    if (sub.gate_stack in BASIC_JUDGED_ON_BASIC and sub.event == "on_basic_attack"
+            and sub.effects and all(e.kind == DAMAGE for e in sub.effects)):   # 추가 효과 = 피해만(≧3 배리어 '발동'은 제외)
         return "basic"
     if (sub.event == "on_ex"
             and getattr(caster._kit, "char_id", 0) in EX_JUDGED_ONEX_CHARS

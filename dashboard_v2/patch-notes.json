@@ -134,6 +134,32 @@
     {
      "cat": "fix",
      "text": {
+      "kr": "무명의 불굴 추가 효과(ATK 20% · 40%)가 발동 스킬 효과가 아니라 보통 공격 데미지로 계산됩니다.",
+      "en": "Mumei's Fearless additional effects (20% and 40% of ATK) are calculated as Normal Attack damage, not Triggered skill effects.",
+      "ja": "無名の恐れ知らずの追加効果(ATKの20%・40%)が、発動スキル効果ではなく通常攻撃ダメージとして計算されます。",
+      "zh": "無名的無畏追加效果(攻擊力 20%・40%)以普通攻擊傷害計算，而非觸發技能效果。",
+      "zhs": "无名的无畏追加效果(攻击力 20%・40%)以普通攻击伤害计算，而非触发技能效果。"
+     },
+     "details": [
+      {
+       "kr": "‘보통 공격 시, 추가 효과’로 붙는 두 피해는 보통 공격 데미지 증가(무명의 HP 50% 이하 보통 공격 데미지 30% 증가 등)를 받고, 발동 스킬 효과 증가는 받지 않습니다.",
+       "en": "The two hits added ‘on Basic Attack’ receive Normal Attack damage bonuses (such as Mumei's +30% Normal Attack damage at 50% HP or lower) and no Triggered skill effect bonuses.",
+       "ja": "「通常攻撃をする時」に追加される2つのダメージは通常攻撃ダメージ増加(無名のHP50%以下で通常攻撃ダメージ30%増加など)を受け、発動スキル効果の増加は受けません。",
+       "zh": "「普攻時」追加的兩段傷害會受普通攻擊傷害提升(例如無名 HP 50% 以下時普通攻擊傷害提升 30%)，不受觸發技能效果提升。",
+       "zhs": "「普攻时」追加的两段伤害会受普通攻击伤害提升(例如无名 HP 50% 以下时普通攻击伤害提升 30%)，不受触发技能效果提升。"
+      },
+      {
+       "kr": "불굴 5중첩의 ‘행동 시 ATK 65%’ 피해와 불굴 3중첩 이상의 배리어는 발동 스킬 그대로입니다.",
+       "en": "The ‘65% of ATK when taking an action’ hit at 5 Fearless stacks and the Barrier at 3+ stacks remain Triggered skills.",
+       "ja": "恐れ知らず5層の「行動時ATKの65%」ダメージと、3層以上のバリアはこれまでどおり発動スキルです。",
+       "zh": "無畏 5 層的「行動時攻擊力 65%」傷害，以及 3 層以上的屏障仍為觸發技能。",
+       "zhs": "无畏 5 层的「行动时攻击力 65%」伤害，以及 3 层以上的屏障仍为触发技能。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
       "kr": "턴당 2번 행동하는 동료의 칸을 필살기로 고정했을 때 실제 실행과 같으면 ‘실행이 다름’ 표시가 붙지 않습니다.",
       "en": "Pinning an EX Skill for a companion who acts twice per turn no longer shows ‘Runs differently’ when the run matches.",
       "ja": "1ターン2回行動する仲間のマスを必殺技に固定したとき、実際の実行と同じなら「実行が異なる」表示が付きません。",
@@ -147,6 +173,25 @@
        "ja": "戦闘ログのターン概要でも、1ターン2回行動する仲間の2回目の行動は追加行動として表示されません。",
        "zh": "戰鬥紀錄的回合摘要中，每回合行動 2 次的夥伴的第二次行動也不會標示為追加行動。",
        "zhs": "战斗纪录的回合摘要中，每回合行动 2 次的伙伴的第二次行动也不会标示为追加行动。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "새 버전이 배포되면 화면 스타일도 새 버전과 함께 불러옵니다.",
+      "en": "When a new version is deployed, the page styles load together with it.",
+      "ja": "新しいバージョンが公開されると、画面のスタイルも新しいバージョンと一緒に読み込まれます。",
+      "zh": "發布新版本時，畫面樣式也會與新版本一起載入。",
+      "zhs": "发布新版本时，画面样式也会与新版本一起载入。"
+     },
+     "details": [
+      {
+       "kr": "배포 직후에도 행동 계획 칸이나 고급 설정 창이 잘못 그려지거나 비어 보이지 않습니다.",
+       "en": "Right after a deployment, the action plan cells and the Advanced settings window no longer render incorrectly or empty.",
+       "ja": "公開直後でも、行動計画のマスや詳細設定ウィンドウが崩れたり空に見えたりしません。",
+       "zh": "發布後立即使用時，行動計畫格與進階設定視窗也不會顯示錯誤或空白。",
+       "zhs": "发布后立即使用时，行动计划格与进阶设定视窗也不会显示错误或空白。"
       }
      ]
     }

@@ -87,13 +87,13 @@
       "incoming": 40,
       "revive": 4,
       "selfdmg": 4,
-      "발동": 94,
-      "평타": 14,
+      "발동": 72,
+      "평타": 36,
       "필살": 4
     },
     "count": 392
   },
-  "logHash": "sha256:b3bff25ce9cffae7f067706d38c9eadb",
+  "logHash": "sha256:cc06593e5dc837280f9a43aba7a91332",
   "perChar": {
     "기리안": {
       "barrier": 425320.18,

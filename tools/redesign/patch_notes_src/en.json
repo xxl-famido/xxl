@@ -34,9 +34,22 @@
     ]
    },
    {
+    "text": "Mumei's Fearless additional effects (20% and 40% of ATK) are calculated as Normal Attack damage, not Triggered skill effects.",
+    "details": [
+     "The two hits added ‘on Basic Attack’ receive Normal Attack damage bonuses (such as Mumei's +30% Normal Attack damage at 50% HP or lower) and no Triggered skill effect bonuses.",
+     "The ‘65% of ATK when taking an action’ hit at 5 Fearless stacks and the Barrier at 3+ stacks remain Triggered skills."
+    ]
+   },
+   {
     "text": "Pinning an EX Skill for a companion who acts twice per turn no longer shows ‘Runs differently’ when the run matches.",
     "details": [
      "In the battle log turn summary, the second action of a companion who acts twice per turn is not marked as an extra action."
+    ]
+   },
+   {
+    "text": "When a new version is deployed, the page styles load together with it.",
+    "details": [
+     "Right after a deployment, the action plan cells and the Advanced settings window no longer render incorrectly or empty."
     ]
    }
   ]

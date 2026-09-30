@@ -79,3 +79,16 @@ def test_fearless_raises_own_damage_taken_per_stack():
         d = ev.detail
         assert abs(d["dmg"] / d["raw"] - (1 + 0.07 * n)) < 1e-6, f"T{n} 받뎀 배율 {d['dmg'] / d['raw']:.3f}"
         assert any(c.get("cond") == f"불굴×{n}" and c.get("v") == 7.0 * n for c in d["taken"])
+
+
+def test_fearless_basic_addon_is_basic_attack_damage():
+    """불굴 ≧1 20% · ≧3 40% '보통 공격 시, 추가 효과' = 보통 공격 피해(평타 판정, 사용자 피드백 2026-09-30).
+    같은 불굴 게이트의 =5 '행동 시 65%'와 ≧3 배리어는 발동 그대로."""
+    res = _run(rotation="평|평", turns=6)
+    t6 = [ev for ev in res.state.log if ev.actor_id == MUMEI and ev.turn == 6 and (ev.detail or {}).get("skillName") == "무소외구"]
+    def kind(pct):
+        ev = next(e for e in t6 if (e.detail or {}).get("skillPct") == pct and e.amount > 0)
+        return _txt(ev).split(" ")[0]
+    assert kind(20.0) == "평타" and kind(40.0) == "평타", "불굴 추가 효과가 평타 판정이 아님"
+    assert kind(65.0) == "발동", "불굴=5 행동 시 65%는 발동이어야"
+    assert any(_txt(e).startswith("발동 베리어") for e in t6), "불굴≧3 배리어는 발동이어야"

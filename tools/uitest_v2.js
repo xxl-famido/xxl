@@ -219,7 +219,8 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
     });
     ok('라이트 코드 → 메인 기본 패널 · 욱영 체크 ON · 칩 0 · 고급 설정 OFF', uk.checked && uk.chips === 0 && !uk.card && uk.btn && !uk.adv && uk.sync === 1, JSON.stringify(uk));
     const ukTotal = await p.evaluate(async () => { const st = window.__woofia.store; st.cond.set({ forceProc: true }); const { cfg } = await st.prepareRun(); const r = await window.__woofia.api.simulate(cfg); st.cond.set({ forceProc: false }); return r.meta.total; });
-    ok('라이트 코드 결과(확률 100%) = v1 62,600,918', Math.round(ukTotal) === 62600918, String(ukTotal));
+    // 2.0.2: 편성에 무명(10443) — 불굴 추가 효과 20%·40% 가 평타 판정으로 바뀌어 62,600,918 → 64,058,262(같은 엔진을 쓰는 v1 도 같은 값)
+    ok('라이트 코드 결과(확률 100%) = 64,058,262', Math.round(ukTotal) === 64058262, String(ukTotal));
     await p.evaluate(() => [...document.querySelectorAll('#app-plan .row-toggle input')][0].click()); await sleep(400);
     s = await S(p); ok('욱영 체크 끄기 → 그 그룹만 제거', s.sync.length === 0 && Object.keys(s.overrides).length === 9);
     await p.evaluate(() => [...document.querySelectorAll('#app-plan .row-toggle input')][0].click()); await sleep(400);
