@@ -194,6 +194,32 @@
        "zhs": "发布后立即使用时，行动计划格与进阶设定视窗也不会显示错误或空白。"
       }
      ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "광고 차단 앱을 쓰는 아이폰에서도 고급 설정 창의 내용이 보입니다.",
+      "en": "The Advanced settings window shows its content on iPhones with an ad-blocking app.",
+      "ja": "広告ブロックアプリを使っているiPhoneでも、詳細設定ウィンドウの内容が表示されます。",
+      "zh": "使用廣告封鎖 App 的 iPhone 也能看到進階設定視窗的內容。",
+      "zhs": "使用广告封锁 App 的 iPhone 也能看到进阶设定视窗的内容。"
+     },
+     "details": [
+      {
+       "kr": "일부 광고 차단 앱이 고급 설정 창의 화면 요소를 광고로 인식해 숨기지 않도록 요소 이름을 정리했습니다.",
+       "en": "Element names in the Advanced settings window no longer look like ads, so ad-blocking apps don't hide them.",
+       "ja": "一部の広告ブロックアプリが詳細設定ウィンドウの画面要素を広告と判断して隠さないよう、要素名を整理しました。",
+       "zh": "調整了進階設定視窗的畫面元素名稱，避免部分廣告封鎖 App 將其誤判為廣告而隱藏。",
+       "zhs": "调整了进阶设定视窗的画面元素名称，避免部分广告封锁 App 将其误判为广告而隐藏。"
+      },
+      {
+       "kr": "고급 설정 사용 중 안내와 가이드 그림도 같은 이유로 가려지지 않습니다.",
+       "en": "The ‘Advanced settings in use’ notice and the guide figures are not hidden for the same reason.",
+       "ja": "詳細設定使用中の案内とガイドの図も、同じ理由で隠れません。",
+       "zh": "進階設定使用中的提示與指南圖片也不會因此被隱藏。",
+       "zhs": "进阶设定使用中的提示与指南图片也不会因此被隐藏。"
+      }
+     ]
     }
    ]
   },

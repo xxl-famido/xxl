@@ -115,12 +115,12 @@ export async function mount(host, ctx) {
 
     if (ADV) {
       // 고급 설정 창: 번호 붙은 구역을 세로로(아코디언 없음)
-      const sec = (n, key, body, id) => h('section', { class: 'adv-sec', 'aria-labelledby': id },
-        h('div', { class: 'adv-sec-h' }, h('h3', { id }, h('span', { class: 'step-n' }, String(n)), t(key))), body);
+      const sec = (n, key, body, id) => h('section', { class: 'deep-sec', 'aria-labelledby': id },
+        h('div', { class: 'deep-sec-h' }, h('h3', { id }, h('span', { class: 'step-n' }, String(n)), t(key))), body);
       // [ADV_REVIEW #7] 창의 구역은 접히지 않으므로 머리 요약(kv)은 만들지 않는다(목록과 같은 값). s1·s2 는 화면 밖 자리표시.
       const s1 = h('span', {}), s2 = h('span', {});
       const sec1 = sec(1, 'plan.step1.title', body1, 'advp-h1');
-      sec1.querySelector('.adv-sec-h').append(helpTip(C, t('plan.ult.mode.hint'), t('plan.adv.help.aria', { what: t('plan.step1.title') })));
+      sec1.querySelector('.deep-sec-h').append(helpTip(C, t('plan.ult.mode.hint'), t('plan.adv.help.aria', { what: t('plan.step1.title') })));
       const sec2 = sec(2, 'plan.step2.title', body2, 'advp-h2');
       host.replaceChildren(sec1, sec2, ...(ctx.planExtra || []));   // 읽기 미리보기는 없음(④ N턴 고정 표가 대신)
       el = { ol, s1, s2, excList };
@@ -147,13 +147,13 @@ export async function mount(host, ctx) {
       const steps = h('div', { class: 'acc steps' }, d1, d2);
       const main = h('div', { class: 'pl-main' }, steps, fig);
       // 고급 설정 사용 중 배너(패널 머리 아래 한 줄) — 켜진 동안 기본 패널은 흐리게 + inert
-      const bannerWhy = h('span', { class: 'adv-banner-why', hidden: true }, icon('lock'), h('span', {}, t('plan.adv.forced')));
-      const banner = h('div', { class: 'adv-banner', role: 'status', hidden: true }, icon('sliders-horizontal'), h('span', { class: 'adv-banner-msg' }, t('plan.adv.banner')), bannerWhy);
+      const bannerWhy = h('span', { class: 'deep-banner-why', hidden: true }, icon('lock'), h('span', {}, t('plan.adv.forced')));
+      const banner = h('div', { class: 'deep-banner', role: 'status', hidden: true }, icon('sliders-horizontal'), h('span', { class: 'deep-banner-msg' }, t('plan.adv.banner')), bannerWhy);
       // 패널 맨 아래 진입 버튼(전체 폭)
-      const enterMain = h('b', { class: 'adv-enter-main' });
-      const enterSub = h('span', { class: 'adv-enter-sub' }, t('plan.adv.enter.sub'));
-      const enter = h('button', { type: 'button', class: 'btn btn-secondary adv-enter', 'data-fk': 'advOpen', onClick: () => openAdvanced(ctx) },
-        icon('sliders-horizontal'), h('span', { class: 'adv-enter-text' }, enterMain, enterSub), icon('chevron-right', 'ic adv-enter-chev'));
+      const enterMain = h('b', { class: 'deep-enter-main' });
+      const enterSub = h('span', { class: 'deep-enter-sub' }, t('plan.adv.enter.sub'));
+      const enter = h('button', { type: 'button', class: 'btn btn-secondary deep-enter', 'data-fk': 'advOpen', onClick: () => openAdvanced(ctx) },
+        icon('sliders-horizontal'), h('span', { class: 'deep-enter-text' }, enterMain, enterSub), icon('chevron-right', 'ic deep-enter-chev'));
       host.replaceChildren(h('div', { class: 'panel-head' }, h('h2', { id: 'plan-h' }, t('plan.title')), tools), banner, main, enter);
       el = { ol, d1, d2, s1, s2, excList, grid, pvMsg, fig, steps, tools, main, banner, bannerWhy, enter, enterMain, enterSub, resetBtn };
     }
@@ -210,7 +210,7 @@ export async function mount(host, ctx) {
       out.push(h('label', { class: 'ult-mode' }, h('span', { class: 'sr' }, t('plan.step1.ultMode.aria', { name })), modeSel), mv);
       const asap = mode === 'asap';
       // 효과 없는 조건이면 흐리게 + 이유(모순 4). 기본값이 아닌 채로 남아 있으면 되돌릴 수 있게 입력은 살려 둔다.
-      const cb = (fk, label, checked, disabled, dim, title, onChange) => h('label', { class: `adv-cb${dim ? ' off' : ''}`, title },
+      const cb = (fk, label, checked, disabled, dim, title, onChange) => h('label', { class: `deep-cb${dim ? ' off' : ''}`, title },
         h('input', { type: 'checkbox', 'data-fk': fk, checked, disabled, 'aria-description': dim ? title : null, onChange: (e) => onChange(e.target.checked) }), h('span', {}, label));
       const as = assistEffect(st, pos, env);
       let asTip = as.live ? t('plan.ult.assist.tip') : t({ asap: 'plan.row.assist.asap', single: 'plan.row.assist.single' }[as.reason] || 'plan.row.assist.noAltar');

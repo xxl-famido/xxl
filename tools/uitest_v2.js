@@ -70,9 +70,9 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
     ok('순서 행 5개', rows.length === 5);
     ok('미리보기 150칸(읽기 전용) · 딥 요소 없음', await p.evaluate(() => document.querySelectorAll('#app-plan .pv-cells i').length === 150
       && !document.querySelector('#app-plan .pg, #app-plan .switch, #app-plan .sync-list, #app-plan .pl-legend')));
-    ok('하단 진입 버튼(전체 폭) · 머리 버튼 없음 · 배너 숨김', await p.evaluate(() => { const b = document.querySelector('#app-plan .adv-enter');
+    ok('하단 진입 버튼(전체 폭) · 머리 버튼 없음 · 배너 숨김', await p.evaluate(() => { const b = document.querySelector('#app-plan .deep-enter');
       return !!b && b.getBoundingClientRect().width > document.querySelector('#app-plan').getBoundingClientRect().width * 0.8 && /세부 행동/.test(b.textContent)
-        && !document.querySelector('#app-plan .panel-head .pl-adv-btn') && document.querySelector('#app-plan .adv-banner').hidden; }));
+        && !document.querySelector('#app-plan .panel-head .pl-deep-btn') && document.querySelector('#app-plan .deep-banner').hidden; }));
     ok('방식 select = 자동/직접 지정 둘', await p.evaluate(() => [...document.querySelectorAll('#app-plan .ult-mode select')].every(x => x.options.length === 2)));
     await click(p, '#app-plan .prio > li:nth-child(2) .mv button:first-child');
     s = await S(p); ok('▲ 이동 반영', s.team.some(x => x && x.priority != null));
@@ -117,39 +117,39 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
 
     // ── 3-1. 고급 설정 창(켜지면 메인은 요약 카드, 편집은 전부 창 안) ──
     console.log('[고급 설정]');
-    await click(p, '#app-plan .adv-enter');
-    await p.waitForFunction(() => document.querySelectorAll('#app-sheets .adv-plan .prio > li').length === 5, { timeout: 10000 }).catch(() => {});
+    await click(p, '#app-plan .deep-enter');
+    await p.waitForFunction(() => document.querySelectorAll('#app-sheets .deep-plan .prio > li').length === 5, { timeout: 10000 }).catch(() => {});
     ok('창 열면 바로 작업 공간(①②③④) · 맨 위 사용 스위치 · 꺼짐 = 흐리게 + inert · 게이트 없음', await p.evaluate(() => {
-      const w = document.querySelector('#app-sheets .adv-work');
-      return !!document.querySelector('#app-sheets .adv-switch .adv-use') && !document.querySelector('#app-sheets .adv-use input').checked
-        && w.classList.contains('is-dimmed') && w.inert && document.querySelectorAll('#app-sheets .adv-plan .prio > li').length === 5
-        && !!document.querySelector('#app-sheets .adv-plan .pg') && document.querySelector('#app-sheets .adv-start').hidden; }));
+      const w = document.querySelector('#app-sheets .deep-work');
+      return !!document.querySelector('#app-sheets .deep-switch .deep-use') && !document.querySelector('#app-sheets .deep-use input').checked
+        && w.classList.contains('is-dimmed') && w.inert && document.querySelectorAll('#app-sheets .deep-plan .prio > li').length === 5
+        && !!document.querySelector('#app-sheets .deep-plan .pg') && document.querySelector('#app-sheets .deep-start').hidden; }));
     ok('창에 읽기 미리보기 없음(④ 표가 대신)', await p.evaluate(() => !document.querySelector('#app-sheets .preview')));
-    await p.evaluate(() => document.querySelector('#app-sheets .adv-use').click()); await sleep(600);
-    ok('처음 켜기 → 흐림 해제 + 인라인 선택지(가져오기 · 기본 설정)', await p.evaluate(() => { const w = document.querySelector('#app-sheets .adv-work');
+    await p.evaluate(() => document.querySelector('#app-sheets .deep-use').click()); await sleep(600);
+    ok('처음 켜기 → 흐림 해제 + 인라인 선택지(가져오기 · 기본 설정)', await p.evaluate(() => { const w = document.querySelector('#app-sheets .deep-work');
       return JSON.parse(localStorage.getItem('woofia_adv')).on === true && !w.classList.contains('is-dimmed') && !w.inert
-        && !document.querySelector('#app-sheets .adv-start').hidden && document.querySelectorAll('#app-sheets .adv-start .adv-choice').length === 2; }));
+        && !document.querySelector('#app-sheets .deep-start').hidden && document.querySelectorAll('#app-sheets .deep-start .deep-choice').length === 2; }));
     await p.evaluate(() => document.querySelector('#app-sheets [data-fk="stImport"]').click()); await sleep(400);
-    ok('선택하면 선택지 사라짐', await p.evaluate(() => document.querySelector('#app-sheets .adv-start').hidden));
+    ok('선택하면 선택지 사라짐', await p.evaluate(() => document.querySelector('#app-sheets .deep-start').hidden));
     ok('메인 패널 → 흐리게 + inert + 배너 · 진입 버튼 "사용 중"', await p.evaluate(() => { const m = document.querySelector('#app-plan .pl-main');
-      return m.classList.contains('is-dimmed') && m.inert && !document.querySelector('#app-plan .adv-banner').hidden && !document.querySelector('#app-plan .steps').hidden
-        && /사용 중/.test(document.querySelector('#app-plan .adv-enter').textContent) && !document.querySelector('#app-plan .adv-banner button'); }));
-    const aPos = await p.evaluate(() => +document.querySelector('#app-sheets .adv-plan .prio > li:nth-child(1)').dataset.pos);
+      return m.classList.contains('is-dimmed') && m.inert && !document.querySelector('#app-plan .deep-banner').hidden && !document.querySelector('#app-plan .steps').hidden
+        && /사용 중/.test(document.querySelector('#app-plan .deep-enter').textContent) && !document.querySelector('#app-plan .deep-banner button'); }));
+    const aPos = await p.evaluate(() => +document.querySelector('#app-sheets .deep-plan .prio > li:nth-child(1)').dataset.pos);
     await p.select(`#app-sheets [data-fk="amode:${aPos}"]`, 'strict'); await sleep(300);
     // ADV_AUDIT 모순 4 → ADV_REVIEW #4(2026-09-28): 제단(확률 CD 감소)이 없으면 성공 가정은 효과가 없어 체크를 숨긴다
     //   (전에는 흐리게 비활성 + 이유 툴팁. 켜진 채 효과가 없을 때만 흐림 + 이유로 남는다 — 기본값에서 바뀐 것만 표식)
     const assistDead = await p.evaluate(pos => !document.querySelector(`#app-sheets [data-fk="aassist:${pos}"]`), aPos);
     s = await S(p); ok('창 ①: 방식 정해진 턴만 + 성공 가정(제단 없음 → 체크 숨김)', ((s.team[aPos - 1].ult || {}).mode === 'strict') && assistDead && !(s.team[aPos - 1].ult || {}).assist);
-    await p.evaluate(() => document.querySelector('#app-sheets .adv-plan .prio > li:nth-child(2) .mv button:first-child').click()); await sleep(400);
+    await p.evaluate(() => document.querySelector('#app-sheets .deep-plan .prio > li:nth-child(2) .mv button:first-child').click()); await sleep(400);
     s = await S(p); ok('창 ①: 순서 ▲', s.team.filter(x => x && x.priority != null).length >= 2);
     // [ADV_REVIEW D1 2026-09-28] 창 ①의 직접 지정 칸 줄 삭제 → 칸 고정은 ④ 격자, 프리셋은 ④ 동료 행 머리 메뉴
-    ok('창 ①: 직접 지정 버튼·칸 줄·욱영 체크 없음', await p.evaluate(() => !document.querySelector('#app-sheets .adv-plan [data-fk^="adir:"], #app-sheets .adv-plan .plan-strip, #app-sheets .adv-plan .row-toggle')));
-    await p.waitForFunction(() => document.querySelectorAll('#app-sheets .adv .pg .pg-c').length === 150 && !document.querySelector('#app-sheets .adv .pg.loading'), { timeout: 15000 }).catch(() => {});
-    await p.evaluate(pos => document.querySelector(`#app-sheets .adv .pg-nm[data-row="${pos}"]`).click(), pinPos); await sleep(250);
+    ok('창 ①: 직접 지정 버튼·칸 줄·욱영 체크 없음', await p.evaluate(() => !document.querySelector('#app-sheets .deep-plan [data-fk^="adir:"], #app-sheets .deep-plan .plan-strip, #app-sheets .deep-plan .row-toggle')));
+    await p.waitForFunction(() => document.querySelectorAll('#app-sheets .deep .pg .pg-c').length === 150 && !document.querySelector('#app-sheets .deep .pg.loading'), { timeout: 15000 }).catch(() => {});
+    await p.evaluate(pos => document.querySelector(`#app-sheets .deep .pg-nm[data-row="${pos}"]`).click(), pinPos); await sleep(250);
     ok('④ 행 머리 메뉴(프리셋 + 이 줄 고정 해제, 첫 필살기 당기기 없음)', await p.evaluate(() => { const b = [...document.querySelectorAll('.menu.pl-pop button')].map(x => x.textContent);
       return b.length >= 3 && b.some(x => /고정 전부 해제/.test(x)) && !b.some(x => /첫 필살기 당기기/.test(x)); }));
     await p.keyboard.press('Escape'); await sleep(200);
-    await p.evaluate(pos => document.querySelector(`#app-sheets .adv .pg-c[data-pos="${pos}"][data-t="7"]`).click(), pinPos); await sleep(250);
+    await p.evaluate(pos => document.querySelector(`#app-sheets .deep .pg-c[data-pos="${pos}"][data-t="7"]`).click(), pinPos); await sleep(250);
     await p.evaluate(() => [...document.querySelectorAll('.menu.pl-pop button')][2].click()); await sleep(300);
     s = await S(p); ok('④ 격자 칸 → 방어 고정', (s.pins[7] || {})[pinPos] === '방');
     await p.evaluate(() => document.querySelector('#app-sheets [data-fk="syncAdd"]').click()); await sleep(300);
@@ -157,38 +157,38 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
     await sleep(300);
     await p.select(`#app-sheets [data-fk="sx:0:${memPos}"]`, 'defend'); await sleep(300);
     s = await S(p); ok('창 ③ 필살기 연동(방어 → 받은 추가 행동에서 필살기)', s.sync.length === 1 && s.sync[0].members.some(m => m.p === memPos && m.base === 'defend'), JSON.stringify(s.sync));
-    await p.waitForFunction(() => document.querySelectorAll('#app-sheets .adv .pg .pg-c').length === 150 && !document.querySelector('#app-sheets .adv .pg.loading'), { timeout: 15000 }).catch(() => {});
-    ok('창 ④ 고정 격자 150칸', await p.evaluate(() => document.querySelectorAll('#app-sheets .adv .pg .pg-c').length === 150));
-    await p.evaluate(pos => document.querySelector(`#app-sheets .adv .pg-c[data-pos="${pos}"][data-t="8"]`).click(), pinPos); await sleep(250);
+    await p.waitForFunction(() => document.querySelectorAll('#app-sheets .deep .pg .pg-c').length === 150 && !document.querySelector('#app-sheets .deep .pg.loading'), { timeout: 15000 }).catch(() => {});
+    ok('창 ④ 고정 격자 150칸', await p.evaluate(() => document.querySelectorAll('#app-sheets .deep .pg .pg-c').length === 150));
+    await p.evaluate(pos => document.querySelector(`#app-sheets .deep .pg-c[data-pos="${pos}"][data-t="8"]`).click(), pinPos); await sleep(250);
     ok('격자 칸 팝오버(행동 3 · 고정 해제 · 패턴 반복 · 턴 편집 · 턴 잠금)', await p.evaluate(() => document.querySelectorAll('.menu.pl-pop button').length === 7));
     await p.evaluate(() => [...document.querySelectorAll('.menu.pl-pop button')][2].click()); await sleep(300);
     s = await S(p); ok('격자 팝오버 → 방어 고정', (s.pins[8] || {})[pinPos] === '방');
-    await p.evaluate(pos => document.querySelector(`#app-sheets .adv .pg-c[data-pos="${pos}"][data-t="9"]`).click(), pinPos); await sleep(250);
+    await p.evaluate(pos => document.querySelector(`#app-sheets .deep .pg-c[data-pos="${pos}"][data-t="9"]`).click(), pinPos); await sleep(250);
     await p.evaluate(() => [...document.querySelectorAll('.menu.pl-pop button')].find((b) => /이 턴 잠금/.test(b.textContent)).click()); await sleep(400);
     s = await S(p); ok('격자 팝오버 → 이 턴 잠금', Array.isArray(s.locked[9]));
-    await p.click('#app-sheets .adv .pg-th[data-th="5"]'); await sleep(800);
+    await p.click('#app-sheets .deep .pg-th[data-th="5"]'); await sleep(800);
     ok('턴 번호 → 턴 편집 시트', await p.evaluate(() => !!document.querySelector('#app-sheets .sheet.te-sheet')));
     await p.evaluate(() => { const b = [...document.querySelectorAll('#app-sheets .te-track > li:first-child .mn-acts button')].find(x => x.getAttribute('aria-pressed') !== 'true' && !x.disabled); b && b.click(); });
     await sleep(400);
     await p.evaluate(() => document.querySelector('#app-sheets .sheet-foot .btn-primary').click()); await sleep(1200);
-    s = await S(p); ok('행동 바꾸면 잠긴 턴 · 고급 설정 창으로 복귀', Array.isArray(s.locked[5]) && await p.evaluate(() => !!document.querySelector('#app-sheets .adv-sheet')
-      && document.querySelector('#app-sheets .adv .pg-th[data-th="5"]').classList.contains('lock')));
+    s = await S(p); ok('행동 바꾸면 잠긴 턴 · 고급 설정 창으로 복귀', Array.isArray(s.locked[5]) && await p.evaluate(() => !!document.querySelector('#app-sheets .deep-sheet')
+      && document.querySelector('#app-sheets .deep .pg-th[data-th="5"]').classList.contains('lock')));
     // 성공 가정은 제단이 없어 효과가 없으므로 배지에 세지 않는다(ADV_AUDIT 모순 4)
-    ok('머리 배지(필살기 연동 · 고정 · 효과 없는 성공 가정 제외)', await p.evaluate(() => { const b = document.querySelector('#app-sheets .adv-badges').textContent; return /필살기 연동 1/.test(b) && /고정/.test(b) && !/성공 가정/.test(b); }));
+    ok('머리 배지(필살기 연동 · 고정 · 효과 없는 성공 가정 제외)', await p.evaluate(() => { const b = document.querySelector('#app-sheets .deep-badges').textContent; return /필살기 연동 1/.test(b) && /고정/.test(b) && !/성공 가정/.test(b); }));
     // 끄기(창 스위치) → 기본 설정(켜기 전 메인 값)이 그대로 돌아옴 — 고급 설정에서 찍은 고정 칸·방식·연동·잠긴 턴은 없음 · ①~④ 흐림
-    await p.evaluate(() => document.querySelector('#app-sheets .adv-use').click()); await sleep(700);
+    await p.evaluate(() => document.querySelector('#app-sheets .deep-use').click()); await sleep(700);
     s = await S(p); ok('끄기 → 기본 설정 복원(고급의 방식·연동·잠긴 턴·고정 칸 없음, 기본 예외 턴 유지) · 창 흐림', !s.sync.length && !Object.keys(s.locked).length && !(s.team[aPos - 1].ult)
-      && !(s.pins[8] || {})[pinPos] && !(s.pins[7] || {})[pinPos] && Array.isArray(s.overrides[3]) && await p.evaluate(() => document.querySelector('#app-sheets .adv-work').classList.contains('is-dimmed')));
+      && !(s.pins[8] || {})[pinPos] && !(s.pins[7] || {})[pinPos] && Array.isArray(s.overrides[3]) && await p.evaluate(() => document.querySelector('#app-sheets .deep-work').classList.contains('is-dimmed')));
     // 꺼진 동안 기본 설정을 바꿔도 고급 설정에는 영향 없음
     await p.evaluate(() => window.__woofia.store.plan.clearException([3, 6])); await sleep(300);
-    await p.evaluate(() => document.querySelector('#app-sheets .adv-use').click()); await sleep(700);
+    await p.evaluate(() => document.querySelector('#app-sheets .deep-use').click()); await sleep(700);
     s = await S(p); ok('다시 켜기 → 고급 값 복원(고정 칸 포함, 선택지 없음)', s.sync.length === 1 && Array.isArray(s.locked[5]) && (s.team[aPos - 1].ult || {}).mode === 'strict'
-      && (s.pins[8] || {})[pinPos] === '방' && Array.isArray(s.overrides[3]) && await p.evaluate(() => document.querySelector('#app-sheets .adv-start').hidden));
+      && (s.pins[8] || {})[pinPos] === '방' && Array.isArray(s.overrides[3]) && await p.evaluate(() => document.querySelector('#app-sheets .deep-start').hidden));
     // 창 ① 직접 지정 — 메인처럼 턴 칸 줄
-    const dPos = await p.evaluate(() => { const li = [...document.querySelectorAll('#app-sheets .adv-plan .prio > li')].find(x => !x.querySelector('.plan-strip')); return li ? +li.dataset.pos : 0; });
+    const dPos = await p.evaluate(() => { const li = [...document.querySelectorAll('#app-sheets .deep-plan .prio > li')].find(x => !x.querySelector('.plan-strip')); return li ? +li.dataset.pos : 0; });
     await p.select(`#app-sheets [data-fk="amode:${dPos}"]`, 'direct'); await sleep(500);
-    ok('창 ① 방식에 직접 지정 → 턴 칸 줄', await p.evaluate(pos => !!document.querySelector(`#app-sheets .adv-plan .prio > li[data-pos="${pos}"] .plan-strip .plan-cells button`), dPos));
-    await p.evaluate(pos => document.querySelector(`#app-sheets .adv-plan .prio > li[data-pos="${pos}"] .plan-cells button[data-t="4"]`).click(), dPos); await sleep(250);
+    ok('창 ① 방식에 직접 지정 → 턴 칸 줄', await p.evaluate(pos => !!document.querySelector(`#app-sheets .deep-plan .prio > li[data-pos="${pos}"] .plan-strip .plan-cells button`), dPos));
+    await p.evaluate(pos => document.querySelector(`#app-sheets .deep-plan .prio > li[data-pos="${pos}"] .plan-cells button[data-t="4"]`).click(), dPos); await sleep(250);
     await p.evaluate(() => [...document.querySelectorAll('.menu.pl-pop button')][2].click()); await sleep(400);
     s = await S(p); ok('창 ① 칸 → 방어 고정', (s.pins[4] || {})[dPos] === '방', JSON.stringify(s.pins[4]));
     // 기본 설정 가져오기(버튼은 켜져 있을 때 항상) → 고급 값이 기본 설정 복사본으로(되돌리기 가능), 기본 설정 자체는 그대로
@@ -197,10 +197,10 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
     s = await S(p); ok('가져오기 → 기본 설정 값(예외 턴 없음 · 고정 칸 없음 · 방식 자동)', !Object.keys(s.overrides).length && !Object.keys(s.pins).length && !(s.team[aPos - 1].ult));
     await p.evaluate(() => [...document.querySelectorAll('.toast button')].pop().click()); await sleep(500);
     s = await S(p); ok('가져오기 되돌리기 → 고급 값 복귀', (s.pins[8] || {})[pinPos] === '방' && (s.pins[4] || {})[dPos] === '방' && (s.team[aPos - 1].ult || {}).mode === 'strict');
-    await p.evaluate(() => document.querySelector('#app-sheets .adv-use').click()); await sleep(500);
+    await p.evaluate(() => document.querySelector('#app-sheets .deep-use').click()); await sleep(500);
     await p.keyboard.press('Escape'); await sleep(400);
-    ok('꺼진 뒤 메인: 기본 패널 활성 · 배너 숨김', await p.evaluate(() => !document.querySelector('#app-plan .pl-main').inert && document.querySelector('#app-plan .adv-banner').hidden
-      && /세부 행동/.test(document.querySelector('#app-plan .adv-enter').textContent)));
+    ok('꺼진 뒤 메인: 기본 패널 활성 · 배너 숨김', await p.evaluate(() => !document.querySelector('#app-plan .pl-main').inert && document.querySelector('#app-plan .deep-banner').hidden
+      && /세부 행동/.test(document.querySelector('#app-plan .deep-enter').textContent)));
     await p.evaluate(() => { const st = window.__woofia.store; st.plan.resetAll(); st.set({ pins: {}, locked: {}, overrides: {} }); st.sync.set([]); st.plan.assistAll(false);
       st.get().team.forEach((x, i) => { if (x) st.plan.setUltMode(i, 'auto'); }); localStorage.removeItem('woofia_adv'); });
     await sleep(400);
@@ -214,7 +214,7 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
       const li = [...document.querySelectorAll('#app-plan .prio > li')].find(x => x.querySelector('.row-toggle'));
       const a = localStorage.getItem('woofia_adv');
       return { checked: !!li && li.querySelector('.row-toggle input').checked, chips: document.querySelectorAll('#app-plan .link-chip').length,
-        card: !document.querySelector('#app-plan .adv-banner').hidden || document.querySelector('#app-plan .pl-main').inert, btn: !!document.querySelector('#app-plan .adv-enter'), adv: a ? JSON.parse(a).on : false,
+        card: !document.querySelector('#app-plan .deep-banner').hidden || document.querySelector('#app-plan .pl-main').inert, btn: !!document.querySelector('#app-plan .deep-enter'), adv: a ? JSON.parse(a).on : false,
         sync: window.__woofia.store.get().sync.length };
     });
     ok('라이트 코드 → 메인 기본 패널 · 욱영 체크 ON · 칩 0 · 고급 설정 OFF', uk.checked && uk.chips === 0 && !uk.card && uk.btn && !uk.adv && uk.sync === 1, JSON.stringify(uk));
@@ -231,14 +231,14 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
     console.log('[제단 → 고급 설정 강제]');
     await p.evaluate(() => window.__woofia.store.altar.setOn(true)); await sleep(800);
     ok('제단 켜기 → 고급 설정 켜짐 · 메인 흐림 + 배너(제단 사유)', await p.evaluate(() => JSON.parse(localStorage.getItem('woofia_adv')).on === true
-      && document.querySelector('#app-plan .pl-main').inert && !document.querySelector('#app-plan .adv-banner').hidden && !document.querySelector('#app-plan .adv-banner-why').hidden));
+      && document.querySelector('#app-plan .pl-main').inert && !document.querySelector('#app-plan .deep-banner').hidden && !document.querySelector('#app-plan .deep-banner-why').hidden));
     ok('전투 조건 제단 행 안내 한 줄', await p.evaluate(() => [...document.querySelectorAll('#app-cond .cond-sub')].some(x => !x.hidden && /고급 설정/.test(x.textContent))));
-    await click(p, '#app-plan .adv-enter');
-    await p.waitForFunction(() => document.querySelectorAll('#app-sheets .adv-plan .prio > li').length === 5, { timeout: 10000 }).catch(() => {});
-    ok('창: 사용 스위치 잠김 + 이유', await p.evaluate(() => document.querySelector('#app-sheets .adv-use input').disabled && !document.querySelector('#app-sheets .adv-forced').hidden));
+    await click(p, '#app-plan .deep-enter');
+    await p.waitForFunction(() => document.querySelectorAll('#app-sheets .deep-plan .prio > li').length === 5, { timeout: 10000 }).catch(() => {});
+    ok('창: 사용 스위치 잠김 + 이유', await p.evaluate(() => document.querySelector('#app-sheets .deep-use input').disabled && !document.querySelector('#app-sheets .deep-forced').hidden));
     const ukPos = await p.evaluate(() => window.__woofia.store.get().team.findIndex(x => x && x.id === 10439) + 1);
-    await p.evaluate(() => document.querySelector('#app-sheets .adv-plan .prio > li:nth-child(3) .mv button:first-child').click()); await sleep(400);
-    const ord1 = await p.evaluate(() => [...document.querySelectorAll('#app-sheets .adv-plan .prio > li')].map(li => li.dataset.pos).join(''));
+    await p.evaluate(() => document.querySelector('#app-sheets .deep-plan .prio > li:nth-child(3) .mv button:first-child').click()); await sleep(400);
+    const ord1 = await p.evaluate(() => [...document.querySelectorAll('#app-sheets .deep-plan .prio > li')].map(li => li.dataset.pos).join(''));
     ok('창 안 순서 편집', !!ord1 && ord1 !== '');
     // [ADV_REVIEW D2 2026-09-28] 창 ①의 욱영 체크 삭제 → ③ 필살기 연동의 욱영 프리셋(지우기 · 다시 적용)
     void ukPos;
@@ -246,17 +246,17 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
     s = await S(p); ok('창 ③ 욱영 프리셋 지우기', s.sync.length === 0);
     await p.evaluate(() => [...document.querySelectorAll('#app-sheets .sync-tools .btn')].find(b => /인접 동료 연동/.test(b.textContent)).click()); await sleep(400);
     s = await S(p); ok('창 ③ 욱영 프리셋 다시 적용 · 목록에 읽기 전용', s.sync.length === 1 && await p.evaluate(() => !!document.querySelector('#app-sheets .sync-ro') && !document.querySelector('#app-sheets .sync-ro select')));
-    await p.evaluate(() => document.querySelector('#app-sheets .adv-plan [data-fk="excAdd"]').click()); await sleep(500);
+    await p.evaluate(() => document.querySelector('#app-sheets .deep-plan [data-fk="excAdd"]').click()); await sleep(500);
     await p.evaluate(() => { document.querySelector('#app-sheets .turn-chips button:nth-child(2)').click(); document.querySelector('#app-sheets .sheet-foot .btn-primary').click(); });
     await sleep(1000);
-    s = await S(p); ok('창 안 예외 턴 추가 → 창 복귀', Array.isArray(s.overrides[2]) && await p.evaluate(() => !!document.querySelector('#app-sheets .adv-sheet')));
+    s = await S(p); ok('창 안 예외 턴 추가 → 창 복귀', Array.isArray(s.overrides[2]) && await p.evaluate(() => !!document.querySelector('#app-sheets .deep-sheet')));
     await p.keyboard.press('Escape'); await sleep(300);
     await p.evaluate(() => window.__woofia.store.altar.setOn(false)); await sleep(600);
     ok('제단 끄기 → 강제 해제(고급 설정은 켜진 채 · 사유 숨김)', await p.evaluate(() => JSON.parse(localStorage.getItem('woofia_adv')).on === true
-      && document.querySelector('#app-plan .adv-banner-why').hidden && document.querySelector('#app-plan .pl-main').inert));
-    await click(p, '#app-plan .adv-enter');
-    ok('창 스위치 다시 끌 수 있음', await p.evaluate(() => !document.querySelector('#app-sheets .adv-use input').disabled && document.querySelector('#app-sheets .adv-forced').hidden));
-    await p.evaluate(() => document.querySelector('#app-sheets .adv-use').click()); await sleep(500);
+      && document.querySelector('#app-plan .deep-banner-why').hidden && document.querySelector('#app-plan .pl-main').inert));
+    await click(p, '#app-plan .deep-enter');
+    ok('창 스위치 다시 끌 수 있음', await p.evaluate(() => !document.querySelector('#app-sheets .deep-use input').disabled && document.querySelector('#app-sheets .deep-forced').hidden));
+    await p.evaluate(() => document.querySelector('#app-sheets .deep-use').click()); await sleep(500);
     await p.keyboard.press('Escape'); await sleep(300);
     await p.evaluate(() => { const st = window.__woofia.store; st.team.setDefault(); st.plan.resetAll(); st.set({ pins: {}, locked: {}, overrides: {} }); st.sync.set([]); localStorage.removeItem('woofia_adv'); });
     await sleep(600);

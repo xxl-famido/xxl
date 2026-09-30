@@ -129,7 +129,7 @@ const advOn = (p) => p.tapEval(() => document.querySelector('#app-plan [data-fk=
         const c4 = document.querySelector(`#app-plan .pg-c[data-pos="${an}"][data-t="4"]`);
         const pins = document.querySelectorAll(`#app-plan .pg-c.pin[data-pos="${pf}"]`).length;
         const acts = ((st.probe.plan['4'] || {}).seq || []).filter((e) => e.p === an).length;
-        return { adv: document.querySelector('#app-plan').classList.contains('pl-adv-on'), pins, badge: !!document.querySelector(`#app-plan .pl-rows li[data-pos="${pf}"] .pl-badge.pin`),
+        return { adv: document.querySelector('#app-plan').classList.contains('pl-deep-on'), pins, badge: !!document.querySelector(`#app-plan .pl-rows li[data-pos="${pf}"] .pl-badge.pin`),
           warn: c4 && c4.classList.contains('warn'), tip: c4 && c4.title, acts4: acts, note: !!document.querySelector('#app-plan .sentence .s-note') };
       });
       await shot(p, 'pin_usercode.png');

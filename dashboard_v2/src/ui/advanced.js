@@ -242,8 +242,8 @@ export function openAdvanced(base) {
   function openRoot() {
     const my = ++gen;
     if (dispose) { dispose(); dispose = null; }
-    const host = C.h('div', { class: 'adv' });
-    const sheet = sess.ctx.components.openSheet({ root: true, title: t('plan.adv.title'), body: host, size: 'sheet-lg adv-sheet', ariaLabel: t('plan.close') });
+    const host = C.h('div', { class: 'deep' });
+    const sheet = sess.ctx.components.openSheet({ root: true, title: t('plan.adv.title'), body: host, size: 'sheet-lg deep-sheet', ariaLabel: t('plan.close') });
     let d = () => {};
     try { d = mountAdvanced(host, sess.ctx, { sheet, restoreScroll: () => { if (sheet.body) sheet.body.scrollTop = scrollTop; } }); }
     catch (err) { showFail(host, err); }
@@ -276,8 +276,8 @@ export function openAdvancedFor(scope = {}) {
   function openRoot() {
     const my = ++gen;
     if (dispose) { dispose(); dispose = null; }
-    const host = h('div', { class: 'adv' });
-    const sheet = sess.ctx.components.openSheet({ root: true, title: base.t('plan.title') + (scope.label ? ` · ${scope.label}` : ''), body: host, size: 'sheet-lg adv-sheet', ariaLabel: base.t('plan.close') });
+    const host = h('div', { class: 'deep' });
+    const sheet = sess.ctx.components.openSheet({ root: true, title: base.t('plan.title') + (scope.label ? ` · ${scope.label}` : ''), body: host, size: 'sheet-lg deep-sheet', ariaLabel: base.t('plan.close') });
     const d = mountAdvanced(host, sess.ctx, { sheet, scoped: true, restoreScroll: () => { if (sheet.body) sheet.body.scrollTop = scrollTop; } });
     if (my === gen) dispose = d; else d();
     if (sheet.body) { sheet.body.scrollTop = scrollTop; sheet.body.addEventListener('scroll', () => { scrollTop = sheet.body.scrollTop; }, { passive: true }); }
@@ -315,11 +315,11 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
   };
 
   // ── 머리: 배지 · 사용 스위치 · (제단) 끌 수 없는 이유 ───────────────────────
-  const badges = h('span', { class: 'adv-badges' });
+  const badges = h('span', { class: 'deep-badges' });
   // 사용 스위치는 본문 맨 위 큰 행(머리에는 배지만). 꺼져 있으면 ①~④ 를 흐리게 + inert.
-  const sw = scoped ? null : C.toggle({ label: h('b', { class: 'adv-switch-label' }, t('plan.adv.use.label')), checked: advIsOn(), onChange: (v) => onSwitch(v) });
-  const forced = scoped ? null : h('p', { class: 'adv-forced', hidden: true }, icon('lock'), h('span', {}, t('plan.adv.forced')));
-  if (sw) { sw.classList.add('adv-use'); sw.input.dataset.fk = 'advUse'; }
+  const sw = scoped ? null : C.toggle({ label: h('b', { class: 'deep-switch-label' }, t('plan.adv.use.label')), checked: advIsOn(), onChange: (v) => onSwitch(v) });
+  const forced = scoped ? null : h('p', { class: 'deep-forced', hidden: true }, icon('lock'), h('span', {}, t('plan.adv.forced')));
+  if (sw) { sw.classList.add('deep-use'); sw.input.dataset.fk = 'advUse'; }
   const headEl = sheet && sheet.el && sheet.el.querySelector('.sheet-head');
   if (headEl) headEl.insertBefore(badges, headEl.lastElementChild);
   let showChoices = false;     // 처음 켤 때(이전 고급 값 없음) 한 번만 보이는 인라인 선택지
@@ -340,28 +340,28 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
   }
 
   // ── 골격 ─────────────────────────────────────────────────────────────────
-  const start = h('div', { class: 'adv-start', hidden: true });
-  const work = h('div', { class: 'adv-work dim-able' });
+  const start = h('div', { class: 'deep-start', hidden: true });
+  const work = h('div', { class: 'deep-work dim-able' });
   // [ADV_REVIEW #1] 박스 없이 한 줄(아래 구분선) · 설명은 ⓘ 툴팁. 제단 강제 사유는 상태라 계속 보인다.
   // 「기본 설정 가져오기」 — 켜져 있고 보관 중인 기본 설정이 있을 때만(되돌리기 토스트). 기본 설정 자체는 바뀌지 않는다.
-  const importBtn = scoped ? null : h('button', { type: 'button', class: 'btn btn-ghost btn-sm adv-import', 'data-fk': 'advImport', title: t('plan.adv.import.tip'), hidden: true,
+  const importBtn = scoped ? null : h('button', { type: 'button', class: 'btn btn-ghost btn-sm deep-import', 'data-fk': 'advImport', title: t('plan.adv.import.tip'), hidden: true,
     onClick: () => { const undo = advImportBasic(store); if (undo) undoToast(t('plan.adv.import.done'), undo); } }, icon('copy'), h('span', {}, t('plan.adv.import')));
-  const swRow = scoped ? null : h('div', { class: 'adv-switch' },
-    h('div', { class: 'adv-switch-row' }, sw, helpTip(C, t('plan.adv.use.desc'), t('plan.adv.help.aria', { what: t('plan.adv.use.label') })), importBtn), forced, start);
+  const swRow = scoped ? null : h('div', { class: 'deep-switch' },
+    h('div', { class: 'deep-switch-row' }, sw, helpTip(C, t('plan.adv.use.desc'), t('plan.adv.help.aria', { what: t('plan.adv.use.label') })), importBtn), forced, start);
   // [ADV_REVIEW #3] 확률 CD 감소 제단 안내 + 「전원 성공 가정」(사용자가 누를 때만 — 자동으로 켜지 않음)
   const assistAllBtn = h('button', { type: 'button', class: 'btn btn-ghost btn-sm', 'data-fk': 'assistAll', onClick: () => toggleAssistAll() }, h('span', {}));
-  const procNote = h('div', { class: 'adv-note', hidden: true }, icon('info'), h('span', { class: 'adv-note-text' }, t('plan.adv.proc.note')), assistAllBtn);
+  const procNote = h('div', { class: 'deep-note', hidden: true }, icon('info'), h('span', { class: 'deep-note-text' }, t('plan.adv.proc.note')), assistAllBtn);
   // 모순 3: 엔진이 실제로 쓰는 우선순위(ADV_AUDIT §4-A 실측) — [ADV_REVIEW #2] ④ 머리 ⓘ + 충돌 칸이 있을 때만 범례 아래 한 줄
-  const prioLine = h('p', { class: 'adv-prio', hidden: true }, icon('list-ordered'), h('span', {}, t('plan.adv.prio')));
-  const planHost = h('div', { class: 'adv-plan' });
+  const prioLine = h('p', { class: 'deep-prio', hidden: true }, icon('list-ordered'), h('span', {}, t('plan.adv.prio')));
+  const planHost = h('div', { class: 'deep-plan' });
   // ③ 맞추기
   const syncList = h('div', { class: 'sync-list' });
   const syncAdd = h('button', { type: 'button', class: 'btn btn-secondary btn-sm', 'data-fk': 'syncAdd', onClick: addSyncGroup }, icon('plus'), h('span', {}, t('plan.sync.add')));
   const syncPreset = h('button', { type: 'button', class: 'btn btn-ghost btn-sm', onClick: applyUkPreset }, icon('sparkles'), h('span', {}));
   const syncNote = h('p', { class: 'hint sync-note', hidden: true });
   // [ADV_REVIEW #7] 창의 구역은 접히지 않으므로 머리 요약(kv)은 두지 않는다(바로 아래 목록과 같은 값)
-  const secSync = h('section', { class: 'adv-sec', 'aria-labelledby': 'adv-h-sync' },
-    h('div', { class: 'adv-sec-h' }, h('h3', { id: 'adv-h-sync' }, h('span', { class: 'step-n' }, '3'), t('plan.step3.title'))),
+  const secSync = h('section', { class: 'deep-sec', 'aria-labelledby': 'deep-h-sync' },
+    h('div', { class: 'deep-sec-h' }, h('h3', { id: 'deep-h-sync' }, h('span', { class: 'step-n' }, '3'), t('plan.step3.title'))),
     h('p', { class: 'hint' }, t('plan.sync.hint.short')), syncList, h('div', { class: 'sync-tools' }, syncAdd, syncPreset), syncNote);
   // ④ N턴 고정
   const gridTitle = h('span', {});
@@ -376,11 +376,11 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
   const clearBtn = h('button', { type: 'button', class: 'btn btn-ghost btn-sm', 'data-fk': 'gClear', onClick: clearAll }, icon('x'), h('span', {}, t('plan.adv.grid.clear')));
   const lockAllBtn = h('button', { type: 'button', class: 'btn btn-ghost btn-sm', 'data-fk': 'gLockAll', title: t('plan.te.lockAll.tip'), onClick: lockAll }, icon('lock'), h('span', {}, t('plan.te.lockAll')));
   const pvMsg = h('p', { class: 'hint pv-msg', hidden: true });
-  const secGrid = h('section', { class: 'adv-sec', 'aria-labelledby': 'adv-h-grid' },
-    h('div', { class: 'adv-sec-h' }, h('h3', { id: 'adv-h-grid' }, h('span', { class: 'step-n' }, '4'), gridTitle),
-      helpTip(C, t('plan.adv.prio'), t('plan.adv.help.aria', { what: t('plan.adv.prio.what') })), h('span', { class: 'adv-tools' }, undoBtn, clearBtn, lockAllBtn)),
+  const secGrid = h('section', { class: 'deep-sec', 'aria-labelledby': 'deep-h-grid' },
+    h('div', { class: 'deep-sec-h' }, h('h3', { id: 'deep-h-grid' }, h('span', { class: 'step-n' }, '4'), gridTitle),
+      helpTip(C, t('plan.adv.prio'), t('plan.adv.help.aria', { what: t('plan.adv.prio.what') })), h('span', { class: 'deep-tools' }, undoBtn, clearBtn, lockAllBtn)),
     h('p', { class: 'hint' }, t('plan.adv.grid.hint')), legend, prioLine,
-    h('div', { class: 'pl adv-pl' }, h('div', { class: 'pg-wrap' }, grid)), pvMsg);
+    h('div', { class: 'pl deep-pl' }, h('div', { class: 'pg-wrap' }, grid)), pvMsg);
   work.append(procNote, planHost);
   host.replaceChildren(...(swRow ? [swRow] : []), work);
 
@@ -419,7 +419,7 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
     if (!showChoices) { start.replaceChildren(); return; }
     const last = advLast();
     const done = () => { showChoices = false; refresh(); };
-    const choice = (cls, title, desc, fk, onClick) => h('button', { type: 'button', class: `adv-choice${cls}`, 'data-fk': fk, title: desc, onClick: () => { onClick(); done(); } }, h('b', {}, title), h('span', {}, desc));
+    const choice = (cls, title, desc, fk, onClick) => h('button', { type: 'button', class: `deep-choice${cls}`, 'data-fk': fk, title: desc, onClick: () => { onClick(); done(); } }, h('b', {}, title), h('span', {}, desc));
     start.replaceChildren(...[
       choice(' rec', t('plan.adv.start.import'), t('plan.adv.start.import.desc'), 'stImport', () => {}),
       choice('', t('plan.adv.start.basic'), t('plan.adv.start.basic.desc'), 'stBasic', startBasic),
@@ -457,7 +457,7 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
     work.classList.toggle('is-dimmed', !on);
     work.inert = !on;
     // [ADV_REVIEW #23] 배지 = 메인 요약 한 줄과 같은 목록·문구(고정 칸과 잠긴 턴을 따로, 방식 변경·방어 턴 무시 포함)
-    badges.replaceChildren(...(on ? advLineParts(S()) : []).map(([k, v]) => h('span', { class: 'adv-badge' }, t(k, v))));
+    badges.replaceChildren(...(on ? advLineParts(S()) : []).map(([k, v]) => h('span', { class: 'deep-badge' }, t(k, v))));
     procNote.hidden = !(on && store.env().procIds.length && S().team.some(Boolean));
     if (!procNote.hidden) {
       const { eligible, allOn } = assistTargets();
@@ -914,5 +914,5 @@ function showFail(host, err) {
   console.error('[advanced]', err);
   const NL = String.fromCharCode(10);
   const msg = String((err && (err.stack || err.message)) || err).split(NL).slice(0, 4).join(NL);
-  host.replaceChildren(Object.assign(document.createElement('pre'), { className: 'adv-fail', textContent: ['고급 설정을 불러오지 못했습니다.', navigator.userAgent, msg].join(NL) }));
+  host.replaceChildren(Object.assign(document.createElement('pre'), { className: 'deep-fail', textContent: ['고급 설정을 불러오지 못했습니다.', navigator.userAgent, msg].join(NL) }));
 }

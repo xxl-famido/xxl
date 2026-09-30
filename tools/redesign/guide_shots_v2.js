@@ -164,27 +164,27 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
     // ── 고급 설정 ──
     await ev(() => window.scrollTo(0, 0));
-    await ev(() => document.querySelector('#app-plan > .adv-enter').click()); await sleep(1400);
+    await ev(() => document.querySelector('#app-plan > .deep-enter').click()); await sleep(1400);
     await ev(() => document.querySelector('#app-sheets [data-fk="advUse"]').click()); await sleep(1400);
-    await shot('#app-sheets .adv-switch', 'adv-switch', { pad: 16 });
+    await shot('#app-sheets .deep-switch', 'deep-switch', { pad: 16 });
     await ev(() => document.querySelector('#app-sheets [data-fk="stImport"]').click()); await sleep(1000);
-    await shot('#app-sheets section[aria-labelledby="advp-h1"]', 'adv-step1', { pad: 16 });
+    await shot('#app-sheets section[aria-labelledby="advp-h1"]', 'deep-step1', { pad: 16 });
     // 필살기 연동: 그룹 1개 + 따라가는 동료 1명
     await ev(() => document.querySelector('#app-sheets [data-fk="syncAdd"]').click()); await sleep(700);
     await ev(() => { const s = document.querySelector('#app-sheets [data-fk="sadd:0"]'); if (s) { s.value = s.options[1].value; s.dispatchEvent(new Event('change', { bubbles: true })); } });
     await sleep(900);
-    await shot('#app-sheets section[aria-labelledby="adv-h-sync"]', 'adv-sync', { pad: 16 });
+    await shot('#app-sheets section[aria-labelledby="deep-h-sync"]', 'deep-sync', { pad: 16 });
     // 격자: 칸 메뉴 → 방어 고정 → 줄 메뉴 → 격자 전체
     await ev(() => document.querySelector('#app-sheets .pg').scrollIntoView({ block: 'center' })); await sleep(300);
     await p.click('#app-sheets .pg .pg-c[data-pos="3"][data-t="3"]'); await sleep(500);
-    await shot('[role="menu"]', 'adv-cell');
+    await shot('[role="menu"]', 'deep-cell');
     await ev(() => { const it = [...document.querySelectorAll('[role="menu"] button')].find(x => x.textContent.trim().startsWith('방어')); it && it.click(); });
     await sleep(1600); await closeMenus();
     console.log('고정 칸:', await ev(() => document.querySelector('#app-sheets .pg .pg-c[data-pos="3"][data-t="3"]').title));
     await p.click('#app-sheets .pg .pg-nm'); await sleep(500);
-    await shot('[role="menu"]', 'adv-row');
+    await shot('[role="menu"]', 'deep-row');
     await closeMenus(); await sleep(300);
-    await shot('#app-sheets section[aria-labelledby="adv-h-grid"]', 'adv-grid', { pad: 16 });
+    await shot('#app-sheets section[aria-labelledby="deep-h-grid"]', 'deep-grid', { pad: 16 });
     await ev(() => document.querySelector('#app-sheets .pg .pg-th[data-th="7"]').click()); await sleep(1900);
     await shot('#app-sheets .sheet', 'turn-edit');
     await closeSheet(); await sleep(900);
@@ -197,8 +197,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await closeSheet();
     // 제단(확률 CD 감소 점등) → 고급 설정 자동 켜짐 · 성공 가정 안내와 행 체크
     await ev(() => window.scrollTo(0, 0));
-    await ev(() => document.querySelector('#app-plan > .adv-enter').click()); await sleep(1600);
-    await shotUnion(['#app-sheets .adv-note', '#app-sheets section[aria-labelledby="advp-h1"]'], 'adv-proc');
+    await ev(() => document.querySelector('#app-plan > .deep-enter').click()); await sleep(1600);
+    await shotUnion(['#app-sheets .deep-note', '#app-sheets section[aria-labelledby="advp-h1"]'], 'deep-proc');
     await closeSheet();
     await ev(() => window.__woofia.store.altar.setOn(false)); await sleep(800);
 

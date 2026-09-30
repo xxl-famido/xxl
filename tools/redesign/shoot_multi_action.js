@@ -39,7 +39,7 @@ async function elShot(p, sel, name) {
   await el.screenshot({ path: path.join(OUT, `${name}.png`) });
 }
 async function openAdv(p) {
-  await p.evaluate(() => { const b = document.querySelector('#app-plan .adv-enter'); b && b.click(); });
+  await p.evaluate(() => { const b = document.querySelector('#app-plan .deep-enter'); b && b.click(); });
   await sleep(1200);
   await p.evaluate(() => { const i = document.querySelector('[data-fk="advUse"]'); if (i && !i.checked) i.click(); });
   await sleep(2500);
