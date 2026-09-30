@@ -12,6 +12,7 @@
  * DOM·토스트는 없다. 사용자에게 알릴 일은 반환값({status, reason, …})으로 돌려준다.
  */
 import { HOLD_ULT_IDS, ULT3_IDS, PASSIVE_DEF_ID, TAEHO_ID, UK_ID, IMBUEON_ID, basePriority } from './format.js';
+import { specRune } from './spec.js';
 
 // ── 환경(제단이 계획 모델에 주는 영향) ─────────────────────────────────────
 export const ALTAR_FLOORS = Object.freeze([1, 2, 3]);
@@ -31,9 +32,24 @@ export function altarProcCdActive(altar) {
   if (!f || f.on === false) return [];
   return ALTAR_CD_PROC_IDS.filter((id) => !(f.off && f.off[id]));
 }
-/** 계획 계산 환경. chars = id→meta(API.chars), altar = state.altar. */
-export function makeEnv({ chars = {}, altar = null } = {}) {
-  return { chars, cdPlus: cdPlusOf(altar), procIds: altarProcCdActive(altar) };
+/**
+ * 계획 계산 환경. chars = id→meta(API.chars), altar = state.altar, team = 편성(선택).
+ * team 을 주면 도장 잠금해제를 끈 동료(육성 설정)의 meta 는 턴당 행동 수를 actionsPerTurnNoRune 으로 바꾼 사본이 된다 —
+ * 이태호의 턴당 2회는 도장 패시브에서 나오므로 도장이 없으면 엔진도 턴당 1회다(base_actions). 편성에 같은 동료는 한 명뿐이라 id 로 덮는다.
+ */
+export function makeEnv({ chars = {}, altar = null, team = null } = {}) {
+  return { chars: teamChars(chars, team), cdPlus: cdPlusOf(altar), procIds: altarProcCdActive(altar) };
+}
+function teamChars(chars, team) {
+  let out = chars;
+  (team || []).forEach((s) => {
+    const m = s && chars[s.id];
+    if (!m || m.actionsPerTurnNoRune == null || m.actionsPerTurnNoRune === m.actionsPerTurn || specRune(s)) return;
+    if (out === chars) out = { ...chars };
+    // firstUltOnly: 필살기 리듬은 턴당 2회일 때와 같다(첫 턴 필살기로 자세 전환 뒤 보통 공격 — 엔진 hold_fatal, 도장과 무관)
+    out[s.id] = { ...m, actionsPerTurn: m.actionsPerTurnNoRune, firstUltOnly: true };
+  });
+  return out;
 }
 export const ENV0 = Object.freeze({ chars: {}, cdPlus: 0, procIds: [] });
 
@@ -254,7 +270,7 @@ export function autoSelOverrides(ov) {
 export function fillPlan(meta, action, n = 30, env = ENV0) {
   const apt = meta.actionsPerTurn || 1;
   const plan = Array(n * apt).fill(action);
-  if (apt === 1 && !HOLD_ULT_IDS.has(meta.id)) {
+  if (apt === 1 && !HOLD_ULT_IDS.has(meta.id) && !meta.firstUltOnly) {
     for (let t = ffat(meta, env); t <= n; t += fcd(meta, env)) plan[t - 1] = '궁';
   }
   return plan;
@@ -267,7 +283,7 @@ export function defaultPlan(meta, n = 30, env = ENV0) {
     return p;
   }
   const plan = fillPlan(meta, '평', n, env);
-  if ((meta.actionsPerTurn || 1) > 1 && ffat(meta, env) <= 1) plan[0] = '궁';
+  if (((meta.actionsPerTurn || 1) > 1 || meta.firstUltOnly) && ffat(meta, env) <= 1) plan[0] = '궁';
   return plan;
 }
 /** n턴 길이로 확장만 한다(기본 궁 주기를 이어받음). 제자리 변경 후 반환. */
@@ -471,9 +487,13 @@ export function imbueonUltTurns(teamArr, turns, env = ENV0) {
   }
   return set;
 }
-/** 이태호(1번 자리)+임부언 동반 시 fed 슬롯 턴 집합, 아니면 null. */
+/**
+ * 이태호(1번 자리)+임부언 동반 시 fed 슬롯 턴 집합, 아니면 null.
+ * 도장 잠금해제를 끈 이태호(턴당 1회)는 엔진에서 다른 1번 자리 동료와 같은 규칙으로 추가 행동을 쓰므로(extra_basic 아님) 슬롯이 없다.
+ */
 export function taehoFedTurns(slot, teamArr, turns, env = ENV0) {
   if (!slot || slot.id !== TAEHO_ID) return null;
+  if (env.chars[slot.id] && (env.chars[slot.id].actionsPerTurn || 1) < 2) return null;
   if (!(teamArr && teamArr[0] && teamArr[0].id === TAEHO_ID)) return null;
   if (!teamArr.some((t) => t && t.id === IMBUEON_ID)) return null;
   return imbueonUltTurns(teamArr, turns, env);
@@ -841,7 +861,7 @@ export function lockedWithin(locked, turns) {
  *   pinsFromPlan 이 같은 채움으로 최소 핀을 찍으므로 v1 직접 계획의 rotation 은 바이트까지 그대로다(왕복 대칭).
  */
 export function pinFillKind(slot, meta) {
-  if ((meta.actionsPerTurn || 1) > 1 || meta.singleUlt) return 'default';
+  if ((meta.actionsPerTurn || 1) > 1 || meta.singleUlt || meta.firstUltOnly) return 'default';
   return 'cycle';
 }
 /**
@@ -860,7 +880,8 @@ export function assistFirstUlt(slot, meta, env = ENV0) {
 /** 성공 가정이 첫 필살기를 실제로 당기는가(= 핀이 없어도 줄을 보내야 엔진이 가정을 쓴다 — harness 는 rotation 이 있을 때만 assist 적용). */
 export const assistPulls = (slot, meta, env = ENV0) => assistFirstUlt(slot, meta, env) < ffat(meta, env);
 const cycleFill = (t, lastUlt, meta, env, first = ffat(meta, env)) => (t >= (lastUlt ? lastUlt + Math.max(1, fcd(meta, env)) : first) ? '궁' : '평');
-function cellsOf(v, apt) { const a = [...String(v)]; while (a.length < apt) a.push('평'); return a.slice(0, apt); }
+/** 핀 값 → 그 턴의 행동 칸(행동 수만큼, 모자라면 보통 공격). 턴당 2회 동료의 '궁' 핀 = '궁평'. */
+export function cellsOf(v, apt) { const a = [...String(v)]; while (a.length < apt) a.push('평'); return a.slice(0, apt); }
 /**
  * 핀 줄 → 엔진 rotation 토큰 배열(길이 lineTurns(n) × 행동 수). row = { turn: 값 }.
  * 핀이 하나도 없으면 null(줄을 보내지 않음 = 규칙).
@@ -976,6 +997,36 @@ export function presetPinsRow(name, slot, i, team, pins, turns, env = ENV0) {
   } else target = presetTarget(name, eff[i], i, eff, turns, env);
   if (!target) return null;
   return pinsFromPlan(slot, target, turns, env);
+}
+/** 지금 줄(핀 + 규칙 채움, 쿨타임 반영 — 직접 지정 줄에 보이는 그대로)을 줄 길이(lineTurns)만큼. 턴당 행동 수만큼의 토큰 배열. */
+function shownLine(i, team, pins, turns, env) {
+  const eff = effectiveTeam(team, pins, turns, env);
+  return planView(eff[i], i, eff, lineTurns(turns), env).view;
+}
+/**
+ * 「모두 보통 공격」「모두 방어」(v1 모두 평타·모두 방어): 지금 줄에서 필살기 칸은 그대로 두고 나머지 행동을 모두 action 으로.
+ * 턴당 2회 동료는 필살기가 아닌 행동 칸 전부. → 새 핀 줄(교체용)
+ */
+export function fillRowPins(slot, i, team, pins, turns, action, env = ENV0) {
+  const plan = shownLine(i, team, pins, turns, env).map((a) => (a === '궁' ? '궁' : action));
+  return pinsFromPlan(slot, plan, turns, env);
+}
+/**
+ * 패턴 반복: 지금 줄의 from~to 턴 행동을 to 다음 턴부터 줄 끝까지 같은 순서로 반복(필살기 포함). from 앞 턴은 그대로.
+ * 쿨타임이 안 돌아온 턴에 놓인 필살기는 엔진 규칙대로(보통 공격 대체 → 준비되면 사용) 실행된다. → 새 핀 줄 | null(구간 오류)
+ */
+export function repeatRowPins(slot, i, team, pins, turns, from, to, env = ENV0) {
+  const L = lineTurns(turns), apt = (env.chars[slot.id] || {}).actionsPerTurn || 1;
+  const a = Math.round(+from), b = Math.round(+to);
+  if (!(a >= 1 && b >= a && b < L)) return null;
+  const line = shownLine(i, team, pins, turns, env);
+  const plan = line.slice(0, L * apt);
+  const len = b - a + 1;
+  for (let t = b + 1; t <= L; t++) {
+    const src = a + ((t - a) % len);
+    for (let k = 0; k < apt; k++) plan[(t - 1) * apt + k] = line[(src - 1) * apt + k] || '평';
+  }
+  return pinsFromPlan(slot, plan, turns, env);
 }
 /**
  * 필살기 칸 고정의 동료별 규칙(v1 renderPlanner onclick 이식 — 핀 버전). 칸을 '필살기'로 고정할 때 UI 가 먼저 부른다.

@@ -162,6 +162,7 @@ ui/plan · ui/manual 이 쓰는 계산 중 core 에 없던 것. DOM 없음 → `
 - `autoUltTurns(meta, n, env)` — '자동' 옵션 라벨의 기본 필살기 턴("4·7·10"), defaultPlan 기반
 - `groupExceptions(overrides, maxTurn)` — 같은 순서의 예외 턴 묶음 [{turns, order}]
 - `actsOf(probe, t, pos)` · `cellClass(acts, apt)` · `cellSource(state, probe, pos, t)` — 미리보기 칸 분류·출처 1차 근사(manual > 예외 턴 > 맞추기 멤버의 기준 동료 필살기 턴 > ①)
+- `actSegs(acts, apt)` · `actsLabel(t, acts, apt)` · `segsKey(segs)` — 한 턴 여러 행동 칸의 조각(실행 순서, 턴당 행동 수를 넘는 행동 = 추가 행동)과 설명 문구. 턴당 행동 수는 `store.env().chars`(도장 잠금해제 반영 — `makeEnv({ team })`)에서 읽는다
 - `syncActionOf(m)` · `replaceSyncMember(groups, gi, from, to)` · `syncUsedExcept(groups, gi)` — 맞추기 문장형 편집기용(syncOps 에 `replaceMember` 로 넣는 것도 가능)
 - `shortName(full)` · `turnsText(turns)` — 표기(ui/grow.js shortName 과 중복 → format.js 로 합치기 권장)
 - 비교군 스코프: `createScopeStore(base, init)` / `scopeSession(...)`(ui/plan-helpers.js) — `createStore` 를 메모리 저장소로 한 번 더 만들어 패널·편집기를 재사용한다(woofia_* 저장 안 함). core 에 `createStore({ storage: memory })` 스코프 팩토리로 두는 것도 가능

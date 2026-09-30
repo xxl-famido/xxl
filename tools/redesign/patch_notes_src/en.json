@@ -1,875 +1,916 @@
 {
-  "_comment": "English translation of kr.json (tidied patch notes). Same versions, same items order/count, one details line per Korean line. Terms follow dashboard_v2/i18n/en.json.",
-  "2.0.1": {
-    "title": "Separate action settings · Lounge tier list improvements",
-    "items": [
-      {
-        "text": "Basic action settings and advanced settings no longer affect each other.",
-        "details": [
-          "Changes made in the basic settings are not applied to the advanced settings, and vice versa.",
-          "Turning ‘Use advanced settings’ off runs with the basic settings as they are; turning it back on restores the advanced settings as they were."
-        ]
-      },
-      {
-        "text": "In advanced settings ① Order and EX Skill, you can now set per-turn actions for each companion with ‘Per turn’.",
-        "details": [
-          "The same turn-cell row and presets as the basic settings open, editing the same values as the ④ Turn-by-turn plan grid."
-        ]
-      },
-      {
-        "text": "Added ‘Import basic settings’ to advanced settings.",
-        "details": [
-          "Copies the order, per-turn plans and exception turns from the basic settings into the advanced settings. It can be undone, and the basic settings stay unchanged."
-        ]
-      },
-      {
-        "text": "The community average tier in XXL Lounge now spreads evenly across the five tiers S–D regardless of how many rows a tier list has.",
-        "details": [
-          "Each row is placed at the middle of the range it covers (2 rows = A · C, 3 rows = S · B · D, 5 rows = S–D).",
-          "The order within a row now counts too: companions placed further left appear earlier (higher) within the same tier of the average.",
-          "Tier lists already published have been recalculated with the new rule."
-        ]
-      },
-      {
-        "text": "When publishing or editing a tier list, you can choose ‘Exclude from the average tier’.",
-        "details": [
-          "Such tier lists are marked ‘Not in average’ in the list and are not counted in the community average tier or its sample count."
-        ]
-      },
-      {
-        "text": "The highlight border on pinned Lounge comments now appears only on the pinned post.",
-        "details": [
-          "Replies to a pinned comment appear outside the border, and pinning a reply highlights only that reply."
-        ]
-      },
-      {
-        "text": "Lounge replies are now connected to their parent comment with a thread line.",
-        "details": [
-          "A line runs down from the parent comment and branches to each reply, so you can see at a glance which comment a reply belongs to."
-        ]
-      }
+ "_comment": "English translation of kr.json (tidied patch notes). Same versions, same items order/count, one details line per Korean line. Terms follow dashboard_v2/i18n/en.json.",
+ "2.0.2": {
+  "title": "Multiple actions per turn · Row tools",
+  "items": [
+   {
+    "text": "Lee Taeho's Per turn cells are split diagonally to show both actions in one cell.",
+    "details": [
+     "He acts twice every turn through his Sigil passive, so the top-left of a cell is action 1 and the bottom-right is action 2. Click a cell to choose each action on its own row.",
+     "With Lee Taeho in slot 1 and Boss Ren on the team, turns where Boss Ren uses the EX Skill get an extra-action piece (bar underneath), so you can set that action too.",
+     "Turning off Unlock Sigil in Growth plans and runs him with one action per turn."
     ]
-  },
-  "2.0": {
-    "title": "Major update — new design · action plan · battle log · XXL Lounge",
-    "items": [
-      {
-        "text": "The simulator opens in a new design.",
-        "details": [
-          "The theme follows your device's system setting by default; choose Light · Dark · System from the ≡ menu.",
-          "Team cards are outlined in the companion's element color, and you can search the companion list by name.",
-          "Loading, team setup and results use transitions.",
-          "On phones, use the jump chips at the top (Team · Actions · Conditions · Results) and the fixed Run bar at the bottom.",
-          "The top bar holds History · Team Comparison · Lounge; the ≡ menu holds Guide · Patch History · Feedback · language · theme."
-        ]
-      },
-      {
-        "text": "XXL Lounge is open.",
-        "details": [
-          "Join without logging in as ‘Anonymous ○○ (a companion name)’; a 4-digit PIN set per post lets you edit, delete, and keep posting under the same name.",
-          "Companion Boards: leave comments on each companion and talk with replies and likes.",
-          "Tier Lists: drag to build your own tier list, publish it or save it as an image, and see the community average tiers from published lists.",
-          "Team Sharing: post a team with a share code and description, and run it right away in the simulator with ‘Simulate this team’.",
-          "From the simulator, use ‘Lounge’ in the top bar, ‘Share to Lounge’ in the result header, and ‘See comments’ in the companion build window."
-        ]
-      },
-      {
-        "text": "Action order, exception turns and per-turn actions are set in one panel (Action plan) and checked with the Run preview.",
-        "details": [
-          "Per-turn actions are set on that companion's row in the action plan with ‘Per turn’.",
-          "Run preview shows the current setup as a 30-turn × 5-companion grid right away, so you can check EX Skill turns before running.",
-          "The Reset menu lets you choose what to restore: Order only · Exception turns only · Per-turn plans only · Everything."
-        ]
-      },
-      {
-        "text": "Advanced settings use rules and pins together.",
-        "details": [
-          "Pin only the cells you want in the ④ Turn-by-Turn Action Plan grid, and the rest follows EX Skill mode · EX Skill link rules.",
-          "You can lock whole turns, or tap a turn number to edit that turn's order · actions and repeat it every N turns.",
-          "When settings overlap on the same cell, earlier wins: locked turns > EX Skill link > EX Skill mode > pinned cells > exception turns. Cells where the pin differs from what actually runs are flagged.",
-          "Turning off ‘Use advanced settings’ keeps modes · success assumptions · links · locked turns, and they come back when you turn it on again.",
-          "Advanced settings turn on automatically when you enable Escape Room Altars or load a record · share code with advanced values."
-        ]
-      },
-      {
-        "text": "The battle log is a turn list + detail view.",
-        "details": [
-          "Pick a turn in the list on the left to see its actions as cards, then drill down action → hit → calculation → source.",
-          "Calculation is drawn as formula chips (total ATK × skill multiplier × … = final) with step-by-step bars.",
-          "If the multiplied value differs from the engine value, it appears as an ‘Unexplained difference’ row.",
-          "Effects sourced from Escape Room Altars show a Star · Moon altar icon."
-        ]
-      },
-      {
-        "text": "The result screen has a run-conditions summary and turn jumping.",
-        "details": [
-          "The result header summarizes the run conditions (turns · iterations · enemy · altars · turn damage, etc.), so you know which conditions the numbers come from.",
-          "Tapping a per-turn damage bar jumps to that turn in the battle log."
-        ]
-      },
-      {
-        "text": "Build, Sigil boost and skill levels are set in a single Companion Build window.",
-        "details": [
-          "Tap a portrait on a team card to open it; the skill level list shows skill descriptions at the current level.",
-          "Companions that differ from max build get difference chips on their team card (★3 · Lv50 · Compatibility 2, etc.).",
-          "‘View in action plan’ jumps straight to that companion's action plan row."
-        ]
-      },
-      {
-        "text": "Per-companion action presets match each skill rhythm.",
-        "details": [
-          "Companions whose defending builds up their next EX Skill: ‘Passive Def’ · ‘Every 3 turns · Def before’ place that rhythm in one go.",
-          "Companions whose defending cuts their EX Skill CD: ‘Pull EX Skill forward with Def’ places that rhythm in one go.",
-          "Hovering a preset button shows the source skill text and trigger conditions it is based on."
-        ]
-      },
-      {
-        "text": "EX Skills that make the position 1 ally ‘immune to EX Skill CD changes’ are included in the calculation.",
-        "details": [
-          "During the immunity (3 turns from the EX Skill turn), effects that change the position 1 ally's EX Skill CD (CD cuts from ally · own skills, Escape Room Altar chance CD cuts, etc.) do nothing. The CD reset after using an EX Skill and the natural charge at turn end still apply.",
-          "If the same EX Skill is used again during the immunity, the CD cut is blocked and only the immunity duration is refreshed.",
-          "During the immunity, ‘Assume chance cooldown cuts succeed’ does not pull the position 1 ally's EX Skill forward either. Teams without this EX Skill are unaffected.",
-          "In the action plan, cells where the immunity prevents an EX Skill are blocked with the reason shown."
-        ]
-      },
-      {
-        "text": "‘Assume chance cooldown cuts succeed’ works in every EX Skill mode except ‘As soon as ready’ (Auto · Planned turns only).",
-        "details": [
-          "With a chance CD cut altar on, the success assumption can be turned on per companion, and doing so pulls the first EX Skill forward (3-turn CD → turns 3 · 6 · 9, 2-turn CD → from turn 2).",
-          "For ‘As soon as ready’ companions, once-per-battle EX Skill companions, or when the altar is off, the checkbox is dimmed with the reason shown.",
-          "To place the first EX Skill on a specific turn, pin that cell in the ④ Turn-by-Turn Action Plan grid."
-        ]
-      },
-      {
-        "text": "A companion setting that delays adjacent allies' EX Skills is handled as an EX Skill link group.",
-        "details": [
-          "The checkbox on that companion's row and the adjacent-companion link in Advanced settings are the same setting.",
-          "In a link group, an adjacent companion's Basic Attack may come one step earlier, so damage can differ slightly depending on the order buffs are received."
-        ]
-      },
-      {
-        "text": "Effect names in the battle log all use the game's terms.",
-        "details": [
-          "e.g. Healing received up · Barrier received up · EX Skill Damage Taken up."
-        ]
-      },
-      {
-        "text": "All wording follows the game's official terms.",
-        "details": [
-          "EX Skill · Basic Attack · Companion · Unlock Sigil · Compatibility · Sigil boost · Death · Escape Room Altar, and more.",
-          "The guide matches the current screens, and past patch history entries use the same terms.",
-          "Supported languages are Korean · English · Japanese · Chinese (Traditional). A Simplified setting is shown in Traditional."
-        ]
-      },
-      {
-        "text": "v1 records and share codes open as-is, and many actions can be undone.",
-        "details": [
-          "v1 records · share codes · files are converted to the new structure automatically and calculated with the current rules (EX Skill CD immunity · success assumption · EX Skill link).",
-          "Action plan reset · presets · deleting exception turns · turning Advanced settings on/off and more can be cancelled with ‘Undo’ in the notification."
-        ]
-      },
-      {
-        "text": "The v1 screen is available from ‘Classic version’ in the ≡ menu.",
-        "details": []
-      }
+   },
+   {
+    "text": "Cells in the run preview and the ④ turn plan show a turn's actions split in execution order.",
+    "details": [
+     "Two actions per turn, extra actions granted by an ally's EX Skill, and extra actions chained by a companion's own skill all appear inside the cell from left to right.",
+     "Extra-action pieces get a bar underneath, and hovering a cell shows the order, such as ‘Normal Attack → EX Skill (extra action)’."
     ]
-  },
-  "1.8.5": {
-    "title": "Assume chance cooldown cuts succeed · settings kept · convenience cleanup",
-    "items": [
-      {
-        "text": "Added ‘Assume chance cooldown cuts succeed’ to the EX Skill policy.",
-        "details": [
-          "When on, chance-based CD cuts are not rolled; only as many as needed count as successful for the EX Skill turns set by your plan or sync.",
-          "You can plan EX Skills on turns the base CD can't reach. Example: turns 3·6·9·12 for a companion with a 3-turn CD, turns 2·4·6 for a 2-turn CD.",
-          "It can be turned on per companion while a chance CD cut effect (currently the Escape Room Altar) is active. ‘As soon as ready’ uses the real odds.",
-          "The per-turn plan and the Turn timeline open the EX Skill cells for those turns, and EX Skills that need a chance cut are marked with a small dot.",
-          "The result header shows how many successes were assumed and how likely that exact flow is."
-        ]
-      },
-      {
-        "text": "Added an ‘Earliest first EX’ button to the per-turn plan.",
-        "details": [
-          "It puts the first EX Skill on the earliest turn chance CD cuts allow, and fills the rest with the normal CD cycle.",
-          "Pressing it also turns on ‘Assume chance cooldown cuts succeed’.",
-          "Shown for single-action companions while a chance CD cut is active.",
-          "Example: a companion with a 3-turn CD whose first use is turn 4 gets turns 3·6·9·12; a companion with a 2-turn CD gets turns 2·4·6.",
-          "It keeps the normal CD cycle instead of shortening it further with the cut chances right after each EX Skill."
-        ]
-      },
-      {
-        "text": "Fixed simulation results ignoring the turn damage setting, and a plan different from the screen being run.",
-        "details": [
-          "Turn damage is calculated under the same conditions in the main run, the timeline preview, Team Comparison and records.",
-          "The plan shown in the per-turn plan is exactly what runs, and a plan shorter than the turn count continues with the default EX Skill cycle.",
-          "Extra action picks of companions whose manual plan is off, and old extra action picks that disappeared from the screen because EX Skill turns moved, are no longer applied.",
-          "The ‘Ally EX later’ toggle is always shown, whether or not the manual plan is on."
-        ]
-      },
-      {
-        "text": "Fixed the Turn timeline changing the actions you set on its own.",
-        "details": [
-          "When extra actions increase or decrease, every turn is compared with the previous calculation and updated right away, with a notice of how many actions were added or removed.",
-          "Automatic extra actions that chain by chance are not saved into the timeline as fixed entries.",
-          "Turns left empty by raising the turn count or changing the team are filled with the current flow right before running."
-        ]
-      },
-      {
-        "text": "Refreshing or reopening the page now keeps the settings you were last working on.",
-        "details": [
-          "Edits you haven't run yet are kept too: team · per-turn plan · action order · Escape Room Altar · sync · turn damage · timeline.",
-          "Loading a record switches to that record's team and conditions, and ‘Undo’ in the notice returns you to the state before loading.",
-          "The Escape Room Altar floor and altar setup are kept even if you turn the altar off or load a record without altars.",
-          "You are notified when record storage is full."
-        ]
-      },
-      {
-        "text": "When the team changes, sync · the Turn timeline · per-turn order now follow each companion.",
-        "details": [
-          "Removing a companion clears only that companion's settings, and adding the same companion back restores its spec · plan · EX Skill policy · sync role.",
-          "If a sync group's lead companion is removed, that group is cleared with a notice.",
-          "A companion picked after clicking an empty slot goes into that slot, and in a team with a custom action order the new companion goes last.",
-          "With the timeline on, auto-filled turns are recalculated for the new team, and edited turns only lose the removed companion's actions.",
-          "If an edited turn has no action for a new companion, you are told when running."
-        ]
-      },
-      {
-        "text": "In the per-turn plan only the clicked cell changes, and just opening the companion window no longer changes the plan.",
-        "details": [
-          "EX Skills that can't be used right now because of the Max CD +1 altar · the chance CD cut assumption · a team change are shown as they would actually play out only on screen, and the original plan comes back when you undo that setting.",
-          "Later EX Skills move along only when you click an EX Skill cell on the untouched default plan.",
-          "‘Re-space EX’ re-aligns everything after the first EX Skill to the CD cycle.",
-          "Layout buttons such as 3-turn EX · Passive Def · Earliest first EX return to the plan from just before they were turned on when pressed again, and their on-state follows the actual plan.",
-          "Clicking a turn where the EX Skill can't be used under any setup leaves that cell unchanged."
-        ]
-      },
-      {
-        "text": "Added ‘Undo’ to buttons that change several settings at once.",
-        "details": [
-          "Covers: ‘Set all to As soon as ready’ · ‘Assume success for all’ in the EX Skill policy, removing a sync group (lead set to ‘none’), and the sync preset.",
-          "Changing a sync member's action type keeps the ‘turns the lead doesn't use its EX Skill’ choice you picked.",
-          "Tabs opened through shortcuts in the companion window or altar panel aren't remembered; the main button opens the tab you last chose yourself."
-        ]
-      },
-      {
-        "text": "Settings changed in Team Comparison now apply only to that group, and the main settings stay unchanged.",
-        "details": [
-          "A comparison group's sync uses the sync of the record it was loaded from.",
-          "Moving a slot swaps only the two companions, and per-turn order · timeline · sync follow them.",
-          "Just opening the Sigil boost window no longer changes values or the ‘Changed’ mark, and layout buttons keep the record's plan length.",
-          "Skill levels · Sigil info in older records are read the same way as in the main view.",
-          "While the Escape Room Altar is on, ‘Always trigger chance effects’ can't be used in Team Comparison either."
-        ]
-      }
+   },
+   {
+    "text": "In the ④ turn plan, clicking a cell where a companion acts more than once lets you choose each action on its own row.",
+    "details": [
+     "Own actions pin the cell; a granted extra action locks the turn to the current result and changes only that action.",
+     "Extra actions chained by a companion's own skill are decided by the engine and are shown only."
     ]
-  },
-  "1.8.4": {
-    "title": "EX Skill sync — turns the lead doesn't use its EX Skill · CD-refilling companions",
-    "items": [
-      {
-        "text": "Each sync member can now choose what to do on ‘turns the lead doesn't use its EX Skill’.",
-        "details": [
-          "Options: ‘Save the EX Skill’ or ‘Use my own policy’.",
-          "Members set to ‘EX Skill in the granted extra action’ default to ‘Use my own policy’. They use the EX Skill whenever ready, and only on the lead's EX Skill turn switch to Defend → EX Skill in the granted extra action.",
-          "Example: a companion with a 1-turn CD synced as ‘Defend → EX Skill in the granted extra action’ uses the EX Skill every turn, and only on the lead's EX Skill turn goes Defend → lead's EX Skill → EX Skill in the granted extra action.",
-          "In the EX Skill policy tab, ‘Use my own policy’ members can also choose a policy, and each group's flow sentence in the Sync tab also shows how other turns are handled."
-        ]
-      },
-      {
-        "text": "Fixed companions whose CD is refilled by an EX Skill not following their sync setting.",
-        "details": [
-          "Set to ‘Attack → EX Skill in the granted extra action’, their regular action on the lead's EX Skill turn is a Basic Attack."
-        ]
-      },
-      {
-        "text": "When a CD-refilling companion and its target both get extra actions in the same turn, the target acts first if its EX Skill is ready.",
-        "details": [
-          "After the target uses its EX Skill, its CD is refilled and it uses the EX Skill once more that turn.",
-          "Example on the lead's EX Skill turn: CD-refilling companion Basic Attack → target Basic Attack → lead EX Skill → target EX Skill → CD-refilling companion EX Skill → target EX Skill.",
-          "Syncing both companions as ‘Attack → EX Skill in the granted extra action’ gives this flow."
-        ]
-      }
+   },
+   {
+    "text": "The Per turn row and the ④ companion menu have ‘All Normal Attack’, ‘All Defend’ and ‘Repeat pattern’.",
+    "details": [
+     "‘All Normal Attack’ and ‘All Defend’ keep the EX Skill cells and set every other cell to that action.",
+     "‘Repeat pattern’ pins the turns after a chosen range to repeat its actions in the same order. You can also click a cell and choose ‘Repeat up to here as a pattern’.",
+     "Available for every companion; the undo in the notification cancels it in one step."
     ]
-  },
-  "1.8.3": {
-    "title": "Advanced Action Setup — EX Skill policy · EX Skill sync tabs",
-    "items": [
-      {
-        "text": "Advanced Action Setup is reorganized into three tabs: Turn timeline · EX Skill policy · EX Skill sync.",
-        "details": [
-          "EX Skill policy and sync always apply; only the Turn timeline is turned on and off with ‘Use’ at the top right of its tab.",
-          "The top of the EX Skill policy tab lists what decides the EX Skill, in priority order (Turn timeline → sync → policy → extra actions).",
-          "The companion window summarizes the current policy, and the button next to it opens this tab directly.",
-          "Settings are saved in records · share codes and also apply to Team Comparison."
-        ]
-      },
-      {
-        "text": "Added ‘EX Skill together’ · ‘Defend → EX Skill in the granted extra action’ · ‘Attack → EX Skill in the granted extra action’ as sync member actions.",
-        "details": [
-          "Example: Defend → lead's EX Skill → EX Skill in the granted extra action.",
-          "Extra actions only go to allies who have already acted, so members that use the EX Skill in the granted extra action act before the lead.",
-          "If the lead grants no extra actions, a notice appears, and the held EX Skill follows the ‘If not ready’ rule (Wait / Use when ready).",
-          "If a companion that grants extra actions to adjacent allies is on the team, the ‘sync preset’ button groups those adjacent allies in one click.",
-          "Each group shows its actual action flow as one sentence."
-        ]
-      },
-      {
-        "text": "The EX Skill policy tab now shows a notice when the Escape Room Altar's ‘chance to cut CD on action · on EX Skill’ is active.",
-        "details": [
-          "This is because a CD shortened by chance is not reflected in ‘Planned turns’ plans.",
-          "One button switches everyone to ‘As soon as ready’."
-        ]
-      },
-      {
-        "text": "A notice now appears when ‘Per-turn override’ · ‘Per-companion turn plans’ remain but are not applied because the Turn timeline is on.",
-        "details": [
-          "‘Import current settings’ moves those settings into the timeline."
-        ]
-      }
+   },
+   {
+    "text": "Pinning an EX Skill for a companion who acts twice per turn no longer shows ‘Runs differently’ when the run matches.",
+    "details": [
+     "In the battle log turn summary, the second action of a companion who acts twice per turn is not marked as an extra action."
     ]
-  },
-  "1.8.2": {
-    "title": "Turn damage — choose how many allies are hit",
-    "items": [
-      {
-        "text": "The turn damage setting now lets you choose how many allies take damage each turn (1–5, default All).",
-        "details": [
-          "With fewer than all, allies with the highest current HP% are hit first; ties are decided at random.",
-          "This reproduces allies brought back by healing or revival becoming targets again.",
-          "The setting is saved with records · share codes (the default ‘All’ doesn't affect code length) and the same value applies to Team Comparison."
-        ]
-      }
+   }
+  ]
+ },
+ "2.0.1": {
+  "title": "Separate action settings · Lounge tier list improvements",
+  "items": [
+   {
+    "text": "Basic action settings and advanced settings no longer affect each other.",
+    "details": [
+     "Changes made in the basic settings are not applied to the advanced settings, and vice versa.",
+     "Turning ‘Use advanced settings’ off runs with the basic settings as they are; turning it back on restores the advanced settings as they were."
     ]
-  },
-  "1.8.1": {
-    "title": "Death (leaving the battle) · Kyrian revival",
-    "items": [
-      {
-        "text": "Allies whose HP reaches 0 from Incoming Damage · turn damage now die and leave the battle.",
-        "details": [
-          "Previously they stopped at 1 HP.",
-          "A dead ally is left out of later actions · hits · buffs, so the value of a healing companion keeping HP up shows directly in the result.",
-          "On death, all temporary states such as barriers · buffs · stacks · taunt are removed, and the ally is excluded from the action order and enemy targeting.",
-          "Mumei cuts its own HP with the EX Skill, so combined with other damage it can die by itself.",
-          "The help texts for Incoming Damage · turn damage were updated to match."
-        ]
-      },
-      {
-        "text": "Kyrian's Sigil revival effect is now applied.",
-        "details": [
-          "When the EX Skill fires, there is a set chance to revive one dead ally at 25% of Max HP.",
-          "As a chance effect, it is included in the chance range. With ‘Always trigger chance effects’ it always fires; in the minimum calculation it never does.",
-          "If no ally is dead, it has no target and is skipped even when it fires.",
-          "A revived ally recovers only HP without buffs, and if its place in that turn's action order has already passed, it acts again from the next turn."
-        ]
-      }
+   },
+   {
+    "text": "In advanced settings ① Order and EX Skill, you can now set per-turn actions for each companion with ‘Per turn’.",
+    "details": [
+     "The same turn-cell row and presets as the basic settings open, editing the same values as the ④ Turn-by-turn plan grid."
     ]
-  },
-  "1.8": {
-    "title": "New companion ‘Otherworld Blade Mumei’",
-    "items": [
-      {
-        "text": "Added new companion ‘Otherworld Blade Mumei’ — a Dark-element Fighter who cuts its own HP with the EX Skill to grow stronger the closer it is to the brink, and releases stacks built with Basic Attacks on Defend for multi-hits and healing.",
-        "details": [
-          "EX Skill ‘Inkveil: Raging Dragon’ (4-turn CD): deals 210.6% ATK (239.85% with the Sigil) to all enemies, gains 3 Fearless stacks, then loses 40% of its current HP as real damage (barriers can't block it). On EX Skill, gains a barrier worth 25% of Max HP (3 turns).",
-          "Sigil passive: base Max HP +30%, EX Skill CD −4 on turn 1 — the EX Skill can be used from turn 1.",
-          "Every Basic Attack grants 1 stack each of Fearless · Sharpness (max 5 each).",
-          "Fearless (+7% damage taken per stack): 1+ stacks — extra 20% on Basic Attack; on Defend, heals itself for 75% ATK per stack, then removes them · 2+ stacks — damage dealt +15%, EX Skill effect +21.15% · 3+ stacks — extra 40% on Basic Attack and a 70% ATK barrier (2 turns) · 4+ stacks — on attack, ATK increases by 20.4% of base ATK (2 turns) · 5 stacks — extra 65% on every action, and Defend recovers 1 action.",
-          "Sharpness: on Defend, hits for 40% ATK once per stack, then removes them. On Basic Attack, adds 17.5% to all enemies with 3+ enemies, or 27.5% to a single target with 2 or fewer.",
-          "HP conditions: 75% or less — extra damage on Basic Attack equal to 16.2% of barrier value · 50% or less — Basic Attack damage +30% · 30% or less — lifesteal of 20.4% of damage dealt.",
-          "Simulator note: the automatic plan never defends, so the Defend multi-hits · self-heal · action recovery only appear if you put ‘Defend’ in the action settings, and the recovered action is used as a Basic Attack."
-        ]
-      },
-      {
-        "text": "Added ‘Escape Room Altar settings’ to the battle settings.",
-        "details": [
-          "Light the Star Altars (penalties that favor the boss) and Moon Altars (effects your team gains) on floors 1–3 of the Guild Escape Room per floor, and damage is calculated under those conditions.",
-          "Lighting a Star Altar removes its penalty; only lit Moon Altars apply their effects.",
-          "Floors accumulate from the bottom. Floor 2 applies the altars of floors 1·2, and floor 3 applies those of floors 1·2·3.",
-          "If the same effect is on several floors (barrier received +25%, healing received +25%, etc.), they all add up.",
-          "The Boss ATK · Boss damage dealt · ally damage taken Star Altars only show in results when Incoming Damage mode is on.",
-          "While the altars are on, ‘Always trigger chance effects’ can't be used, and the setting is saved with records and share codes."
-        ]
-      },
-      {
-        "text": "Each companion can now set an ‘EX Skill policy’ and ‘EX Skill sync’.",
-        "details": [
-          "These settings are for when the altars change EX Skill CDs, and they appear in the companion window when the altar settings are on.",
-          "Policies: Planned turns (default) · Planned turns only · As soon as ready. Even with ‘As soon as ready’, planned Defend turns are kept by default.",
-          "EX Skill sync: in up to 3 groups, align support companions to a main companion's EX Skill turns. Synced companions act right before or after the lead companion, and if not ready on that turn, you choose whether they wait for the next EX Skill or use it when ready.",
-          "The per-turn plan doesn't count chance-based CD cuts and shows EX Skill turns based on the guaranteed CD (including Max CD +1). EX Skills that come early by chance are used by ‘As soon as ready’ or by sync groups.",
-          "Priority: Advanced Action Setup > EX Skill policy · sync. Turns edited in Advanced Action Setup follow that timeline only, and sync applies only to unedited turns."
-        ]
-      },
-      {
-        "text": "Added ‘Turn Damage Settings’.",
-        "details": [
-          "At the end of every enemy phase, the whole team takes damage equal to the set % of Max HP (1–99%).",
-          "Same rules as Incoming Damage mode: barriers absorb first, a defending turn takes half, and damage taken modifiers apply (Mumei's +7% per Fearless stack, Mengkui's −11% for adjacent allies at 50% HP or less, etc.). Counters don't trigger.",
-          "Turn on ‘Advanced · vary by turn’ to set a different % for each turn (blank cells use the default; cells grow and shrink with the turn count). ‘Clear per-turn values’ resets them.",
-          "Ally HP now follows the flow of battle. It drops from self-damage · hits · turn damage and refills from healing · healing over time · lifesteal, and ‘when HP is N% or less’ effects are judged on the current HP at every trigger and hit.",
-          "The setting is saved in records and share codes (added briefly only when on), and the same value applies to Team Comparison and Advanced Action Setup.",
-          "It switches like a tab in the same place as the Escape Room Altar settings, and both can be on at the same time.",
-          "Note: Mumei's EX Skill barrier (25% of Max HP) and Fearless barrier absorb all of about 10%, so to see low-HP effects set it to 20–30% or higher, or combine it with the EX Skill's self-damage."
-        ]
-      }
+   },
+   {
+    "text": "Added ‘Import basic settings’ to advanced settings.",
+    "details": [
+     "Copies the order, per-turn plans and exception turns from the basic settings into the advanced settings. It can be undone, and the basic settings stay unchanged."
     ]
-  },
-  "1.7.1": {
-    "title": "Chance range display · Invisible Man EX Skill bonus damage fix",
-    "items": [
-      {
-        "text": "Results now show a chance range (minimum–maximum).",
-        "details": [
-          "It shows the result when no chance effects trigger at all (minimum) and when all of them trigger (maximum).",
-          "A narrower range means a stable team that relies less on chance; a wider range means results swing more with luck.",
-          "Team Comparison shows the range for both sides too."
-        ]
-      },
-      {
-        "text": "Fixed EX Skill boosts not applying to the bonus damage Invisible Man deals when using the EX Skill.",
-        "details": [
-          "Affected: single-target and all-enemy bonus damage.",
-          "Both ‘EX Skill effect up’ and EX Skill boost buffs from allies now apply."
-        ]
-      }
+   },
+   {
+    "text": "The community average tier in XXL Lounge now spreads evenly across the five tiers S–D regardless of how many rows a tier list has.",
+    "details": [
+     "Each row is placed at the middle of the range it covers (2 rows = A · C, 3 rows = S · B · D, 5 rows = S–D).",
+     "The order within a row now counts too: companions placed further left appear earlier (higher) within the same tier of the average.",
+     "Tier lists already published have been recalculated with the new rule."
     ]
-  },
-  "1.7": {
-    "title": "New companion ‘Oyamada Mataya’",
-    "items": [
-      {
-        "text": "Added new companion ‘Oyamada Mataya’ — a Fire-element Fighter who builds EX Skill power by attacking the target for explosive damage, and switches to a counter stance on Defend to strike back at attacks.",
-        "details": []
-      }
+   },
+   {
+    "text": "When publishing or editing a tier list, you can choose ‘Exclude from the average tier’.",
+    "details": [
+     "Such tier lists are marked ‘Not in average’ in the list and are not counted in the community average tier or its sample count."
     ]
-  },
-  "1.6": {
-    "title": "New companion ‘Zetto’",
-    "items": [
-      {
-        "text": "Added new companion ‘Zetto’ — a Water-element Fighter who builds EX Skill power with every Basic Attack and unleashes explosive damage with a single EX Skill.",
-        "details": []
-      }
+   },
+   {
+    "text": "The highlight border on pinned Lounge comments now appears only on the pinned post.",
+    "details": [
+     "Replies to a pinned comment appear outside the border, and pinning a reply highlights only that reply."
     ]
-  },
-  "1.5.2": {
-    "title": "Patch notes tidied · detailed numbers added",
-    "items": [
-      {
-        "text": "Rewrote the patch notes without difficult jargon.",
-        "details": []
-      },
-      {
-        "text": "Expand an entry to see the detailed numbers.",
-        "details": [
-          "Multipliers · stacks · durations · trigger chances are shown.",
-          "All numbers are taken directly from the game's skill data."
-        ]
-      },
-      {
-        "text": "Fixed an unrelated companion icon showing on a Team Comparison entry.",
-        "details": []
-      }
+   },
+   {
+    "text": "Lounge replies are now connected to their parent comment with a thread line.",
+    "details": [
+     "A line runs down from the parent comment and branches to each reply, so you can see at a glance which comment a reply belongs to."
     ]
-  },
-  "1.5.1": {
-    "title": "Patch history added",
-    "items": [
-      {
-        "text": "Added patch history.",
-        "details": [
-          "See all changes so far at a glance, and filter by New · Improvements · Bug fixes · Quality of life."
-        ]
-      },
-      {
-        "text": "A dot on the button tells you when something new is posted since you last checked.",
-        "details": []
-      },
-      {
-        "text": "Changes to a specific companion show that companion's face, and versions that added a new companion are shown larger.",
-        "details": []
-      },
-      {
-        "text": "Patch notes can be read in Korean · English · Chinese (Traditional/Simplified) · Japanese.",
-        "details": []
-      }
+   }
+  ]
+ },
+ "2.0": {
+  "title": "Major update — new design · action plan · battle log · XXL Lounge",
+  "items": [
+   {
+    "text": "The simulator opens in a new design.",
+    "details": [
+     "The theme follows your device's system setting by default; choose Light · Dark · System from the ≡ menu.",
+     "Team cards are outlined in the companion's element color, and you can search the companion list by name.",
+     "Loading, team setup and results use transitions.",
+     "On phones, use the jump chips at the top (Team · Actions · Conditions · Results) and the fixed Run bar at the bottom.",
+     "The top bar holds History · Team Comparison · Lounge; the ≡ menu holds Guide · Patch History · Feedback · language · theme."
     ]
-  },
-  "1.5": {
-    "title": "New companion ‘Mengkui’",
-    "items": [
-      {
-        "text": "Added new companion ‘Mengkui’ — a Wood-element healer who heals the allies on either side and rescues allies on the brink one after another.",
-        "details": []
-      },
-      {
-        "text": "Made the companion spec settings screen easier to read.",
-        "details": []
-      }
+   },
+   {
+    "text": "XXL Lounge is open.",
+    "details": [
+     "Join without logging in as ‘Anonymous ○○ (a companion name)’; a 4-digit PIN set per post lets you edit, delete, and keep posting under the same name.",
+     "Companion Boards: leave comments on each companion and talk with replies and likes.",
+     "Tier Lists: drag to build your own tier list, publish it or save it as an image, and see the community average tiers from published lists.",
+     "Team Sharing: post a team with a share code and description, and run it right away in the simulator with ‘Simulate this team’.",
+     "From the simulator, use ‘Lounge’ in the top bar, ‘Share to Lounge’ in the result header, and ‘See comments’ in the companion build window."
     ]
-  },
-  "1.4.4": {
-    "title": "Fixed buffs that never wore off",
-    "items": [
-      {
-        "text": "Fixed timed buffs of Croklein · Rutenix never wearing off.",
-        "details": [
-          "Croklein 【Stir-Fry】 · 【Slow Cook】 · 【Secret Spices】: 30 turns each, up to 10 stacks.",
-          "Rutenix: 50% chance on Basic Attack for base ATK +15% (3 turns, max 2 stacks); 50% chance on an ally's Basic Attack for base ATK +12% (2 turns, max 4 stacks).",
-          "Gaining a stack while full now replaces only the oldest stack. Previously every duration was reset, so they lasted forever."
-        ]
-      }
+   },
+   {
+    "text": "Action order, exception turns and per-turn actions are set in one panel (Action plan) and checked with the Run preview.",
+    "details": [
+     "Per-turn actions are set on that companion's row in the action plan with ‘Per turn’.",
+     "Run preview shows the current setup as a 30-turn × 5-companion grid right away, so you can check EX Skill turns before running.",
+     "The Reset menu lets you choose what to restore: Order only · Exception turns only · Per-turn plans only · Everything."
     ]
-  },
-  "1.4.3": {
-    "title": "Companion spec applied · chance trigger fixes",
-    "items": [
-      {
-        "text": "Fixed the companion spec you set not being reflected in the result.",
-        "details": [
-          "The ATK · HP numbers in the panel were correct, but the spec was missing from the run request, so the calculation used full growth.",
-          "Example: at Star 0 · Lv30, total damage drops to 42.3% of full growth (before the fix it was the same)."
-        ]
-      },
-      {
-        "text": "Fixed Duncan's extra trigger also firing on EX Skills, and Covetous Wolf's Sleep application.",
-        "details": [
-          "Duncan: Basic Attack grants all allies ATK +16% (2 turns), with a 50% chance to also trigger ATK +32% (2 turns) — it doesn't trigger on EX Skills.",
-          "Covetous Wolf EX Skill: 40% chance to Sleep all enemies (2 turns). With ‘Always trigger chance effects’ it always lands."
-        ]
-      }
+   },
+   {
+    "text": "Advanced settings use rules and pins together.",
+    "details": [
+     "Pin only the cells you want in the ④ Turn-by-Turn Action Plan grid, and the rest follows EX Skill mode · EX Skill link rules.",
+     "You can lock whole turns, or tap a turn number to edit that turn's order · actions and repeat it every N turns.",
+     "When settings overlap on the same cell, earlier wins: locked turns > EX Skill link > EX Skill mode > pinned cells > exception turns. Cells where the pin differs from what actually runs are flagged.",
+     "Turning off ‘Use advanced settings’ keeps modes · success assumptions · links · locked turns, and they come back when you turn it on again.",
+     "Advanced settings turn on automatically when you enable Escape Room Altars or load a record · share code with advanced values."
     ]
-  },
-  "1.4.2": {
-    "title": "Companion spec · action settings translated",
-    "items": [
-      {
-        "text": "Companion spec settings and Advanced Action Setup are now translated into English · Chinese (Traditional/Simplified) · Japanese.",
-        "details": []
-      }
+   },
+   {
+    "text": "The battle log is a turn list + detail view.",
+    "details": [
+     "Pick a turn in the list on the left to see its actions as cards, then drill down action → hit → calculation → source.",
+     "Calculation is drawn as formula chips (total ATK × skill multiplier × … = final) with step-by-step bars.",
+     "If the multiplied value differs from the engine value, it appears as an ‘Unexplained difference’ row.",
+     "Effects sourced from Escape Room Altars show a Star · Moon altar icon."
     ]
-  },
-  "1.4.1": {
-    "title": "Companion spec settings · Advanced Action Setup",
-    "items": [
-      {
-        "text": "Added companion spec settings.",
-        "details": [
-          "Set Star 1–5 · Evolution Phase · Level 1–60 · Compatibility 1–5 · levels for all 8 skills per companion.",
-          "When off, everything is calculated at full growth (Level 60 · Star 5 · Compatibility 5 · skill level 10 · Sigil unlocked)."
-        ]
-      },
-      {
-        "text": "Added Advanced Action Setup.",
-        "details": [
-          "Decide yourself who does what on every turn."
-        ]
-      },
-      {
-        "text": "Improved share codes.",
-        "details": []
-      }
+   },
+   {
+    "text": "The result screen has a run-conditions summary and turn jumping.",
+    "details": [
+     "The result header summarizes the run conditions (turns · iterations · enemy · altars · turn damage, etc.), so you know which conditions the numbers come from.",
+     "Tapping a per-turn damage bar jumps to that turn in the battle log."
     ]
-  },
-  "1.4": {
-    "title": "New companion ‘Xuying’",
-    "items": [
-      {
-        "text": "Added new companion ‘Xuying’ — uses effects that target the allies standing on either side.",
-        "details": []
-      },
-      {
-        "text": "Xuying's ‘either side’ now wraps around the team in a circle, and the combo where Xuying uses the EX Skill twice alongside Boss Ren is applied.",
-        "details": []
-      },
-      {
-        "text": "Fixed effect calculation errors for Suichong · Croklein · Golden Ryder · Boss Ren.",
-        "details": [
-          "Croklein: 【Stir-Fry】 · 【Slow Cook】 · 【Secret Spices】 were counted as one, so the EX Skill effects unlocking at 4 · 4 · 3 stacks never triggered. The three are now counted separately.",
-          "Suichong: fixed ‘damage dealt +15% (5 turns, max 2 stacks)’ gained from Defend not being removed when using the EX Skill.",
-          "Golden Ryder: the 2-turn duration per stack of 【Blazing Stride】 (Basic Attack damage +10%, max 6 stacks) was ignored, so it lasted forever. Each stack now expires after 2 turns.",
-          "Boss Ren: all his buffs target the ‘ally in slot 1’, so placing him in slot 1 broke the target. Slot 1 is now blocked, and the action order display matches the actual calculation."
-        ]
-      },
-      {
-        "text": "Fixed extra actions received by adjacent allies pushing back later action plans.",
-        "details": [
-          "Example: Famido planned to Defend then use the EX Skill received an extra action from Xuying next to him, shifting the plan by one, so he defended on the turn he should have used the EX Skill.",
-          "Extra actions received by a companion with a set plan now don't consume the plan and are handled as Basic Attacks."
-        ]
-      }
+   },
+   {
+    "text": "Build, Sigil boost and skill levels are set in a single Companion Build window.",
+    "details": [
+     "Tap a portrait on a team card to open it; the skill level list shows skill descriptions at the current level.",
+     "Companions that differ from max build get difference chips on their team card (★3 · Lv50 · Compatibility 2, etc.).",
+     "‘View in action plan’ jumps straight to that companion's action plan row."
     ]
-  },
-  "1.3.1": {
-    "title": "Invisible Man face icon replaced",
-    "items": [
-      {
-        "text": "Replaced Invisible Man's face icon.",
-        "details": []
-      }
+   },
+   {
+    "text": "Per-companion action presets match each skill rhythm.",
+    "details": [
+     "Companions whose defending builds up their next EX Skill: ‘Passive Def’ · ‘Every 3 turns · Def before’ place that rhythm in one go.",
+     "Companions whose defending cuts their EX Skill CD: ‘Pull EX Skill forward with Def’ places that rhythm in one go.",
+     "Hovering a preset button shows the source skill text and trigger conditions it is based on."
     ]
-  },
-  "1.3": {
-    "title": "New companion ‘Invisible Man’",
-    "items": [
-      {
-        "text": "Added new companion ‘Invisible Man’ — stacks ‘Neon Mark’ on enemies to deal damage.",
-        "details": []
-      },
-      {
-        "text": "Fixed Moyru's cooldown calculation error.",
-        "details": [
-          "Moyru's EX Skill CD is 6 turns. Fixed the cooldown being counted wrong, which shifted the turns the EX Skill could be used."
-        ]
-      }
+   },
+   {
+    "text": "EX Skills that make the position 1 ally ‘immune to EX Skill CD changes’ are included in the calculation.",
+    "details": [
+     "During the immunity (3 turns from the EX Skill turn), effects that change the position 1 ally's EX Skill CD (CD cuts from ally · own skills, Escape Room Altar chance CD cuts, etc.) do nothing. The CD reset after using an EX Skill and the natural charge at turn end still apply.",
+     "If the same EX Skill is used again during the immunity, the CD cut is blocked and only the immunity duration is refreshed.",
+     "During the immunity, ‘Assume chance cooldown cuts succeed’ does not pull the position 1 ally's EX Skill forward either. Teams without this EX Skill are unaffected.",
+     "In the action plan, cells where the immunity prevents an EX Skill are blocked with the reason shown."
     ]
-  },
-  "1.2.1": {
-    "title": "Barrier display · Sleep · chance triggers",
-    "items": [
-      {
-        "text": "You can click to see why a barrier grew (barrier received +24%, etc.).",
-        "details": []
-      },
-      {
-        "text": "Covetous Wolf's Sleep is now included in the calculation.",
-        "details": []
-      },
-      {
-        "text": "Chance effects are now rolled fresh on every run.",
-        "details": [
-          "Even with the same settings, each run can play out differently."
-        ]
-      },
-      {
-        "text": "Fixed Orem's Passive 1 barrier being applied incorrectly.",
-        "details": [
-          "Orem Passive 1: grants all allies a barrier worth 20% of his Max HP (25% with Sigil unlocked) (2 turns)."
-        ]
-      }
+   },
+   {
+    "text": "‘Assume chance cooldown cuts succeed’ works in every EX Skill mode except ‘As soon as ready’ (Auto · Planned turns only).",
+    "details": [
+     "With a chance CD cut altar on, the success assumption can be turned on per companion, and doing so pulls the first EX Skill forward (3-turn CD → turns 3 · 6 · 9, 2-turn CD → from turn 2).",
+     "For ‘As soon as ready’ companions, once-per-battle EX Skill companions, or when the altar is off, the checkbox is dimmed with the reason shown.",
+     "To place the first EX Skill on a specific turn, pin that cell in the ④ Turn-by-Turn Action Plan grid."
     ]
-  },
-  "1.2": {
-    "title": "New companion ‘Dallawan’",
-    "items": [
-      {
-        "text": "Added new companion ‘Dallawan’ — grants allies barriers and reduces the damage they take.",
-        "details": []
-      },
-      {
-        "text": "Applied Dallawan's Passive 4, and how enemy attacks concentrate when several taunts are active.",
-        "details": [
-          "Passive 4: when receiving healing, own barrier received +24% (2 turns); on EX Skill, a barrier worth 30% of Max HP (1 turn)."
-        ]
-      },
-      {
-        "text": "You can now choose per turn who receives Lee Taeho's Five-Peak Myriad, and share codes are shorter.",
-        "details": [
-          "Five-Peak Myriad: 1 stack to all allies (5 turns, max 6 stacks). At 2 · 4 · 6 stacks, counter damage is 50% · 40% · 30% ATK respectively."
-        ]
-      }
+   },
+   {
+    "text": "A companion setting that delays adjacent allies' EX Skills is handled as an EX Skill link group.",
+    "details": [
+     "The checkbox on that companion's row and the adjacent-companion link in Advanced settings are the same setting.",
+     "In a link group, an adjacent companion's Basic Attack may come one step earlier, so damage can differ slightly depending on the order buffs are received."
     ]
-  },
-  "1.1.9": {
-    "title": "Update notice · turn setting fix",
-    "items": [
-      {
-        "text": "When a new version is out you can refresh straight from the notice, and you're told if you're viewing an outdated page.",
-        "details": []
-      },
-      {
-        "text": "Fixed ‘Per-turn override’ not turning off completely when cleared.",
-        "details": []
-      }
+   },
+   {
+    "text": "Effect names in the battle log all use the game's terms.",
+    "details": [
+     "e.g. Healing received up · Barrier received up · EX Skill Damage Taken up."
     ]
-  },
-  "1.1.8": {
-    "title": "Famido Defend · extra action choice",
-    "items": [
-      {
-        "text": "Famido's passive Defend can be toggled on and off, and you can choose what Lee Taeho · Boss Ren do with the extra actions they gain.",
-        "details": [
-          "Famido gains base ATK +30% when defending (2 turns) — toggle it to compare whether giving up damage to Defend is worth it.",
-          "Boss Ren gives the slot 1 ally 22.5% of his base ATK on attack (36% at a 50% chance). You can choose whether the extra action gained then is a Basic Attack or an EX Skill."
-        ]
-      }
+   },
+   {
+    "text": "All wording follows the game's official terms.",
+    "details": [
+     "EX Skill · Basic Attack · Companion · Unlock Sigil · Compatibility · Sigil boost · Death · Escape Room Altar, and more.",
+     "The guide matches the current screens, and past patch history entries use the same terms.",
+     "Supported languages are Korean · English · Japanese · Chinese (Traditional). A Simplified setting is shown in Traditional."
     ]
-  },
-  "1.1.7": {
-    "title": "Mobile portrait screen",
-    "items": [
-      {
-        "text": "Applied a layout made for phone portrait screens.",
-        "details": []
-      }
+   },
+   {
+    "text": "v1 records and share codes open as-is, and many actions can be undone.",
+    "details": [
+     "v1 records · share codes · files are converted to the new structure automatically and calculated with the current rules (EX Skill CD immunity · success assumption · EX Skill link).",
+     "Action plan reset · presets · deleting exception turns · turning Advanced settings on/off and more can be cancelled with ‘Undo’ in the notification."
     ]
-  },
-  "1.1.6": {
-    "title": "Guide · Souran Passive 4",
-    "items": [
-      {
-        "text": "Added a guide that explains how to use the simulator.",
-        "details": []
-      },
-      {
-        "text": "Applied Souran's Passive 4 ‘Molting Cicada Engagement’.",
-        "details": []
-      }
+   },
+   {
+    "text": "The v1 screen is available from ‘Classic version’ in the ≡ menu.",
+    "details": []
+   }
+  ]
+ },
+ "1.8.5": {
+  "title": "Assume chance cooldown cuts succeed · settings kept · convenience cleanup",
+  "items": [
+   {
+    "text": "Added ‘Assume chance cooldown cuts succeed’ to the EX Skill policy.",
+    "details": [
+     "When on, chance-based CD cuts are not rolled; only as many as needed count as successful for the EX Skill turns set by your plan or sync.",
+     "You can plan EX Skills on turns the base CD can't reach. Example: turns 3·6·9·12 for a companion with a 3-turn CD, turns 2·4·6 for a 2-turn CD.",
+     "It can be turned on per companion while a chance CD cut effect (currently the Escape Room Altar) is active. ‘As soon as ready’ uses the real odds.",
+     "The per-turn plan and the Turn timeline open the EX Skill cells for those turns, and EX Skills that need a chance cut are marked with a small dot.",
+     "The result header shows how many successes were assumed and how likely that exact flow is."
     ]
-  },
-  "1.1.5": {
-    "title": "Languages · feedback",
-    "items": [
-      {
-        "text": "Korean · English · Chinese (Traditional/Simplified) · Japanese are supported.",
-        "details": []
-      },
-      {
-        "text": "Added a feedback feature.",
-        "details": []
-      },
-      {
-        "text": "Fixed the screen not updating right away when changing language.",
-        "details": []
-      }
+   },
+   {
+    "text": "Added an ‘Earliest first EX’ button to the per-turn plan.",
+    "details": [
+     "It puts the first EX Skill on the earliest turn chance CD cuts allow, and fills the rest with the normal CD cycle.",
+     "Pressing it also turns on ‘Assume chance cooldown cuts succeed’.",
+     "Shown for single-action companions while a chance CD cut is active.",
+     "Example: a companion with a 3-turn CD whose first use is turn 4 gets turns 3·6·9·12; a companion with a 2-turn CD gets turns 2·4·6.",
+     "It keeps the normal CD cycle instead of shortening it further with the cut chances right after each EX Skill."
     ]
-  },
-  "1.1.4": {
-    "title": "Calculation accuracy fixes",
-    "items": [
-      {
-        "text": "Fixed taunt lasting 1 turn too long.",
-        "details": [
-          "A correction added 1 turn to taunts on enemies, so taunt-conditioned effects (such as Ricano's damage dealt +18%) applied into the next turn."
-        ]
-      },
-      {
-        "text": "Fixed calculation errors for effects that mix stacks and durations, such as Shark Torpedo.",
-        "details": [
-          "Paul's Shark Torpedo has a duration when gained from the EX Skill but none from Basic Attacks, so mixing them collapsed the stacks 3→2→1→0.",
-          "Stacks now hold at 3–4, so effects that unlock at 3+ stacks keep triggering."
-        ]
-      },
-      {
-        "text": "Fixed Jet Black's Energy Charge, Duncan's Arcane Focus, and Capt. Locke's low-HP trigger effects.",
-        "details": [
-          "Duncan's Arcane Focus: 1 stack per EX Skill (max 2, 30 turns). At 2 stacks, damage dealt +150%; the effect is removed on attack."
-        ]
-      }
+   },
+   {
+    "text": "Fixed simulation results ignoring the turn damage setting, and a plan different from the screen being run.",
+    "details": [
+     "Turn damage is calculated under the same conditions in the main run, the timeline preview, Team Comparison and records.",
+     "The plan shown in the per-turn plan is exactly what runs, and a plan shorter than the turn count continues with the default EX Skill cycle.",
+     "Extra action picks of companions whose manual plan is off, and old extra action picks that disappeared from the screen because EX Skill turns moved, are no longer applied.",
+     "The ‘Ally EX later’ toggle is always shown, whether or not the manual plan is on."
     ]
-  },
-  "1.1.3": {
-    "title": "Record management · share codes · update notice",
-    "items": [
-      {
-        "text": "A notice now appears on the screen you're viewing when a new version is released.",
-        "details": []
-      },
-      {
-        "text": "Added record lock · rename · pin to top · search · sort · file export/import.",
-        "details": []
-      },
-      {
-        "text": "Share codes are much shorter.",
-        "details": [
-          "Compression and a better encoding make them up to about 16× shorter than before."
-        ]
-      },
-      {
-        "text": "Fixed the selection getting out of sync when moving the comparison window and when there are no records.",
-        "details": []
-      }
+   },
+   {
+    "text": "Fixed the Turn timeline changing the actions you set on its own.",
+    "details": [
+     "When extra actions increase or decrease, every turn is compared with the previous calculation and updated right away, with a notice of how many actions were added or removed.",
+     "Automatic extra actions that chain by chance are not saved into the timeline as fixed entries.",
+     "Turns left empty by raising the turn count or changing the team are filled with the current flow right before running."
     ]
-  },
-  "1.1.2": {
-    "title": "Team Comparison",
-    "items": [
-      {
-        "text": "Added Team Comparison.",
-        "details": [
-          "Put two saved records side by side and compare them companion by companion."
-        ]
-      }
+   },
+   {
+    "text": "Refreshing or reopening the page now keeps the settings you were last working on.",
+    "details": [
+     "Edits you haven't run yet are kept too: team · per-turn plan · action order · Escape Room Altar · sync · turn damage · timeline.",
+     "Loading a record switches to that record's team and conditions, and ‘Undo’ in the notice returns you to the state before loading.",
+     "The Escape Room Altar floor and altar setup are kept even if you turn the altar off or load a record without altars.",
+     "You are notified when record storage is full."
     ]
-  },
-  "1.1.1": {
-    "title": "Lasting effects · trigger order · full attack",
-    "items": [
-      {
-        "text": "Fixed effects that stack several times, such as Five-Peak Myriad, never wearing off.",
-        "details": [
-          "Five-Peak Myriad (5 turns, max 6 stacks) now runs a separate timer per stack and expires in order."
-        ]
-      },
-      {
-        "text": "Matched the order in which triggered skill effects apply, and the damage calculation of enemy full attacks, to the game.",
-        "details": []
-      },
-      {
-        "text": "Added a full-attack option for enemy attacks.",
-        "details": [
-          "All allies are hit at once."
-        ]
-      }
+   },
+   {
+    "text": "When the team changes, sync · the Turn timeline · per-turn order now follow each companion.",
+    "details": [
+     "Removing a companion clears only that companion's settings, and adding the same companion back restores its spec · plan · EX Skill policy · sync role.",
+     "If a sync group's lead companion is removed, that group is cleared with a notice.",
+     "A companion picked after clicking an empty slot goes into that slot, and in a team with a custom action order the new companion goes last.",
+     "With the timeline on, auto-filled turns are recalculated for the new team, and edited turns only lose the removed companion's actions.",
+     "If an edited turn has no action for a new companion, you are told when running."
     ]
-  },
-  "1.1": {
-    "title": "Choi Yuhee (XL) added",
-    "items": [
-      {
-        "text": "Added ‘Choi Yuhee’.",
-        "details": [
-          "Effects that trigger only on poisoned enemies and a one-time counter on Defend are applied.",
-          "Sigil boost cap: Choi Yuhee (XL) 18000 · XXL 20000 · Light/Dark-element XXL 23000."
-        ]
-      },
-      {
-        "text": "Fixed Orem's barrier basis and Moyru's barrier trigger count.",
-        "details": [
-          "Orem's barrier is calculated from 20% of his Max HP (25% with Sigil unlocked).",
-          "Moyru's barrier triggers only once."
-        ]
-      }
+   },
+   {
+    "text": "In the per-turn plan only the clicked cell changes, and just opening the companion window no longer changes the plan.",
+    "details": [
+     "EX Skills that can't be used right now because of the Max CD +1 altar · the chance CD cut assumption · a team change are shown as they would actually play out only on screen, and the original plan comes back when you undo that setting.",
+     "Later EX Skills move along only when you click an EX Skill cell on the untouched default plan.",
+     "‘Re-space EX’ re-aligns everything after the first EX Skill to the CD cycle.",
+     "Layout buttons such as 3-turn EX · Passive Def · Earliest first EX return to the plan from just before they were turned on when pressed again, and their on-state follows the actual plan.",
+     "Clicking a turn where the EX Skill can't be used under any setup leaves that cell unchanged."
     ]
-  },
-  "1.0.2": {
-    "title": "Last update time · mobile action order",
-    "items": [
-      {
-        "text": "The last update time is shown at the bottom right of the screen, and on phones you can change the action order with up/down arrows.",
-        "details": []
-      }
+   },
+   {
+    "text": "Added ‘Undo’ to buttons that change several settings at once.",
+    "details": [
+     "Covers: ‘Set all to As soon as ready’ · ‘Assume success for all’ in the EX Skill policy, removing a sync group (lead set to ‘none’), and the sync preset.",
+     "Changing a sync member's action type keeps the ‘turns the lead doesn't use its EX Skill’ choice you picked.",
+     "Tabs opened through shortcuts in the companion window or altar panel aren't remembered; the main button opens the tab you last chose yourself."
     ]
-  },
-  "1.0.1": {
-    "title": "Early balance · bug fixes",
-    "items": [
-      {
-        "text": "Applied Ricano's damage dealt +18% against taunted enemies.",
-        "details": [
-          "Ricano Passive 4: damage dealt +18% while the target of every ally except himself is taunted."
-        ]
-      },
-      {
-        "text": "Fixed damage over time · damage taken calculations and Boss Ren · Lee Taeho's action handling.",
-        "details": [
-          "Damage over time is locked to the ATK · damage dealt bonus at the moment it was applied; only the target's damage taken uses the current value each turn.",
-          "Damage taken multiplies the normal bonus by the elemental bonus (the same way as the game).",
-          "Boss Ren keeps the action order you set, and Lee Taeho no longer uses EX Skills back to back."
-        ]
-      }
+   },
+   {
+    "text": "Settings changed in Team Comparison now apply only to that group, and the main settings stay unchanged.",
+    "details": [
+     "A comparison group's sync uses the sync of the record it was loaded from.",
+     "Moving a slot swaps only the two companions, and per-turn order · timeline · sync follow them.",
+     "Just opening the Sigil boost window no longer changes values or the ‘Changed’ mark, and layout buttons keep the record's plan length.",
+     "Skill levels · Sigil info in older records are read the same way as in the main view.",
+     "While the Escape Room Altar is on, ‘Always trigger chance effects’ can't be used in Team Comparison either."
     ]
-  },
-  "1.0": {
-    "title": "XXL WOOFIA Simulator launch",
-    "items": [
-      {
-        "text": "The XXL WOOFIA damage simulator is released.",
-        "details": [
-          "Build a 5-companion team, set specs and actions, and see the damage in numbers."
-        ]
-      }
+   }
+  ]
+ },
+ "1.8.4": {
+  "title": "EX Skill sync — turns the lead doesn't use its EX Skill · CD-refilling companions",
+  "items": [
+   {
+    "text": "Each sync member can now choose what to do on ‘turns the lead doesn't use its EX Skill’.",
+    "details": [
+     "Options: ‘Save the EX Skill’ or ‘Use my own policy’.",
+     "Members set to ‘EX Skill in the granted extra action’ default to ‘Use my own policy’. They use the EX Skill whenever ready, and only on the lead's EX Skill turn switch to Defend → EX Skill in the granted extra action.",
+     "Example: a companion with a 1-turn CD synced as ‘Defend → EX Skill in the granted extra action’ uses the EX Skill every turn, and only on the lead's EX Skill turn goes Defend → lead's EX Skill → EX Skill in the granted extra action.",
+     "In the EX Skill policy tab, ‘Use my own policy’ members can also choose a policy, and each group's flow sentence in the Sync tab also shows how other turns are handled."
     ]
-  }
+   },
+   {
+    "text": "Fixed companions whose CD is refilled by an EX Skill not following their sync setting.",
+    "details": [
+     "Set to ‘Attack → EX Skill in the granted extra action’, their regular action on the lead's EX Skill turn is a Basic Attack."
+    ]
+   },
+   {
+    "text": "When a CD-refilling companion and its target both get extra actions in the same turn, the target acts first if its EX Skill is ready.",
+    "details": [
+     "After the target uses its EX Skill, its CD is refilled and it uses the EX Skill once more that turn.",
+     "Example on the lead's EX Skill turn: CD-refilling companion Basic Attack → target Basic Attack → lead EX Skill → target EX Skill → CD-refilling companion EX Skill → target EX Skill.",
+     "Syncing both companions as ‘Attack → EX Skill in the granted extra action’ gives this flow."
+    ]
+   }
+  ]
+ },
+ "1.8.3": {
+  "title": "Advanced Action Setup — EX Skill policy · EX Skill sync tabs",
+  "items": [
+   {
+    "text": "Advanced Action Setup is reorganized into three tabs: Turn timeline · EX Skill policy · EX Skill sync.",
+    "details": [
+     "EX Skill policy and sync always apply; only the Turn timeline is turned on and off with ‘Use’ at the top right of its tab.",
+     "The top of the EX Skill policy tab lists what decides the EX Skill, in priority order (Turn timeline → sync → policy → extra actions).",
+     "The companion window summarizes the current policy, and the button next to it opens this tab directly.",
+     "Settings are saved in records · share codes and also apply to Team Comparison."
+    ]
+   },
+   {
+    "text": "Added ‘EX Skill together’ · ‘Defend → EX Skill in the granted extra action’ · ‘Attack → EX Skill in the granted extra action’ as sync member actions.",
+    "details": [
+     "Example: Defend → lead's EX Skill → EX Skill in the granted extra action.",
+     "Extra actions only go to allies who have already acted, so members that use the EX Skill in the granted extra action act before the lead.",
+     "If the lead grants no extra actions, a notice appears, and the held EX Skill follows the ‘If not ready’ rule (Wait / Use when ready).",
+     "If a companion that grants extra actions to adjacent allies is on the team, the ‘sync preset’ button groups those adjacent allies in one click.",
+     "Each group shows its actual action flow as one sentence."
+    ]
+   },
+   {
+    "text": "The EX Skill policy tab now shows a notice when the Escape Room Altar's ‘chance to cut CD on action · on EX Skill’ is active.",
+    "details": [
+     "This is because a CD shortened by chance is not reflected in ‘Planned turns’ plans.",
+     "One button switches everyone to ‘As soon as ready’."
+    ]
+   },
+   {
+    "text": "A notice now appears when ‘Per-turn override’ · ‘Per-companion turn plans’ remain but are not applied because the Turn timeline is on.",
+    "details": [
+     "‘Import current settings’ moves those settings into the timeline."
+    ]
+   }
+  ]
+ },
+ "1.8.2": {
+  "title": "Turn damage — choose how many allies are hit",
+  "items": [
+   {
+    "text": "The turn damage setting now lets you choose how many allies take damage each turn (1–5, default All).",
+    "details": [
+     "With fewer than all, allies with the highest current HP% are hit first; ties are decided at random.",
+     "This reproduces allies brought back by healing or revival becoming targets again.",
+     "The setting is saved with records · share codes (the default ‘All’ doesn't affect code length) and the same value applies to Team Comparison."
+    ]
+   }
+  ]
+ },
+ "1.8.1": {
+  "title": "Death (leaving the battle) · Kyrian revival",
+  "items": [
+   {
+    "text": "Allies whose HP reaches 0 from Incoming Damage · turn damage now die and leave the battle.",
+    "details": [
+     "Previously they stopped at 1 HP.",
+     "A dead ally is left out of later actions · hits · buffs, so the value of a healing companion keeping HP up shows directly in the result.",
+     "On death, all temporary states such as barriers · buffs · stacks · taunt are removed, and the ally is excluded from the action order and enemy targeting.",
+     "Mumei cuts its own HP with the EX Skill, so combined with other damage it can die by itself.",
+     "The help texts for Incoming Damage · turn damage were updated to match."
+    ]
+   },
+   {
+    "text": "Kyrian's Sigil revival effect is now applied.",
+    "details": [
+     "When the EX Skill fires, there is a set chance to revive one dead ally at 25% of Max HP.",
+     "As a chance effect, it is included in the chance range. With ‘Always trigger chance effects’ it always fires; in the minimum calculation it never does.",
+     "If no ally is dead, it has no target and is skipped even when it fires.",
+     "A revived ally recovers only HP without buffs, and if its place in that turn's action order has already passed, it acts again from the next turn."
+    ]
+   }
+  ]
+ },
+ "1.8": {
+  "title": "New companion ‘Otherworld Blade Mumei’",
+  "items": [
+   {
+    "text": "Added new companion ‘Otherworld Blade Mumei’ — a Dark-element Fighter who cuts its own HP with the EX Skill to grow stronger the closer it is to the brink, and releases stacks built with Basic Attacks on Defend for multi-hits and healing.",
+    "details": [
+     "EX Skill ‘Inkveil: Raging Dragon’ (4-turn CD): deals 210.6% ATK (239.85% with the Sigil) to all enemies, gains 3 Fearless stacks, then loses 40% of its current HP as real damage (barriers can't block it). On EX Skill, gains a barrier worth 25% of Max HP (3 turns).",
+     "Sigil passive: base Max HP +30%, EX Skill CD −4 on turn 1 — the EX Skill can be used from turn 1.",
+     "Every Basic Attack grants 1 stack each of Fearless · Sharpness (max 5 each).",
+     "Fearless (+7% damage taken per stack): 1+ stacks — extra 20% on Basic Attack; on Defend, heals itself for 75% ATK per stack, then removes them · 2+ stacks — damage dealt +15%, EX Skill effect +21.15% · 3+ stacks — extra 40% on Basic Attack and a 70% ATK barrier (2 turns) · 4+ stacks — on attack, ATK increases by 20.4% of base ATK (2 turns) · 5 stacks — extra 65% on every action, and Defend recovers 1 action.",
+     "Sharpness: on Defend, hits for 40% ATK once per stack, then removes them. On Basic Attack, adds 17.5% to all enemies with 3+ enemies, or 27.5% to a single target with 2 or fewer.",
+     "HP conditions: 75% or less — extra damage on Basic Attack equal to 16.2% of barrier value · 50% or less — Basic Attack damage +30% · 30% or less — lifesteal of 20.4% of damage dealt.",
+     "Simulator note: the automatic plan never defends, so the Defend multi-hits · self-heal · action recovery only appear if you put ‘Defend’ in the action settings, and the recovered action is used as a Basic Attack."
+    ]
+   },
+   {
+    "text": "Added ‘Escape Room Altar settings’ to the battle settings.",
+    "details": [
+     "Light the Star Altars (penalties that favor the boss) and Moon Altars (effects your team gains) on floors 1–3 of the Guild Escape Room per floor, and damage is calculated under those conditions.",
+     "Lighting a Star Altar removes its penalty; only lit Moon Altars apply their effects.",
+     "Floors accumulate from the bottom. Floor 2 applies the altars of floors 1·2, and floor 3 applies those of floors 1·2·3.",
+     "If the same effect is on several floors (barrier received +25%, healing received +25%, etc.), they all add up.",
+     "The Boss ATK · Boss damage dealt · ally damage taken Star Altars only show in results when Incoming Damage mode is on.",
+     "While the altars are on, ‘Always trigger chance effects’ can't be used, and the setting is saved with records and share codes."
+    ]
+   },
+   {
+    "text": "Each companion can now set an ‘EX Skill policy’ and ‘EX Skill sync’.",
+    "details": [
+     "These settings are for when the altars change EX Skill CDs, and they appear in the companion window when the altar settings are on.",
+     "Policies: Planned turns (default) · Planned turns only · As soon as ready. Even with ‘As soon as ready’, planned Defend turns are kept by default.",
+     "EX Skill sync: in up to 3 groups, align support companions to a main companion's EX Skill turns. Synced companions act right before or after the lead companion, and if not ready on that turn, you choose whether they wait for the next EX Skill or use it when ready.",
+     "The per-turn plan doesn't count chance-based CD cuts and shows EX Skill turns based on the guaranteed CD (including Max CD +1). EX Skills that come early by chance are used by ‘As soon as ready’ or by sync groups.",
+     "Priority: Advanced Action Setup > EX Skill policy · sync. Turns edited in Advanced Action Setup follow that timeline only, and sync applies only to unedited turns."
+    ]
+   },
+   {
+    "text": "Added ‘Turn Damage Settings’.",
+    "details": [
+     "At the end of every enemy phase, the whole team takes damage equal to the set % of Max HP (1–99%).",
+     "Same rules as Incoming Damage mode: barriers absorb first, a defending turn takes half, and damage taken modifiers apply (Mumei's +7% per Fearless stack, Mengkui's −11% for adjacent allies at 50% HP or less, etc.). Counters don't trigger.",
+     "Turn on ‘Advanced · vary by turn’ to set a different % for each turn (blank cells use the default; cells grow and shrink with the turn count). ‘Clear per-turn values’ resets them.",
+     "Ally HP now follows the flow of battle. It drops from self-damage · hits · turn damage and refills from healing · healing over time · lifesteal, and ‘when HP is N% or less’ effects are judged on the current HP at every trigger and hit.",
+     "The setting is saved in records and share codes (added briefly only when on), and the same value applies to Team Comparison and Advanced Action Setup.",
+     "It switches like a tab in the same place as the Escape Room Altar settings, and both can be on at the same time.",
+     "Note: Mumei's EX Skill barrier (25% of Max HP) and Fearless barrier absorb all of about 10%, so to see low-HP effects set it to 20–30% or higher, or combine it with the EX Skill's self-damage."
+    ]
+   }
+  ]
+ },
+ "1.7.1": {
+  "title": "Chance range display · Invisible Man EX Skill bonus damage fix",
+  "items": [
+   {
+    "text": "Results now show a chance range (minimum–maximum).",
+    "details": [
+     "It shows the result when no chance effects trigger at all (minimum) and when all of them trigger (maximum).",
+     "A narrower range means a stable team that relies less on chance; a wider range means results swing more with luck.",
+     "Team Comparison shows the range for both sides too."
+    ]
+   },
+   {
+    "text": "Fixed EX Skill boosts not applying to the bonus damage Invisible Man deals when using the EX Skill.",
+    "details": [
+     "Affected: single-target and all-enemy bonus damage.",
+     "Both ‘EX Skill effect up’ and EX Skill boost buffs from allies now apply."
+    ]
+   }
+  ]
+ },
+ "1.7": {
+  "title": "New companion ‘Oyamada Mataya’",
+  "items": [
+   {
+    "text": "Added new companion ‘Oyamada Mataya’ — a Fire-element Fighter who builds EX Skill power by attacking the target for explosive damage, and switches to a counter stance on Defend to strike back at attacks.",
+    "details": []
+   }
+  ]
+ },
+ "1.6": {
+  "title": "New companion ‘Zetto’",
+  "items": [
+   {
+    "text": "Added new companion ‘Zetto’ — a Water-element Fighter who builds EX Skill power with every Basic Attack and unleashes explosive damage with a single EX Skill.",
+    "details": []
+   }
+  ]
+ },
+ "1.5.2": {
+  "title": "Patch notes tidied · detailed numbers added",
+  "items": [
+   {
+    "text": "Rewrote the patch notes without difficult jargon.",
+    "details": []
+   },
+   {
+    "text": "Expand an entry to see the detailed numbers.",
+    "details": [
+     "Multipliers · stacks · durations · trigger chances are shown.",
+     "All numbers are taken directly from the game's skill data."
+    ]
+   },
+   {
+    "text": "Fixed an unrelated companion icon showing on a Team Comparison entry.",
+    "details": []
+   }
+  ]
+ },
+ "1.5.1": {
+  "title": "Patch history added",
+  "items": [
+   {
+    "text": "Added patch history.",
+    "details": [
+     "See all changes so far at a glance, and filter by New · Improvements · Bug fixes · Quality of life."
+    ]
+   },
+   {
+    "text": "A dot on the button tells you when something new is posted since you last checked.",
+    "details": []
+   },
+   {
+    "text": "Changes to a specific companion show that companion's face, and versions that added a new companion are shown larger.",
+    "details": []
+   },
+   {
+    "text": "Patch notes can be read in Korean · English · Chinese (Traditional/Simplified) · Japanese.",
+    "details": []
+   }
+  ]
+ },
+ "1.5": {
+  "title": "New companion ‘Mengkui’",
+  "items": [
+   {
+    "text": "Added new companion ‘Mengkui’ — a Wood-element healer who heals the allies on either side and rescues allies on the brink one after another.",
+    "details": []
+   },
+   {
+    "text": "Made the companion spec settings screen easier to read.",
+    "details": []
+   }
+  ]
+ },
+ "1.4.4": {
+  "title": "Fixed buffs that never wore off",
+  "items": [
+   {
+    "text": "Fixed timed buffs of Croklein · Rutenix never wearing off.",
+    "details": [
+     "Croklein 【Stir-Fry】 · 【Slow Cook】 · 【Secret Spices】: 30 turns each, up to 10 stacks.",
+     "Rutenix: 50% chance on Basic Attack for base ATK +15% (3 turns, max 2 stacks); 50% chance on an ally's Basic Attack for base ATK +12% (2 turns, max 4 stacks).",
+     "Gaining a stack while full now replaces only the oldest stack. Previously every duration was reset, so they lasted forever."
+    ]
+   }
+  ]
+ },
+ "1.4.3": {
+  "title": "Companion spec applied · chance trigger fixes",
+  "items": [
+   {
+    "text": "Fixed the companion spec you set not being reflected in the result.",
+    "details": [
+     "The ATK · HP numbers in the panel were correct, but the spec was missing from the run request, so the calculation used full growth.",
+     "Example: at Star 0 · Lv30, total damage drops to 42.3% of full growth (before the fix it was the same)."
+    ]
+   },
+   {
+    "text": "Fixed Duncan's extra trigger also firing on EX Skills, and Covetous Wolf's Sleep application.",
+    "details": [
+     "Duncan: Basic Attack grants all allies ATK +16% (2 turns), with a 50% chance to also trigger ATK +32% (2 turns) — it doesn't trigger on EX Skills.",
+     "Covetous Wolf EX Skill: 40% chance to Sleep all enemies (2 turns). With ‘Always trigger chance effects’ it always lands."
+    ]
+   }
+  ]
+ },
+ "1.4.2": {
+  "title": "Companion spec · action settings translated",
+  "items": [
+   {
+    "text": "Companion spec settings and Advanced Action Setup are now translated into English · Chinese (Traditional/Simplified) · Japanese.",
+    "details": []
+   }
+  ]
+ },
+ "1.4.1": {
+  "title": "Companion spec settings · Advanced Action Setup",
+  "items": [
+   {
+    "text": "Added companion spec settings.",
+    "details": [
+     "Set Star 1–5 · Evolution Phase · Level 1–60 · Compatibility 1–5 · levels for all 8 skills per companion.",
+     "When off, everything is calculated at full growth (Level 60 · Star 5 · Compatibility 5 · skill level 10 · Sigil unlocked)."
+    ]
+   },
+   {
+    "text": "Added Advanced Action Setup.",
+    "details": [
+     "Decide yourself who does what on every turn."
+    ]
+   },
+   {
+    "text": "Improved share codes.",
+    "details": []
+   }
+  ]
+ },
+ "1.4": {
+  "title": "New companion ‘Xuying’",
+  "items": [
+   {
+    "text": "Added new companion ‘Xuying’ — uses effects that target the allies standing on either side.",
+    "details": []
+   },
+   {
+    "text": "Xuying's ‘either side’ now wraps around the team in a circle, and the combo where Xuying uses the EX Skill twice alongside Boss Ren is applied.",
+    "details": []
+   },
+   {
+    "text": "Fixed effect calculation errors for Suichong · Croklein · Golden Ryder · Boss Ren.",
+    "details": [
+     "Croklein: 【Stir-Fry】 · 【Slow Cook】 · 【Secret Spices】 were counted as one, so the EX Skill effects unlocking at 4 · 4 · 3 stacks never triggered. The three are now counted separately.",
+     "Suichong: fixed ‘damage dealt +15% (5 turns, max 2 stacks)’ gained from Defend not being removed when using the EX Skill.",
+     "Golden Ryder: the 2-turn duration per stack of 【Blazing Stride】 (Basic Attack damage +10%, max 6 stacks) was ignored, so it lasted forever. Each stack now expires after 2 turns.",
+     "Boss Ren: all his buffs target the ‘ally in slot 1’, so placing him in slot 1 broke the target. Slot 1 is now blocked, and the action order display matches the actual calculation."
+    ]
+   },
+   {
+    "text": "Fixed extra actions received by adjacent allies pushing back later action plans.",
+    "details": [
+     "Example: Famido planned to Defend then use the EX Skill received an extra action from Xuying next to him, shifting the plan by one, so he defended on the turn he should have used the EX Skill.",
+     "Extra actions received by a companion with a set plan now don't consume the plan and are handled as Basic Attacks."
+    ]
+   }
+  ]
+ },
+ "1.3.1": {
+  "title": "Invisible Man face icon replaced",
+  "items": [
+   {
+    "text": "Replaced Invisible Man's face icon.",
+    "details": []
+   }
+  ]
+ },
+ "1.3": {
+  "title": "New companion ‘Invisible Man’",
+  "items": [
+   {
+    "text": "Added new companion ‘Invisible Man’ — stacks ‘Neon Mark’ on enemies to deal damage.",
+    "details": []
+   },
+   {
+    "text": "Fixed Moyru's cooldown calculation error.",
+    "details": [
+     "Moyru's EX Skill CD is 6 turns. Fixed the cooldown being counted wrong, which shifted the turns the EX Skill could be used."
+    ]
+   }
+  ]
+ },
+ "1.2.1": {
+  "title": "Barrier display · Sleep · chance triggers",
+  "items": [
+   {
+    "text": "You can click to see why a barrier grew (barrier received +24%, etc.).",
+    "details": []
+   },
+   {
+    "text": "Covetous Wolf's Sleep is now included in the calculation.",
+    "details": []
+   },
+   {
+    "text": "Chance effects are now rolled fresh on every run.",
+    "details": [
+     "Even with the same settings, each run can play out differently."
+    ]
+   },
+   {
+    "text": "Fixed Orem's Passive 1 barrier being applied incorrectly.",
+    "details": [
+     "Orem Passive 1: grants all allies a barrier worth 20% of his Max HP (25% with Sigil unlocked) (2 turns)."
+    ]
+   }
+  ]
+ },
+ "1.2": {
+  "title": "New companion ‘Dallawan’",
+  "items": [
+   {
+    "text": "Added new companion ‘Dallawan’ — grants allies barriers and reduces the damage they take.",
+    "details": []
+   },
+   {
+    "text": "Applied Dallawan's Passive 4, and how enemy attacks concentrate when several taunts are active.",
+    "details": [
+     "Passive 4: when receiving healing, own barrier received +24% (2 turns); on EX Skill, a barrier worth 30% of Max HP (1 turn)."
+    ]
+   },
+   {
+    "text": "You can now choose per turn who receives Lee Taeho's Five-Peak Myriad, and share codes are shorter.",
+    "details": [
+     "Five-Peak Myriad: 1 stack to all allies (5 turns, max 6 stacks). At 2 · 4 · 6 stacks, counter damage is 50% · 40% · 30% ATK respectively."
+    ]
+   }
+  ]
+ },
+ "1.1.9": {
+  "title": "Update notice · turn setting fix",
+  "items": [
+   {
+    "text": "When a new version is out you can refresh straight from the notice, and you're told if you're viewing an outdated page.",
+    "details": []
+   },
+   {
+    "text": "Fixed ‘Per-turn override’ not turning off completely when cleared.",
+    "details": []
+   }
+  ]
+ },
+ "1.1.8": {
+  "title": "Famido Defend · extra action choice",
+  "items": [
+   {
+    "text": "Famido's passive Defend can be toggled on and off, and you can choose what Lee Taeho · Boss Ren do with the extra actions they gain.",
+    "details": [
+     "Famido gains base ATK +30% when defending (2 turns) — toggle it to compare whether giving up damage to Defend is worth it.",
+     "Boss Ren gives the slot 1 ally 22.5% of his base ATK on attack (36% at a 50% chance). You can choose whether the extra action gained then is a Basic Attack or an EX Skill."
+    ]
+   }
+  ]
+ },
+ "1.1.7": {
+  "title": "Mobile portrait screen",
+  "items": [
+   {
+    "text": "Applied a layout made for phone portrait screens.",
+    "details": []
+   }
+  ]
+ },
+ "1.1.6": {
+  "title": "Guide · Souran Passive 4",
+  "items": [
+   {
+    "text": "Added a guide that explains how to use the simulator.",
+    "details": []
+   },
+   {
+    "text": "Applied Souran's Passive 4 ‘Molting Cicada Engagement’.",
+    "details": []
+   }
+  ]
+ },
+ "1.1.5": {
+  "title": "Languages · feedback",
+  "items": [
+   {
+    "text": "Korean · English · Chinese (Traditional/Simplified) · Japanese are supported.",
+    "details": []
+   },
+   {
+    "text": "Added a feedback feature.",
+    "details": []
+   },
+   {
+    "text": "Fixed the screen not updating right away when changing language.",
+    "details": []
+   }
+  ]
+ },
+ "1.1.4": {
+  "title": "Calculation accuracy fixes",
+  "items": [
+   {
+    "text": "Fixed taunt lasting 1 turn too long.",
+    "details": [
+     "A correction added 1 turn to taunts on enemies, so taunt-conditioned effects (such as Ricano's damage dealt +18%) applied into the next turn."
+    ]
+   },
+   {
+    "text": "Fixed calculation errors for effects that mix stacks and durations, such as Shark Torpedo.",
+    "details": [
+     "Paul's Shark Torpedo has a duration when gained from the EX Skill but none from Basic Attacks, so mixing them collapsed the stacks 3→2→1→0.",
+     "Stacks now hold at 3–4, so effects that unlock at 3+ stacks keep triggering."
+    ]
+   },
+   {
+    "text": "Fixed Jet Black's Energy Charge, Duncan's Arcane Focus, and Capt. Locke's low-HP trigger effects.",
+    "details": [
+     "Duncan's Arcane Focus: 1 stack per EX Skill (max 2, 30 turns). At 2 stacks, damage dealt +150%; the effect is removed on attack."
+    ]
+   }
+  ]
+ },
+ "1.1.3": {
+  "title": "Record management · share codes · update notice",
+  "items": [
+   {
+    "text": "A notice now appears on the screen you're viewing when a new version is released.",
+    "details": []
+   },
+   {
+    "text": "Added record lock · rename · pin to top · search · sort · file export/import.",
+    "details": []
+   },
+   {
+    "text": "Share codes are much shorter.",
+    "details": [
+     "Compression and a better encoding make them up to about 16× shorter than before."
+    ]
+   },
+   {
+    "text": "Fixed the selection getting out of sync when moving the comparison window and when there are no records.",
+    "details": []
+   }
+  ]
+ },
+ "1.1.2": {
+  "title": "Team Comparison",
+  "items": [
+   {
+    "text": "Added Team Comparison.",
+    "details": [
+     "Put two saved records side by side and compare them companion by companion."
+    ]
+   }
+  ]
+ },
+ "1.1.1": {
+  "title": "Lasting effects · trigger order · full attack",
+  "items": [
+   {
+    "text": "Fixed effects that stack several times, such as Five-Peak Myriad, never wearing off.",
+    "details": [
+     "Five-Peak Myriad (5 turns, max 6 stacks) now runs a separate timer per stack and expires in order."
+    ]
+   },
+   {
+    "text": "Matched the order in which triggered skill effects apply, and the damage calculation of enemy full attacks, to the game.",
+    "details": []
+   },
+   {
+    "text": "Added a full-attack option for enemy attacks.",
+    "details": [
+     "All allies are hit at once."
+    ]
+   }
+  ]
+ },
+ "1.1": {
+  "title": "Choi Yuhee (XL) added",
+  "items": [
+   {
+    "text": "Added ‘Choi Yuhee’.",
+    "details": [
+     "Effects that trigger only on poisoned enemies and a one-time counter on Defend are applied.",
+     "Sigil boost cap: Choi Yuhee (XL) 18000 · XXL 20000 · Light/Dark-element XXL 23000."
+    ]
+   },
+   {
+    "text": "Fixed Orem's barrier basis and Moyru's barrier trigger count.",
+    "details": [
+     "Orem's barrier is calculated from 20% of his Max HP (25% with Sigil unlocked).",
+     "Moyru's barrier triggers only once."
+    ]
+   }
+  ]
+ },
+ "1.0.2": {
+  "title": "Last update time · mobile action order",
+  "items": [
+   {
+    "text": "The last update time is shown at the bottom right of the screen, and on phones you can change the action order with up/down arrows.",
+    "details": []
+   }
+  ]
+ },
+ "1.0.1": {
+  "title": "Early balance · bug fixes",
+  "items": [
+   {
+    "text": "Applied Ricano's damage dealt +18% against taunted enemies.",
+    "details": [
+     "Ricano Passive 4: damage dealt +18% while the target of every ally except himself is taunted."
+    ]
+   },
+   {
+    "text": "Fixed damage over time · damage taken calculations and Boss Ren · Lee Taeho's action handling.",
+    "details": [
+     "Damage over time is locked to the ATK · damage dealt bonus at the moment it was applied; only the target's damage taken uses the current value each turn.",
+     "Damage taken multiplies the normal bonus by the elemental bonus (the same way as the game).",
+     "Boss Ren keeps the action order you set, and Lee Taeho no longer uses EX Skills back to back."
+    ]
+   }
+  ]
+ },
+ "1.0": {
+  "title": "XXL WOOFIA Simulator launch",
+  "items": [
+   {
+    "text": "The XXL WOOFIA damage simulator is released.",
+    "details": [
+     "Build a 5-companion team, set specs and actions, and see the damage in numbers."
+    ]
+   }
+  ]
+ }
 }

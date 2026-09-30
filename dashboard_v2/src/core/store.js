@@ -17,7 +17,7 @@ import {
   COND_DEFAULTS, ALTAR_FLOORS, makeEnv, normalizeSyncGroups, syncPayloadOf, migrateSnapSync, syncOps, applySyncPreset,
   detachSync, attachSync, swapSyncPositions, teamOrder, ultOf, setUlt, setUltMode, syncGroupOf, syncOtherOf, presetLen,
   missingActors, plansFromProbe, effectiveTeam, pinsRowOf, withPinsRow, sortPins, sortLocked, lockedWithin,
-  adoptLegacyPlans, presetPinsRow, quickCdAltar, isQuickCdAltar, pinCount, planView, PIN_ACTS,
+  adoptLegacyPlans, presetPinsRow, quickCdAltar, isQuickCdAltar, pinCount, planView, PIN_ACTS, cellsOf, fillRowPins, repeatRowPins, taehoFedTurns,
 } from './plan.js';
 import { altarPayload, tdmgPayload, tdmgClamp, buildCfg } from './payload.js';
 import { compressCode, decompressCode } from './codec.js';
@@ -134,7 +134,7 @@ export function createStore(o = {}) {
   const readJSON = (k) => { try { return JSON.parse(storage.getItem(k) || 'null'); } catch { return null; } };
   const writeJSON = (k, v) => { try { storage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } };
   const notice = (key, vars = {}) => noticeFns.forEach((fn) => { try { fn({ key, vars }); } catch { /* noop */ } });
-  const env = () => makeEnv({ chars: state.chars, altar: state.altar });
+  const env = () => makeEnv({ chars: state.chars, altar: state.altar, team: state.team });
 
   function set(patch, { silent = false } = {}) {
     state = { ...state, ...patch };
@@ -224,7 +224,7 @@ export function createStore(o = {}) {
     if (altar.on) cond.forceProc = false;                       // 제단 ⇄ 확률 100% 상호 배제(v1 syncAltarLock)
     // v1 직접 계획(usePlan+plan) → 핀, v1 완전 수동(advOn+turnPlans) → 잠긴 턴. v2.1 pins/locked 가 있으면 그것이 우선.
     const { team, pins, locked } = adoptLegacyPlans(team0, { advOn: !!s.advOn, turnPlans: s.turnPlans, turns: cond.turns,
-      env: makeEnv({ chars: state.chars, altar }), pins: s.pins, locked: s.locked });
+      env: makeEnv({ chars: state.chars, altar, team: team0 }), pins: s.pins, locked: s.locked });
     const sync = normalizeSyncGroups(s.sync || (s.altar && s.altar.groups) || null);
     const tdmg = tdmgFromSnap(s.turnDamage, state.tdmg);
     saveAltar(altar); saveSync(sync); saveTdmg(tdmg);
@@ -659,10 +659,33 @@ export function createStore(o = {}) {
     return tok;
   };
   const restoreToken = (tok) => {
-    const t = state.team.map((s, k) => { if (!s || !tok.ults || !tok.ults[k]) return s; const n = clone(s); setUlt(n, tok.ults[k]); return n; });
+    const t = state.team.map((s, k) => {
+      if (!s) return s;
+      const hasUlt = !!(tok.ults && tok.ults[k]), hasFed = !!(tok.fed && k in tok.fed);
+      if (!hasUlt && !hasFed) return s;
+      const n = clone(s);
+      if (hasUlt) setUlt(n, tok.ults[k]);
+      if (hasFed) { if (tok.fed[k]) n.fedActions = clone(tok.fed[k]); else delete n.fedActions; }   // 채우기가 바꾼 받은 추가 행동
+      return n;
+    });
     set({ pins: sortPins(tok.pins), locked: sortLocked(tok.locked), team: t });
   };
-  const aptAt = (pos) => { const s = slotAtPos(pos); return s ? ((state.chars[s.id] || {}).actionsPerTurn || 1) : 1; };
+  /**
+   * 한 동료의 핀 줄을 통째로 바꾼다(되돌리기 한 칸). row 가 null 이면 아무것도 하지 않는다.
+   * fed(선택) = 이태호가 임부언에게 받은 추가 행동 {턴: 토큰} 새 값 — 토큰에 이전 값을 담아 함께 되돌린다. → 되돌리기 토큰 | null
+   */
+  const replaceRow = (pos, row, label, fed = null) => {
+    if (!row) return null;
+    const tok = planToken(label);
+    const i = pos - 1;
+    if (fed) tok.fed = { [i]: state.team[i] && state.team[i].fedActions ? clone(state.team[i].fedActions) : null };
+    planUndo.push(tok); if (planUndo.length > PLAN_UNDO_MAX) planUndo.shift();
+    const patch = { pins: withPinsRow(state.pins, pos, row) };
+    if (fed) patch.team = state.team.map((s, k) => { if (k !== i || !s) return s; const n = clone(s); if (Object.keys(fed).length) n.fedActions = fed; else delete n.fedActions; return n; });
+    set(patch);
+    return tok;
+  };
+  const aptAt = (pos) => { const s = slotAtPos(pos); return s ? ((env().chars[s.id] || {}).actionsPerTurn || 1) : 1; };
   const validAct = (pos, act) => {
     const v = String(act || '');
     if (!/^[궁방평]+$/.test(v)) return false;
@@ -742,11 +765,32 @@ export function createStore(o = {}) {
       if (name === 'early' && !ultOf(s).assist) return null;
       const n = +state.cond.turns;
       const tok = planToken(`preset:${name}:${pos}`);
-      const row = presetPinsRow(name, s, pos - 1, state.team, state.pins, n, makeEnv({ chars: state.chars, altar: state.altar }));
+      const row = presetPinsRow(name, s, pos - 1, state.team, state.pins, n, env());
       if (!row) return null;
       planUndo.push(tok); if (planUndo.length > PLAN_UNDO_MAX) planUndo.shift();
       set({ pins: withPinsRow(state.pins, pos, row) });
       return tok;
+    },
+    /** 「모두 보통 공격」「모두 방어」 — 필살기 칸은 그대로, 나머지를 action('평'|'방')으로. → 되돌리기 토큰 | null */
+    fill(pos, action) {
+      const s = slotAtPos(pos);
+      if (!s || (action !== '평' && action !== '방')) return null;
+      // 이태호가 임부언에게 받은 추가 행동도 필살기가 아니면 같은 행동으로(보통 공격 = 기본값 → 저장하지 않음)
+      const ft = taehoFedTurns(s, state.team, presetLen(state.cond.turns), env());
+      let fed = null;
+      if (ft) {
+        fed = {};
+        const cur = s.fedActions || {};
+        Object.keys(cur).forEach((k) => { if (cur[k] === '궁' || !ft.has(+k)) fed[k] = cur[k]; });
+        if (action === '방') ft.forEach((tt) => { if (cur[tt] !== '궁') fed[tt] = '방'; });
+      }
+      return replaceRow(pos, fillRowPins(s, pos - 1, state.team, state.pins, +state.cond.turns, action, env()), `fill:${action}:${pos}`, fed);
+    },
+    /** 패턴 반복 — from~to 턴 행동을 to 다음 턴부터 끝까지 같은 순서로. → 되돌리기 토큰 | null(구간 오류) */
+    repeat(pos, from, to) {
+      const s = slotAtPos(pos);
+      if (!s) return null;
+      return replaceRow(pos, repeatRowPins(s, pos - 1, state.team, state.pins, +state.cond.turns, from, to, env()), `repeat:${pos}`);
     },
     /** 토큰(applyPreset·undo 스택 항목)으로 핀·잠긴 턴·필살기 방식 필드를 되돌린다. */
     revert(tok) { if (tok) restoreToken(tok); },
@@ -800,17 +844,17 @@ export function createStore(o = {}) {
 
   /** 핀 중 프로브(규칙 + 핀 + 잠긴 턴 반영)에서 실제 행동이 달랐던 칸 → [{ pos, id, turns:[…] }]. 잠긴 턴은 제외. */
   function pinsIgnored(probe) {
-    const n = +state.cond.turns, out = [];
+    const n = +state.cond.turns, out = [], chars = env().chars;
     if (!probe || !probe.plan) return out;
     state.team.forEach((s, i) => {
       if (!s) return;
-      const pos = i + 1, apt = (state.chars[s.id] || {}).actionsPerTurn || 1, bad = [];
+      const pos = i + 1, apt = (chars[s.id] || {}).actionsPerTurn || 1, bad = [];
       Object.entries(pinsRowOf(state.pins, pos)).forEach(([t, v]) => {
         if (+t > n || state.locked[t]) return;
         const pl = probe.plan[String(t)];
         if (!pl || !Array.isArray(pl.seq)) return;
         const acts = pl.seq.filter((e) => e.p === pos && !e.x).map((e) => e.a);
-        const ok = apt > 1 ? acts.slice(0, apt).join('') === v : acts.includes(v);
+        const ok = apt > 1 ? acts.slice(0, apt).join('') === cellsOf(v, apt).join('') : acts.includes(v[0]);   // 턴당 2회 '궁' 핀 = '궁평'
         if (!ok) bad.push(+t);
       });
       if (bad.length) out.push({ pos, id: s.id, turns: bad.sort((a, b) => a - b) });
@@ -837,7 +881,7 @@ export function createStore(o = {}) {
     if (!picked.length) return null;
     const warnings = [];
     const n = +state.cond.turns;
-    const unplanned = state.team.find((s, i) => s && (((state.chars[s.id] || {}).actionsPerTurn || 1) > 1 || HOLD_ULT_IDS.has(s.id))
+    const unplanned = state.team.find((s, i) => s && (((env().chars[s.id] || {}).actionsPerTurn || 1) > 1 || HOLD_ULT_IDS.has(s.id))
       && !Object.keys(pinsRowOf(state.pins, i + 1)).length);
     if (unplanned) warnings.push({ key: 'run.recommendPlan', vars: { id: unplanned.id } });
     const hp = picked.find((s) => (state.chars[s.id] || {}).hpSchedule);

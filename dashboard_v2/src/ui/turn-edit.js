@@ -91,11 +91,11 @@ export function openTurnEdit(ctx, turn, opts = {}) {
     const budget = (tr && tr.budget) || lv.budget || {};
     const ultOk = new Set(lv.ultOk || []);
     const want = {}; seq.forEach((e) => { want[e.p] = (want[e.p] || 0) + 1; });
-    const seen = {};
+    const seen = {}, chars = store.env().chars;   // 도장 잠금해제를 반영한 턴당 행동 수(이태호 2회 — 두 번째까지 자기 행동)
     track.setAttribute('aria-label', t('manual.track.aria', { turn: tt }));
     if (!seq.length) track.replaceChildren(h('li', { class: 'mn-empty' }, t('manual.empty.turn')));
     else track.replaceChildren(...seq.map((e, k) => {
-      const id = (st.team[e.p - 1] || {}).id, meta = st.chars[id] || {};
+      const id = (st.team[e.p - 1] || {}).id, meta = chars[id] || st.chars[id] || {};
       seen[e.p] = (seen[e.p] || 0) + 1;
       const granted = seen[e.p] > (meta.actionsPerTurn || 1);
       const done = exec ? exec[k] : e.a;

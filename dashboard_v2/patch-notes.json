@@ -2,6 +2,157 @@
  "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
  "releases": [
   {
+   "version": "2.0.2",
+   "date": "2026-09-30",
+   "highlight": false,
+   "title": {
+    "kr": "한 턴 여러 행동 표시 · 행동 줄 도구",
+    "en": "Multiple actions per turn · Row tools",
+    "ja": "1ターン複数行動の表示 · 行のツール",
+    "zh": "一回合多次行動顯示 · 列工具",
+    "zhs": "一回合多次行动显示 · 列工具"
+   },
+   "items": [
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "이태호의 직접 지정 칸이 대각선으로 나뉘어 한 칸에 두 행동을 보여 줍니다.",
+      "en": "Lee Taeho's Per turn cells are split diagonally to show both actions in one cell.",
+      "ja": "イ・テホの直接指定のマスが斜めに分かれ、1マスで2つの行動を表示します。",
+      "zh": "李泰虎的直接指定格改以對角線分開，在一格中顯示兩次行動。",
+      "zhs": "李泰虎的直接指定格改以对角线分开，在一格中显示两次行动。"
+     },
+     "details": [
+      {
+       "kr": "도장 패시브로 매 턴 2번 행동하므로 칸의 왼쪽 위가 1번째, 오른쪽 아래가 2번째 행동입니다. 칸을 누르면 행동마다 한 줄씩 고릅니다.",
+       "en": "He acts twice every turn through his Sigil passive, so the top-left of a cell is action 1 and the bottom-right is action 2. Click a cell to choose each action on its own row.",
+       "ja": "刻印パッシブで毎ターン2回行動するため、マスの左上が1回目、右下が2回目の行動です。マスを押すと行動ごとに1行ずつ選べます。",
+       "zh": "因印章被動每回合行動 2 次，格子左上為第 1 次、右下為第 2 次行動。點選格子即可逐一選擇每次行動。",
+       "zhs": "因印章被动每回合行动 2 次，格子左上为第 1 次、右下为第 2 次行动。点选格子即可逐一选择每次行动。"
+      },
+      {
+       "kr": "1번 자리에서 임부언과 함께 편성하면, 임부언이 필살기를 쓰는 턴의 칸에 받은 추가 행동 조각(아래 막대)이 더해져 그 행동도 정할 수 있습니다.",
+       "en": "With Lee Taeho in slot 1 and Boss Ren on the team, turns where Boss Ren uses the EX Skill get an extra-action piece (bar underneath), so you can set that action too.",
+       "ja": "1番の枠で任富言と一緒に編成すると、任富言が必殺技を使うターンのマスにもらった追加行動の部分(下にバー)が加わり、その行動も決められます。",
+       "zh": "李泰虎在 1 號位且隊伍中有任富言時，任富言使用必殺技的回合格會多出獲得的追加行動片段(下方有橫條)，也能決定該行動。",
+       "zhs": "李泰虎在 1 号位且队伍中有任富言时，任富言使用必杀技的回合格会多出获得的追加行动片段(下方有横条)，也能决定该行动。"
+      },
+      {
+       "kr": "육성에서 도장 잠금해제를 끄면 턴당 1번 행동으로 계획하고 실행합니다.",
+       "en": "Turning off Unlock Sigil in Growth plans and runs him with one action per turn.",
+       "ja": "育成で刻印解放をオフにすると、1ターン1回の行動として計画・実行します。",
+       "zh": "在養成中關閉印章解鎖時，會以每回合 1 次行動規劃並執行。",
+       "zhs": "在养成中关闭印章解锁时，会以每回合 1 次行动规划并执行。"
+      }
+     ]
+    },
+    {
+     "cat": "qol",
+     "text": {
+      "kr": "실행 미리보기와 ④ 턴별 행동 계획 칸이 한 턴의 행동을 실행 순서대로 나눠 보여 줍니다.",
+      "en": "Cells in the run preview and the ④ turn plan show a turn's actions split in execution order.",
+      "ja": "実行プレビューと④ターン別行動計画のマスが、1ターンの行動を実行順に分けて表示します。",
+      "zh": "執行預覽與④逐回合行動計畫的格子，會依執行順序分段顯示一回合內的行動。",
+      "zhs": "执行预览与④逐回合行动计划的格子，会依执行顺序分段显示一回合内的行动。"
+     },
+     "details": [
+      {
+       "kr": "턴당 2번 행동, 동료의 필살기로 받은 추가 행동, 자기 스킬로 이어지는 추가 행동이 모두 칸 안에 왼쪽부터 표시됩니다.",
+       "en": "Two actions per turn, extra actions granted by an ally's EX Skill, and extra actions chained by a companion's own skill all appear inside the cell from left to right.",
+       "ja": "1ターン2回の行動、仲間の必殺技でもらった追加行動、自分のスキルで続く追加行動がすべてマスの中に左から表示されます。",
+       "zh": "每回合 2 次行動、由夥伴必殺技獲得的追加行動、由自身技能接續的追加行動，都會在格子內由左至右顯示。",
+       "zhs": "每回合 2 次行动、由伙伴必杀技获得的追加行动、由自身技能接续的追加行动，都会在格子内由左至右显示。"
+      },
+      {
+       "kr": "추가 행동 조각에는 아래 막대가 붙고, 칸에 포인터를 두면 ‘보통 공격 → 필살기(추가 행동)’처럼 순서가 보입니다.",
+       "en": "Extra-action pieces get a bar underneath, and hovering a cell shows the order, such as ‘Normal Attack → EX Skill (extra action)’.",
+       "ja": "追加行動の部分には下にバーが付き、マスにポインターを置くと「通常攻撃 → 必殺技(追加行動)」のように順番が見えます。",
+       "zh": "追加行動的片段下方有橫條，將游標移到格子上可看到「普通攻擊 → 必殺技(追加行動)」等順序。",
+       "zhs": "追加行动的片段下方有横条，将游标移到格子上可看到「普通攻击 → 必杀技(追加行动)」等顺序。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "④ 턴별 행동 계획에서 한 턴에 여러 번 행동하는 칸을 누르면 행동마다 한 줄씩 고를 수 있습니다.",
+      "en": "In the ④ turn plan, clicking a cell where a companion acts more than once lets you choose each action on its own row.",
+      "ja": "④ターン別行動計画で、1ターンに複数回行動するマスを押すと行動ごとに1行ずつ選べます。",
+      "zh": "在④逐回合行動計畫中點選一回合行動多次的格子，可逐一為每次行動選擇。",
+      "zhs": "在④逐回合行动计划中点选一回合行动多次的格子，可逐一为每次行动选择。"
+     },
+     "details": [
+      {
+       "kr": "자기 행동은 그 칸을 고정하고, 받은 추가 행동은 이 턴을 지금 결과로 잠근 뒤 그 행동만 바꿉니다.",
+       "en": "Own actions pin the cell; a granted extra action locks the turn to the current result and changes only that action.",
+       "ja": "自分の行動はそのマスを固定し、もらった追加行動はこのターンを現在の結果でロックしてその行動だけを変えます。",
+       "zh": "自身行動會固定該格；獲得的追加行動會以目前結果鎖定此回合後只變更該行動。",
+       "zhs": "自身行动会固定该格；获得的追加行动会以目前结果锁定此回合后只变更该行动。"
+      },
+      {
+       "kr": "자기 스킬로 이어지는 추가 행동은 엔진이 정하므로 표시만 됩니다.",
+       "en": "Extra actions chained by a companion's own skill are decided by the engine and are shown only.",
+       "ja": "自分のスキルで続く追加行動はエンジンが決めるため、表示のみです。",
+       "zh": "由自身技能接續的追加行動由引擎決定，僅供顯示。",
+       "zhs": "由自身技能接续的追加行动由引擎决定，仅供显示。"
+      }
+     ]
+    },
+    {
+     "cat": "new",
+     "text": {
+      "kr": "직접 지정 줄과 ④ 동료 메뉴에 ‘모두 보통 공격’ · ‘모두 방어’ · ‘패턴 반복’이 있습니다.",
+      "en": "The Per turn row and the ④ companion menu have ‘All Normal Attack’, ‘All Defend’ and ‘Repeat pattern’.",
+      "ja": "直接指定の行と④の仲間メニューに「すべて通常攻撃」「すべて防御」「パターン反復」があります。",
+      "zh": "直接指定列與④夥伴選單新增「全部普通攻擊」「全部防禦」「重複模式」。",
+      "zhs": "直接指定列与④伙伴选单新增「全部普通攻击」「全部防御」「重复模式」。"
+     },
+     "details": [
+      {
+       "kr": "‘모두 보통 공격’ · ‘모두 방어’는 필살기 칸은 그대로 두고 나머지 칸을 모두 그 행동으로 바꿉니다.",
+       "en": "‘All Normal Attack’ and ‘All Defend’ keep the EX Skill cells and set every other cell to that action.",
+       "ja": "「すべて通常攻撃」「すべて防御」は必殺技のマスはそのままで、残りのマスをすべてその行動にします。",
+       "zh": "「全部普通攻擊」「全部防禦」會保留必殺技格，其餘格子全部改為該行動。",
+       "zhs": "「全部普通攻击」「全部防御」会保留必杀技格，其余格子全部改为该行动。"
+      },
+      {
+       "kr": "‘패턴 반복’은 시작 턴부터 끝 턴까지의 행동을 그 뒤 턴에 같은 순서로 반복해 고정합니다. 칸을 눌러 ‘여기까지를 패턴으로 반복’을 골라도 됩니다.",
+       "en": "‘Repeat pattern’ pins the turns after a chosen range to repeat its actions in the same order. You can also click a cell and choose ‘Repeat up to here as a pattern’.",
+       "ja": "「パターン反復」は開始ターンから終了ターンまでの行動を、その後のターンに同じ順で繰り返して固定します。マスを押して「ここまでをパターンとして繰り返す」を選んでも同じです。",
+       "zh": "「重複模式」會將起始回合到結束回合的行動，依相同順序在之後的回合重複並固定。也可點選格子選擇「將至此的行動作為模式重複」。",
+       "zhs": "「重复模式」会将起始回合到结束回合的行动，依相同顺序在之后的回合重复并固定。也可点选格子选择「将至此的行动作为模式重复」。"
+      },
+      {
+       "kr": "모든 동료에게 있고, 적용하면 알림의 되돌리기로 한 번에 취소할 수 있습니다.",
+       "en": "Available for every companion; the undo in the notification cancels it in one step.",
+       "ja": "すべての仲間にあり、適用後は通知の「元に戻す」で一度に取り消せます。",
+       "zh": "所有夥伴皆可使用，套用後可用通知中的復原一次取消。",
+       "zhs": "所有伙伴皆可使用，套用后可用通知中的复原一次取消。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "턴당 2번 행동하는 동료의 칸을 필살기로 고정했을 때 실제 실행과 같으면 ‘실행이 다름’ 표시가 붙지 않습니다.",
+      "en": "Pinning an EX Skill for a companion who acts twice per turn no longer shows ‘Runs differently’ when the run matches.",
+      "ja": "1ターン2回行動する仲間のマスを必殺技に固定したとき、実際の実行と同じなら「実行が異なる」表示が付きません。",
+      "zh": "每回合行動 2 次的夥伴，其格子固定為必殺技時若與實際執行相同，便不會顯示「執行不同」。",
+      "zhs": "每回合行动 2 次的伙伴，其格子固定为必杀技时若与实际执行相同，便不会显示「执行不同」。"
+     },
+     "details": [
+      {
+       "kr": "전투 로그의 턴 요약에서도 턴당 2번 행동하는 동료의 두 번째 행동은 추가 행동으로 표시되지 않습니다.",
+       "en": "In the battle log turn summary, the second action of a companion who acts twice per turn is not marked as an extra action.",
+       "ja": "戦闘ログのターン概要でも、1ターン2回行動する仲間の2回目の行動は追加行動として表示されません。",
+       "zh": "戰鬥紀錄的回合摘要中，每回合行動 2 次的夥伴的第二次行動也不會標示為追加行動。",
+       "zhs": "战斗纪录的回合摘要中，每回合行动 2 次的伙伴的第二次行动也不会标示为追加行动。"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "version": "2.0.1",
    "date": "2026-09-29",
    "highlight": false,

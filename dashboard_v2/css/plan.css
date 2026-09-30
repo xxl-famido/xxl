@@ -24,12 +24,29 @@
 .plan-cells button { position: relative; cursor: pointer; }
 .plan-cells button.pin::after { content: ""; position: absolute; top: 2px; right: 2px; width: 4px; height: 4px; border-radius: var(--radius-full); background: currentColor; opacity: .7; }
 .plan-cells button.nocd.atk { background: var(--bg-subtle); color: var(--text-disabled); border-style: dashed; }
-.plan-cells.multi .pc-turn { display: flex; flex-direction: column; gap: 2px; }
-.plan-cells.multi .pc-turn button { height: 20px; }
-.plan-fed { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
-.plan-fed .plan-label { font: var(--text-body-sm); color: var(--text-secondary); }
-.plan-cells.fed { display: flex; flex-wrap: wrap; gap: 3px; }
-.plan-cells.fed button { width: 36px; }
+/* 턴당 2회(이태호 — 도장 패시브): 칸 하나를 대각선으로 나눈다 — 왼쪽 위 = 1번째, 오른쪽 아래 = 2번째 행동(임부언에게 받은 추가 행동이
+   있는 턴은 대각선 세 칸, 마지막 조각 아래 막대). 조각 색은 다른 칸과 같다. 턴 번호는 색 위에서도 읽히도록 칸 바탕색 라벨 위에. */
+.plan-cells button.split { --pc-atk: var(--bg-surface); --pc-ult: var(--accent-solid); --pc-def: var(--border-strong);
+  --pc-line: color-mix(in srgb, var(--text-primary) 16%, transparent); --c0: var(--pc-atk); --c1: var(--pc-atk); --c2: var(--pc-atk);
+  padding: 0; background-repeat: no-repeat;
+  background-image:
+    linear-gradient(to bottom right, transparent calc(50% - .6px), var(--pc-line) 50%, transparent calc(50% + .6px)),
+    linear-gradient(to bottom right, var(--c0) calc(50% - .4px), var(--c1) calc(50% + .4px)); }
+.plan-cells button.split.k3 { background-image:
+    linear-gradient(to bottom right, transparent calc(33.333% - .6px), var(--pc-line) 33.333%, transparent calc(33.333% + .6px),
+      transparent calc(66.667% - .6px), var(--pc-line) 66.667%, transparent calc(66.667% + .6px)),
+    linear-gradient(to bottom right, var(--c0) calc(33.333% - .4px), var(--c1) calc(33.333% + .4px), var(--c1) calc(66.667% - .4px), var(--c2) calc(66.667% + .4px)); }
+/* 받은 추가 행동(마지막 대각선 조각)의 아래 막대 — 그 조각이 닿는 아래 변(오른쪽 2/3)에만 */
+.plan-cells button.split.k3.xlast { background-image:
+    linear-gradient(var(--text-primary), var(--text-primary)),
+    linear-gradient(to bottom right, transparent calc(33.333% - .6px), var(--pc-line) 33.333%, transparent calc(33.333% + .6px),
+      transparent calc(66.667% - .6px), var(--pc-line) 66.667%, transparent calc(66.667% + .6px)),
+    linear-gradient(to bottom right, var(--c0) calc(33.333% - .4px), var(--c1) calc(33.333% + .4px), var(--c1) calc(66.667% - .4px), var(--c2) calc(66.667% + .4px));
+  background-size: 66.667% 3px, auto, auto; background-position: right bottom, 0 0, 0 0; }
+.plan-cells button.split .pc-num { display: inline-block; min-width: 18px; padding: 0 3px; border-radius: 4px; background: var(--bg-surface);
+  color: var(--text-secondary); font-weight: 600; line-height: 16px; font-variant-numeric: tabular-nums; pointer-events: none; }
+.plan-cells button.split.pin::after { z-index: 1; background: var(--text-primary); opacity: 1; box-shadow: 0 0 0 1.5px var(--bg-surface); }
+.adv-plan .plan-cells button.split.masked { opacity: .5; }
 
 /* ② 예외 턴 */
 .exc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
@@ -59,6 +76,13 @@
 :is(#app-plan, .plan-scope) .pv-cells i { cursor: default; }
 :is(#app-plan, .plan-scope) .pv-cells i:hover { outline: 1px solid var(--border-strong); outline-offset: 1px; }
 .pv-cells i.none { background: transparent; box-shadow: inset 0 0 0 1px var(--border-subtle); }
+/* 한 턴에 여러 번 행동한 칸 = 실행 순서대로 나눈 조각(왼쪽부터). 조각 색 = 그 행동, 추가 행동 조각 = 아래 막대 */
+.pv-cells i.multi { display: flex; gap: 1px; background: transparent; }
+.pv-cells i.multi > b { flex: 1 1 0; min-width: 0; border-radius: 2px; background: var(--bg-selected); }
+.pv-cells i.multi > b.ult { background: var(--accent-solid); }
+.pv-cells i.multi > b.def { background: var(--border-strong); }
+.pv-cells i.multi > b.x, .pv-cells i.extra, .pv.extra { box-shadow: inset 0 -3px 0 var(--text-primary); }
+.pv-cells i.extra, .pv.extra { background: var(--bg-selected); }
 .pv-row.hl .pv-name { color: var(--accent-text); font-weight: 600; }
 .pv-grid .pv-axis { position: relative; display: block; height: 16px; }
 .pv-grid .pv-axis span { position: absolute; top: 0; transform: translateX(-50%); font-variant-numeric: tabular-nums; }
@@ -155,8 +179,17 @@
 .pg-c.pin::after { content: ""; position: absolute; top: 3px; left: 50%; width: 5px; height: 5px; margin-left: -2.5px; border-radius: var(--radius-full); background: currentColor; }
 .pg-c.masked::after { content: ""; position: absolute; top: 3px; left: 50%; width: 5px; height: 5px; margin-left: -2.5px; border-radius: var(--radius-full);
   background: transparent; box-shadow: 0 0 0 1px var(--text-tertiary); }
-.pg-c.x { box-shadow: inset 0 -4px 0 var(--accent-solid); }
-.pg-c.pin.x { box-shadow: inset 0 0 0 2px var(--text-primary), inset 0 -4px 0 var(--accent-solid); }
+.pg-c.x { box-shadow: inset 0 -4px 0 var(--text-primary); }
+.pg-c.pin.x { box-shadow: inset 0 0 0 2px var(--text-primary), inset 0 -4px 0 var(--text-primary); }
+/* 한 턴 여러 행동(턴당 2회 · 받은 추가 행동): 칸을 실행 순서대로 나눈 조각(왼쪽부터). 고정 테두리가 보이도록 고정 칸은 2px 안쪽 */
+.pg-c.multi { background: transparent; }
+.pg-segs { position: absolute; inset: 0; display: flex; gap: 1px; border-radius: inherit; overflow: hidden; pointer-events: none; }
+.pg-c.multi.pin .pg-segs { inset: 2px; border-radius: 1px; }
+.pg-seg { flex: 1 1 0; min-width: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--bg-selected); color: var(--text-secondary); }
+.pg-seg.ult { background: var(--accent-muted); color: var(--accent-text); }
+.pg-seg.def { background: var(--border-default); color: var(--text-primary); }
+.pg-seg.x { box-shadow: inset 0 -4px 0 var(--text-primary); }
+.pg-c.lock .pg-seg { background-image: repeating-linear-gradient(135deg, transparent 0 3px, color-mix(in srgb, var(--text-primary) 12%, transparent) 3px 5px); }
 .pg-c.lock { cursor: default; background-image: repeating-linear-gradient(135deg, transparent 0 3px, color-mix(in srgb, var(--text-primary) 12%, transparent) 3px 5px); }
 .pg-c.warn::before { content: ""; position: absolute; z-index: 1; top: -2px; right: -2px; width: 7px; height: 7px; border-radius: var(--radius-full);
   background: var(--status-warning-solid); box-shadow: 0 0 0 1.5px var(--bg-surface); }
@@ -176,7 +209,7 @@
 .pl-sw-pin-atk { background: var(--bg-surface) !important; box-shadow: inset 0 0 0 2px var(--text-tertiary); }
 .pl-sw-pin-ult::after, .pl-sw-pin-def::after, .pl-sw-pin-atk::after { content: ""; position: absolute; top: 2px; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: var(--radius-full); background: var(--bg-surface); }
 .pl-sw-pin-atk::after { background: var(--text-tertiary); }
-.pl-sw-x { box-shadow: inset 0 -4px 0 var(--accent-solid); }
+.pl-sw-x { box-shadow: inset 0 -4px 0 var(--text-primary); }
 .pl-sw-warn { background: transparent !important; box-shadow: inset 0 0 0 1px var(--border-subtle); }
 .pl-sw-warn::before { content: ""; position: absolute; top: -2px; right: -3px; width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--status-warning-solid); }
 .pl-sw-lock { background-image: repeating-linear-gradient(135deg, transparent 0 3px, color-mix(in srgb, var(--text-primary) 18%, transparent) 3px 5px); }
@@ -263,6 +296,32 @@
 .menu.pl-pop button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .pl-pop-sw { position: relative; display: inline-block; flex: none; width: 10px; height: 14px; border-radius: 2px; background: var(--bg-selected); }
 .pl-pop-why { flex-basis: 100%; padding-left: 18px; font: var(--text-caption); color: var(--text-tertiary); }
+/* 한 턴 여러 행동 칸: 행동마다 한 줄(이름 + 평타·필살·방어) */
+.menu.pl-pop.pl-pop-rows { min-width: 0; width: max-content; max-width: calc(100vw - 16px); }
+.pl-pop-row { display: flex; align-items: center; gap: var(--space-2); padding: 2px var(--space-1) 2px var(--space-3); }
+.pl-pop-rl { flex: none; width: 76px; font: var(--text-caption); color: var(--text-secondary); white-space: nowrap; }
+.pl-pop-seg { display: flex; flex: 1; gap: 2px; }
+.menu.pl-pop .pl-pop-seg button { flex: 1 1 0; width: auto; height: 32px; min-height: 32px; padding: 0 var(--space-3); gap: 6px; justify-content: center; flex-wrap: nowrap;
+  border: var(--border-w) solid var(--border-subtle); font: var(--text-body-sm); white-space: nowrap; }
+.menu.pl-pop .pl-pop-seg button.on { background: var(--bg-selected); border-color: var(--text-primary); font-weight: 600; }
+.menu.pl-pop .pl-pop-seg button:disabled { height: 32px; padding: 0 var(--space-3); }
+.pl-pop-note { display: block; padding: 0 var(--space-3) var(--space-1) calc(var(--space-3) + 76px + var(--space-2)); font: var(--text-caption); color: var(--text-tertiary); }
+.pl-sheet-row { display: flex; align-items: center; gap: var(--space-2); }
+.pl-sheet-rl { flex: none; width: 84px; font: var(--text-body-sm); color: var(--text-secondary); }
+.pl-sheet-seg { display: flex; flex: 1; gap: var(--space-1); }
+.pl-sheet-seg .pl-opt { flex: 1 1 0; justify-content: center; padding: 0 var(--space-1); }
+.pl-cellsheet .pl-sheet-row + .hint { margin: calc(var(--space-1) * -1) 0 0 calc(84px + var(--space-2)); }
+
+/* 패턴 반복 시트: 시작 턴 ~ 끝 턴 + 설명 */
+.repeat-sheet { display: flex; flex-direction: column; gap: var(--space-3); }
+.repeat-range { display: flex; align-items: flex-end; gap: var(--space-2); }
+.repeat-range label { display: flex; flex-direction: column; gap: var(--space-1); font: var(--text-caption); color: var(--text-secondary); }
+.repeat-range select { min-width: 112px; height: var(--control-md); padding: 0 var(--space-8) 0 var(--space-3); border-radius: var(--radius-md); border: var(--border-w) solid var(--border-default);
+  background: var(--bg-surface); color: var(--text-primary); font: var(--text-body); appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23696764' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center; }
+.repeat-range select:hover { border-color: var(--border-strong); }
+.repeat-dash { padding-bottom: 9px; color: var(--text-tertiary); }
 
 /* ── 맞추기(문장형) ─────────────────────────────────────────── */
 .sync-list { display: flex; flex-direction: column; gap: var(--space-2); }
@@ -350,6 +409,7 @@
   .pg-th .ic { width: 14px; height: 14px; }
   .pg-c { grid-row: calc(var(--c) + 1); grid-column: calc(var(--r) + 2); border-radius: var(--radius-sm); }
   .pg-c .pg-ab { display: inline; }
+  .pg-segs .pg-ab { font-size: 10px; }
   .pg-c.pin::after { top: 4px; }
   .sentence .s-member, .sentence .s-note { padding-left: 0; }
   .sentence .s-line select { flex: 1 1 140px; min-height: 44px; }

@@ -1,7 +1,8 @@
 // 행동 계획 패널 — 두 가지 모양(같은 코드):
 //   main(메인 화면, 고급 설정 꺼짐) = 확정 목업 mockup.html:
 //     ① 순서와 필살기: 행 = 번호 · 초상 · 이름 · 방식(자동 / 직접 지정) · ▲▼(끌기도). 직접 지정이면 행 아래 턴 칸(= 그 동료의 핀 줄) + 프리셋
-//        (3턴마다 · 필살기 직전 방어 · 간격 맞추기 — 성공 가정을 켜는 프리셋은 고급 설정에만). 욱영 '아군 필살기 나중' 체크, 이태호 받은 추가 행동.
+//        (3턴마다 · 필살기 직전 방어 · 간격 맞추기 — 성공 가정을 켜는 프리셋은 고급 설정에만). 욱영 '아군 필살기 나중' 체크.
+//        턴당 2회 행동(이태호 — 도장 패시브)은 칸 하나를 행동 수만큼 나눔(왼쪽부터 실행 순서, 임부언에게 받은 추가 행동 조각 = 아래 막대).
 //     ② 예외 턴: 목록 + 「턴 추가」 시트.  실행 미리보기: 엔진 프로브 결과(읽기 전용).
 //     패널 맨 아래 전체 폭 진입 버튼(「고급 설정에서 세부 행동 편집」).
 //   main(고급 설정 켜짐) = 같은 패널을 흐리게 + inert(.is-dimmed) + 머리 아래 배너 한 줄(제단 강제면 사유), 진입 버튼 = 「고급 설정 열기 · 사용 중」.
@@ -11,11 +12,12 @@
 //     기본 설정과 고급 설정의 값은 advanced.js 가 따로 보관하므로 여기서 바꿔도 메인 값은 바뀌지 않는다.
 //     욱영 프리셋은 ③. [D3] 「첫 필살기 당기기」 프리셋 삭제(옛 기록의 핀은 그대로 읽힘).
 // 턴 칸 클릭 = 선택 팝오버(plan-helpers cellPicker). 상태·계산은 전부 core(store.plan / store.pins / store.sync).
-import { ultOf, syncGroupOf, normalizeSyncGroups, summary, taehoFedTurns, effectiveTeam, planView } from '../core/plan.js';
+import { ultOf, syncGroupOf, normalizeSyncGroups, summary, taehoFedTurns, effectiveTeam, planView, cellsOf } from '../core/plan.js';
 import { UK_ID, IMBUEON_ID } from '../core/format.js';
 import {
-  ACT_CLS, ACT_KEY, ACT_CYCLE, autoUltTurns, groupExceptions, actsOf, cellClass, turnsText, sortable, shortName, setBaseCtx, ukPresetIndex, cellPicker,
+  ACT_CLS, ACT_KEY, autoUltTurns, groupExceptions, actsOf, actSegs, segsKey, actsLabel, turnsText, sortable, shortName, setBaseCtx, ukPresetIndex, cellPicker,
   assistEffect, keepDefEffect, ukPresetOverwrites, helpTip, isFedCarry, pinUltWithRules, pinUltNotice, presetTip, stackOrderRisk, presetBlockedByMode,
+  fillRowNow, openRepeatSheet,
 } from './plan-helpers.js';
 import { openAdvanced, advIsOn, onAdvChange, hasDeep, advSetOn, advForced } from './advanced.js';
 
@@ -183,7 +185,7 @@ export async function mount(host, ctx) {
   }
 
   function rowContent(s, i, k, len, st, env, n, eff, ukIdx, ukAnchor) {
-    const pos = i + 1, meta = st.chars[s.id] || {}, name = nameOf(s.id);
+    const pos = i + 1, meta = env.chars[s.id] || st.chars[s.id] || {}, name = nameOf(s.id);
     const direct = isDirect(pos);
     const u = ultOf(s), mode = u.mode === 'strict' ? 'strict' : u.mode === 'asap' ? 'asap' : 'auto';
     const auto = autoUltTurns(meta, n, env, 3, s);   // 성공 가정이 당기면 당겨진 턴(#27)
@@ -231,9 +233,9 @@ export async function mount(host, ctx) {
     }
     if (direct) out.push(planStrip(i, st, env, n, name, eff));
     else {
+      // 이태호: 임부언에게 받은 추가 행동은 직접 지정 줄(창에서는 ④ 칸 메뉴도)에서 턴마다 정한다
       const fedTurns = taehoFedTurns(s, st.team, n, env);
-      // [ADV_REVIEW #15] 창: 줄에 고정 칸이 있으면 받은 추가 행동 칸은 ④ 아래에 있으므로 안내하지 않는다
-      if (fedTurns && fedTurns.size && !(ADV && hasPins(pos))) out.push(h('div', { class: 'row-opt' }, h('span', { class: 'hint' }, t(ADV ? 'plan.fed.manualHint.adv' : 'plan.fed.manualHint', { name: nameOf(IMBUEON_ID) }))));
+      if (fedTurns && fedTurns.size) out.push(h('div', { class: 'row-opt' }, h('span', { class: 'hint' }, t(ADV ? 'plan.fed.manualHint.adv' : 'plan.fed.manualHint', { name: nameOf(IMBUEON_ID) }))));
     }
     return out;
   }
@@ -320,8 +322,9 @@ export async function mount(host, ctx) {
     const presets = MAIN_PRESETS.filter((p) => store.pins.presetAvailable(pos, p)).map((p) =>
       h('button', { type: 'button', class: 'btn btn-ghost btn-sm', 'data-fk': `pre:${pos}:${p}`, 'data-preset': p, disabled: !!presetBlockedByMode(st.team[i], p),
         title: presetBlockedByMode(st.team[i], p) ? t('plan.row.preset.asap') : presetTip(t, i18n, p, st.team[i].id), onClick: () => applyPreset(pos, p, name) }, t(PRESET_KEY[p])));
-    const cells = h('div', { class: `plan-cells${pv.apt > 1 ? ' multi' : ''}`, role: 'group', 'aria-label': t('plan.turn.cells.aria', { name }) });
+    const multi = pv.apt > 1;
     const pinned = store.pins.row(pos);
+    const actName = (a) => t(ACT_KEY[a] || 'plan.act.atk');
     const cellBtn = (idx, ti, label) => {
       const act = shown(idx, ti);
       const nocd = !!pv.lockUlt[ti];
@@ -329,56 +332,98 @@ export async function mount(host, ctx) {
       const masked = ADV && pin && lockedAt(st, ti + 1);
       const warn = ADV && pin && !masked && ignored.has(ti + 1);
       const extraNote = [];
-      if (warn && probe) extraNote.push(t('plan.grid.ignored', { acts: actsOf(probe, ti + 1, pos).map((x) => t(ACT_KEY[x] || 'plan.act.atk')).join(' → ') || t('plan.pv.cell.none') }));
-      if (masked) extraNote.push(t('plan.grid.masked', { act: [...pinned[ti + 1]].map((x) => t(ACT_KEY[x] || 'plan.act.atk')).join(' → ') }));
+      if (warn && probe) extraNote.push(t('plan.grid.ignored', { acts: actsLabel(t, actsOf(probe, ti + 1, pos), pv.apt) }));
+      if (masked) extraNote.push(t('plan.grid.masked', { act: cellsOf(pinned[ti + 1], pv.apt).map(actName).join(' → ') }));
       if (nocd) extraNote.push(immuneAt(pv, ti) ? t('plan.turn.cell.immune', { name: nameOf(IMBUEON_ID) }) : t('plan.turn.cell.nocd'));
-      const aria = [t('plan.turn.cell.aria', { turn: ti + 1, action: act ? t(ACT_KEY[act]) : t('plan.pv.cell.none') }), ...(pin && !masked ? [t('plan.legend.pin')] : []), ...extraNote].join(' · ');
+      const what = act ? t(ACT_KEY[act]) : t('plan.pv.cell.none');
+      const aria = [t('plan.turn.cell.aria', { turn: ti + 1, action: what }), ...(pin && !masked ? [t('plan.legend.pin')] : []), ...extraNote].join(' · ');
       return h('button', { type: 'button', class: `${act ? ACT_CLS[act] : 'none'}${nocd ? ' nocd' : ''}${pin ? ' pin' : ''}${masked ? ' masked' : ''}${warn ? ' warn' : ''}`,
         'data-fk': `cell:${pos}:${idx}`, 'data-t': String(ti + 1), title: ADV ? aria : null,
         'aria-haspopup': 'menu', 'aria-label': aria,
         onClick: (e) => pickCell(e.currentTarget, pos, pv, idx, ti, name, pin, act) }, label);
     };
-    for (let ti = 0; ti < n; ti++) {
-      if (pv.apt === 1) cells.append(cellBtn(ti, ti, String(ti + 1)));
-      else cells.append(h('div', { class: 'pc-turn' }, ...Array.from({ length: pv.apt }, (_, a) => cellBtn(ti * pv.apt + a, ti, a === 0 ? String(ti + 1) : ''))));
+    // 줄 유틸(모든 동료): 모두 보통 공격 · 모두 방어(필살기 칸 유지) · 패턴 반복 — 뒤에 동료별 프리셋
+    const util = (fk, label, tip, onClick) => h('button', { type: 'button', class: 'btn btn-ghost btn-sm', 'data-fk': `util:${pos}:${fk}`, 'data-util': fk, title: tip, onClick }, label);
+    const utils = [
+      util('fillAtk', t('plan.turn.preset.fillAtk'), t('plan.turn.preset.tip.fillAtk'), () => fillRowNow(ctx, pos, ATK, name)),
+      util('fillDef', t('plan.turn.preset.fillDef'), t('plan.turn.preset.tip.fillDef'), () => fillRowNow(ctx, pos, DEF, name)),
+      util('repeat', t('plan.repeat.btn'), t('plan.repeat.tip'), () => openRepeatSheet(ctx, pos, name)),
+    ];
+    const tools = h('div', { class: 'plan-tools' },
+      h('span', { class: 'plan-label' }, t('plan.turn.label'), ' ', h('span', { class: 'hint' }, t('plan.turn.hint')),
+        ADV ? helpTip(C, t('plan.turn.cdHint.adv'), t('plan.adv.help.aria', { what: t('plan.turn.label') })) : null),   // [ADV_REVIEW #9]
+      h('div', { class: 'plan-presets', role: 'group', 'aria-label': t('plan.turn.presets.aria', { name }) }, ...utils, ...presets));
+    if (!multi) {
+      const cells = h('div', { class: 'plan-cells', role: 'group', 'aria-label': t('plan.turn.cells.aria', { name }) },
+        ...Array.from({ length: n }, (_, ti) => cellBtn(ti, ti, String(ti + 1))));
+      const strip = h('div', { class: 'plan-strip' }, tools, cells);
+      if (MAIN) strip.append(h('p', { class: 'hint' }, t('plan.turn.cdHint')));
+      return strip;
     }
-    const strip = h('div', { class: 'plan-strip' },
-      h('div', { class: 'plan-tools' },
-        h('span', { class: 'plan-label' }, t('plan.turn.label'), ' ', h('span', { class: 'hint' }, t('plan.turn.hint')),
-          ADV ? helpTip(C, t('plan.turn.cdHint.adv'), t('plan.adv.help.aria', { what: t('plan.turn.label') })) : null),   // [ADV_REVIEW #9]
-        presets.length ? h('div', { class: 'plan-presets', role: 'group', 'aria-label': t('plan.turn.presets.aria', { name }) }, ...presets) : null),
-      cells);
-    // 이태호: 임부언에게 받은 추가 행동(직접 지정 줄에만 실린다)
-    if (pv.fedTurns && pv.fedTurns.size) {
-      const fedCells = [...pv.fedTurns].filter((x) => x <= n).sort((a, b) => a - b).map((tt) => {
-        const a = pv.fed[tt] || ATK;
-        return h('button', { type: 'button', class: ACT_CLS[a], 'data-fk': `fed:${pos}:${tt}`, 'aria-label': t('plan.fed.cell.aria', { turn: tt, action: t(ACT_KEY[a]) }),
-          onClick: () => keepFocus(() => store.plan.setFed(i, tt, ACT_CYCLE[a])) }, String(tt));
-      });
-      strip.append(h('div', { class: 'plan-fed' }, h('span', { class: 'plan-label' }, t('plan.fed.label', { name: nameOf(IMBUEON_ID) })),
-        h('div', { class: 'plan-cells fed', role: 'group', 'aria-label': t('plan.fed.label', { name: nameOf(IMBUEON_ID) }) }, ...fedCells)));
-    }
-    if (MAIN) strip.append(h('p', { class: 'hint' }, t('plan.turn.cdHint')));
-    return strip;
+    // 턴당 2회(이태호 — 도장 패시브): 다른 동료와 같은 칸 하나를 행동 수만큼 나눈다(왼쪽부터 실행 순서 — 실행 미리보기·④ 격자와 같은 모양).
+    // 임부언이 필살기를 쓰는 턴에는 받은 추가 행동 조각(아래 막대)이 붙는다. 칸을 누르면 행동마다 한 줄씩 고르는 메뉴(pickTurn).
+    const fedTurns = pv.fedTurns && pv.fedTurns.size ? pv.fedTurns : null;
+    const splitBtn = (ti) => {
+      const tt = ti + 1;
+      const own = Array.from({ length: pv.apt }, (_, a) => shown(ti * pv.apt + a, ti) || ATK);
+      const fedA = fedTurns && fedTurns.has(tt) ? (pv.fed[tt] || ATK) : null;
+      const acts = fedA ? [...own, fedA] : own;
+      const pin = !!pinned[tt];
+      const masked = ADV && pin && lockedAt(st, tt);
+      const warn = ADV && pin && !masked && ignored.has(tt);
+      const notes = [];
+      if (warn && probe) notes.push(t('plan.grid.ignored', { acts: actsLabel(t, actsOf(probe, tt, pos), pv.apt) }));
+      if (masked) notes.push(t('plan.grid.masked', { act: cellsOf(pinned[tt], pv.apt).map(actName).join(' → ') }));
+      const aria = [t('plan.turn.cell.aria', { turn: tt, action: actsLabel(t, acts, pv.apt) }), ...(pin && !masked ? [t('plan.legend.pin')] : []), ...notes].join(' · ');
+      // 대각선으로 나눈 칸: --c0·--c1(·--c2) = 조각 색(왼쪽 위부터 실행 순서), xlast = 마지막 조각이 받은 추가 행동(아래 막대)
+      const segs = actSegs(acts, pv.apt);
+      const colors = segs.map((sg, k) => `--c${k}:var(--pc-${sg.cls})`).join(';');
+      const xlast = segs.length && segs[segs.length - 1].extra;
+      return h('button', { type: 'button', class: `split k${segs.length}${xlast ? ' xlast' : ''}${pin ? ' pin' : ''}${masked ? ' masked' : ''}${warn ? ' warn' : ''}`, style: colors,
+        'data-fk': `cell:${pos}:${tt}`, 'data-t': String(tt), title: ADV ? aria : null, 'aria-haspopup': 'menu', 'aria-label': aria,
+        onClick: (e) => pickTurn(e.currentTarget, i, tt, name, own, fedA) }, h('span', { class: 'pc-num' }, String(tt)));
+    };
+    const cells = h('div', { class: 'plan-cells', role: 'group', 'aria-label': t('plan.turn.cells.aria', { name }) },
+      ...Array.from({ length: n }, (_, ti) => splitBtn(ti)));
+    // 쿨타임 안내 대신 행동 횟수 안내(필살기 CD 1턴 — 잠기는 칸이 없다)
+    const hint = h('p', { class: 'hint' }, t('plan.turn.multiHint', { n: pv.apt }), fedTurns ? ` ${t('plan.turn.fedHint', { name: nameOf(IMBUEON_ID) })}` : '');
+    return h('div', { class: 'plan-strip' }, tools, cells, hint);
   }
 
-  /** 칸 선택 팝오버: 보통 공격 / 필살기(쿨타임이 안 돌아온 턴은 비활성 + 이유) / 방어 (+ 고급 설정 창은 고정 해제). */
+  /**
+   * 턴당 2회 칸 메뉴: 행동마다 한 줄(1번째 · 2번째 · 임부언에게 받은 추가 행동). 자기 행동 = 그 턴 고정 칸(행동 수만큼 — 필살기는 한 턴에 한 번),
+   * 받은 추가 행동 = fedActions(고정 칸이 있는 줄에만 실리므로 없으면 이 턴을 함께 고정). own = 지금 칸의 자기 행동, fedA = 받은 추가 행동(없으면 null).
+   */
+  function pickTurn(anchor, i, tt, name, own, fedA) {
+    const pos = i + 1;
+    const SW = { [ATK]: 'pl-sw-atk', [ULT]: 'pl-sw-pin-ult', [DEF]: 'pl-sw-def' };
+    const choices = (cur, pick) => [ATK, ULT, DEF].map((a) => ({ label: t(ACT_KEY[a]), swatch: SW[a], current: cur === a, onSelect: () => pick(a) }));
+    const setOwn = (k, a) => keepFocus(() => {
+      const turn = own.slice();
+      turn[k] = a;
+      if (a === ULT) turn.forEach((x, j) => { if (j !== k && x === ULT) turn[j] = ATK; });
+      store.pins.set(tt, pos, turn.join(''));
+    });
+    const items = own.map((cur, k) => ({ row: t('plan.pop.nth', { n: k + 1 }), choices: choices(cur, (a) => setOwn(k, a)) }));
+    if (fedA) items.push({ row: t('plan.pop.extra'), note: t('plan.fed.label', { name: nameOf(IMBUEON_ID) }), choices: choices(fedA, (a) => keepFocus(() => {
+      if (!Object.keys(store.pins.row(pos)).length) store.pins.set(tt, pos, own.join(''));
+      store.plan.setFed(i, tt, a);
+    })) });
+    if (ADV && store.pins.row(pos)[tt]) items.push('sep', { label: t('plan.cellSheet.clear'), iconName: 'x', onSelect: () => keepFocus(() => store.pins.set(tt, pos, null)) });
+    if (tt < turnsN()) items.push('sep', { label: t('plan.repeat.cell'), iconName: 'copy', onSelect: () => openRepeatSheet(ctx, pos, name, tt) });
+    cellPicker(C, anchor, { title: t('plan.cellSheet.title', { turn: tt, name }), items, mobile: isMobile(), closeLabel: t('plan.close') });
+  }
+
+  /** 칸 선택 팝오버(턴당 1회 동료 — 턴당 2회는 pickTurn): 보통 공격 / 필살기(쿨타임이 안 돌아온 턴은 비활성 + 이유) / 방어 (+ 고급 설정 창은 고정 해제). */
   function pickCell(anchor, pos, pv, idx, ti, name, pinned, shownAct) {
     const cur = shownAct || pv.view[idx] || ATK;
-    const meta = S().chars[(S().team[pos - 1] || {}).id] || {};
+    const meta = store.env().chars[(S().team[pos - 1] || {}).id] || {};
     const set = (a) => {
-      if (a === ULT && pv.apt === 1) {   // 동료별 규칙(앞 턴 방어 자동 배치 · 전투당 1회) — core pinUltRow
+      if (a === ULT) {   // 동료별 규칙(앞 턴 방어 자동 배치 · 전투당 1회) — core pinUltRow
         keepFocus(() => { const msg = pinUltNotice(t, pinUltWithRules(store, pos, ti + 1), name, ti + 1); if (msg) C.toast(msg); });
         return;
       }
-      let val = a;
-      if (pv.apt > 1) {               // 턴당 2회: 그 턴의 행동 묶음을 통째로 핀(필살기는 한 턴에 하나)
-        const turn = pv.view.slice(ti * pv.apt, (ti + 1) * pv.apt).map((x) => x || ATK);
-        turn[idx - ti * pv.apt] = a;
-        if (a === ULT) turn.forEach((x, k) => { if (k !== idx - ti * pv.apt && x === ULT) turn[k] = ATK; });
-        val = turn.join('');
-      }
-      keepFocus(() => { store.pins.set(ti + 1, pos, val); });
+      keepFocus(() => { store.pins.set(ti + 1, pos, a); });
     };
     const nocd = !!pv.lockUlt[ti];
     const items = [
@@ -388,6 +433,7 @@ export async function mount(host, ctx) {
       { label: t('plan.act.def'), swatch: 'pl-sw-def', current: cur === DEF, onSelect: () => set(DEF) },
     ];
     if (ADV && pinned) items.push('sep', { label: t('plan.cellSheet.clear'), iconName: 'x', onSelect: () => keepFocus(() => store.pins.set(ti + 1, pos, null)) });
+    if (ti + 1 < turnsN()) items.push('sep', { label: t('plan.repeat.cell'), iconName: 'copy', onSelect: () => openRepeatSheet(ctx, pos, name, ti + 1) });
     cellPicker(C, anchor, { title: t('plan.cellSheet.title', { turn: ti + 1, name }), items, mobile: isMobile(), closeLabel: t('plan.close') });
   }
 
@@ -559,17 +605,21 @@ export async function mount(host, ctx) {
     el.pvMsg.hidden = true;
     const next = new Map(), cellEls = new Map();
     const cols = `repeat(${n}, 1fr)`;
+    const chars = store.env().chars;
     const rowEls = order.map((o) => {
-      const pos = o.i + 1, meta = st.chars[o.s.id] || {}, apt = meta.actionsPerTurn || 1, name = nameOf(o.s.id);
+      const pos = o.i + 1, meta = chars[o.s.id] || st.chars[o.s.id] || {}, apt = meta.actionsPerTurn || 1, name = nameOf(o.s.id);
       const cells = h('span', { class: 'pv-cells', style: { gridTemplateColumns: cols } });
       for (let tt = 1; tt <= n; tt++) {
+        // 한 턴에 여러 번 행동하면 칸을 실행 순서대로 나눈다(왼쪽부터) — 추가 행동 조각은 아래 막대
         const acts = actsOf(probe, tt, pos);
-        const cls = cellClass(acts, apt);
-        const actText = acts.length ? acts.map((a) => t(ACT_KEY[a] || 'plan.act.atk')).join(' → ') : t('plan.pv.cell.none');
-        const title = `${t('plan.pv.cell', { turn: tt, name, acts: actText })}${cls === 'extra' ? ` (${t('plan.pv.cell.extra')})` : ''}`;
+        const segs = actSegs(acts, apt);
+        const title = t('plan.pv.cell', { turn: tt, name, acts: actsLabel(t, acts, apt) });
         const key = `${pos}:${tt}`;
-        const c = h('i', { class: cls, title, dataset: { pos: String(pos), t: String(tt) } });
-        next.set(key, cls); cellEls.set(key, c);
+        const data = { pos: String(pos), t: String(tt) };
+        const c = segs.length > 1
+          ? h('i', { class: 'multi', title, dataset: data }, ...segs.map((sg) => h('b', { class: `${sg.cls}${sg.extra ? ' x' : ''}` })))
+          : h('i', { class: segs.length ? segs[0].cls : 'none', title, dataset: data });
+        next.set(key, segsKey(segs) || 'none'); cellEls.set(key, c);
         cells.append(c);
       }
       return h('div', { class: 'pv-row', dataset: { pos: String(pos) } }, h('span', { class: 'pv-name', title: fullName(o.s.id) }, name), cells);

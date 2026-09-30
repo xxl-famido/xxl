@@ -36,7 +36,7 @@ export const GUIDE = [
   { ul: ['cell.li1', 'cell.li2', 'cell.li3'] },
   { sec: 'preset' },
   { p: 'preset.p1' },
-  { ul: ['preset.li1', 'preset.li2', 'preset.li3', 'preset.li4', 'preset.li5'] },
+  { ul: ['preset.li0', 'preset.li1', 'preset.li2', 'preset.li3', 'preset.li4', 'preset.li5', 'preset.li6'] },
   { note: 'preset.note1' },
   { sec: 'ally' },
   { p: 'ally.p1' },

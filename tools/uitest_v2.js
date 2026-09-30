@@ -81,8 +81,8 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
     ok('직접 지정 → 행 아래 30칸 줄', await p.evaluate(pos => document.querySelectorAll(`#app-plan .prio > li[data-pos="${pos}"] .plan-strip .plan-cells > button`).length === 30, pinPos));
     ok('메인 프리셋에 모두 필살기·첫 필살기 당기기 없음', await p.evaluate(() => !document.querySelector('#app-plan [data-preset="allUlt"], #app-plan [data-preset="early"]')));
     await p.click(`#app-plan .prio > li[data-pos="${pinPos}"] .plan-cells button[data-t="2"]`); await sleep(250);
-    ok('칸 클릭 → 선택 팝오버(필살기 비활성 + 이유)', await p.evaluate(() => { const m = document.querySelector('.menu.pl-pop'); if (!m) return false;
-      const b = [...m.querySelectorAll('button')]; return b.length === 3 && b[1].disabled && !!b[1].querySelector('.pl-pop-why'); }));
+    ok('칸 클릭 → 선택 팝오버(필살기 비활성 + 이유 · 패턴 반복)', await p.evaluate(() => { const m = document.querySelector('.menu.pl-pop'); if (!m) return false;
+      const b = [...m.querySelectorAll('button')]; return b.length === 4 && b[1].disabled && !!b[1].querySelector('.pl-pop-why') && /패턴으로 반복/.test(b[3].textContent); }));
     await p.evaluate(() => [...document.querySelectorAll('.menu.pl-pop button')][2].click()); await sleep(300);
     s = await S(p); ok('팝오버에서 방어 → 핀', (s.pins[2] || {})[pinPos] === '방', JSON.stringify(s.pins));
     // 키보드: Enter 로 열고 화살표로 이동, Esc 로 닫고 칸으로 복귀
@@ -95,7 +95,7 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
     const kb3 = await p.evaluate(pos => !document.querySelector('.menu.pl-pop') && document.activeElement.dataset.t === '5' && !!document.activeElement.closest(`li[data-pos="${pos}"]`), pinPos);
     ok('팝오버 키보드(Enter 열기 · 화살표 이동 · Esc 닫고 복귀)', !!kb1 && kb1 !== kb2 && kb3, `${kb1} → ${kb2} · ${kb3}`);
     await p.keyboard.press('Enter'); await sleep(250);
-    await p.keyboard.press('End'); await p.keyboard.press('Enter'); await sleep(300);
+    await p.keyboard.press('End'); await p.keyboard.press('ArrowUp'); await p.keyboard.press('Enter'); await sleep(300);   // 맨 끝 = 패턴 반복 → 한 칸 위 = 방어
     s = await S(p); ok('키보드로 선택(방어)', (s.pins[5] || {})[pinPos] === '방');
     const before = JSON.stringify(s.pins);
     await p.evaluate(pos => document.querySelector(`#app-plan .prio > li[data-pos="${pos}"] .plan-presets .btn`).click(), pinPos); await sleep(400);
@@ -160,11 +160,11 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
     await p.waitForFunction(() => document.querySelectorAll('#app-sheets .adv .pg .pg-c').length === 150 && !document.querySelector('#app-sheets .adv .pg.loading'), { timeout: 15000 }).catch(() => {});
     ok('창 ④ 고정 격자 150칸', await p.evaluate(() => document.querySelectorAll('#app-sheets .adv .pg .pg-c').length === 150));
     await p.evaluate(pos => document.querySelector(`#app-sheets .adv .pg-c[data-pos="${pos}"][data-t="8"]`).click(), pinPos); await sleep(250);
-    ok('격자 칸 팝오버(행동 3 · 고정 해제 · 턴 편집 · 턴 잠금)', await p.evaluate(() => document.querySelectorAll('.menu.pl-pop button').length === 6));
+    ok('격자 칸 팝오버(행동 3 · 고정 해제 · 패턴 반복 · 턴 편집 · 턴 잠금)', await p.evaluate(() => document.querySelectorAll('.menu.pl-pop button').length === 7));
     await p.evaluate(() => [...document.querySelectorAll('.menu.pl-pop button')][2].click()); await sleep(300);
     s = await S(p); ok('격자 팝오버 → 방어 고정', (s.pins[8] || {})[pinPos] === '방');
     await p.evaluate(pos => document.querySelector(`#app-sheets .adv .pg-c[data-pos="${pos}"][data-t="9"]`).click(), pinPos); await sleep(250);
-    await p.evaluate(() => [...document.querySelectorAll('.menu.pl-pop button')][5].click()); await sleep(400);
+    await p.evaluate(() => [...document.querySelectorAll('.menu.pl-pop button')].find((b) => /이 턴 잠금/.test(b.textContent)).click()); await sleep(400);
     s = await S(p); ok('격자 팝오버 → 이 턴 잠금', Array.isArray(s.locked[9]));
     await p.click('#app-sheets .adv .pg-th[data-th="5"]'); await sleep(800);
     ok('턴 번호 → 턴 편집 시트', await p.evaluate(() => !!document.querySelector('#app-sheets .sheet.te-sheet')));
@@ -473,7 +473,7 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
     ok('섹션 점프 칩', await p.evaluate(() => document.querySelectorAll('#app-topbar .jump a').length >= 3));
     await p.select('#app-plan .prio > li:nth-child(1) .ult-mode select', 'direct'); await sleep(400);
     await p.evaluate(() => document.querySelector('#app-plan .prio > li:nth-child(1) .plan-cells button[data-t="3"]').click()); await sleep(500);
-    ok('모바일 칸 → 바텀시트(같은 항목)', await p.evaluate(() => document.querySelectorAll('#app-sheets .pl-cellsheet .pl-opt').length === 3));
+    ok('모바일 칸 → 바텀시트(같은 항목 — 행동 3 · 패턴 반복)', await p.evaluate(() => document.querySelectorAll('#app-sheets .pl-cellsheet .pl-opt').length === 4));
     await p.evaluate(() => document.querySelectorAll('#app-sheets .pl-cellsheet .pl-opt')[2].click()); await sleep(400);
     s = await S(p); ok('모바일 바텀시트 선택 → 핀', Object.keys(s.pins).length > 0);
     await p.evaluate(() => { window.__woofia.store.set({ pins: {} }); }); await sleep(300);

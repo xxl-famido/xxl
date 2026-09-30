@@ -10,14 +10,14 @@
 //   「기본 설정 가져오기」 = basic 을 복사해 고급 설정 값을 바꾼다(기본 설정은 그대로). 옛 last(v 없음)는 방식·맞추기·잠긴 턴만 담고 있어 옛 방식으로 복원.
 import {
   ultOf, setUlt, syncOtherOf, normalizeSyncGroups, syncOps, summary, pinCount, lockedWithin, sortLocked, turnSeqFromProbe, makeEnv,
-  immuneFor,
+  immuneFor, cellsOf, taehoFedTurns,
 } from '../core/plan.js';
 import { UK_ID, IMBUEON_ID } from '../core/format.js';
 import { afterTeamChange } from '../core/store.js';
 import {
-  ACT_KEY, actsOf, cellClass, cellSource, syncAfterNoExtra, syncActionOf, helpTip,
+  ACT_KEY, actsOf, actSegs, segsKey, actsLabel, cellSource, syncAfterNoExtra, syncActionOf, helpTip,
   replaceSyncMember, syncUsedExcept, shortName, ukPresetIndex, deepSyncGroups, getBaseCtx, scopeSession, sheetSession, cellPicker,
-  assistEffect, ukPresetOverwrites, isFedCarry, pinUltWithRules, pinUltNotice, presetTip, presetBlockedByMode,
+  assistEffect, ukPresetOverwrites, isFedCarry, pinUltWithRules, pinUltNotice, presetTip, presetBlockedByMode, fillRowNow, openRepeatSheet,
 } from './plan-helpers.js';
 import { openTurnEdit } from './turn-edit.js';
 
@@ -63,7 +63,7 @@ export const advForced = (st) => !!(st && st.altar && st.altar.on);
 /** 딥 설정 개수(메인에는 성공 가정을 켜는 경로가 없으므로 성공 가정은 모두 딥). */
 export function deepInfo(st) {
   let modes = 0, assist = 0, assistDeep = 0, noKeep = 0;
-  const env = makeEnv({ chars: st.chars || {}, altar: st.altar });
+  const env = makeEnv({ chars: st.chars || {}, altar: st.altar, team: st.team });
   (st.team || []).forEach((s, i) => {
     if (!s) return;
     const u = ultOf(s);
@@ -590,20 +590,19 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
   // ═════════════════════════════════════════════════════════════════════════════
   let prevCells = null, roving = null, lastProbe = null;
   /**
-   * 칸 모델(모순 3): 색 = 실제 실행(프로브의 그 동료 기본 행동), 고정 칸 = 테두리 + 점(고정 값은 툴팁), 실행이 고정과 다르면 경고 점.
+   * 칸 모델(모순 3): 색 = 실제 실행(프로브의 그 동료 행동), 고정 칸 = 테두리 + 점(고정 값은 툴팁), 실행이 고정과 다르면 경고 점.
+   * 한 턴에 여러 번 행동하면(턴당 2회 · 받은 추가 행동) 칸을 실행 순서대로 나눈 조각(segs) — 턴당 행동 수를 넘는 조각은 추가 행동 막대.
    * 잠긴 턴에 가려진 고정은 masked(모순 5). 프로브 전에는 고정 값으로 대신 칠한다.
    */
   function cellModel(st, probe, ignored, pos, tt, apt, n) {
     const acts = probe ? actsOf(probe, tt, pos) : [];
     const pinRaw = (st.pins[tt] || {})[pos] || null;
     const locked = Array.isArray(st.locked[tt]) && tt <= n;
-    const own = probe ? acts.slice(0, apt) : (pinRaw && !locked ? [...pinRaw] : []);
-    let kind = own.length ? cellClass(own, apt) : (probe ? 'none' : 'atk');
-    if (kind === 'extra') kind = own.includes(ULT) ? 'ult' : own.includes(DEF) ? 'def' : 'atk';
-    const extra = acts.length > apt;
+    const segs = actSegs(probe ? acts : (pinRaw && !locked ? cellsOf(pinRaw, apt) : []), apt);
+    const kind = segs.length > 1 ? 'multi' : segs.length ? segs[0].cls : (probe ? 'none' : 'atk');
     const warnIgnored = !!(pinRaw && !locked && ignored.get(pos) && ignored.get(pos).has(tt));
-    const syncAnchor = probe && !locked ? syncAfterNoExtra(st, probe, pos, tt) : 0;
-    return { acts, pin: locked ? null : pinRaw, masked: locked ? pinRaw : null, locked, kind, extra, warnIgnored, syncAnchor };
+    const syncAnchor = probe && !locked ? syncAfterNoExtra(st, probe, pos, tt, apt) : 0;
+    return { acts, segs, pin: locked ? null : pinRaw, masked: locked ? pinRaw : null, locked, kind, extra: acts.length > apt, warnIgnored, syncAnchor };
   }
   function renderGrid(probe) {
     const st = S(), n = turnsN();
@@ -630,8 +629,9 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
     const next = new Map(), cellEls = new Map();
     let conflict = false;
     const immune = immuneTurnsOf(st, n);   // 임부언 CD 변동 면역(1번 자리 동료) — 쿨타임 칸 사유
+    const chars = store.env().chars;       // 도장 잠금해제를 반영한 턴당 행동 수
     order.forEach((o, r) => {
-      const pos = o.i + 1, meta = st.chars[o.s.id] || {}, apt = meta.actionsPerTurn || 1, name = nameOf(o.s.id);
+      const pos = o.i + 1, meta = chars[o.s.id] || st.chars[o.s.id] || {}, apt = meta.actionsPerTurn || 1, name = nameOf(o.s.id);
       // [ADV_REVIEW D1] 행 머리 = 그 동료 줄 메뉴(프리셋 · 이 줄 고정 해제). [D8] 임부언 1번 자리 예외는 툴팁으로.
       const nmTip = [t('plan.grid.row.menu', { name: fullName(o.s.id) })];
       if (isFedCarry(st, pos) && ultOf(o.s).assist && !Object.keys(store.pins.row(pos)).length) nmTip.push(t('plan.row.assist.fedCarry', { name: nameOf(IMBUEON_ID) }));
@@ -641,20 +641,22 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
         const m = cellModel(st, probe, ignored, pos, tt, apt, n);
         if (m.warnIgnored || m.syncAnchor || m.masked) conflict = true;
         const nocd = !m.locked && !store.pins.ultAllowed(tt, pos);
-        const lines = [t('plan.pv.cell', { turn: tt, name, acts: actText(m.acts) }) + (m.extra ? ` (${t('plan.pv.cell.extra')})` : '')];
-        if (m.pin) lines.push(t('plan.grid.pinned', { act: actText([...m.pin]) }));
+        const lines = [t('plan.pv.cell', { turn: tt, name, acts: actsLabel(t, m.acts, apt) })];
+        if (m.pin) lines.push(t('plan.grid.pinned', { act: actText(cellsOf(m.pin, apt)) }));
         lines.push(t('plan.grid.src', { src: t(`plan.grid.src.${cellSource(st, probe, pos, tt)}`) }));
-        if (m.warnIgnored) lines.push(t('plan.grid.ignored', { acts: actText(m.acts) }));
+        if (m.warnIgnored) lines.push(t('plan.grid.ignored', { acts: actsLabel(t, m.acts, apt) }));
         if (m.syncAnchor) lines.push(t('plan.grid.syncAfter', { anchor: nameOf(st.team[m.syncAnchor - 1].id), name }));
-        if (m.masked) lines.push(t('plan.grid.masked', { act: actText([...m.masked]) }));
+        if (m.masked) lines.push(t('plan.grid.masked', { act: actText(cellsOf(m.masked, apt)) }));
         if (m.locked) lines.push(t('plan.grid.locked.cell'));
         else if (nocd) lines.push(pos === 1 && immune.has(tt) ? t('plan.grid.immune', { name: nameOf(IMBUEON_ID) }) : t('plan.grid.nocd'));
-        const cls = ['pg-c', m.kind, m.pin ? 'pin' : 'rule', m.masked ? 'masked' : '', m.locked ? 'lock' : '', m.extra ? 'x' : '', (m.warnIgnored || m.syncAnchor) ? 'warn' : ''].filter(Boolean).join(' ');
+        const cls = ['pg-c', m.kind, m.pin ? 'pin' : 'rule', m.masked ? 'masked' : '', m.locked ? 'lock' : '', (m.warnIgnored || m.syncAnchor) ? 'warn' : ''].filter(Boolean).join(' ');
         const key = `${pos}:${tt}`;
+        const body = m.segs.length > 1
+          ? h('span', { class: 'pg-segs', 'aria-hidden': 'true' }, ...m.segs.map((sg) => h('span', { class: `pg-seg ${sg.cls}${sg.extra ? ' x' : ''}` }, h('span', { class: 'pg-ab' }, t(`plan.cell.abbr.${sg.cls}`)))))
+          : h('span', { class: 'pg-ab' }, m.kind === 'none' ? '' : t(`plan.cell.abbr.${m.kind}`));
         const c = h('button', { class: cls, style: `--r:${r};--c:${tt}`, 'data-pos': String(pos), 'data-t': String(tt), title: lines.join('\n'),
-          type: 'button', 'data-cell': `${r + 1}:${tt}`, tabindex: '-1', 'aria-haspopup': 'menu', 'aria-label': lines.join(' · ') },
-        h('span', { class: 'pg-ab' }, m.kind === 'none' ? '' : t(`plan.cell.abbr.${m.kind}`)));
-        next.set(key, cls); cellEls.set(key, c);
+          type: 'button', 'data-cell': `${r + 1}:${tt}`, tabindex: '-1', 'aria-haspopup': 'menu', 'aria-label': lines.join(' · ') }, body);
+        next.set(key, `${cls}|${segsKey(m.segs)}`); cellEls.set(key, c);
         kids.push(c);
       }
     });
@@ -706,34 +708,96 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
     setRoving(c);
     pickGridCell(c, +c.dataset.pos, +c.dataset.t);
   }
-  /** 격자 칸 팝오버: 보통 공격 / 필살기 / 방어 / 고정 해제 / 이 턴 전체 편집 / 이 턴 잠금·해제. 모바일은 바텀시트. */
+  /**
+   * 격자 칸 팝오버: 보통 공격 / 필살기 / 방어 / 고정 해제 / 이 턴 전체 편집 / 이 턴 잠금·해제. 모바일은 바텀시트.
+   * 한 턴에 여러 번 행동하는 칸(턴당 2회 · 받은 추가 행동)은 행동마다 한 줄(평타·필살·방어)로 고른다 — pickMultiCell.
+   */
   function pickGridCell(anchor, pos, tt) {
     const st = S(), slot = st.team[pos - 1]; if (!slot) return;
     const name = nameOf(slot.id);
     const locked = Array.isArray(st.locked[tt]);
     const curPin = locked ? null : store.pins.get(tt, pos);
     const ultOk = locked || store.pins.ultAllowed(tt, pos);
-    const apt = (st.chars[slot.id] || {}).actionsPerTurn || 1;
+    const meta = store.env().chars[slot.id] || {};
+    const apt = meta.actionsPerTurn || 1;
+    const mine = lastProbe ? (((lastProbe.plan[String(tt)] || {}).seq) || []).map((e, k) => ({ ...e, k })).filter((e) => e.p === pos) : [];
+    if (!locked && (apt > 1 || mine.length > 1)) { pickMultiCell(anchor, pos, tt, { slot, name, curPin, ultOk, meta, apt, mine }); return; }
     const set = (a) => keepFocus(() => {
       if (a === ULT && apt === 1) { const msg = pinUltNotice(t, pinUltWithRules(store, pos, tt), name, tt); if (msg) C.toast(msg); return; }   // 동료별 규칙 — core pinUltRow
       store.pins.set(tt, pos, a);
     });
-    const cdDef = ((st.chars[slot.id] || {}).cdDefendReduce || 0) > 0;
+    const cdDef = (meta.cdDefendReduce || 0) > 0;
     const acts = locked ? [] : [
       { label: t('plan.act.atk'), swatch: 'pl-sw-pin-atk', current: curPin === ATK, onSelect: () => set(ATK) },
       { label: t('plan.act.ult'), swatch: 'pl-sw-pin-ult', current: curPin === ULT, disabled: !ultOk,
-        reason: ultOk ? (cdDef ? t('plan.pin.defHint') : null) : (pos === 1 && immuneTurnsOf(st, turnsN()).has(tt) ? t('plan.grid.immune', { name: nameOf(IMBUEON_ID) }) : t('plan.grid.nocd')), onSelect: () => set(ULT) },
+        reason: ultOk ? (cdDef ? t('plan.pin.defHint') : null) : ultWhy(pos, tt), onSelect: () => set(ULT) },
       { label: t('plan.act.def'), swatch: 'pl-sw-pin-def', current: curPin === DEF, onSelect: () => set(DEF) },
       { label: t('plan.cellSheet.clear'), iconName: 'x', disabled: !curPin, onSelect: () => set(null) },
       'sep',
     ];
     const items = [...acts,
+      ...(!locked && tt < turnsN() ? [{ label: t('plan.repeat.cell'), iconName: 'copy', onSelect: () => openRepeatSheet(ctx, pos, name, tt) }] : []),
       { label: t('plan.cellSheet.turn'), iconName: 'sliders-horizontal', onSelect: () => openTurn(tt, pos) },
       locked
         ? { label: t('plan.cellSheet.unlock'), iconName: 'lock', onSelect: () => { if (store.pins.unlockTurn(tt)) undoToast(t('plan.te.unlocked', { turn: tt }), () => store.pins.undo()); } }
         : { label: t('plan.cellSheet.lock'), iconName: 'lock', disabled: !lastProbe, onSelect: () => lockTurnNow(tt) },
     ];
     if (locked) items.unshift({ label: t('plan.grid.locked.cell'), disabled: true, onSelect: () => {} }, 'sep');
+    cellPicker(C, anchor, { title: t('plan.cellSheet.title', { turn: tt, name }), items, mobile: isMobile(), closeLabel: t('plan.close') });
+  }
+  /** 필살기를 고를 수 없는 이유(쿨타임 · 임부언 CD 변동 면역). */
+  function ultWhy(pos, tt) {
+    return pos === 1 && immuneTurnsOf(S(), turnsN()).has(tt) ? t('plan.grid.immune', { name: nameOf(IMBUEON_ID) }) : t('plan.grid.nocd');
+  }
+  /**
+   * 한 턴에 여러 번 행동하는 칸의 팝오버 — 행동마다 한 줄(실행 순서). 어떤 설정이 바뀌는지는 줄의 종류가 정한다:
+   *   · 자기 행동(턴당 행동 수 안 — 이태호는 두 번째까지) → 그 턴 고정 칸(핀). 턴당 2회는 '궁평'처럼 행동 수만큼, 필살기는 한 턴에 한 번.
+   *   · 이태호가 임부언에게 받은 추가 행동 → 받은 추가 행동 설정(fedActions — 줄에 고정 칸이 있어야 엔진에 실리므로 없으면 이 턴을 함께 고정).
+   *   · 그 밖의 받은 추가 행동(욱영·임부언) → 이 턴을 지금 실행 결과로 잠그고 그 행동만 바꾼다(이 턴 편집과 같은 규칙).
+   *   · 자기 스킬로 이어진 추가 행동(프로브 x — 제토 도장·무명 불굴 등) → 엔진이 정하는 행동이라 보기만.
+   */
+  function pickMultiCell(anchor, pos, tt, { slot, name, curPin, ultOk, meta, apt, mine }) {
+    const i = pos - 1;
+    const cdDef = (meta.cdDefendReduce || 0) > 0;
+    const probeOwn = mine.slice(0, apt).map((e) => e.a);
+    while (probeOwn.length < apt) probeOwn.push(ATK);
+    const own = curPin ? cellsOf(curPin, apt) : probeOwn;       // 지금 이 턴의 자기 행동(고정 값 우선)
+    const SW = { [ATK]: 'pl-sw-pin-atk', [ULT]: 'pl-sw-pin-ult', [DEF]: 'pl-sw-pin-def' };
+    const choices = (cur, pick, { ult = true, why = null, off = false } = {}) => [ATK, ULT, DEF].map((a) => ({
+      label: t(ACT_KEY[a]), swatch: SW[a], current: cur === a, disabled: off || (a === ULT && !ult),
+      reason: a === ULT && !ult ? why : null, onSelect: () => pick(a) }));
+    const setOwn = (k, a) => keepFocus(() => {
+      if (apt === 1 && a === ULT) { const msg = pinUltNotice(t, pinUltWithRules(store, pos, tt), name, tt); if (msg) C.toast(msg); return; }
+      const turn = own.slice();
+      turn[k] = a;
+      if (a === ULT) turn.forEach((x, j) => { if (j !== k && x === ULT) turn[j] = ATK; });   // 필살기는 한 턴에 한 번
+      store.pins.set(tt, pos, apt === 1 ? turn[0] : turn.join(''));
+    });
+    const rows = own.map((cur, k) => ({ row: t('plan.pop.nth', { n: k + 1 }),
+      choices: choices(cur, (a) => setOwn(k, a), { ult: apt > 1 || ultOk, why: ultWhy(pos, tt) }),
+      note: k === 0 && apt === 1 && cdDef ? t('plan.pin.defHint') : null }));
+    const fedTurns = taehoFedTurns(slot, S().team, turnsN(), store.env());
+    mine.slice(apt).forEach((e, j) => {
+      if (j === 0 && fedTurns && fedTurns.has(tt)) {
+        const cur = (slot.fedActions || {})[tt] || ATK;
+        rows.push({ row: t('plan.pop.extra'), note: t('plan.fed.label', { name: nameOf(IMBUEON_ID) }), choices: choices(cur, (a) => keepFocus(() => {
+          if (!Object.keys(store.pins.row(pos)).length) store.pins.set(tt, pos, own.join(''));   // 받은 추가 행동은 고정 칸이 있는 줄에만 실린다
+          store.plan.setFed(i, tt, a);
+        })) });
+        return;
+      }
+      if (e.x) { rows.push({ row: t('plan.pop.extra'), note: t('plan.pop.extra.chain'), choices: choices(e.a, () => {}, { off: true }) }); return; }
+      rows.push({ row: t('plan.pop.extra'), note: t('plan.pop.extra.lock'), choices: choices(e.a, (a) => keepFocus(() => {
+        if (a === e.a) return;
+        const seq = (((lastProbe.plan[String(tt)] || {}).seq) || []).map((x, k) => ({ p: x.p, a: k === e.k ? a : x.a, x: x.x })).filter((x) => !x.x).map(({ p, a: act }) => ({ p, a: act }));
+        if (store.pins.lockTurn(tt, seq)) undoToast(t('plan.te.saved.lock', { turn: tt }), () => store.pins.undo());
+      })) });
+    });
+    const items = [...rows, 'sep',
+      { label: t('plan.cellSheet.clear'), iconName: 'x', disabled: !curPin, onSelect: () => keepFocus(() => store.pins.set(tt, pos, null)) },
+      ...(tt < turnsN() ? [{ label: t('plan.repeat.cell'), iconName: 'copy', onSelect: () => openRepeatSheet(ctx, pos, name, tt) }] : []),
+      { label: t('plan.cellSheet.turn'), iconName: 'sliders-horizontal', onSelect: () => openTurn(tt, pos) },
+      { label: t('plan.cellSheet.lock'), iconName: 'lock', disabled: !lastProbe, onSelect: () => lockTurnNow(tt) }];
     cellPicker(C, anchor, { title: t('plan.cellSheet.title', { turn: tt, name }), items, mobile: isMobile(), closeLabel: t('plan.close') });
   }
   /** 1번 자리 동료의 임부언 CD 변동 면역 턴(core immuneFor — 구체화된 편성 기준). 없으면 빈 Set. */
@@ -745,12 +809,19 @@ function mountAdvanced(host, ctx, { sheet, scoped = false, restoreScroll }) {
   function pickRowMenu(anchor, pos) {
     const st = S(), slot = st.team[pos - 1]; if (!slot) return;
     const name = nameOf(slot.id);
+    // 줄 유틸(모든 동료): 모두 보통 공격 · 모두 방어(필살기 칸 유지) · 패턴 반복 → 동료별 프리셋
+    const utils = [
+      { label: t('plan.turn.preset.fillAtk'), iconName: 'sparkles', reason: t('plan.turn.preset.tip.fillAtk'), onSelect: () => fillRowNow(ctx, pos, ATK, name) },
+      { label: t('plan.turn.preset.fillDef'), iconName: 'sparkles', reason: t('plan.turn.preset.tip.fillDef'), onSelect: () => fillRowNow(ctx, pos, DEF, name) },
+      { label: t('plan.repeat.btn'), iconName: 'copy', reason: t('plan.repeat.tip'), onSelect: () => openRepeatSheet(ctx, pos, name) },
+    ];
     const items = GRID_PRESETS.filter(([p]) => store.pins.presetAvailable(pos, p)).map(([p, key]) => ({ label: t(key), iconName: 'sparkles',
       disabled: !!presetBlockedByMode(slot, p), reason: presetBlockedByMode(slot, p) ? t('plan.row.preset.asap') : presetTip(t, i18n, p, slot.id), onSelect: () => {
       const tok = store.pins.applyPreset(pos, p);
       if (tok) undoToast(t('plan.row.preset.done', { name, preset: t(key) }), () => store.pins.revert(tok));
     } }));
     const hasRow = Object.keys(store.pins.row(pos)).length > 0;
+    items.unshift(...utils, ...(items.length ? ['sep'] : []));
     items.push('sep', { label: t('plan.grid.row.clear'), iconName: 'x', disabled: !hasRow, onSelect: () => {
       if (store.pins.clearRow(pos)) undoToast(t('plan.mode.clear.done', { name }), () => store.pins.undo());
     } });

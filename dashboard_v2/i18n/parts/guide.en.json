@@ -33,7 +33,7 @@
  "gd.cell.li2": "On turns where the cooldown hasn't come back, the EX Skill can't be picked and the reason is shown under the item. Turns blocked by Boss Ren's CD change immunity show that reason separately.",
  "gd.cell.li3": "For companions whose EX Skill CD drops when they defend (Moyru · Watanabe Hitoha), picking an EX Skill cell automatically places Defend on the turns needed before it, and an impossible turn tells you why. For Zetto, whose EX Skill is once per battle, EX Skills set on other turns are cleared.",
  "gd.preset.title": "Companion Presets",
- "gd.preset.p1": "The buttons above the Per turn row fill the turn cells at once. Only the buttons that fit the companion appear, and each button's description shows the companion's skill basis.",
+ "gd.preset.p1": "The buttons above the Per turn row fill the turn cells at once. <b>All Normal Attack · All Defend · Repeat pattern</b> are there for every companion; the rest appear only when they fit the companion, and each button’s description shows the companion’s skill basis.",
  "gd.preset.li1": "<b>EX Skill every 3 turns</b> — EX Skill on turns 4 · 7 · 10…, Normal Attack otherwise (Invisible Man · Oyamada Mataya).",
  "gd.preset.li2": "<b>Passive Def</b> — Defend on the turn right before each EX Skill (Famido · Souran).",
  "gd.preset.li3": "<b>Every 3 turns · Def before</b> — EX Skill every 3 turns, with Defend on the turn right before it (Souran).",
@@ -42,7 +42,7 @@
  "gd.preset.note1": "Applying a preset shows <b>Undo</b> in the notification. Souran's Defend effect triggers only when the position-4 companion acts after Souran, and Moyru must act after the allies for that turn's Normal Attacks to count toward the CD cut.",
  "gd.ally.title": "Xuying · Lee Taeho",
  "gd.ally.p1": "When Xuying is on the team, Xuying's row has an <b>Ally EX Skill later</b> checkbox. When on, adjacent companions use their EX Skill in the extra action granted after Xuying's EX Skill; when off, adjacent companions use their EX Skill first and the granted extra action is a Normal Attack. It is the same setting as the Xuying preset in Advanced settings ③.",
- "gd.ally.p2": "When Lee Taeho is in slot 1 and Boss Ren is on the team, setting Lee Taeho to Per turn adds <b>Extra action granted by Boss Ren</b> cells under the row, so you can set that action for each turn.",
+ "gd.ally.p2": "Lee Taeho acts twice every turn through his Sigil passive. Set to Per turn, each turn cell is split diagonally (top-left = action 1, bottom-right = action 2); click it to choose each action. With Lee Taeho in slot 1 and Boss Ren on the team, turns where Boss Ren uses the EX Skill get an <b>Extra action granted by Boss Ren</b> piece (bar underneath), so you can set that action too.",
  "gd.imm.title": "Boss Ren's CD Change Immunity",
  "gd.imm.p1": "Boss Ren's EX Skill cuts the slot-1 companion's EX Skill CD by 3 and grants that companion <b>CD change immunity</b> for 3 turns. The action plan, preview, and runs all follow this rule.",
  "gd.imm.li1": "The immunity lasts for the rest of the turn in which Boss Ren used the EX Skill and the next two turns.",
@@ -87,9 +87,9 @@
  "gd.sync.p2": "When Xuying is on the team, the <b>Link adjacent companions to Xuying</b> button binds the companions on both sides as ‘Normal Attack → EX Skill in the granted extra action’ at once. It is the same setting as the ‘Ally EX Skill later’ checkbox in the main action plan, and if a Xuying-led group already exists, it asks before overwriting.",
  "gd.sync.note1": "When a companion whose EX Skill resets allies' cooldowns and its target both receive extra actions on the same turn, the target with its EX Skill ready acts first. After using its EX Skill, the target gets its cooldown back and can use the EX Skill once more that turn.",
  "gd.grid.title": "④ Turn-by-Turn Action Plan",
- "gd.grid.p1": "A turns × 5-member grid shows in color the actions that will actually run. <b>Pin</b> actions only on the cells you want; the remaining cells follow the EX Skill mode in ① and the EX Skill links in ③.",
+ "gd.grid.p1": "A turns × 5-member grid shows in color the actions that will actually run. <b>Pin</b> actions only on the cells you want; the remaining cells follow the EX Skill mode in ① and the EX Skill links in ③. Cells where a companion acts more than once in a turn (two actions per turn, extra actions) are split in execution order, and extra-action pieces get a bar underneath. Clicking such a cell lets you choose each action on its own row.",
  "gd.grid.li1": "<b>Tap a cell</b> — Pin Normal Attack · EX Skill · Defend, or choose <b>Unpin (follow rules)</b>. The same menu has <b>Edit this turn</b> and <b>Lock this turn (as it runs now)</b>. You can't pin the EX Skill on a turn where the cooldown hasn't come back (possible with Assume success on).",
- "gd.grid.li2": "<b>Tap a companion name</b> — Apply <b>All EX Skill</b> or a companion preset to that row, or choose <b>Clear all pins in this row</b>.",
+ "gd.grid.li2": "<b>Tap a companion name</b> — Apply <b>All Normal Attack · All Defend · Repeat pattern · All EX Skill</b> or a companion preset to that row, or choose <b>Clear all pins in this row</b>.",
  "gd.grid.li3": "<b>Tap a turn number</b> — Opens the edit window for that turn.",
  "gd.grid.li4": "<b>Undo · Clear all pins · Lock all turns</b> — Tools at the top right of the grid. The ⓘ next to them summarizes the priority.",
  "gd.turn.title": "Turn Edit · Locked Turns",
@@ -209,5 +209,7 @@
  "gd.fig.export": "Export record",
  "gd.fig.compare": "Team comparison",
  "gd.fig.topbar": "Top bar",
- "gd.fig.menu": "≡ menu"
+ "gd.fig.menu": "≡ menu",
+ "gd.preset.li0": "<b>All Normal Attack · All Defend</b> — Keeps the EX Skill cells and sets every other cell to that action.",
+ "gd.preset.li6": "<b>Repeat pattern</b> — Pins the turns after the chosen range to repeat its actions in the same order. You can also tap a cell and choose <b>Repeat up to here as a pattern</b>."
 }

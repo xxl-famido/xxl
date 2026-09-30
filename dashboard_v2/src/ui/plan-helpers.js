@@ -9,7 +9,6 @@ import { createStore } from '../core/store.js';
 /** 엔진 행동 토큰 → 화면 칸 클래스·문구 키 조각. */
 export const ACT_CLS = Object.freeze({ '평': 'atk', '궁': 'ult', '방': 'def' });   // copy-lint-allow (엔진 토큰)
 export const ACT_KEY = Object.freeze({ '평': 'plan.act.atk', '궁': 'plan.act.ult', '방': 'plan.act.def' });   // copy-lint-allow
-export const ACT_CYCLE = Object.freeze({ '평': '궁', '궁': '방', '방': '평' });   // copy-lint-allow (칸 클릭 순환)
 
 /**
  * '자동' 옵션에 붙일 기본 필살기 턴(앞 3개, 예 "4·7·10"). 기본 필살기가 없으면 ''.
@@ -64,6 +63,19 @@ export function cellClass(acts, apt = 1) {
 }
 
 /**
+ * 한 칸(동료·턴)에서 한 행동들을 실행 순서대로 조각으로 — [{ a, cls, extra }]. 턴당 행동 수(apt)를 넘는 행동 = 추가 행동
+ * (임부언·욱영이 준 행동, 불굴·도장 확률로 이어진 행동). 이태호처럼 턴당 2회인 동료는 두 번째 행동까지가 자기 행동이다.
+ */
+export const actSegs = (acts, apt = 1) => (acts || []).map((a, k) => ({ a, cls: ACT_CLS[a] || 'atk', extra: k >= apt }));
+/** 조각 비교용 문자열(바뀐 칸 반짝임). */
+export const segsKey = (segs) => segs.map((s) => `${s.cls}${s.extra ? '+' : ''}`).join(' ');
+/** 칸 설명 문구: '보통 공격 → 필살기(추가 행동)'. 행동이 없으면 '행동 없음'. */
+export function actsLabel(t, acts, apt = 1) {
+  if (!acts || !acts.length) return t('plan.pv.cell.none');
+  return actSegs(acts, apt).map((s) => { const x = t(ACT_KEY[s.a] || 'plan.act.atk'); return s.extra ? t('plan.act.extra.tag', { act: x }) : x; }).join(' → ');
+}
+
+/**
  * 칸을 정한 곳(1차 근사 — 엔진이 칸별 출처를 주지 않는다): 잠긴 턴 > 고정 칸 > 맞추기(따라가는 동료가 기준 동료 필살기 턴에 한 행동)
  * > 예외 턴(그 턴 순서) > 규칙(순서·필살기 방식). → 'locked'|'pin'|'sync'|'exc'|'rule'
  */
@@ -81,7 +93,7 @@ export function cellSource(state, probe, pos, t) {
  * 맞추기 '뒤에서 필살기' 함정: 따라가는 동료가 추가 행동을 주는 기준 동료(임부언·욱영) 뒤에서 행동하면 받은 추가 행동이 없다.
  * 그 턴에 기준 동료가 필살기를 썼고, 이 동료가 턴당 행동 수를 넘는 행동(= 추가 행동)을 받지 못했으면 기준 동료 자리를 돌려준다. 아니면 0.
  */
-export function syncAfterNoExtra(state, probe, pos, t) {
+export function syncAfterNoExtra(state, probe, pos, t, apt = null) {
   const g = syncGroupOf(state.sync, pos);
   if (!g || g.role !== 'member' || !g.g.anchor) return 0;
   const m = g.m || (g.g.members || []).find((x) => x.p === pos) || {};
@@ -91,8 +103,8 @@ export function syncAfterNoExtra(state, probe, pos, t) {
   if (!am || !am.grantsExtra) return 0;
   if (!actsOf(probe, t, g.g.anchor).includes('궁')) return 0;   // copy-lint-allow
   const me = state.team[pos - 1];
-  const apt = ((me && state.chars[me.id]) || {}).actionsPerTurn || 1;
-  return actsOf(probe, t, pos).length > apt ? 0 : g.g.anchor;
+  const n = apt || ((me && state.chars[me.id]) || {}).actionsPerTurn || 1;   // apt = 도장 잠금해제를 반영한 턴당 행동 수(호출부 env)
+  return actsOf(probe, t, pos).length > n ? 0 : g.g.anchor;
 }
 
 /**
@@ -367,25 +379,44 @@ export function sortable(list, { onMove, reduced = () => false, duration = 200 }
 // ── DOM: 칸 선택 팝오버(데스크톱 = components.menu 모양, 모바일 = 바텀시트) ─────────────────────────
 let openPick = null;
 /**
- * 칸 하나의 행동을 고르는 팝오버. items = [{ label, swatch?(범례 클래스), iconName?, current?, disabled?, reason?, danger?, onSelect } | 'sep'].
- * 키보드: 열리면 현재 값(없으면 첫 항목)에 포커스, 위아래 화살표·Home·End 로 이동, Enter/Space 선택, Esc 닫고 칸으로 복귀.
+ * 칸 하나의 행동을 고르는 팝오버. items = [{ label, swatch?(범례 클래스), iconName?, current?, disabled?, reason?, danger?, onSelect } | 'sep'
+ *   | { row: 줄 이름, note?, choices: [위와 같은 항목…] }].
+ * row = 한 턴에 여러 번 행동하는 칸에서 행동 하나를 한 줄로(이름 + 평타·필살·방어 버튼) — 줄마다 고르고, note 는 줄 아래 작은 안내.
+ * 키보드: 열리면 현재 값(없으면 첫 항목)에 포커스, 위아래·좌우 화살표·Home·End 로 이동, Enter/Space 선택, Esc 닫고 칸으로 복귀.
  * 모바일(opts.mobile)은 같은 항목을 바텀시트로. → 닫기 함수
  */
 export function cellPicker(C, anchor, { title, items, mobile = false, closeLabel = 'close' }) {
   const { h, icon } = C;
   if (openPick) { openPick(); openPick = null; }
-  const list = items.filter((x) => x !== 'sep');
+  const flat = [], rows = [];   // flat = 메뉴 항목(줄의 버튼도 펼쳐서), rows = 줄마다 { label, note, start, n } (start = 버튼 순번)
+  let nBtn = 0;
+  items.forEach((it) => {
+    if (it === 'sep') { flat.push('sep'); return; }
+    if (it && it.row != null) {
+      rows.push({ label: it.row, note: it.note || null, start: nBtn, n: it.choices.length });
+      it.choices.forEach((c) => flat.push({ ...c, inRow: true }));
+      nBtn += it.choices.length;
+      return;
+    }
+    flat.push(it); nBtn++;
+  });
+  const list = flat.filter((x) => x !== 'sep');
   if (mobile) {
     let sheet = null;
-    const body = h('div', { class: 'pl-cellsheet' }, ...list.flatMap((it) => [
-      h('button', { type: 'button', class: `btn ${it.danger ? 'btn-ghost' : 'btn-secondary'} pl-opt${it.current ? ' on' : ''}`, disabled: !!it.disabled,
-        'aria-pressed': it.current != null ? String(!!it.current) : null, onClick: () => { sheet.close(); it.onSelect(); } },
-      it.swatch ? h('i', { class: it.swatch, 'aria-hidden': 'true' }) : it.iconName ? icon(it.iconName) : null, h('span', {}, it.label)),
-      it.disabled && it.reason ? h('p', { class: 'hint' }, it.reason) : null]));
+    const opt = (it) => h('button', { type: 'button', class: `btn ${it.danger ? 'btn-ghost' : 'btn-secondary'} pl-opt${it.current ? ' on' : ''}`, disabled: !!it.disabled,
+      'aria-pressed': it.current != null ? String(!!it.current) : null, title: it.reason || null, onClick: () => { sheet.close(); it.onSelect(); } },
+    it.swatch ? h('i', { class: it.swatch, 'aria-hidden': 'true' }) : it.iconName ? icon(it.iconName) : null, h('span', {}, it.label));
+    const body = h('div', { class: 'pl-cellsheet' }, ...items.flatMap((it) => {
+      if (it === 'sep') return [];
+      if (it && it.row != null) return [h('div', { class: 'pl-sheet-row', role: 'group', 'aria-label': it.row },
+        h('span', { class: 'pl-sheet-rl' }, it.row), h('div', { class: 'pl-sheet-seg' }, ...it.choices.map(opt))),
+      it.note ? h('p', { class: 'hint' }, it.note) : null];
+      return [opt(it), it.disabled && it.reason ? h('p', { class: 'hint' }, it.reason) : null];
+    }));
     sheet = C.openSheet({ title, body, ariaLabel: closeLabel });
     return () => sheet.close();
   }
-  const ref = C.menu(anchor, items.map((it) => (it === 'sep' ? 'sep' : { label: it.label, iconName: it.swatch ? null : it.iconName, danger: it.danger,
+  const ref = C.menu(anchor, flat.map((it) => (it === 'sep' ? 'sep' : { label: it.label, iconName: it.swatch ? null : it.iconName, danger: it.danger,
     onSelect: () => { if (anchor.isConnected) anchor.focus({ preventScroll: true }); it.onSelect(); } })));
   const el = ref.el;
   el.classList.add('pl-pop');
@@ -396,13 +427,24 @@ export function cellPicker(C, anchor, { title, items, mobile = false, closeLabel
     if (it.swatch) b.prepend(h('i', { class: `pl-pop-sw ${it.swatch}`, 'aria-hidden': 'true' }));
     if (it.current != null) { b.setAttribute('role', 'menuitemradio'); b.setAttribute('aria-checked', String(!!it.current)); if (it.current) b.classList.add('on'); }
     if (it.disabled) { b.disabled = true; b.setAttribute('aria-disabled', 'true'); }
-    if (it.reason) { b.title = it.reason; if (it.disabled) b.append(h('small', { class: 'pl-pop-why' }, it.reason)); }
+    if (it.reason) { b.title = it.reason; if (it.disabled && !it.inRow) b.append(h('small', { class: 'pl-pop-why' }, it.reason)); }
   });
+  // 줄: 이름 + 버튼 묶음(버튼은 그대로 옮긴다 — 클릭 처리는 menu 가 붙인 것)
+  rows.forEach((r) => {
+    const mine = btns.slice(r.start, r.start + r.n);
+    if (!mine.length) return;
+    const wrap = h('div', { class: 'pl-pop-row', role: 'group', 'aria-label': r.label }, h('span', { class: 'pl-pop-rl' }, r.label));
+    mine[0].before(wrap);
+    wrap.append(h('span', { class: 'pl-pop-seg' }, ...mine));
+    if (r.note) wrap.after(h('small', { class: 'pl-pop-note' }, r.note));
+  });
+  if (rows.length) el.classList.add('pl-pop-rows');
   const enabled = () => btns.filter((b) => !b.disabled);
   const close = () => { ref.close(); if (openPick === close) openPick = null; };
   el.addEventListener('keydown', (e) => {
     const en = enabled(), i = en.indexOf(document.activeElement);
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); const n = en.length; if (n) en[(i + (e.key === 'ArrowDown' ? 1 : -1) + n) % n].focus(); }
+    const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+    if (step) { e.preventDefault(); const n = en.length; if (n) en[(i + step + n) % n].focus(); }
     else if (e.key === 'Home' || e.key === 'End') { e.preventDefault(); const b = e.key === 'Home' ? en[0] : en[en.length - 1]; if (b) b.focus(); }
     else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); if (anchor.isConnected) anchor.focus({ preventScroll: true }); }
     else if (e.key === 'Tab') { close(); }
@@ -411,6 +453,53 @@ export function cellPicker(C, anchor, { title, items, mobile = false, closeLabel
   if (first) first.focus();
   openPick = close;
   return close;
+}
+
+// ── 줄 유틸: 모두 보통 공격 · 모두 방어 · 패턴 반복 (직접 지정 줄 · ④ 행 메뉴 · 칸 메뉴 공용) ─────────────
+/** 「모두 보통 공격」「모두 방어」 — 필살기 칸은 그대로. 되돌리기 알림까지. action = '평'|'방'. */
+export function fillRowNow(ctx, pos, action, name) {
+  const { store, t, components: C } = ctx;
+  const tok = store.pins.fill(pos, action);
+  if (!tok) return;
+  const key = action === '방' ? 'plan.turn.preset.fillDef' : 'plan.turn.preset.fillAtk';   // copy-lint-allow (엔진 토큰)
+  C.toast(t('plan.row.preset.done', { name, preset: t(key) }), { action: { label: t('plan.undo'), fn: () => store.pins.revert(tok) } });
+}
+/**
+ * 패턴 반복 시트: 시작 턴 ~ 끝 턴(기본 1 ~ to)을 고르면 그 구간 행동을 끝 턴 다음부터 마지막 턴까지 같은 순서로 고정한다.
+ * to 가 없으면 그 동료 줄의 마지막 고정 칸(없으면 3턴). 쿨타임 판정은 엔진 규칙 그대로(설명 문구에 적는다).
+ */
+export function openRepeatSheet(ctx, pos, name, to = null) {
+  const { store, t, components: C } = ctx;
+  const { h } = C;
+  const n = Math.max(1, +store.get().cond.turns || 30);
+  if (n < 2) return;
+  const pinned = Object.keys(store.pins.row(pos)).map(Number).filter((x) => x < n);
+  let b = Math.max(1, Math.min(n - 1, to != null ? to : (pinned.length ? Math.max(...pinned) : Math.min(3, n - 1))));
+  let a = 1;
+  const opts = (lo, hi) => Array.from({ length: hi - lo + 1 }, (_, k) => lo + k).map((x) => h('option', { value: String(x) }, t('plan.repeat.turn', { turn: x })));
+  const fromSel = h('select', { 'aria-label': t('plan.repeat.from') });
+  const toSel = h('select', { 'aria-label': t('plan.repeat.to') });
+  const desc = h('p', { class: 'hint' });
+  const render = () => {
+    fromSel.replaceChildren(...opts(1, n - 1)); fromSel.value = String(a);
+    toSel.replaceChildren(...opts(a, n - 1)); toSel.value = String(b);
+    desc.textContent = t('plan.repeat.desc', { from: a, to: b, next: b + 1, last: n });
+  };
+  fromSel.addEventListener('change', () => { a = +fromSel.value; if (b < a) b = a; render(); });
+  toSel.addEventListener('change', () => { b = +toSel.value; render(); });
+  render();
+  const body = h('div', { class: 'repeat-sheet' },
+    h('div', { class: 'repeat-range' }, h('label', {}, h('span', {}, t('plan.repeat.from')), fromSel), h('span', { class: 'repeat-dash', 'aria-hidden': 'true' }, '~'),
+      h('label', {}, h('span', {}, t('plan.repeat.to')), toSel)), desc);
+  let sheet = null;
+  const apply = () => {
+    const tok = store.pins.repeat(pos, a, b);
+    sheet.close();
+    if (tok) C.toast(t('plan.repeat.done', { name, from: a, to: b, next: b + 1, last: n }), { action: { label: t('plan.undo'), fn: () => store.pins.revert(tok) } });
+  };
+  sheet = C.openSheet({ title: t('plan.repeat.title', { name }), body, ariaLabel: t('plan.close'),
+    foot: [h('button', { type: 'button', class: 'btn btn-ghost', onClick: () => sheet.close() }, t('plan.exc.sheet.cancel')),
+      h('button', { type: 'button', class: 'btn btn-primary', onClick: apply }, t('plan.repeat.apply'))] });
 }
 
 // ── 비교군 스코프: 메인 스토어를 건드리지 않는 '작은 스토어' + 시트 세션 ─────────────────────────
@@ -441,7 +530,7 @@ export function createScopeStore(base, init) {
   const turns = Math.max(1, Math.min(30, Math.round(+init.turns || +main.cond.turns || 30)));
   const altar = clone(init.altar || main.altar);
   const { team, pins, locked } = adoptLegacyPlans(team0, { advOn: !!init.on, turnPlans: init.plans || null, turns,
-    env: makeEnv({ chars, altar }), pins: sortPins(clone(init.pins || {}) || {}), locked: sortLocked(clone(init.locked || {}) || {}) });
+    env: makeEnv({ chars, altar, team: team0 }), pins: sortPins(clone(init.pins || {}) || {}), locked: sortLocked(clone(init.locked || {}) || {}) });
   store.set({
     chars, team, cond: { ...main.cond, turns }, sync: normalizeSyncGroups(clone(init.sync) || []), overrides: clone(init.overrides || {}) || {},
     altar, tdmg: clone(init.tdmg || main.tdmg), pins, locked, probe: null,

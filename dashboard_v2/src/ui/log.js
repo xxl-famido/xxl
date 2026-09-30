@@ -31,8 +31,10 @@ function effectType(l) {
 }
 const EFFECT_ICON = { heal: 'heart', barrier: 'shield', buff: 'arrow-up', debuff: 'arrow-down', stack: 'layers', tempo: 'zap', death: 'x', other: 'sparkles' };
 
-/** 로그 → 턴별 묶음. */
-export function groupTurns(log) {
+/**
+ * 로그 → 턴별 묶음. aptOf(id) = 그 동료의 턴당 기본 행동 수(이태호 2 — 도장 잠금해제) — 이를 넘는 행동만 추가 행동(extra)으로 표시.
+ */
+export function groupTurns(log, aptOf = () => 1) {
   const byTurn = new Map();
   for (const l of log || []) { if (!byTurn.has(l.turn)) byTurn.set(l.turn, []); byTurn.get(l.turn).push(l); }
   const out = new Map();
@@ -40,12 +42,13 @@ export function groupTurns(log) {
     const acts = new Map();
     for (const l of evs) { if (!acts.has(l.act)) acts.set(l.act, []); acts.get(l.act).push(l); }
     const actList = [...acts.entries()].sort((a, b) => a[0] - b[0]).map(([aid, lines]) => ({ aid, lines, kind: (lines.find((x) => x.kind) || {}).kind || '' }));
-    const seen = new Set(), main = [];
+    const seen = new Map(), main = [];
     for (const a of actList) {
       const id = a.lines[0].actorId;
       if (!id || !MAIN_KINDS.has(a.kind)) continue;
-      main.push({ id, kind: a.kind, extra: seen.has(id) });
-      seen.add(id);
+      const n = (seen.get(id) || 0) + 1;
+      main.push({ id, kind: a.kind, extra: n > aptOf(id) });
+      seen.set(id, n);
     }
     const amt = (pred) => evs.filter(pred).reduce((s, l) => s + (+l.amount || 0), 0);
     out.set(tn, {
@@ -66,7 +69,8 @@ export function createLog(ctx, d) {
   const nameOf = (id) => shortName(i18n.nameOf ? i18n.nameOf(id) : String(id));
   const teamById = Object.fromEntries((d.team || []).map((x) => [x.id, x]));
   const elOf = (id) => (teamById[id] && teamById[id].elementKey) || 'none';
-  const turns = groupTurns(d.log);
+  // 턴당 행동 수: 이번 실행 값(결과 team — 도장 잠금해제 반영), 옛 기록은 동료 정보
+  const turns = groupTurns(d.log, (id) => (teamById[id] && teamById[id].actionsPerTurn) || ((store.get().chars || {})[id] || {}).actionsPerTurn || 1);
   const turnList = [...turns.keys()];
   const maxDmg = Math.max(1, ...[...turns.values()].map((g) => g.dmg));
   const mq = matchMedia(MOBILE);

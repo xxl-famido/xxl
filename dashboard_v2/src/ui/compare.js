@@ -51,7 +51,7 @@ function openCompare(ctx, prev) {
       while (roster0.length < 5) roster0.push(null);
       side.runs = +snap.runs || 50; side.turns = +snap.turns || 30;
       // v1 직접 계획 → 고정 칸, v1 완전 수동 → 잠긴 턴(메인 applySnap 과 같은 읽기 호환)
-      const env = makeEnv({ chars: chars(), altar: S().altar });
+      const env = makeEnv({ chars: chars(), altar: S().altar, team: roster0 });
       const { team, pins, locked } = adoptLegacyPlans(roster0, { advOn: !!snap.advOn, turnPlans: snap.turnPlans, turns: side.turns, env, pins: snap.pins, locked: snap.locked });
       side.recId = rec.id; side.roster = team; side.pins = pins; side.locked = locked;
       side.turnOv = clone(snap.turnOverrides || {});
@@ -422,7 +422,7 @@ function openCompare(ctx, prev) {
       const s = st.side[sd];
       if (!s.roster.some(Boolean)) return Promise.resolve(EMPTY_RESULT(turns));
       // 고정 칸 → 동료별 줄(effectiveTeam), 잠긴 턴 → turnPlans. 전 턴이 잠기면 v1 완전 수동 모양(순서 생략), 일부만이면 규칙 + 그 턴만.
-      const env = makeEnv({ chars: shared.chars, altar: shared.altar });
+      const env = makeEnv({ chars: shared.chars, altar: shared.altar, team: s.roster });
       const roster = effectiveTeam(s.roster, s.pins || {}, turns, env);
       const locked = lockedWithin(s.locked || {}, turns);
       const full = fullyLocked(s, turns);

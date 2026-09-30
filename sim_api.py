@@ -156,6 +156,7 @@ def char_meta(cid: int) -> dict:
     el_kr, el_key = ELEMENT.get(kit.element, ELEMENT[0])
     cd = kit.fatal.cd
     first_fatal = 1 if (cd + _turn1_cd_delta(kit)) <= 0 else cd + 1   # 첫 필살 사용 가능 턴
+    apt = _actions_per_turn(kit)
     return {"id": cid, "name": c.get("name_kr", str(cid)),
             "element": el_kr, "elementKey": el_key, "role": ROLE.get(kit.kind, "?"),
             "atk": round(kit.atk), "hp": round(kit.hp),
@@ -175,7 +176,10 @@ def char_meta(cid: int) -> dict:
             "autoExtra": _has_auto_extra(kit),
             # 필살기가 다른 아군에게 추가 행동을 주는가(욱영·임부언) — 연동 탭의 '추가 행동에서 궁' 안내용
             "grantsExtra": _grants_extra(kit),
-            "actionsPerTurn": _actions_per_turn(kit),
+            "actionsPerTurn": apt,
+            # 도장 잠금해제를 끈 슬롯(육성 설정)의 턴당 행동 수 — 이태호의 턴당 2회는 도장 패시브에서 나온다.
+            # UI 가 그 동료의 턴 칸 수를 엔진(base_actions)과 같게 맞추는 데 쓴다.
+            "actionsPerTurnNoRune": _actions_per_turn(resolve_kit(cid, _INV, 10, False)) if apt > 1 else 1,
             # 도장강화 한계: XL(rarity 3)=18000, XXL은 빛/어둠 23000 / 그 외 20000
             "sealLimit": 18000 if c.get("rarity") == 3 else (23000 if kit.element in (4, 5) else 20000),
             # 방어 시 필살 CD 감소: max=최대감소량(히토하 1 · 모이루 3). 모이루처럼 스택 기반이면
@@ -453,7 +457,9 @@ def run_sim(cfg: dict) -> dict:
         team.append({"id": u._kit.char_id, "name": u.name, "position": u.slot + 1,
                      "element": el_kr, "elementKey": el_key, "role": ROLE.get(u.kind, "?"),
                      "atk": round(u.base_atk), "hp": round(u.max_hp),
-                     "priority": round(u.priority, 2)})
+                     "priority": round(u.priority, 2),
+                     # 이 실행에서의 턴당 기본 행동 수(도장 잠금해제 반영) — 로그가 이를 넘는 행동만 추가 행동으로 표시
+                     "actionsPerTurn": u.base_actions})
     char_units = {u._kit.char_id: u for u in rep.allies}
     per_char = []
     for cid, u in sorted(char_units.items(), key=lambda kv: -(char_dmg[kv[0]] + char_heal[kv[0]])):
