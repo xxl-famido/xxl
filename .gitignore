@@ -37,6 +37,9 @@ _backup/
 # 사용자 제공 APK·서명 파일 — 공개 저장소 금지
 docs/redesign/user_impl/
 
+# 피드백 시트 받기(비공개 시트 ID · rclone 토큰 사용) — 로컬 전용
+tools/fetch_feedback.py
+
 # 로컬 전용 · 검수 산출물
 _backup/
 _site*/
@@ -47,3 +50,11 @@ tools/redesign/__pycache__/
 docs/redesign/bench/
 lounge_api/deploy_state.json
 *.bat
+
+# 로컬 Memory Bank·훅 산출물(저장소 루트) — 공개 저장소 금지
+/CLAUDE.md
+/activeContext.md
+/progress.md
+/projectbrief.md
+/systemPatterns.md
+tools/xdata.py
