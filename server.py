@@ -20,6 +20,13 @@ DASH = os.path.join(HERE, "dashboard")
 PORT = 8777
 
 
+class DevServer(ThreadingHTTPServer):
+    """로컬 개발 서버. 리슨 백로그를 표준 기본값(5)보다 크게 둔다 — Windows 는 백로그가 차면 새 연결을 바로 거부한다.
+    시뮬 요청 스레드가 GIL 을 쥔 동안 다른 탭이 모듈을 한꺼번에 받으면 accept 가 밀려 일부가 ERR_CONNECTION_REFUSED 로
+    실패하고, 그 탭은 부팅하지 못한다(uitest_v2 [모바일] 부팅 시간 초과)."""
+    request_queue_size = 128
+
+
 class Handler(BaseHTTPRequestHandler):
     def _send(self, code, body, ctype="application/json"):
         data = body if isinstance(body, bytes) else json.dumps(body, ensure_ascii=False).encode()
@@ -76,4 +83,4 @@ class Handler(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     all_meta()  # warm the cache
     print(f"WOOFIA 시뮬레이터  ->  http://localhost:{PORT}")
-    ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
+    DevServer(("127.0.0.1", PORT), Handler).serve_forever()

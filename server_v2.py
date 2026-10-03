@@ -9,9 +9,8 @@
 from __future__ import annotations
 
 import os
-from http.server import ThreadingHTTPServer
 
-from server import Handler as V1Handler, DASH as DASH_V1, all_meta
+from server import Handler as V1Handler, DASH as DASH_V1, DevServer, all_meta
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DASH_V2 = os.path.join(HERE, "dashboard_v2")
@@ -62,4 +61,4 @@ if __name__ == "__main__":
     os.makedirs(DASH_V2, exist_ok=True)
     all_meta()  # warm the cache
     print(f"WOOFIA 시뮬레이터 v2 (디자인 개편)  ->  http://localhost:{PORT}")
-    ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
+    DevServer(("127.0.0.1", PORT), Handler).serve_forever()
