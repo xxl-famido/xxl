@@ -583,6 +583,8 @@ def make_unit_from_kit(kit: ResolvedKit, slot: int, priority: int | None = None)
     self_extra = _self_extra_actions(kit)   # 이태호: 1 -> base 2 actions, extras forced 평타
     return Unit(
         name=kit.name, side="ally", slot=slot, priority=slot if priority is None else priority,
+        # 전투 HP 풀 = kit HP — 기초 최대 HP% 패시브는 max_hp_eff(최대HP 기준 수치)에만 반영(전역 단순화)
+        # [assumed: 10301-HP-pool-scale]
         base_atk=kit.atk, max_hp=kit.hp, hp=kit.hp,
         kind=kit.kind, element=kit.element,
         # ultimate gauge starts empty: fatal must charge fatal_cd turns first
@@ -989,6 +991,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             if effect.target == "adjacent":       # 욱영 협동체포: 자신+인접 동료에게만 설치
                 recipients = _resolve_targets(effect, caster, state, current_target, grantor)
             else:
+                # 생존 필터 없음: 전투불능 아군에게도 설치된다(행동이 없어 발동하지 않음) [assumed: 10301-DEATH-grant-persist]
                 recipients = [a for a in state.team(caster)
                               if not (exclude_self and a is caster)]
             for idx, ally in enumerate(recipients):
