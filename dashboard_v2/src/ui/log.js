@@ -173,7 +173,8 @@ export function createLog(ctx, d) {
     const det = h('div', { class: 'bl-sub' }, calcOf(l, { key }), isBar && barrierComp(dd.atkTotal, dd.barrierComp, key));
     const head = h('button', { type: 'button', class: 'bl-row bl-hit' },
       C.icon('chevron-right', 'ic bl-chev'),
-      counter ? h('span', { class: 'bl-tag t-counter' }, t('log.label.counter')) : h('span', { class: 'bl-idx' }, t('log.hit.n', { n: idx })),
+      counter && !dd.rider ? h('span', { class: 'bl-tag t-counter' }, t('log.label.counter')) : h('span', { class: 'bl-idx' }, t('log.hit.n', { n: idx })),
+      dd.rider && h('span', { class: 'bl-tag t-rider' }, tr(dd.rider)),   // 열상: 받은 타격마다 붙는 고정 데미지(공적은 건 동료)
       dd.target && h('span', { class: 'bl-tgt' }, `→ ${tr(dd.target)}`),
       dd.elemMult && dd.elemMult !== 1 && h('span', { class: `bl-tag ${dd.elemMult > 1 ? 't-adv' : 't-dis'}` }, t(dd.elemMult > 1 ? 'log.r.elem.adv' : 'log.r.elem.dis')),
       h('span', { class: 'bl-amt' }, fmt(dd.final)));

@@ -41,6 +41,17 @@ test('상성 ×1.5 · 수면 · 스킬 계수 순서', () => {
   assert.equal(r.matched, true);
 });
 
+test('열상(코드B): 기초 ATK(부여 시점) × 30% 고정 데미지 — 다른 배율 줄 없음', () => {
+  // woofia_sim/engine.py _apply_dmg_taken_flat 의 detail 모양
+  const d = { act: '열상', rider: '열상', target: '더미1', final: 8963.44, base: 25981, atkTotal: 29878.15, baseLabel: '기초ATK',
+    baseAtk: [{ v: 15 }], atk: [], flat: [], skillPct: 30, skillId: 10306, skillName: '황혼 연사',
+    dealt: [], effLabel: '', eff: [], effEx: [], takenG: [], takenP: [], takenEx: [], sleepBonus: 0, dotDealt: [], dotTaken: [], elemMult: 1 };
+  const r = receiptOf({ detail: d });
+  assert.deepEqual(r.rows.map(x => x.id), ['base', 'skill']);
+  assert.equal(r.rows[0].label, '기초ATK');
+  assert.equal(r.matched, true);
+});
+
 import { createFlatGrantIndex, categoryOf } from '../src/core/receipt.js';
 
 test('고정 ATK 출처 → 부여 줄 추적: 실결과의 모든 고정 ATK 출처가 앞선 부여 줄을 찾는다', { skip: !existsSync(FIX[0]) }, () => {
