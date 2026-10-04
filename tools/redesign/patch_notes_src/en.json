@@ -1,11 +1,17 @@
 {
  "_comment": "English translation of kr.json (tidied patch notes). Same versions, same items order/count, one details line per Korean line. Terms follow dashboard_v2/i18n/en.json.",
- "2.1": {
-  "title": "New companion ‘Shibahiko’",
+ "2.0.3": {
+  "title": "New companions ‘Shibahiko’ and ‘Code: B’",
   "items": [
    {
     "text": "Added new companion ‘Shibahiko’ — a Fire-element Support whose EX Skill raises the whole team's ATK and covers them with a Barrier; with the Sigil unlocked, allies holding a Barrier deal extra damage from it when they attack.",
     "details": []
+   },
+   {
+    "text": "Added new companion ‘Code: B’ — a Water-element Vandal whose EX Skill inflicts Vulnerable on the target, adding damage based on Code: B's Base ATK every time the target takes damage.",
+    "details": [
+     "Vulnerable applies to each instance of damage rather than each attack, so every hit of a multi-hit attack, every extra hit and every DoT tick receives it."
+    ]
    }
   ]
  },

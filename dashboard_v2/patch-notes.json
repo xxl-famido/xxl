@@ -2,28 +2,22 @@
  "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
  "releases": [
   {
-   "version": "2.1",
+   "version": "2.0.3",
    "date": "2026-10-04",
-   "highlight": true,
-   "char": 10301,
-   "charName": {
-    "kr": "시바히코",
-    "en": "Shibahiko",
-    "ja": "柴彦",
-    "zh": "柴彥",
-    "zhs": "柴彦"
-   },
-   "skill": true,
+   "highlight": false,
    "title": {
-    "kr": "신규 동료 ‘시바히코’ 추가",
-    "en": "New companion ‘Shibahiko’",
-    "ja": "新しい仲間「柴彦」を追加",
-    "zh": "新增夥伴「柴彥」",
-    "zhs": "新增伙伴「柴彦」"
+    "kr": "신규 동료 ‘시바히코’·‘코드B’ 추가",
+    "en": "New companions ‘Shibahiko’ and ‘Code: B’",
+    "ja": "新しい仲間「柴彦」「コード：B」を追加",
+    "zh": "新增夥伴「柴彥」「代號B」",
+    "zhs": "新增伙伴「柴彦」「代号B」"
    },
    "items": [
     {
      "cat": "new",
+     "chars": [
+      10301
+     ],
      "text": {
       "kr": "신규 동료 ‘시바히코’가 추가되었습니다. 필살기로 아군 전체의 ATK를 올리고 배리어를 씌우며, 도장을 잠금해제하면 배리어를 지닌 아군이 공격할 때 그 배리어로 추가 데미지를 주게 하는 불속성 보조입니다.",
       "en": "Added new companion ‘Shibahiko’ — a Fire-element Support whose EX Skill raises the whole team's ATK and covers them with a Barrier; with the Sigil unlocked, allies holding a Barrier deal extra damage from it when they attack.",
@@ -31,6 +25,28 @@
       "zh": "新增夥伴「柴彥」。以必殺技提升我方全體ATK並施加護盾，印章解鎖後讓持有護盾的我方在攻擊時以護盾造成額外傷害的火屬性輔助。",
       "zhs": "新增伙伴「柴彦」。以必杀技提升我方全体ATK并施加护盾，印章解锁后让持有护盾的我方在攻击时以护盾造成额外伤害的火属性辅助。"
      }
+    },
+    {
+     "cat": "new",
+     "chars": [
+      10306
+     ],
+     "text": {
+      "kr": "신규 동료 ‘코드B’가 추가되었습니다. 필살기로 목표물에게 ‘열상’을 부여해, 목표물이 데미지를 받을 때마다 코드B의 기초 ATK에 비례한 데미지가 추가되게 하는 물속성 방해입니다.",
+      "en": "Added new companion ‘Code: B’ — a Water-element Vandal whose EX Skill inflicts Vulnerable on the target, adding damage based on Code: B's Base ATK every time the target takes damage.",
+      "ja": "新しい仲間「コード：B」を追加しました。必殺技で対象に「裂傷」を付与し、対象がダメージを受けるたびにコード：Bの基礎ATKに応じたダメージを追加する水属性の妨害です。",
+      "zh": "新增夥伴「代號B」。以必殺技對目標施加「裂傷」，讓目標每次受到傷害時追加依代號B基礎攻擊力計算之傷害的水屬性妨礙。",
+      "zhs": "新增伙伴「代号B」。以必杀技对目标施加「裂伤」，让目标每次受到伤害时追加依代号B基础攻击力计算之伤害的水属性妨碍。"
+     },
+     "details": [
+      {
+       "kr": "열상 데미지는 공격 1회가 아니라 데미지를 받을 때마다 붙어, 여러 번 때리는 공격·추가 데미지·지속 데미지에 각각 들어갑니다.",
+       "en": "Vulnerable applies to each instance of damage rather than each attack, so every hit of a multi-hit attack, every extra hit and every DoT tick receives it.",
+       "ja": "裂傷のダメージは攻撃1回ごとではなくダメージを受けるたびに加わるため、多段攻撃・追加ダメージ・継続ダメージのそれぞれに入ります。",
+       "zh": "裂傷傷害並非每次攻擊一次，而是每次受到傷害時觸發，多段攻擊、追加傷害與持續傷害都會各自觸發。",
+       "zhs": "裂伤伤害并非每次攻击一次，而是每次受到伤害时触发，多段攻击、追加伤害与持续伤害都会各自触发。"
+      }
+     ]
     }
    ]
   },
