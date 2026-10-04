@@ -78,6 +78,14 @@ BASIC_JUDGED_ON_BASIC = {"Fearless"}
 #    기준대로 발동효과 유지 — 이 집합에 캐릭터를 추가할 때는 인게임 실측 근거가 있어야 한다.
 EX_JUDGED_ONEX_CHARS = {10437}   # 투명인간
 
+# 한 행동의 공격·행동 트리거(_fire_attack · on_action)는 그 행동이 시작될 때 이미 있던 구독만 발동한다 —
+# 행동 중에 새로 설치된 구독(예: 필살 본문이 아군 전체에 심는 '공격 시 …' 트리거)은 그 행동 자체에서는
+# 발동하지 않고 다음 행동부터 발동한다. 기준은 행동 id(state.cur_action)이며 (유닛, 턴) 단위가 아니다:
+# 같은 턴의 별개 행동(추가 행동·회복 행동·턴당 2행동)은 발동한다. 같은 구독의 재부여(갱신)는 최초 설치
+# 행동 id 를 유지하므로, 이미 열린 창을 갱신하는 다음 행동에서는 발동한다.
+# 엔진 처리(가정: 10301-SIG-same-action · 10301-SYN-10410). False 면 설치한 그 행동에서도 발동.
+SKIP_SUBS_INSTALLED_THIS_ACTION = True   # [assumed: 10301-SIG-same-action]
+
 
 def _trigger_src(caster: "Unit", sub: "Subscription") -> str:
     """트리거 데미지의 액션 판정.
@@ -173,6 +181,8 @@ class Subscription:
     chain_action: bool = False             # 제토 도장: 체이닝 행동회복 — force 모드에서도 실제 확률(50%) 유지
     expires: int = -1                      # 남은 하프턴 수명(-1=영구). "방어 시 2턴간 평타 추가딜"(던컨)
                                            #   처럼 이벤트가 부여한 시한부 리스너. _tick_buffs가 감소·제거
+    installed_action: int = -1             # 처음 설치된 행동 id(state.cur_action). 재부여(갱신)는 덮어쓰지 않는다
+                                           #   — SKIP_SUBS_INSTALLED_THIS_ACTION 의 비교 기준
 
 
 # site class/element name -> game id (ERoleKind / EProp)
@@ -573,6 +583,8 @@ def make_unit_from_kit(kit: ResolvedKit, slot: int, priority: int | None = None)
     self_extra = _self_extra_actions(kit)   # 이태호: 1 -> base 2 actions, extras forced 평타
     return Unit(
         name=kit.name, side="ally", slot=slot, priority=slot if priority is None else priority,
+        # 전투 HP 풀 = kit HP — 기초 최대 HP% 패시브는 max_hp_eff(최대HP 기준 수치)에만 반영(전역 단순화)
+        # [assumed: 10301-HP-pool-scale]
         base_atk=kit.atk, max_hp=kit.hp, hp=kit.hp,
         kind=kit.kind, element=kit.element,
         # ultimate gauge starts empty: fatal must charge fatal_cd turns first
@@ -979,6 +991,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             if effect.target == "adjacent":       # 욱영 협동체포: 자신+인접 동료에게만 설치
                 recipients = _resolve_targets(effect, caster, state, current_target, grantor)
             else:
+                # 생존 필터 없음: 전투불능 아군에게도 설치된다(행동이 없어 발동하지 않음) [assumed: 10301-DEATH-grant-persist]
                 recipients = [a for a in state.team(caster)
                               if not (exclude_self and a is caster)]
             for idx, ally in enumerate(recipients):
@@ -1059,8 +1072,10 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                         e.kind == EXTRA_ACTION and e.target == "self"
                         and "once per turn" not in (e.raw or "").lower()
                         for e in effect.sub_effects),
-                    expires=expires))
+                    expires=expires,
+                    installed_action=state.cur_action))
             else:
+                # 갱신: installed_action 은 최초 설치 값을 유지한다 [assumed: 10301-SYN-10410]
                 if once:
                     dup.armed = True        # 재발동(예: 다음 EX) 시 once 보호막 재장전
                 if expires > 0:
@@ -1632,16 +1647,18 @@ def _ready_subs(caster: Unit, event: str, state: BattleState,
 
 
 def _fire_subs(caster: Unit, event: str, state: BattleState,
-               current_target: Unit | None) -> None:
+               current_target: Unit | None, skip_action: int | None = None) -> None:
     # Sequential per-sub (roll → apply → next roll) — preserves seeded RNG order even
     # when an earlier sub's effects roll (apply_effect effect-chance). _ready_subs is
     # only for the simultaneous-AoE 2-pass where rolling all up-front IS the intent.
     # snapshot which gated subs qualify BEFORE firing, so same-event triggers
     # (e.g. transform A->B and B->A) don't chain-cancel within one event.
+    # skip_action: 이 행동 id 에 설치된 구독은 제외(SKIP_SUBS_INSTALLED_THIS_ACTION — _take_action 만 넘김)
     if not caster.alive:
         return                                  # 전투불능 유닛은 반격 등 어떤 트리거도 발동하지 않는다
     ready = [s for s in list(caster.subs)
-             if s.event == event and _qualifies(s, caster, current_target)
+             if s.event == event and (skip_action is None or s.installed_action != skip_action)
+             and _qualifies(s, caster, current_target)
              and (not s.need_team_barrier or _team_has_barrier(caster, state))
              and (not s.need_self_barrier or caster.barrier > 0)   # 자기 배리어 보유 시만 (오렘 충격역류)
              and (not s.once or s.armed)           # once-sub: 장전된 동안만
@@ -1707,7 +1724,7 @@ def _gate_reps(caster: Unit, gate_stack: str | None) -> int:
 
 
 def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
-                 current_target: Unit | None) -> None:
+                 current_target: Unit | None, skip_action: int | None = None) -> None:
     """Resolve attack-triggered subs across `events` in TWO passes, ordered to match
     the confirmed in-game rule (파미도/리카노/세숭/멍/제트블랙/신리랑, 오차 0):
 
@@ -1725,6 +1742,9 @@ def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
 
     Gates are snapshotted and chances rolled ONCE up-front (before any effect), so
     later state changes don't retroactively gate the damage pass.
+
+    skip_action: subs installed by this action id are left out
+    (SKIP_SUBS_INSTALLED_THIS_ACTION — only _take_action passes it).
     """
     fired: list[tuple[Subscription, str]] = []
     for event in events:
@@ -1732,7 +1752,8 @@ def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
         # 배리어가 같은 공격의 "배리어 보유 시" 게이트를 즉석에서 만족시키지 않도록 (오렘 도장 등).
         bsnap = caster.barrier_snap if caster.barrier_snap is not None else caster.barrier
         for sub in [s for s in list(caster.subs)
-                    if s.event == event and _qualifies(s, caster, current_target)
+                    if s.event == event and (skip_action is None or s.installed_action != skip_action)
+                    and _qualifies(s, caster, current_target)
                     and (not s.need_team_barrier or _team_has_barrier(caster, state))
                     and (not s.need_self_barrier or bsnap > 0)
                     and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]:
@@ -2190,7 +2211,8 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
         # 란(허물 매미 교전): 방어 전 란의 기운 보유 여부 — on_defend가 제거하기 전에 캡처
         ran_had_gale = getattr(unit._kit, "char_id", 0) == 10426 and unit.stacks.get("Gale Breath", 0) >= 1
         _fire_subs(unit, "on_defend", state, target)
-        _fire_subs(unit, "on_action", state, target)
+        _fire_subs(unit, "on_action", state, target,
+                   skip_action=state.cur_action if SKIP_SUBS_INSTALLED_THIS_ACTION else None)
         if ran_had_gale:
             _ran_p4_synergy(unit, state)
         return
@@ -2272,8 +2294,10 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
     # resolve attack procs from the action-specific event then generic on-attack,
     # buffs/stacks first and triggered damages last, so the 발동 damage sees the
     # fully-buffed ATK this same attack granted (e.g. 파미도 Strategic flat)
-    _fire_attack(unit, (event, "on_attack"), state, target)
-    _fire_subs(unit, "on_action", state, target)   # may grant an extra action
+    # 이 행동이 막 설치한 구독은 제외(행동 id 기준 — SKIP_SUBS_INSTALLED_THIS_ACTION)
+    skip = state.cur_action if SKIP_SUBS_INSTALLED_THIS_ACTION else None
+    _fire_attack(unit, (event, "on_attack"), state, target, skip_action=skip)
+    _fire_subs(unit, "on_action", state, target, skip_action=skip)   # may grant an extra action
     unit.act_snap = None
     unit.barrier_snap = None
     if target is not None:
@@ -2758,6 +2782,9 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
             for e in enemies:
                 e.hp = e.max_hp * pct
         for u in allies:
+            # '직전 피격 전 배리어 − 소모' 표시는 그 피격의 적 페이즈 반격(다라완)에만 맞는 값이다. 다음 턴 아군
+            # 페이즈의 배리어 비례 딜(시바히코 도장·무명 파5·제단 1020)에 남으면 만료·새 배리어가 빠진 숫자가 보인다.
+            u.barrier_pre_hit = None        # 표시 전용(barrierPre) — 데미지 계산은 현재 배리어(caster.barrier)
             if u.alive:
                 _fire_time_subs(u, state)   # on_turn-1 CD cut etc. before actions
             u.extra_actions = 0             # reset BEFORE the phase so cross-ally
