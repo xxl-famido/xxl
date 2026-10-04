@@ -754,5 +754,20 @@
   "name_cn": "柴彥",
   "name_sc": "柴彦",
   "name_ja": "柴彦"
+ },
+ "10306": {
+  "id": 10306,
+  "name_en": "Code: B",
+  "name_kr": "코드B",
+  "feature": "",
+  "rarity": 3,
+  "class": 5,
+  "element": 2,
+  "baseATK": 508,
+  "baseHP": 2219,
+  "hasRune": true,
+  "name_cn": "代號B",
+  "name_sc": "代号B",
+  "name_ja": "コード：B"
  }
 }
