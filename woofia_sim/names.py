@@ -58,6 +58,7 @@ STACK_KR: dict[str, str] = {
     "Sleep": "수면",
     "Tidefang": "해일의 송곳니",
     "Water Bullet": "상어 수탄",
+    "Vulnerable": "열상",
 }
 
 
@@ -86,6 +87,7 @@ STAT_KR_LABEL: dict[str, str] = {
     "heal_recv_pct": "받는회복",
     "bar_recv_pct": "받는배리어",
     "dmg_taken_ex_pct": "필살기 받는딜",
+    "dmg_taken_flat": "열상",
 }
 
 

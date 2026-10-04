@@ -311,6 +311,14 @@ def _team_combos() -> list[Combo]:
             turns=15, dummies=1, enemy_hits=0,
             turn_damage=(30.0,) * 15, allow_death=True, seed=3,
         ),
+        Combo(
+            name="team_codeb_vulnerable_per_hit",
+            purpose="코드B 열상 — 목표물이 받는 데미지 1회(필살 2회 공격·욱영 3타·최유희 발동·다라완 반격·지속 틱)마다 "
+                    "코드B 기초 ATK 30% 고정 데미지(필살 시점 고정, 배율 없음, 공적=코드B). 열상은 목표 1명에게만",
+            specs=(CharSpec(10306, position=1), CharSpec(10303, position=2),
+                   CharSpec(10439, position=3), CharSpec(10438, position=4)),
+            turns=10, dummies=3, enemy_hits=2, incoming_hp_pct=5,
+        ),
     ]
 
 

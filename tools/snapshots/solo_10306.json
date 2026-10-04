@@ -1,0 +1,87 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10306,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turnPlans": {},
+    "turns": 10
+  },
+  "dps": 53656.37,
+  "events": {
+    "byActionKind": {
+      "보통공격": 16,
+      "피격": 60,
+      "필살기": 21
+    },
+    "byOutput": {
+      "-": 3,
+      "heal": 13,
+      "incoming": 30,
+      "열상": 8,
+      "평타": 7,
+      "필살": 6
+    },
+    "count": 97
+  },
+  "logHash": "sha256:9333f91f91053ab19c52b10b3b5752d9",
+  "perChar": {
+    "코드B": {
+      "barrier": 0.0,
+      "damage": 536563.68,
+      "healing": 278913.72
+    }
+  },
+  "perTurn": {
+    "1": {
+      "코드B": 34180.6
+    },
+    "10": {
+      "코드B": 93124.2
+    },
+    "2": {
+      "코드B": 34180.6
+    },
+    "3": {
+      "코드B": 34180.6
+    },
+    "4": {
+      "코드B": 93124.2
+    },
+    "5": {
+      "코드B": 43144.04
+    },
+    "6": {
+      "코드B": 34180.6
+    },
+    "7": {
+      "코드B": 93124.2
+    },
+    "8": {
+      "코드B": 43144.04
+    },
+    "9": {
+      "코드B": 34180.6
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 536563.68,
+  "unapplied": {}
+}

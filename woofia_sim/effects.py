@@ -53,6 +53,8 @@ STAT_HEAL_RECV = "heal_recv_pct"            # 받는 회복량 증가 (target si
 STAT_BAR_RECV = "bar_recv_pct"              # 받는 배리어 효과 증가 (수령자 side, beShieldBonus — 오렘 파1·다라완 파4 모두)
 STAT_TYPE_ADV_DMG = "type_adv_dmg_pct"      # 속성 상성 추가뎀 증폭 (제토: 상성 우위일 때만 상성 초과분 +x%)
 STAT_DMG_TAKEN_EX = "dmg_taken_ex_pct"      # 필살기(EX 액션) 피격에만 걸리는 받뎀 (길드 제단 401: 보스 필살기 피격 -75%)
+STAT_DMG_TAKEN_FLAT = "dmg_taken_flat"      # 열상(코드B 황혼 연사): 대상이 데미지를 받을 때마다(타격·지속 틱 1회당) 부여자
+                                            #   기초 ATK N% 고정 데미지 추가. Buff.value = 부여 시점에 고정된 데미지 값
 
 
 @dataclass
@@ -145,6 +147,8 @@ def _trig_window(body: str) -> int:
     return int(m.group(1)) if m else 0
 _TRIGGER_PATTERNS: tuple[tuple[re.Pattern, str, str], ...] = (
     (re.compile(rf"^On attack, there is a(?:\(n\))? {_NUM}% chance to trigger: (.+)$"), "on_attack", "chance"),
+    # 'trigger:' 없이 확률 데미지가 바로 오는 형태(코드B 월영의 잠행 "…chance to deal damage …") — 같은 확률 트리거
+    (re.compile(rf"^On attack, there is a(?:\(n\))? {_NUM}% chance to ([Dd]eal damage .+)$"), "on_attack", "chance"),
     (re.compile(r"^On attack, (?:trigger: )?(.+)$"), "on_attack", "plain"),
     (re.compile(rf"^On Basic Attack, there is a(?:\(n\))? {_NUM}% chance to trigger: (.+)$"), "on_basic_attack", "chance"),
     (re.compile(r"^On Basic Attack, (?:trigger: )?(.+)$"), "on_basic_attack", "plain"),
@@ -370,6 +374,15 @@ def _b_heal_recv(m):
 def _b_dot_taken(m):                          # 지속(도트) 데미지 전용 받뎀증 — 일반 타격엔 무효
     return Effect(DEBUFF, m.group(0), target="target", stat=STAT_DOT_TAKEN,
                   magnitude=_f(m.group(1)), duration=_opt_dur(m, 2))
+
+
+# 코드B 황혼 연사 「열상」(Vulnerable): "목표물이 데미지를 받을 때 자신 기초 ATK N%의 데미지 추가". 받뎀 %가 아니라
+# 대상이 받는 데미지 1회(타격·추가타·지속 틱)마다 붙는 고정 데미지다. 값은 부여 시점 기초 ATK로 고정(사용자 확인 2026-10-04).
+@_leaf(rf"^(?:Inflict (.+?): )?Target(?:\(s\))? damage taken \+{_NUM}% of own base ATK(?: for {_NUM} {_TRN})?\.?$")
+def _b_dmg_taken_flat(m):
+    return Effect(DEBUFF, m.group(0), target="target", stat=STAT_DMG_TAKEN_FLAT, of_base_atk=True,
+                  magnitude=_f(m.group(2)), duration=_opt_dur(m, 3),
+                  stack_name=_stk(m.group(1) or "Vulnerable"))
 
 
 @_leaf(rf"^Own DoT damage dealt \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
@@ -1329,6 +1342,11 @@ def _fold_stance_block(out: list[Effect]) -> list[Effect]:
     return out[:mk_idx] + kept
 
 
+# "And attack N times, each dealing damage X% of own ATK to target(s)." (코드B 황혼 연사 = 110% 2회).
+# 배율 합(220%) 한 번으로 뭉치면 타격당 붙는 효과(열상)가 1회만 붙으므로 N개의 독립 타격으로 편다.
+_MULTI_HIT = re.compile(r"^(?:[Aa]nd )?[Aa]ttack (\d+) times?, each dealing (damage .+)$")
+
+
 def parse_skill_level(desc: str, params: dict) -> list[Effect]:
     """Resolve placeholders and parse every line of one skill level."""
     resolved = resolve_placeholders(desc, params)
@@ -1364,6 +1382,14 @@ def parse_skill_level(desc: str, params: dict) -> list[Effect]:
                 else:
                     sentences.append(s)
         for s in sentences:
+            mh = _MULTI_HIT.match(s)
+            if mh:
+                # 공격 N회 = 독립 타격 N개(같은 데미지 효과 N개). 받는 쪽 효과(열상 등)가 타격마다 따로 붙는다.
+                for _ in range(int(mh.group(1))):
+                    hit = parse_line("Deal " + mh.group(2))
+                    hit.raw = s
+                    out.append(hit)
+                continue
             eff = parse_line(s)
             # "StackName:" header followed by a self-buff body -> a per-stack definition
             # (다양수이 전의: EX효과+6%×중첩, 최대 9). Each stack confers the buff's stat.

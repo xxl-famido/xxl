@@ -25,7 +25,8 @@ from .effects import (
     STAT_MAX_HP, STAT_BASE_MAX_HP,
     STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_DOT_TAKEN, STAT_DOT_DEALT,
     STAT_BASIC_DMG_DEALT, STAT_EX_EFFECT,
-    STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, STAT_BAR_RECV, STAT_TYPE_ADV_DMG, STAT_DMG_TAKEN_EX, Effect,
+    STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, STAT_BAR_RECV, STAT_TYPE_ADV_DMG, STAT_DMG_TAKEN_EX,
+    STAT_DMG_TAKEN_FLAT, Effect,
 )
 from .kit import ResolvedKit
 from .altar import altar_effects
@@ -156,6 +157,8 @@ class Buff:
     element: int = 0    # element-specific dmg-taken: only matching-element hits get it (0 = any)
     owner: int = 0      # source char id (for the buff-source drill-down)
     src_skill: str = "" # source KR skill name
+    name: str = ""      # 이름 붙은 디버프의 표시 이름(열상)
+    calc: dict | None = None   # 부여 시점 계산식 스냅샷(열상 고정 데미지 드릴다운: base·baseAtk·baseAtkEff·pct)
 
 
 @dataclass
@@ -949,6 +952,38 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
                                  "skillPct": ls_pct, "skillId": ls_owner, "skillName": ls_skill,
                                  "healRecv": round(recv, 2), "baseLabel": "피해량", "baseTotal": dmg,
                                  "eff": []})
+    if dmg > 0:
+        _apply_dmg_taken_flat(tgt, state)
+
+
+def _apply_dmg_taken_flat(tgt: "Unit", state: "BattleState") -> None:
+    """열상(STAT_DMG_TAKEN_FLAT, 코드B 황혼 연사): 대상이 데미지를 받을 때마다 — 직접 타격·추가타·반격·지속 틱
+    1회당 — 부여 시점에 고정된 '부여자 기초 ATK N%'를 고정 데미지로 한 번 더한다(사용자 확인 2026-10-04:
+    공격당이 아니라 타격당, 2회 공격이면 2번). 주는딜·받뎀·행동효과·속성 상성 등 어떤 배율도 받지 않고, 딜 공적은
+    열상을 건 동료에게 쌓인다. 이 고정 데미지는 _record_hit을 거치지 않아 열상·흡혈·트리거를 다시 일으키지 않는다."""
+    for b in [x for x in tgt.buffs if x.stat == STAT_DMG_TAKEN_FLAT and x.value > 0]:
+        owner = next((u for u in state.allies if getattr(getattr(u, "_kit", None), "char_id", 0) == b.owner), None)
+        dmg = round(b.value, 2)
+        tgt.hp -= dmg
+        if owner is not None:
+            owner.damage_dealt += dmg
+        calc = b.calc or {}
+        name = b.name or stat_kr(STAT_DMG_TAKEN_FLAT)
+        base_eff, pct = calc.get("baseAtkEff", 0.0), calc.get("pct", 0.0)
+        # 계산 내역 = 기초 ATK(부여 시점) × N% — 다른 채널은 비어 있다(고정 데미지)
+        struct = {
+            "act": name, "rider": name, "target": tgt.name, "final": dmg,
+            "base": calc.get("base", 0), "atkTotal": base_eff, "baseLabel": "기초ATK",
+            "barrierComp": None, "barrierPre": None, "barrierConsumed": 0.0,
+            "baseAtk": calc.get("baseAtk", []), "atk": [], "flat": [],
+            "skillPct": pct, "skillId": b.owner, "skillName": b.src_skill,
+            "dealt": [], "effLabel": "", "eff": [], "effEx": [],
+            "takenG": [], "takenP": [], "takenEx": [], "sleepBonus": 0.0,
+            "dotDealt": [], "dotTaken": [], "elemMult": 1.0,
+        }
+        state.record(owner.name if owner is not None else name,
+                     f"{name} → {tgt.name} {dmg:,.2f} = {base_eff:,.2f}기초ATK × {pct:g}% (고정 데미지)",
+                     amount=dmg, detail=struct, src_id=b.owner, src_skill=b.src_skill)
 
 
 def apply_effect(effect: Effect, caster: Unit, state: BattleState,
@@ -1276,8 +1311,16 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                                  f"{act_kr} → {tgt.name} {effect.stat} 자기버프 제거",
                                  src_id=effect.owner, src_skill=effect.src_skill)
             return
+        flat_calc = None
+        if effect.stat == STAT_DMG_TAKEN_FLAT:
+            # 열상: 부여 시점 기초 ATK(기초ATK% 포함, ATK% 제외)로 값을 고정한다 — 이후 시전자 버프 변화와 무관
+            flat_calc = {"base": caster.base_atk, "baseAtk": caster._comp(STAT_BASE_ATK),
+                         "baseAtkEff": round(caster.base_atk_eff(), 2), "pct": effect.magnitude}
         for tgt in targets:
-            if effect.of_base_atk:
+            if flat_calc is not None:
+                stat = STAT_DMG_TAKEN_FLAT
+                val = round(effect.magnitude / 100 * caster.base_atk_eff(), 2)
+            elif effect.of_base_atk:
                 # "+X% of own base ATK": base ATK includes the caster's base-ATK%
                 # buffs (not regular ATK% buffs), snapshotted at grant time
                 stat = STAT_ATK_FLAT
@@ -1303,6 +1346,10 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                 tgt.buffs.append(Buff(stat, val, _half_turns(effect.duration),
                                       src=source, key=ekey, element=effect.element,
                                       owner=effect.owner, src_skill=effect.src_skill))
+            if flat_calc is not None:               # 열상: 재부여(갱신)도 새 스냅샷 계산식으로
+                for b in tgt.buffs:
+                    if b.key == ekey:
+                        b.name, b.calc = kr(effect.stack_name), flat_calc
             # 오렘 파1(eff 6002, "Barrier granted by self +X%"): '받는 배리어 +X%' 버프를 두는 순간,
             # 부여 시점에 이 보너스를 아직 못 받은(barRecv≤0) 자기 보유 배리어에만 +X%를 1회 소급.
             # barRecv 태그로 (a)이미 소급된 배리어 재소급 (b)부여 시점 recv와의 이중적용 을 모두 방지
@@ -1322,7 +1369,11 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                                  amount=0, src_id=effect.owner, src_skill=effect.src_skill)
         if source != "passive" and targets:           # show buff/debuff actions in the log
             atk_calc = None
-            if effect.of_base_atk or stat == STAT_ATK_FLAT:
+            if flat_calc is not None:
+                vl = f"{kr(effect.stack_name)} +{val:,.0f} 고정 데미지"
+                atk_calc = {"calc": "flatAtk", "base": flat_calc["base"], "baseAtk": flat_calc["baseAtk"],
+                            "pct": effect.magnitude, "val": round(val, 2)}
+            elif effect.of_base_atk or stat == STAT_ATK_FLAT:
                 vl = f"고정ATK {val:+,.0f}"
                 if effect.of_base_atk:                 # 고정ATK = base × (1+기초ATK%) × 부여%
                     atk_calc = {"calc": "flatAtk", "base": caster.base_atk,
