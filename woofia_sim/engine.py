@@ -2782,6 +2782,9 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
             for e in enemies:
                 e.hp = e.max_hp * pct
         for u in allies:
+            # '직전 피격 전 배리어 − 소모' 표시는 그 피격의 적 페이즈 반격(다라완)에만 맞는 값이다. 다음 턴 아군
+            # 페이즈의 배리어 비례 딜(시바히코 도장·무명 파5·제단 1020)에 남으면 만료·새 배리어가 빠진 숫자가 보인다.
+            u.barrier_pre_hit = None        # 표시 전용(barrierPre) — 데미지 계산은 현재 배리어(caster.barrier)
             if u.alive:
                 _fire_time_subs(u, state)   # on_turn-1 CD cut etc. before actions
             u.extra_actions = 0             # reset BEFORE the phase so cross-ally

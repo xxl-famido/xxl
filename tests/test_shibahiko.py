@@ -268,3 +268,21 @@ def test_grants_outlive_incapacitated_shibahiko():
     t5 = _at([ev for ev in res.state.log if ev.actor_id == DAYANG and ev.action_kind == "보통공격"
               and (ev.detail or {}).get("act") == "평타" and (ev.detail or {}).get("skillId") == DAYANG], 5)
     assert SHIBA_FATAL in [c.get("skill") for c in t5.detail.get("flat", [])]
+
+
+def test_barrier_drilldown_pre_hit_only_within_the_hit_phase():
+    """드릴다운 표시(barrierPre '기존 배리어 − 소모')는 그 피격의 적 페이즈 반격에만 붙는다. 피격 10% 에서 다음 턴 아군 페이즈의
+    S-3 에 직전 적 페이즈 값이 남으면 만료·새 배리어가 빠진 숫자(예: 기준 33,688 옆 '기존 8,422 − 소모 8,422')가 보였다(N8-② 검수).
+    다라완 필살 반격(적 페이즈)은 '기존 − 소모 = 기준 배리어'로 그대로 표시된다. 데미지 수치와 무관한 표시 필드다."""
+    res = _run([CharSpec(DAYANG, position=1, rune=True), CharSpec(SHIBA, position=2, rune=True)],
+               force_proc=True, incoming_hp_pct=10)
+    hits = [ev for ev in res.state.log if (ev.detail or {}).get("skillId") == SHIBA
+            and (ev.detail or {}).get("baseLabel") == "배리어" and (ev.detail or {}).get("act") == "발동"]
+    assert len(hits) == 7 and all(ev.detail["barrierPre"] is None for ev in hits)
+    res = _run([CharSpec(SHIBA, position=1, rune=True), CharSpec(DARAWAN, position=2, rune=True)],
+               force_proc=True, incoming_hp_pct=10)
+    counters = [ev.detail for ev in res.state.log if ev.action_kind == "피격" and ev.actor_id == DARAWAN
+                and (ev.detail or {}).get("baseLabel") == "배리어" and "final" in ev.detail]
+    assert counters and all(d["barrierPre"] is not None
+                            and d["barrierPre"] - d["barrierConsumed"] == pytest.approx(d["base"], abs=0.02)
+                            for d in counters)
