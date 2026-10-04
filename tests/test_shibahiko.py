@@ -23,6 +23,8 @@ DARAWAN = 10438
 LIMBUEON = 10410
 TAEHO = 10423
 UKYOUNG = 10439
+JETBLACK = 10418
+MUMYEONG = 10443
 
 
 def _run(team, **kw):
@@ -195,3 +197,74 @@ def test_defend_is_not_attack_and_damage_drains_material():
     res = _solo(turn_damage=[0, 0, 0, 30, 0, 0, 0, 0, 0, 0])
     assert _turns(_s3(res, SHIBA)) == [8]
 
+
+# ── N8 검증에서 옮긴 구조 가드 (동결 예측 10301-T02·T06·T08·T13·S04·S08·S11 + 추가 측정 X02·X03) ──
+
+def _recipient_ids(res, events):
+    """배리어 부여 로그의 수령자(detail.target 유닛 이름) → char_id."""
+    by_name = {u.name: getattr(u._kit, "char_id", 0) for u in res.state.allies}
+    return [by_name.get((ev.detail or {}).get("target")) for ev in events]
+
+
+def test_basic_attack_is_single_target_and_flat_window_is_two_turns():
+    """보통 공격은 목표물 1명 — 더미 3에서도 시바히코 보통 공격 hit 는 턴당 1개(예측 T02).
+    [precedent: 10301-dur-2turn-window — 엔진 처리] 필살 고정 가산(2턴)이 시바히코 보통 공격에 걸리는 턴은
+    필살 다음 턴뿐 — 도장 OFF 에서 T1 보다 1% 넘게 큰 보통 공격 hit 는 T5·T8(예측 T06)."""
+    res = _run([CharSpec(SHIBA, position=1, rune=True)], n_dummies=3)
+    hits = _basic_hits(res, SHIBA, SHIBA_BASIC)
+    assert _turns(hits) == [1, 2, 3, 5, 6, 8, 9]
+    assert {ev.detail["target"] for ev in hits} == {"더미1"}
+    off = _basic_hits(_run([CharSpec(SHIBA, position=1, rune=False)]), SHIBA, SHIBA_BASIC)
+    t1 = _at(off, 1).amount
+    assert [ev.turn for ev in off if ev.amount > 1.01 * t1] == [5, 8]
+
+
+def test_p2_barrier_every_basic_in_force_mode_to_first_listed_on_tie():
+    """[precedent: 10301-P1-chance-force — 엔진 처리] 확률 100% 모드: 파2 배리어는 시바히코 보통 공격 7회 모두, 필살 턴 없음(예측 T08).
+    [precedent: 10301-P-lowest-hp — 엔진 처리(동률 = 목록 첫 동료)] 피해 없는 2인 팀(다양수이 1번)은 모두 HP 100% 동률이라
+    파2 배리어 7개가 전부 다양수이에게 간다(예측 T13)."""
+    assert _turns(_barriers(_solo(force_proc=True), SHIBA_P2, "발동")) == [1, 2, 3, 5, 6, 8, 9]
+    res = _run([CharSpec(DAYANG, position=1, rune=True), CharSpec(SHIBA, position=2, rune=True)], force_proc=True)
+    assert _recipient_ids(res, _barriers(res, SHIBA_P2, "발동")) == [DAYANG] * 7
+
+
+def test_synergy_mumyeong_self_damage_pulls_p2_barrier():
+    """[precedent: 10301-SYN-10443 · 10301-P-lowest-hp] [assumed: 10443-ULT-selfdmg-real] 시너지 무명: 무명 T1 필살 자해로
+    HP% 최저가 된 무명이 T2 부터 시바히코 파2 배리어를 받는다 — T1 만 동률(전원 100%)이라 목록 첫 시바히코(예측 S04)."""
+    res = _run([CharSpec(SHIBA, position=1, rune=True), CharSpec(MUMYEONG, position=2, rune=True)], force_proc=True)
+    assert _recipient_ids(res, _barriers(res, SHIBA_P2, "발동")) == [SHIBA] + [MUMYEONG] * 6
+
+
+def test_anti_barriers_delay_mumyeong_low_hp_gate():
+    """[precedent: 10301-SYN-10443 (iii) · 10301-BAR-instances] [assumed: 10443-ULT-selfdmg-real · 10443-HP-pool-scale]
+    안티 무명: T2 턴 피해 45% 를 시바히코 파2·필살 배리어가 흡수해 무명 HP 가 60% 로 남는다 — 무명 'HP≦50% 보통 공격 데미지 +30%'
+    는 T3·T4 에 열리지 않고 T5 자해 뒤 T6·T7·T8·T10 에만(예측 S08, 다양수이 동반이면 [3,4,6,7,8,10])."""
+    res = _run([CharSpec(SHIBA, position=1, rune=True), CharSpec(MUMYEONG, position=2, rune=True)],
+               force_proc=True, turn_damage=[0, 45, 0, 0, 0, 0, 0, 0, 0, 0])
+    gated = [ev.turn for ev in _basic_hits(res, MUMYEONG, "참격세")
+             if any("HP≦50%" in str(c.get("cond", "")) for c in (ev.detail or {}).get("eff", []))]
+    assert gated == [6, 7, 8, 10]
+
+
+def test_anti_jetblack_first_slot_acts_before_window_on_ult_turn():
+    """[precedent: 10301-dur-2turn-window · 10301-SIG-attack-scope — 엔진 처리(같은 보조끼리 자리 순)] 안티 제트블랙:
+    제트블랙을 1번에 두면 필살 턴마다 시바히코보다 먼저 행동해 필살 턴 당일은 창 밖 — 제트블랙 S-3 는 T5·T8 뿐(예측 S11)."""
+    res = _run([CharSpec(JETBLACK, position=1, rune=True), CharSpec(SHIBA, position=2, rune=True)])
+    assert _turns(_s3(res, JETBLACK)) == [5, 8]
+
+
+def test_grants_outlive_incapacitated_shibahiko():
+    """[assumed: 10301-DEATH-grant-persist] 시바히코가 T4 턴 피해 110% 로 전투불능이 돼도, 그 턴 도장 필살이 다양수이에게 준
+    S-3 창과 고정 가산은 만료(T6 시작)까지 남는다 — 다양수이 S-3 발동 이벤트(금액 무관, 배리어는 턴 피해로 소진) T4·T5,
+    T5 보통 공격에 시바히코 고정 가산 항목(N8 추가 측정 10301-X02·X03)."""
+    res = _run([CharSpec(DAYANG, position=1, rune=True), CharSpec(SHIBA, position=2, rune=True)],
+               force_proc=True, turn_damage=[0, 0, 0, 110, 0, 0, 0, 0, 0, 0])
+    deaths = [ev.turn for ev in res.state.log if ev.actor_id == SHIBA and (ev.detail or {}).get("kind") == "death"]
+    assert deaths == [4]
+    fired = [ev.turn for ev in res.state.log
+             if ev.actor_id == DAYANG and (ev.detail or {}).get("skillId") == SHIBA
+             and (ev.detail or {}).get("baseLabel") == "배리어" and (ev.detail or {}).get("act") == "발동"]
+    assert fired == [4, 5]
+    t5 = _at([ev for ev in res.state.log if ev.actor_id == DAYANG and ev.action_kind == "보통공격"
+              and (ev.detail or {}).get("act") == "평타" and (ev.detail or {}).get("skillId") == DAYANG], 5)
+    assert SHIBA_FATAL in [c.get("skill") for c in t5.detail.get("flat", [])]
