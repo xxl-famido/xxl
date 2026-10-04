@@ -2,6 +2,39 @@
  "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
  "releases": [
   {
+   "version": "2.1",
+   "date": "2026-10-04",
+   "highlight": true,
+   "char": 10301,
+   "charName": {
+    "kr": "시바히코",
+    "en": "Shibahiko",
+    "ja": "柴彦",
+    "zh": "柴彥",
+    "zhs": "柴彦"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘시바히코’ 추가",
+    "en": "New companion ‘Shibahiko’",
+    "ja": "新しい仲間「柴彦」を追加",
+    "zh": "新增夥伴「柴彥」",
+    "zhs": "新增伙伴「柴彦」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘시바히코’가 추가되었습니다. 필살기로 아군 전체의 ATK를 올리고 배리어를 씌우며, 도장을 잠금해제하면 배리어를 지닌 아군이 공격할 때 그 배리어로 추가 데미지를 주게 하는 불속성 보조입니다.",
+      "en": "Added new companion ‘Shibahiko’ — a Fire-element Support whose EX Skill raises the whole team's ATK and covers them with a Barrier; with the Sigil unlocked, allies holding a Barrier deal extra damage from it when they attack.",
+      "ja": "新しい仲間「柴彦」を追加しました。必殺技で味方全体のATKを上げてバリアを張り、刻印解放後はバリアを持つ味方が攻撃するとそのバリアで追加ダメージを与える火属性の支援です。",
+      "zh": "新增夥伴「柴彥」。以必殺技提升我方全體ATK並施加護盾，印章解鎖後讓持有護盾的我方在攻擊時以護盾造成額外傷害的火屬性輔助。",
+      "zhs": "新增伙伴「柴彦」。以必杀技提升我方全体ATK并施加护盾，印章解锁后让持有护盾的我方在攻击时以护盾造成额外伤害的火属性辅助。"
+     }
+    }
+   ]
+  },
+  {
    "version": "2.0.2",
    "date": "2026-09-30",
    "highlight": false,
