@@ -5,7 +5,7 @@
 파5 60% · 위용 보유 시 파2 60% ×2(독립 타격) · 도장 【기원】≧4 이면 120%. 기원 = 하쿠이를 뺀 아군의 필살 1회당 +1(2턴, 최대 4).
 
 하쿠이 hit = 피해 로그(detail 에 atkTotal, amount > 0) ∧ actor_id 10444 ∧ detail 에 rider(열상) 없음.
-기대값은 이 동료의 동결 예측(10444-T·S·C)에서 가져왔다.
+기대값은 이 동료의 동결 예측(10444-T·S·C)과 N8 추가 측정(10444-X, 해석 기록에서 도출)에서 가져왔다.
 태그의 precedent 는 엔진의 기존 동료 처리(선례)를 따른 해석이라는 뜻이다 — 게임 규칙으로 확인된 것이 아니다.
 """
 from __future__ import annotations
@@ -28,6 +28,9 @@ LIMBUEON = 10410
 UKYOUNG = 10439
 CODEB = 10306
 MUNG = 10417
+MUNG_SIGIL = "패란의 영감"   # 멍 도장 — 아군 전체에 '보통 공격 시 ATK 20%'(3턴) 부여
+RICANO = 10428
+ZETTO = 10441
 YUKJAM = 10429
 MUMYEONG = 10443
 ALTAR_MAX_CD = 402           # 필살 최대 CD +1
@@ -214,6 +217,66 @@ def test_synergy_codeb_vulnerable_rides_each_hakui_hit():
     riders = [ev for ev in res.state.log if ev.detail and "rider" in ev.detail and ev.actor_id == HAKUI]
     assert _turns(riders) == [5, 5, 5, 8, 8, 8]
     assert all(ev.detail.get("skillName") in (P2, P5) for ev in _hits(res))
+
+
+# ── N8 시뮬레이터 검증에서 옮긴 가드 ──────────────────────────────────────────
+
+def test_extra_damage_hits_only_current_target():
+    """[precedent: 10444-target-current] 추가 피해의 '목표물' = 그 보통 공격의 현재 목표물 1명 — 더미 3에서도 파5 hit 는
+    보통 공격 턴마다 1개 [1,3,4,5,6,8,9,10](10444-T02), 하쿠이 hit 의 대상은 한 더미뿐."""
+    res = _solo(n_dummies=3)
+    assert _turns(_named(res, P5)) == [1, 3, 4, 5, 6, 8, 9, 10]
+    assert len({ev.detail.get("target") for ev in _hits(res)}) == 1
+
+
+def test_basic_dmg_buffs_stay_on_hakui():
+    """[precedent: 10444-P2-self-line] 파3 '필살기 시 자신 보통 공격 데미지 +60%(3턴)'와 기원 중첩당 +12% 는 하쿠이 자신만 —
+    동료(신리랑·최유현, 각자 필살 T4·T7·T10) hit 의 평타뎀 성분에 하쿠이 항목이 없고, 하쿠이 T3 파5 에는 +60 하나
+    (10444-X01, N8 추가 측정)."""
+    res = _run([CharSpec(HAKUI, position=1), CharSpec(SHIN, position=2), CharSpec(CHOI, position=3)])
+    ally = [c for cid in (SHIN, CHOI) for ev in _hits(res, cid)
+            for c in ev.detail.get("eff", []) if c.get("by") == HAKUI]
+    assert ally == []
+    assert [c["v"] for c in _at(_named(res, P5), 3).detail["eff"] if c.get("by") == HAKUI] == [60.0]
+
+
+def _mung_grant_turns(res):
+    return _turns([ev for ev in _hits(res)
+                   if ev.detail.get("skillName") == MUNG_SIGIL and ev.detail.get("skillPct") == 20])
+
+
+def test_synergy_mung_grant_fires_on_damageless_basic():
+    """[precedent: 10444-SYN-10417] [precedent: 10444-attack-scope] 멍 도장이 준 '보통 공격 시 ATK 20%'(3턴)는 본문 피해가
+    없는 하쿠이 보통 공격에서도 발동한다. 하쿠이 1번(먼저 행동)이면 멍 필살(T1·T4·T7·T10) 다음 두 턴 [3,5,6,8,9]
+    (10444-S01), 멍 1번이면 필살 당일부터 하쿠이 보통 공격 전부 [1,3,4,5,6,8,9,10](10444-S03)."""
+    hakui_first = _run([CharSpec(HAKUI, position=1), CharSpec(MUNG, position=2)])
+    assert _mung_grant_turns(hakui_first) == [3, 5, 6, 8, 9]
+    mung_first = _run([CharSpec(MUNG, position=1), CharSpec(HAKUI, position=2)])
+    assert _mung_grant_turns(mung_first) == [1, 3, 4, 5, 6, 8, 9, 10]
+
+
+def test_synergy_ricano_debuffs_land_on_next_turn_basic():
+    """[precedent: 10444-dur-windows] 리카노(하쿠이 뒤 행동)의 보통 공격 '받는 데미지 +6.25%'·도장 '+18.75%'(각 2턴)는
+    다음 턴 하쿠이 보통 공격에 실리고 하쿠이 행동 시점에 겹치지 않는다 — 파5 hit 마다 [턴, 리카노 받는딜](10444-S07)."""
+    res = _run([CharSpec(HAKUI, position=1), CharSpec(RICANO, position=2)])
+    taken = [[ev.turn, round(sum(c["v"] for c in ev.detail.get("takenG", []) if c.get("by") == RICANO), 2)]
+             for ev in _named(res, P5)]
+    assert taken == [[1, 0], [3, 6.25], [4, 6.25], [5, 18.75], [6, 6.25], [8, 18.75], [9, 6.25], [10, 6.25]]
+
+
+def test_anti_zetto_keeps_sigil_passive_closed():
+    """[precedent: 10444-P2-grant-per-ex] [precedent: 10444-SIG-gate-timing] 안티: T08 편성의 다양수이를 제토(마지막 턴에만
+    필살)로 바꾸면 T4·T7 아군 필살이 3회라 기원 ≧4 가 열리지 않는다 — 도장 패시브 hit 없음(10444-S13, 다양수이면 [5,8])."""
+    team = _team4()
+    team[4] = CharSpec(ZETTO, position=5)
+    assert _sigil(_run(team)) == []
+
+
+def test_compat_ukyoung_toggle_defers_hakui_ult():
+    """[precedent: 10444-SYN-10439] 교차 점검(엔진 정책 _defer_ult_for_uk 일관성): 욱영 토글(ally_ult_after) ON 이면 T7 하쿠이
+    필살이 욱영 회복 행동으로 밀려 T7 자연 행동은 위용 없는 보통 공격 — 파2 hit 턴(10444-C03, 토글 OFF 는 10444-S04)."""
+    res = _run([CharSpec(HAKUI, position=1), CharSpec(UKYOUNG, position=2, ally_ult_after=True)])
+    assert _turns(_named(res, P2)) == [3, 3, 4, 4, 4, 4, 5, 5, 8, 8, 9, 9, 10, 10, 10, 10]
 
 
 # ── 파싱 격리 ─────────────────────────────────────────────────────────────────
