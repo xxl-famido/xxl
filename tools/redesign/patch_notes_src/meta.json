@@ -1,5 +1,23 @@
 {
  "_comment": "v1 원본(dashboard/patch-notes.json)에 없는 새 릴리스의 메타. 위에서부터 최신순. items[] 는 kr.json 의 같은 버전 items 와 1:1(cat·chars). date 는 배포하는 날로 고칠 것.",
+ "2.1": {
+  "date": "2026-10-07",
+  "highlight": true,
+  "char": 10444,
+  "charName": {
+   "kr": "은빛투신 하쿠이",
+   "en": "Warmaster Hakui",
+   "ja": "銀煌の闘神白威",
+   "zh": "銀煌鬥神白威",
+   "zhs": "银煌斗神白威"
+  },
+  "skill": true,
+  "items": [
+   {
+    "cat": "new"
+   }
+  ]
+ },
  "2.0.3": {
   "date": "2026-10-04",
   "highlight": false,
