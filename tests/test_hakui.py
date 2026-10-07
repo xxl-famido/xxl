@@ -86,10 +86,6 @@ def _fatal_turns(res, cid):
     return out
 
 
-def _total(res, cid=HAKUI):
-    return next(u.damage_dealt for u in res.state.allies if u._kit.char_id == cid)
-
-
 # ── 첫 필살 공식 (N7) ─────────────────────────────────────────────────────────
 
 @pytest.mark.parametrize("levels,altar,expected", [
