@@ -187,6 +187,18 @@ class Subscription:
     installed_action: int = -1             # 처음 설치된 행동 id(state.cur_action). 재부여(갱신)는 덮어쓰지 않는다
                                            #   — SKIP_SUBS_INSTALLED_THIS_ACTION 의 비교 기준
 
+    def __post_init__(self) -> None:
+        # 확률 트리거(제단 1012·1013 등) 아래의 CD 변동은 '확정 쿨'(Unit.cd_sure)에 넣지 않는다 — 표시해 둔다.
+        if self.chance < 100:
+            _mark_prob_cd(self.effects)
+
+
+def _mark_prob_cd(effects: list[Effect]) -> None:
+    for e in effects or []:
+        if e.kind == CD_MOD:
+            e._prob_cd = True          # type: ignore[attr-defined]
+        _mark_prob_cd(e.sub_effects)
+
 
 # site class/element name -> game id (ERoleKind / EProp)
 # 전사 fighter=Atk / 수호 tank=Def / 치료 healer=Heal / 보조 support=Buff / 방해 vandal=Debuff
@@ -280,6 +292,16 @@ class Unit:
     cd_opps: list = field(default_factory=list)
     cd_assist_uses: int = 0           # 가정한 성공으로 궁을 앞당긴 횟수
     cd_assist_prob: float = 1.0       # 가정한 성공들이 실제로 모두 나올 확률(곱)
+    # 자동 계획의 '외부 확정 쿨 감소 당김'(하쿠이 '자신 제외 아군 필살 CD −1' 등, 해석 10444-AUTO-pull).
+    #   auto_rot    = 사용자 계획 없이 harness.auto_rotation 의 표준 주기를 쓰는 유닛(특수 리듬 제외)
+    #   cd_sure     = 확정 CD 변동만 반영한 쿨(제단 확률 감소 제외 — 플래너·프로브의 '보장 CD'와 같은 값)
+    #   cd_ext_pull = 하쿠이 편성(state.team_cut)에서 직전 필살 이후 다른 동료의 확정 CD 감소를 받았거나, 1번 자리 캐리가
+    #                 받은 추가 행동으로 필살해 쿨이 계획 주기 밖에서 새로 돌기 시작했다
+    # 셋이 맞으면 계획의 보통 공격 자리에서도 확정 쿨이 차는 즉시 필살하고 로테이션 주기를 거기서 다시 센다(_take_action).
+    auto_rot: bool = False
+    cd_sure: int = 0
+    cd_ext_pull: bool = False
+    uk_defer_pull: bool = False       # 당긴 필살이 욱영 보류로 밀림 → 욱영이 준 회복(추가) 행동에서 필살
     died: bool = False                # 전투불능(HP 0) 이력 — 사망 로그 1회 표시·부활 대상 판별용
 
     @property
@@ -319,6 +341,7 @@ class Unit:
         self.hp = max(1.0, round(self.max_hp * hp_pct / 100, 2))
         self.died = False
         self.cd_remaining = self.fatal_cd
+        self.cd_sure, self.cd_ext_pull, self.uk_defer_pull = self.fatal_cd, False, False
         self.cd_bank, self.cd_opps = 0, []
         self.turn_acts = 0
         self.auto_fatal_pending = False
@@ -521,6 +544,8 @@ class BattleState:
     enemy_hits: int = 0          # allies the enemy hits per turn (0 = all, by slot order)
     enemy_aoe: bool = False       # 전체공격: 적이 아군 전체를 1회 동시 피격 (조롱 무관, 반격 아군당 1회)
     turn_orders: dict = field(default_factory=dict)   # {turn:[slot,...]} per-turn action-order override
+    # 편성에 '필살 시 아군 확정 CD 감소' 동료(하쿠이)가 있다 — 자동 계획 당김(10444-AUTO-pull)은 이때만 켜진다(없으면 종전과 같다)
+    team_cut: bool = False
     turn_budget: dict = field(default_factory=dict)   # {turn:{slot:행동 가능 횟수}} — 플래너 사전 차단용
     turn_ready: dict = field(default_factory=dict)    # {turn:[필살 가능 slot]} — 그 턴 시작 시 쿨 상태
     turn_cdok: dict = field(default_factory=dict)     # {turn:[항목별 '그 시점' 필살 가능 여부]} — 같은 턴
@@ -591,9 +616,15 @@ def make_unit_from_kit(kit: ResolvedKit, slot: int, priority: int | None = None)
         base_atk=kit.atk, max_hp=kit.hp, hp=kit.hp,
         kind=kit.kind, element=kit.element,
         # ultimate gauge starts empty: fatal must charge fatal_cd turns first
-        fatal_cd=kit.fatal.cd, cd_remaining=kit.fatal.cd,
+        fatal_cd=kit.fatal.cd, cd_remaining=kit.fatal.cd, cd_sure=kit.fatal.cd,
         base_actions=1 + self_extra, extra_basic=self_extra > 0,
     )
+
+
+def _kit_has_team_cd_cut(kit) -> bool:
+    """필살 본문에 '아군 현재 필살 CD −N'(확정, 다수 대상)이 있는가 — 하쿠이. sim_api._ally_cd_cut 과 같은 조건."""
+    return any(e.kind == CD_MOD and e.magnitude < 0 and e.chance >= 100 and e.target in ("other_allies", "allies")
+               for e in kit.fatal.effects)
 
 
 def _kit_has_cd_immune(kit) -> bool:
@@ -1459,6 +1490,14 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             if getattr(tgt, "cd_immune", False) and effect.owner != getattr(getattr(tgt, "_kit", None), "char_id", 0):
                 continue
             tgt.cd_remaining = max(0, tgt.cd_remaining + int(effect.magnitude))
+            # 확정 쿨: 확률 트리거(제단 1012·1013)·효과 자체 확률이 붙은 변동은 넣지 않는다(플래너·프로브의 보장 CD).
+            if not getattr(effect, "_prob_cd", False) and effect.chance >= 100:
+                tgt.cd_sure = max(0, tgt.cd_sure + int(effect.magnitude))
+                # 다른 동료 스킬의 확정 감소(하쿠이 '자신 제외 아군 −1'·하쿠이 편성의 임부언 −3) — 자기 효과·제단(ALTAR_OWNER)은 제외
+                if effect.magnitude < 0 and state.team_cut and any(
+                        u is not tgt and getattr(getattr(u, "_kit", None), "char_id", None) == effect.owner
+                        for u in state.allies):
+                    tgt.cd_ext_pull = True
         if applied:
             state.record(caster.name, f"{act_kr} → {_who(applied, caster, state, effect)} 필살 CD {int(effect.magnitude):+d}", amount=0, src_id=effect.owner, src_skill=effect.src_skill)
         if blocked:
@@ -2177,6 +2216,7 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
     is_bonus = unit.turn_acts > unit.base_actions      # 기본 행동 수 초과 = 외부에서 받은 추가행동
     has_rotation = bool(unit.rotation_prefix or unit.rotation_loop)
     forced_basic = unit.extra_basic and is_bonus
+    pulled = False                                      # 외부 확정 쿨 감소로 당긴 필살(아래 '자동 계획 당김')
     if forced_token is not None:
         token, forced_basic = forced_token, False
         # 로테이션 인덱스는 자동 경로와 '똑같이' 소비한다. 안 그러면 이 턴 이후의 자동 진행
@@ -2194,6 +2234,9 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
         # CD가 리셋돼 이 추가행동에서 궁을 쏘는 게 목적이므로 궁, 그 외(욱영 '행동 회복' 등)는 평타.
         # (ally_ult_after ON의 보류-궁 재소비만 예외: 아래 else)
         token = "fatal" if (unit.is_fed_carry and bool(kit_fatal.effects)) else "basic"
+        if unit.uk_defer_pull and bool(kit_fatal.effects):
+            token, pulled = "fatal", True    # 욱영 보류로 밀린 '당긴 필살' — 욱영이 준 회복 행동에서 쓴다
+        unit.uk_defer_pull = False
     else:
         token = _next_token(unit)
         unit.uk_defer_pending = False      # 보류했던 궁 토큰을 이 행동에서 소비 완료
@@ -2261,6 +2304,18 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
         if policy_fatal is not None:
             unit.auto_fatal_pending = False   # 이 방식들은 '차는 즉시' 폴백을 쓰지 않는다
 
+    # ── 자동 계획 당김(해석 10444-AUTO-pull): 다른 동료의 확정 CD 감소(하쿠이 '자신 제외 아군 필살 CD −1')로 계획보다
+    # 일찍 찬 필살은 계획의 보통 공격 자리에서도 바로 쓰고, 주기를 거기서 다시 센다(아래 use_fatal 블록).
+    # 자동 로테이션(표준 주기)·fixed·자연 행동·연동 아님에서만. 확정 쿨(cd_sure)을 보므로 제단 확률 감소로 찬 쿨은 당기지
+    # 않는다(종전대로 '준비되면 바로'·'성공 가정'의 몫). 외부 확정 감소가 없으면 cd_ext_pull 이 서지 않아 종전과 같다.
+    # 임부언 1번 자리 캐리(fed carry)의 자기 행동도 당긴다(sync_natural) — 하쿠이 −1로 찬 필살을 자기 행동에서 쓰고 같은 턴 임부언
+    # −3 → 받은 추가 행동에서 한 번 더(종전엔 자동 계획의 보통 공격 칸을 지켜 추가 행동 1회만 필살).
+    if (sync_natural and unit.auto_rot and unit.ult_mode == "fixed" and not sync_on and policy_fatal is None
+            and token == "basic" and unit.cd_ext_pull and unit.cd_sure <= 0 and unit.cd_remaining <= 0
+            and bool(kit_fatal.effects) and not unit.single_ult
+            and not any(unit.stacks.get(s, 0) > 0 for s in unit.hold_fatal_stacks)):
+        token, pulled = "fatal", True
+
     if token == "defend":
         state.cur_action_kind = "방어"
         unit.defending = True            # 방어 상태 → 이번 턴 받는 데미지 50% 감소
@@ -2280,6 +2335,8 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
     # 회복 행동에서 자동 궁이라 되감기 불필요). 욱영이 궁을 쏜 뒤엔 cd>0이라 보류 해제.
     defer_uk = (forced_token is None and not forced_basic and bool(kit_fatal.effects)
                 and unit.cd_remaining <= 0 and _defer_ult_for_uk(unit, state))
+    if defer_uk and pulled:
+        unit.uk_defer_pull, pulled = True, False   # 당긴 필살도 욱영 궁 뒤 회복 행동으로(되감을 궁 토큰은 없다)
     if defer_uk and orig_token == "fatal" and not is_bonus:
         unit.action_idx -= 1             # 궁 토큰 un-read → 회복 행동에서 재사용(자연행동만, 정책이 만든 궁은 제외)
         unit.uk_defer_pending = True     # 회복(추가)행동이 이 궁 토큰을 재소비하도록 표시
@@ -2320,8 +2377,15 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
         if unit.cd_remaining > 0:           # 확률 쿨 감소 가정으로만 준비된 궁 — 필요한 만큼 성공 처리
             _consume_cd_assist(unit, state)
         unit.cd_remaining = unit.fatal_cd
+        unit.cd_sure, unit.uk_defer_pull = unit.fatal_cd, False   # 확정 쿨도 새로 충전
+        # 당김 표시: 자기 행동의 필살(계획 칸·당김)이면 주기가 맞으니 소진. 하쿠이 편성에서 1번 자리 캐리가 받은 추가 행동으로 쓴
+        # 필살은 쿨을 계획 주기 밖에서 새로 돌리므로 표시를 세워, 다음 자기 행동에서 확정 쿨이 차면 바로 쓰게 한다.
+        unit.cd_ext_pull = bool(is_bonus and unit.is_fed_carry and state.team_cut and not pulled)
         unit.cd_bank, unit.cd_opps = 0, []  # 적립은 직전 궁 이후 기회만 — 이번 궁 뒤의 기회는 새로 쌓는다
         unit.auto_fatal_pending = False     # 궁 발동했으니 폴백 예약 해제
+        if pulled and unit.rotation_loop:
+            # 당긴 필살: 로테이션 주기를 여기서 다시 센다(다음 토큰 = 반복 구간 첫 칸 → 다음 필살은 CD 만큼 뒤)
+            unit.action_idx = len(unit.rotation_prefix)
         state.cur_action_kind = "필살기"
         state.turn_exes.add(cid)            # 다양수이 협동: 이 아군이 이번 턴 필살 사용
     else:
@@ -2752,7 +2816,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
              altar_procs: bool = True,
              turn_damage: list[float] | None = None,
              turn_damage_hits: int = 0,
-             allow_death: bool = True) -> BattleState:
+             allow_death: bool = True,
+             auto_rots: list[bool] | None = None) -> BattleState:
     """Run a target-dummy battle and return the final state (with log).
 
     turn_damage: 턴 피해 모드 — 턴별 아군 전체 최대HP n% 리스트(index=turn-1). None=끔.
@@ -2766,6 +2831,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
     ult_policies: 아군별 {"mode": fixed|strict|asap, "keepDef": bool} (None = fixed).
     sync_groups:  [{"anchor": slot, "members": [(slot, "before"|"after")], "miss": wait|asap}] — 슬롯(0-based).
     altar_procs:  False 면 제단 확률 트리거를 설치하지 않는다(플래너 프로브의 보장 CD 기준).
+    auto_rots:    아군별 '자동 로테이션(표준 주기)' 여부 — True 면 외부 확정 CD 감소로 찬 필살을 당겨 쓴다
+                  (Unit.auto_rot, 해석 10444-AUTO-pull). None = 전부 False(종전 동작).
     """
     allies = []
     for i, kit in enumerate(kits[:5]):
@@ -2777,6 +2844,7 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
         u.single_ult = kit.fatal.cd >= 30       # 제토: 전투당 1회 필살 → 마지막 턴 자동 발동
         if rotations and i < len(rotations) and rotations[i]:
             u.rotation_prefix, u.rotation_loop = parse_rotation(rotations[i])
+        u.auto_rot = bool(auto_rots and i < len(auto_rots) and auto_rots[i])
         if fed_actions and i < len(fed_actions) and fed_actions[i]:
             fa = fed_actions[i]              # 이태호 임부언 fed 추가행동: dict={turn:토큰}(턴별) 또는 str(단일, 구호환)
             if isinstance(fa, dict):
@@ -2817,7 +2885,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
                         hp_schedule=any(_kit_has_hp_gate(u._kit) for u in allies),
                         dummy_element=dummy_element, hp10=hp10, incoming_hp_pct=incoming_hp_pct,
                         turn_damage=turn_damage, turn_damage_hits=turn_damage_hits,
-                        allow_death=allow_death)
+                        allow_death=allow_death,
+                        team_cut=any(_kit_has_team_cd_cut(u._kit) for u in allies))
 
     for u in allies:
         _install_passives(u, state)
@@ -2867,6 +2936,8 @@ def simulate(kits: list[ResolvedKit], n_dummies: int = 1, max_turn: int = 30,
         for u in allies:
             if u.alive and u.cd_remaining > 0:
                 u.cd_remaining -= 1
+            if u.alive and u.cd_sure > 0:
+                u.cd_sure -= 1
         for u in allies + enemies:           # 조롱 지속시간 감소 (아군 어그로·적 딜집중 둘 다)
             if u.taunt_turns > 0:
                 u.taunt_turns -= 1

@@ -150,6 +150,18 @@ def _cd_defend_info(kit) -> dict:
     return best
 
 
+def _ally_cd_cut(kit) -> dict | None:
+    """필살기 본문의 '아군 현재 필살 CD −N'(확정) — 하쿠이 '자신을 제외한 아군 전체 동료의 현재 필살기 CD 1 감소'.
+    v2 플래너가 동료의 자동·직접 지정 줄을 이 감소만큼 당겨 그린다(엔진 자동 계획 당김과 같은 규칙, 해석 10444-AUTO-pull).
+    → {"amt": N, "scope": "others"|"all"} | None. 트리거 아래·확률 효과·한 명 지정(임부언 1번 자리)은 대상이 아니다."""
+    from woofia_sim.effects import CD_MOD
+    for e in kit.fatal.effects:
+        if (e.kind == CD_MOD and e.magnitude < 0 and e.chance >= 100
+                and e.target in ("other_allies", "allies")):
+            return {"amt": int(round(-e.magnitude)), "scope": "others" if e.target == "other_allies" else "all"}
+    return None
+
+
 def char_meta(cid: int) -> dict:
     c = _chars[str(cid)]
     kit = resolve_kit(cid, _INV, 10, True)
@@ -187,7 +199,9 @@ def char_meta(cid: int) -> dict:
             "cdDefendReduce": _cd_defend_info(kit)["max"],
             "cdDefendPerStack": _cd_defend_info(kit)["perStack"],
             "cdDefendStackCap": _cd_defend_info(kit)["cap"],
-            "hpSchedule": _kit_has_hp_gate(kit)}  # 적 HP% 의존 (카라트) → 더미 HP 스케줄
+            "hpSchedule": _kit_has_hp_gate(kit),  # 적 HP% 의존 (카라트) → 더미 HP 스케줄
+            # 필살 시 아군 확정 CD 감소(하쿠이) — 플래너가 동료 줄을 당겨 그린다. 도장 유무와 무관(필살·도장 필살 모두 같은 줄)
+            "allyCdCut": _ally_cd_cut(kit)}
 
 
 def all_meta() -> list:

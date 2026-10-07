@@ -102,6 +102,12 @@ def auto_rotation(kit: ResolvedKit) -> str:
     return "평" * lead + "궁" + "|" + loop
 
 
+def is_cycle_rotation(rotation: str) -> bool:
+    """auto_rotation 의 표준 주기('평…궁|평…궁' — 반복 구간이 필살로 끝남)인가. 특수 리듬은 아니다:
+    제토 '평|평'(마지막 턴 1회) · 이태호/피해 없는 CD1 '궁|평'(첫 행동만). 이 경우에만 자동 계획 당김을 건다."""
+    return bool(rotation) and rotation.split("|")[-1].endswith("궁")
+
+
 @dataclass
 class CharSpec:
     char_id: int
@@ -191,6 +197,8 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
     # rotation: 지정 시 그대로, 아니면 kit 기반 자동(1턴차 CD감소 패시브 반영)
     rotations = [s.rotation if s.rotation is not None else auto_rotation(kit)
                  for s, kit in zip(specs, kits)]
+    # 자동 계획(사용자 계획 없음 + 표준 주기)인 동료는 외부 확정 CD 감소(하쿠이)로 찬 필살을 당겨 쓴다(해석 10444-AUTO-pull)
+    auto_rots = [s.rotation is None and is_cycle_rotation(r) for s, r in zip(specs, rotations)]
     fed_actions = [s.fed_action for s in specs]   # 이태호 임부언 fed 추가행동 토큰(None=기본 평타)
     pos2slot = {s.position if s.position else i + 1: slot for i, (s, slot) in enumerate(zip(specs, slots))}
     # 확률 쿨 감소 가정은 '궁을 쓸 턴을 정해 둔' 캐릭터에만 — 직접 계획(rotation 지정)·명시 타임라인·연동 멤버/앵커.
@@ -216,7 +224,7 @@ def run_team(specs: list[CharSpec], n_dummies: int = 1, max_turn: int = 10,
                      never_proc=never_proc, altar=altar,
                      ult_policies=ult_policies, sync_groups=groups_slot, altar_procs=altar_procs,
                      turn_damage=turn_damage, turn_damage_hits=turn_damage_hits,
-                     allow_death=allow_death)
+                     allow_death=allow_death, auto_rots=auto_rots)
     names = [u.name for u in state.allies]
     per_char = {u.name: u.damage_dealt for u in state.allies}
     total = sum(per_char.values())
