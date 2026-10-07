@@ -1,0 +1,79 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10444,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turnPlans": {},
+    "turns": 10
+  },
+  "dps": 81216.9,
+  "events": {
+    "byActionKind": {
+      "보통공격": 28,
+      "패시브": 1,
+      "피격": 60,
+      "필살기": 8
+    },
+    "byOutput": {
+      "-": 10,
+      "incoming": 30,
+      "평타": 20
+    },
+    "count": 97
+  },
+  "logHash": "sha256:297aaf3665fb0eecea6e76706042c5bf",
+  "perChar": {
+    "은빛투신 하쿠이": {
+      "barrier": 0.0,
+      "damage": 812168.96,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "은빛투신 하쿠이": 26911.45
+    },
+    "10": {
+      "은빛투신 하쿠이": 80734.35
+    },
+    "3": {
+      "은빛투신 하쿠이": 169263.72
+    },
+    "4": {
+      "은빛투신 하쿠이": 129174.96
+    },
+    "5": {
+      "은빛투신 하쿠이": 80734.35
+    },
+    "6": {
+      "은빛투신 하쿠이": 26911.45
+    },
+    "8": {
+      "은빛투신 하쿠이": 169263.72
+    },
+    "9": {
+      "은빛투신 하쿠이": 129174.96
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 812168.96,
+  "unapplied": {}
+}
