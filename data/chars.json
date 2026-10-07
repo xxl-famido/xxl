@@ -769,5 +769,20 @@
   "name_cn": "代號B",
   "name_sc": "代号B",
   "name_ja": "コード：B"
+ },
+ "10444": {
+  "id": 10444,
+  "name_en": "Warmaster Hakui",
+  "name_kr": "은빛투신 하쿠이",
+  "feature": "",
+  "rarity": 4,
+  "class": 4,
+  "element": 2,
+  "baseATK": 504,
+  "baseHP": 2476,
+  "hasRune": true,
+  "name_cn": "銀煌鬥神白威",
+  "name_sc": "银煌斗神白威",
+  "name_ja": "銀煌の闘神白威"
  }
 }
