@@ -189,8 +189,8 @@ _HP_OPS = {"<": "lt", "≤": "le", "≦": "le", "≥": "ge", "≧": "ge", ">": "
 # used a given action this turn. role = Fighter/Vandal/'' (all); action = basic/EX.
 _ALL_ACTED = re.compile(rf"^Except self, when all of own (Fighter |Vandal |)Buddies use (?:a Basic Attack|an EX Skill),\s*(?:there is a(?:\(n\))? {_NUM}% chance to )?(?:trigger: )?(.+)$")
 # 같은 en 문형이지만 '협동(전원 행동 시 턴당 1회)'이 아니라 **아군 각자에게 부여된 이벤트 트리거**로 읽는 본문 스택명.
-# kr '자신을 제외한 아군 전체 동료에게 부여: 필살기 시, …' · cn '使自身以外的我方全體夥伴獲得：必殺時' 부여 문형이고, 원본은
-# 조건 노드 없는 평범한 10002 트리거다(하쿠이 파3 기원). 변환 결과 = grant_allies(raw 'Except self' — 엔진이 자신 제외)
+# kr '자신을 제외한 아군 전체 동료에게 부여: 필살기 시, …' · cn '使自身以外的我方全體夥伴獲得：必殺時' 부여 문형이다
+# (하쿠이 파3 기원 — 해석 10444-P2-grant-per-ex). 변환 결과 = grant_allies(raw 'Except self' — 엔진이 자신 제외)
 # → 각 아군의 on_ex/on_basic_attack 구독 → 본문(부여자에게 스택). 같은 문형의 다양수이·임욱잠은 기존 협동 해석 그대로다
 # (전역 재해석은 제안만). 집합에서 빼면 협동(all_acted)으로 돌아간다. 해석 10444-P2-grant-per-ex(precedent).
 ALL_ACTED_AS_GRANT = {"Supplication"}
@@ -1007,7 +1007,7 @@ def _split_clauses(text: str) -> list[str]:
 _PER_STACK = re.compile(
     r"^(.+?): Own Basic Attack damage dealt \+(\d+(?:\.\d+)?)% for (\d+) turn\(s\), up to (\d+) stack\(s\)\.?$")
 
-# 접미형 "deal damage X% … to target(s) N times." (하쿠이 파2 '두 번') — 원본은 피해 노드 N개라 독립 타격 N개로 편다.
+# 접미형 "deal damage X% … to target(s) N times." (하쿠이 파2 '두 번') — 독립 타격 N개로 편다(해석 10444-P1-two-hits).
 # 한 줄 전체가 "And attack N times, each dealing …"인 _MULTI_HIT(코드B)와 같은 처리를 절(게이트 본문) 단위로 한다.
 _TIMES_SUFFIX = re.compile(r"^([Dd]eal damage .+?) (\d+) times\.?$")
 
@@ -1271,7 +1271,7 @@ def parse_line(line: str) -> Effect:
     if gm:
         subs = [eff for c in _split_clauses(gm.group(5)) for eff in _parse_times(c)]
         # 게이트형 "…≧N, on Basic Attack, deal damage …"(trigger: 없음 · 확률 없음 · 본문 피해만) = 보통 공격의 추가 효과
-        # → 보통 공격 판정(평타뎀 채널). 게이트 없는 _ON_BASIC_ADD 와 같은 규칙이다(하쿠이 파2·도장 패시브 — 원본 509 래퍼,
+        # → 보통 공격 판정(평타뎀 채널). 게이트 없는 _ON_BASIC_ADD 와 같은 규칙이다(하쿠이 파2·도장 패시브 —
         # 해석 10444-dmg-basic-judged). 무명 불굴 게이트 두 줄도 같은 모양(이미 BASIC_JUDGED_ON_BASIC 로 평타 — 결과 같음).
         if (gm.group(3) == "on Basic Attack" and gm.group(4) is None and "trigger:" not in line.lower()
                 and subs and all(s.kind == DAMAGE for s in subs)):
