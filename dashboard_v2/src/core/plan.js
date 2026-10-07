@@ -37,8 +37,9 @@ export function altarProcCdActive(altar) {
  * team 을 주면 도장 잠금해제를 끈 동료(육성 설정)의 meta 는 턴당 행동 수를 actionsPerTurnNoRune 으로 바꾼 사본이 된다 —
  * 이태호의 턴당 2회는 도장 패시브에서 나오므로 도장이 없으면 엔진도 턴당 1회다(base_actions). 편성에 같은 동료는 한 명뿐이라 id 로 덮는다.
  */
-export function makeEnv({ chars = {}, altar = null, team = null } = {}) {
-  return { chars: teamChars(chars, team), cdPlus: cdPlusOf(altar), procIds: altarProcCdActive(altar) };
+export function makeEnv({ chars = {}, altar = null, team = null, overrides = null } = {}) {
+  // overrides = 특정 턴 행동 순서({턴: [자리…]}) — 하쿠이 아군 CD 감소가 그 턴 행동 전/후 중 언제 닿는지(extCdCuts)에 쓴다
+  return { chars: teamChars(chars, team), cdPlus: cdPlusOf(altar), procIds: altarProcCdActive(altar), overrides: overrides || null };
 }
 function teamChars(chars, team) {
   let out = chars;
@@ -51,7 +52,7 @@ function teamChars(chars, team) {
   });
   return out;
 }
-export const ENV0 = Object.freeze({ chars: {}, cdPlus: 0, procIds: [] });
+export const ENV0 = Object.freeze({ chars: {}, cdPlus: 0, procIds: [], overrides: null });
 
 export const fcd = (m, env = ENV0) => (m.fatalCd || 0) + env.cdPlus;       // 계획 도구가 보는 필살 CD
 export const ffat = (m, env = ENV0) => (m.firstFatal || 1) + env.cdPlus;   // 첫 필살기 가능 턴
@@ -375,7 +376,7 @@ export function allyBasicCounts(roster, selfIdx, n, env = ENV0) {
     if (!s || i === selfIdx) return;
     const m = env.chars[s.id]; if (!m) return;
     const apt = m.actionsPerTurn || 1;
-    const p = (s.usePlan && s.plan && s.plan.length) ? s.plan : defaultPlan(m, n, env);
+    const p = (s.usePlan && s.plan && s.plan.length) ? s.plan : (s.autoView || defaultPlan(m, n, env));
     for (let t = 0; t < n; t++) for (let k = 0; k < apt; k++) if (p[t * apt + k] === '평') cnt[t]++;
   });
   return cnt;
@@ -394,8 +395,10 @@ export function ultAvail(plan, meta, allyBasics, src, env = ENV0, immune = null)
   const ok = [], luck = []; const red = meta.cdDefendReduce || 0;
   const per = meta.cdDefendPerStack || 0, cap = meta.cdDefendStackCap || 0;
   const [actAmt, ultAmt] = procAmts(src);
-  let cd = ffat(meta, env) - 1, hooked = false, stk = 0, pending = false, bank = 0;
+  let cd = ffat(meta, env) - 1, hooked = false, stk = 0, pending = false, bank = 0, immTo = 0;
   for (let t = 1; t <= plan.length; t++) {
+    let cut = t <= immTo ? null : cutAt(immune, t);
+    if (cut && cut.before) cd -= cut.amt;          // 하쿠이가 먼저 행동한 턴: 내 행동 전에 감소
     ok[t - 1] = cd <= 0 || (!!src && cd <= bank);
     luck[t - 1] = ok[t - 1] && cd > 0;
     let act = plan[t - 1], fires = false;
@@ -411,7 +414,9 @@ export function ultAvail(plan, meta, allyBasics, src, env = ENV0, immune = null)
       if (act === '방' && red && hooked && !imm) cd -= red;
       if (act === '평') hooked = true;
     }
-    if (fires) { cd = fcd(meta, env); hooked = false; bank = 0; }
+    if (fires) { cd = fcd(meta, env); hooked = false; bank = 0; immTo = selfImmuneTo(immune, t, immTo); }
+    if (cut && t <= immTo) cut = null;
+    if (cut && !cut.before) cd -= cut.amt;         // 하쿠이가 나중에 행동한 턴: 내 행동 뒤(필살 재충전 뒤)에 감소
     if (!imm) bank += actAmt + (fires ? ultAmt : 0);
     if (immune && immune.fed && immune.fed.has(t)) [cd, bank] = fedStep(immune, imm, cd, bank, src, meta, env);
     cd -= 1;
@@ -424,8 +429,10 @@ export function normalizePlan(plan, meta, allyBasics, src, env = ENV0, immune = 
   const red = meta.cdDefendReduce || 0;
   const per = meta.cdDefendPerStack || 0, cap = meta.cdDefendStackCap || 0;
   const [actAmt, ultAmt] = procAmts(src);
-  let cd = ffat(meta, env) - 1, hooked = false, stk = 0, pending = false, bank = 0;
+  let cd = ffat(meta, env) - 1, hooked = false, stk = 0, pending = false, bank = 0, immTo = 0;
   for (let t = 1; t <= plan.length; t++) {
+    let cut = t <= immTo ? null : cutAt(immune, t);
+    if (cut && cut.before) cd -= cut.amt;
     const ready = cd <= 0 || (!!src && cd <= bank);
     if (plan[t - 1] === '궁') {
       if (ready) pending = false; else { plan[t - 1] = '평'; pending = true; }
@@ -440,7 +447,9 @@ export function normalizePlan(plan, meta, allyBasics, src, env = ENV0, immune = 
       if (act === '방' && red && hooked && !imm) cd -= red;
       if (act === '평') hooked = true;
     }
-    if (act === '궁') { cd = fcd(meta, env); hooked = false; bank = 0; }
+    if (act === '궁') { cd = fcd(meta, env); hooked = false; bank = 0; immTo = selfImmuneTo(immune, t, immTo); }
+    if (cut && t <= immTo) cut = null;
+    if (cut && !cut.before) cd -= cut.amt;
     if (!imm) bank += actAmt + (act === '궁' ? ultAmt : 0);
     if (immune && immune.fed && immune.fed.has(t)) [cd, bank] = fedStep(immune, imm, cd, bank, src, meta, env);
     cd -= 1;
@@ -474,14 +483,21 @@ export function allUltPlan(meta, n, allyBasics, src, env = ENV0, immune = null) 
 }
 /** 임부언이 필살기를 쓰는 턴 집합(이태호 fed 추가 행동 위치). */
 export function imbueonUltTurns(teamArr, turns, env = ENV0) {
-  const im = (teamArr || []).find((t) => t && t.id === IMBUEON_ID);
+  const idx = (teamArr || []).findIndex((t) => t && t.id === IMBUEON_ID);
+  const im = idx >= 0 ? teamArr[idx] : null;
   if (!im) return new Set();
   const meta = env.chars[IMBUEON_ID] || {};
   const set = new Set();
   if (im.usePlan && im.plan && im.plan.length) {
     const plan = im.plan.slice();
-    normalizePlan(plan, meta, null, cdAssistSrc(im, meta, env), env);
+    // 하쿠이 감소로 당겨 채운 줄이면 같은 감소로 검증해야 당긴 필살이 '쿨 미충족'으로 지워지지 않는다(extCdCuts — 임부언은 받는 쪽)
+    const cuts = extCdCuts(im, idx, teamArr, turns, env);
+    const ext = cuts ? Object.assign(new Set(), { cuts }, idx === 0 ? { selfImmune: IMBUEON_IMMUNE_TURNS } : {}) : null;
+    normalizePlan(plan, meta, null, cdAssistSrc(im, meta, env), env, ext);
     for (let t = 0; t < turns; t++) if (plan[t] === '궁') set.add(t + 1);
+  } else if (im.autoView && im.autoView.length) {
+    // 하쿠이 감소로 당겨진 자동 줄(effectiveTeam 2단계) — 엔진 자동 계획 당김과 같은 턴(해석 10444-AUTO-pull)
+    for (let t = 0; t < turns; t++) if (im.autoView[t] === '궁') set.add(t + 1);
   } else {
     for (let t = ffat(meta, env) || 1; t <= turns; t += (fcd(meta, env) || 1)) set.add(t);
   }
@@ -532,6 +548,75 @@ function fedStep(immune, immNow, cd, bank, src, meta, env) {
   if (!immNow) cd -= immune.cut || 0;
   if (immune.extra && (cd <= 0 || (!!src && cd <= bank))) { cd = fcd(meta, env); bank = 0; }
   return [cd, bank];
+}
+// ── 외부 확정 CD 감소(하쿠이 필살: 자신을 제외한 아군 전체 동료의 현재 필살기 CD 1 감소) ──────────────────────
+/**
+ * 자기 필살로 자신에게 CD 변동 면역이 걸리는 동료(1번 자리 임부언: 필살 대상 '1번 자리 동료'가 자신) — 턴 t 필살 뒤
+ * 면역 마지막 턴. 그 턴의 남은 행동(뒤에 행동한 하쿠이 감소)부터 막힌다(엔진 CD_IMMUNE). ext.selfImmune 없으면 그대로.
+ */
+function selfImmuneTo(ext, t, cur) {
+  return ext && ext.selfImmune ? Math.max(cur, t + ext.selfImmune - 1) : cur;
+}
+/** 그 턴 이 동료가 받는 외부 확정 CD 감소 { amt, before } — CD 변동 면역 턴(임부언, ext 의 Set 원소)이면 무효(null). */
+function cutAt(ext, t) {
+  const c = ext && ext.cuts ? ext.cuts.get(t) : null;
+  return c && !(ext.has && ext.has(t)) ? c : null;
+}
+/** 턴 t 의 행동 순서(자리 배열) — 특정 턴 순서(env.overrides)가 있으면 그 순서 + 빠진 동료는 기본 순서로 뒤에(엔진 _ally_phase). */
+function turnOrderAt(teamArr, t, env) {
+  const base = teamOrder(teamArr, env.chars).map((o) => o.i + 1);
+  const ov = env.overrides && env.overrides[t];
+  if (!Array.isArray(ov) || !ov.length) return base;
+  const head = ov.map(Number).filter((p) => base.includes(p));
+  return [...head, ...base.filter((p) => !head.includes(p))];
+}
+/** 감소를 주는 동료(meta.allyCdCut)의 필살 턴 — 그 동료 줄(직접 지정 = plan) 또는 기본 계획(쿨 검증 반영). */
+function cutterUltTurns(c, turns, env) {
+  const m = env.chars[c.id] || {};
+  const apt = m.actionsPerTurn || 1;
+  const plan = (c.usePlan && c.plan && c.plan.length) ? c.plan.slice() : defaultPlan(m, turns, env);
+  if (apt === 1) normalizePlan(plan, m, null, cdAssistSrc(c, m, env), env);
+  const out = [];
+  for (let t = 1; t <= turns; t++) if (plan.slice((t - 1) * apt, t * apt).includes('궁')) out.push(t);
+  return out;
+}
+/**
+ * 자리 i(0-based) 동료가 받는 '다른 동료 필살의 확정 CD 감소' 일정 → Map(턴 → { amt, before }) | null.
+ * before = 감소를 주는 동료(하쿠이)가 그 턴 i 보다 먼저 행동 → i 의 그 턴 행동 전에 감소(그 턴부터 쓸 수 있음),
+ * 아니면 행동 뒤(다음 턴부터). 엔진 '자동 계획 당김'(해석 10444-AUTO-pull)·CD_MOD 와 같은 규칙.
+ * 외부 CD 조작을 무시하는 제토(singleUlt)·턴당 2회(이태호 — 첫 행동만 필살) 동료는 받지 않는다.
+ */
+export function extCdCuts(slot, i, teamArr, turns, env = ENV0) {
+  const meta = slot && env.chars[slot.id];
+  if (!meta || meta.singleUlt || (meta.actionsPerTurn || 1) > 1 || meta.firstUltOnly) return null;
+  const cuts = new Map();
+  (teamArr || []).forEach((c, ci) => {
+    const cut = c && (env.chars[c.id] || {}).allyCdCut;
+    if (!cut || (ci === i && cut.scope === 'others')) return;
+    cutterUltTurns(c, turns, env).forEach((t) => {
+      const order = turnOrderAt(teamArr, t, env);
+      const before = order.indexOf(ci + 1) < order.indexOf(i + 1);
+      const prev = cuts.get(t);
+      cuts.set(t, { amt: (prev ? prev.amt : 0) + cut.amt, before: prev ? prev.before && before : before });
+    });
+  });
+  return cuts.size ? cuts : null;
+}
+/** 자리 i 동료의 줄을 당기는 동료(하쿠이) 슬롯 — 없거나 받지 않는 동료(제토·턴당 2회)면 null. 화면 안내용. */
+export function cdCutSource(team, i, env = ENV0) {
+  const s = (team || [])[i], m = s && env.chars[s.id];
+  if (!m || m.singleUlt || (m.actionsPerTurn || 1) > 1 || m.firstUltOnly) return null;
+  return team.find((c, ci) => c && ci !== i && (env.chars[c.id] || {}).allyCdCut) || null;
+}
+/** CD 모델에 넘길 외부 영향 — 임부언 면역(immuneFor 의 Set·fed·cut) + 하쿠이 감소(.cuts). 둘 다 없으면 null. */
+export function extFor(slot, i, teamArr, turns, env = ENV0) {
+  const imm = immuneFor(slot, i, teamArr, turns, env);
+  const cuts = extCdCuts(slot, i, teamArr, turns, env);
+  if (!cuts) return imm;
+  const out = imm || new Set();
+  out.cuts = cuts;
+  if (i === 0 && slot.id === IMBUEON_ID) out.selfImmune = IMBUEON_IMMUNE_TURNS;   // 1번 자리 임부언은 자기 필살 면역도 받는다
+  return out;
 }
 /** 히토하·모이루: ultTurn 에 궁이 나가도록 앞 턴을 방어로(제자리). true 성공 / false 불가 / null 가정만으로 이미 가능. */
 export function enforceCdDefend(plan, meta, ultTurn, allyBasics, src, env = ENV0, immune = null) {
@@ -601,11 +686,12 @@ export function isPristinePlan(view, meta, n, ab, src, env = ENV0) {
 export function planView(slot, i, team, n, env = ENV0) {
   const meta = env.chars[slot.id] || {};
   const apt = meta.actionsPerTurn || 1;
-  const view = (slot.plan && slot.plan.length ? slot.plan : defaultPlan(meta, n, env)).slice();
+  const view = (slot.plan && slot.plan.length ? slot.plan : (slot.autoView || defaultPlan(meta, n, env))).slice();
   padPlan(view, meta, n, env);
   const ab = allyBasicCounts(team, i, n, env);
   const src = cdAssistSrc(slot, meta, env);
-  const immune = immuneFor(slot, i, team, Math.max(n, Math.ceil(view.length / apt)), env);   // 임부언 CD 변동 면역(1번 자리 동료)
+  // 임부언 CD 변동 면역(1번 자리 동료) + 하쿠이 아군 CD 감소(extCdCuts)
+  const immune = extFor(slot, i, team, Math.max(n, Math.ceil(view.length / apt)), env);
   if (apt === 1) normalizePlan(view, meta, ab, src, env, immune);
   const ok = apt === 1 ? ultAvail(view, meta, ab, src, env, immune) : null;
   const okIf = (apt === 1 && !src && ultOf(slot).mode !== 'asap' && cdProcSources(meta, env).length)
@@ -675,9 +761,9 @@ export function presetTarget(name, slot, i, team, turns, env = ENV0) {
     case 'ult3': return ult3Plan(meta, n);
     case 'pdef': return defBeforePlan(meta, n, env);
     case 'ult3def': return defBeforePlan(meta, n, env, 3);
-    case 'defRush': return defRushPlan(meta, n, allyBasicCounts(team, i, n, env), cdAssistSrc(slot, meta, env), env, immuneFor(slot, i, team, n, env));
+    case 'defRush': return defRushPlan(meta, n, allyBasicCounts(team, i, n, env), cdAssistSrc(slot, meta, env), env, extFor(slot, i, team, n, env));
     case 'early': return earlyUltPlan(meta, n, allyBasicCounts(team, i, n, env), cdProcSources(meta, env), env);
-    case 'allUlt': return allUltPlan(meta, n, allyBasicCounts(team, i, n, env), cdAssistSrc(slot, meta, env), env, immuneFor(slot, i, team, n, env));
+    case 'allUlt': return allUltPlan(meta, n, allyBasicCounts(team, i, n, env), cdAssistSrc(slot, meta, env), env, extFor(slot, i, team, n, env));
     case 'reflow': {
       const plan = (slot.plan && slot.plan.length ? slot.plan : defaultPlan(meta, 30, env)).slice();
       padPlan(plan, meta, +turns || 30, env);
@@ -880,28 +966,57 @@ export function assistFirstUlt(slot, meta, env = ENV0) {
 /** 성공 가정이 첫 필살기를 실제로 당기는가(= 핀이 없어도 줄을 보내야 엔진이 가정을 쓴다 — harness 는 rotation 이 있을 때만 assist 적용). */
 export const assistPulls = (slot, meta, env = ENV0) => assistFirstUlt(slot, meta, env) < ffat(meta, env);
 const cycleFill = (t, lastUlt, meta, env, first = ffat(meta, env)) => (t >= (lastUlt ? lastUlt + Math.max(1, fcd(meta, env)) : first) ? '궁' : '평');
+/**
+ * 규칙 칸 채움(직전 필살 + CD 주기) — lineFromPins·pinsFromPlan 공용. 턴마다 begin(t) → fill(t) → end(t, 이 턴 필살?).
+ * ext.cuts(하쿠이 '자신 제외 아군 필살 CD −1')가 있으면 그 감소를 반영한 확정 쿨이 차는 턴에 필살(해석 10444-AUTO-pull, 엔진 자동
+ * 계획 당김과 같은 규칙). 감소가 없으면 cycleFill 그대로 — 하쿠이 없는 편성은 줄이 바뀌지 않는다.
+ */
+function ruleFiller(meta, env, first, ext) {
+  const cutting = !!(ext && ext.cuts);
+  let lastUlt = 0, cd = ffat(meta, env) - 1, cut = null, immTo = 0;
+  return {
+    begin(t) { cut = cutting && t > immTo ? cutAt(ext, t) : null; if (cut && cut.before) cd -= cut.amt; },
+    fill(t) {
+      if (!cutting) return cycleFill(t, lastUlt, meta, env, first);
+      return (lastUlt ? cd <= 0 : (t >= first || cd <= 0)) ? '궁' : '평';
+    },
+    end(t, ult) {
+      if (ult) { lastUlt = t; cd = fcd(meta, env); immTo = selfImmuneTo(ext, t, immTo); }
+      if (cut && t <= immTo) cut = null;
+      if (cut && !cut.before) cd -= cut.amt;
+      // 1번 자리 캐리: 임부언 필살 턴 = CD −3(면역 중이면 무효) → (도장) 받은 추가 행동에서 준비됐으면 필살(ultAvail 의 fedStep)
+      if (cutting && ext.fed && ext.fed.has(t)) {
+        const before = cd;
+        [cd] = fedStep(ext, ext.has(t), cd, 0, null, meta, env);
+        if (cd > before) lastUlt = t;
+      }
+      cd -= 1;
+    },
+  };
+}
 /** 핀 값 → 그 턴의 행동 칸(행동 수만큼, 모자라면 보통 공격). 턴당 2회 동료의 '궁' 핀 = '궁평'. */
 export function cellsOf(v, apt) { const a = [...String(v)]; while (a.length < apt) a.push('평'); return a.slice(0, apt); }
 /**
  * 핀 줄 → 엔진 rotation 토큰 배열(길이 lineTurns(n) × 행동 수). row = { turn: 값 }.
  * 핀이 하나도 없으면 null(줄을 보내지 않음 = 규칙).
  */
-export function lineFromPins(slot, row, n, env = ENV0, { always = false } = {}) {
+export function lineFromPins(slot, row, n, env = ENV0, { always = false, ext = null } = {}) {
   if (!slot || !row || (!always && !Object.keys(row).length)) return null;
   const meta = env.chars[slot.id] || {};
   const apt = meta.actionsPerTurn || 1, L = lineTurns(n), kind = pinFillKind(slot, meta);
   const first = assistFirstUlt(slot, meta, env);
   const base = kind === 'default' ? defaultPlan(meta, L, env) : null;
+  const rule = ruleFiller(meta, env, first, ext);
   const out = [];
-  let lastUlt = 0;
   for (let t = 1; t <= L; t++) {
     const v = row[t];
+    rule.begin(t);
     let cells;
     if (v) cells = cellsOf(v, apt);
     else if (kind === 'default') cells = base.slice((t - 1) * apt, t * apt);
     else if (kind === 'basic') cells = ['평'];
-    else cells = [cycleFill(t, lastUlt, meta, env, first)];
-    if (apt === 1 && cells[0] === '궁') lastUlt = t;
+    else cells = [rule.fill(t)];
+    rule.end(t, apt === 1 && cells[0] === '궁');
     out.push(...cells);
   }
   return out;
@@ -911,7 +1026,7 @@ export function lineFromPins(slot, row, n, env = ENV0, { always = false } = {}) 
  * 그래야 lineFromPins 가 원래 계획과 똑같은 rotation 을 만든다(v1 페이로드 동일). 턴당 2회·default 채움 동료는 채움과 다른 턴만 핀.
  * opt.marker = true: 결과가 비면 1턴 칸을 핀으로 남긴다(v1 에서 직접 계획이 켜져 있었다 = rotation 을 보낸다는 사실을 보존).
  */
-export function pinsFromPlan(slot, plan, n, env = ENV0, { marker = false } = {}) {
+export function pinsFromPlan(slot, plan, n, env = ENV0, { marker = false, ext = null } = {}) {
   const meta = env.chars[slot.id] || {};
   const apt = meta.actionsPerTurn || 1, L = lineTurns(n), kind = pinFillKind(slot, meta);
   const p = (plan || []).slice(0, L * apt);
@@ -919,17 +1034,18 @@ export function pinsFromPlan(slot, plan, n, env = ENV0, { marker = false } = {})
   padPlan(p, meta, L, env);
   const base = kind === 'default' ? defaultPlan(meta, L, env) : null;
   const first = assistFirstUlt(slot, meta, env);
+  const rule = ruleFiller(meta, env, first, ext);   // lineFromPins 와 같은 규칙 칸 — 같은 ext 를 줘야 줄이 되살아난다
   const row = {};
-  let lastUlt = 0;
   for (let t = 1; t <= L; t++) {
     const v = p.slice((t - 1) * apt, t * apt).join('');
+    rule.begin(t);
     if (kind === 'default') {
       if (v !== base.slice((t - 1) * apt, t * apt).join('') || (apt === 1 && v !== '평')) row[t] = v;
     } else {
-      const fill = kind === 'basic' ? '평' : cycleFill(t, lastUlt, meta, env, first);
+      const fill = kind === 'basic' ? '평' : rule.fill(t);
       if (v === '궁' || v === '방' || v !== fill) row[t] = v;
-      if (v === '궁') lastUlt = t;
     }
+    rule.end(t, apt === 1 && v === '궁');
   }
   if (marker && !Object.keys(row).length) row[1] = p.slice(0, apt).join('');
   return row;
@@ -940,6 +1056,52 @@ export function pinsFromPlan(slot, plan, n, env = ENV0, { marker = false } = {})
  * 핀이 없는 동료에 남은 옛 usePlan/plan 은 무시한다(읽기 호환은 applySnap 이 처리).
  */
 export function effectiveTeam(team, pins, turns, env = ENV0) {
+  const eff = effectiveTeam0(team, pins, turns, env);
+  if (!(team || []).some((s) => s && (env.chars[s.id] || {}).allyCdCut)) return eff;
+  // [2026-10-07 해석 10444-AUTO-pull] 하쿠이(필살 시 자신 제외 아군 필살 CD −1)가 있으면 동료 줄을 그 감소만큼 당겨 다시 채운다.
+  //   하쿠이 필살 턴은 1단계 줄(하쿠이 핀·기본 계획) 그대로. 직접 지정 줄 = 핀은 그대로·규칙 칸만 당김(보내는 줄),
+  //   자동 = 엔진이 같은 규칙으로 당기므로 줄은 보내지 않고 화면 표시용 autoView 만 단다(planView·자동 턴 라벨).
+  //   임부언이 추가 행동을 주는 1번 자리 캐리(fed carry)는 엔진 전용 경로라 손대지 않는다.
+  //   임부언이 추가 행동을 주는 1번 자리 캐리(fed carry)는 마지막에 — 당겨진 임부언 필살 턴(2단계)·면역·받은 추가 행동 필살을 본다.
+  const pull = (base, i) => {
+    const n = base[i];
+    const ext = fillExtOf(team, base, i, turns, env);
+    if (!ext) return n;
+    const s = team[i];
+    const out = { ...n };
+    if (n.usePlan) {
+      const line = lineFromPins(s, pinsRowOf(pins, i + 1), turns, env, { always: true, ext });
+      out.plan = line; out.rotation = line.join('');
+    } else {
+      out.autoView = lineFromPins(s, {}, turns, env, { always: true, ext });
+    }
+    return out;
+  };
+  const fed = (i) => isFedCarrySlot(team, i);
+  const eff2 = eff.map((n, i) => (!n || fed(i) ? n : pull(eff, i)));
+  return eff2.map((n, i) => (n && fed(i) ? pull(eff2, i) : n));
+}
+/** 임부언이 추가 행동을 주는 1번 자리 동료(fed carry — 엔진 _mark_fed_carries 와 같은 자리 조건). */
+function isFedCarrySlot(team, i) {
+  const s = (team || [])[i];
+  return i === 0 && !!s && s.id !== IMBUEON_ID && team.some((x) => x && x.id === IMBUEON_ID);
+}
+/**
+ * 규칙 칸 채움에 쓸 외부 영향(하쿠이 감소 + 1번 자리 캐리의 임부언 면역·받은 추가 행동) — effectiveTeam 2·3단계·핀 도구
+ * (pinsFromPlan)가 같은 조건으로 쓴다. 하쿠이 감소가 없으면 null. eff = 앞 단계(또는 최종) 편성.
+ */
+function fillExtOf(team, eff, i, turns, env) {
+  const s = (team || [])[i];
+  if (!s || !eff[i]) return null;
+  const ext = extFor(eff[i], i, eff, turns, env);
+  return ext && ext.cuts ? ext : null;
+}
+/** 핀 도구용: 지금 편성에서 자리 i 동료의 규칙 칸 외부 영향. */
+function rowFillExt(team, pins, i, turns, env) {
+  if (!(team || []).some((s) => s && (env.chars[s.id] || {}).allyCdCut)) return null;
+  return fillExtOf(team, effectiveTeam(team, pins, turns, env), i, turns, env);
+}
+function effectiveTeam0(team, pins, turns, env) {
   return (team || []).map((s, i) => {
     if (!s) return null;
     const n = { ...s };
@@ -992,11 +1154,11 @@ export function presetPinsRow(name, slot, i, team, pins, turns, env = ENV0) {
   const eff = effectiveTeam(team, pins, turns, env);
   let target;
   if (name === 'reflow') {
-    const line = eff[i].plan || defaultPlan(meta, lineTurns(turns), env);
+    const line = eff[i].plan || eff[i].autoView || defaultPlan(meta, lineTurns(turns), env);
     target = reflowFromFirst(line.slice(), meta, env);
   } else target = presetTarget(name, eff[i], i, eff, turns, env);
   if (!target) return null;
-  return pinsFromPlan(slot, target, turns, env);
+  return pinsFromPlan(slot, target, turns, env, { ext: rowFillExt(team, pins, i, turns, env) });
 }
 /** 지금 줄(핀 + 규칙 채움, 쿨타임 반영 — 직접 지정 줄에 보이는 그대로)을 줄 길이(lineTurns)만큼. 턴당 행동 수만큼의 토큰 배열. */
 function shownLine(i, team, pins, turns, env) {
@@ -1009,7 +1171,7 @@ function shownLine(i, team, pins, turns, env) {
  */
 export function fillRowPins(slot, i, team, pins, turns, action, env = ENV0) {
   const plan = shownLine(i, team, pins, turns, env).map((a) => (a === '궁' ? '궁' : action));
-  return pinsFromPlan(slot, plan, turns, env);
+  return pinsFromPlan(slot, plan, turns, env, { ext: rowFillExt(team, pins, i, turns, env) });
 }
 /**
  * 패턴 반복: 지금 줄의 from~to 턴 행동을 to 다음 턴부터 줄 끝까지 같은 순서로 반복(필살기 포함). from 앞 턴은 그대로.
@@ -1026,7 +1188,7 @@ export function repeatRowPins(slot, i, team, pins, turns, from, to, env = ENV0) 
     const src = a + ((t - a) % len);
     for (let k = 0; k < apt; k++) plan[(t - 1) * apt + k] = line[(src - 1) * apt + k] || '평';
   }
-  return pinsFromPlan(slot, plan, turns, env);
+  return pinsFromPlan(slot, plan, turns, env, { ext: rowFillExt(team, pins, i, turns, env) });
 }
 /**
  * 필살기 칸 고정의 동료별 규칙(v1 renderPlanner onclick 이식 — 핀 버전). 칸을 '필살기'로 고정할 때 UI 가 먼저 부른다.
@@ -1051,11 +1213,11 @@ export function pinUltRow(slot, i, team, pins, turns, turn, env = ENV0) {
   if (!(meta.cdDefendReduce > 0)) return { status: 'plain' };
   const L = lineTurns(turns);
   const eff = effectiveTeam(team, pins, turns, env);
-  const plan = (eff[i].plan && eff[i].plan.length ? eff[i].plan : defaultPlan(meta, L, env)).slice(0, L);
+  const plan = (eff[i].plan && eff[i].plan.length ? eff[i].plan : (eff[i].autoView || defaultPlan(meta, L, env))).slice(0, L);
   padPlan(plan, meta, L, env);
   const ab = allyBasicCounts(eff, i, L, env);
   const src = cdAssistSrc(slot, meta, env);
-  const immune = immuneFor(eff[i], i, eff, L, env);
+  const immune = extFor(eff[i], i, eff, L, env);
   const before = plan.slice();
   plan[turn - 1] = '궁';
   if (ultAvail(plan, meta, ab, src, env, immune)[turn - 1]) return { status: 'plain' };   // 방어 없이도 그 턴에 준비됨(예: 기본 리듬의 필살기 턴)
@@ -1065,7 +1227,7 @@ export function pinUltRow(slot, i, team, pins, turns, turn, env = ENV0) {
   for (let k = 0; k < turn - 1; k++) if (row0[k + 1] === '궁' && plan[k] !== '궁') return { status: 'impossible', reason: 'overlap' };
   normalizePlan(plan, meta, ab, src, env, immune);
   if (plan[turn - 1] !== '궁') return { status: 'impossible', reason: meta.cdDefendPerStack ? 'stack' : 'cd' };
-  const row = pinsFromPlan(slot, plan, turns, env);
+  const row = pinsFromPlan(slot, plan, turns, env, { ext: rowFillExt(team, pins, i, turns, env) });
   Object.keys(row0).forEach((t) => { if (!row[t] && plan[t - 1] === row0[t]) row[t] = row0[t]; });   // 결과와 같은 기존 고정은 표시 유지
   const defs = [];
   for (let k = 0; k < turn - 1; k++) if (plan[k] === '방' && before[k] !== '방') defs.push(k + 1);

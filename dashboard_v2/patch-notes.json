@@ -2,6 +2,63 @@
  "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
  "releases": [
   {
+   "version": "2.1.1",
+   "date": "2026-10-07",
+   "highlight": false,
+   "title": {
+    "kr": "하쿠이의 동료 필살기 CD 감소를 행동 계획에 반영",
+    "en": "Hakui's EX Skill CD cut now shapes action plans",
+    "ja": "白威による仲間の必殺技CD減少を行動計画に反映",
+    "zh": "行動計畫反映白威減少夥伴必殺技 CD",
+    "zhs": "行动计划反映白威减少伙伴必杀技 CD"
+   },
+   "items": [
+    {
+     "cat": "fix",
+     "chars": [
+      10444
+     ],
+     "text": {
+      "kr": "은빛투신 하쿠이가 필살기로 동료의 필살기 CD를 줄이면, 자동 계획과 직접 지정 줄의 필살기 턴이 그만큼 앞당겨집니다.",
+      "en": "When Warmaster Hakui's EX Skill reduces companions' EX Skill CD, Auto plans and Per turn rows now move those EX Skill turns earlier by that amount.",
+      "ja": "銀煌の闘神白威が必殺技で仲間の必殺技CDを減らすと、自動の計画と直接指定の行の必殺技ターンがその分前倒しになります。",
+      "zh": "銀煌鬥神白威以必殺技減少夥伴的必殺技 CD 時，自動計畫與直接指定列的必殺技回合會依此提前。",
+      "zhs": "银煌斗神白威以必杀技减少伙伴的必杀技 CD 时，自动计划与直接指定列的必杀技回合会依此提前。"
+     },
+     "details": [
+      {
+       "kr": "예를 들어 필살기 CD가 3턴인 동료는 4·7·10턴 대신 쿨타임이 차는 3·6·8턴에 필살기를 씁니다. 행동 계획 줄과 실행 미리보기가 같은 턴을 보여 줍니다.",
+       "en": "For example, a companion with a 3-turn EX Skill CD uses it on turns 3·6·8 as soon as the cooldown is back, instead of 4·7·10. The action plan rows and the run preview show the same turns.",
+       "ja": "たとえば必殺技CDが3ターンの仲間は、4·7·10ターンではなくクールタイムが回復する3·6·8ターンに必殺技を使います。行動計画の行と実行プレビューが同じターンを示します。",
+       "zh": "例如必殺技 CD 為 3 回合的夥伴，會在冷卻恢復的第 3·6·8 回合使用必殺技，而不是第 4·7·10 回合。行動計畫列與執行預覽顯示相同的回合。",
+       "zhs": "例如必杀技 CD 为 3 回合的伙伴，会在冷却恢复的第 3·6·8 回合使用必杀技，而不是第 4·7·10 回合。行动计划列与执行预览显示相同的回合。"
+      },
+      {
+       "kr": "직접 지정 줄은 고정한 칸은 그대로 두고 나머지 칸만 앞당겨 채웁니다. 앞당기지 않으려면 고급 설정에서 ‘정해진 턴만’을 고릅니다.",
+       "en": "Per turn rows keep the cells you fixed and pull only the remaining cells earlier. To keep the original turns, choose ‘Planned turns only’ in Advanced settings.",
+       "ja": "直接指定の行は固定したマスをそのままにし、残りのマスだけを前倒しして埋めます。前倒ししない場合は詳細設定で‘指定ターンのみ’を選びます。",
+       "zh": "直接指定列保留已固定的格子，只把其餘格子提前填入。若不想提前，請在進階設定選擇‘僅指定回合’。",
+       "zhs": "直接指定列保留已固定的格子，只把其余格子提前填入。若不想提前，请在进阶设定选择‘仅指定回合’。"
+      },
+      {
+       "kr": "임부언과 함께 쓰면 1번 자리 동료는 CD 변동 면역 동안 하쿠이의 CD 감소를 받지 않고, 받은 추가 행동에서 쿨타임이 찼으면 필살기를 씁니다.",
+       "en": "With Boss Ren, the slot-1 companion receives no CD cut from Hakui while it has CD change immunity, and uses its EX Skill in the granted extra action if the cooldown is back.",
+       "ja": "任富言と一緒に使うと、1番の枠の仲間はCD変動免疫の間は白威のCD減少を受けず、受け取った追加行動でクールタイムが回復していれば必殺技を使います。",
+       "zh": "與任富言一起使用時，1 號位夥伴在 CD 變動免疫期間不會受到白威的 CD 減少；若冷卻已恢復，會在獲得的額外行動中使用必殺技。",
+       "zhs": "与任富言一起使用时，1 号位伙伴在 CD 变动免疫期间不会受到白威的 CD 减少；若冷却已恢复，会在获得的额外行动中使用必杀技。"
+      },
+      {
+       "kr": "방탈출 제단의 확률 CD 감소는 종전처럼 ‘준비되면 바로’와 ‘성공 가정’에서만 반영됩니다.",
+       "en": "Probability-based CD cuts from Escape Room Altars still apply only with ‘As soon as ready’ and ‘Assume success’.",
+       "ja": "脱出部屋の祭壇による確率のCD減少は、これまでどおり‘準備でき次第’と‘成功仮定’でのみ反映されます。",
+       "zh": "公會密室祭壇的機率 CD 減少仍只在‘就緒即用’與‘假設成功’中反映。",
+       "zhs": "公会密室祭坛的机率 CD 减少仍只在‘就绪即用’与‘假设成功’中反映。"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "version": "2.1",
    "date": "2026-10-07",
    "highlight": true,

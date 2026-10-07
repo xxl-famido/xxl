@@ -12,7 +12,7 @@
 //     기본 설정과 고급 설정의 값은 advanced.js 가 따로 보관하므로 여기서 바꿔도 메인 값은 바뀌지 않는다.
 //     욱영 프리셋은 ③. [D3] 「첫 필살기 당기기」 프리셋 삭제(옛 기록의 핀은 그대로 읽힘).
 // 턴 칸 클릭 = 선택 팝오버(plan-helpers cellPicker). 상태·계산은 전부 core(store.plan / store.pins / store.sync).
-import { ultOf, syncGroupOf, normalizeSyncGroups, summary, taehoFedTurns, effectiveTeam, planView, cellsOf } from '../core/plan.js';
+import { ultOf, syncGroupOf, normalizeSyncGroups, summary, taehoFedTurns, effectiveTeam, planView, cellsOf, cdCutSource } from '../core/plan.js';
 import { UK_ID, IMBUEON_ID } from '../core/format.js';
 import {
   ACT_CLS, ACT_KEY, autoUltTurns, groupExceptions, actsOf, actSegs, segsKey, actsLabel, splitStyle, turnsText, sortable, shortName, setBaseCtx, ukPresetIndex, cellPicker,
@@ -188,8 +188,10 @@ export async function mount(host, ctx) {
     const pos = i + 1, meta = env.chars[s.id] || st.chars[s.id] || {}, name = nameOf(s.id);
     const direct = isDirect(pos);
     const u = ultOf(s), mode = u.mode === 'strict' ? 'strict' : u.mode === 'asap' ? 'asap' : 'auto';
-    const auto = autoUltTurns(meta, n, env, 3, s);   // 성공 가정이 당기면 당겨진 턴(#27)
+    const auto = autoUltTurns(meta, n, env, 3, eff[i] || s);   // 성공 가정·하쿠이 아군 CD 감소가 당기면 당겨진 턴(#27 · 10444-AUTO-pull)
     const autoLabel = auto ? t('plan.ult.mode.autoTurns', { turns: auto }) : t('plan.ult.mode.auto');
+    const cutter = cdCutSource(st.team, i, env);
+    const pulledTip = cutter ? t('plan.ult.mode.autoPulled', { name: nameOf(cutter.id) }) : null;
     const g = syncGroupOf(st.sync, pos);
     // 욱영 프리셋 그룹(메인 체크)의 멤버는 칩을 달지 않는다 — 라이트 기능, 욱영 행 체크로 보인다
     const anchorSlot = g && g.role === 'member' && g.g.anchor && g.g.anchor !== ukAnchor ? st.team[g.g.anchor - 1] : null;
@@ -205,7 +207,7 @@ export async function mount(host, ctx) {
     const out = [h('span', { class: 'prio-n' }, String(k + 1)), h('img', { src: `icons/${s.id}.png`, alt: '', draggable: 'false' }), nameEl];
     if (ADV) {
       // 고급 설정: 방식 3택 + 직접 지정(턴 칸 줄 — 메인과 같은 모양) + 성공 가정·방어 턴 유지
-      const modeSel = select({ 'data-fk': `amode:${pos}`, 'aria-label': t('plan.step1.ultMode.aria', { name }), onChange: (e) => setAdvMode(i, e.target.value, direct, name) },
+      const modeSel = select({ 'data-fk': `amode:${pos}`, 'aria-label': t('plan.step1.ultMode.aria', { name }), title: pulledTip, onChange: (e) => setAdvMode(i, e.target.value, direct, name) },
         [...MODES.map((m) => [m, m === 'auto' ? autoLabel : t(`plan.ult.mode.${m}`)]), ['direct', t('plan.mode.direct')]], direct ? 'direct' : mode);
       out.push(h('label', { class: 'ult-mode' }, h('span', { class: 'sr' }, t('plan.step1.ultMode.aria', { name })), modeSel), mv);
       const asap = mode === 'asap';
@@ -227,7 +229,7 @@ export async function mount(host, ctx) {
       if (opts.length) out.push(h('div', { class: 'row-opt' }, ...opts));
     } else {
       // 메인: 자동 / 직접 지정
-      const modeSel = select({ 'data-fk': `mode:${pos}`, onChange: (e) => setDirect(pos, e.target.value === 'direct', name) },
+      const modeSel = select({ 'data-fk': `mode:${pos}`, title: pulledTip, onChange: (e) => setDirect(pos, e.target.value === 'direct', name) },
         [['rule', autoLabel], ['direct', t('plan.mode.direct')]], direct ? 'direct' : 'rule');
       out.push(h('label', { class: 'ult-mode' }, h('span', { class: 'sr' }, t('plan.step1.ultMode.aria', { name })), modeSel), mv);
     }

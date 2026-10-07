@@ -1347,6 +1347,7 @@
  "plan.ult.mode.asap": "就緒即用",
  "plan.ult.mode.auto": "自動",
  "plan.ult.mode.autoTurns": "自動 · 第 {turns} 回合",
+ "plan.ult.mode.autoPulled": "已反映{name}必殺技減少夥伴必殺技 CD 的回合",
  "plan.ult.mode.hint": "必殺技方式：自動依角色基本節奏（錯過的必殺技準備好就用），僅限指定回合只在基本回合與固定格使用（該回合未準備好則略過），準備好就用則冷卻一到立即使用。未固定的格依此方式填入。直接指定可點擊回合格選擇該回合的行動。",
  "plan.ult.mode.hint.html": "必殺技方式：<b>自動</b>依職責預設節奏，<b>僅指定回合</b>在自動回合以外保留，<b>就緒即用</b>於冷卻結束時立即使用，<b>手動指定</b>逐回合設定。",
  "plan.ult.mode.hint.light": "必殺技方式：自動依職責預設節奏，直接指定則逐回合設定。",

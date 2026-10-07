@@ -85,7 +85,7 @@ export function tdmgPayload(tdmg, turns) {
  * 제단이 켜져 있으면 확률 100%는 쓰지 않는다(v1 syncAltarLock 이 버튼을 막던 규칙).
  */
 export function buildCfg(state, { mode = 'run', plansOverride = null } = {}) {
-  const env = makeEnv({ chars: state.chars, altar: state.altar, team: state.team });
+  const env = makeEnv({ chars: state.chars, altar: state.altar, team: state.team, overrides: state.overrides });
   const c = state.cond;
   const turns = +c.turns;
   const rules = mode === 'rules';
@@ -121,7 +121,7 @@ export function buildCfg(state, { mode = 'run', plansOverride = null } = {}) {
  */
 export function buildCompareCfg(side, snap, common, shared) {
   const roster = side.roster || [];
-  const env = makeEnv({ chars: shared.chars, altar: shared.altar, team: roster });
+  const env = makeEnv({ chars: shared.chars, altar: shared.altar, team: roster, overrides: side.turnOv || null });
   const adv = side.advOn ? side.adv : null;
   const altarOn = !!(shared.altar && shared.altar.on);
   const forced = common.forceProc && !altarOn;

@@ -1347,6 +1347,7 @@
  "plan.ult.mode.asap": "As soon as ready",
  "plan.ult.mode.auto": "Auto",
  "plan.ult.mode.autoTurns": "Auto · turns {turns}",
+ "plan.ult.mode.autoPulled": "Turns reflect {name}'s EX Skill reducing companions' EX Skill CD",
  "plan.ult.mode.hint": "Ultimate mode: Auto follows the role's default rhythm (a missed ultimate fires as soon as it is ready), Set turns only uses default turns and pinned cells (skipped if not ready that turn), As soon as ready fires whenever the cooldown is up. Unpinned cells follow this mode. Per turn lets you pick each turn's action by tapping its cell.",
  "plan.ult.mode.hint.html": "EX Skill policy: <b>Auto</b> follows the role's default rhythm, <b>Planned turns only</b> saves it except on auto turns, <b>As soon as ready</b> uses it the moment the cooldown is back, and <b>Manual</b> lets you mark each turn.",
  "plan.ult.mode.hint.light": "EX Skill mode: Auto follows the role's default rhythm; Per turn lets you set each turn.",

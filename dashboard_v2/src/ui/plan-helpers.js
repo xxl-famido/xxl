@@ -17,6 +17,12 @@ export const ACT_KEY = Object.freeze({ '평': 'plan.act.atk', '궁': 'plan.act.u
 export function autoUltTurns(meta, n, env, max = 3, slot = null) {
   if (!meta) return '';
   const apt = meta.actionsPerTurn || 1;
+  // 하쿠이 감소로 당겨진 자동 줄(effectiveTeam 의 autoView — 엔진 자동 계획 당김과 같은 규칙, 해석 10444-AUTO-pull)
+  if (slot && slot.autoView && apt === 1) {
+    const out = [];
+    for (let t = 1; t <= Math.min(n, slot.autoView.length) && out.length < max; t++) if (slot.autoView[t - 1] === '궁') out.push(t);   // copy-lint-allow
+    return out.join('·');
+  }
   if (slot && assistPulls(slot, meta, env)) {
     const line = lineFromPins(slot, {}, n, env, { always: true }) || [];
     const out = [];

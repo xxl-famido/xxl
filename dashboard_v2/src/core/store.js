@@ -134,7 +134,7 @@ export function createStore(o = {}) {
   const readJSON = (k) => { try { return JSON.parse(storage.getItem(k) || 'null'); } catch { return null; } };
   const writeJSON = (k, v) => { try { storage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } };
   const notice = (key, vars = {}) => noticeFns.forEach((fn) => { try { fn({ key, vars }); } catch { /* noop */ } });
-  const env = () => makeEnv({ chars: state.chars, altar: state.altar, team: state.team });
+  const env = () => makeEnv({ chars: state.chars, altar: state.altar, team: state.team, overrides: state.overrides });
 
   function set(patch, { silent = false } = {}) {
     state = { ...state, ...patch };

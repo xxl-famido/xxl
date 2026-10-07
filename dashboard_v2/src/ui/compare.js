@@ -422,7 +422,7 @@ function openCompare(ctx, prev) {
       const s = st.side[sd];
       if (!s.roster.some(Boolean)) return Promise.resolve(EMPTY_RESULT(turns));
       // 고정 칸 → 동료별 줄(effectiveTeam), 잠긴 턴 → turnPlans. 전 턴이 잠기면 v1 완전 수동 모양(순서 생략), 일부만이면 규칙 + 그 턴만.
-      const env = makeEnv({ chars: shared.chars, altar: shared.altar, team: s.roster });
+      const env = makeEnv({ chars: shared.chars, altar: shared.altar, team: s.roster, overrides: s.turnOv || null });
       const roster = effectiveTeam(s.roster, s.pins || {}, turns, env);
       const locked = lockedWithin(s.locked || {}, turns);
       const full = fullyLocked(s, turns);

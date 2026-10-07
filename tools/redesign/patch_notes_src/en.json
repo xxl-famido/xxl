@@ -1,5 +1,19 @@
 {
  "_comment": "English translation of kr.json (tidied patch notes). Same versions, same items order/count, one details line per Korean line. Terms follow dashboard_v2/i18n/en.json.",
+ "2.1.1": {
+  "title": "Hakui's EX Skill CD cut now shapes action plans",
+  "items": [
+   {
+    "text": "When Warmaster Hakui's EX Skill reduces companions' EX Skill CD, Auto plans and Per turn rows now move those EX Skill turns earlier by that amount.",
+    "details": [
+     "For example, a companion with a 3-turn EX Skill CD uses it on turns 3·6·8 as soon as the cooldown is back, instead of 4·7·10. The action plan rows and the run preview show the same turns.",
+     "Per turn rows keep the cells you fixed and pull only the remaining cells earlier. To keep the original turns, choose ‘Planned turns only’ in Advanced settings.",
+     "With Boss Ren, the slot-1 companion receives no CD cut from Hakui while it has CD change immunity, and uses its EX Skill in the granted extra action if the cooldown is back.",
+     "Probability-based CD cuts from Escape Room Altars still apply only with ‘As soon as ready’ and ‘Assume success’."
+    ]
+   }
+  ]
+ },
  "2.1": {
   "title": "New companion ‘Warmaster Hakui’",
   "items": [
