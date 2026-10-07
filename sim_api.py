@@ -8,7 +8,7 @@ import random
 from collections import defaultdict
 
 from woofia_sim.engine import _kit_has_hp_gate
-from woofia_sim.harness import CharSpec, default_priority, run_team, _turn1_cd_delta
+from woofia_sim.harness import CharSpec, default_priority, first_fatal_turn, run_team
 from woofia_sim.altar import resolve_altars, summarize as altar_summary, parse_sync_groups, parse_ult_policy
 from woofia_sim.kit import resolve_kit
 from woofia_sim.stats import (
@@ -155,7 +155,7 @@ def char_meta(cid: int) -> dict:
     kit = resolve_kit(cid, _INV, 10, True)
     el_kr, el_key = ELEMENT.get(kit.element, ELEMENT[0])
     cd = kit.fatal.cd
-    first_fatal = 1 if (cd + _turn1_cd_delta(kit)) <= 0 else cd + 1   # 첫 필살 사용 가능 턴
+    first_fatal = first_fatal_turn(kit)   # 첫 필살 사용 가능 턴 = max(1, cd+1턴차 CD 변동+1) — auto_rotation 과 같은 공식
     apt = _actions_per_turn(kit)
     return {"id": cid, "name": c.get("name_kr", str(cid)),
             "element": el_kr, "elementKey": el_key, "role": ROLE.get(kit.kind, "?"),

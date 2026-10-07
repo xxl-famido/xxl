@@ -188,6 +188,12 @@ _HP_OPS = {"<": "lt", "≤": "le", "≦": "le", "≥": "ge", "≧": "ge", ">": "
 # team-coordination trigger (다양수이): fires when EVERY ally of a role (except self) has
 # used a given action this turn. role = Fighter/Vandal/'' (all); action = basic/EX.
 _ALL_ACTED = re.compile(rf"^Except self, when all of own (Fighter |Vandal |)Buddies use (?:a Basic Attack|an EX Skill),\s*(?:there is a(?:\(n\))? {_NUM}% chance to )?(?:trigger: )?(.+)$")
+# 같은 en 문형이지만 '협동(전원 행동 시 턴당 1회)'이 아니라 **아군 각자에게 부여된 이벤트 트리거**로 읽는 본문 스택명.
+# kr '자신을 제외한 아군 전체 동료에게 부여: 필살기 시, …' · cn '使自身以外的我方全體夥伴獲得：必殺時' 부여 문형이고, 원본은
+# 조건 노드 없는 평범한 10002 트리거다(하쿠이 파3 기원). 변환 결과 = grant_allies(raw 'Except self' — 엔진이 자신 제외)
+# → 각 아군의 on_ex/on_basic_attack 구독 → 본문(부여자에게 스택). 같은 문형의 다양수이·임욱잠은 기존 협동 해석 그대로다
+# (전역 재해석은 제안만). 집합에서 빼면 협동(all_acted)으로 돌아간다. 해석 10444-P2-grant-per-ex(precedent).
+ALL_ACTED_AS_GRANT = {"Supplication"}
 
 # 최유희 공포의 바람 속격: 평타가 중독(DoT) 보유 대상 적중 시 추가딜 (target 게이트 = Poisoned)
 _POISON_HIT = re.compile(rf"^If Basic Attack target\(s\) is/are Poisoned \(DoT\), there is a(?:\(n\))? {_NUM}% chance to trigger: (.+)$")
@@ -239,6 +245,9 @@ _ALL_WITH = re.compile(r"^When all of own Buddies are with (.+?), (on attack|on 
 _POS_BUDDY = re.compile(r"^(?:Grant )?Buddy in Position (\d+) (.+)$")
 # "All of own Buddies <body>" (no apostrophe) -> apply <body> to the whole team
 _ALL_BUDDIES = re.compile(r"^All of own Buddies (?!')(.+)$")
+# "Except self, all of own Buddies' <body>" -> <body>(자기 대상 문형)를 시전자를 뺀 살아 있는 아군에게
+# (하쿠이 필살 "Except self, all of own Buddies' EX Skill CD -1 turn(s)." — 자신 제외 아군 남은 필살 CD −1)
+_EXCEPT_SELF_BUDDIES = re.compile(r"^Except self, all of own Buddies' (.+)$")
 
 _GATE_EVENT = {
     "on attack": "on_attack", "on Basic Attack": "on_basic_attack",
@@ -731,7 +740,8 @@ def _b_taunt_target(m):
                   duration=_opt_dur(m, 2) if _opt_dur(m, 2) > 0 else 1)
 
 
-@_leaf(rf"^(?:Own )?EX Skill CD -{_NUM} turn\(s\)\.?$")
+# "Own current EX Skill CD -N" (하쿠이 파5) = 남은 CD 감소 — 'current' 는 최대 CD 가 아니라는 표기일 뿐 같은 CD_MOD
+@_leaf(rf"^(?:Own )?(?:current )?EX Skill CD -{_NUM} turn\(s\)\.?$")
 def _b_cd(m):
     return Effect(CD_MOD, m.group(0), target="self", magnitude=-_f(m.group(1)))
 
@@ -822,11 +832,13 @@ def _b_transform(m):
                   stack_name=_stk(m.group(1)), into_stack=_stk(m.group(2)))
 
 
-@_leaf(r"^[Gg]ain ([A-Z][\w' :·-]+?)\.?$")
+@_leaf(rf"^[Gg]ain ([A-Z][\w' :·-]+?)(?: for {_NUM} {_TRN})?\.?$")
 def _b_gain_status(m):
-    # bare "gain X" (no count) -> 1 stack of named status (binary marker)
+    # bare "gain X" (no count) -> 1 stack of named status (binary marker).
+    # "Gain X for N turns." (하쿠이 위용 4턴) = N턴 지속 상태 — 지속을 이름째 잡으면 _stk 가 지워 영구가 된다.
     return Effect(STACK, m.group(0), target="self",
-                  stack_name=_stk(m.group(1)), magnitude=1.0, max_stacks=1)
+                  stack_name=_stk(m.group(1)), magnitude=1.0, max_stacks=1,
+                  duration=_opt_dur(m, 2))
 
 
 @_leaf(rf"^ATK -{_NUM}% for all enemies for {_NUM} turn\(s\)(?:, up to {_NUM} stack\(s\))?\.?$")
@@ -995,6 +1007,22 @@ def _split_clauses(text: str) -> list[str]:
 _PER_STACK = re.compile(
     r"^(.+?): Own Basic Attack damage dealt \+(\d+(?:\.\d+)?)% for (\d+) turn\(s\), up to (\d+) stack\(s\)\.?$")
 
+# 접미형 "deal damage X% … to target(s) N times." (하쿠이 파2 '두 번') — 원본은 피해 노드 N개라 독립 타격 N개로 편다.
+# 한 줄 전체가 "And attack N times, each dealing …"인 _MULTI_HIT(코드B)와 같은 처리를 절(게이트 본문) 단위로 한다.
+_TIMES_SUFFIX = re.compile(r"^([Dd]eal damage .+?) (\d+) times\.?$")
+
+
+def _parse_times(clause: str) -> list[Effect]:
+    """한 절을 파싱한다. 끝이 '… N times.'인 피해 절이면 같은 DAMAGE N개(타격당 효과가 따로 붙는 독립 hit)."""
+    tm = _TIMES_SUFFIX.match(clause.strip())
+    if tm:
+        hits = [parse_line(tm.group(1) + ".") for _ in range(int(tm.group(2)))]
+        if hits and all(h.kind == DAMAGE for h in hits):
+            for h in hits:
+                h.raw = clause.strip()
+            return hits
+    return [parse_line(clause)]
+
 
 def parse_line(line: str) -> Effect:
     """Parse a single resolved description line into an Effect (recursive)."""
@@ -1062,6 +1090,13 @@ def parse_line(line: str) -> Effect:
         body = re.sub(r"^[A-Z][a-zA-Z]+ gains ", "Gain 1 stack of ", body)
         inner = parse_line(body[:1].upper() + body[1:])
         if inner.parsed:
+            if role == "any" and inner.kind == STACK and inner.stack_name in ALL_ACTED_AS_GRANT:
+                # 부여형: 아군 각자의 행동 1회 = 본문 1회 (ALL_ACTED_AS_GRANT 주석). raw 에 'Except self' 를 남겨야
+                # 엔진 grant_allies 가 부여자 자신을 뺀다 — 빠지면 하쿠이 자기 필살도 기원 +1(이론 10444-T05 함정).
+                event = "on_basic_attack" if action == "basic" else "on_ex"
+                per_ally = Effect(TRIGGER, line, condition=event, chance=chance, sub_effects=[inner])
+                return Effect(TRIGGER, line, condition="grant_allies", target="allies",
+                              sub_effects=[per_ally])
             return Effect(TRIGGER, line, condition=f"all_acted:{role}:{action}",
                           chance=chance, sub_effects=[inner])
         return Effect(MARKER, line)
@@ -1195,6 +1230,14 @@ def parse_line(line: str) -> Effect:
             inner.target = f"position_{pbm.group(1)}"
             inner.raw = line
             return inner
+    esm = _EXCEPT_SELF_BUDDIES.match(line)
+    if esm:
+        body = esm.group(1)
+        inner = parse_line(body[:1].upper() + body[1:])
+        if inner.parsed and inner.target == "self":
+            inner.target = "other_allies"      # 엔진 _resolve_targets 명시 분기(자신 제외 아군)
+            inner.raw = line
+            return inner
     abm = _ALL_BUDDIES.match(line)
     if abm:
         inner = parse_line(abm.group(1))
@@ -1226,7 +1269,14 @@ def parse_line(line: str) -> Effect:
             return inner
     gm = _GATE.match(line)
     if gm:
-        subs = [parse_line(c) for c in _split_clauses(gm.group(5))]
+        subs = [eff for c in _split_clauses(gm.group(5)) for eff in _parse_times(c)]
+        # 게이트형 "…≧N, on Basic Attack, deal damage …"(trigger: 없음 · 확률 없음 · 본문 피해만) = 보통 공격의 추가 효과
+        # → 보통 공격 판정(평타뎀 채널). 게이트 없는 _ON_BASIC_ADD 와 같은 규칙이다(하쿠이 파2·도장 패시브 — 원본 509 래퍼,
+        # 해석 10444-dmg-basic-judged). 무명 불굴 게이트 두 줄도 같은 모양(이미 BASIC_JUDGED_ON_BASIC 로 평타 — 결과 같음).
+        if (gm.group(3) == "on Basic Attack" and gm.group(4) is None and "trigger:" not in line.lower()
+                and subs and all(s.kind == DAMAGE for s in subs)):
+            for s in subs:
+                s.force_action = "basic"
         event = _GATE_EVENT.get(gm.group(3)) if gm.group(3) else None
         # event-gates fire on that event while the stack threshold holds;
         # event-less gates fall back to a check-when-met condition.
