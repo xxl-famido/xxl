@@ -137,6 +137,8 @@
   "frag.aura": "위용",
   "frag.supplication": "기원",
   "frag.otherAllies": "자신 제외 아군",
+  "frag.cdImmuneVoid": "CD 변동 면역으로 무효",
+  "frag.cdImmune": "CD 변동 면역",
   "frag.convert": "전환",
   "frag.stack": "중첩",
   "frag.stack2": "스택",

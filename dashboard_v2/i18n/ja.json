@@ -451,6 +451,8 @@
  "frag.aura": "威儀",
  "frag.supplication": "祈り",
  "frag.otherAllies": "自分以外の味方全体",
+ "frag.cdImmuneVoid": "CD変動免疫で無効",
+ "frag.cdImmune": "CD変動免疫",
  "frag.total": "A 合計",
  "frag.tracing": "追跡",
  "frag.trigger": "誘発 →",

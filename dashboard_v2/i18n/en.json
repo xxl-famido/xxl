@@ -451,6 +451,8 @@
  "frag.aura": "Aura",
  "frag.supplication": "Supplication",
  "frag.otherAllies": "all allies except self",
+ "frag.cdImmuneVoid": "nullified by CD change immunity",
+ "frag.cdImmune": "CD change immunity",
  "frag.total": "A total",
  "frag.tracing": "tracing",
  "frag.trigger": "Trigger →",
