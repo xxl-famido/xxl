@@ -1,5 +1,14 @@
 {
  "_comment": "English translation of kr.json (tidied patch notes). Same versions, same items order/count, one details line per Korean line. Terms follow dashboard_v2/i18n/en.json.",
+ "2.1": {
+  "title": "New companion ‘Warmaster Hakui’",
+  "items": [
+   {
+    "text": "Added new companion ‘Warmaster Hakui’ — a Water-element Support who raises the whole team's ATK with both Basic Attacks and the EX Skill, deals extra damage on every Basic Attack, and builds Supplication each time an ally uses an EX Skill to strengthen those Basic Attacks.",
+    "details": []
+   }
+  ]
+ },
  "2.0.3": {
   "title": "New companions ‘Shibahiko’ and ‘Code: B’",
   "items": [

@@ -59,6 +59,16 @@ def _turn1_cd_delta(kit: ResolvedKit) -> int:
     return total
 
 
+def first_fatal_turn(kit: ResolvedKit) -> int:
+    """기본 계획의 첫 필살 턴 = 엔진 런타임 CD 가 처음 0 이 되는 턴.
+
+    게이지는 fatal_cd 로 시작 → 1턴 시작(행동 전) on_turn CD 변동 Δ(음수 = 단축) → 매 턴 끝 −1. 그래서 첫 필살은
+    max(1, cd+Δ+1)턴이다 — 전량 감소(cd+Δ≤0, 멍 Lv10)는 1턴, 부분 감소(하쿠이 5−4=1, 제단 402 의 멍 4−3=1)는
+    cd+Δ+1턴, 감소 없음은 cd+1턴. auto_rotation 과 sim_api.char_meta(firstFatal → v2 플래너)가 같은 값을 본다.
+    (해석 10444-P4-turn1-cd · 엔진 CD 모델)"""
+    return max(1, kit.fatal.cd + _turn1_cd_delta(kit) + 1)
+
+
 def _fatal_deals_damage(kit: ResolvedKit) -> bool:
     """필살기 자체가 데미지를 내는가 (하위 효과 포함)."""
     def walk(effs) -> bool:
@@ -85,9 +95,11 @@ def auto_rotation(kit: ResolvedKit) -> str:
     # 쓰고 나머지는 평타로 간다. 로스터 전수 확인 결과 해당하는 건 이 한 경우뿐이다.
     if "평" not in loop and not _fatal_deals_damage(kit):
         return "궁|평"
-    if cd + _turn1_cd_delta(kit) <= 0:        # 필살이 1턴에 준비됨
+    lead = cd + _turn1_cd_delta(kit)          # 첫 필살 전 보통 공격 수 (= first_fatal_turn − 1)
+    if lead <= 0:                             # 필살이 1턴에 준비됨
         return "궁" + loop + "|" + loop
-    return "평" * cd + "궁" + "|" + loop
+    # 부분 감소(하쿠이 cd5·1턴 −4 → '평궁|평평평평궁')도 런타임 준비 턴에 첫 필살. 감소 없으면 종전과 같은 '평'×cd
+    return "평" * lead + "궁" + "|" + loop
 
 
 @dataclass

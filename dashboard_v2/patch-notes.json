@@ -2,6 +2,39 @@
  "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
  "releases": [
   {
+   "version": "2.1",
+   "date": "2026-10-07",
+   "highlight": true,
+   "char": 10444,
+   "charName": {
+    "kr": "은빛투신 하쿠이",
+    "en": "Warmaster Hakui",
+    "ja": "銀煌の闘神白威",
+    "zh": "銀煌鬥神白威",
+    "zhs": "银煌斗神白威"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘은빛투신 하쿠이’ 추가",
+    "en": "New companion ‘Warmaster Hakui’",
+    "ja": "新しい仲間「銀煌の闘神白威」を追加",
+    "zh": "新增夥伴「銀煌鬥神白威」",
+    "zhs": "新增伙伴「银煌斗神白威」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘은빛투신 하쿠이’가 추가되었습니다. 보통 공격과 필살기로 아군 전체의 ATK를 올리고, 자신은 보통 공격마다 추가 데미지를 주며, 아군이 필살기를 쓸수록 ‘기원’이 쌓여 보통 공격이 강해지는 물속성 보조입니다.",
+      "en": "Added new companion ‘Warmaster Hakui’ — a Water-element Support who raises the whole team's ATK with both Basic Attacks and the EX Skill, deals extra damage on every Basic Attack, and builds Supplication each time an ally uses an EX Skill to strengthen those Basic Attacks.",
+      "ja": "新しい仲間「銀煌の闘神白威」を追加しました。通常攻撃と必殺技で味方全体のATKを上げ、自身は通常攻撃のたびに追加ダメージを与え、味方が必殺技を使うたびに「祈り」が溜まって通常攻撃が強くなる水属性の支援です。",
+      "zh": "新增夥伴「銀煌鬥神白威」。以普通攻擊與必殺技提升我方全體ATK，自身每次普通攻擊都會造成追加傷害，且我方每使用一次必殺技便累積「祈願」強化普通攻擊的水屬性輔助。",
+      "zhs": "新增伙伴「银煌斗神白威」。以普通攻击与必杀技提升我方全体ATK，自身每次普通攻击都会造成追加伤害，且我方每使用一次必杀技便累积「祈愿」强化普通攻击的水属性辅助。"
+     }
+    }
+   ]
+  },
+  {
    "version": "2.0.3",
    "date": "2026-10-04",
    "highlight": false,

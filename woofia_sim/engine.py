@@ -587,7 +587,7 @@ def make_unit_from_kit(kit: ResolvedKit, slot: int, priority: int | None = None)
     return Unit(
         name=kit.name, side="ally", slot=slot, priority=slot if priority is None else priority,
         # 전투 HP 풀 = kit HP — 기초 최대 HP% 패시브는 max_hp_eff(최대HP 기준 수치)에만 반영(전역 단순화)
-        # [assumed: 10301-HP-pool-scale]
+        # [assumed: 10301-HP-pool-scale] [assumed: 10444-HP-pool-scale]
         base_atk=kit.atk, max_hp=kit.hp, hp=kit.hp,
         kind=kit.kind, element=kit.element,
         # ultimate gauge starts empty: fatal must charge fatal_cd turns first
@@ -657,6 +657,8 @@ def _resolve_targets(effect: Effect, caster: Unit, state: BattleState,
         return [u for u in state.team(caster) if u.alive]
     if t == "adjacent":              # 욱영: '자신과 인접한 동료' — 원형 링 이웃(끝은 반대편 끝으로 감쌈), 자신 제외.
         return _adjacent_allies(caster, state)
+    if t == "other_allies":          # 하쿠이 필살 '자신을 제외한 아군 전체' — 살아 있는 아군 중 시전자 제외
+        return [u for u in state.team(caster) if u.alive and u is not caster]
     if t.startswith("allies_"):
         living = [u for u in state.team(caster) if u.alive]
         sub = t.split("_", 1)[1]
@@ -720,6 +722,10 @@ def _who(targets: list, caster: Unit, state: "BattleState", effect: "Effect | No
         return "아군 전체"
     if tgt == "adjacent":            # 욱영: 인접 동료 (자신 제외)
         return "인접 동료"
+    if tgt == "other_allies":        # 하쿠이: 자신 제외 아군 — 일부만(면역 차단분 등)이면 아래 이름·역할 표기
+        others = [a for a in state.team(caster) if a.alive and a is not caster]
+        if len(targets) >= len(others):
+            return "자신 제외 아군"
     if tgt == "edge_enemies":        # 욱영: 좌우 끝 적
         return "좌우 끝 적"
     if tgt.startswith("allies_"):

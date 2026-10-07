@@ -59,6 +59,8 @@ STACK_KR: dict[str, str] = {
     "Tidefang": "해일의 송곳니",
     "Water Bullet": "상어 수탄",
     "Vulnerable": "열상",
+    "Aura": "위용",            # 하쿠이 필살 【위용】(4턴) — 파2 게이트
+    "Supplication": "기원",    # 하쿠이 파3 【기원】(아군 필살마다 +1, 중첩별 2턴, 최대 4)
 }
 
 
