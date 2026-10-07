@@ -203,7 +203,7 @@ export function skeleton(lines = 4) {
 export function seg(label, options, value, onChange) {
   const g = h('div', { class: 'seg', role: 'group', 'aria-label': label });
   for (const o of options) {
-    const b = h('button', { type: 'button', 'aria-pressed': String(o.value === value) }, o.dot && h('i', { class: 'dot', 'data-el': o.dot, style: { background: 'var(--el)', width: '6px', height: '6px' } }), o.label);
+    const b = h('button', { type: 'button', 'aria-pressed': String(o.value === value), 'data-value': String(o.value) }, o.dot && h('i', { class: 'dot', 'data-el': o.dot, style: { background: 'var(--el)', width: '6px', height: '6px' } }), o.label);
     b.addEventListener('click', () => { g.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', 'false')); b.setAttribute('aria-pressed', 'true'); onChange(o.value); });
     g.append(b);
   }

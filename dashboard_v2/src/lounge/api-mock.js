@@ -11,7 +11,7 @@
  */
 import { SEED } from './seed.js';
 import { spamText, errorText } from './i18n.js';
-import { LIMITS, isPin, CURRENT_BUILD, aggregateRows, tierPositions, hotScore, spamReason, OPERATOR } from './shared.js';
+import { LIMITS, isPin, CURRENT_BUILD, AGG_SCOPES, aggregateRows, aggScope, tierPositions, tierBuildFor, hotScore, spamReason, OPERATOR } from './shared.js';
 
 const KEY = 'woofia_lounge_mock_v1';
 const DEVICE_KEY = 'woofia_lounge_dev';
@@ -77,8 +77,10 @@ function pickAnon(thread, charIds) {
 
 // ── 점수 ──────────────────────────────────────────────────────────────────
 const score = (x) => (x.likes || 0) - (x.dislikes || 0);
+/** 목록 기준 시각: 끌올된 티어표는 그 시각(서버 listAt 과 같음). */
+const listAt = (x) => x.bumped || x.at;
 /** 목록용 추천순: 새 글이 묻히지 않게 시간 감쇠. */
-const hot = (x, now) => hotScore(score(x), now - x.at);
+const hot = (x, now) => hotScore(score(x), now - listAt(x));
 const myVote = (target) => db().votes[target] || 0;
 /** 응답용 사본 — 싫어요·비밀번호 해시는 절대 싣지 않는다. */
 function pub(x, kind) {
@@ -233,7 +235,7 @@ export async function tiers({ basis = 'any', sort = 'best' } = {}) {
   await wait();
   const now = Date.now();
   const list = db().tiers.filter((t) => basis === 'any' || t.basis === basis);
-  list.sort(sort === 'new' ? (a, b) => b.at - a.at : (a, b) => hot(b, now) - hot(a, now));
+  list.sort(sort === 'new' ? (a, b) => listAt(b) - listAt(a) : (a, b) => hot(b, now) - hot(a, now));
   return Promise.all(list.map(async (t) => ({ ...pub(t, 'tier'), comments: await threadCount('tier:' + t.id) })));
 }
 export async function tier(id) {
@@ -256,13 +258,17 @@ export async function createTier({ title, basis, rows, descr, pin, fun = false }
   return pub(t, 'tier');
 }
 
-/** 커뮤니티 평균 티어(집계 규칙은 shared.js — 서버와 동일). */
-export async function aggregate(basis = 'all') {
+/** 커뮤니티 평균 티어(집계·범위 규칙은 shared.js — 서버와 동일). scope = 'auto' | 'current' | 'all'. */
+export async function aggregate(basis = 'all', scope = 'all') {
   await wait();
   const list = db().tiers.filter((t) => !t.fun && (basis === 'any' || t.basis === basis));   // 집계 제외 표시한 티어표는 빼고
+  const currentCount = list.filter((t) => t.build === CURRENT_BUILD).length;
+  const want = AGG_SCOPES.includes(scope) ? scope : 'all';
+  const used = aggScope(want, currentCount);
+  const picked = used === 'current' ? list.filter((t) => t.build === CURRENT_BUILD) : list;
   const pos = {};
-  for (const t of list) for (const [cid, v] of tierPositions(t.rows)) (pos[cid] ||= []).push(v);
-  return aggregateRows(pos, list.length);
+  for (const t of picked) for (const [cid, v] of tierPositions(t.rows)) (pos[cid] ||= []).push(v);
+  return { ...aggregateRows(pos, picked.length), scope: used, build: CURRENT_BUILD, currentCount, fallback: want === 'auto' && used === 'all' };
 }
 
 /** 동료 한 명의 평균 티어(동료 페이지 요약 띠용). */
@@ -326,13 +332,16 @@ export async function setOperatorToken() { throw fail('mockOp'); }
 export function clearOperator() {}
 export async function pinPost() { throw fail('mockPin'); }
 
-// 티어표·팀 수정(목업): 비밀번호 확인 후 필드만 바꾼다.
+// 티어표·팀 수정(목업): 비밀번호 확인 후 필드만 바꾼다. 늦게 들어온 동료를 넣으면 빌드를 올리고 끌올(서버 editTier 와 같음).
 export async function editTier(id, pin, { title, basis, rows, descr, fun = false }) {
   await wait();
   const t = db().tiers.find((x) => x.id === id);
   if (!t) throw fail('tierNotFound');
   if (!(await checkPin(t, pin))) throw fail('pinWrongPlain');
-  Object.assign(t, { title: String(title || '').trim().slice(0, LIMITS.title) || t.title, basis, rows: clone(rows), descr: String(descr || '').slice(0, LIMITS.tierDesc), fun: fun === true, edited: Date.now() });
+  const now = Date.now();
+  const build = tierBuildFor(t.build, rows);
+  Object.assign(t, { title: String(title || '').trim().slice(0, LIMITS.title) || t.title, basis, rows: clone(rows), descr: String(descr || '').slice(0, LIMITS.tierDesc), fun: fun === true, edited: now },
+    build !== t.build ? { build, bumped: now } : {});
   save();
   return pub(t, 'tier');
 }

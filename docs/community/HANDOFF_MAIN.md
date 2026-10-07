@@ -116,7 +116,7 @@ if (link) {
 ---
 
 ## 6. 앞으로 반복되는 작업
-- **신규 동료 출시**: `python tools/redesign/gen_lounge_chars.py --new <ID>` + 서버 재배포 `node lounge_api/scripts/deploy.mjs`(서버가 `data/chars.json` 으로 유효 동료를 판정). 이전 신규 표시는 `--new` 에서 빼면 사라진다.
+- **신규 동료 출시**: `python tools/redesign/gen_lounge_chars.py --new <ID> --build <MMDD>`(그 동료가 들어온 게임 빌드 — `dashboard_v2/src/lounge/builds.js` 에 기록돼 글 도장·평균 티어 이번 버전·티어표 끌올 기준이 된다) + 서버 재배포 `node lounge_api/scripts/deploy.mjs`(서버가 `data/chars.json` 으로 유효 동료를 판정). 이전 신규 표시는 `--new` 에서 빼면 사라진다.
 - **새 게임 빌드**: `dashboard_v2/src/lounge/shared.js` 의 `CURRENT_BUILD` 수정 → 서버 재배포 + 화면 배포(글에 빌드 도장, 이전 빌드 글은 "이전 버전").
 - **운영**: 사용자는 라운지 `#/op`(숨은 주소)에 관리자 토큰을 넣어 운영자 모드 → 이름 '파미도' 고정, ⋯ 메뉴에서 맨 위 고정/해제. CLI: `node lounge_api/scripts/admin.mjs reports | hide|show|delete|pin|unpin post:p… | lock | unlock`, 백업 `node lounge_api/scripts/backup.mjs`.
 

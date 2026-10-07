@@ -31,21 +31,31 @@ function flipMany(containers, mutate, duration = dur('base')) {
   }));
 }
 const basisLabel = (k) => t(`basis.${k}`);
+/** 올린 시각. 새 동료를 넣어 빌드가 올라간(끌올된) 티어표는 그 시각 + '(수정됨)'. */
+const postedAt = (tl) => (tl.bumped
+  ? [ago(tl.bumped), ' ', h('span', { title: t('tier.bumped.title', { build: tl.build }) }, t('tier.bumped'))]
+  : ago(tl.at));
 
 // ── 모아보기 ──────────────────────────────────────────────────────────────
-const home = { basis: 'any', listBasis: 'any', sort: 'best' };
+// scope: 'auto' = 이번 버전 표본이 모자라면 전체 버전(처음 들어왔을 때). 버전 버튼을 누르면 그 범위로 고정.
+const home = { basis: 'any', scope: 'auto', listBasis: 'any', sort: 'best' };
 
 export async function tierHome(view) {
   const agg = h('div', { class: 'lg-agg' }, skeleton(5));
+  const aggNote = h('p', { class: 'lg-cap' });
   const aggCap = h('p', { class: 'lg-cap' });
   const list = h('ol', { class: 'lg-rows' }, h('li', {}, skeleton(4)));
+  const scopeSeg = seg(t('tier.scope.aria'), [{ value: 'current', label: t('tier.scope.current') }, { value: 'all', label: t('tier.scope.all') }],
+    home.scope, (v) => { home.scope = v; paintAgg(); });
   view.replaceChildren(h('div', { class: 'lg-single' },
     h('header', { class: 'lg-page-head' }, h('h1', { class: 'lg-h1' }, t('nav.tier')),
       h('a', { class: 'btn btn-primary', href: '#/tier/new' }, icon('plus'), t('tier.new'))),
     h('section', { class: 'lg-sec' },
       h('div', { class: 'lg-sec-head' }, h('h2', {}, t('tier.agg.title')),
-        seg(t('basis.aria'), [{ value: 'any', label: t('common.all') }, ...api.TIER_BASIS.filter((b) => b.key !== 'free').map((b) => ({ value: b.key, label: basisLabel(b.key) }))], home.basis, (v) => { home.basis = v; paintAgg(); })),
-      aggCap, agg),
+        h('div', { class: 'lg-sec-tools' },
+          scopeSeg,
+          seg(t('basis.aria'), [{ value: 'any', label: t('common.all') }, ...api.TIER_BASIS.filter((b) => b.key !== 'free').map((b) => ({ value: b.key, label: basisLabel(b.key) }))], home.basis, (v) => { home.basis = v; paintAgg(); }))),
+      aggNote, aggCap, agg),
     h('section', { class: 'lg-sec' },
       h('div', { class: 'lg-sec-head' }, h('h2', {}, t('tier.list.title')),
         h('div', { class: 'lg-sec-tools' },
@@ -53,10 +63,20 @@ export async function tierHome(view) {
           seg(t('sort.aria'), [{ value: 'best', label: t('sort.best') }, { value: 'new', label: t('sort.new') }], home.sort, (v) => { home.sort = v; paintList(); }))),
       list)));
 
+  let aggSeq = 0;   // 버튼을 빠르게 바꿔 눌러도 마지막 요청 결과만 그린다
   async function paintAgg() {
-    const a = await api.aggregate(home.basis);
+    const seq = ++aggSeq;
+    const a = await api.aggregate(home.basis, home.scope);
+    if (seq !== aggSeq) return;
+    // 자동 선택이면 서버가 고른 범위를 버튼에 표시
+    scopeSeg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.value === a.scope)));
+    aggNote.textContent = a.fallback ? t('tier.agg.fallback', { build: a.build, n: a.currentCount, min: api.AGG_VERSION_MIN })
+      : a.scope === 'current' ? t('tier.agg.scope.current', { build: a.build }) : t('tier.agg.scope.all');
     aggCap.textContent = t('tier.agg.cap', { n: a.sampleCount, min: api.AGG_MIN_SAMPLES });
-    if (!a.sampleCount) { agg.replaceChildren(emptyState(t('tier.agg.empty'), { href: '#/tier/new', label: t('tier.new') })); return; }
+    if (!a.sampleCount) {
+      agg.replaceChildren(emptyState(a.scope === 'current' ? t('tier.agg.empty.current', { build: a.build }) : t('tier.agg.empty'), { href: '#/tier/new', label: t('tier.new') }));
+      return;
+    }
     const icons = [];
     put(agg, h('div', { class: 'lg-tboard is-read' }, a.rows.map((r) => h('div', { class: 'lg-trow' },
       h('div', { class: 'lg-tlabel' }, r.label),
@@ -76,7 +96,7 @@ export async function tierHome(view) {
       h('span', { class: 'lg-row-lead lg-tprev' }, tl.rows.slice(0, 2).map((r) => h('span', { class: 'lg-tprev-row' }, h('b', {}, r.label), r.ids.slice(0, 5).map((id) => h('img', { src: iconSrc(id), alt: '' }))))),
       h('span', { class: 'lg-row-main' },
         h('span', { class: 'lg-row-title' }, tl.title),
-        h('span', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(tl.basis)), tl.fun && h('span', { class: 'lg-chip', title: t('tier.fun.hint') }, t('chip.fun')), avatar(tl.anon, 16), anonName(tl.anon, tl.anonNo, tl.op), ' · ', ago(tl.at), buildChip(tl.build))),
+        h('span', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(tl.basis)), tl.fun && h('span', { class: 'lg-chip', title: t('tier.fun.hint') }, t('chip.fun')), avatar(tl.anon, 16), anonName(tl.anon, tl.anonNo, tl.op), ' · ', postedAt(tl), buildChip(tl.build))),
       h('span', { class: 'lg-row-stats' }, h('span', {}, icon('thumbs-up'), tl.likes), h('span', {}, icon('message-circle'), tl.comments))))));
     reveal([...list.children]);
   }
@@ -321,7 +341,7 @@ export async function tierView(view, id) {
     h('a', { class: 'lg-back', href: '#/tier' }, icon('arrow-left'), t('nav.tier')),
     h('header', { class: 'lg-page-head is-stack' },
       h('h1', { class: 'lg-h1' }, tl.title),
-      h('p', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(tl.basis)), tl.fun && h('span', { class: 'lg-chip', title: t('tier.fun.hint') }, t('chip.fun')), avatar(tl.anon, 16), anonName(tl.anon, tl.anonNo, tl.op), ' · ', ago(tl.at), tl.edited && ' · ' + t('chip.edited'), ' · ' + t('meta.build', { build: tl.build }), buildChip(tl.build))),
+      h('p', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(tl.basis)), tl.fun && h('span', { class: 'lg-chip', title: t('tier.fun.hint') }, t('chip.fun')), avatar(tl.anon, 16), anonName(tl.anon, tl.anonNo, tl.op), ' · ', postedAt(tl), !tl.bumped && tl.edited && ' · ' + t('chip.edited'), ' · ' + t('meta.build', { build: tl.build }), buildChip(tl.build))),
     board,
     tl.descr && h('div', { class: 'lg-descr' }, clampText(tl.descr, 8)),
     h('div', { class: 'lg-bar' },

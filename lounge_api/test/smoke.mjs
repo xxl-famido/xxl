@@ -42,6 +42,14 @@ const noSecrets = (text) => !/dislike|pin_hash|pin_salt|pin_fail|ip_hash|"voter"
   ok(teams.data.length === 1 && noSecrets(teams.text), '팀 필터(무명 포함 1개)');
   const agg = await get('/v1/tiers/aggregate?basis=any');
   ok(agg.data.rows.length === 5 && agg.data.sampleCount === 8, '평균 티어 집계');
+  // 평균 티어 범위(예시 데이터는 전부 이전 빌드): 자동이면 전체 버전으로 대신 보여 주고, 이번 버전을 직접 고르면 표본 0
+  const { CURRENT_BUILD, CHAR_SINCE } = await import('../../dashboard_v2/src/lounge/shared.js');
+  ok(agg.data.scope === 'all' && agg.data.build === CURRENT_BUILD, `범위를 안 주면 전체 버전(예전 호출 그대로, 빌드 ${CURRENT_BUILD})`);
+  const aggAuto = (await get('/v1/tiers/aggregate?basis=any&scope=auto')).data;
+  ok(aggAuto.scope === 'all' && aggAuto.fallback === true && aggAuto.currentCount === 0 && aggAuto.sampleCount === 8, '자동 범위: 이번 버전 티어표 0개 → 전체 버전으로 대신 보여 줌');
+  const aggCur = (await get('/v1/tiers/aggregate?basis=any&scope=current')).data;
+  ok(aggCur.scope === 'current' && aggCur.fallback === false && aggCur.sampleCount === 0, '이번 버전 직접 고름 → 표본 0 그대로');
+  ok((await get('/v1/tiers/aggregate?basis=any&scope=nope')).data.scope === 'all', '모르는 범위 값 → 전체 버전');
   ok((await get('/v1/threads/char%3A99999')).status === 404, '없는 동료 스레드 → 404');
   ok((await get("/v1/threads/char%3A10441'%20OR%201%3D1--")).status === 400, 'SQL 주입 모양 스레드 키 → 400');
 
@@ -226,14 +234,16 @@ const noSecrets = (text) => !/dislike|pin_hash|pin_salt|pin_fail|ip_hash|"voter"
   ok(opCont.status === 403, '운영자 글 비밀번호를 알아도 이름 이어 쓰기 불가');
   const opTier = await post('/v1/tiers', { title: '운영자 티어표', basis: 'all', rows: [{ label: 'S', ids: [10441] }, { label: 'A', ids: [] }], pin: '4321' }, OPH);
   ok(opTier.data.op === true && opTier.data.anon === 10421, '운영자 티어표');
-  // 익명 이름 후보에 파미도 없음: 한 게시판에 45명이 써도 10421 이 안 나오고, 41명 뒤로는 번호가 붙는다
+  // 익명 이름 후보에 파미도 없음: 후보(동료 수 − 파미도)보다 많이 써도 10421 이 안 나오고, 후보를 다 쓰면 번호가 붙는다
+  const POOL = Object.keys(JSON.parse(readFileSync(new URL('../../data/chars.json', import.meta.url), 'utf8'))).length - 1;
+  const WRITERS = POOL + 4;
   const names = [];
-  for (let i = 0; i < 45; i++) {
+  for (let i = 0; i < WRITERS; i++) {
     const r = await post('/v1/posts', { thread: 'char:10427', body: `익명 이름 검사 ${i} 번째 사람 ${Math.random()}`, pin: '1234', ts: TS }, { headers: { 'X-Test-Gap-Scale': '100', 'X-Test-Rate-Scale': '100' } });
     if (r.status === 200) names.push(`${r.data.anon}:${r.data.anonNo}`);
   }
-  ok(names.length === 45 && !names.some((n) => n.startsWith('10421:')), `익명 45명 중 파미도 0 (${names.length}명)`);
-  ok(new Set(names).size === 45 && names.filter((n) => n.endsWith(':1')).length === 41, `41종 소진 후 번호 이름 (${names.filter((n) => !n.endsWith(':1')).join(',')})`);
+  ok(names.length === WRITERS && !names.some((n) => n.startsWith('10421:')), `익명 ${WRITERS}명 중 파미도 0 (${names.length}명)`);
+  ok(new Set(names).size === WRITERS && names.filter((n) => n.endsWith(':1')).length === POOL, `${POOL}종 소진 후 번호 이름 (${names.filter((n) => !n.endsWith(':1')).join(',')})`);
   const th4 = await get('/v1/threads/char%3A10426');
   ok(th4.data.some((p) => p.op && p.anon === 10421) && !th4.data.some((p) => !p.op && p.anon === 10421), '목록에서 op 표시는 운영자 글에만');
 
@@ -278,6 +288,28 @@ const noSecrets = (text) => !/dislike|pin_hash|pin_salt|pin_fail|ip_hash|"voter"
   ok((await post(`/v1/teams/${em.data.id}/edit`, { pin: '0000', title: 'x', basis: 'boss', descr: '' })).status === 403, '팀 수정: 틀린 비밀번호 거부');
   const em2 = await post(`/v1/teams/${em.data.id}/edit`, { pin: '1357', title: '수정된 팀', basis: 'free', descr: '바뀐 설명', code: '#무시' });
   ok(em2.data.title === '수정된 팀' && em2.data.basis === 'free' && em2.data.descr === '바뀐 설명' && em2.data.code === em.data.code && em2.data.edited, '팀 수정: 제목·기준·설명만 바뀌고 코드는 그대로');
+
+  // ── 티어표 끌올: 이번 빌드에 들어온 동료를 이전 빌드 티어표에 넣으면 빌드가 올라가고 최신순 맨 위로 ──
+  {
+    const lateId = +(Object.entries(CHAR_SINCE).find(([, b]) => b === CURRENT_BUILD) || [])[0];
+    const oldT = (await get('/v1/tiers?basis=any&sort=new')).data
+      .filter((x) => x.build !== CURRENT_BUILD && !x.op && !x.rows.some((r) => r.ids.includes(lateId))).pop();
+    ok(!!lateId && !!oldT, `끌올 검사 준비: 이번 빌드 동료 ${lateId} · 이전 빌드 티어표 ${oldT && oldT.build}`);
+    if (lateId && oldT) {
+      const edit = (rows) => post(`/v1/tiers/${oldT.id}/edit`, { title: oldT.title, basis: oldT.basis, rows, descr: oldT.descr, fun: oldT.fun }, A);
+      const plain = (await edit(oldT.rows)).data;
+      ok(plain.build === oldT.build && !plain.bumped && plain.edited, '새 동료 없이 수정 → 빌드 그대로 · 끌올 없음');
+      ok((await get('/v1/tiers?basis=any&sort=new')).data[0].id !== oldT.id, '끌올 없는 수정은 목록 순서 그대로');
+      const withLate = oldT.rows.map((r, i) => (i === 0 ? { ...r, ids: [...r.ids, lateId] } : r));
+      const up = (await edit(withLate)).data;
+      ok(up.build === CURRENT_BUILD && up.bumped > oldT.at && up.at === oldT.at, `이번 빌드 동료를 넣음 → 빌드 ${oldT.build} → ${up.build} + 끌올(작성 시각은 그대로)`);
+      ok((await get('/v1/tiers?basis=any&sort=new')).data[0].id === oldT.id, '끌올된 티어표가 최신순 맨 위');
+      const again = (await edit(withLate.map((r) => ({ ...r, label: r.label })))).data;
+      ok(again.bumped === up.bumped && again.build === CURRENT_BUILD, '이미 올라간 티어표를 다시 수정해도 끌올 시각 그대로');
+      const cur = (await get(`/v1/tiers/aggregate?basis=any&scope=current`)).data;
+      ok(cur.currentCount >= 1 && cur.sampleCount === cur.currentCount, `끌올된 티어표는 이번 버전 평균에 들어감 (이번 버전 ${cur.currentCount}개)`);
+    }
+  }
 
   console.log(fails ? `${fails} FAILED` : 'ALL PASS');
   process.exit(fails ? 1 : 0);

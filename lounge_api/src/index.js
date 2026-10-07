@@ -10,7 +10,7 @@
  * 기기 식별(반응 중복 방지)은 GET 은 ?d=, POST 는 본문 dev 로 받는다.
  */
 import charsJson from '../../data/chars.json' with { type: 'json' };
-import { LIMITS, POST_TAGS, TIER_BASIS, TEAM_BASIS, CURRENT_BUILD, ANTISPAM, OPERATOR, isPin, hotScore, aggregateRows, tierPositions, spamReason } from '../../dashboard_v2/src/lounge/shared.js';
+import { LIMITS, POST_TAGS, TIER_BASIS, TEAM_BASIS, CURRENT_BUILD, ANTISPAM, OPERATOR, AGG_SCOPES, isPin, hotScore, aggregateRows, aggScope, tierPositions, tierBuildFor, spamReason } from '../../dashboard_v2/src/lounge/shared.js';
 import { HttpError, E, hmacHex, safeEqual, randomId, ipHash, voterOf, pinHash, limit, checkGap, markWrite, bodyKey, checkTurnstile, allowedOrigin, corsHeaders, cleanText } from './security.js';
 import { readTeamCode } from './teamcode.js';
 import KR from '../../dashboard_v2/i18n/lounge/kr.json' with { type: 'json' };
@@ -47,7 +47,7 @@ const pubPost = (r, vote = 0) => ({
 });
 const pubTier = (r, vote = 0, comments = 0) => ({
   id: r.id, title: r.title, basis: r.basis, rows: JSON.parse(r.rows), descr: r.descr, anon: r.anon, anonNo: r.anon_no, op: !!r.op, fun: !!r.fun,
-  build: r.build, at: r.created_at, edited: r.edited_at || null, likes: r.likes, vote, comments,
+  build: r.build, at: r.created_at, edited: r.edited_at || null, bumped: r.bumped_at || null, likes: r.likes, vote, comments,
 });
 const pubTeam = (r, vote = 0, comments = 0) => ({
   id: r.id, code: r.code, ids: r.ids.split(',').map(Number), summary: JSON.parse(r.summary), title: r.title, basis: r.basis, descr: r.descr,
@@ -377,17 +377,19 @@ async function report(env, req, body) {
 }
 
 // ── 티어표 ────────────────────────────────────────────────────────────────
+/** 목록 기준 시각: 끌올된 티어표(새 동료를 넣어 빌드가 올라감)는 그 시각, 나머지는 작성 시각. 팀은 끌올이 없다. */
+const listAt = (r) => r.bumped_at || r.created_at;
 function sortRows(rows, sort) {
   const now = Date.now();
-  return sort === 'new' ? rows.sort((a, b) => b.created_at - a.created_at)
-    : rows.sort((a, b) => hotScore(b.likes - b.dislikes, now - b.created_at) - hotScore(a.likes - a.dislikes, now - a.created_at));
+  return sort === 'new' ? rows.sort((a, b) => listAt(b) - listAt(a))
+    : rows.sort((a, b) => hotScore(b.likes - b.dislikes, now - listAt(b)) - hotScore(a.likes - a.dislikes, now - listAt(a)));
 }
 async function listTiers(env, req, url) {
   const basis = url.searchParams.get('basis');
   const sort = url.searchParams.get('sort') === 'new' ? 'new' : 'best';
   const q = TIER_BASIS_KEYS.has(basis)
-    ? env.DB.prepare("SELECT * FROM tiers WHERE status = 'ok' AND basis = ?1 ORDER BY created_at DESC LIMIT ?2").bind(basis, LIST_MAX)
-    : env.DB.prepare("SELECT * FROM tiers WHERE status = 'ok' ORDER BY created_at DESC LIMIT ?1").bind(LIST_MAX);
+    ? env.DB.prepare("SELECT * FROM tiers WHERE status = 'ok' AND basis = ?1 ORDER BY COALESCE(bumped_at, created_at) DESC LIMIT ?2").bind(basis, LIST_MAX)
+    : env.DB.prepare("SELECT * FROM tiers WHERE status = 'ok' ORDER BY COALESCE(bumped_at, created_at) DESC LIMIT ?1").bind(LIST_MAX);
   const rows = sortRows((await q.all()).results, sort);
   const voter = await voterOf(env, req, url.searchParams.get('d'));
   const [votes, counts] = await Promise.all([myVotes(env, voter, rows.map((r) => 'tier:' + r.id)), commentCounts(env, rows.map((r) => 'tier:' + r.id))]);
@@ -442,7 +444,10 @@ async function createTier(env, req, body) {
   await env.DB.batch(stmts.filter(Boolean));
   return pubTier(await env.DB.prepare('SELECT * FROM tiers WHERE id = ?1').bind(id).first());
 }
-/** 티어표 수정: 작성 때 정한 비밀번호(운영자는 토큰). 배치가 바뀌면 평균 티어 집계용 위치도 다시 쓴다. */
+/**
+ * 티어표 수정: 작성 때 정한 비밀번호(운영자는 토큰). 배치가 바뀌면 평균 티어 집계용 위치도 다시 쓴다.
+ * 지금 빌드보다 늦게 들어온 동료(shared.js CHAR_SINCE)를 넣으면 빌드를 그 동료의 빌드로 올리고 목록 위로 끌어올린다(bumped_at).
+ */
 async function editTier(env, req, id, body) {
   await limit(env, 'verify', await ipHash(env, req));
   const { table, row } = await getItem(env, id);
@@ -450,26 +455,39 @@ async function editTier(env, req, id, body) {
   if (row.op && !op) throw E(403, 'opLocked');
   if (!op) await checkPin(env, table, row, body.pin);
   const { title, basis, descr, rows, fun } = parseTierInput(body, op);
+  const now = Date.now();
+  const build = tierBuildFor(row.build, rows);
+  const bumpedAt = build !== row.build ? now : (row.bumped_at ?? null);
   await env.DB.batch([
-    env.DB.prepare('UPDATE tiers SET title = ?2, basis = ?3, rows = ?4, descr = ?5, edited_at = ?6, fun = ?7 WHERE id = ?1').bind(id, title, basis, JSON.stringify(rows), descr, Date.now(), fun),
+    env.DB.prepare('UPDATE tiers SET title = ?2, basis = ?3, rows = ?4, descr = ?5, edited_at = ?6, fun = ?7, build = ?8, bumped_at = ?9 WHERE id = ?1')
+      .bind(id, title, basis, JSON.stringify(rows), descr, now, fun, build, bumpedAt),
     env.DB.prepare('DELETE FROM tier_pos WHERE tier_id = ?1').bind(id),
     ...tierPosStmts(env, id, rows),
   ]);
   return pubTier(await env.DB.prepare('SELECT * FROM tiers WHERE id = ?1').bind(id).first());
 }
 
+/**
+ * 평균 티어. ?scope = auto | current | all (shared.js AGG_SCOPES, 없으면 all — 동료 페이지 요약 등 예전 호출 그대로).
+ * 응답: 집계 결과 + 실제로 쓴 범위(scope) · 이번 버전 빌드(build) · 이번 버전 티어표 수(currentCount) · 자동 선택이 전체 버전으로 넘어갔는지(fallback).
+ */
 async function aggregate(env, url) {
   const basis = url.searchParams.get('basis');
-  const filtered = TIER_BASIS_KEYS.has(basis);
-  const pos = filtered
-    ? await env.DB.prepare("SELECT tp.char_id, tp.pos FROM tier_pos tp JOIN tiers t ON t.id = tp.tier_id WHERE t.status = 'ok' AND t.fun = 0 AND t.basis = ?1").bind(basis).all()
-    : await env.DB.prepare("SELECT tp.char_id, tp.pos FROM tier_pos tp JOIN tiers t ON t.id = tp.tier_id WHERE t.status = 'ok' AND t.fun = 0").all();
-  const cnt = filtered   // 집계 제외(fun = 1) 티어표는 평균 티어에서 뺀다
-    ? await env.DB.prepare("SELECT COUNT(*) AS n FROM tiers WHERE status = 'ok' AND fun = 0 AND basis = ?1").bind(basis).first()
-    : await env.DB.prepare("SELECT COUNT(*) AS n FROM tiers WHERE status = 'ok' AND fun = 0").first();
+  const want = AGG_SCOPES.includes(url.searchParams.get('scope')) ? url.searchParams.get('scope') : 'all';
+  // WHERE 는 고정 문자열만 잇고 값은 전부 바인딩한다. 집계 제외(fun = 1) 티어표는 평균 티어에서 뺀다.
+  const conds = ["status = 'ok'", 'fun = 0'];
+  const binds = [];
+  if (TIER_BASIS_KEYS.has(basis)) { binds.push(basis); conds.push(`basis = ?${binds.length}`); }
+  const cur = await env.DB.prepare(`SELECT COUNT(*) AS n FROM tiers WHERE ${conds.join(' AND ')} AND build = ?${binds.length + 1}`).bind(...binds, CURRENT_BUILD).first();
+  const scope = aggScope(want, cur.n);
+  if (scope === 'current') { binds.push(CURRENT_BUILD); conds.push(`build = ?${binds.length}`); }
+  const where = conds.join(' AND ');
+  const stmt = (sql) => (binds.length ? env.DB.prepare(sql).bind(...binds) : env.DB.prepare(sql));
+  const pos = await stmt(`SELECT char_id, pos FROM tier_pos WHERE tier_id IN (SELECT id FROM tiers WHERE ${where})`).all();
+  const n = scope === 'current' ? cur.n : (await stmt(`SELECT COUNT(*) AS n FROM tiers WHERE ${where}`).first()).n;
   const byChar = {};
   for (const r of pos.results) (byChar[r.char_id] ||= []).push(r.pos);
-  return aggregateRows(byChar, cnt.n);
+  return { ...aggregateRows(byChar, n), scope, build: CURRENT_BUILD, currentCount: cur.n, fallback: want === 'auto' && scope === 'all' };
 }
 
 // ── 팀 ────────────────────────────────────────────────────────────────────

@@ -171,7 +171,8 @@ export async function createTier(args) {
   remember('tier', t.id);
   return t;
 }
-export const aggregate = (basis = 'all') => get('/v1/tiers/aggregate', { basis });
+/** scope = 'auto' | 'current' | 'all'(shared.js AGG_SCOPES). 응답의 scope 가 실제로 쓴 범위. */
+export const aggregate = (basis = 'all', scope = 'all') => get('/v1/tiers/aggregate', { basis, scope });
 export async function charTier(cid, basis = 'all') {
   const a = await aggregate(basis);
   for (const r of a.rows) { const it = r.items.find((x) => x.id === cid); if (it) return { label: r.label, n: it.n }; }

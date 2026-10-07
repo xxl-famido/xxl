@@ -2,6 +2,8 @@
  * lounge/shared.js — 라운지 화면과 서버(lounge_api Worker)가 **같이** 쓰는 규칙. 한쪽만 바꾸면 검증이 어긋나므로 여기서만 고친다.
  * 이 파일은 브라우저·Workers 양쪽에서 돌아야 하므로 DOM·Node API 를 쓰지 않는다.
  */
+import { BUILD_DATA } from './builds.js';
+
 export const LIMITS = Object.freeze({ post: 1000, title: 40, tierDesc: 1000, teamDesc: 3000, code: 4000, tierRows: 8, tierLabel: 12, tags: 2 });
 export const POST_TAGS = Object.freeze(['육성', '보스전', '방탈출', '팀 구성', '스킬 해석']);
 export const TIER_BASIS = Object.freeze([
@@ -13,6 +15,14 @@ export const TEAM_BASIS = Object.freeze([
 /** 커뮤니티 평균 티어에서 이 개수 미만의 티어표에만 나온 동료는 '표본 부족'. */
 export const AGG_MIN_SAMPLES = 3;
 export const AGG_LABELS = Object.freeze(['S', 'A', 'B', 'C', 'D']);
+/**
+ * 평균 티어 범위: current = 이번 버전(CURRENT_BUILD 로 찍힌 티어표)만, all = 모든 버전.
+ * auto = 이번 버전 티어표가 AGG_VERSION_MIN 개 이상이면 current, 아니면 all(아직 표본이 안 쌓였을 때). 범위를 안 주면 서버는 all.
+ */
+export const AGG_SCOPES = Object.freeze(['auto', 'current', 'all']);
+/** 동료별 최소 표본과 같은 값 — 이보다 적으면 이번 버전에서는 모든 동료가 표본 부족이다. */
+export const AGG_VERSION_MIN = AGG_MIN_SAMPLES;
+export const aggScope = (want, currentCount) => (want === 'auto' ? (currentCount >= AGG_VERSION_MIN ? 'current' : 'all') : want);
 export const isPin = (pin) => /^\d{4}$/.test(String(pin ?? ''));
 
 /** 목록 추천순 점수: 새 글이 묻히지 않게 시간 감쇠. score = (좋아요 − 싫어요). */
@@ -54,7 +64,27 @@ export function tierPositions(rows) {
   rows.forEach((r, i) => r.ids.forEach((cid, j) => out.push([cid, inRowPos(i, n, j, r.ids.length)])));
   return out;
 }
-export const CURRENT_BUILD = '0922';   // 게임 빌드(글에 도장으로 찍힘). 새 빌드 반영 시 여기만 바꾼다.
+/** 게임 빌드 순서(오래된 → 최신, builds.js). 마지막 = 현재 라이브 빌드 — 글에 도장으로 찍힌다. 새 동료를 넣을 때 생성기가 같이 늘린다. */
+export const BUILDS = Object.freeze([...BUILD_DATA.builds]);
+export const CURRENT_BUILD = BUILDS[BUILDS.length - 1];
+/** 라운지 첫 빌드 뒤에 들어온 동료 → 처음 들어온 빌드. 여기 없는 동료는 첫 빌드부터 있던 동료. */
+export const CHAR_SINCE = Object.freeze(Object.fromEntries(Object.entries(BUILD_DATA.since).map(([id, b]) => [+id, b])));
+/** 빌드 순위(목록에 없는 옛 빌드 = -1). MMDD 는 해가 바뀌면 글자 순서가 어긋나므로 목록 순서로 비교한다. */
+export const buildRank = (build) => BUILDS.indexOf(build);
+/**
+ * 티어표 빌드: 들어 있는 동료 중 지금 빌드보다 늦게 들어온 동료가 있으면 그중 가장 늦은 빌드, 없으면 그대로.
+ * 수정으로 새 동료를 넣으면 빌드가 올라가고 목록 위로 끌어올린다(서버 editTier · 목 어댑터 공용).
+ */
+export function tierBuildFor(build, rows) {
+  let out = build;
+  for (const r of rows) {
+    for (const id of r.ids) {
+      const since = CHAR_SINCE[id];
+      if (since && buildRank(since) > buildRank(out)) out = since;
+    }
+  }
+  return out;
+}
 
 /** 공유 코드에서 읽은 스냅샷 → 팀 요약(화면 미리보기와 서버 저장이 같은 값을 쓰도록). */
 export function summarizeSnap(snap) {
