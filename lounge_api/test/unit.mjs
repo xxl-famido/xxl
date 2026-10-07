@@ -162,6 +162,26 @@ function fakeD1() {
   ok(got.tC === '1006/null', `처음부터 하쿠이 → 빌드만 1006, 끌올 없음 (${got.tC})`);
   ok(got.tD === '0922/null', `늦게 들어온 동료 없음 → 그대로 (${got.tD})`);
 }
+// 마이그레이션 0009: 새 동료가 라운지에 들어온 뒤 0922 로 찍힌 글·팀·티어표를 그 빌드로(경계 시각 포함, 이미 맞는 값은 그대로)
+{
+  const T0924 = 1791102543707, T1006 = 1791374541139;
+  const db = new DatabaseSync(':memory:');
+  const files = ['0001_init', '0002_antispam', '0003_operator', '0004_pinned', '0005_edit_lists', '0006_tier_fun_rowpos', '0007_tier_inrow_order', '0008_tier_bump'];
+  for (const f of files) db.exec(readFileSync(new URL(`../migrations/${f}.sql`, import.meta.url), 'utf8'));
+  const post = db.prepare("INSERT INTO posts (id, thread, kind, anon, anon_no, body, build, pin_salt, pin_hash, ip_hash, created_at) VALUES (?, 'char:10444', 'char', 10401, 1, 'x', ?, 's', 'h', 'i', ?)");
+  const team = db.prepare("INSERT INTO teams (id, code, ids, summary, title, basis, anon, anon_no, build, pin_salt, pin_hash, ip_hash, created_at) VALUES (?, ?, '10401', '{}', 't', 'boss', 10401, 1, ?, 's', 'h', 'i', ?)");
+  post.run('pOld', '0922', T0924 - 1); post.run('p0924', '0922', T0924); post.run('p0924b', '0922', T1006 - 1);
+  post.run('p1006', '0922', T1006); post.run('pDone', '1006', T1006 + 5);
+  team.run('mOld', 'c1', '0922', T0924 - 1); team.run('m1006', 'c2', '0922', T1006 + 1);
+  db.exec(readFileSync(new URL('../migrations/0009_restamp_build_windows.sql', import.meta.url), 'utf8'));
+  const b = (table) => Object.fromEntries(db.prepare(`SELECT id, build FROM ${table}`).all().map((r) => [r.id, r.build]));
+  const p = b('posts'), m = b('teams');
+  ok(p.pOld === '0922' && m.mOld === '0922', '시바히코 전에 쓴 글·팀 → 0922 그대로');
+  ok(p.p0924 === '0924' && p.p0924b === '0924', `시바히코 뒤 ~ 하쿠이 전 → 0924 (${p.p0924}/${p.p0924b})`);
+  ok(p.p1006 === '1006' && m.m1006 === '1006' && p.pDone === '1006', `하쿠이 뒤 → 1006 (${p.p1006}/${m.m1006})`);
+  const [s0924, s1006] = [T0924, T1006].map((ms) => new Date(ms).toISOString());
+  ok(s0924 === '2026-10-04T08:29:03.707Z' && s1006 === '2026-10-07T12:02:21.139Z', '경계 시각 = Cloudflare 배포 기록(60d1448f · 26d4e53e)');
+}
 
 console.log(fails ? `${fails} FAILED` : 'ALL PASS');
 process.exit(fails ? 1 : 0);

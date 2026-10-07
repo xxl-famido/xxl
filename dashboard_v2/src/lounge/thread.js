@@ -9,7 +9,7 @@ import * as api from './api.js';
 import { flip } from '../motion/index.js';
 import { spamReason, OPERATOR } from './shared.js';
 import { t, locale, tagLabel, spamText } from './i18n.js';
-import { cooldownButton, isCooling, writeError, reveal, h, icon, avatar, anonName, ago, buildChip, toast, askPin, askConfirm, menuButton, votes, clampText, emptyState, skeleton, seg, pinField, reducedMotion } from './ui.js';
+import { cooldownButton, isCooling, writeError, reveal, h, icon, avatar, anonName, ago, toast, askPin, askConfirm, menuButton, votes, clampText, emptyState, skeleton, seg, pinField, reducedMotion } from './ui.js';
 
 const { POST_TAGS } = api;   // 태그 목록은 서버와 공용(shared.js)
 const AS_KEY = 'woofia_lounge_as';
@@ -96,8 +96,7 @@ export function threadView(opt) {
         x.pinned && h('span', { class: 'lg-chip lg-chip-pin' }, icon('pin'), t('chip.pinned')),
         isOwner(x) && h('span', { class: 'lg-chip lg-chip-accent' }, t('chip.author')),
         isMe(x) && h('span', { class: 'lg-chip' }, t('chip.me')),
-        h('span', { class: 'lg-post-meta' }, h('time', { datetime: new Date(x.at).toISOString(), title: new Date(x.at).toLocaleString(locale()) }, ago(x.at)), x.edited && ' · ' + t('chip.edited')),
-        buildChip(x.build));
+        h('span', { class: 'lg-post-meta' }, h('time', { datetime: new Date(x.at).toISOString(), title: new Date(x.at).toLocaleString(locale()) }, ago(x.at)), x.edited && ' · ' + t('chip.edited')));
       if (x.deleted) {
         return h('div', { class: `lg-post ${isReply ? 'is-reply' : ''}`, 'data-id': x.id },
           h('div', { class: 'lg-av lg-av-gone', style: { width: isReply ? '24px' : '32px', height: isReply ? '24px' : '32px' } }),
