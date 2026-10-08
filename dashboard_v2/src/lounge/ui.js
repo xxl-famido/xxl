@@ -76,7 +76,7 @@ export function ago(ts) {
 }
 /** '이전 버전' 표시 — 티어표·팀 공유 게시글(목록·보기)에만 쓴다. 동료 게시판 의견·댓글에는 붙이지 않는다(2026-10-08 사용자 결정). */
 export const buildChip = (build) => build && build !== api.CURRENT_BUILD
-  ? h('span', { class: 'lg-chip lg-chip-muted', title: t('chip.prevVersion.title', { build }) }, t('chip.prevVersion'))
+  ? h('span', { class: 'lg-chip lg-chip-muted', title: t('chip.prevVersion.title', { ver: api.verLabel(build) }) }, t('chip.prevVersion'))
   : null;
 
 // ── 토스트 ────────────────────────────────────────────────────────────────

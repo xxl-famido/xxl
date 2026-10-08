@@ -23,7 +23,7 @@ const POSTS = [
   // 파미도
   P('s11', 'char:10421', 10441, 8, 29, 1, '필살기 직전 방어 프리셋은 거의 필수. 방어 턴 한 번이 필살기 피해를 크게 올립니다.', { tags: ['스킬 해석'] }),
   P('s12', 'char:10421', 10426, 70, 11, 0, '어느 팀에 넣어도 무난한 동료라 처음 키우기 좋습니다.', { tags: ['육성'] }),
-  P('s22', 'char:10441', 10406, 400, 6, 0, '출시 직후엔 필살기 한 번이라 호불호가 갈렸는데, 도장 효과 알고 나면 평가가 달라집니다.', { build: '0909' }),
+  P('s22', 'char:10441', 10406, 400, 6, 0, '출시 직후엔 필살기 한 번이라 호불호가 갈렸는데, 도장 효과 알고 나면 평가가 달라집니다.', { build: '1.7' }),
   // 아누비로스
   P('s13', 'char:10401', 10442, 12, 19, 3, '다단 히트라 피해 증가 효과를 여러 번 받습니다. 버프형 동료와 궁합이 좋습니다.', { tags: ['팀 구성'] }),
   P('s14', 'char:10401', 10428, 11, 4, 0, '리카노랑 같이 쓰면 확실히 체감됩니다.', { parent: 's13' }),
@@ -60,7 +60,7 @@ const TEAMS = [
 
 const R = (label, ids) => ({ label, ids });
 const TIERS = [
-  { id: 'tt1', title: '0922 보스전 체감 티어', basis: 'boss', anon: 10405, hoursAgo: 10, likes: 27, dislikes: 3,
+  { id: 'tt1', title: 'v2.0 보스전 체감 티어', basis: 'boss', anon: 10405, hoursAgo: 10, likes: 27, dislikes: 3,
     descr: '시뮬 30턴 기준 + 실제 플레이 체감 섞었습니다.',
     rows: [R('S', [10441, 10401, 10443]), R('A', [10421, 10428, 10425, 10410]), R('B', [10442, 10439, 10431, 10423]), R('C', [10415, 10432, 10436]), R('D', [10417, 10412])] },
   { id: 'tt2', title: '입문자용 육성 순서', basis: 'all', anon: 10438, hoursAgo: 36, likes: 18, dislikes: 1,
@@ -74,7 +74,7 @@ const TIERS = [
     rows: [R('S', [10441, 10401]), R('A', [10443, 10428, 10421]), R('B', [10425, 10410, 10423, 10442]), R('C', [10439, 10431, 10415, 10432]), R('D', [10417, 10412, 10436])] },
   { id: 'tt7', title: '방탈출 체감', basis: 'escape', anon: 10407, hoursAgo: 170, likes: 3, dislikes: 0, descr: '',
     rows: [R('S', [10443, 10415, 10401]), R('A', [10441, 10425]), R('B', [10421, 10410, 10428, 10442]), R('C', [10439, 10431]), R('D', [10417, 10432])] },
-  { id: 'tt8', title: '0909 기준 종합', basis: 'all', anon: 10416, hoursAgo: 400, likes: 12, dislikes: 2, descr: '0909 빌드 기준이라 무명은 없습니다.', build: '0909',
+  { id: 'tt8', title: 'v1.7 기준 종합', basis: 'all', anon: 10416, hoursAgo: 400, likes: 12, dislikes: 2, descr: 'v1.7 기준이라 무명은 없습니다.', build: '1.7',
     rows: [R('S', [10441, 10401]), R('A', [10421, 10425, 10428, 10442]), R('B', [10410, 10439, 10423]), R('C', [10431, 10415, 10432, 10436]), R('D', [10412, 10417])] },
   { id: 'tt5', title: '종합 평가', basis: 'all', anon: 10413, hoursAgo: 130, likes: 4, dislikes: 1, descr: '',
     rows: [R('S', [10441, 10443, 10401]), R('A', [10421, 10425, 10410, 10428]), R('B', [10442, 10439, 10423]), R('C', [10431, 10415, 10432]), R('D', [10412, 10417])] },
@@ -84,7 +84,7 @@ const lockless = { pinSalt: 'seed', pinHash: '', pinFail: 0, pinLock: 0 };
 
 export function SEED(now) {
   const at = (h) => Math.round(now - h * H);
-  const fix = ({ hoursAgo, ...x }) => ({ ...x, at: at(hoursAgo), anonNo: x.anonNo || 1, build: x.build || '0922', ...lockless });
+  const fix = ({ hoursAgo, ...x }) => ({ ...x, at: at(hoursAgo), anonNo: x.anonNo || 1, build: x.build || '2.0', ...lockless });
   return {
     posts: POSTS.map(fix),
     teams: TEAMS.map((t) => fix({ ...t, summary: { turns: 30, dummies: 1, altar: t.id === 'mt3', plan: t.id === 'mt2', spec: 0 } })),

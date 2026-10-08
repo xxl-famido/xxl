@@ -79,6 +79,9 @@ export async function charList(view) {
   reveal([...rail.querySelectorAll('.lg-rail-h, .lg-feed li')]);
 }
 
+/** 커뮤니티 티어가 어느 버전 티어표에서 나왔는지(이번 버전 → 바로 이전 버전 → 전체 버전, shared.js CHAR_TIER_SCOPES). */
+const CHAR_TIER_SCOPE_LABEL = Object.freeze({ current: 'tier.scope.current', prev: 'chars.tier.scope.prev', all: 'tier.scope.all' });
+
 export async function charPage(view, id) {
   await api.chars();
   const c = charOf(id);
@@ -86,6 +89,8 @@ export async function charPage(view, id) {
   const img = h('img', { class: 'lg-hero-img', src: iconSrc(id), alt: '', style: { viewTransitionName: 'lg-hero' } });
   const tierVal = h('b', {}, '—');
   const tierSub = h('small', {});
+  const tierScope = h('span', { class: 'lg-st-k' });
+  tierScope.hidden = true;
   const postN = h('b', {}, '—');
   const teamN = h('b', {}, '—');
 
@@ -101,7 +106,7 @@ export async function charPage(view, id) {
           h('div', { class: 'lg-hero-actions' },
             h('a', { class: 'btn btn-secondary btn-sm', href: `index.html#add=${id}` }, icon('swords'), t('chars.toSim'))))),
       h('div', { class: 'lg-stats' },
-        h('a', { href: '#/tier' }, h('span', { class: 'lg-st-k' }, t('chars.stat.tier')), h('span', { class: 'lg-st-v' }, tierVal, tierSub)),
+        h('a', { href: '#/tier' }, h('span', { class: 'lg-st-k' }, t('chars.stat.tier')), h('span', { class: 'lg-st-v' }, tierVal, tierSub), tierScope),
         h('button', { type: 'button', onclick: () => document.getElementById('thread')?.scrollIntoView({ behavior: 'smooth' }) }, h('span', { class: 'lg-st-k' }, t('thread.title')), h('span', { class: 'lg-st-v' }, postN)),
         h('a', { href: `#/team?with=${id}` }, h('span', { class: 'lg-st-k' }, t('chars.stat.teams')), h('span', { class: 'lg-st-v' }, teamN))),
       h('div', { id: 'thread' }, threadView({ key: 'char:' + id, withTags: true, title: t('thread.title'), placeholder: t('chars.composer.ph', { name: nameOf(id) }), onCount: (n) => { if (postN.textContent === '—') rollup(postN, n, (v) => String(Math.round(v)), { duration: 500 }); else postN.textContent = String(n); } }))),
@@ -110,6 +115,12 @@ export async function charPage(view, id) {
   const [tierInfo, tn, teams] = await Promise.all([api.charTier(id, 'any'), api.teamCountWith(id), api.teams({ withIds: [id] })]);
   tierVal.textContent = tierInfo ? tierInfo.label : '—';
   tierSub.textContent = ' ' + (tierInfo ? t('chars.tier.samples', { n: tierInfo.n }) : t('chars.tier.thin'));
+  const scopeKey = tierInfo && CHAR_TIER_SCOPE_LABEL[tierInfo.scope];
+  if (scopeKey) {
+    tierScope.textContent = t(scopeKey);
+    if (tierInfo.build) tierScope.title = t('chars.tier.scope.title', { ver: api.verLabel(tierInfo.build) });
+  }
+  tierScope.hidden = !scopeKey;
   rollup(teamN, tn, (v) => String(Math.round(v)), { duration: 500 });
   side.replaceChildren(...[h('h2', { class: 'lg-rail-h' }, t('chars.teamsWith')),
     teams.length ? h('ol', { class: 'lg-mini-teams' }, teams.slice(0, 3).map((m) => h('li', {}, h('a', { href: `#/team/${m.id}` },

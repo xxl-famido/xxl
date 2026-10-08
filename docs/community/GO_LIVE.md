@@ -55,5 +55,5 @@ Claude:
 ## 운영
 - 신고 확인: `node lounge_api/scripts/admin.mjs reports` → `hide|show|delete post:p…`
 - 백업: `node lounge_api/scripts/backup.mjs` → `secrets\lounge_backups\` (주기는 사용자와 정함)
-- 새 동료 출시: `python tools/redesign/gen_lounge_chars.py --new <ID> --build <MMDD>`(빌드 기록 builds.js 도 갱신 — 그 빌드가 라운지 현재 빌드) (서버는 data/chars.json 을 읽으므로 **서버도 재배포**: `node lounge_api/scripts/deploy.mjs`)
+- 새 동료 출시: `python tools/redesign/gen_lounge_chars.py --new <ID> --version <시뮬 버전>`(라운지 버전 기록 builds.js 도 갱신 — 신캐로 vX.N 의 N 이 바뀌면 새 라운지 버전, 패치 버전이면 그대로) (서버는 data/chars.json 을 읽으므로 **서버도 재배포**: `node lounge_api/scripts/deploy.mjs`)
 - 새 게임 빌드: `dashboard_v2/src/lounge/shared.js` 의 `CURRENT_BUILD` 수정 → 서버 재배포 + 화면 배포

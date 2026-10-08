@@ -3,7 +3,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
 import { limit, cleanText, safeEqual, HttpError, pinHash, rateScale } from '../src/security.js';
-import { spamReason, normalizeForDup, tierPositions, aggregateRows, AGG_LABELS, AGG_VERSION_MIN, aggScope, BUILDS, CURRENT_BUILD, CHAR_SINCE, buildRank, tierBuildFor } from '../../dashboard_v2/src/lounge/shared.js';
+import { spamReason, normalizeForDup, tierPositions, aggregateRows, AGG_LABELS, AGG_MIN_SAMPLES, AGG_VERSION_MIN, aggScope, BUILDS, CURRENT_BUILD, PREV_BUILD, CHAR_SINCE, buildRank, tierBuildFor, charTierFrom, aggRequest, verLabel } from '../../dashboard_v2/src/lounge/shared.js';
 import { readTeamCode } from '../src/teamcode.js';
 import { bytesToB64url, deflate } from '../../dashboard_v2/src/core/codec.js';
 
@@ -117,7 +117,9 @@ function fakeD1() {
 {
   const charIds = new Set(Object.keys(JSON.parse(readFileSync(new URL('../../data/chars.json', import.meta.url), 'utf8'))).map(Number));
   ok(BUILDS.length > 0 && CURRENT_BUILD === BUILDS[BUILDS.length - 1] && new Set(BUILDS).size === BUILDS.length, `라이브 빌드 = 목록 마지막 (${CURRENT_BUILD})`);
-  ok(BUILDS.every((b) => /^\d{4}$/.test(b)), '빌드는 MMDD 네 자리');
+  ok(BUILDS.every((b) => /^\d+\.\d+$/.test(b)), `라운지 버전은 시뮬레이터 버전 앞 두 자리 X.N (${BUILDS.join(' · ')})`);
+  ok(BUILDS.every((b, i) => i === 0 || b.split('.').map(Number).reduce((x, y) => x * 1000 + y) > BUILDS[i - 1].split('.').map(Number).reduce((x, y) => x * 1000 + y)), '라운지 버전은 오래된 → 최신 순');
+  ok(verLabel('2.1') === 'v2.1', '화면 표기 vX.N');
   ok(Object.entries(CHAR_SINCE).every(([id, b]) => buildRank(b) > 0 && charIds.has(+id)), '신규 동료 빌드: 첫 빌드 뒤 · 목록 안 · data/chars.json 에 있는 동료');
 }
 // 티어표 빌드 갱신(끌올): 늦게 들어온 동료를 넣으면 그 동료의 빌드로, 아니면 그대로
@@ -131,7 +133,7 @@ function fakeD1() {
     ok(tierBuildFor(first, rows([10401, +lateId])) === lateBuild, `늦게 들어온 동료(${lateId}) → 그 빌드 ${lateBuild}`);
     ok(tierBuildFor(lateBuild, rows([+lateId])) === lateBuild, '이미 그 빌드면 그대로(다시 끌올하지 않음)');
     ok(tierBuildFor(first, rows(late.map(([id]) => +id))) === lateBuild, '여러 명이면 가장 늦은 빌드');
-    ok(tierBuildFor('0101', rows([10401])) === '0101' && tierBuildFor('0101', rows([+lateId])) === lateBuild, '목록에 없는 옛 빌드: 늦은 동료가 들어올 때만 올림');
+    ok(tierBuildFor('1.7', rows([10401])) === '1.7' && tierBuildFor('1.7', rows([+lateId])) === lateBuild, '목록에 없는 옛 버전: 늦은 동료가 들어올 때만 올림');
   }
   if (late.length > 1 && buildRank(late[0][1]) > buildRank(late[late.length - 1][1])) {
     const [, newest] = late[0];
@@ -142,6 +144,35 @@ function fakeD1() {
 {
   ok(aggScope('auto', AGG_VERSION_MIN) === 'current' && aggScope('auto', AGG_VERSION_MIN - 1) === 'all', `자동: ${AGG_VERSION_MIN}개 이상 → 이번 버전, 미만 → 전체 버전`);
   ok(aggScope('current', 0) === 'current' && aggScope('all', 99) === 'all', '직접 고른 범위는 그대로');
+  const req = (s, b) => JSON.stringify(aggRequest(s, b));
+  ok(req('build', BUILDS[0]) === JSON.stringify({ want: 'build', pick: BUILDS[0] }), `빌드 범위: 목록 안 빌드(${BUILDS[0]}) → 그 빌드`);
+  ok(req('build', '1.7') === req('all') && req('build', '0922') === req('all') && req('build', null) === req('all') && req('build', "2.0' OR 1=1") === req('all'), '빌드 범위: 목록 밖(옛 버전·예전 MMDD)·빈 값·주입 모양 → 전체 버전');
+  ok(req('nope') === req('all') && aggRequest('auto').want === 'auto' && aggRequest('current', BUILDS[0]).pick === null, '모르는 범위 → 전체 버전 · 빌드 값은 빌드 범위에서만');
+  ok(aggScope('build', 0) === 'build', '빌드 범위는 표본 수와 상관없이 그대로');
+}
+// 동료 페이지 커뮤니티 티어: 이번 버전 → 바로 이전 버전 → 전체 버전(각 범위는 그 동료 표본이 최소 개수 이상일 때만)
+{
+  ok(PREV_BUILD === (BUILDS.length > 1 ? BUILDS[BUILDS.length - 2] : null), `바로 이전 빌드 = 목록 끝에서 두 번째 (${PREV_BUILD})`);
+  const MIN = AGG_MIN_SAMPLES;
+  const older = BUILDS.length > 2 ? BUILDS[BUILDS.length - 3] : '1.7';       // 바로 이전 버전보다 더 옛 버전
+  const at = (build, pos, k) => Array.from({ length: k }, () => ({ build, pos }));
+  const S = 0.1, B = 0.5, D = 0.9;
+  const cur = charTierFrom([...at(CURRENT_BUILD, S, MIN), ...at(PREV_BUILD, D, MIN), ...at(older, D, MIN)]);
+  ok(cur && cur.scope === 'current' && cur.label === 'S' && cur.n === MIN && cur.build === CURRENT_BUILD, '이번 버전 표본이 차면 이번 버전');
+  if (PREV_BUILD) {
+    const prev = charTierFrom([...at(CURRENT_BUILD, S, MIN - 1), ...at(PREV_BUILD, B, MIN), ...at(older, D, MIN + 2)]);
+    ok(prev && prev.scope === 'prev' && prev.label === 'B' && prev.n === MIN && prev.build === PREV_BUILD, '이번 버전이 모자라면 바로 이전 버전');
+  }
+  const all = charTierFrom([...at(CURRENT_BUILD, S, MIN - 1), ...at(PREV_BUILD, S, MIN - 1), ...at(older, D, 1)]);
+  ok(all && all.scope === 'all' && all.n === 2 * MIN - 1 && all.build === null && all.label === 'S', '둘 다 모자라면 모든 빌드를 합친 전체 버전');
+  const onlyOlder = charTierFrom(at(older, D, MIN));
+  ok(onlyOlder && onlyOlder.scope === 'all' && onlyOlder.label === 'D', '더 옛 빌드 표본만 있으면 전체 버전(바로 이전 버전 아님)');
+  ok(charTierFrom(at(CURRENT_BUILD, S, MIN - 1)) === null && charTierFrom([]) === null, '전체 버전도 모자라면 null(표본 부족)');
+  for (const sample of [[0.05, 0.3, 0.35, 0.62, 0.95], [0.15, 0.41, 0.58, 0.99], [0.8, 0.81, 0.79]]) {
+    const viaAgg = aggregateRows({ 10401: sample }, sample.length).rows.find((r) => r.items.length).label;
+    const viaChar = charTierFrom(sample.map((pos) => ({ build: older, pos }))).label;
+    ok(viaChar === viaAgg, `칸 = 평균 티어 집계와 같은 중앙값 규칙 (${sample.length}개 → ${viaChar})`);
+  }
 }
 // 마이그레이션 0008: 0922 로 남은 티어표 중 늦게 들어온 동료가 든 것만 빌드를 올리고, 수정된 적 있으면 그 시각에 끌올
 {
@@ -181,6 +212,28 @@ function fakeD1() {
   ok(p.p1006 === '1006' && m.m1006 === '1006' && p.pDone === '1006', `하쿠이 뒤 → 1006 (${p.p1006}/${m.m1006})`);
   const [s0924, s1006] = [T0924, T1006].map((ms) => new Date(ms).toISOString());
   ok(s0924 === '2026-10-04T08:29:03.707Z' && s1006 === '2026-10-07T12:02:21.139Z', '경계 시각 = Cloudflare 배포 기록(60d1448f · 26d4e53e)');
+}
+// 마이그레이션 0010: 게임 빌드 도장 → 라운지 버전(0922·0924 → 2.0, 1006 → 2.1) · 같은 버전 안의 끌올(0922 → 0924)은 지움
+{
+  const db = new DatabaseSync(':memory:');
+  for (const f of ['0001_init', '0002_antispam', '0003_operator', '0004_pinned', '0005_edit_lists', '0006_tier_fun_rowpos', '0007_tier_inrow_order', '0008_tier_bump', '0009_restamp_build_windows']) {
+    db.exec(readFileSync(new URL(`../migrations/${f}.sql`, import.meta.url), 'utf8'));
+  }
+  const post = db.prepare("INSERT INTO posts (id, thread, kind, anon, anon_no, body, build, pin_salt, pin_hash, ip_hash, created_at) VALUES (?, 'char:10444', 'char', 10401, 1, 'x', ?, 's', 'h', 'i', 1)");
+  const team = db.prepare("INSERT INTO teams (id, code, ids, summary, title, basis, anon, anon_no, build, pin_salt, pin_hash, ip_hash, created_at) VALUES (?, ?, '10401', '{}', 't', 'boss', 10401, 1, ?, 's', 'h', 'i', 1)");
+  const tier = db.prepare("INSERT INTO tiers (id, title, basis, rows, anon, anon_no, build, pin_salt, pin_hash, ip_hash, created_at, bumped_at) VALUES (?, 't', 'all', '[]', 10401, 1, ?, 's', 'h', 'i', 1000, ?)");
+  post.run('p0922', '0922'); post.run('p0924', '0924'); post.run('p1006', '1006'); post.run('pOld', '0909');
+  team.run('m0922', 'c1', '0922'); team.run('m1006', 'c2', '1006');
+  tier.run('tPlain', '0922', null); tier.run('tSame', '0924', 5000); tier.run('tUp', '1006', 6000); tier.run('tNew', '1006', null);
+  db.exec(readFileSync(new URL('../migrations/0010_version_stamps.sql', import.meta.url), 'utf8'));
+  const b = (table) => Object.fromEntries(db.prepare(`SELECT id, build FROM ${table}`).all().map((r) => [r.id, r.build]));
+  const p = b('posts'), m = b('teams');
+  const t = Object.fromEntries(db.prepare('SELECT id, build, bumped_at FROM tiers').all().map((r) => [r.id, `${r.build}/${r.bumped_at}`]));
+  ok(p.p0922 === '2.0' && p.p0924 === '2.0' && p.p1006 === '2.1' && m.m0922 === '2.0' && m.m1006 === '2.1', `글·팀: 0922·0924 → 2.0, 1006 → 2.1 (${p.p0922}/${p.p0924}/${p.p1006})`);
+  ok(p.pOld === '0909', '목록에 없던 옛 값은 그대로');
+  ok(t.tPlain === '2.0/null' && t.tNew === '2.1/null', `티어표 버전 (${t.tPlain} · ${t.tNew})`);
+  ok(t.tSame === '2.0/null', `0924 로 끌올됐던 티어표 → 같은 버전(2.0) 안이라 끌올 지움 (${t.tSame})`);
+  ok(t.tUp === '2.1/6000', `하쿠이로 2.1 이 된 끌올은 그대로 (${t.tUp})`);
 }
 
 console.log(fails ? `${fails} FAILED` : 'ALL PASS');

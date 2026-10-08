@@ -253,7 +253,7 @@ export async function teamView(view, id) {
     h('a', { class: 'lg-back', href: '#/team' }, icon('arrow-left'), t('nav.team')),
     h('header', { class: 'lg-page-head is-stack' },
       h('h1', { class: 'lg-h1' }, m.title),
-      h('p', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(m.basis)), avatar(m.anon, 16), anonName(m.anon, m.anonNo, m.op), ' · ', ago(m.at), m.edited && ' · ' + t('chip.edited'), ' · ' + t('meta.build', { build: m.build }), buildChip(m.build))),
+      h('p', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(m.basis)), avatar(m.anon, 16), anonName(m.anon, m.anonNo, m.op), ' · ', ago(m.at), m.edited && ' · ' + t('chip.edited'), ' · ' + api.verLabel(m.build), buildChip(m.build))),
     slots,
     h('div', { class: 'lg-go-bar' },
       summaryChips(m.summary),

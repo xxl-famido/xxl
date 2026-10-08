@@ -16,30 +16,41 @@ export const TEAM_BASIS = Object.freeze([
 export const AGG_MIN_SAMPLES = 3;
 export const AGG_LABELS = Object.freeze(['S', 'A', 'B', 'C', 'D']);
 /**
- * 평균 티어 범위: current = 이번 버전(CURRENT_BUILD 로 찍힌 티어표)만, all = 모든 버전.
- * auto = 이번 버전 티어표가 AGG_VERSION_MIN 개 이상이면 current, 아니면 all(아직 표본이 안 쌓였을 때). 범위를 안 주면 서버는 all.
+ * 평균 티어 범위(버전 = 라운지 버전, builds.js): current = 이번 버전(CURRENT_BUILD 로 찍힌 티어표)만, build = 고른 지난 버전(builds.js 목록 안, ?build=) 티어표만,
+ * all = 모든 버전. 화면은 이번 버전으로 시작한다(2026-10-08 사용자 결정).
+ * auto = 이번 버전 티어표가 AGG_VERSION_MIN 개 이상이면 current, 아니면 all — 예전 화면(캐시)용으로 서버가 계속 받는다. 범위를 안 주면 서버는 all.
  */
-export const AGG_SCOPES = Object.freeze(['auto', 'current', 'all']);
+export const AGG_SCOPES = Object.freeze(['auto', 'current', 'build', 'all']);
 /** 동료별 최소 표본과 같은 값 — 이보다 적으면 이번 버전에서는 모든 동료가 표본 부족이다. */
 export const AGG_VERSION_MIN = AGG_MIN_SAMPLES;
 export const aggScope = (want, currentCount) => (want === 'auto' ? (currentCount >= AGG_VERSION_MIN ? 'current' : 'all') : want);
+/**
+ * 요청 범위 정리(서버·목 어댑터 공용): 모르는 범위 → all, build 인데 목록 밖 빌드 → all.
+ * 반환 { want, pick } — pick = build 범위에서 고른 빌드(그 밖에는 null).
+ */
+export function aggRequest(scope, build) {
+  if (scope === 'build') return BUILDS.includes(build) ? { want: 'build', pick: build } : { want: 'all', pick: null };   // BUILDS 는 아래 정의(호출 시점엔 있음)
+  return { want: AGG_SCOPES.includes(scope) ? scope : 'all', pick: null };
+}
 export const isPin = (pin) => /^\d{4}$/.test(String(pin ?? ''));
 
 /** 목록 추천순 점수: 새 글이 묻히지 않게 시간 감쇠. score = (좋아요 − 싫어요). */
 export const hotScore = (score, ageMs) => score / Math.pow(ageMs / 3.6e6 + 2, 0.8);
 
+const median = (a) => { const s = [...a].sort((x, y) => x - y); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+/** 중앙값 위치(0~1) → 5칸(AGG_LABELS) 번호. 평균 티어 집계와 동료 커뮤니티 티어가 같이 쓴다. */
+const aggRowIndex = (m) => Math.min(AGG_LABELS.length - 1, Math.floor(m * AGG_LABELS.length));
 /**
  * 평균 티어 집계: pos(동료별 0~1 정규화 위치 배열) → 5구간.
  * 화면 목 어댑터와 서버가 같은 결과를 내도록 공용으로 둔다.
  */
 export function aggregateRows(posByChar, sampleCount) {
-  const med = (a) => { const s = [...a].sort((x, y) => x - y); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
   const rows = AGG_LABELS.map((label) => ({ label, items: [] }));
   const thin = [];
   for (const [cid, a] of Object.entries(posByChar)) {
     if (a.length < AGG_MIN_SAMPLES) { thin.push(+cid); continue; }
-    const m = med(a);
-    rows[Math.min(AGG_LABELS.length - 1, Math.floor(m * AGG_LABELS.length))].items.push({ id: +cid, m, n: a.length });
+    const m = median(a);
+    rows[aggRowIndex(m)].items.push({ id: +cid, m, n: a.length });
   }
   rows.forEach((r) => r.items.sort((x, y) => x.m - y.m));
   return { rows, thin, sampleCount };
@@ -64,16 +75,21 @@ export function tierPositions(rows) {
   rows.forEach((r, i) => r.ids.forEach((cid, j) => out.push([cid, inRowPos(i, n, j, r.ids.length)])));
   return out;
 }
-/** 게임 빌드 순서(오래된 → 최신, builds.js). 마지막 = 현재 라이브 빌드 — 글에 도장으로 찍힌다. 새 동료를 넣을 때 생성기가 같이 늘린다. */
+/**
+ * 라운지 버전('빌드') 순서(오래된 → 최신, builds.js). 값 = 시뮬레이터 버전 앞 두 자리('2.1'), 신캐가 들어와 N 이 바뀐 버전만.
+ * 마지막 = 현재 라운지 버전 — 글에 도장으로 찍힌다. 새 동료를 넣을 때 생성기가 같이 늘린다(패치 버전이면 그대로).
+ */
 export const BUILDS = Object.freeze([...BUILD_DATA.builds]);
 export const CURRENT_BUILD = BUILDS[BUILDS.length - 1];
-/** 라운지 첫 빌드 뒤에 들어온 동료 → 처음 들어온 빌드. 여기 없는 동료는 첫 빌드부터 있던 동료. */
+/** 화면 표기: '2.1' → 'v2.1'. 글·티어표·팀의 버전은 모두 이 모양으로 보여 준다. */
+export const verLabel = (build) => 'v' + build;
+/** 라운지 첫 버전 뒤에 들어온 동료 → 처음 들어온 버전. 여기 없는 동료는 첫 버전부터 있던 동료. */
 export const CHAR_SINCE = Object.freeze(Object.fromEntries(Object.entries(BUILD_DATA.since).map(([id, b]) => [+id, b])));
-/** 빌드 순위(목록에 없는 옛 빌드 = -1). MMDD 는 해가 바뀌면 글자 순서가 어긋나므로 목록 순서로 비교한다. */
+/** 버전 순위(목록에 없는 옛 값 = -1). 글자 비교('2.10' < '2.9')가 어긋나므로 목록 순서로 비교한다. */
 export const buildRank = (build) => BUILDS.indexOf(build);
 /**
- * 티어표 빌드: 들어 있는 동료 중 지금 빌드보다 늦게 들어온 동료가 있으면 그중 가장 늦은 빌드, 없으면 그대로.
- * 수정으로 새 동료를 넣으면 빌드가 올라가고 목록 위로 끌어올린다(서버 editTier · 목 어댑터 공용).
+ * 티어표 버전: 들어 있는 동료 중 지금 버전보다 늦게 들어온 동료가 있으면 그중 가장 늦은 버전, 없으면 그대로.
+ * 수정으로 새 동료를 넣으면 버전이 올라가고 목록 위로 끌어올린다(서버 editTier · 목 어댑터 공용).
  */
 export function tierBuildFor(build, rows) {
   let out = build;
@@ -84,6 +100,26 @@ export function tierBuildFor(build, rows) {
     }
   }
   return out;
+}
+/** 바로 이전 라운지 버전(builds.js 끝에서 두 번째). 버전이 하나뿐이면 null. */
+export const PREV_BUILD = BUILDS.length > 1 ? BUILDS[BUILDS.length - 2] : null;
+/**
+ * 동료 페이지 커뮤니티 티어 범위 순서: 이번 버전 → 바로 이전 버전 → 전체 버전.
+ * 앞 범위에서 그 동료가 AGG_MIN_SAMPLES 개 이상의 티어표에 들어 있으면 그 범위로 보여 준다(중앙값·5칸 규칙은 aggregateRows 와 같다).
+ */
+export const CHAR_TIER_SCOPES = Object.freeze(['current', 'prev', 'all']);
+/**
+ * entries = 그 동료가 든 집계 대상 티어표마다 { build, pos }(서버 tier_pos · 목 어댑터 tierPositions 값).
+ * 반환 { label, n, scope, build(전체 버전이면 null) } — 어느 범위에서도 표본이 모자라면 null.
+ */
+export function charTierFrom(entries) {
+  const buildOf = { current: CURRENT_BUILD, prev: PREV_BUILD, all: null };
+  for (const scope of CHAR_TIER_SCOPES) {
+    if (scope === 'prev' && !PREV_BUILD) continue;
+    const pos = entries.filter((e) => scope === 'all' || e.build === buildOf[scope]).map((e) => e.pos);
+    if (pos.length >= AGG_MIN_SAMPLES) return { label: AGG_LABELS[aggRowIndex(median(pos))], n: pos.length, scope, build: buildOf[scope] };
+  }
+  return null;
 }
 
 /** 공유 코드에서 읽은 스냅샷 → 팀 요약(화면 미리보기와 서버 저장이 같은 값을 쓰도록). */

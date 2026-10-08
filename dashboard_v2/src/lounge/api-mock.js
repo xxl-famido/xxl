@@ -11,7 +11,7 @@
  */
 import { SEED } from './seed.js';
 import { spamText, errorText } from './i18n.js';
-import { LIMITS, isPin, CURRENT_BUILD, AGG_SCOPES, aggregateRows, aggScope, tierPositions, tierBuildFor, hotScore, spamReason, OPERATOR } from './shared.js';
+import { LIMITS, isPin, CURRENT_BUILD, aggregateRows, aggScope, aggRequest, charTierFrom, tierPositions, tierBuildFor, hotScore, spamReason, OPERATOR } from './shared.js';
 
 const KEY = 'woofia_lounge_mock_v1';
 const DEVICE_KEY = 'woofia_lounge_dev';
@@ -258,24 +258,29 @@ export async function createTier({ title, basis, rows, descr, pin, fun = false }
   return pub(t, 'tier');
 }
 
-/** 커뮤니티 평균 티어(집계·범위 규칙은 shared.js — 서버와 동일). scope = 'auto' | 'current' | 'all'. */
-export async function aggregate(basis = 'all', scope = 'all') {
+/** 커뮤니티 평균 티어(집계·범위 규칙은 shared.js — 서버와 동일). scope = 'auto' | 'current' | 'build' | 'all', build 범위는 build = MMDD. */
+export async function aggregate(basis = 'all', scope = 'all', build = null) {
   await wait();
   const list = db().tiers.filter((t) => !t.fun && (basis === 'any' || t.basis === basis));   // 집계 제외 표시한 티어표는 빼고
   const currentCount = list.filter((t) => t.build === CURRENT_BUILD).length;
-  const want = AGG_SCOPES.includes(scope) ? scope : 'all';
+  const { want, pick } = aggRequest(scope, build);
   const used = aggScope(want, currentCount);
-  const picked = used === 'current' ? list.filter((t) => t.build === CURRENT_BUILD) : list;
+  const only = used === 'current' ? CURRENT_BUILD : used === 'build' ? pick : null;
+  const picked = only ? list.filter((t) => t.build === only) : list;
   const pos = {};
   for (const t of picked) for (const [cid, v] of tierPositions(t.rows)) (pos[cid] ||= []).push(v);
-  return { ...aggregateRows(pos, picked.length), scope: used, build: CURRENT_BUILD, currentCount, fallback: want === 'auto' && used === 'all' };
+  return { ...aggregateRows(pos, picked.length), scope: used, build: CURRENT_BUILD, scopeBuild: used === 'build' ? pick : null, currentCount, fallback: want === 'auto' && used === 'all' };
 }
 
-/** 동료 한 명의 평균 티어(동료 페이지 요약 띠용). */
+/** 동료 한 명의 커뮤니티 티어(동료 페이지): 이번 버전 → 바로 이전 버전 → 전체 버전(shared.js charTierFrom — 서버와 동일). */
 export async function charTier(cid, basis = 'all') {
-  const a = await aggregate(basis);
-  for (const r of a.rows) { const it = r.items.find((x) => x.id === cid); if (it) return { label: r.label, n: it.n }; }
-  return null;
+  await wait();
+  const entries = [];
+  for (const t of db().tiers) {
+    if (t.fun || (basis !== 'any' && t.basis !== basis)) continue;   // 평균 티어와 같은 대상(집계 제외·다른 기준 빼고)
+    for (const [id, pos] of tierPositions(t.rows)) if (id === cid) entries.push({ build: t.build, pos });
+  }
+  return charTierFrom(entries);
 }
 
 // ── 팀 공유 ───────────────────────────────────────────────────────────────

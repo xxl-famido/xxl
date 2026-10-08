@@ -10,7 +10,7 @@
  * 기기 식별(반응 중복 방지)은 GET 은 ?d=, POST 는 본문 dev 로 받는다.
  */
 import charsJson from '../../data/chars.json' with { type: 'json' };
-import { LIMITS, POST_TAGS, TIER_BASIS, TEAM_BASIS, CURRENT_BUILD, ANTISPAM, OPERATOR, AGG_SCOPES, isPin, hotScore, aggregateRows, aggScope, tierPositions, tierBuildFor, spamReason } from '../../dashboard_v2/src/lounge/shared.js';
+import { LIMITS, POST_TAGS, TIER_BASIS, TEAM_BASIS, CURRENT_BUILD, ANTISPAM, OPERATOR, isPin, hotScore, aggregateRows, aggScope, aggRequest, charTierFrom, tierPositions, tierBuildFor, spamReason } from '../../dashboard_v2/src/lounge/shared.js';
 import { HttpError, E, hmacHex, safeEqual, randomId, ipHash, voterOf, pinHash, limit, checkGap, markWrite, bodyKey, checkTurnstile, allowedOrigin, corsHeaders, cleanText } from './security.js';
 import { readTeamCode } from './teamcode.js';
 import KR from '../../dashboard_v2/i18n/lounge/kr.json' with { type: 'json' };
@@ -468,12 +468,13 @@ async function editTier(env, req, id, body) {
 }
 
 /**
- * 평균 티어. ?scope = auto | current | all (shared.js AGG_SCOPES, 없으면 all — 동료 페이지 요약 등 예전 호출 그대로).
- * 응답: 집계 결과 + 실제로 쓴 범위(scope) · 이번 버전 빌드(build) · 이번 버전 티어표 수(currentCount) · 자동 선택이 전체 버전으로 넘어갔는지(fallback).
+ * 평균 티어. ?scope = auto | current | build | all (shared.js AGG_SCOPES, 없으면 all — 예전 호출 그대로), build 범위는 &build=MMDD(builds.js 목록 안).
+ * 응답: 집계 결과 + 실제로 쓴 범위(scope) · 이번 버전 빌드(build) · build 범위에서 고른 빌드(scopeBuild, 그 밖에는 null)
+ *       · 이번 버전 티어표 수(currentCount) · 자동 선택이 전체 버전으로 넘어갔는지(fallback).
  */
 async function aggregate(env, url) {
   const basis = url.searchParams.get('basis');
-  const want = AGG_SCOPES.includes(url.searchParams.get('scope')) ? url.searchParams.get('scope') : 'all';
+  const { want, pick } = aggRequest(url.searchParams.get('scope'), url.searchParams.get('build'));
   // WHERE 는 고정 문자열만 잇고 값은 전부 바인딩한다. 집계 제외(fun = 1) 티어표는 평균 티어에서 뺀다.
   const conds = ["status = 'ok'", 'fun = 0'];
   const binds = [];
@@ -481,13 +482,29 @@ async function aggregate(env, url) {
   const cur = await env.DB.prepare(`SELECT COUNT(*) AS n FROM tiers WHERE ${conds.join(' AND ')} AND build = ?${binds.length + 1}`).bind(...binds, CURRENT_BUILD).first();
   const scope = aggScope(want, cur.n);
   if (scope === 'current') { binds.push(CURRENT_BUILD); conds.push(`build = ?${binds.length}`); }
+  else if (scope === 'build') { binds.push(pick); conds.push(`build = ?${binds.length}`); }
   const where = conds.join(' AND ');
   const stmt = (sql) => (binds.length ? env.DB.prepare(sql).bind(...binds) : env.DB.prepare(sql));
   const pos = await stmt(`SELECT char_id, pos FROM tier_pos WHERE tier_id IN (SELECT id FROM tiers WHERE ${where})`).all();
   const n = scope === 'current' ? cur.n : (await stmt(`SELECT COUNT(*) AS n FROM tiers WHERE ${where}`).first()).n;
   const byChar = {};
   for (const r of pos.results) (byChar[r.char_id] ||= []).push(r.pos);
-  return { ...aggregateRows(byChar, n), scope, build: CURRENT_BUILD, currentCount: cur.n, fallback: want === 'auto' && scope === 'all' };
+  return { ...aggregateRows(byChar, n), scope, build: CURRENT_BUILD, scopeBuild: scope === 'build' ? pick : null, currentCount: cur.n, fallback: want === 'auto' && scope === 'all' };
+}
+
+/**
+ * 동료 한 명의 커뮤니티 티어(동료 페이지). ?id=동료 &basis= — 이번 버전 → 바로 이전 버전 → 전체 버전 순(shared.js charTierFrom).
+ * 응답 { tier: { label, n, scope, build } | null }.
+ */
+async function charTier(env, url) {
+  const cid = +url.searchParams.get('id');
+  if (!CHAR_SET.has(cid)) throw E(404, 'charNotFound');
+  const basis = url.searchParams.get('basis');
+  const conds = ['p.char_id = ?1', "t.status = 'ok'", 't.fun = 0'];
+  const binds = [cid];
+  if (TIER_BASIS_KEYS.has(basis)) { binds.push(basis); conds.push(`t.basis = ?${binds.length}`); }
+  const { results } = await env.DB.prepare(`SELECT t.build AS build, p.pos AS pos FROM tier_pos p JOIN tiers t ON t.id = p.tier_id WHERE ${conds.join(' AND ')}`).bind(...binds).all();
+  return { tier: charTierFrom(results) };
 }
 
 // ── 팀 ────────────────────────────────────────────────────────────────────
@@ -656,6 +673,7 @@ async function route(env, req, url) {
     if ((r = m(/^\/v1\/threads\/([^/]+)$/))) return getThread(env, req, url, decodeURIComponent(r[1]));
     if (p === '/v1/tiers') return listTiers(env, req, url);
     if (p === '/v1/tiers/aggregate') return aggregate(env, url);
+    if (p === '/v1/tiers/by-char') return charTier(env, url);
     if ((r = m(/^\/v1\/tiers\/(t[0-9a-z]{12})$/))) return getTier(env, req, url, r[1]);
     if (p === '/v1/teams') return listTeams(env, req, url);
     if (p === '/v1/teams/count') return teamCount(env, url);

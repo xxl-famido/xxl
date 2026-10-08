@@ -6,7 +6,7 @@
  * 대체 입력: 칩을 누르면 선택 → 행을 누르면 그 행으로 / 선택한 칩에서 숫자키 1~8 = 해당 행, 0 = 미배치.
  */
 import * as api from './api.js';
-import { spamReason } from './shared.js';
+import { spamReason, verLabel } from './shared.js';
 import { t, spamText } from './i18n.js';
 import { cooldownButton, writeError, reveal, REVEAL_STEP, put, h, icon, avatar, anonName, ago, buildChip, nameOf, iconSrc, toast, askPin, askConfirm, menuButton, votes, clampText, emptyState, skeleton, seg, pinField, reducedMotion } from './ui.js';
 import { threadView } from './thread.js';
@@ -33,27 +33,40 @@ function flipMany(containers, mutate, duration = dur('base')) {
 const basisLabel = (k) => t(`basis.${k}`);
 /** 올린 시각. 새 동료를 넣어 빌드가 올라간(끌올된) 티어표는 그 시각 + '(수정됨)'. */
 const postedAt = (tl) => (tl.bumped
-  ? [ago(tl.bumped), ' ', h('span', { title: t('tier.bumped.title', { build: tl.build }) }, t('tier.bumped'))]
+  ? [ago(tl.bumped), ' ', h('span', { title: t('tier.bumped.title', { ver: verLabel(tl.build) }) }, t('tier.bumped'))]
   : ago(tl.at));
 
 // ── 모아보기 ──────────────────────────────────────────────────────────────
-// scope: 'auto' = 이번 버전 표본이 모자라면 전체 버전(처음 들어왔을 때). 버전 버튼을 누르면 그 범위로 고정.
-const home = { basis: 'any', scope: 'auto', listBasis: 'any', sort: 'best' };
+// scope: 처음엔 이번 버전(표본이 모자라도 그대로 — 2026-10-08 사용자 결정). 버전 목록에서 고르면 그 범위로.
+// 'build' = 지난 라운지 버전 하나(scopeBuild). 목록 값은 'current' · 'all' · SCOPE_BUILD_PREFIX + 버전.
+const home = { basis: 'any', scope: 'current', scopeBuild: null, listBasis: 'any', sort: 'best' };
+const SCOPE_BUILD_PREFIX = 'build:';
+const scopeValueOf = (scope, build) => (scope === 'build' ? SCOPE_BUILD_PREFIX + build : scope);
 
 export async function tierHome(view) {
   const agg = h('div', { class: 'lg-agg' }, skeleton(5));
   const aggNote = h('p', { class: 'lg-cap' });
   const aggCap = h('p', { class: 'lg-cap' });
   const list = h('ol', { class: 'lg-rows' }, h('li', {}, skeleton(4)));
-  const scopeSeg = seg(t('tier.scope.aria'), [{ value: 'current', label: t('tier.scope.current') }, { value: 'all', label: t('tier.scope.all') }],
-    home.scope, (v) => { home.scope = v; paintAgg(); });
+  // 버전 목록: 이번 버전 → 지난 버전(최신 → 오래된) → 전체 버전
+  const scopeSel = h('select', { class: 'lg-select', 'aria-label': t('tier.scope.aria') },
+    h('option', { value: 'current' }, t('tier.scope.currentBuild', { ver: verLabel(api.CURRENT_BUILD) })),
+    api.BUILDS.slice(0, -1).reverse().map((b) => h('option', { value: scopeValueOf('build', b) }, verLabel(b))),
+    h('option', { value: 'all' }, t('tier.scope.all')));
+  scopeSel.value = scopeValueOf(home.scope, home.scopeBuild);
+  scopeSel.addEventListener('change', () => {
+    const v = scopeSel.value;
+    if (v.startsWith(SCOPE_BUILD_PREFIX)) { home.scope = 'build'; home.scopeBuild = v.slice(SCOPE_BUILD_PREFIX.length); }
+    else { home.scope = v; home.scopeBuild = null; }
+    paintAgg();
+  });
   view.replaceChildren(h('div', { class: 'lg-single' },
     h('header', { class: 'lg-page-head' }, h('h1', { class: 'lg-h1' }, t('nav.tier')),
       h('a', { class: 'btn btn-primary', href: '#/tier/new' }, icon('plus'), t('tier.new'))),
     h('section', { class: 'lg-sec' },
       h('div', { class: 'lg-sec-head' }, h('h2', {}, t('tier.agg.title')),
         h('div', { class: 'lg-sec-tools' },
-          scopeSeg,
+          scopeSel,
           seg(t('basis.aria'), [{ value: 'any', label: t('common.all') }, ...api.TIER_BASIS.filter((b) => b.key !== 'free').map((b) => ({ value: b.key, label: basisLabel(b.key) }))], home.basis, (v) => { home.basis = v; paintAgg(); }))),
       aggNote, aggCap, agg),
     h('section', { class: 'lg-sec' },
@@ -66,15 +79,17 @@ export async function tierHome(view) {
   let aggSeq = 0;   // 버튼을 빠르게 바꿔 눌러도 마지막 요청 결과만 그린다
   async function paintAgg() {
     const seq = ++aggSeq;
-    const a = await api.aggregate(home.basis, home.scope);
+    const a = await api.aggregate(home.basis, home.scope, home.scopeBuild);
     if (seq !== aggSeq) return;
-    // 자동 선택이면 서버가 고른 범위를 버튼에 표시
-    scopeSeg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.value === a.scope)));
-    aggNote.textContent = a.fallback ? t('tier.agg.fallback', { build: a.build, n: a.currentCount, min: api.AGG_VERSION_MIN })
-      : a.scope === 'current' ? t('tier.agg.scope.current', { build: a.build }) : t('tier.agg.scope.all');
+    // 서버가 실제로 쓴 범위를 목록에 표시(목록 밖 버전이라 전체 버전이 된 경우 등)
+    scopeSel.value = scopeValueOf(a.scope, a.scopeBuild);
+    aggNote.textContent = a.scope === 'current' ? t('tier.agg.scope.current', { ver: verLabel(a.build) })
+      : a.scope === 'build' ? t('tier.agg.scope.build', { ver: verLabel(a.scopeBuild) }) : t('tier.agg.scope.all');
     aggCap.textContent = t('tier.agg.cap', { n: a.sampleCount, min: api.AGG_MIN_SAMPLES });
     if (!a.sampleCount) {
-      agg.replaceChildren(emptyState(a.scope === 'current' ? t('tier.agg.empty.current', { build: a.build }) : t('tier.agg.empty'), { href: '#/tier/new', label: t('tier.new') }));
+      const emptyText = a.scope === 'current' ? t('tier.agg.empty.current', { ver: verLabel(a.build) })
+        : a.scope === 'build' ? t('tier.agg.empty.build', { ver: verLabel(a.scopeBuild) }) : t('tier.agg.empty');
+      agg.replaceChildren(emptyState(emptyText, { href: '#/tier/new', label: t('tier.new') }));
       return;
     }
     const icons = [];
@@ -341,7 +356,7 @@ export async function tierView(view, id) {
     h('a', { class: 'lg-back', href: '#/tier' }, icon('arrow-left'), t('nav.tier')),
     h('header', { class: 'lg-page-head is-stack' },
       h('h1', { class: 'lg-h1' }, tl.title),
-      h('p', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(tl.basis)), tl.fun && h('span', { class: 'lg-chip', title: t('tier.fun.hint') }, t('chip.fun')), avatar(tl.anon, 16), anonName(tl.anon, tl.anonNo, tl.op), ' · ', postedAt(tl), !tl.bumped && tl.edited && ' · ' + t('chip.edited'), ' · ' + t('meta.build', { build: tl.build }), buildChip(tl.build))),
+      h('p', { class: 'lg-row-meta' }, h('span', { class: 'lg-chip' }, basisLabel(tl.basis)), tl.fun && h('span', { class: 'lg-chip', title: t('tier.fun.hint') }, t('chip.fun')), avatar(tl.anon, 16), anonName(tl.anon, tl.anonNo, tl.op), ' · ', postedAt(tl), !tl.bumped && tl.edited && ' · ' + t('chip.edited'), ' · ' + verLabel(tl.build), buildChip(tl.build))),
     board,
     tl.descr && h('div', { class: 'lg-descr' }, clampText(tl.descr, 8)),
     h('div', { class: 'lg-bar' },

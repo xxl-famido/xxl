@@ -171,12 +171,11 @@ export async function createTier(args) {
   remember('tier', t.id);
   return t;
 }
-/** scope = 'auto' | 'current' | 'all'(shared.js AGG_SCOPES). 응답의 scope 가 실제로 쓴 범위. */
-export const aggregate = (basis = 'all', scope = 'all') => get('/v1/tiers/aggregate', { basis, scope });
+/** scope = 'auto' | 'current' | 'build' | 'all'(shared.js AGG_SCOPES), build 범위는 build = MMDD. 응답의 scope 가 실제로 쓴 범위. */
+export const aggregate = (basis = 'all', scope = 'all', build = null) => get('/v1/tiers/aggregate', { basis, scope, ...(scope === 'build' && build ? { build } : {}) });
+/** 동료 한 명의 커뮤니티 티어: 이번 버전 → 바로 이전 버전 → 전체 버전(shared.js charTierFrom). { label, n, scope, build } | null. */
 export async function charTier(cid, basis = 'all') {
-  const a = await aggregate(basis);
-  for (const r of a.rows) { const it = r.items.find((x) => x.id === cid); if (it) return { label: r.label, n: it.n }; }
-  return null;
+  return (await get('/v1/tiers/by-char', { id: cid, basis })).tier;
 }
 
 // ── 팀 ────────────────────────────────────────────────────────────────────

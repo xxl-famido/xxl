@@ -21,6 +21,23 @@ const get = (p, o) => call('GET', p, null, o);
 const post = (p, b, o) => call('POST', p, b, o);
 const noSecrets = (text) => !/dislike|pin_hash|pin_salt|pin_fail|ip_hash|"voter"/.test(text);
 
+// 동료 페이지 커뮤니티 티어 대조: 서버 /v1/tiers/by-char 답 = 공개 티어표 목록을 shared.js 규칙으로 다시 계산한 값(집계 제외·다른 기준 빼고)
+async function charTierMismatches(basis = 'any') {
+  const { charTierFrom, tierPositions } = await import('../../dashboard_v2/src/lounge/shared.js');
+  const list = (await get(`/v1/tiers?basis=${basis}&sort=new`)).data.filter((t) => !t.fun);
+  const byChar = new Map();
+  for (const t of list) for (const [cid, pos] of tierPositions(t.rows)) { if (!byChar.has(cid)) byChar.set(cid, []); byChar.get(cid).push({ build: t.build, pos }); }
+  const bad = [];
+  const seen = { current: 0, prev: 0, all: 0, none: 0 };
+  for (const [cid, entries] of byChar) {
+    const want = charTierFrom(entries);
+    const got = (await get(`/v1/tiers/by-char?id=${cid}&basis=${basis}`)).data.tier;
+    if (JSON.stringify(got) !== JSON.stringify(want)) bad.push(`${cid}: ${JSON.stringify(got)} ≠ ${JSON.stringify(want)}`);
+    seen[want ? want.scope : 'none']++;
+  }
+  return { bad, seen, chars: byChar.size };
+}
+
 (async () => {
   // 출처·기본
   ok((await get('/v1/health')).data.ok === true, 'health');
@@ -50,6 +67,31 @@ const noSecrets = (text) => !/dislike|pin_hash|pin_salt|pin_fail|ip_hash|"voter"
   const aggCur = (await get('/v1/tiers/aggregate?basis=any&scope=current')).data;
   ok(aggCur.scope === 'current' && aggCur.fallback === false && aggCur.sampleCount === 0, '이번 버전 직접 고름 → 표본 0 그대로');
   ok((await get('/v1/tiers/aggregate?basis=any&scope=nope')).data.scope === 'all', '모르는 범위 값 → 전체 버전');
+  {
+    // 버전별(지난 라운지 버전 하나): 예시 데이터는 첫 버전(2.0) 7개 + 목록에 없는 옛 버전 1.7 1개
+    const { BUILDS } = await import('../../dashboard_v2/src/lounge/shared.js');
+    const first = BUILDS[0];
+    const byBuild = (await get(`/v1/tiers/aggregate?basis=any&scope=build&build=${first}`)).data;
+    const listed = (await get('/v1/tiers?basis=any')).data.filter((t) => !t.fun && t.build === first).length;
+    ok(byBuild.scope === 'build' && byBuild.scopeBuild === first && byBuild.sampleCount === listed && listed > 0 && byBuild.fallback === false, `버전 ${first} 범위 → 그 버전 티어표만 (${byBuild.sampleCount}개)`);
+    const outside = (await get('/v1/tiers/aggregate?basis=any&scope=build&build=1.7')).data;
+    ok(outside.scope === 'all' && outside.scopeBuild === null && outside.sampleCount === 8, '목록에 없는 버전 → 전체 버전');
+    ok((await get('/v1/tiers/aggregate?basis=any&scope=build')).data.scope === 'all', '빌드 값 없는 빌드 범위 → 전체 버전');
+    ok(aggCur.scopeBuild === null && agg.data.scopeBuild === null, '빌드 범위가 아니면 scopeBuild 없음');
+  }
+  {
+    const r = await charTierMismatches('any');
+    ok(r.chars > 0 && r.bad.length === 0, `동료 커뮤니티 티어 = 공개 목록 재계산 (${r.chars}명, 불일치 ${r.bad.length}${r.bad.length ? ' — ' + r.bad.slice(0, 3).join(' / ') : ''})`);
+    // 예시 데이터는 첫 버전(2.0) + 더 옛 버전뿐 → 이번 버전 0명. 2.0 이 바로 이전 버전인 동안은 대부분 이전 버전으로 나온다.
+    const { PREV_BUILD: prevBuild, BUILDS: allBuilds } = await import('../../dashboard_v2/src/lounge/shared.js');
+    ok(r.seen.current === 0 && r.seen.prev + r.seen.all > 0 && (prevBuild !== allBuilds[0] || r.seen.prev > 0),
+      `예시 데이터(지난 버전뿐) → 이번 버전 0 · 이전 버전 ${r.seen.prev} · 전체 버전 ${r.seen.all} · 표본 부족 ${r.seen.none}`);
+    ok((await charTierMismatches('boss')).bad.length === 0, '동료 커뮤니티 티어: 기준(보스전) 필터도 같은 값');
+    ok((await get('/v1/tiers/by-char?id=99999&basis=any')).status === 404 && (await get('/v1/tiers/by-char?id=1%20OR%201%3D1')).status === 404, '동료 커뮤니티 티어: 없는 동료·주입 모양 id → 404');
+    const unknownBasis = (await get('/v1/tiers/by-char?id=10421&basis=nope')).data;
+    const anyBasis = (await get('/v1/tiers/by-char?id=10421&basis=any')).data;
+    ok(unknownBasis && 'tier' in unknownBasis && JSON.stringify(unknownBasis) === JSON.stringify(anyBasis), '모르는 기준 값 → 기준 없이(모든 기준) 계산');
+  }
   ok((await get('/v1/threads/char%3A99999')).status === 404, '없는 동료 스레드 → 404');
   ok((await get("/v1/threads/char%3A10441'%20OR%201%3D1--")).status === 400, 'SQL 주입 모양 스레드 키 → 400');
 
@@ -309,6 +351,22 @@ const noSecrets = (text) => !/dislike|pin_hash|pin_salt|pin_fail|ip_hash|"voter"
       const cur = (await get(`/v1/tiers/aggregate?basis=any&scope=current`)).data;
       ok(cur.currentCount >= 1 && cur.sampleCount === cur.currentCount, `끌올된 티어표는 이번 버전 평균에 들어감 (이번 버전 ${cur.currentCount}개)`);
     }
+  }
+
+  // ── 동료 커뮤니티 티어: 이번 버전 티어표가 최소 개수만큼 쌓인 동료는 이번 버전 값 ──
+  {
+    const { AGG_MIN_SAMPLES } = await import('../../dashboard_v2/src/lounge/shared.js');
+    const ET = { headers: { 'X-Test-Gap-Scale': '100', 'X-Test-Rate-Scale': '100' } };
+    const cid = 10405;
+    for (let i = 0; i < AGG_MIN_SAMPLES; i++) {
+      const rows = [{ label: 'S', ids: [cid] }, { label: 'A', ids: [] }, { label: 'B', ids: [] }, { label: 'C', ids: [] }, { label: 'D', ids: [] }];
+      const made = await post('/v1/tiers', { title: `버전 검사 ${i + 1}`, basis: 'free', rows, pin: '1470', ts: TS }, ET);
+      ok(made.status === 200 && made.data.build === CURRENT_BUILD, `버전 검사 티어표 ${i + 1} (빌드 ${made.data.build})`);
+    }
+    const t = (await get(`/v1/tiers/by-char?id=${cid}&basis=any`)).data.tier;
+    ok(t && t.scope === 'current' && t.build === CURRENT_BUILD && t.n >= AGG_MIN_SAMPLES, `이번 버전 표본이 차면 이번 버전 (${JSON.stringify(t)})`);
+    const r = await charTierMismatches('any');
+    ok(r.bad.length === 0 && r.seen.current > 0, `끌올·새 티어표 뒤에도 공개 목록 재계산과 같음 (이번 버전 ${r.seen.current} · 이전 버전 ${r.seen.prev} · 전체 버전 ${r.seen.all} · 불일치 ${r.bad.length})`);
   }
 
   console.log(fails ? `${fails} FAILED` : 'ALL PASS');

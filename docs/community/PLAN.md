@@ -219,5 +219,5 @@ woofia_sim/
 
 ## 10. 남은 연결 작업 (L4 전)
 - 시뮬 v2 `main.js` 부트: `#code=<코드>&run=1` 적용·자동 실행, `#add=<동료ID>` 편성 추가 — 아직 없음(라운지 링크만 준비됨).
-- `lounge_chars.json`: `python tools/redesign/gen_lounge_chars.py --new <신규ID> --build <MMDD>` 로 생성(엔진 char_meta 와 같은 이름·속성·포지션, data/chars.json 과 ID 일치 검사). 신캐 파이프라인에 이 한 줄 추가.
+- `lounge_chars.json`: `python tools/redesign/gen_lounge_chars.py --new <신규ID> --version <시뮬 버전>` 로 생성(엔진 char_meta 와 같은 이름·속성·포지션, data/chars.json 과 ID 일치 검사). 신캐 파이프라인에 이 한 줄 추가.
 - i18n(kr/en/ja/zh) 미적용 — 문구는 용어집 확정 후 ID 키로.
