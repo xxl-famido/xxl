@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 
-from .effects import MARKER, Effect, parse_skill_level
+from .effects import BUFF, MARKER, STAT_EX_EFFECT, TRIGGER, Effect, parse_skill_level
 from .stats import (
     Investment,
     can_unlock_rune,
@@ -70,11 +70,40 @@ def _tag(effects: list[Effect], owner: int, skill_kr: str) -> None:
         _tag(e.sub_effects, owner, skill_kr)
 
 
+# ── 원본 eff 트리가 설명문과 다른 슬롯 ─────────────────────────────────────────────
+# 엔진은 설명문(desc_en)을 파싱한다. 프리다 덤프의 실제 스킬 트리가 설명문과 다르면 데이터를 따른다(해석 사다리 1단계,
+# 기록 mining/autonomy/interpretations/<id>.json). False 면 설명문 그대로 계산한다.
+FOLLOW_DATA_TREE = True
+
+
+def _reaper_follow_data(effects: list[Effect]) -> list[Effect]:
+    """적월의 코드B(10445) passive2 「혈화 속 은신」 수확자 — 해석 10445-P2-reaper-data.
+
+    설명문: 수확자 중 필살기 시 아군 전체 ATK +Y%(1턴) · 아군 전체 필살기 효과 +X%(1턴).
+    원본 트리(1020 덤프): 수확자 묶음 53496 = [53506 공격 시 60% 데미지, 53526 필살기 시 → 53536 ATK +Y%, 53536].
+    필살기 효과 +X% 줄(53546→53556)은 어떤 스킬도 참조하지 않는 고아 노드라 게임에서 실행될 길이 없다 → 뺀다.
+    묶음 직속의 53536(지속 1턴)은 언제 걸리는지 데이터로 정해지지 않아(게이트 직속 버프 선례는 전부 지속 0 = 상시)
+    더하지 않는다 — 대안(수확자 동안 아군 전체 ATK +Y%)은 해석 기록에 둔다."""
+    out = []
+    for e in effects:
+        if e.kind == TRIGGER and e.condition == "on_ex" and e.stack_name \
+                and any(s.kind == BUFF and s.target == "allies" and s.stat == STAT_EX_EFFECT for s in e.sub_effects):
+            continue
+        out.append(e)
+    return out
+
+
+DATA_TREE_FIXES = {(10445, "passive2"): _reaper_follow_data}
+
+
 def _resolve_slot(slot: str, slot_data: dict, level: int, owner: int = 0) -> ResolvedSkill:
     idx = max(0, min(level, MAX_SKILL_LEVEL) - 1)
     levels = slot_data.get("levels", {})
     entry = levels.get(str(idx)) or levels.get(str(len(levels) - 1)) or {}
     effects = parse_skill_level(entry.get("desc_en", ""), entry.get("params", {}))
+    fix = DATA_TREE_FIXES.get((owner, slot)) if FOLLOW_DATA_TREE else None
+    if fix is not None:
+        effects = fix(effects)
     skill_kr = slot_data.get("name_kr") or slot_data.get("name_en", slot)
     _tag(effects, owner, skill_kr)
     return ResolvedSkill(

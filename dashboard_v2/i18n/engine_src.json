@@ -9,6 +9,7 @@
   "frag.grantAttackLink": "공격연계 부여",
   "frag.exSkillCd": "필살 CD",
   "frag.healingReceived": "받는회복 +",
+  "frag.lifesteal": "흡혈",
   "frag.chanceCdCutAssumed": "확률 쿨 감소 성공 가정",
   "frag.triggeredSkillEffect": "발동 스킬 효과",
   "frag.baseAtk": "기초ATK",
@@ -136,6 +137,8 @@
   "frag.vulnerable": "열상",
   "frag.aura": "위용",
   "frag.supplication": "기원",
+  "frag.huntersMoon": "사냥의 달",
+  "frag.reaper": "수확자",
   "frag.otherAllies": "자신 제외 아군",
   "frag.cdImmuneVoid": "CD 변동 면역으로 무효",
   "frag.cdImmune": "CD 변동 면역",
@@ -193,7 +196,8 @@
   "frag.re.0Allies": "아군 (\\d+)명",
   "frag.re.0Enemies": "적 (\\d+)명",
   "frag.re.0Stacks": "([+-]?\\d+)중첩",
-  "frag.re.dummy0": "더미(\\d+)"
+  "frag.re.dummy0": "더미(\\d+)",
+  "frag.re.ofDamage0": "피해의 ([\\d.]+)%"
  },
  "exact": {
   "치유": "role.healer",

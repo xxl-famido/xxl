@@ -1,5 +1,23 @@
 {
  "_comment": "English translation of kr.json (tidied patch notes). Same versions, same items order/count, one details line per Korean line. Terms follow dashboard_v2/i18n/en.json.",
+ "2.2": {
+  "title": "New companion ‘Crimson Moon Code: B’",
+  "items": [
+   {
+    "text": "Added new companion ‘Crimson Moon Code: B’ — a Fire-element Support who, with the EX Skill and Basic Attacks, grants the whole team ‘heal own HP by part of the damage dealt’, raises the whole team's ATK, and deals extra damage in the Reaper state after Defending.",
+    "details": [
+     "Each companion heals based on the damage it deals itself, and the rates add up when both the EX Skill and the passive are active. Healing received +% at 50% HP or less also applies to this healing.",
+     "The Crimson Veil line ‘in Reaper, on EX Skill, all allies' EX Skill effect +20.7%’ is not linked to any skill in the game data, so it is not counted."
+    ]
+   },
+   {
+    "text": "Effects that turn on ‘when own HP ≧ N%’ now turn off while damage taken keeps HP below that value.",
+    "details": [
+     "Battles without incoming damage (HP never drops) give the same results as before."
+    ]
+   }
+  ]
+ },
  "2.1.1": {
   "title": "Hakui's EX Skill CD cut now shapes action plans",
   "items": [

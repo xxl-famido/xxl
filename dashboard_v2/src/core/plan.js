@@ -320,10 +320,13 @@ export function passiveDefendPlan(meta, n = 30, env = ENV0) {
  *   10421 파미도 passive1 「롱 패스 준비」: 방어 시 자신 기초 ATK 30% 증가(2턴)            — v1 '패시브 방어' 버튼
  *   10426 란     passive2 「허물 매미 교전」: 필살기 발동 시 【란의 기운】, 기운 보유 방어 → 4번 자리 동료가 공격하면
  *                란에게 발동 스킬 효과 +108%(2턴)·【해일의 송곳니】 +5 → 다음 턴 필살기(송곳니 중첩당 발동 데미지)가 커진다 — v2 신규
+ *   10445 적월의 코드B passive2 「혈화 속 은신」: 방어 시 【사냥의 달】(2턴) → 【수확자】 동안 공격 시 ATK 60% 데미지 ·
+ *                필살기 시 아군 전체 ATK 18%(1턴) → 다음 턴 필살기가 수확자 안에서 나간다
  */
 export const DEF_BEFORE_ULT = Object.freeze({
   [PASSIVE_DEF_ID]: Object.freeze({ needUlt: false }),
   10426: Object.freeze({ needUlt: true, pos4: true }),
+  10445: Object.freeze({ needUlt: false }),
 });
 /** v1 PRESETS 밖의 동료별 프리셋(계약 테스트의 PRESETS 목록은 그대로 둔다). */
 export const CHAR_PRESETS = Object.freeze(['defRush', 'ult3def']);

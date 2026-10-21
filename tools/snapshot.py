@@ -188,6 +188,14 @@ def _team_combos() -> list[Combo]:
             turns=15, dummies=3, enemy_hits=2, incoming_hp_pct=20,
         ),
         Combo(
+            name="team_crimson_lifesteal",
+            purpose="적월의 코드B 흡혈 — 아군 전체 시한부 흡혈률 합산(필살 27%+파4 20%)·받는 치료량(HP≦50%)·HP≧90% ATK 라이브·"
+                    "필살 직전 방어 수확자, 무명 자해 HP 회복(안티)",
+            specs=(CharSpec(10445, position=1, rotation="평평방궁|평방궁"), CharSpec(10443, position=2),
+                   CharSpec(10402, position=3)),
+            turns=12, dummies=1, enemy_hits=2, incoming_hp_pct=15,
+        ),
+        Combo(
             name="team_barrier_channels",
             purpose="배리어 액션 채널(CHG-1)·오렘 소급 증폭(CHG-4)·다라완 배리어 비례 반격·조롱",
             specs=(CharSpec(10419, position=1), CharSpec(10414, position=2),
