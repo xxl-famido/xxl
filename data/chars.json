@@ -784,5 +784,20 @@
   "name_cn": "銀煌鬥神白威",
   "name_sc": "银煌斗神白威",
   "name_ja": "銀煌の闘神白威"
+ },
+ "10445": {
+  "id": 10445,
+  "name_en": "Crimson Moon Code: B",
+  "name_kr": "적월의 코드B",
+  "feature": "",
+  "rarity": 4,
+  "class": 4,
+  "element": 1,
+  "baseATK": 499,
+  "baseHP": 2500,
+  "hasRune": true,
+  "name_cn": "赤月的代號B",
+  "name_sc": "赤月的代号B",
+  "name_ja": "赤い月のコード：B"
  }
 }

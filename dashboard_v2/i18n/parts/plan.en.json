@@ -182,6 +182,7 @@
  "plan.turn.preset.tip.pdef": "Def on the turn right before each EX Skill (carry the Def effect into the next EX Skill)",
  "plan.turn.preset.tip.pdef.10421": "Def right before each EX Skill · Long Pass Prep: Def raises own base ATK by 30% (2 turns), applied to the next EX Skill",
  "plan.turn.preset.tip.pdef.10426": "On the base rhythm (CD 2 turns), Def before each EX Skill · Molting Cicada: spending Ran's Aura (gained by EX Skill) on Def makes the position-4 ally's attack give Ran +108% triggered skill effect (2 turns) and 5 Tidefang stacks, so the next EX Skill hits harder. No Def before the first EX Skill (no Aura yet). The position-4 ally must act after Ran",
+ "plan.turn.preset.tip.pdef.10445": "Def right before each EX Skill · Crimson Veil: Def grants Hunter's Moon (2 turns) → while in Reaper, attacks deal 60% ATK damage and the EX Skill gives all allies ATK +18% (1 turn). The described 'EX Skill effect +20.7%' is not linked to any skill in the game data, so it is not counted",
  "plan.turn.preset.tip.ult3def": "EX Skill every 3 turns from the first one, Def on the turn right before",
  "plan.turn.preset.tip.ult3def.10426": "EX Skill on turns 3·6·9…, Def on 5·8·11… (Normal Attack → Def → EX Skill) · Molting Cicada: spending Ran's Aura on Def makes the position-4 ally's attack give Ran +108% triggered skill effect (2 turns) and 5 Tidefang stacks. The position-4 ally must act after Ran",
  "plan.turn.preset.tip.defRush": "Use Def to cut EX Skill CD and cast it as early as possible (the needed Def turns are placed automatically)",

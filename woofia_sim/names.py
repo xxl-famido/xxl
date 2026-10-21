@@ -41,6 +41,8 @@ STACK_KR: dict[str, str] = {
     "Kuzushi": "파세",
     "Jigotai": "반격 자세",
     "Fearless": "불굴",
+    "Hunter's Moon": "사냥의 달",   # 적월의 코드B 파2
+    "Reaper": "수확자",
     "Sharpness": "봉망",
     "Hooked": "입질",
     "Judgment": "심판",
@@ -90,6 +92,7 @@ STAT_KR_LABEL: dict[str, str] = {
     "bar_recv_pct": "받는배리어",
     "dmg_taken_ex_pct": "필살기 받는딜",
     "dmg_taken_flat": "열상",
+    "lifesteal_pct": "흡혈",
 }
 
 

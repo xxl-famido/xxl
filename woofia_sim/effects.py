@@ -55,6 +55,8 @@ STAT_TYPE_ADV_DMG = "type_adv_dmg_pct"      # 속성 상성 추가뎀 증폭 (�
 STAT_DMG_TAKEN_EX = "dmg_taken_ex_pct"      # 필살기(EX 액션) 피격에만 걸리는 받뎀 (길드 제단 401: 보스 필살기 피격 -75%)
 STAT_DMG_TAKEN_FLAT = "dmg_taken_flat"      # 열상(코드B 황혼 연사): 대상이 데미지를 받을 때마다(타격·지속 틱 1회당) 부여자
                                             #   기초 ATK N% 고정 데미지 추가. Buff.value = 부여 시점에 고정된 데미지 값
+STAT_LIFESTEAL = "lifesteal_pct"            # 흡혈률(TBonusProperty.LifeStealRate): 피해를 줄 때 그 피해의 x%만큼 자기 HP 회복.
+                                            #   시한부 부여(적월의 코드B 필살·파4)는 버프 — 같은 줄 재부여는 갱신, 다른 줄은 합산
 
 
 @dataclass
@@ -944,8 +946,13 @@ def _b_per_stack_dmg_taken(m):
 
 # 무명 파4: "upon dealing damage, heal own HP by N% of the damage" — 흡혈. _OWN_HP가 HP 게이트를
 # self_hp_op/val로 붙이고, 엔진 _record_hit이 직접 hit마다 dmg×N%를 자힐한다(DoT 틱 제외).
-@_leaf(rf"^[Uu]pon dealing damage, heal own HP by {_NUM}% of the damage\.?$")
+# 적월의 코드B 필살·파4: "... of the damage for N turn(s)" = 시한부 흡혈률 버프(STAT_LIFESTEAL).
+# 게임은 흡혈을 유닛 속성 하나(TBonusProperty.LifeStealRate)로 합산하므로 버프 합산으로 모델링한다.
+@_leaf(rf"^[Uu]pon dealing damage, heal own HP by {_NUM}% of the damage(?:,? for {_NUM} {_TRN})?\.?$")
 def _b_lifesteal(m):
+    if m.group(2):
+        return Effect(BUFF, m.group(0), target="self", stat=STAT_LIFESTEAL,
+                      magnitude=_f(m.group(1)), duration=int(_f(m.group(2))))
     return Effect(LIFESTEAL, m.group(0), target="self", magnitude=_f(m.group(1)))
 
 
@@ -1130,6 +1137,14 @@ def parse_line(line: str) -> Effect:
                 return inner
             if inner.kind == LIFESTEAL:            # 무명 파4: HP≦30% 흡혈 — hit마다 라이브 게이트
                 inner.self_hp_op, inner.self_hp_val = op, val
+                inner.raw = line
+                return inner
+            # ≧ static self-buff (몽규 파4 인접 HP≧ 주는딜 · 적월의 코드B 파4 HP≧90% ATK): 라이브 HP 조건버프.
+            # 예전엔 '더미 풀HP 기준 항상 참'이라 평범한 버프였으나, 흡혈·피격·자해로 HP가 오르내리므로
+            # ≦ 와 같은 self_hp: 경로로 심는다 — 풀HP 시나리오 결과는 그대로.
+            if op == "ge" and inner.kind == BUFF and inner.target == "self" and inner.stat \
+                    and not inner.condition:
+                inner.condition = f"self_hp:{op}:{val:g}"
                 inner.raw = line
                 return inner
             # static self-buff (한번에 클리어): ≧/= holds at the dummy-full-HP baseline → plain buff.
@@ -1392,6 +1407,46 @@ def _fold_stance_block(out: list[Effect]) -> list[Effect]:
     return out[:mk_idx] + kept
 
 
+_ENTER_STATE = re.compile(r"^[Ee]nter ([A-Z][\w' ·-]+?)\.?$")
+
+
+def _fold_state_block(out: list[Effect]) -> list[Effect]:
+    """스택 게이트 상태 블록(적월의 코드B 수확자/Reaper)을 엮는다.
+
+    게임 텍스트 형태:
+        When defending, trigger: Gain 1 stack of <X> for 2 turns.   (스택 부여)
+        When own <X> = N stack(s), enter <State>.                   (상태 진입 게이트)
+        <State>:                                                    (stack_def 헤더)
+        On attack, trigger: ...                                     (상태 중에만 유효한 줄들)
+        Own ATK +M%.
+
+    평평하게 두면 블록 안 트리거가 상태와 무관하게 늘 발동한다. 그래서 블록 안 트리거에는 <X> ≧ N 게이트를
+    걸고, 이벤트 없는 자기 버프는 <X> 보유 중에만 켜지는 조건 버프로 바꾼다. 진입 게이트 줄은 표시만 남긴다
+    (상태 자체는 <X> 보유로 표현 — 따로 스택을 만들지 않는다). 이 모양이 없는 캐릭터엔 무해(no-op)하다."""
+    gate_idx = state = None
+    for i, e in enumerate(out):
+        if e.kind == TRIGGER and e.stack_name and e.condition == f"{e.stack_name}>={e.max_stacks}" \
+                and len(e.sub_effects) == 1 and _ENTER_STATE.match((e.sub_effects[0].raw or "").strip()):
+            gate_idx, state = i, _ENTER_STATE.match(e.sub_effects[0].raw.strip()).group(1)
+            break
+    if gate_idx is None:
+        return out
+    gate = out[gate_idx]
+    mk_idx = next((i for i, e in enumerate(out) if i > gate_idx and e.kind == MARKER
+                   and e.stat == "stack_def" and e.stack_name == state), None)
+    if mk_idx is None:
+        return out
+    for e in out[mk_idx + 1:]:
+        if e.kind == TRIGGER and not e.stack_name:
+            e.stack_name, e.max_stacks = gate.stack_name, gate.max_stacks
+        elif e.kind == BUFF and e.target == "self" and e.stat and not e.condition:
+            e.condition = f"while:{gate.stack_name}"
+            e.stack_name = gate.stack_name
+    out = list(out)
+    out[gate_idx] = Effect(MARKER, gate.raw, stat="state_gate", stack_name=state)
+    return out
+
+
 # "And attack N times, each dealing damage X% of own ATK to target(s)." (코드B 황혼 연사 = 110% 2회).
 # 배율 합(220%) 한 번으로 뭉치면 타격당 붙는 효과(열상)가 1회만 붙으므로 N개의 독립 타격으로 편다.
 _MULTI_HIT = re.compile(r"^(?:[Aa]nd )?[Aa]ttack (\d+) times?, each dealing (damage .+)$")
@@ -1479,6 +1534,7 @@ def parse_skill_level(desc: str, params: dict) -> list[Effect]:
     if absorbed:
         out = [e for i, e in enumerate(out) if i not in absorbed]
     out = _fold_stance_block(out)
+    out = _fold_state_block(out)
     return _lift_bare_chance(out)
 
 

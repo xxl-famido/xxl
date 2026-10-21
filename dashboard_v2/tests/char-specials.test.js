@@ -26,13 +26,18 @@ const mem = () => { const m = new Map(); return { getItem: (k) => (m.has(k) ? m.
 const F = (f1 = {}) => ({ 1: { on: true, off: f1 }, 2: { on: true, off: {} }, 3: { on: true, off: {} } });
 const ALTAR402 = { on: true, floors: F({ 402: true, 1012: true, 1013: true }) };
 const RAN = 10426;
+const CRB = 10445;   // 적월의 코드B
+// sim_api.char_meta(10445) 의 계획 관련 필드(fixtures/chars.json 은 v2.0 스냅샷이라 없다)
+const CRB_META = { id: CRB, name: '적월의 코드B', role: '보조', priority: 1.01, fatalCd: 3, firstFatal: 4, singleUlt: false,
+  autoExtra: false, grantsExtra: false, actionsPerTurn: 1, actionsPerTurnNoRune: 1, cdDefendReduce: 0, cdDefendPerStack: 0,
+  cdDefendStackCap: 0, allyCdCut: null };
 const ultTurns = (p, n = 13) => p.map((x, k) => (x === '궁' ? k + 1 : 0)).filter((t) => t && t <= n);
 const defTurns = (p, n = 13) => p.map((x, k) => (x === '방' ? k + 1 : 0)).filter((t) => t && t <= n);
 const skillText = (id) => Object.values(SKILLS[String(id)] || {}).filter((s) => s && s.levels)
   .map((s) => { const lv = s.levels; return (lv[String(Math.max(...Object.keys(lv).map(Number)))] || {}).desc_kr || ''; }).join('\n');
 
 test('(a) 필살기 직전 방어 표 = 스킬 원문 근거', () => {
-  assert.deepEqual(Object.keys(L.DEF_BEFORE_ULT).map(Number).sort(), [ID.FAMIDO, RAN]);
+  assert.deepEqual(Object.keys(L.DEF_BEFORE_ULT).map(Number).sort(), [ID.FAMIDO, RAN, CRB]);
   assert.match(skillText(ID.FAMIDO), /방어 시 "자신 기초 ATK \$\{arg1\}% 증가 \(\$\{arg2\}턴\)"/, '파미도 롱 패스 준비');
   const ran = skillText(RAN);
   assert.match(ran, /필살기 발동 시 【란의 기운】 발동/, '란: 기운은 필살기로 얻는다 → needUlt');
@@ -40,6 +45,11 @@ test('(a) 필살기 직전 방어 표 = 스킬 원문 근거', () => {
   assert.match(ran, /포지션 4/, '란: 4번 자리 동료');
   assert.equal(L.DEF_BEFORE_ULT[RAN].needUlt, true);
   assert.equal(L.DEF_BEFORE_ULT[ID.FAMIDO].needUlt, false);
+  const crb = skillText(CRB);
+  assert.match(crb, /방어 시, '자신에게 【사냥의 달】 부여, 2턴 지속' 발동/, '적월의 코드B: 방어 시 사냥의 달');
+  assert.match(crb, /수확자:\s*공격 시/, '적월의 코드B: 수확자 동안 공격 시 추가 데미지');
+  assert.equal(L.DEF_BEFORE_ULT[CRB].needUlt, false);
+  assert.deepEqual(defTurns(L.defBeforePlan(CRB_META, 13, L.makeEnv({ chars: { ...CHARS, [CRB]: CRB_META } }))), [3, 6, 9, 12], '필살기 4·7·10·13 바로 앞 턴 방어');
   // 방어로 CD 가 주는 동료는 엔진 메타(cdDefendReduce)로 판정 — 원문에도 '방어 시 … CD … 감소'
   for (const id of [ID.MOIRU, ID.HITOHA]) {
     assert.ok(CHARS[id].cdDefendReduce > 0, `${id} cdDefendReduce`);
@@ -52,6 +62,8 @@ test('(b) 동료별 프리셋 가용성', () => {
   const av = (p) => Object.values(CHARS).filter((m) => L.presetAvailable(p, m, env)).map((m) => m.id).sort();
   assert.deepEqual(av('ult3'), [ID.INVIS, ID.MATAYA]);
   assert.deepEqual(av('pdef'), [ID.FAMIDO, RAN]);
+  assert.equal(L.presetAvailable('pdef', CRB_META, env), true, '적월의 코드B: 필살기 직전 방어');
+  assert.equal(L.presetAvailable('ult3def', CRB_META, env), false);
   assert.deepEqual(av('ult3def'), [RAN]);
   assert.deepEqual(av('defRush'), [ID.HITOHA, ID.MOIRU]);
   assert.deepEqual(L.PRESETS, ['allUlt', 'ult3', 'early', 'pdef', 'reflow'], 'v1 프리셋 목록 계약은 그대로');

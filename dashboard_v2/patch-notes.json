@@ -2,6 +2,74 @@
  "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
  "releases": [
   {
+   "version": "2.2",
+   "date": "2026-10-21",
+   "highlight": true,
+   "char": 10445,
+   "charName": {
+    "kr": "적월의 코드B",
+    "en": "Crimson Moon Code: B",
+    "ja": "赤い月のコード：B",
+    "zh": "赤月的代號B",
+    "zhs": "赤月的代号B"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘적월의 코드B’ 추가",
+    "en": "New companion ‘Crimson Moon Code: B’",
+    "ja": "新しい仲間「赤い月のコード：B」を追加",
+    "zh": "新增夥伴「赤月的代號B」",
+    "zhs": "新增伙伴「赤月的代号B」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘적월의 코드B’가 추가되었습니다. 필살기와 보통 공격으로 아군 전체에 ‘데미지를 줄 때 그 데미지의 일부만큼 자신의 HP 회복’을 부여하고, 아군 전체의 ATK를 올리며, 방어 뒤 ‘수확자’ 상태에서 추가 데미지를 주는 불속성 보조입니다.",
+      "en": "Added new companion ‘Crimson Moon Code: B’ — a Fire-element Support who, with the EX Skill and Basic Attacks, grants the whole team ‘heal own HP by part of the damage dealt’, raises the whole team's ATK, and deals extra damage in the Reaper state after Defending.",
+      "ja": "新しい仲間「赤い月のコード：B」を追加しました。必殺技と通常攻撃で味方全体に「ダメージを与える時、そのダメージの一部で自分のHPを回復」を付与し、味方全体のATKを上げ、防御後の「リーパー」状態で追加ダメージを与える火属性の支援です。",
+      "zh": "新增夥伴「赤月的代號B」。以必殺技與普通攻擊使我方全體獲得「造成傷害時以部分傷害值回復自身HP」，提升我方全體攻擊力，並在防禦後的「收割者」狀態中造成追加傷害的火屬性輔助。",
+      "zhs": "新增伙伴「赤月的代号B」。以必杀技与普通攻击使我方全体获得「造成伤害时以部分伤害值回复自身HP」，提升我方全体攻击力，并在防御后的「收割者」状态中造成追加伤害的火属性辅助。"
+     },
+     "details": [
+      {
+       "kr": "HP 회복은 동료마다 자신이 준 데미지 기준으로 들어가고, 필살기와 패시브로 함께 받으면 비율이 더해집니다. HP 50% 이하일 때 받는 치료량 증가도 이 회복에 적용됩니다.",
+       "en": "Each companion heals based on the damage it deals itself, and the rates add up when both the EX Skill and the passive are active. Healing received +% at 50% HP or less also applies to this healing.",
+       "ja": "HP回復は仲間ごとに自分が与えたダメージを基準に入り、必殺技とパッシブの両方を受けると割合が加算されます。HP50%以下の時の受ける治療増加もこの回復に適用されます。",
+       "zh": "HP回復依各夥伴自身造成的傷害計算，同時從必殺技與被動獲得時比例相加。HP 50% 以下時的受到治療增加也會套用於此回復。",
+       "zhs": "HP回复依各伙伴自身造成的伤害计算，同时从必杀技与被动获得时比例相加。HP 50% 以下时的受到治疗增加也会套用于此回复。"
+      },
+      {
+       "kr": "‘혈화 속 은신’ 설명의 ‘수확자 중 필살기 시 아군 전체의 필살기 효과 20.7% 증가’는 게임 데이터에서 실제로 연결된 스킬이 없어 계산하지 않습니다.",
+       "en": "The Crimson Veil line ‘in Reaper, on EX Skill, all allies' EX Skill effect +20.7%’ is not linked to any skill in the game data, so it is not counted.",
+       "ja": "「血花の隠れ身」の説明にある「リーパー中、必殺技時に味方全体の必殺技効果20.7%増加」は、ゲームデータ上つながるスキルがないため計算しません。",
+       "zh": "「血花隱匿」說明中的「收割者期間必殺時，我方全體必殺技效果增加 20.7%」在遊戲資料中沒有實際連結的技能，因此不計算。",
+       "zhs": "「血花隐匿」说明中的「收割者期间必杀时，我方全体必杀技效果增加 20.7%」在游戏资料中没有实际连结的技能，因此不计算。"
+      }
+     ]
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "‘자신의 HP가 N% 이상일 때’ 켜지는 효과가, 받은 데미지로 HP가 그 아래로 내려간 동안에는 꺼지도록 고쳤습니다.",
+      "en": "Effects that turn on ‘when own HP ≧ N%’ now turn off while damage taken keeps HP below that value.",
+      "ja": "「自分のHPがN%以上の場合」に発動する効果が、受けたダメージでHPがその値を下回っている間は切れるように修正しました。",
+      "zh": "「自身生命值 ≧ N% 時」開啟的效果，在受到傷害使HP低於該值期間會關閉。",
+      "zhs": "「自身生命值 ≧ N% 时」开启的效果，在受到伤害使HP低于该值期间会关闭。"
+     },
+     "details": [
+      {
+       "kr": "받는 데미지를 설정하지 않은 전투(HP가 줄지 않는 경우)의 결과는 그대로입니다.",
+       "en": "Battles without incoming damage (HP never drops) give the same results as before.",
+       "ja": "受けるダメージを設定していない戦闘（HPが減らない場合）の結果は変わりません。",
+       "zh": "未設定受到傷害的戰鬥（HP不會減少）結果不變。",
+       "zhs": "未设定受到伤害的战斗（HP不会减少）结果不变。"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "version": "2.1.1",
    "date": "2026-10-07",
    "highlight": false,

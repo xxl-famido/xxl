@@ -26,7 +26,7 @@ from .effects import (
     STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_DOT_TAKEN, STAT_DOT_DEALT,
     STAT_BASIC_DMG_DEALT, STAT_EX_EFFECT,
     STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, STAT_BAR_RECV, STAT_TYPE_ADV_DMG, STAT_DMG_TAKEN_EX,
-    STAT_DMG_TAKEN_FLAT, Effect,
+    STAT_DMG_TAKEN_FLAT, STAT_LIFESTEAL, Effect,
 )
 from .kit import ResolvedKit
 from .altar import altar_effects
@@ -989,8 +989,37 @@ def _record_hit(caster: "Unit", tgt: "Unit", pct: float, action: str, act_kr: st
                                  "skillPct": ls_pct, "skillId": ls_owner, "skillName": ls_skill,
                                  "healRecv": round(recv, 2), "baseLabel": "피해량", "baseTotal": dmg,
                                  "eff": []})
+    if snap is None and dmg > 0:
+        _apply_timed_lifesteal(caster, dmg, state)
     if dmg > 0:
         _apply_dmg_taken_flat(tgt, state)
+
+
+def _apply_timed_lifesteal(caster: "Unit", dmg: float, state: "BattleState") -> None:
+    """시한부 흡혈률 버프(STAT_LIFESTEAL — 적월의 코드B 필살·파4가 아군 전체에 부여): 직접 hit(DoT 틱·열상 제외,
+    무명 흡혈과 같은 범위)의 피해 × 흡혈률 합 만큼 피해를 준 유닛 자신을 회복한다. 게임은 흡혈을 유닛 속성 하나
+    (TBonusProperty.LifeStealRate)로 합산하므로 여러 부여(필살 27% + 파4 20%)는 더한다. 받는 치료량%를 곱하고
+    최대 HP에서 멈춘다. 회복 공적은 흡혈을 부여한 동료에게 비율대로 쌓는다(힐·배리어처럼 부여자 몫)."""
+    rate = caster._sum(STAT_LIFESTEAL)
+    if rate <= 0 or not caster.alive:
+        return
+    recv = caster._sum(STAT_HEAL_RECV)
+    heal = round(dmg * rate / 100 * max(0.0, 1 + recv / 100), 2)
+    if heal <= 0:
+        return
+    before = caster.hp
+    caster.hp = min(caster.max_hp, caster.hp + heal)
+    comps = caster._comp(STAT_LIFESTEAL)
+    team = {getattr(getattr(u, "_kit", None), "char_id", 0): u for u in state.team(caster)}
+    for c in comps:
+        (team.get(c["by"]) or caster).healing_done += heal * c["v"] / rate
+    top = max(comps, key=lambda c: c["v"]) if comps else {"by": 0, "skill": ""}
+    state.record(caster.name, f"흡혈 → 자신 +{heal:,.0f} (피해의 {rate:g}%, HP {before:,.0f}→{caster.hp:,.0f})",
+                 amount=heal, src_id=top["by"], src_skill=top["skill"],
+                 detail={"kind": "heal", "act": "흡혈", "final": heal, "target": caster.name,
+                         "skillPct": rate, "skillId": top["by"], "skillName": top["skill"],
+                         "healRecv": round(recv, 2), "baseLabel": "피해량", "baseTotal": dmg,
+                         "lifesteal": comps, "eff": []})
 
 
 def _apply_dmg_taken_flat(tgt: "Unit", state: "BattleState") -> None:
