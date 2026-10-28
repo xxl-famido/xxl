@@ -47,4 +47,6 @@ node scripts/golive.mjs            # lounge.html 에 서버 주소 기입(--off 
 ## 운영 (토큰은 파일에서 읽고 화면에 출력하지 않음 · `--local` = 로컬 서버)
 - `node scripts/admin.mjs reports` · `hide|show|delete post:p…` · `lock|unlock` · `health`
 - `node scripts/backup.mjs` → 비밀 폴더 `lounge_backups/` (저장소·클라우드에 올리지 않음)
+- 지난 버전 티어표 고정(migration 0011): 지난 버전 티어표를 고치거나 지우면 직전 상태가 `tier_frozen` 에 남는다(자동, 버전마다 할 일 없음).
+  기능 전에 사라진 상태는 백업에서: `node scripts/freeze_restore.mjs --build 2.0 --from <백업.sql> --ids t…[,t…] [--remote] [--dry]`
 - PC 가 의심되면: `npx wrangler logout` + 대시보드 My Profile → API Tokens 에서 권한 취소

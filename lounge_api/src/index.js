@@ -10,7 +10,7 @@
  * 기기 식별(반응 중복 방지)은 GET 은 ?d=, POST 는 본문 dev 로 받는다.
  */
 import charsJson from '../../data/chars.json' with { type: 'json' };
-import { LIMITS, POST_TAGS, TIER_BASIS, TEAM_BASIS, CURRENT_BUILD, ANTISPAM, OPERATOR, isPin, hotScore, aggregateRows, aggScope, aggRequest, charTierFrom, tierPositions, tierBuildFor, spamReason } from '../../dashboard_v2/src/lounge/shared.js';
+import { LIMITS, POST_TAGS, TIER_BASIS, TEAM_BASIS, CURRENT_BUILD, ANTISPAM, OPERATOR, isPin, hotScore, aggregateRows, aggScope, aggRequest, charTierFrom, tierPositions, tierContentKey, tierEditPlan, FALLBACK_BUILDS, hasPlaced, spamReason } from '../../dashboard_v2/src/lounge/shared.js';
 import { HttpError, E, hmacHex, safeEqual, randomId, ipHash, voterOf, pinHash, limit, checkGap, markWrite, bodyKey, checkTurnstile, allowedOrigin, corsHeaders, cleanText } from './security.js';
 import { readTeamCode } from './teamcode.js';
 import KR from '../../dashboard_v2/i18n/lounge/kr.json' with { type: 'json' };
@@ -310,10 +310,14 @@ async function deleteItem(env, req, id, body) {
   const { table, row } = await getItem(env, id);
   await assertPinnedEditable(env, req, row);
   await checkPin(env, table, row, body.pin);
-  return removeItem(env, table, row);
+  return removeItem(env, table, row, { keepVersion: true });
 }
-/** 답글이 달린 의견은 자리만 남기고, 티어표·팀은 딸린 의견까지 지운다. 관리자 삭제도 이것을 쓴다. */
-async function removeItem(env, table, row) {
+/**
+ * 답글이 달린 의견은 자리만 남기고, 티어표·팀은 딸린 의견까지 지운다. 관리자 삭제도 이것을 쓴다.
+ * keepVersion(작성자 삭제): 지난 버전 티어표는 지우기 직전 상태를 그 버전에 고정해 둔다 — 지난 버전 평균 티어가 바뀌지 않게.
+ * 관리자 삭제는 고정본까지 지운다(도배·부적절한 티어표가 지난 버전 집계에 남지 않게).
+ */
+async function removeItem(env, table, row, { keepVersion = false } = {}) {
   const now = Date.now();
   if (table === 'posts') {
     const child = await env.DB.prepare('SELECT 1 FROM posts WHERE parent = ?1 AND deleted = 0 LIMIT 1').bind(row.id).first();
@@ -325,7 +329,11 @@ async function removeItem(env, table, row) {
     return { ok: true, kept: !!child };
   }
   const thread = threadOfItem(table, row);
+  const versionStmts = table !== 'tiers' ? []
+    : keepVersion ? (row.build !== CURRENT_BUILD ? freezeTierStmts(env, row, now) : [])
+      : [env.DB.prepare('DELETE FROM tier_frozen WHERE tier_id = ?1').bind(row.id), env.DB.prepare('DELETE FROM tier_frozen_pos WHERE tier_id = ?1').bind(row.id)];
   await env.DB.batch([
+    ...versionStmts,
     env.DB.prepare(`DELETE FROM ${table} WHERE id = ?1`).bind(row.id),
     env.DB.prepare(table === 'tiers' ? 'DELETE FROM tier_pos WHERE tier_id = ?1' : 'DELETE FROM team_char WHERE team_id = ?1').bind(row.id),
     env.DB.prepare('DELETE FROM posts WHERE thread = ?1').bind(thread),
@@ -424,6 +432,16 @@ function parseTierInput(body, op) {
 }
 const tierPosStmts = (env, id, rows) => tierPositions(rows).map(([cid, pos]) =>
   env.DB.prepare('INSERT INTO tier_pos (tier_id, char_id, pos) VALUES (?1, ?2, ?3)').bind(id, cid, pos));
+/**
+ * 티어표의 지금 상태를 그 티어표 버전(row.build)에 고정(shared.js tierEditPlan). tier_pos 를 바꾸거나 지우는 문장보다 **먼저** 같은 batch 에 넣는다.
+ * 같은 버전 고정본이 이미 있으면 그대로 둔다(OR IGNORE — 고정본은 그 버전의 마지막 상태 하나).
+ */
+const freezeTierStmts = (env, row, now) => [
+  env.DB.prepare(`INSERT OR IGNORE INTO tier_frozen (tier_id, build, title, basis, rows, descr, fun, anon, anon_no, op, created_at, edited_at, frozen_at)
+    VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)`)
+    .bind(row.id, row.build, row.title, row.basis, row.rows, row.descr || '', row.fun ? 1 : 0, row.anon, row.anon_no, row.op ? 1 : 0, row.created_at, row.edited_at ?? null, now),
+  env.DB.prepare('INSERT OR IGNORE INTO tier_frozen_pos (tier_id, build, char_id, pos) SELECT tier_id, ?2, char_id, pos FROM tier_pos WHERE tier_id = ?1').bind(row.id, row.build),
+];
 
 async function createTier(env, req, body) {
   const op = await isOperator(env, req);
@@ -446,7 +464,7 @@ async function createTier(env, req, body) {
 }
 /**
  * 티어표 수정: 작성 때 정한 비밀번호(운영자는 토큰). 배치가 바뀌면 평균 티어 집계용 위치도 다시 쓴다.
- * 지금 빌드보다 늦게 들어온 동료(shared.js CHAR_SINCE)를 넣으면 빌드를 그 동료의 빌드로 올리고 목록 위로 끌어올린다(bumped_at).
+ * 지난 버전 티어표의 배치·기준·집계 제외를 바꾸면 직전 상태를 그 버전에 고정하고 이번 버전으로 올려 끌어올린다(shared.js tierEditPlan, bumped_at).
  */
 async function editTier(env, req, id, body) {
   await limit(env, 'verify', await ipHash(env, req));
@@ -456,9 +474,11 @@ async function editTier(env, req, id, body) {
   if (!op) await checkPin(env, table, row, body.pin);
   const { title, basis, descr, rows, fun } = parseTierInput(body, op);
   const now = Date.now();
-  const build = tierBuildFor(row.build, rows);
+  const changed = tierContentKey({ rows, basis, fun }) !== tierContentKey({ rows: JSON.parse(row.rows), basis: row.basis, fun: row.fun });
+  const { build, freeze } = tierEditPlan(row.build, changed);
   const bumpedAt = build !== row.build ? now : (row.bumped_at ?? null);
   await env.DB.batch([
+    ...(freeze ? freezeTierStmts(env, row, now) : []),
     env.DB.prepare('UPDATE tiers SET title = ?2, basis = ?3, rows = ?4, descr = ?5, edited_at = ?6, fun = ?7, build = ?8, bumped_at = ?9 WHERE id = ?1')
       .bind(id, title, basis, JSON.stringify(rows), descr, now, fun, build, bumpedAt),
     env.DB.prepare('DELETE FROM tier_pos WHERE tier_id = ?1').bind(id),
@@ -468,43 +488,74 @@ async function editTier(env, req, id, body) {
 }
 
 /**
- * 평균 티어. ?scope = auto | current | build | all (shared.js AGG_SCOPES, 없으면 all — 예전 호출 그대로), build 범위는 &build=MMDD(builds.js 목록 안).
- * 응답: 집계 결과 + 실제로 쓴 범위(scope) · 이번 버전 빌드(build) · build 범위에서 고른 빌드(scopeBuild, 그 밖에는 null)
- *       · 이번 버전 티어표 수(currentCount) · 자동 선택이 전체 버전으로 넘어갔는지(fallback).
+ * 집계 대상 티어표 위치. build = 그 버전(그 버전 티어표 + 그 버전 고정본), null = 전체 버전(모든 티어표의 지금 상태).
+ * 집계 제외(fun = 1)·숨김 티어표는 뺀다(고정본은 원본이 숨김이면 같이 빠지고, 작성자가 지운 원본이면 남는다).
+ * WHERE 는 고정 문자열만 잇고 값은 전부 바인딩한다. → { byChar: { 동료: [위치…] }, n: 티어표 수 }
+ */
+async function tierSet(env, basis, build) {
+  const live = ["t.status = 'ok'", 't.fun = 0'];
+  const frozen = ['z.fun = 0', FROZEN_VISIBLE];
+  const binds = [];
+  if (basis) { binds.push(basis); live.push(`t.basis = ?${binds.length}`); frozen.push(`z.basis = ?${binds.length}`); }
+  let sql = `SELECT p.tier_id AS tier, p.char_id AS cid, p.pos AS pos FROM tier_pos p JOIN tiers t ON t.id = p.tier_id WHERE ${live.join(' AND ')}`;
+  if (build !== null) {
+    binds.push(build);
+    sql += ` AND t.build = ?${binds.length}
+      UNION ALL SELECT f.tier_id, f.char_id, f.pos FROM tier_frozen_pos f JOIN tier_frozen z ON z.tier_id = f.tier_id AND z.build = f.build
+      WHERE ${frozen.join(' AND ')} AND z.build = ?${binds.length}`;
+  }
+  const { results } = await (binds.length ? env.DB.prepare(sql).bind(...binds) : env.DB.prepare(sql)).all();
+  const byChar = {};
+  const tiers = new Set();
+  for (const r of results) { (byChar[r.cid] ||= []).push(r.pos); tiers.add(r.tier); }
+  return { byChar, n: tiers.size };
+}
+/** 고정본 중 원본이 관리자 숨김이 아닌 것(원본이 지워졌으면 남긴다). */
+const FROZEN_VISIBLE = "NOT EXISTS (SELECT 1 FROM tiers o WHERE o.id = z.tier_id AND o.status <> 'ok')";
+
+/**
+ * 평균 티어. ?scope = auto | current | build | all (shared.js AGG_SCOPES, 없으면 all — 예전 호출 그대로), build 범위는 &build=X.N(builds.js 목록 안).
+ * current 인데 자리 잡은 동료가 없으면 가장 최근 지난 버전(shared.js FALLBACK_BUILDS)을 대신 보여 준다.
+ * 응답: 집계 결과 + 실제로 쓴 범위(scope) · 이번 버전 빌드(build) · build 범위에서 보여 준 빌드(scopeBuild, 그 밖에는 null)
+ *       · 이번 버전 티어표 수(currentCount) · 자동 선택이 전체 버전으로 넘어갔는지(fallback)
+ *       · 이번 버전 대신 지난 버전을 보여 줬으면 이번 버전 빌드(fallbackFrom, 아니면 null).
  */
 async function aggregate(env, url) {
-  const basis = url.searchParams.get('basis');
+  const basis = TIER_BASIS_KEYS.has(url.searchParams.get('basis')) ? url.searchParams.get('basis') : null;
   const { want, pick } = aggRequest(url.searchParams.get('scope'), url.searchParams.get('build'));
-  // WHERE 는 고정 문자열만 잇고 값은 전부 바인딩한다. 집계 제외(fun = 1) 티어표는 평균 티어에서 뺀다.
-  const conds = ["status = 'ok'", 'fun = 0'];
-  const binds = [];
-  if (TIER_BASIS_KEYS.has(basis)) { binds.push(basis); conds.push(`basis = ?${binds.length}`); }
-  const cur = await env.DB.prepare(`SELECT COUNT(*) AS n FROM tiers WHERE ${conds.join(' AND ')} AND build = ?${binds.length + 1}`).bind(...binds, CURRENT_BUILD).first();
-  const scope = aggScope(want, cur.n);
-  if (scope === 'current') { binds.push(CURRENT_BUILD); conds.push(`build = ?${binds.length}`); }
-  else if (scope === 'build') { binds.push(pick); conds.push(`build = ?${binds.length}`); }
-  const where = conds.join(' AND ');
-  const stmt = (sql) => (binds.length ? env.DB.prepare(sql).bind(...binds) : env.DB.prepare(sql));
-  const pos = await stmt(`SELECT char_id, pos FROM tier_pos WHERE tier_id IN (SELECT id FROM tiers WHERE ${where})`).all();
-  const n = scope === 'current' ? cur.n : (await stmt(`SELECT COUNT(*) AS n FROM tiers WHERE ${where}`).first()).n;
-  const byChar = {};
-  for (const r of pos.results) (byChar[r.char_id] ||= []).push(r.pos);
-  return { ...aggregateRows(byChar, n), scope, build: CURRENT_BUILD, scopeBuild: scope === 'build' ? pick : null, currentCount: cur.n, fallback: want === 'auto' && scope === 'all' };
+  const cur = await tierSet(env, basis, CURRENT_BUILD);
+  let scope = aggScope(want, cur.n);
+  let shown = scope === 'build' ? pick : null;
+  let fallbackFrom = null;
+  const set = scope === 'current' ? cur : await tierSet(env, basis, scope === 'build' ? pick : null);
+  let out = aggregateRows(set.byChar, set.n);
+  if (scope === 'current' && !hasPlaced(out)) {
+    for (const b of FALLBACK_BUILDS) {
+      const s = await tierSet(env, basis, b);
+      const agg = aggregateRows(s.byChar, s.n);
+      if (!hasPlaced(agg)) continue;
+      scope = 'build'; shown = b; fallbackFrom = CURRENT_BUILD; out = agg;
+      break;
+    }
+  }
+  return { ...out, scope, build: CURRENT_BUILD, scopeBuild: shown, currentCount: cur.n, fallback: want === 'auto' && scope === 'all', fallbackFrom };
 }
 
 /**
  * 동료 한 명의 커뮤니티 티어(동료 페이지). ?id=동료 &basis= — 이번 버전 → 바로 이전 버전 → 전체 버전 순(shared.js charTierFrom).
- * 응답 { tier: { label, n, scope, build } | null }.
+ * 지난 버전 고정본도 그 버전 표본으로 센다(frozen). 응답 { tier: { label, n, scope, build } | null }.
  */
 async function charTier(env, url) {
   const cid = +url.searchParams.get('id');
   if (!CHAR_SET.has(cid)) throw E(404, 'charNotFound');
   const basis = url.searchParams.get('basis');
-  const conds = ['p.char_id = ?1', "t.status = 'ok'", 't.fun = 0'];
+  const live = ['p.char_id = ?1', "t.status = 'ok'", 't.fun = 0'];
+  const frozen = ['f.char_id = ?1', 'z.fun = 0', FROZEN_VISIBLE];
   const binds = [cid];
-  if (TIER_BASIS_KEYS.has(basis)) { binds.push(basis); conds.push(`t.basis = ?${binds.length}`); }
-  const { results } = await env.DB.prepare(`SELECT t.build AS build, p.pos AS pos FROM tier_pos p JOIN tiers t ON t.id = p.tier_id WHERE ${conds.join(' AND ')}`).bind(...binds).all();
-  return { tier: charTierFrom(results) };
+  if (TIER_BASIS_KEYS.has(basis)) { binds.push(basis); live.push(`t.basis = ?${binds.length}`); frozen.push(`z.basis = ?${binds.length}`); }
+  const { results } = await env.DB.prepare(`SELECT t.build AS build, p.pos AS pos, 0 AS frozen FROM tier_pos p JOIN tiers t ON t.id = p.tier_id WHERE ${live.join(' AND ')}
+    UNION ALL SELECT z.build, f.pos, 1 FROM tier_frozen_pos f JOIN tier_frozen z ON z.tier_id = f.tier_id AND z.build = f.build WHERE ${frozen.join(' AND ')}`).bind(...binds).all();
+  return { tier: charTierFrom(results.map((r) => ({ build: r.build, pos: r.pos, frozen: !!r.frozen }))) };
 }
 
 // ── 팀 ────────────────────────────────────────────────────────────────────

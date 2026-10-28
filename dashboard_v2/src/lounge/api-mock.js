@@ -11,7 +11,7 @@
  */
 import { SEED } from './seed.js';
 import { spamText, errorText } from './i18n.js';
-import { LIMITS, isPin, CURRENT_BUILD, aggregateRows, aggScope, aggRequest, charTierFrom, tierPositions, tierBuildFor, hotScore, spamReason, OPERATOR } from './shared.js';
+import { LIMITS, isPin, CURRENT_BUILD, aggregateRows, aggScope, aggRequest, charTierFrom, tierPositions, tierContentKey, tierEditPlan, FALLBACK_BUILDS, hasPlaced, hotScore, spamReason, OPERATOR } from './shared.js';
 
 const KEY = 'woofia_lounge_mock_v1';
 const DEVICE_KEY = 'woofia_lounge_dev';
@@ -31,6 +31,7 @@ function db() {
   if (_db) return _db;
   try { _db = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { _db = null; }
   if (!_db || !_db.posts) { _db = clone(SEED(Date.now())); save(); }
+  _db.frozen ||= [];   // 지난 버전 고정본(서버 tier_frozen) — 예전에 저장된 목 데이터에는 없다
   return _db;
 }
 function save() { try { localStorage.setItem(KEY, JSON.stringify(_db)); } catch { /* 용량 초과 시 이번 세션만 유지 */ } }
@@ -198,7 +199,10 @@ export async function deleteItem(id, pin) {
   if (d.posts.includes(x)) {
     if (d.posts.some((r) => r.parent === id && !r.deleted)) { x.deleted = true; x.body = ''; }
     else d.posts.splice(d.posts.indexOf(x), 1);
-  } else if (d.tiers.includes(x)) d.tiers.splice(d.tiers.indexOf(x), 1);
+  } else if (d.tiers.includes(x)) {
+    if (x.build !== CURRENT_BUILD) freezeTier(x);   // 지난 버전 티어표는 지우기 직전 상태를 그 버전에 남긴다(서버 removeItem 과 같음)
+    d.tiers.splice(d.tiers.indexOf(x), 1);
+  }
   else d.teams.splice(d.teams.indexOf(x), 1);
   d.mine = d.mine.filter((m) => m.id !== id);
   save();
@@ -258,28 +262,57 @@ export async function createTier({ title, basis, rows, descr, pin, fun = false }
   return pub(t, 'tier');
 }
 
-/** 커뮤니티 평균 티어(집계·범위 규칙은 shared.js — 서버와 동일). scope = 'auto' | 'current' | 'build' | 'all', build 범위는 build = MMDD. */
-export async function aggregate(basis = 'all', scope = 'all', build = null) {
-  await wait();
-  const list = db().tiers.filter((t) => !t.fun && (basis === 'any' || t.basis === basis));   // 집계 제외 표시한 티어표는 빼고
-  const currentCount = list.filter((t) => t.build === CURRENT_BUILD).length;
-  const { want, pick } = aggRequest(scope, build);
-  const used = aggScope(want, currentCount);
-  const only = used === 'current' ? CURRENT_BUILD : used === 'build' ? pick : null;
-  const picked = only ? list.filter((t) => t.build === only) : list;
-  const pos = {};
-  for (const t of picked) for (const [cid, v] of tierPositions(t.rows)) (pos[cid] ||= []).push(v);
-  return { ...aggregateRows(pos, picked.length), scope: used, build: CURRENT_BUILD, scopeBuild: used === 'build' ? pick : null, currentCount, fallback: want === 'auto' && used === 'all' };
+/** 티어표 지금 상태를 그 버전에 고정(서버 freezeTierStmts 와 같음 — 같은 버전 고정본이 있으면 그대로). */
+function freezeTier(t) {
+  const d = db();
+  if (d.frozen.some((f) => f.id === t.id && f.build === t.build)) return;
+  d.frozen.push({ id: t.id, build: t.build, basis: t.basis, fun: !!t.fun, rows: clone(t.rows), title: t.title, descr: t.descr, frozenAt: Date.now() });
+}
+/** 집계 대상 티어표(서버 tierSet): build = 그 버전 티어표 + 그 버전 고정본, null = 모든 티어표의 지금 상태. */
+function tierSet(basis, build) {
+  const keep = (t) => !t.fun && (basis === 'any' || t.basis === basis);   // 집계 제외 표시한 티어표는 빼고
+  const live = db().tiers.filter((t) => keep(t) && (build === null || t.build === build));
+  const frozen = build === null ? [] : db().frozen.filter((f) => keep(f) && f.build === build);
+  const byChar = {};
+  for (const t of [...live, ...frozen]) for (const [cid, v] of tierPositions(t.rows)) (byChar[cid] ||= []).push(v);
+  return { byChar, n: live.length + frozen.length };
 }
 
-/** 동료 한 명의 커뮤니티 티어(동료 페이지): 이번 버전 → 바로 이전 버전 → 전체 버전(shared.js charTierFrom — 서버와 동일). */
+/**
+ * 커뮤니티 평균 티어(집계·범위 규칙은 shared.js — 서버와 동일). scope = 'auto' | 'current' | 'build' | 'all', build 범위는 build = X.N.
+ * current 인데 자리 잡은 동료가 없으면 가장 최근 지난 버전을 대신 보여 준다(fallbackFrom).
+ */
+export async function aggregate(basis = 'all', scope = 'all', build = null) {
+  await wait();
+  const { want, pick } = aggRequest(scope, build);
+  const cur = tierSet(basis, CURRENT_BUILD);
+  let used = aggScope(want, cur.n);
+  let shown = used === 'build' ? pick : null;
+  let fallbackFrom = null;
+  const set = used === 'current' ? cur : tierSet(basis, used === 'build' ? pick : null);
+  let out = aggregateRows(set.byChar, set.n);
+  if (used === 'current' && !hasPlaced(out)) {
+    for (const b of FALLBACK_BUILDS) {
+      const s2 = tierSet(basis, b);
+      const agg = aggregateRows(s2.byChar, s2.n);
+      if (!hasPlaced(agg)) continue;
+      used = 'build'; shown = b; fallbackFrom = CURRENT_BUILD; out = agg;
+      break;
+    }
+  }
+  return { ...out, scope: used, build: CURRENT_BUILD, scopeBuild: shown, currentCount: cur.n, fallback: want === 'auto' && used === 'all', fallbackFrom };
+}
+
+/** 동료 한 명의 커뮤니티 티어(동료 페이지): 이번 버전 → 바로 이전 버전 → 전체 버전(shared.js charTierFrom — 서버와 동일, 고정본 포함). */
 export async function charTier(cid, basis = 'all') {
   await wait();
   const entries = [];
-  for (const t of db().tiers) {
-    if (t.fun || (basis !== 'any' && t.basis !== basis)) continue;   // 평균 티어와 같은 대상(집계 제외·다른 기준 빼고)
-    for (const [id, pos] of tierPositions(t.rows)) if (id === cid) entries.push({ build: t.build, pos });
-  }
+  const add = (t, frozen) => {
+    if (t.fun || (basis !== 'any' && t.basis !== basis)) return;   // 평균 티어와 같은 대상(집계 제외·다른 기준 빼고)
+    for (const [id, pos] of tierPositions(t.rows)) if (id === cid) entries.push({ build: t.build, pos, frozen });
+  };
+  for (const t of db().tiers) add(t, false);
+  for (const f of db().frozen) add(f, true);
   return charTierFrom(entries);
 }
 
@@ -337,14 +370,15 @@ export async function setOperatorToken() { throw fail('mockOp'); }
 export function clearOperator() {}
 export async function pinPost() { throw fail('mockPin'); }
 
-// 티어표·팀 수정(목업): 비밀번호 확인 후 필드만 바꾼다. 늦게 들어온 동료를 넣으면 빌드를 올리고 끌올(서버 editTier 와 같음).
+// 티어표·팀 수정(목업): 비밀번호 확인 후 필드만 바꾼다. 지난 버전 티어표의 배치를 바꾸면 직전 상태를 고정하고 이번 버전으로 끌올(서버 editTier 와 같음).
 export async function editTier(id, pin, { title, basis, rows, descr, fun = false }) {
   await wait();
   const t = db().tiers.find((x) => x.id === id);
   if (!t) throw fail('tierNotFound');
   if (!(await checkPin(t, pin))) throw fail('pinWrongPlain');
   const now = Date.now();
-  const build = tierBuildFor(t.build, rows);
+  const { build, freeze } = tierEditPlan(t.build, tierContentKey({ rows, basis, fun: fun === true }) !== tierContentKey(t));
+  if (freeze) freezeTier(t);
   Object.assign(t, { title: String(title || '').trim().slice(0, LIMITS.title) || t.title, basis, rows: clone(rows), descr: String(descr || '').slice(0, LIMITS.tierDesc), fun: fun === true, edited: now },
     build !== t.build ? { build, bumped: now } : {});
   save();

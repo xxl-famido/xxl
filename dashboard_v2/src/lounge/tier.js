@@ -81,10 +81,12 @@ export async function tierHome(view) {
     const seq = ++aggSeq;
     const a = await api.aggregate(home.basis, home.scope, home.scopeBuild);
     if (seq !== aggSeq) return;
-    // 서버가 실제로 쓴 범위를 목록에 표시(목록 밖 버전이라 전체 버전이 된 경우 등)
-    scopeSel.value = scopeValueOf(a.scope, a.scopeBuild);
-    aggNote.textContent = a.scope === 'current' ? t('tier.agg.scope.current', { ver: verLabel(a.build) })
-      : a.scope === 'build' ? t('tier.agg.scope.build', { ver: verLabel(a.scopeBuild) }) : t('tier.agg.scope.all');
+    // 서버가 실제로 쓴 범위를 목록에 표시(목록 밖 버전이라 전체 버전이 된 경우 등).
+    // 이번 버전이 비어 지난 버전을 대신 보여 준 경우(fallbackFrom)는 고른 값(이번 버전) 그대로 두고 안내 문구로 알린다.
+    scopeSel.value = a.fallbackFrom ? 'current' : scopeValueOf(a.scope, a.scopeBuild);
+    aggNote.textContent = a.fallbackFrom ? t('tier.agg.scope.fallback', { cur: verLabel(a.fallbackFrom), ver: verLabel(a.scopeBuild), n: a.currentCount })
+      : a.scope === 'current' ? t('tier.agg.scope.current', { ver: verLabel(a.build) })
+        : a.scope === 'build' ? t('tier.agg.scope.build', { ver: verLabel(a.scopeBuild) }) : t('tier.agg.scope.all');
     aggCap.textContent = t('tier.agg.cap', { n: a.sampleCount, min: api.AGG_MIN_SAMPLES });
     if (!a.sampleCount) {
       const emptyText = a.scope === 'current' ? t('tier.agg.empty.current', { ver: verLabel(a.build) })
@@ -135,12 +137,14 @@ export async function tierEditor(view, params, editId = null) {
   const chars = await api.chars();
   let d = editId ? null : (loadDraft() || blank());
   let editPin = null;
+  let editBuild = null;   // 수정 중인 티어표의 버전 — 지난 버전이면 고정 안내를 보여 준다
   if (editId) {
     if (!api.isOperator() && !(editGrant && editGrant.id === editId)) { location.hash = `#/tier/${editId}`; return; }
     editPin = editGrant && editGrant.id === editId ? editGrant.pin : null;
     const src = await api.tier(editId);
     if (!src) { view.replaceChildren(emptyState(t('tier.notFound'), { href: '#/tier', label: t('tier.backList') })); return; }
     d = { title: src.title, basis: src.basis, descr: src.descr || '', fun: !!src.fun, rows: src.rows.map((r) => ({ label: r.label, ids: [...r.ids] })) };
+    editBuild = src.build;
   }
   const fromId = editId ? null : params.get('from');
   if (fromId) {
@@ -180,7 +184,8 @@ export async function tierEditor(view, params, editId = null) {
       cooldownButton(h('button', { class: 'btn btn-primary btn-block', type: 'button', onclick: publish }, editId ? t('tier.saveEdit') : t('tier.publish'))),
       h('button', { class: 'btn btn-secondary btn-block', type: 'button', onclick: () => exportPng({ title: title.value || t('nav.tier'), rows: d.rows }) }, icon('image-down'), t('tier.savePng')),
       !editId && h('button', { class: 'btn btn-ghost btn-block', type: 'button', onclick: reset }, icon('rotate-ccw'), t('tier.reset')),
-      h('p', { class: 'lg-hint' }, editId ? t('tier.edit.hint') : t('tier.draftHint')))));
+      h('p', { class: 'lg-hint' }, editId ? t('tier.edit.hint') : t('tier.draftHint')),
+      editBuild && editBuild !== api.CURRENT_BUILD && h('p', { class: 'lg-hint' }, t('tier.edit.oldHint', { ver: verLabel(editBuild), cur: verLabel(api.CURRENT_BUILD) })))));
 
   const chipOf = (id) => {
     const b = h('button', { type: 'button', class: 'lg-tchip', 'data-id': id, 'aria-label': nameOf(id), 'aria-pressed': 'false', title: nameOf(id) },

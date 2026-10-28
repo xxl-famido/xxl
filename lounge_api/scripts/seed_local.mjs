@@ -13,7 +13,7 @@ const threadOf = (t) => {
   const [k, ref] = t.split(':');
   return k === 'char' ? t : k === 'tier' ? 'tier:' + idOf.tier(ref) : 'team:' + idOf.team(ref);
 };
-const lines = ['DELETE FROM posts; DELETE FROM tiers; DELETE FROM tier_pos; DELETE FROM teams; DELETE FROM team_char; DELETE FROM idents; DELETE FROM thread_stats; DELETE FROM votes; DELETE FROM reports; DELETE FROM rate; DELETE FROM settings;'];
+const lines = ['DELETE FROM posts; DELETE FROM tiers; DELETE FROM tier_pos; DELETE FROM tier_frozen; DELETE FROM tier_frozen_pos; DELETE FROM teams; DELETE FROM team_char; DELETE FROM idents; DELETE FROM thread_stats; DELETE FROM votes; DELETE FROM reports; DELETE FROM rate; DELETE FROM settings;'];
 const SEAL = `pin_salt, pin_hash, ip_hash`;
 const sealV = `'seed', 'x', 'seed'`;   // 예시 글은 비밀번호로 열 수 없다
 const stats = new Map();

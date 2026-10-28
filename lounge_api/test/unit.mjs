@@ -3,7 +3,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
 import { limit, cleanText, safeEqual, HttpError, pinHash, rateScale } from '../src/security.js';
-import { spamReason, normalizeForDup, tierPositions, aggregateRows, AGG_LABELS, AGG_MIN_SAMPLES, AGG_VERSION_MIN, aggScope, BUILDS, CURRENT_BUILD, PREV_BUILD, CHAR_SINCE, buildRank, tierBuildFor, charTierFrom, aggRequest, verLabel } from '../../dashboard_v2/src/lounge/shared.js';
+import { spamReason, normalizeForDup, tierPositions, aggregateRows, AGG_LABELS, AGG_MIN_SAMPLES, AGG_VERSION_MIN, aggScope, BUILDS, CURRENT_BUILD, PREV_BUILD, CHAR_SINCE, buildRank, tierContentKey, tierEditPlan, FALLBACK_BUILDS, hasPlaced, charTierFrom, aggRequest, verLabel } from '../../dashboard_v2/src/lounge/shared.js';
 import { readTeamCode } from '../src/teamcode.js';
 import { bytesToB64url, deflate } from '../../dashboard_v2/src/core/codec.js';
 
@@ -122,23 +122,35 @@ function fakeD1() {
   ok(verLabel('2.1') === 'v2.1', '화면 표기 vX.N');
   ok(Object.entries(CHAR_SINCE).every(([id, b]) => buildRank(b) > 0 && charIds.has(+id)), '신규 동료 빌드: 첫 빌드 뒤 · 목록 안 · data/chars.json 에 있는 동료');
 }
-// 티어표 빌드 갱신(끌올): 늦게 들어온 동료를 넣으면 그 동료의 빌드로, 아니면 그대로
+// 티어표 수정 뒤 버전(2026-10-29): 지난 버전 티어표의 배치를 바꾸면 그 버전에 고정본을 남기고 이번 버전으로, 제목·설명만이면 그대로
 {
   const [first] = BUILDS;
-  const late = Object.entries(CHAR_SINCE).sort((a, b) => buildRank(b[1]) - buildRank(a[1]));
-  const rows = (ids) => [{ label: 'S', ids }, { label: 'A', ids: [] }];
-  ok(tierBuildFor(first, rows([10401, 10441])) === first, '처음부터 있던 동료만 → 빌드 그대로');
-  if (late.length) {
-    const [lateId, lateBuild] = late[0];
-    ok(tierBuildFor(first, rows([10401, +lateId])) === lateBuild, `늦게 들어온 동료(${lateId}) → 그 빌드 ${lateBuild}`);
-    ok(tierBuildFor(lateBuild, rows([+lateId])) === lateBuild, '이미 그 빌드면 그대로(다시 끌올하지 않음)');
-    ok(tierBuildFor(first, rows(late.map(([id]) => +id))) === lateBuild, '여러 명이면 가장 늦은 빌드');
-    ok(tierBuildFor('1.7', rows([10401])) === '1.7' && tierBuildFor('1.7', rows([+lateId])) === lateBuild, '목록에 없는 옛 버전: 늦은 동료가 들어올 때만 올림');
+  const plan = (b, c) => JSON.stringify(tierEditPlan(b, c));
+  if (first !== CURRENT_BUILD) {
+    ok(plan(first, true) === JSON.stringify({ build: CURRENT_BUILD, freeze: first }), `지난 버전(${first}) 배치 수정 → ${first} 고정 + ${CURRENT_BUILD} 로`);
+    ok(plan(first, false) === JSON.stringify({ build: first, freeze: null }), '지난 버전 제목·설명만 수정 → 버전 그대로 · 고정 없음');
   }
-  if (late.length > 1 && buildRank(late[0][1]) > buildRank(late[late.length - 1][1])) {
-    const [, newest] = late[0];
-    ok(tierBuildFor(newest, rows([+late[late.length - 1][0]])) === newest, '더 이른 동료를 넣어도 빌드를 내리지 않음');
-  }
+  ok(plan(CURRENT_BUILD, true) === JSON.stringify({ build: CURRENT_BUILD, freeze: null }), '이번 버전 티어표 수정 → 그대로(고정 없음)');
+  ok(plan('1.7', true) === JSON.stringify({ build: CURRENT_BUILD, freeze: '1.7' }), '목록에 없는 옛 버전도 배치를 바꾸면 이번 버전으로');
+  const base = { basis: 'all', fun: false, rows: [{ label: 'S', ids: [10401, 10402] }, { label: 'A', ids: [] }] };
+  const key = tierContentKey(base);
+  ok(tierContentKey({ ...base, title: '다른 제목', descr: '다른 설명' }) === key, '내용 비교: 제목·설명은 무관');
+  ok(tierContentKey({ ...base, fun: 0 }) === key && tierContentKey({ ...base, rows: [{ label: 'S', ids: ['10401', '10402'] }, { label: 'A', ids: [] }] }) === key, '내용 비교: 0/false·숫자 문자열은 같은 값(서버 저장값과 입력값)');
+  ok([
+    { ...base, rows: [{ label: 'S', ids: [10402, 10401] }, { label: 'A', ids: [] }] },
+    { ...base, rows: [{ label: 'S', ids: [10401] }, { label: 'A', ids: [10402] }] },
+    { ...base, rows: [{ label: 'S+', ids: [10401, 10402] }, { label: 'A', ids: [] }] },
+    { ...base, rows: [...base.rows, { label: 'B', ids: [] }] },
+    { ...base, basis: 'boss' },
+    { ...base, fun: true },
+  ].every((x) => tierContentKey(x) !== key), '내용 비교: 행 안 순서·행 이동·라벨·행 추가·기준·집계 제외는 바뀜');
+}
+// 이번 버전이 비었을 때 대신 보여 줄 버전: 지난 버전 최신 → 오래된 순
+{
+  ok(JSON.stringify(FALLBACK_BUILDS) === JSON.stringify(BUILDS.slice(0, -1).reverse()) && !FALLBACK_BUILDS.includes(CURRENT_BUILD), `대신 보여 줄 버전 후보 (${FALLBACK_BUILDS.join(' → ') || '없음'})`);
+  const thinOnly = aggregateRows({ 10401: [0.1, 0.2] }, 2);
+  const placed = aggregateRows({ 10401: [0.1, 0.2, 0.3] }, 3);
+  ok(!hasPlaced(thinOnly) && !hasPlaced(aggregateRows({}, 0)) && hasPlaced(placed), '자리 잡은 동료 판정: 표본 부족만 있으면 빈 것');
 }
 // 평균 티어 범위: 자동 선택은 이번 버전 티어표가 최소 개수 이상일 때만 이번 버전
 {
@@ -168,6 +180,14 @@ function fakeD1() {
   const onlyOlder = charTierFrom(at(older, D, MIN));
   ok(onlyOlder && onlyOlder.scope === 'all' && onlyOlder.label === 'D', '더 옛 빌드 표본만 있으면 전체 버전(바로 이전 버전 아님)');
   ok(charTierFrom(at(CURRENT_BUILD, S, MIN - 1)) === null && charTierFrom([]) === null, '전체 버전도 모자라면 null(표본 부족)');
+  if (PREV_BUILD) {
+    // 고정본: 지난 버전 범위에는 들어가고, 전체 버전은 지금 상태만(같은 티어표를 두 번 세지 않게)
+    const fz = (build, pos, k) => at(build, pos, k).map((e) => ({ ...e, frozen: true }));
+    const prevFz = charTierFrom([...fz(PREV_BUILD, B, MIN - 1), ...at(PREV_BUILD, B, 1)]);
+    ok(prevFz && prevFz.scope === 'prev' && prevFz.n === MIN && prevFz.label === 'B', '고정본은 그 버전 표본으로 센다');
+    const allFz = charTierFrom([...fz(PREV_BUILD, D, MIN - 1), ...at(CURRENT_BUILD, S, MIN - 1)]);
+    ok(allFz === null, '고정본은 전체 버전에 안 들어감(지금 상태만으로는 표본 부족 → null)');
+  }
   for (const sample of [[0.05, 0.3, 0.35, 0.62, 0.95], [0.15, 0.41, 0.58, 0.99], [0.8, 0.81, 0.79]]) {
     const viaAgg = aggregateRows({ 10401: sample }, sample.length).rows.find((r) => r.items.length).label;
     const viaChar = charTierFrom(sample.map((pos) => ({ build: older, pos }))).label;

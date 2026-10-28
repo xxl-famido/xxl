@@ -18,6 +18,8 @@ export const AGG_LABELS = Object.freeze(['S', 'A', 'B', 'C', 'D']);
 /**
  * 평균 티어 범위(버전 = 라운지 버전, builds.js): current = 이번 버전(CURRENT_BUILD 로 찍힌 티어표)만, build = 고른 지난 버전(builds.js 목록 안, ?build=) 티어표만,
  * all = 모든 버전. 화면은 이번 버전으로 시작한다(2026-10-08 사용자 결정).
+ * 지난 버전 = 그 버전 티어표 + 그 버전 고정본(tierEditPlan), all = 모든 티어표의 지금 상태(고정본 제외).
+ * current 인데 자리 잡은 동료가 없으면 FALLBACK_BUILDS 에서 가장 최근 버전을 대신 보여 준다(응답 fallbackFrom = 이번 버전).
  * auto = 이번 버전 티어표가 AGG_VERSION_MIN 개 이상이면 current, 아니면 all — 예전 화면(캐시)용으로 서버가 계속 받는다. 범위를 안 주면 서버는 all.
  */
 export const AGG_SCOPES = Object.freeze(['auto', 'current', 'build', 'all']);
@@ -87,36 +89,43 @@ export const verLabel = (build) => 'v' + build;
 export const CHAR_SINCE = Object.freeze(Object.fromEntries(Object.entries(BUILD_DATA.since).map(([id, b]) => [+id, b])));
 /** 버전 순위(목록에 없는 옛 값 = -1). 글자 비교('2.10' < '2.9')가 어긋나므로 목록 순서로 비교한다. */
 export const buildRank = (build) => BUILDS.indexOf(build);
+/** 티어표에서 평균 티어·버전에 영향을 주는 부분(행·라벨·배치·기준·집계 제외)만 뽑은 비교용 문자열. 제목·설명은 빠진다. */
+export const tierContentKey = ({ rows, basis, fun }) => JSON.stringify([basis, !!fun, rows.map((r) => [r.label, r.ids.map(Number)])]);
 /**
- * 티어표 버전: 들어 있는 동료 중 지금 버전보다 늦게 들어온 동료가 있으면 그중 가장 늦은 버전, 없으면 그대로.
- * 수정으로 새 동료를 넣으면 버전이 올라가고 목록 위로 끌어올린다(서버 editTier · 목 어댑터 공용).
+ * 티어표 수정 뒤 버전(서버 editTier · 목 어댑터 공용). 2026-10-29 사용자 결정 — 지난 버전 티어표는 그 버전 상태로 고정한다.
+ *  - 배치·기준·집계 제외를 바꾼 수정 = 지금 버전의 의견 → 이번 버전으로 올리고 목록 위로 끌어올린다(새 동료를 넣는 수정도 여기 해당).
+ *    지난 버전 티어표였다면 고치기 직전 상태를 그 버전에 고정해 둔다(freeze) — 지난 버전 평균 티어가 나중 수정으로 바뀌지 않게.
+ *  - 제목·설명만 고친 수정, 이번 버전 티어표의 수정 = 버전 그대로.
+ * 반환 { build, freeze } — freeze = 고정본을 남길 지난 버전(없으면 null).
  */
-export function tierBuildFor(build, rows) {
-  let out = build;
-  for (const r of rows) {
-    for (const id of r.ids) {
-      const since = CHAR_SINCE[id];
-      if (since && buildRank(since) > buildRank(out)) out = since;
-    }
-  }
-  return out;
+export function tierEditPlan(build, contentChanged) {
+  if (!contentChanged || build === CURRENT_BUILD) return { build, freeze: null };
+  return { build: CURRENT_BUILD, freeze: build };
 }
 /** 바로 이전 라운지 버전(builds.js 끝에서 두 번째). 버전이 하나뿐이면 null. */
 export const PREV_BUILD = BUILDS.length > 1 ? BUILDS[BUILDS.length - 2] : null;
+/**
+ * 이번 버전 평균 티어에 자리 잡은 동료가 하나도 없을 때(새 버전 직후 — 티어표가 없거나 모두 표본 부족) 대신 보여 줄 버전 후보.
+ * 지난 버전을 최신 → 오래된 순으로 보고 처음으로 동료가 자리 잡은 버전을 쓴다(2026-10-29 사용자 결정). 서버·목 어댑터 공용.
+ */
+export const FALLBACK_BUILDS = Object.freeze(BUILDS.slice(0, -1).reverse());
+/** 평균 티어 결과(aggregateRows)에 자리 잡은 동료가 있는지. */
+export const hasPlaced = (agg) => agg.rows.some((r) => r.items.length > 0);
 /**
  * 동료 페이지 커뮤니티 티어 범위 순서: 이번 버전 → 바로 이전 버전 → 전체 버전.
  * 앞 범위에서 그 동료가 AGG_MIN_SAMPLES 개 이상의 티어표에 들어 있으면 그 범위로 보여 준다(중앙값·5칸 규칙은 aggregateRows 와 같다).
  */
 export const CHAR_TIER_SCOPES = Object.freeze(['current', 'prev', 'all']);
 /**
- * entries = 그 동료가 든 집계 대상 티어표마다 { build, pos }(서버 tier_pos · 목 어댑터 tierPositions 값).
+ * entries = 그 동료가 든 집계 대상 티어표마다 { build, pos, frozen }(서버 tier_pos·tier_frozen_pos · 목 어댑터 tierPositions 값).
+ * frozen = 지난 버전 고정본(tierEditPlan) — 그 버전 범위에만 들어가고, 전체 버전은 지금 상태만 센다(같은 티어표 두 번 세지 않게).
  * 반환 { label, n, scope, build(전체 버전이면 null) } — 어느 범위에서도 표본이 모자라면 null.
  */
 export function charTierFrom(entries) {
   const buildOf = { current: CURRENT_BUILD, prev: PREV_BUILD, all: null };
   for (const scope of CHAR_TIER_SCOPES) {
     if (scope === 'prev' && !PREV_BUILD) continue;
-    const pos = entries.filter((e) => scope === 'all' || e.build === buildOf[scope]).map((e) => e.pos);
+    const pos = entries.filter((e) => (scope === 'all' ? !e.frozen : e.build === buildOf[scope])).map((e) => e.pos);
     if (pos.length >= AGG_MIN_SAMPLES) return { label: AGG_LABELS[aggRowIndex(median(pos))], n: pos.length, scope, build: buildOf[scope] };
   }
   return null;

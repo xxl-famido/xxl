@@ -65,7 +65,16 @@ async function charTierMismatches(basis = 'any') {
   const aggAuto = (await get('/v1/tiers/aggregate?basis=any&scope=auto')).data;
   ok(aggAuto.scope === 'all' && aggAuto.fallback === true && aggAuto.currentCount === 0 && aggAuto.sampleCount === 8, '자동 범위: 이번 버전 티어표 0개 → 전체 버전으로 대신 보여 줌');
   const aggCur = (await get('/v1/tiers/aggregate?basis=any&scope=current')).data;
-  ok(aggCur.scope === 'current' && aggCur.fallback === false && aggCur.sampleCount === 0, '이번 버전 직접 고름 → 표본 0 그대로');
+  {
+    // 이번 버전이 비었으면 가장 최근 지난 버전(자리 잡은 동료가 있는 버전)을 대신 보여 준다 — 예시 데이터는 첫 버전에만 있다
+    const { BUILDS: bs } = await import('../../dashboard_v2/src/lounge/shared.js');
+    ok(aggCur.scope === 'build' && aggCur.scopeBuild === bs[0] && aggCur.fallbackFrom === CURRENT_BUILD && aggCur.currentCount === 0 && aggCur.sampleCount > 0 && aggCur.fallback === false,
+      `이번 버전(${CURRENT_BUILD}) 비어 있음 → 가장 최근 지난 버전 ${aggCur.scopeBuild} 대신 (${aggCur.sampleCount}개)`);
+    const byFirst = (await get(`/v1/tiers/aggregate?basis=any&scope=build&build=${bs[0]}`)).data;
+    ok(JSON.stringify(byFirst.rows) === JSON.stringify(aggCur.rows) && byFirst.fallbackFrom === null, '대신 보여 준 결과 = 그 버전을 직접 고른 결과 (직접 고르면 fallbackFrom 없음)');
+    const escCur = (await get('/v1/tiers/aggregate?basis=escape&scope=current')).data;
+    ok(escCur.fallbackFrom === null || escCur.rows.some((r) => r.items.length), `기준별로도 같은 규칙 (방탈출: ${escCur.scope}/${escCur.scopeBuild})`);
+  }
   ok((await get('/v1/tiers/aggregate?basis=any&scope=nope')).data.scope === 'all', '모르는 범위 값 → 전체 버전');
   {
     // 버전별(지난 라운지 버전 하나): 예시 데이터는 첫 버전(2.0) 7개 + 목록에 없는 옛 버전 1.7 1개
@@ -77,7 +86,7 @@ async function charTierMismatches(basis = 'any') {
     const outside = (await get('/v1/tiers/aggregate?basis=any&scope=build&build=1.7')).data;
     ok(outside.scope === 'all' && outside.scopeBuild === null && outside.sampleCount === 8, '목록에 없는 버전 → 전체 버전');
     ok((await get('/v1/tiers/aggregate?basis=any&scope=build')).data.scope === 'all', '빌드 값 없는 빌드 범위 → 전체 버전');
-    ok(aggCur.scopeBuild === null && agg.data.scopeBuild === null, '빌드 범위가 아니면 scopeBuild 없음');
+    ok(agg.data.scopeBuild === null && agg.data.fallbackFrom === null, '빌드 범위가 아니면 scopeBuild 없음');
   }
   {
     const r = await charTierMismatches('any');
@@ -331,25 +340,67 @@ async function charTierMismatches(basis = 'any') {
   const em2 = await post(`/v1/teams/${em.data.id}/edit`, { pin: '1357', title: '수정된 팀', basis: 'free', descr: '바뀐 설명', code: '#무시' });
   ok(em2.data.title === '수정된 팀' && em2.data.basis === 'free' && em2.data.descr === '바뀐 설명' && em2.data.code === em.data.code && em2.data.edited, '팀 수정: 제목·기준·설명만 바뀌고 코드는 그대로');
 
-  // ── 티어표 끌올: 이번 빌드에 들어온 동료를 이전 빌드 티어표에 넣으면 빌드가 올라가고 최신순 맨 위로 ──
+  // ── 지난 버전 티어표 고정 + 끌올(2026-10-29): 지난 버전 티어표의 배치를 고치면 직전 상태가 그 버전에 남고, 고친 티어표는 이번 버전으로 ──
   {
     const lateId = +(Object.entries(CHAR_SINCE).find(([, b]) => b === CURRENT_BUILD) || [])[0];
-    const oldT = (await get('/v1/tiers?basis=any&sort=new')).data
-      .filter((x) => x.build !== CURRENT_BUILD && !x.op && !x.rows.some((r) => r.ids.includes(lateId))).pop();
-    ok(!!lateId && !!oldT, `끌올 검사 준비: 이번 빌드 동료 ${lateId} · 이전 빌드 티어표 ${oldT && oldT.build}`);
-    if (lateId && oldT) {
-      const edit = (rows) => post(`/v1/tiers/${oldT.id}/edit`, { title: oldT.title, basis: oldT.basis, rows, descr: oldT.descr, fun: oldT.fun }, A);
-      const plain = (await edit(oldT.rows)).data;
-      ok(plain.build === oldT.build && !plain.bumped && plain.edited, '새 동료 없이 수정 → 빌드 그대로 · 끌올 없음');
+    const { BUILDS: BUILDS_ALL } = await import('../../dashboard_v2/src/lounge/shared.js');
+    const curBefore = (await get('/v1/tiers/aggregate?basis=any&scope=current')).data.currentCount;
+    const olds = (await get('/v1/tiers?basis=any&sort=new')).data
+      .filter((x) => x.build === BUILDS_ALL[0] && x.build !== CURRENT_BUILD && !x.op && !x.rows.some((r) => r.ids.includes(lateId)));
+    const oldT = olds.pop();
+    const moveT = olds.pop();
+    ok(!!lateId && !!oldT && !!moveT, `고정 검사 준비: 이번 빌드 동료 ${lateId} · 지난 버전 티어표 ${oldT && oldT.build} · ${moveT && moveT.build}`);
+    if (lateId && oldT && moveT) {
+      const aggOf = async (b) => (await get(`/v1/tiers/aggregate?basis=any&scope=build&build=${b}`)).data;
+      const before = await aggOf(oldT.build);
+      const edit = (t, rows, extra = {}) => post(`/v1/tiers/${t.id}/edit`, { title: t.title, basis: t.basis, rows, descr: t.descr, fun: t.fun, ...extra }, A);
+      const plain = (await edit(oldT, oldT.rows, { title: oldT.title + ' (제목만)', descr: '설명만 고침' })).data;
+      ok(plain.build === oldT.build && !plain.bumped && plain.edited, '제목·설명만 수정 → 버전 그대로 · 끌올 없음');
       ok((await get('/v1/tiers?basis=any&sort=new')).data[0].id !== oldT.id, '끌올 없는 수정은 목록 순서 그대로');
       const withLate = oldT.rows.map((r, i) => (i === 0 ? { ...r, ids: [...r.ids, lateId] } : r));
-      const up = (await edit(withLate)).data;
+      const up = (await edit(oldT, withLate)).data;
       ok(up.build === CURRENT_BUILD && up.bumped > oldT.at && up.at === oldT.at, `이번 빌드 동료를 넣음 → 빌드 ${oldT.build} → ${up.build} + 끌올(작성 시각은 그대로)`);
       ok((await get('/v1/tiers?basis=any&sort=new')).data[0].id === oldT.id, '끌올된 티어표가 최신순 맨 위');
-      const again = (await edit(withLate.map((r) => ({ ...r, label: r.label })))).data;
+      const afterLate = await aggOf(oldT.build);
+      ok(JSON.stringify(afterLate.rows) === JSON.stringify(before.rows) && afterLate.sampleCount === before.sampleCount, `지난 버전(${oldT.build}) 평균 티어는 수정 전과 같음 (${afterLate.sampleCount}개 — 고정본)`);
+      const again = (await edit(oldT, withLate.map((r) => ({ ...r, label: r.label })))).data;
       ok(again.bumped === up.bumped && again.build === CURRENT_BUILD, '이미 올라간 티어표를 다시 수정해도 끌올 시각 그대로');
+      // 새 동료 없이 배치만 바꿔도 이번 버전으로(예전에는 지난 버전에 남아 지난 버전 평균을 바꿨다)
+      const moved = moveT.rows.map((r, i) => ({ ...r, ids: i === 0 ? [...r.ids].reverse() : r.ids }));
+      const mv = (await edit(moveT, moved)).data;
+      ok(mv.build === CURRENT_BUILD && mv.bumped, `배치만 바꿈 → ${moveT.build} → ${mv.build} + 끌올`);
+      const afterMove = await aggOf(moveT.build);
+      ok(JSON.stringify(afterMove.rows) === JSON.stringify(before.rows) && afterMove.sampleCount === before.sampleCount, '배치만 바꾼 수정 뒤에도 지난 버전 평균 티어 그대로');
       const cur = (await get(`/v1/tiers/aggregate?basis=any&scope=current`)).data;
-      ok(cur.currentCount >= 1 && cur.sampleCount === cur.currentCount, `끌올된 티어표는 이번 버전 평균에 들어감 (이번 버전 ${cur.currentCount}개)`);
+      ok(cur.currentCount === curBefore + 2, `고친 티어표 2개는 이번 버전 티어표로 센다 (이번 버전 ${curBefore} → ${cur.currentCount}개)`);
+      const all = (await get('/v1/tiers/aggregate?basis=any&scope=all')).data;
+      ok(all.sampleCount === (await get('/v1/tiers?basis=any')).data.filter((t) => !t.fun).length, `전체 버전은 지금 상태만 센다(고정본 제외, ${all.sampleCount}개)`);
+
+      // 작성자 삭제: 지난 버전 티어표는 지우기 직전 상태가 그 버전에 남는다 — 지난 버전 티어표를 비밀번호와 함께 만든다(로컬 DB 에서 버전만 내림)
+      const { execFileSync } = await import('node:child_process');
+      const { fileURLToPath } = await import('node:url');
+      const root = fileURLToPath(new URL('..', import.meta.url));
+      const d1 = (sql) => execFileSync(process.execPath, [`${root}node_modules/wrangler/bin/wrangler.js`, 'd1', 'execute', 'xxl-lounge', '--local', '--command', sql],
+        { cwd: root, stdio: ['ignore', 'ignore', 'inherit'], env: { ...process.env, CI: '1', WRANGLER_SEND_METRICS: 'false' } });
+      const ET2 = { headers: { 'X-Test-Gap-Scale': '100', 'X-Test-Rate-Scale': '100' } };
+      const mk = (await post('/v1/tiers', { title: '삭제 고정 검사', basis: 'all', rows: [{ label: 'S', ids: [10401, 10402, 10403] }, { label: 'A', ids: [10404] }], pin: '8642', ts: TS }, ET2)).data;
+      const delB = oldT.build;
+      ok(/^t[0-9a-z]{12}$/.test(mk.id || '') && /^\d+\.\d+$/.test(delB), '삭제 검사 티어표 만듦');
+      d1(`UPDATE tiers SET build = '${delB}' WHERE id = '${mk.id}'`);
+      const withDel = await aggOf(delB);
+      ok(withDel.sampleCount === before.sampleCount + 1, `지난 버전(${delB}) 티어표 하나 추가됨 (${withDel.sampleCount}개)`);
+      ok((await post(`/v1/items/${mk.id}/delete`, { pin: '8642' })).status === 200, '작성자 삭제');
+      const afterDel = await aggOf(delB);
+      ok(afterDel.sampleCount === withDel.sampleCount && JSON.stringify(afterDel.rows) === JSON.stringify(withDel.rows), '작성자가 지워도 지난 버전 평균 티어 그대로(고정본)');
+      ok((await get(`/v1/tiers/${mk.id}`)).status === 404, '지운 티어표는 보기·목록에서 사라짐');
+
+      // 관리자 숨김·삭제: 고정본도 같이 빠진다(도배가 지난 버전에 남지 않게)
+      ok((await post('/v1/admin/moderate', { target: 'tier:' + moveT.id, action: 'hide' }, A)).data.ok, '관리자: 고친 티어표 숨김');
+      ok((await aggOf(moveT.build)).sampleCount === afterDel.sampleCount - 1, '숨긴 티어표의 고정본은 지난 버전 평균에서 빠짐');
+      ok((await post('/v1/admin/moderate', { target: 'tier:' + moveT.id, action: 'show' }, A)).data.ok, '관리자: 다시 보이기');
+      ok((await aggOf(moveT.build)).sampleCount === afterDel.sampleCount, '다시 보이면 고정본도 돌아옴');
+      ok((await post('/v1/admin/moderate', { target: 'tier:' + oldT.id, action: 'delete' }, A)).data.ok, '관리자: 끌올된 티어표 삭제');
+      ok((await aggOf(oldT.build)).sampleCount === afterDel.sampleCount - 1, '관리자 삭제는 고정본까지 지움');
     }
   }
 
