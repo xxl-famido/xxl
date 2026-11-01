@@ -38,6 +38,7 @@ const stamp = () => { const d = new Date(); const p = (n) => String(n).padStart(
 
 /** 복사가 막힌 환경(비보안 컨텍스트 등): 코드를 읽기 전용 입력에 담아 시트로 보여 준다. */
 function showCodeSheet(ctx, code) {
+  ctx.components.ensureStyle('css/records.css');
   const { h } = ctx.components;
   const ta = h('textarea', { class: 'rec-code', readonly: true, rows: 5, 'aria-label': ctx.t('records.share.title') });
   ta.value = code;

@@ -2,6 +2,40 @@
  "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
  "releases": [
   {
+   "version": "2.2.1",
+   "date": "2026-11-01",
+   "highlight": false,
+   "title": {
+    "kr": "피드백 입력칸 개선",
+    "en": "Feedback box improvement",
+    "ja": "フィードバック入力欄の改善",
+    "zh": "意見輸入欄改善",
+    "zhs": "意见输入栏改善"
+   },
+   "items": [
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "피드백 보내기 창의 입력칸이 창 크기에 맞춰 넓게 표시됩니다.",
+      "en": "The text box in Send feedback now fills the window.",
+      "ja": "「フィードバック送信」の入力欄がウィンドウの大きさに合わせて広く表示されます。",
+      "zh": "「傳送意見」視窗的輸入欄會配合視窗大小放大顯示。",
+      "zhs": "「传送意见」视窗的输入栏会配合视窗大小放大显示。"
+     }
+    },
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "코드 공유에서 자동 복사가 막혔을 때 나오는 코드 창이 사이트 모양에 맞게 표시됩니다.",
+      "en": "When automatic copy is blocked in Share code, the code window now matches the site design.",
+      "ja": "「コードを共有」で自動コピーがブロックされたときに表示されるコード画面が、サイトのデザインに合わせて表示されます。",
+      "zh": "「分享代碼」自動複製遭到封鎖時顯示的代碼視窗，會配合網站設計顯示。",
+      "zhs": "「分享代码」自动复制遭到封锁时显示的代码视窗，会配合网站设计显示。"
+     }
+    }
+   ]
+  },
+  {
    "version": "2.2",
    "date": "2026-10-21",
    "highlight": true,

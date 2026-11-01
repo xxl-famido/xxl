@@ -1,0 +1,10 @@
+/* ── 피드백 보내기 (src/ui/feedback.js) — 단일 입력 시트: 입력칸이 시트 본문을 채운다 ── */
+.sheet.fb-sheet .sheet-body { display: flex; flex-direction: column; }
+.fb { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+.fb-text { flex: 1 1 auto; min-height: 10rem; width: 100%; padding: var(--space-3); border-radius: var(--radius-md); border: var(--border-w) solid var(--border-default); background: var(--bg-surface); color: var(--text-primary); font: var(--text-body); resize: none; }
+.fb-text:focus { outline: none; border-color: var(--accent-solid); box-shadow: var(--focus-ring); }
+
+@media (max-width: 900px) {
+  /* 모바일 92dvh 시트: 가상 키보드가 올라와도 입력 위치가 보이도록 높이 상한 */
+  .fb-text { flex: 0 1 auto; height: clamp(10rem, 40dvh, 24rem); }
+}
