@@ -1,5 +1,18 @@
 {
  "_comment": "English translation of kr.json (tidied patch notes). Same versions, same items order/count, one details line per Korean line. Terms follow dashboard_v2/i18n/en.json.",
+ "2.2.1": {
+  "title": "Feedback box improvement",
+  "items": [
+   {
+    "text": "The text box in Send feedback now fills the window.",
+    "details": []
+   },
+   {
+    "text": "When automatic copy is blocked in Share code, the code window now matches the site design.",
+    "details": []
+   }
+  ]
+ },
  "2.2": {
   "title": "New companion ‘Crimson Moon Code: B’",
   "items": [

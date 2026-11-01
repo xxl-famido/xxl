@@ -400,6 +400,56 @@ const click = async (p, sel) => { await p.waitForSelector(sel, { timeout: 10000 
     ok('콘솔 에러 0 (데스크톱)', p.errors.length === 0, p.errors.join(' | '));
     await p.close();
 
+    // ── 10-1. 피드백 시트 · 코드 공유 시트(피드백 #34) — 다른 시트를 열지 않은 새 페이지에서 열어야 모듈 스타일 누락이 드러난다 ──
+    console.log('[피드백·코드 공유 시트]');
+    {
+      // 열린 시트 본문의 안쪽(패딩 제외) 크기 — 각 evaluate 에서 쓰도록 페이지에 심는다
+      const installBodyInner = pg => pg.evaluate(() => { window.__sheetInner = () => { const body = document.querySelector('#app-sheets .sheet-body'); const cs = getComputedStyle(body), b = body.getBoundingClientRect();
+        return { innerW: Math.round(b.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)), innerH: Math.round(b.height - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom)) }; }; });
+      const fbGeo = async (pg) => {
+        await pg.evaluate(() => window.__woofia.openFeedback()); await sleep(500);
+        const g = await pg.evaluate(() => {
+          const ta = document.querySelector('#app-sheets .fb-text'), r = ta.getBoundingClientRect();
+          return { w: Math.round(r.width), h: Math.round(r.height), ...window.__sheetInner(), mono: /monospace/.test(getComputedStyle(ta).fontFamily),
+            toasts: document.querySelectorAll('.toast').length };
+        });
+        // 빈 메시지 → 안내 토스트 · 시트 유지(실제 전송은 하지 않는다 — 외부 엔드포인트로 나가므로)
+        await pg.evaluate(() => document.querySelector('#app-sheets .sheet-foot .btn-primary').click()); await sleep(300);
+        const em = await pg.evaluate((n0) => { const ts = [...document.querySelectorAll('.toast')];
+          return !!document.querySelector('#app-sheets .fb-text') && ts.length > n0 && ts[ts.length - 1].textContent.includes(window.__woofia.t('feedback.empty')); }, g.toasts);
+        g.emptyKept = em;
+        await pg.keyboard.press('Escape'); await sleep(400);
+        g.closed = await pg.evaluate(() => !document.querySelector('#app-sheets .fb'));
+        return g;
+      };
+      const shareGeo = async (pg) => {
+        await pg.evaluate(() => document.querySelector('#app-team .panel-tools button').click()); await sleep(600);
+        return pg.evaluate(() => {
+          const ta = document.querySelector('#app-sheets .rec-code');
+          if (!ta) return { sheet: false };
+          return { sheet: true, w: Math.round(ta.getBoundingClientRect().width), ...window.__sheetInner(),
+            tokenMono: /JetBrains Mono/.test(getComputedStyle(ta).fontFamily), css: !!document.querySelector('link[data-href="css/records.css"]') };
+        });
+      };
+      const denyClipboard = pg => pg.evaluateOnNewDocument(() => {
+        Object.defineProperty(navigator, 'clipboard', { value: { writeText: () => Promise.reject(new Error('denied')) }, configurable: true });
+      });
+      for (const mobile of [false, true]) {
+        const tag = mobile ? '모바일' : 'PC';
+        const q = await newPage(browser, mobile); if (!mobile) await q.setViewport({ width: 1280, height: 800 });
+        await denyClipboard(q); await boot(q); await installBodyInner(q);
+        const g = await fbGeo(q);
+        const fill = mobile ? g.w >= g.innerW - 2 && g.h >= 160 && g.h <= g.innerH && !g.mono
+          : g.w >= g.innerW - 2 && g.h >= g.innerH * 0.8 && !g.mono;
+        ok(`피드백 시트(${tag}): 입력칸이 본문 너비${mobile ? '·충분한 높이' : '·높이'}를 채움`, fill, JSON.stringify(g));
+        ok(`피드백 시트(${tag}): 빈 메시지 안내 토스트 · Esc 닫기`, g.emptyKept && g.closed, JSON.stringify(g));
+        const c = await shareGeo(q);
+        ok(`코드 공유 시트(${tag}, 복사 막힘): 입력칸 본문 너비 · 코드 글꼴`, c.sheet && c.w >= c.innerW - 2 && c.tokenMono && c.css, JSON.stringify(c));
+        ok(`콘솔 에러 0 (피드백·공유 ${tag})`, q.errors.length === 0, q.errors.join(' | '));
+        await q.close();
+      }
+    }
+
     // ── 10-2. 결과 → 라운지 팀 공유 / 라운지 딥링크(인계서 §2-1·§2-3) ──
     console.log('[라운지 연결]');
     {

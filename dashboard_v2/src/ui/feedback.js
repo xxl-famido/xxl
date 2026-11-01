@@ -1,5 +1,5 @@
 // 피드백 — 시트에서 메시지 1개를 보낸다. 전송 설정은 v1(feedback.v1.js)과 동일(Google Apps Script, no-cors).
-import { h, button, openSheet, toast } from './components.js';
+import { h, button, openSheet, toast, ensureStyle } from './components.js';
 
 const CFG = {
   mode: 'gas',
@@ -22,10 +22,11 @@ async function submit(message, hp, lang) {
 export function install(ctx) {
   const { t, i18n } = ctx;
   ctx.openFeedback = () => {
+    ensureStyle('css/feedback.css');
     const ta = h('textarea', { class: 'fb-text', rows: 6, maxlength: MAX_MSG, placeholder: t('feedback.ph'), 'aria-label': t('feedback.title') });
     const hp = h('input', { type: 'text', name: 'website', tabindex: '-1', autocomplete: 'off', style: { position: 'absolute', left: '-9999px' }, 'aria-hidden': 'true' });   // 봇 함정
     const send = button({ tier: 'primary', label: t('feedback.send') });
-    const sheet = openSheet({ title: t('feedback.title'), body: h('div', { class: 'fb' }, ta, hp), foot: send, ariaLabel: t('common.close') });
+    const sheet = openSheet({ title: t('feedback.title'), body: h('div', { class: 'fb' }, ta, hp), foot: send, size: 'fb-sheet', ariaLabel: t('common.close') });
     send.addEventListener('click', async () => {
       const msg = ta.value.trim();
       if (!msg) { toast(t('feedback.empty')); ta.focus(); return; }
