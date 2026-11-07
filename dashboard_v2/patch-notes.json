@@ -2,6 +2,62 @@
  "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
  "releases": [
   {
+   "version": "2.3",
+   "date": "2026-11-07",
+   "highlight": true,
+   "char": 10446,
+   "charName": {
+    "kr": "코드XY",
+    "en": "Code: XY",
+    "ja": "コード：XY",
+    "zh": "代號XY",
+    "zhs": "代号XY"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘코드XY’ 추가",
+    "en": "New companion ‘Code: XY’",
+    "ja": "新しい仲間「コード：XY」を追加",
+    "zh": "新增夥伴「代號XY」",
+    "zhs": "新增伙伴「代号XY」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘코드XY’가 추가되었습니다. 필살기를 쓰면 바로 한 번 더 행동하고, 필살기와 보통 공격으로 ‘코드X’(주는 데미지 증가)와 ‘코드Y’(받는 데미지 감소)를 오가며, 필살기로 목표물에 건 ‘취약’ 동안 자신과 아군 전체의 필살기에 추가 데미지를 더하는 불속성 전사입니다.",
+      "en": "Added new companion ‘Code: XY’ — a Fire-element Fighter who acts once more right after each EX Skill, switches between ‘Code: X’ (damage dealt up) and ‘Code: Y’ (damage taken down) with the EX Skill and Basic Attacks, and, while the target has the ‘Weaken’ applied by the EX Skill, adds extra damage to its own and the whole team's EX Skills.",
+      "ja": "新しい仲間「コード：XY」を追加しました。必殺技を使うとすぐにもう一度行動し、必殺技と通常攻撃で「コード：X」（与ダメージ増加）と「コード：Y」（被ダメージ減少）を切り替え、必殺技で対象に付与した「脆弱」の間、自分と味方全体の必殺技に追加ダメージを加える火属性のアタッカーです。",
+      "zh": "新增夥伴「代號XY」。使用必殺技後會立刻再行動一次，以必殺技與普通攻擊在「代號X」（造成傷害增加）與「代號Y」（受到傷害減少）之間切換，並在必殺技使目標獲得的「脆弱」期間，為自身與我方全體的必殺技追加傷害的火屬性戰士。",
+      "zhs": "新增伙伴「代号XY」。使用必杀技后会立刻再行动一次，以必杀技与普通攻击在「代号X」（造成伤害增加）与「代号Y」（受到伤害减少）之间切换，并在必杀技使目标获得的「脆弱」期间，为自身与我方全体的必杀技追加伤害的火属性战士。"
+     },
+     "details": [
+      {
+       "kr": "필살기 뒤에 얻은 추가 행동은 기본으로 보통 공격을 씁니다. 필살기로 쓰려면 행동 계획 › 고급 설정에서 그 턴의 행동을 바꿉니다.",
+       "en": "The extra action gained after an EX Skill is a Basic Attack by default. To use an EX Skill instead, change that turn's actions in Advanced settings of the Action plan.",
+       "ja": "必殺技の後に得た追加行動は、初期設定では通常攻撃になります。必殺技にするには、行動計画の詳細設定でそのターンの行動を変更します。",
+       "zh": "必殺技後獲得的追加行動預設為普通攻擊。若要改用必殺技，請在行動計畫的進階設定中變更該回合的行動。",
+       "zhs": "必杀技后获得的追加行动预设为普通攻击。若要改用必杀技，请在行动计划的进阶设定中变更该回合的行动。"
+      },
+      {
+       "kr": "같은 필살기가 건 ‘취약’은 그 필살기의 추가 데미지 조건을 채우지 않고, 다음 필살기부터 적용됩니다.",
+       "en": "‘Weaken’ applied by an EX Skill does not meet the extra damage condition of that same EX Skill; it applies from the next EX Skill.",
+       "ja": "同じ必殺技で付与した「脆弱」は、その必殺技の追加ダメージの条件を満たさず、次の必殺技から適用されます。",
+       "zh": "同一次必殺技施加的「脆弱」不會滿足該次必殺技的追加傷害條件，從下一次必殺技起才適用。",
+       "zhs": "同一次必杀技施加的「脆弱」不会满足该次必杀技的追加伤害条件，从下一次必杀技起才适用。"
+      },
+      {
+       "kr": "‘행동 횟수 1 증가’와 ‘현재 필살기 쿨타임 1 감소’는 게임 데이터대로 둘 다 턴당 1회만 적용됩니다.",
+       "en": "As in the game data, both ‘Gain 1 action’ and ‘current EX Skill CD -1’ apply only once per turn.",
+       "ja": "「行動回数を1増やす」と「現在の必殺技CDを1減少」は、ゲームデータどおりどちらも毎ターン1回のみ適用されます。",
+       "zh": "「行動次數恢復1次」與「當前必殺技CD減少1」依遊戲資料皆為每回合僅適用一次。",
+       "zhs": "「行动次数恢复1次」与「当前必杀技CD减少1」依游戏资料皆为每回合仅适用一次。"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "version": "2.2.1",
    "date": "2026-11-01",
    "highlight": false,

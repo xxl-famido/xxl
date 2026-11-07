@@ -1,5 +1,18 @@
 {
  "_comment": "English translation of kr.json (tidied patch notes). Same versions, same items order/count, one details line per Korean line. Terms follow dashboard_v2/i18n/en.json.",
+ "2.3": {
+  "title": "New companion ‘Code: XY’",
+  "items": [
+   {
+    "text": "Added new companion ‘Code: XY’ — a Fire-element Fighter who acts once more right after each EX Skill, switches between ‘Code: X’ (damage dealt up) and ‘Code: Y’ (damage taken down) with the EX Skill and Basic Attacks, and, while the target has the ‘Weaken’ applied by the EX Skill, adds extra damage to its own and the whole team's EX Skills.",
+    "details": [
+     "The extra action gained after an EX Skill is a Basic Attack by default. To use an EX Skill instead, change that turn's actions in Advanced settings of the Action plan.",
+     "‘Weaken’ applied by an EX Skill does not meet the extra damage condition of that same EX Skill; it applies from the next EX Skill.",
+     "As in the game data, both ‘Gain 1 action’ and ‘current EX Skill CD -1’ apply only once per turn."
+    ]
+   }
+  ]
+ },
  "2.2.1": {
   "title": "Feedback box improvement",
   "items": [

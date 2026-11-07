@@ -1,0 +1,136 @@
+{
+  "config": {
+    "dummies": 1,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 2,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10428,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      },
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10446,
+        "position": 2,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      },
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10402,
+        "position": 3,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turnPlans": {},
+    "turns": 10
+  },
+  "dps": 718600.88,
+  "events": {
+    "byActionKind": {
+      "보통공격": 68,
+      "패시브": 1,
+      "피격": 54,
+      "필살기": 127
+    },
+    "byOutput": {
+      "incoming": 20,
+      "발동": 27,
+      "평타": 24,
+      "필살": 53
+    },
+    "count": 250
+  },
+  "logHash": "sha256:1348eca3e6122362ecf7b543a542f10b",
+  "perChar": {
+    "리카노": {
+      "barrier": 0.0,
+      "damage": 684094.26,
+      "healing": 0.0
+    },
+    "신리랑": {
+      "barrier": 0.0,
+      "damage": 2668903.27,
+      "healing": 0.0
+    },
+    "코드XY": {
+      "barrier": 0.0,
+      "damage": 3833011.22,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "리카노": 27469.77,
+      "신리랑": 98253.0,
+      "코드XY": 53659.91
+    },
+    "10": {
+      "리카노": 160703.55,
+      "신리랑": 602972.59,
+      "코드XY": 568855.19
+    },
+    "2": {
+      "리카노": 27469.77,
+      "신리랑": 62050.02,
+      "코드XY": 137734.26
+    },
+    "3": {
+      "리카노": 27469.77,
+      "신리랑": 115027.9,
+      "코드XY": 302244.82
+    },
+    "4": {
+      "리카노": 160703.55,
+      "신리랑": 653275.96,
+      "코드XY": 568855.19
+    },
+    "5": {
+      "리카노": 32317.38,
+      "신리랑": 156572.46,
+      "코드XY": 441299.09
+    },
+    "6": {
+      "리카노": 27469.77,
+      "신리랑": 135654.18,
+      "코드XY": 375104.24
+    },
+    "7": {
+      "리카노": 160703.55,
+      "신리랑": 691998.49,
+      "코드XY": 568855.19
+    },
+    "8": {
+      "리카노": 32317.38,
+      "신리랑": 82062.1,
+      "코드XY": 441299.09
+    },
+    "9": {
+      "리카노": 27469.77,
+      "신리랑": 71036.57,
+      "코드XY": 375104.24
+    }
+  },
+  "purpose": "코드XY — 필살기 시 목표물 취약(3턴)·아군 전체 '취약 목표 필살기 시 60%'(각자 ATK·발동)·필살기 → 추가 행동 보통 공격(코드X 주는 데미지)·코드Y 받는 데미지 −15%(피격)",
+  "schema": 1,
+  "total": 7186008.75,
+  "unapplied": {}
+}

@@ -196,6 +196,14 @@ def _team_combos() -> list[Combo]:
             turns=12, dummies=1, enemy_hits=2, incoming_hp_pct=15,
         ),
         Combo(
+            name="team_codexy_weaken",
+            purpose="코드XY — 필살기 시 목표물 취약(3턴)·아군 전체 '취약 목표 필살기 시 60%'(각자 ATK·발동)·"
+                    "필살기 → 추가 행동 보통 공격(코드X 주는 데미지)·코드Y 받는 데미지 −15%(피격)",
+            specs=(CharSpec(10428, position=1), CharSpec(10446, position=2),
+                   CharSpec(10402, position=3)),
+            turns=10, dummies=1, enemy_hits=2, incoming_hp_pct=5,
+        ),
+        Combo(
             name="team_barrier_channels",
             purpose="배리어 액션 채널(CHG-1)·오렘 소급 증폭(CHG-4)·다라완 배리어 비례 반격·조롱",
             specs=(CharSpec(10419, position=1), CharSpec(10414, position=2),
