@@ -799,5 +799,20 @@
   "name_cn": "赤月的代號B",
   "name_sc": "赤月的代号B",
   "name_ja": "赤い月のコード：B"
+ },
+ "10446": {
+  "id": 10446,
+  "name_en": "Code: XY",
+  "name_kr": "코드XY",
+  "feature": "",
+  "rarity": 4,
+  "class": 1,
+  "element": 1,
+  "baseATK": 556,
+  "baseHP": 2245,
+  "hasRune": true,
+  "name_cn": "代號XY",
+  "name_sc": "代号XY",
+  "name_ja": "コード：XY"
  }
 }
