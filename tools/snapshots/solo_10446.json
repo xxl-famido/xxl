@@ -1,0 +1,86 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10446,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turnPlans": {},
+    "turns": 10
+  },
+  "dps": 241413.31,
+  "events": {
+    "byActionKind": {
+      "보통공격": 40,
+      "패시브": 1,
+      "피격": 60,
+      "필살기": 85
+    },
+    "byOutput": {
+      "incoming": 30,
+      "발동": 8,
+      "평타": 10,
+      "필살": 41
+    },
+    "count": 186
+  },
+  "logHash": "sha256:db714049aa3bbfa52bbc922f224eb2fc",
+  "perChar": {
+    "코드XY": {
+      "barrier": 0.0,
+      "damage": 2414133.07,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "코드XY": 44361.13
+    },
+    "10": {
+      "코드XY": 289900.03
+    },
+    "2": {
+      "코드XY": 107132.14
+    },
+    "3": {
+      "코드XY": 233339.59
+    },
+    "4": {
+      "코드XY": 289900.03
+    },
+    "5": {
+      "코드XY": 289900.03
+    },
+    "6": {
+      "코드XY": 289900.03
+    },
+    "7": {
+      "코드XY": 289900.03
+    },
+    "8": {
+      "코드XY": 289900.03
+    },
+    "9": {
+      "코드XY": 289900.03
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 2414133.07,
+  "unapplied": {}
+}

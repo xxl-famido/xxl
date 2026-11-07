@@ -45,3 +45,16 @@ test('kr 은 면역 조각을 원문 그대로 둔다(다른 용어 교체 — �
   assert.equal(i18n.translateEngine(LINES[0]), LINES[0]);
   assert.ok(i18n.translateEngine(LINES[1]).endsWith('(CD 변동 면역으로 무효)'));
 });
+
+// 코드XY(10446): 전환 상태·취약·비축 스택명(게임 원문 번역) — 로그 '자신 코드X 전환' 등이 en/ja/zh 에서 한글 없이 옮겨진다.
+const XY_LINES = ['자신 코드X 전환', '자신 코드Y 전환', '더미1 취약 +1중첩', '자신 비축 +1중첩'];
+for (const lang of ['en', 'ja', 'zh']) {
+  test(`코드XY 스택 줄 조각 → ${lang} 한글 잔여 없음`, async () => {
+    const i18n = createI18n({ lang, dicts, storage: null, dev: false });
+    await i18n.ready;
+    for (const s of XY_LINES) {
+      const out = i18n.translateEngine(s);
+      assert.ok(!HANGUL.test(out), `${lang}: '${s}' → '${out}'`);
+    }
+  });
+}

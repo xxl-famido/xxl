@@ -98,6 +98,7 @@ class Effect:
     once: bool = False                         # "This effect can only trigger 1 time" — 발동마다 1회만
     self_barrier: bool = False                 # 발동 조건: 자신(발동 유닛)이 배리어 보유 (오렘 충격역류)
     consume_gate: bool = False                 # 게이트를 행동시작 스냅샷 기준으로 (소모 트리거, 던컨 마도집중)
+    per_turn: bool = False                     # 트리거 본문에 "(only once per turn)" — 구독이 턴당 1회만 발동(코드XY 파2 행동 +1·CD −1)
     barrier_self_amp: bool = False             # 이 '받는 배리어+X%' 버프가 새로 붙는 순간 자기 보유 배리어 소급증폭 (오렘 파1 eff6002 "granted by self")
 
     @property
@@ -162,7 +163,8 @@ _TRIGGER_PATTERNS: tuple[tuple[re.Pattern, str, str], ...] = (
     (re.compile(r"^Upon receiving healing, trigger: (.+)$"), "on_heal_received", "plain"),  # 다라완 파4(내부 배리어-amp 미모델)
     (re.compile(rf"^When defending, there is a(?:\(n\))? {_NUM}% chance to trigger: (.+)$"), "on_defend", "chance"),
     (re.compile(r"^When defending, (?:trigger: )?(.+)$"), "on_defend", "plain"),
-    (re.compile(rf"^On turn {_NUM}, trigger: (.+)$"), "on_turn", "param"),
+    # 'trigger:' 없는 "On turn 1, gain X." (코드XY 파2 '1턴째에 자신은 【코드Y】 상태') — 같은 1턴 시작 발동
+    (re.compile(rf"^On turn {_NUM}, (?:trigger: )?(.+)$"), "on_turn", "param"),
     (re.compile(rf"^Every {_NUM} {_TRN}, trigger: (.+)$"), "every_turn", "param"),
     (re.compile(r"^At the start of battle, trigger: (.+)$"), "on_battle_start", "plain"),
     (re.compile(rf"^When taking an action, there is a(?:\(n\))? {_NUM}% chance to (.+)$"), "on_action", "chance"),
@@ -260,6 +262,13 @@ _GATE_EVENT = {
     "When attacked": "on_attacked", "When defending": "on_defend",
     "When taking an action": "on_attack",
 }
+
+# 게이트 문형의 이벤트 → 'trigger:' 없는 피해 본문의 행동 판정(그 행동의 추가 효과)
+_ADDED_EVENT_ACTION = {"on EX Skill": "ex", "on Basic Attack": "basic"}
+
+# "On EX Skill, deal damage X … the same number of times as own stack(s) of Y." ('trigger:' 없음 — 코드XY 도장 패시브 비축).
+# 원본 트리 = Y≧1·≧2·≧3 게이트마다 510(필살기 판정) 피해 1회 → 그 행동의 추가 효과 피해를 Y 중첩 수만큼(행동 시점 수).
+_ON_ACT_REP_OWN = re.compile(r"^On (EX Skill|Basic Attack), ([Dd]eal damage .+?) the same number of times as own stack\(s\) of ([^:]+?)\.?$")
 
 # "Grant all of own Buddies: <sub-effect>" — delegates a sub-effect to allies.
 _GRANT = re.compile(r"^(?:Grant all of own (?:Buddies|members)|Grant adjacent Buddies|Except self, all of own Buddies gain|For all of own Buddies)[,:]? ?(.+)$")
@@ -742,8 +751,9 @@ def _b_taunt_target(m):
                   duration=_opt_dur(m, 2) if _opt_dur(m, 2) > 0 else 1)
 
 
-# "Own current EX Skill CD -N" (하쿠이 파5) = 남은 CD 감소 — 'current' 는 최대 CD 가 아니라는 표기일 뿐 같은 CD_MOD
-@_leaf(rf"^(?:Own )?(?:current )?EX Skill CD -{_NUM} turn\(s\)\.?$")
+# "Own current EX Skill CD -N" (하쿠이 파5) = 남은 CD 감소 — 'current' 는 최대 CD 가 아니라는 표기일 뿐 같은 CD_MOD.
+# 절 분리 뒤 소문자 'own …'·단수 'turn.'(코드XY 파2 "…, and own current EX Skill CD -1 turn.")도 같은 효과
+@_leaf(rf"^(?:[Oo]wn )?(?:current )?EX Skill CD -{_NUM} {_TRN}\.?$")
 def _b_cd(m):
     return Effect(CD_MOD, m.group(0), target="self", magnitude=-_f(m.group(1)))
 
@@ -832,6 +842,18 @@ def _b_stack_def(m):
 def _b_transform(m):
     return Effect(TRANSFORM, m.group(0), target="self",
                   stack_name=_stk(m.group(1)), into_stack=_stk(m.group(2)))
+
+
+# "Switch to X." (코드XY 파2 코드X/코드Y) — 자세 전환: 같은 스킬의 다른 'Switch to' 상태를 지우고 X 1중첩(영구)을 얻는다.
+# 원본 트리 = 508(다른 상태 제거) + 802(X 부여). 지울 상태 목록은 parse_skill_level 이 같은 스킬 안의 전환 대상들로 채운다
+# (condition "switch_from:A|B"). 해석 10446-P1-code-switch.
+SWITCH_COND = "switch_from:"
+
+
+@_leaf(r"^[Ss]witch to ([A-Z][\w' :·-]+?)\.?$")
+def _b_switch(m):
+    return Effect(STACK, m.group(0), target="self", stack_name=_stk(m.group(1)),
+                  magnitude=1.0, max_stacks=1, condition=SWITCH_COND)
 
 
 @_leaf(rf"^[Gg]ain ([A-Z][\w' :·-]+?)(?: for {_NUM} {_TRN})?\.?$")
@@ -1174,6 +1196,13 @@ def parse_line(line: str) -> Effect:
                 and subs[0].kind == BUFF and subs[0].stat == STAT_DMG_DEALT and subs[0].target == "self":
             return Effect(COND_DMG, line, target="self", stack_name=_stk(tgm.group(1)),
                           magnitude=subs[0].magnitude, target_count=int(tgm.group(2)))
+        # "목표물 X = N일 때, 필살기/보통 공격 시, 추가 효과 '피해'"(trigger: 없음 · 본문 피해만) = 그 행동의 추가 효과 → 그 행동 판정.
+        # 게이트 없는 _ON_EX_ADD/_ON_BASIC_ADD·_GATE 보통 공격 규칙과 같다(코드XY 파2 취약 게이트 = 원본 트리 510 래퍼 —
+        # 해석 10446-P1-gate-ex-channel). 'trigger:' 가 붙은 형태(코드XY 파5 부여분)는 발동 그대로.
+        if (tgm.group(3) in _ADDED_EVENT_ACTION and "trigger:" not in line.lower()
+                and subs and all(s.kind == DAMAGE for s in subs)):
+            for s in subs:
+                s.force_action = _ADDED_EVENT_ACTION[tgm.group(3)]
         event = _GATE_EVENT.get(tgm.group(3)) if tgm.group(3) else "on_attack"
         return Effect(TRIGGER, line, condition=event,
                       target_stack=_stk(tgm.group(1)), target_count=int(tgm.group(2)),
@@ -1212,6 +1241,15 @@ def parse_line(line: str) -> Effect:
         inner = parse_line(body[:1].upper() + body[1:])
         if inner.parsed:
             return Effect(TRIGGER, line, condition=f"enemy_gate:{op}:{ecm.group(2)}", sub_effects=[inner])
+    erm = _ON_ACT_REP_OWN.match(line)
+    if erm:
+        inner = parse_line(erm.group(2)[:1].upper() + erm.group(2)[1:] + ".")
+        if inner.parsed and inner.kind == DAMAGE:
+            ex = erm.group(1) == "EX Skill"
+            inner.force_action = "ex" if ex else "basic"
+            # 구독 단위 반복(repeat_stack 'own:') — 발동 순서상 같은 행동의 다른 추가 피해와 함께 먼저 처리된다(_fire_attack 1패스)
+            return Effect(TRIGGER, line, condition="on_ex" if ex else "on_basic_attack",
+                          repeat_stack=f"own:{_stk(erm.group(3))}", sub_effects=[inner])
     for rx, src in ((_REP_OWN, "own"), (_REP_TGT, "target"), (_REP_BASED, "own")):
         rm = rx.match(line)
         if rm:
@@ -1344,7 +1382,8 @@ def parse_line(line: str) -> Effect:
             win = _trig_window(g[-1]) if subs and all(s.kind == DAMAGE for s in subs) else 0
             return Effect(TRIGGER, line, condition=cond, chance=chance,
                           trigger_param=param, trigger_pos=pos, sub_effects=subs,
-                          duration=win if win else -1)
+                          duration=win if win else -1,
+                          per_turn="(only once per turn)" in g[-1].lower())
     # leaf actions
     for pat, build in _LEAF_BUILDERS:
         m = pat.match(line)
@@ -1535,7 +1574,24 @@ def parse_skill_level(desc: str, params: dict) -> list[Effect]:
         out = [e for i, e in enumerate(out) if i not in absorbed]
     out = _fold_stance_block(out)
     out = _fold_state_block(out)
+    _link_switches(out)
     return _lift_bare_chance(out)
+
+
+def _link_switches(effs: list[Effect]) -> None:
+    """'Switch to X' 전환(_b_switch)들을 한 묶음으로 엮는다: 각 전환은 같은 스킬 안 다른 전환 상태를 지운다.
+    전환이 하나뿐이면 지울 상태가 없다(그 상태만 얻는다)."""
+    found: list[Effect] = []
+
+    def walk(es: list[Effect]) -> None:
+        for e in es:
+            if e.kind == STACK and e.condition and e.condition.startswith(SWITCH_COND):
+                found.append(e)
+            walk(e.sub_effects)
+    walk(effs)
+    names = list(dict.fromkeys(e.stack_name for e in found if e.stack_name))
+    for e in found:
+        e.condition = SWITCH_COND + "|".join(n for n in names if n != e.stack_name)
 
 
 # ", and there is a(n) N% chance to trigger: X" — 앞 절과 **같은 이벤트 안의 추가 판정**이다

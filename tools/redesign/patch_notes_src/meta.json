@@ -1,5 +1,23 @@
 {
  "_comment": "v1 원본(dashboard/patch-notes.json)에 없는 새 릴리스의 메타. 위에서부터 최신순. items[] 는 kr.json 의 같은 버전 items 와 1:1(cat·chars). date 는 배포하는 날로 고칠 것.",
+ "2.3": {
+  "date": "2026-11-07",
+  "highlight": true,
+  "char": 10446,
+  "charName": {
+   "kr": "코드XY",
+   "en": "Code: XY",
+   "ja": "コード：XY",
+   "zh": "代號XY",
+   "zhs": "代号XY"
+  },
+  "skill": true,
+  "items": [
+   {
+    "cat": "new"
+   }
+  ]
+ },
  "2.2.1": {
   "date": "2026-11-01",
   "highlight": false,

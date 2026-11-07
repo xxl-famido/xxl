@@ -26,7 +26,7 @@ from .effects import (
     STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_DOT_TAKEN, STAT_DOT_DEALT,
     STAT_BASIC_DMG_DEALT, STAT_EX_EFFECT,
     STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, STAT_BAR_RECV, STAT_TYPE_ADV_DMG, STAT_DMG_TAKEN_EX,
-    STAT_DMG_TAKEN_FLAT, STAT_LIFESTEAL, Effect,
+    STAT_DMG_TAKEN_FLAT, STAT_LIFESTEAL, SWITCH_COND, Effect,
 )
 from .kit import ResolvedKit
 from .altar import altar_effects
@@ -186,6 +186,9 @@ class Subscription:
                                            #   처럼 이벤트가 부여한 시한부 리스너. _tick_buffs가 감소·제거
     installed_action: int = -1             # 처음 설치된 행동 id(state.cur_action). 재부여(갱신)는 덮어쓰지 않는다
                                            #   — SKIP_SUBS_INSTALLED_THIS_ACTION 의 비교 기준
+    per_turn: bool = False                 # "(only once per turn)" 트리거 — 턴당 1회만 발동(코드XY 파2: 행동 +1·CD −1 둘 다,
+                                           #   원본 트리 805 제한이 두 효과에 각각 붙음 — 해석 10446-P1-action-cd-once)
+    fired_turn: int = 0                    # per_turn 구독이 마지막으로 발동한 턴
 
     def __post_init__(self) -> None:
         # 확률 트리거(제단 1012·1013 등) 아래의 CD 변동은 '확정 쿨'(Unit.cd_sure)에 넣지 않는다 — 표시해 둔다.
@@ -592,16 +595,22 @@ class BattleState:
                                  self.cur_action_kind, self.cur_atk_by, self.cur_action_chain))
 
 
+# 매 행동마다 붙는 자기 추가 행동(이태호 "행동 시 행동 +1(턴당 1회)")만 '턴당 기본 행동 수'로 센다. 필살기 시·보통 공격 시처럼
+# 특정 행동에서만 생기는 자기 추가 행동(코드XY "필살기 시 행동 +1(턴당 1회)")은 그 행동을 했을 때만 받는 추가 행동이다.
+_EVERY_ACTION_EVENTS = (None, "", "on_action", "on_battle_start")
+
+
 def _self_extra_actions(kit: ResolvedKit) -> int:
-    """Count self 'gain N action (once per turn)' grants (이태호 = 1 -> 2 actions/turn)."""
+    """Count self 'gain N action (once per turn)' grants that come with EVERY action (이태호 = 1 -> 2 actions/turn)."""
     total = 0
 
-    def walk(effs):
+    def walk(effs, cond=None):
         nonlocal total
         for e in effs:
-            if e.kind == EXTRA_ACTION and e.target == "self" and "once per turn" in (e.raw or "").lower():
+            if (e.kind == EXTRA_ACTION and e.target == "self" and "once per turn" in (e.raw or "").lower()
+                    and cond in _EVERY_ACTION_EVENTS):
                 total += int(e.magnitude)
-            walk(e.sub_effects)
+            walk(e.sub_effects, e.condition if e.kind == TRIGGER else cond)
     for sl in [kit.basic, kit.fatal, *kit.passives]:
         walk(sl.effects)
     return min(total, 3)
@@ -1174,7 +1183,8 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                         and "once per turn" not in (e.raw or "").lower()
                         for e in effect.sub_effects),
                     expires=expires,
-                    installed_action=state.cur_action))
+                    installed_action=state.cur_action,
+                    per_turn=effect.per_turn))
             else:
                 # 갱신: installed_action 은 최초 설치 값을 유지한다 [assumed: 10301-SYN-10410]
                 if once:
@@ -1459,7 +1469,13 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         if effect.awaken_with:
             names.append(effect.awaken_with)
         fired: list[str] = []            # names that actually activated (independent rolls)
+        switch_from = (effect.condition[len(SWITCH_COND):].split("|")
+                       if effect.condition and effect.condition.startswith(SWITCH_COND) else None)
         for tgt in targets:
+            for old in switch_from or ():    # 'Switch to X'(코드XY): 같은 스킬의 다른 전환 상태를 먼저 지운다
+                if old:
+                    tgt.stacks[old] = 0
+                    tgt.stack_turns.pop(old, None)
             for name in names:
                 if effect.awaken_with and effect.chance < 100 \
                         and (state.never_proc
@@ -1500,7 +1516,8 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                     tgt.stack_turns[name] = -1
         if source != "passive" and targets and fired:
             who = _who(targets, caster, state, effect)
-            amt = "제거" if effect.magnitude <= -9000 else f"{(int(effect.magnitude) or 1):+d}중첩"
+            amt = ("제거" if effect.magnitude <= -9000 else "전환" if switch_from is not None
+                   else f"{(int(effect.magnitude) or 1):+d}중첩")
             # awaken (흑구/백구 등) = 각각 독립 확률 → 활성화된 것만 따로 한 줄씩
             labels = [kr(n) for n in fired] if effect.awaken_with else ["·".join(kr(n) for n in fired)]
             for label in labels:
@@ -1714,6 +1731,11 @@ def _sub_misses(sub: Subscription, owner: Unit, state: BattleState) -> bool:
                                 and state.rng.random() * 100 >= sub.chance)
 
 
+def _turn_ok(sub: Subscription, state: BattleState) -> bool:
+    """턴당 1회 구독(per_turn)이 이번 턴 아직 발동하지 않았는가."""
+    return not sub.per_turn or sub.fired_turn != state.turn
+
+
 def _ult_ready(unit: Unit) -> bool:
     """계획·연동이 궁을 요구할 때의 준비 판정 — 실제 쿨이 찼거나, 확률 쿨 감소 가정(cd_assist)으로 채울 수 있다."""
     return unit.cd_remaining <= 0 or (unit.cd_assist and unit.cd_remaining <= unit.cd_bank)
@@ -1758,11 +1780,13 @@ def _ready_subs(caster: Unit, event: str, state: BattleState,
              and (not s.need_team_barrier or _team_has_barrier(caster, state))
              and (not s.need_self_barrier or caster.barrier > 0)   # 자기 배리어 보유 시만 (오렘 충격역류)
              and (not s.once or s.armed)           # once-sub: 장전된 동안만
+             and _turn_ok(s, state)
              and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]
     out: list[tuple[Subscription, str]] = []
     for sub in ready:
         if _sub_misses(sub, caster, state):
             continue
+        sub.fired_turn = state.turn
         if sub.once:
             sub.armed = False                       # 1회 발동 후 소진 (다음 재발동에 재장전)
         # 액션 판정은 _trigger_src: 기본 발동 / 내기혼신=평타 / 투명인간 on_ex 추가딜=필살기
@@ -1787,15 +1811,17 @@ def _fire_subs(caster: Unit, event: str, state: BattleState,
              and (not s.need_team_barrier or _team_has_barrier(caster, state))
              and (not s.need_self_barrier or caster.barrier > 0)   # 자기 배리어 보유 시만 (오렘 충격역류)
              and (not s.once or s.armed)           # once-sub: 장전된 동안만
+             and _turn_ok(s, state)
              and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]
     for sub in ready:
         if _sub_misses(sub, caster, state):
             continue
+        sub.fired_turn = state.turn
         if sub.once:
             sub.armed = False                       # 1회 발동 후 소진 (다음 재발동에 재장전)
         # 액션 판정은 _trigger_src: 기본 발동 / 내기혼신=평타 / 투명인간 on_ex 추가딜=필살기
         src = _trigger_src(caster, sub)
-        reps = _repeat_count(sub, state) if sub.repeat_stack else _gate_reps(caster, sub.gate_stack)
+        reps = _repeat_count(sub, state, caster) if sub.repeat_stack else _gate_reps(caster, sub.gate_stack)
         for _ in range(reps):
             for eff in sub.effects:
                 apply_effect(eff, caster, state, current_target, source=src,
@@ -1836,9 +1862,13 @@ def _qualifies(sub: "Subscription", caster: Unit, target: Unit | None) -> bool:
     return self_ok and target_ok
 
 
-def _repeat_count(sub: "Subscription", state: BattleState) -> int:
-    """Fire count = enemies' total stacks of sub.repeat_stack (0 -> no fire)."""
-    return sum(u.stacks.get(sub.repeat_stack, 0) for u in state.enemies)
+def _repeat_count(sub: "Subscription", state: BattleState, caster: "Unit | None" = None) -> int:
+    """Fire count = enemies' total stacks of sub.repeat_stack (0 -> no fire).
+    'own:X' = 발동 유닛 자신의 X 중첩 수(코드XY 도장 패시브 비축 — 필살기 시 비축 중첩 수만큼 추가 피해)."""
+    rs = sub.repeat_stack or ""
+    if rs.startswith("own:"):
+        return caster.stacks.get(rs[4:], 0) if caster is not None else 0
+    return sum(u.stacks.get(rs, 0) for u in state.enemies)
 
 
 def _gate_reps(caster: Unit, gate_stack: str | None) -> int:
@@ -1881,9 +1911,11 @@ def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
                     and _qualifies(s, caster, current_target)
                     and (not s.need_team_barrier or _team_has_barrier(caster, state))
                     and (not s.need_self_barrier or bsnap > 0)
+                    and _turn_ok(s, state)
                     and (s.target_gate_stack != "Poisoned" or _is_poisoned(current_target, state))]:
             if _sub_misses(sub, caster, state):
                 continue
+            sub.fired_turn = state.turn
             src = _trigger_src(caster, sub)
             fired.append((sub, src))
     # 2-패스 순서 (인게임 확정):
@@ -1898,7 +1930,7 @@ def _fire_attack(caster: Unit, events: tuple[str, ...], state: BattleState,
     for inline_pass in (True, False):
         for sub, src in fired:
             if inline_pass and sub.repeat_stack:
-                reps = _repeat_count(sub, state)        # EX multi-hit by enemy stacks
+                reps = _repeat_count(sub, state, caster)  # EX multi-hit by enemy stacks / own stacks
             else:
                 reps = _gate_reps(caster, sub.gate_stack)  # OR-gate: once per held dog
             for _ in range(reps):
@@ -2189,7 +2221,7 @@ def _take_action(unit: Unit, state: BattleState, forced_token: str | None = None
                     state.cur_actor_id = getattr(ally._kit, "char_id", 0)
                     state.cur_action_kind = "피격"
                     state.cur_atk_by = unit.name
-                    reps = (_repeat_count(sub, state) if (want_damage and sub.repeat_stack)
+                    reps = (_repeat_count(sub, state, ally) if (want_damage and sub.repeat_stack)
                             else _gate_reps(ally, sub.gate_stack))
                     for _ in range(reps):
                         for eff in sub.effects:

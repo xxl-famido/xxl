@@ -60,19 +60,10 @@ _meta_cache: list | None = None
 
 def _actions_per_turn(kit) -> int:
     """How many actions this char takes per turn = 1 + self 'once per turn' extra
-    actions (이태호 = 2). These consume 2 rotation tokens per turn."""
-    from woofia_sim.effects import EXTRA_ACTION
-    extra = 0
-
-    def walk(effs):
-        nonlocal extra
-        for e in effs:
-            if e.kind == EXTRA_ACTION and e.target == "self" and "once per turn" in (e.raw or "").lower():
-                extra += int(e.magnitude)
-            walk(e.sub_effects)
-    for sl in [kit.basic, kit.fatal, *kit.passives]:
-        walk(sl.effects)
-    return 1 + min(extra, 3)
+    actions that come with every action (이태호 = 2). These consume 2 rotation tokens per turn.
+    필살기 시에만 생기는 자기 추가 행동(코드XY)은 세지 않는다 — 엔진 base_actions 와 같은 함수."""
+    from woofia_sim.engine import _self_extra_actions
+    return 1 + _self_extra_actions(kit)
 
 
 def _has_auto_extra(kit) -> bool:
