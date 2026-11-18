@@ -133,6 +133,9 @@ export function incomingReceipt(d) {
   if (p.length) b.mul('takenP', 'log.r.takenP', inc === incRaw ? pctMult(p) : (inc / pctMult(g) || 0), { pct: sumv(p) }, p);
   if ((d.dealt || []).length) b.mul('dealt', 'log.r.in.dealt', Math.max(0, pctMult(d.dealt)), { pct: sumv(d.dealt) }, d.dealt);
   if ((d.atkPct || []).length) b.mul('atkPct', 'log.r.in.atk', Math.max(0, pctMult(d.atkPct)), { pct: sumv(d.atkPct) }, d.atkPct);
+  // 큰 피격 받는 데미지: 이번 피격이 자신 최대 HP 의 일정 비율보다 클 때만 붙는 별도 곱(엔진 detail.takenBig)
+  const big = d.takenBig || [];
+  if (big.length) b.mul('takenBig', 'log.r.in.takenBig', Math.max(0, pctMult(big)), { pct: sumv(big), over: big[0].over }, big);
   return b.close(+d.dmg || 0);
 }
 
@@ -155,7 +158,7 @@ const CAT_OF = {
   base: 'atk', raw: 'atk', baseAtk: 'atk', atk: 'atk', flat: 'atk', atkTotal: 'atk',
   skill: 'skill', grant: 'skill',
   dealt: 'amp', eff: 'amp', effEx: 'amp', dotDealt: 'amp', atkPct: 'amp',
-  takenG: 'recv', taken: 'recv', takenP: 'recv', takenEx: 'recv', dotTaken: 'recv', sleep: 'recv', healRecv: 'recv', barRecv: 'recv', defend: 'recv',
+  takenG: 'recv', taken: 'recv', takenP: 'recv', takenBig: 'recv', takenEx: 'recv', dotTaken: 'recv', sleep: 'recv', healRecv: 'recv', barRecv: 'recv', defend: 'recv',
   elem: 'elem',
 };
 export const categoryOf = (row) => (row.kind === 'diff' ? 'diff' : CAT_OF[row.id] || 'atk');

@@ -55,6 +55,8 @@ STAT_TYPE_ADV_DMG = "type_adv_dmg_pct"      # 속성 상성 추가뎀 증폭 (�
 STAT_DMG_TAKEN_EX = "dmg_taken_ex_pct"      # 필살기(EX 액션) 피격에만 걸리는 받뎀 (길드 제단 401: 보스 필살기 피격 -75%)
 STAT_DMG_TAKEN_FLAT = "dmg_taken_flat"      # 열상(코드B 황혼 연사): 대상이 데미지를 받을 때마다(타격·지속 틱 1회당) 부여자
                                             #   기초 ATK N% 고정 데미지 추가. Buff.value = 부여 시점에 고정된 데미지 값
+STAT_DMG_TAKEN_BIG = "dmg_taken_big_pct"      # 큰 피격 받뎀: 이번 피격 데미지가 자신 최대 HP의 Effect.big_hit_pct% 보다 클 때만 곱하는
+                                            #   받는 데미지 증감(델라크로이 파5 −20%, 일반 받뎀과 별도 곱 — 해석 10448-P4-bighit)
 STAT_LIFESTEAL = "lifesteal_pct"            # 흡혈률(TBonusProperty.LifeStealRate): 피해를 줄 때 그 피해의 x%만큼 자기 HP 회복.
                                             #   시한부 부여(적월의 코드B 필살·파4)는 버프 — 같은 줄 재부여는 갱신, 다른 줄은 합산
 
@@ -99,6 +101,7 @@ class Effect:
     self_barrier: bool = False                 # 발동 조건: 자신(발동 유닛)이 배리어 보유 (오렘 충격역류)
     consume_gate: bool = False                 # 게이트를 행동시작 스냅샷 기준으로 (소모 트리거, 던컨 마도집중)
     per_turn: bool = False                     # 트리거 본문에 "(only once per turn)" — 구독이 턴당 1회만 발동(코드XY 파2 행동 +1·CD −1)
+    big_hit_pct: float = 0.0                   # STAT_DMG_TAKEN_BIG 의 문턱(자신 최대 HP %) — 이 값보다 큰 피격에만 적용
     barrier_self_amp: bool = False             # 이 '받는 배리어+X%' 버프가 새로 붙는 순간 자기 보유 배리어 소급증폭 (오렘 파1 eff6002 "granted by self")
 
     @property
@@ -263,6 +266,9 @@ _GATE_EVENT = {
     "When taking an action": "on_attack",
 }
 
+# 스택 게이트를 구독에 실을 수 있는 시간 트리거(engine._fire_time_subs 가 게이트를 판정한다)
+_TIME_GATE_EVENTS = ("every_turn",)
+
 # 게이트 문형의 이벤트 → 'trigger:' 없는 피해 본문의 행동 판정(그 행동의 추가 효과)
 _ADDED_EVENT_ACTION = {"on EX Skill": "ex", "on Basic Attack": "basic"}
 
@@ -281,6 +287,8 @@ _TEAM_ELEM_DMG = re.compile(
     rf"\s*trigger: (?:Own )?damage dealt \+{_NUM}%\.?$")
 # team element-count gate wrapping any effect: "When the number of Water Buddies ≧ 3, [event,] [trigger: ]X"
 _TELEM_GATE = re.compile(r"^When the number of (Fire|Water|Wood|Light|Dark) Buddies (?:≧|=|>=) (\d+), (.+)$")
+# team class-count gate wrapping any effect: "When the number of Tank Buddies ≧ 3, X" (아군 팀의 수호 포지션 캐릭터 수≧3)
+_TKIND_GATE = re.compile(r"^When the number of (Fighter|Tank|Healer|Support|Vandal) Buddies (?:≧|=|>=) (\d+), (.+)$")
 
 
 # ---- leaf action patterns ----------------------------------------------
@@ -501,6 +509,21 @@ def _b_barrier_amp(m):
                   magnitude=_f(m.group(2)), duration=_opt_dur(m, 3),
                   max_stacks=int(_f(m.group(4))) if m.group(4) else 1,
                   barrier_self_amp=(m.group(1) == "by"))
+
+
+@_leaf(rf"^All of own Buddies' Barrier received \+{_NUM}%(?: for {_NUM} {_TRN})?(?:, up to {_NUM} {_STK})?\.?$")
+def _b_allies_barrier_recv(m):
+    # 아군 전체가 받는 배리어 효과 +X%(델라크로이 파2, 방화선 중첩 수만큼). 수령자측 채널 — 부여 시점 값으로 곱한다(다라완 파4와 같음).
+    return Effect(BUFF, m.group(0), target="allies", stat=STAT_BAR_RECV,
+                  magnitude=_f(m.group(1)), duration=_opt_dur(m, 2),
+                  max_stacks=int(_f(m.group(3))) if m.group(3) else 1)
+
+
+@_leaf(rf"^[Ww]hen taking damage higher than {_NUM}% of own Max\. HP, own damage taken -{_NUM}%\.?$")
+def _b_big_hit_cut(m):
+    # 받는 데미지가 자신 최대 HP X%보다 클 때 받는 데미지 −Y%(델라크로이 파5). 그 피격 1회에만 판정 — big_hit_pct 로 표시.
+    return Effect(BUFF, m.group(0), target="self", stat=STAT_DMG_TAKEN_BIG,
+                  magnitude=-_f(m.group(2)), big_hit_pct=_f(m.group(1)))
 
 
 @_leaf(rf"^[Dd]eal damage {_NUM}% of Barrier to (.+?)(?:,? for {_NUM} {_TRN})?\.?$")
@@ -1091,6 +1114,13 @@ def parse_line(line: str) -> Effect:
         if inner.parsed:
             return Effect(TRIGGER, line, condition=f"team_elem_gate:{tgm2.group(1).lower()}:{tgm2.group(2)}",
                           sub_effects=[inner])
+    tkg = _TKIND_GATE.match(line)
+    if tkg:
+        body = tkg.group(3)
+        inner = parse_line(body[:1].upper() + body[1:])
+        if inner.parsed:
+            return Effect(TRIGGER, line, condition=f"team_kind_gate:{tkg.group(1).lower()}:{tkg.group(2)}",
+                          sub_effects=[inner])
     # "Grant all of own Buddies: <sub>" — delegate sub-effect to allies
     grm = _GRANT.match(line)
     if grm and grm.group(1):
@@ -1331,6 +1361,13 @@ def parse_line(line: str) -> Effect:
             for s in subs:
                 s.force_action = "basic"
         event = _GATE_EVENT.get(gm.group(3)) if gm.group(3) else None
+        # "When own X = N stack(s), every M turn(s), trigger: Y" — 시간 트리거 본문은 게이트를 그 구독에 싣는다
+        # (발동 때마다 X 중첩을 본다). 설치 시점 한 번만 보는 무이벤트 게이트로 두면 전투 중 얻은 X 에 반응하지 못한다.
+        if (event is None and gm.group(4) is None and len(subs) == 1 and subs[0].kind == TRIGGER
+                and subs[0].condition in _TIME_GATE_EVENTS and not subs[0].stack_name):
+            timed = subs[0]
+            timed.stack_name, timed.max_stacks = _stk(gm.group(1)), int(gm.group(2))
+            return timed
         # event-gates fire on that event while the stack threshold holds;
         # event-less gates fall back to a check-when-met condition.
         cond = event if event else f"{gm.group(1)}>={gm.group(2)}"

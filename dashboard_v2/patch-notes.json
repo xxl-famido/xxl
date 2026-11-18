@@ -2,6 +2,62 @@
  "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
  "releases": [
   {
+   "version": "2.4",
+   "date": "2026-11-18",
+   "highlight": true,
+   "char": 10448,
+   "charName": {
+    "kr": "델라크로이",
+    "en": "Delacroy",
+    "ja": "ドラクロイ",
+    "zh": "多拉克羅亞",
+    "zhs": "多拉克罗亚"
+   },
+   "skill": true,
+   "title": {
+    "kr": "신규 동료 ‘델라크로이’ 추가",
+    "en": "New companion ‘Delacroy’",
+    "ja": "新しい仲間「ドラクロイ」を追加",
+    "zh": "新增夥伴「多拉克羅亞」",
+    "zhs": "新增伙伴「多拉克罗亚」"
+   },
+   "items": [
+    {
+     "cat": "new",
+     "text": {
+      "kr": "신규 동료 ‘델라크로이’가 추가되었습니다. 필살기로 아군 전체에 배리어와 ‘공격받을 시 자신의 배리어 수치로 반격’을 부여하고, 보통 공격과 불속성 아군의 공격으로 쌓은 ‘방화선’을 필살기 때 아군 전체의 받는 배리어·받는 치료 증가로 바꾸는 불속성 수호입니다.",
+      "en": "Added new companion ‘Delacroy’ — a Fire-element Tank whose EX Skill grants the whole team a Barrier and ‘when attacked, deal damage based on own Barrier’, and who turns the ‘Fireline’ stacks built by own Basic Attacks and Fire allies' attacks into Barrier received and healing received increases for the whole team on each EX Skill.",
+      "ja": "新しい仲間「ドラクロイ」を追加しました。必殺技で味方全体にバリアと「攻撃を受ける時、自分のバリア値でダメージを与える」を付与し、通常攻撃と火属性の味方の攻撃で貯めた「防火線」を、必殺技の時に味方全体の受けるバリア効果・受ける治療の増加に変える火属性の守護です。",
+      "zh": "新增夥伴「多拉克羅亞」。以必殺技使我方全體獲得護盾與「受到攻擊時，以自身護盾值造成傷害」，並在必殺時把以普通攻擊與火屬性夥伴攻擊累積的「防火線」轉為我方全體受到護盾效果與受到治療增加的火屬性守護。",
+      "zhs": "新增伙伴「多拉克罗亚」。以必杀技使我方全体获得护盾与「受到攻击时，以自身护盾值造成伤害」，并在必杀时把以普通攻击与火属性伙伴攻击累积的「防火线」转为我方全体受到护盾效果与受到治疗增加的火属性守护。"
+     },
+     "details": [
+      {
+       "kr": "필살기 시 ‘방화선’ 중첩 수만큼 붙는 받는 배리어·받는 치료 증가는, 같은 필살기의 ‘방화선 제거’보다 먼저 센 중첩 수로 계산합니다.",
+       "en": "The Barrier received and healing received increases gained per ‘Fireline’ stack on EX Skill use the stack count taken before the same EX Skill's ‘Remove Fireline’.",
+       "ja": "必殺技の時に「防火線」の層数分得る受けるバリア効果・受ける治療の増加は、同じ必殺技の「防火線を解除」より前に数えた層数で計算します。",
+       "zh": "必殺時依「防火線」層數獲得的受到護盾效果・受到治療增加，以同一次必殺技「移除防火線」之前的層數計算。",
+       "zhs": "必杀时依「防火线」层数获得的受到护盾效果・受到治疗增加，以同一次必杀技「移除防火线」之前的层数计算。"
+      },
+      {
+       "kr": "받는 배리어 증가는 그 뒤에 얻는 배리어부터 적용되고, 같은 필살기가 주는 배리어에는 붙지 않습니다.",
+       "en": "The Barrier received increase applies to Barriers gained afterwards, not to the Barrier from the same EX Skill.",
+       "ja": "受けるバリア効果の増加はその後に得るバリアから適用され、同じ必殺技のバリアには付きません。",
+       "zh": "受到護盾效果增加從之後獲得的護盾開始適用，不套用於同一次必殺技給予的護盾。",
+       "zhs": "受到护盾效果增加从之后获得的护盾开始适用，不套用于同一次必杀技给予的护盾。"
+      },
+      {
+       "kr": "‘생명 방어선’의 받는 데미지 20% 감소는 방어와 다른 받는 데미지 증감을 적용한 피격 데미지가 자신의 최대 HP 10%보다 클 때 적용합니다.",
+       "en": "Lifeline's damage taken -20% applies when the hit, after Defend and other damage taken changes, is higher than 10% of own Max. HP.",
+       "ja": "「命の防衛線」の被ダメージ20%減少は、防御やほかの被ダメージ増減を適用した被弾ダメージが自分の最大HPの10%より多い場合に適用します。",
+       "zh": "「生命防線」的受到傷害減少 20%，在套用防禦與其他受到傷害增減後的受擊傷害大於自身最大生命值 10% 時適用。",
+       "zhs": "「生命防线」的受到伤害减少 20%，在套用防御与其他受到伤害增减后的受击伤害大于自身最大生命值 10% 时适用。"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "version": "2.3",
    "date": "2026-11-07",
    "highlight": true,

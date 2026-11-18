@@ -35,6 +35,13 @@ test('받는 데미지 0 하한: 일반×속성이 음수면 속성 줄에서 0�
   assert.equal(r.rows.at(-1).running, 0);
 });
 
+test('큰 피격 받는 데미지(takenBig)는 별도 곱 행으로 엔진 값과 맞는다', () => {
+  // 수호 3명 생명 방어선: 1000 × 0.9(받는 데미지 −10%) × 0.8(큰 피격 −20%) = 720
+  const r = incomingReceipt({ raw: 1000, dmg: 720, taken: [{ v: -10 }], takenP: [], takenBig: [{ v: -20, over: 10 }], dealt: [], atkPct: [] });
+  assert.equal(r.matched, true);
+  assert.ok(r.rows.some(x => x.id === 'takenBig' && Math.abs(x.mult - 0.8) < 1e-9));
+});
+
 test('상성 ×1.5 · 수면 · 스킬 계수 순서', () => {
   const r = hitReceipt({ act: 'x', base: 1000, atkTotal: 1000, baseAtk: [], atk: [], flat: [], skillPct: 200, dealt: [{ v: 50 }], eff: [], elemMult: 1.5, sleepBonus: 20, final: 1000 * 2 * 1.5 * 1.5 * 1.2 });
   assert.deepEqual(r.rows.map(x => x.id), ['base', 'skill', 'dealt', 'elem', 'sleep']);

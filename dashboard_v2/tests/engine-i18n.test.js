@@ -58,3 +58,16 @@ for (const lang of ['en', 'ja', 'zh']) {
     }
   });
 }
+
+// 델라크로이(10448): 방화선·용의 숨결 가호 스택명(게임 원문 번역) — 로그 줄이 en/ja/zh 에서 한글 없이 옮겨진다.
+const DELA_LINES = ['자신 방화선 +1중첩', '자신 방화선 제거', '자신 용의 숨결 가호 +1중첩', '자신 방화선 +5중첩'];
+for (const lang of ['en', 'ja', 'zh']) {
+  test(`델라크로이 스택 줄 조각 → ${lang} 한글 잔여 없음`, async () => {
+    const i18n = createI18n({ lang, dicts, storage: null, dev: false });
+    await i18n.ready;
+    for (const s of DELA_LINES) {
+      const out = i18n.translateEngine(s);
+      assert.ok(!HANGUL.test(out), `${lang}: '${s}' → '${out}'`);
+    }
+  });
+}

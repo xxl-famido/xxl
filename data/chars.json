@@ -814,5 +814,20 @@
   "name_cn": "代號XY",
   "name_sc": "代号XY",
   "name_ja": "コード：XY"
+ },
+ "10448": {
+  "id": 10448,
+  "name_en": "Delacroy",
+  "name_kr": "델라크로이",
+  "feature": "",
+  "rarity": 4,
+  "class": 2,
+  "element": 1,
+  "baseATK": 437,
+  "baseHP": 2848,
+  "hasRune": true,
+  "name_cn": "多拉克羅亞",
+  "name_sc": "多拉克罗亚",
+  "name_ja": "ドラクロイ"
  }
 }

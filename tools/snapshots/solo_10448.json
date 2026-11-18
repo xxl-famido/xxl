@@ -1,0 +1,86 @@
+{
+  "config": {
+    "dummies": 3,
+    "dummyElement": 0,
+    "enemyAoe": false,
+    "enemyHits": 3,
+    "forceProc": true,
+    "hp10": false,
+    "incomingHpPct": 5,
+    "seed": 0,
+    "team": [
+      {
+        "allyUltAfter": false,
+        "fedAction": null,
+        "id": 10448,
+        "position": 1,
+        "priority": null,
+        "rotation": null,
+        "rune": true,
+        "skill": 10
+      }
+    ],
+    "turnPlans": {},
+    "turns": 10
+  },
+  "dps": 25481.69,
+  "events": {
+    "byActionKind": {
+      "보통공격": 15,
+      "패시브": 6,
+      "피격": 81,
+      "필살기": 35
+    },
+    "byOutput": {
+      "barrier": 9,
+      "incoming": 30,
+      "발동": 22,
+      "평타": 7
+    },
+    "count": 137
+  },
+  "logHash": "sha256:805dbc9e3db3e0e6d3f44f21954f08d6",
+  "perChar": {
+    "델라크로이": {
+      "barrier": 279684.8,
+      "damage": 254816.94,
+      "healing": 0.0
+    }
+  },
+  "perTurn": {
+    "1": {
+      "델라크로이": 26820.3
+    },
+    "10": {
+      "델라크로이": 16335.57
+    },
+    "2": {
+      "델라크로이": 26820.3
+    },
+    "3": {
+      "델라크로이": 26820.3
+    },
+    "4": {
+      "델라크로이": 7425.26
+    },
+    "5": {
+      "델라크로이": 32819.91
+    },
+    "6": {
+      "델라크로이": 29582.5
+    },
+    "7": {
+      "델라크로이": 16335.57
+    },
+    "8": {
+      "델라크로이": 41462.91
+    },
+    "9": {
+      "델라크로이": 30394.32
+    }
+  },
+  "purpose": "단독 전투 (캐릭터별 회귀 격리)",
+  "schema": 1,
+  "total": 254816.94,
+  "unapplied": {}
+}

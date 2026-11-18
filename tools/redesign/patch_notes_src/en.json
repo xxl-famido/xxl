@@ -1,5 +1,18 @@
 {
  "_comment": "English translation of kr.json (tidied patch notes). Same versions, same items order/count, one details line per Korean line. Terms follow dashboard_v2/i18n/en.json.",
+ "2.4": {
+  "title": "New companion ‘Delacroy’",
+  "items": [
+   {
+    "text": "Added new companion ‘Delacroy’ — a Fire-element Tank whose EX Skill grants the whole team a Barrier and ‘when attacked, deal damage based on own Barrier’, and who turns the ‘Fireline’ stacks built by own Basic Attacks and Fire allies' attacks into Barrier received and healing received increases for the whole team on each EX Skill.",
+    "details": [
+     "The Barrier received and healing received increases gained per ‘Fireline’ stack on EX Skill use the stack count taken before the same EX Skill's ‘Remove Fireline’.",
+     "The Barrier received increase applies to Barriers gained afterwards, not to the Barrier from the same EX Skill.",
+     "Lifeline's damage taken -20% applies when the hit, after Defend and other damage taken changes, is higher than 10% of own Max. HP."
+    ]
+   }
+  ]
+ },
  "2.3": {
   "title": "New companion ‘Code: XY’",
   "items": [
