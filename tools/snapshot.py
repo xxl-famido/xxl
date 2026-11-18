@@ -204,6 +204,14 @@ def _team_combos() -> list[Combo]:
             turns=10, dummies=1, enemy_hits=2, incoming_hp_pct=5,
         ),
         Combo(
+            name="team_delacroy_fire_tanks",
+            purpose="델라크로이 — 불속성 3명 이상 아군 공격마다 방화선·필살기 시 중첩 수만큼 받는 배리어/치료(제거 전 수)·"
+                    "용의 숨결 가호(방화선 5중첩·매 턴 배리어)·배리어 비례 반격·수호 3명 큰 피격 −20%·치료 시 배리어",
+            specs=(CharSpec(10448, position=1), CharSpec(10438, position=2), CharSpec(10419, position=3),
+                   CharSpec(10413, position=4), CharSpec(10435, position=5)),
+            turns=10, dummies=1, enemy_hits=3, incoming_hp_pct=15,
+        ),
+        Combo(
             name="team_barrier_channels",
             purpose="배리어 액션 채널(CHG-1)·오렘 소급 증폭(CHG-4)·다라완 배리어 비례 반격·조롱",
             specs=(CharSpec(10419, position=1), CharSpec(10414, position=2),

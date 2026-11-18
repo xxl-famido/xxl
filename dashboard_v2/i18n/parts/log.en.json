@@ -61,6 +61,7 @@
  "log.r.in.defend": "Defend",
  "log.r.in.dealt": "Enemy damage dealt",
  "log.r.in.atk": "Enemy ATK",
+ "log.r.in.takenBig": "Damage taken (heavy hit)",
  "log.r.diff": "Unexplained difference",
  "log.r.diff.note": "The product of these items differs from the engine result. Some adjustment isn't shown in the log, so please report it.",
  "log.skill.title": "Skill",

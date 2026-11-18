@@ -61,6 +61,7 @@
  "log.r.in.defend": "防御",
  "log.r.in.dealt": "敵の与ダメージ",
  "log.r.in.atk": "敵ATK",
+ "log.r.in.takenBig": "被ダメージ(大きな被弾)",
  "log.r.diff": "説明できない差分",
  "log.r.diff.note": "項目を掛けた値がエンジンの結果と異なります。ログに表示されない補正があるため、お知らせください。",
  "log.skill.title": "スキル説明",

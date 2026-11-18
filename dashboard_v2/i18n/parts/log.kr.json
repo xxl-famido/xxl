@@ -61,6 +61,7 @@
  "log.r.in.defend": "방어",
  "log.r.in.dealt": "적 주는 데미지",
  "log.r.in.atk": "적 ATK",
+ "log.r.in.takenBig": "큰 피격 받는 데미지",
  "log.r.diff": "설명되지 않은 차이",
  "log.r.diff.note": "항목을 곱한 값이 엔진 결과와 다릅니다. 로그에 표시되지 않는 보정이 있다는 뜻입니다(메뉴 › 피드백 보내기로 제보).",
  "log.skill.title": "스킬 설명",

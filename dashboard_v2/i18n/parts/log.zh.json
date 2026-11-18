@@ -61,6 +61,7 @@
  "log.r.in.defend": "防禦",
  "log.r.in.dealt": "敵方造成傷害",
  "log.r.in.atk": "敵方ATK",
+ "log.r.in.takenBig": "受到傷害(大幅受擊)",
  "log.r.diff": "無法解釋的差異",
  "log.r.diff.note": "各項相乘的結果與引擎不同，代表有紀錄未顯示的修正，請回報。",
  "log.skill.title": "技能說明",

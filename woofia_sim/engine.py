@@ -26,7 +26,7 @@ from .effects import (
     STAT_DMG_DEALT, STAT_DMG_TAKEN, STAT_DOT_TAKEN, STAT_DOT_DEALT,
     STAT_BASIC_DMG_DEALT, STAT_EX_EFFECT,
     STAT_TRIGGERED_EFFECT, STAT_HEAL_RECV, STAT_BAR_RECV, STAT_TYPE_ADV_DMG, STAT_DMG_TAKEN_EX,
-    STAT_DMG_TAKEN_FLAT, STAT_LIFESTEAL, SWITCH_COND, Effect,
+    STAT_DMG_TAKEN_FLAT, STAT_DMG_TAKEN_BIG, STAT_LIFESTEAL, SWITCH_COND, Effect,
 )
 from .kit import ResolvedKit
 from .altar import altar_effects
@@ -1126,11 +1126,21 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
             if cnt >= int(n):
                 for sub in effect.sub_effects:
                     apply_effect(sub, caster, state, current_target, source, grantor)
+        elif cond and cond.startswith("team_kind_gate:"):
+            # 아군 팀의 <포지션> 캐릭터 수 ≥ N(델라크로이 파5 '수호 포지션 ≧3') — team_elem_gate 와 같은 설치 시점 판정
+            _, role, n = cond.split(":")
+            cnt = sum(1 for a in state.allies if a.alive and a.kind == CLASS_ID.get(role, 0))
+            if cnt >= int(n):
+                for sub in effect.sub_effects:
+                    apply_effect(sub, caster, state, current_target, source, grantor)
         elif cond == "repeat":
             # fire the body N times = a stack count (own / target / enemies)
             src, _, name = (effect.repeat_stack or "").partition(":")
             if src == "own":
-                n = caster.stacks.get(name, 0)
+                # 자기 중첩 수 = max(행동 시작 스냅샷, 현재) — 'target' 과 같은 규칙. 같은 행동이 앞서 지운 중첩도
+                # 센다(델라크로이 파2: '방화선 제거' 줄이 '중첩 수만큼' 줄보다 앞 — 해석 10448-P1-count-before-remove).
+                snap = caster.act_snap or {}
+                n = max(snap.get(name, 0), caster.stacks.get(name, 0))
             elif src == "target":
                 # count = max(pre-action snapshot, current live). The snapshot ignores a
                 # same-action REMOVAL (포르베어 필살이 물보라 제거 후에도 4 카운트); live picks
@@ -1426,6 +1436,10 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                 for b in tgt.buffs:
                     if b.key == ekey:
                         b.name, b.calc = kr(effect.stack_name), flat_calc
+            if stat == STAT_DMG_TAKEN_BIG:          # 큰 피격 받뎀: 문턱(자신 최대 HP %)을 버프에 싣는다
+                for b in tgt.buffs:
+                    if b.key == ekey:
+                        b.calc = {"overPct": effect.big_hit_pct}
             # 오렘 파1(eff 6002, "Barrier granted by self +X%"): '받는 배리어 +X%' 버프를 두는 순간,
             # 부여 시점에 이 보너스를 아직 못 받은(barRecv≤0) 자기 보유 배리어에만 +X%를 1회 소급.
             # barRecv 태그로 (a)이미 소급된 배리어 재소급 (b)부여 시점 recv와의 이중적용 을 모두 방지
@@ -1961,6 +1975,9 @@ def _fire_time_subs(unit: Unit, state: BattleState) -> None:
             continue
         if not fire:
             continue
+        # 스택 게이트 시간 트리거("When own X = N stack(s), every M turn(s), …" — 델라크로이 파3 용의 숨결 가호): 발동 때마다 판정
+        if not _gate_ok(unit, sub.gate_stack, sub.gate_count):
+            continue
         if _sub_misses(sub, unit, state):
             continue
         for eff in sub.effects:
@@ -2097,6 +2114,13 @@ def _apply_incoming(ally: Unit, attacker: Unit, state: BattleState,
     # 더미 기본 ATK는 0이라 일반 딜 계산엔 무영향, 피격 데미지 모드(최대HP n%)에서만 작동.
     atk_mult = max(0.0, 1 + attacker._sum(STAT_ATK) / 100)
     dmg = raw * (0.5 if defended else 1.0) * taken_mult * dealt_mult * atk_mult
+    # 큰 피격 받뎀(델라크로이 파5): 위 배율을 모두 거친 이번 피격 데미지가 자신 최대 HP의 X%보다 크면 별도 곱으로 −Y%
+    # (배리어 흡수 전 값으로 판정 — 해석 10448-P4-bighit)
+    big = [{"v": round(b.value, 2), "by": b.owner, "skill": b.src_skill, "over": b.calc["overPct"]}
+           for b in ally.buffs if b.stat == STAT_DMG_TAKEN_BIG and b.calc
+           and dmg > ally.max_hp_eff() * b.calc["overPct"] / 100]
+    if big:
+        dmg *= max(0.0, 1 + sum(c["v"] for c in big) / 100)
     absorbed, to_hp = ally.absorb_damage(dmg, floor=0.0 if state.allow_death else 1.0)
     if absorbed > 0:                         # 배리어 소모 발생 → 반격의 "기존 배리어 − 소모" 표시용
         ally.barrier_pre_hit = pre
@@ -2118,7 +2142,7 @@ def _apply_incoming(ally: Unit, attacker: Unit, state: BattleState,
                          "turnDmg": label is not None, "pct": pct,
                          "defended": defended, "absorbed": round(absorbed, 2), "hpLost": round(to_hp, 2),
                          "preBar": round(pre, 2), "remainBar": round(pre - absorbed, 2),
-                         "taken": taken_g, "takenP": taken_p, "dealt": dealt, "atkPct": atk_comp})
+                         "taken": taken_g, "takenP": taken_p, "takenBig": big, "dealt": dealt, "atkPct": atk_comp})
     _die_if_dead(ally, state)
 
 
