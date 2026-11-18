@@ -167,7 +167,9 @@ def test_counter_uses_attacked_allys_own_barrier_and_credit():
     assert abs(counters[0].amount - bard.barrier * 0.12 * (1 + bard._sum("dmg_dealt_pct") / 100)) < 1.0
     solo = _run(_team(BARD), max_turn=4)
     assert not [ev for ev in _hits(solo, actor="바드") if ev.detail["skillName"] == ULT]
-    assert all(ev.actor != NAME for ev in counters)
+    every = [ev for ev in res.state.log if ev.turn == 4 and ev.action_kind == "피격" and ev.detail
+             and ev.detail.get("skillName") == ULT and ev.detail.get("skillPct") == 12.0]
+    assert sorted(ev.actor for ev in every) == sorted([NAME, "바드"]), "피격당한 아군마다 자기 반격 1회(공적 = 그 아군)"
 
 
 def test_sigil_basic_hit_needs_hp_at_least_90():
