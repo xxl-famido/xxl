@@ -267,7 +267,7 @@ class Unit:
     barrier_absorbed: float = 0.0         # 직전 피격에서 배리어가 흡수한 양
     taunt_turns: int = 0            # 조롱: >0이면 적이 이 아군을 강제 타격 (쿠모야마)
     taunt_since: int = 0            # 조롱 획득 시점(state.cur_action 스냅) — 다수 조롱 시 먼저 건 캐릭터에 어그로 집중
-    hots: list = field(default_factory=list)  # [target, per_turn, turns_left, calc] heal-over-time
+    hots: list = field(default_factory=list)  # [target, per_turn, turns_left, calc, heal_trigger] heal-over-time (heal_trigger = 틱이 '치료를 받을 때' 를 켜는가)
     dots: list = field(default_factory=list)  # [target, pct, turns_left, owner, src_skill, cast_snapshot] 지속딜(DoT)
     cond_buffs: list = field(default_factory=list)  # (stack,stat,value,owner,skill,scaled,thresh) while stacks≥thresh
     stack_caps: dict = field(default_factory=dict)  # stack_name -> max count (from its definition line)
@@ -1581,6 +1581,10 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         mult = caster.support_mult(action)
         detail = caster.support_detail(action)
         eff_stat = _ACTION_EFF.get(action, "")
+        # '치료를 받을 때' 트리거(on_heal_received — 다라완 파4·몽규 파2·델라크로이 파4, 원본 eff20005)는 행동 본문의
+        # 치료 진행(평타·필살기 판정)에만 반응하고, 발동 효과로 들어온 치료('…치료 진행' 발동)에는 반응하지 않는다
+        # (피드백 행 35). 지속 치료는 설치한 판정을 틱까지 가져간다(_tick_hots).
+        heal_trigger = action != "trigger"
         for tgt in targets:
             # of_max_hp면 대상 최대HP의 X%(시전자 ATK 무관), 아니면 ATK% × 효과배율
             if effect.of_max_hp:
@@ -1607,9 +1611,9 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                              and h[3].get("skillName") == effect.src_skill
                              and h[3].get("skillPct") == effect.magnitude), None)
                 if same:
-                    same[1], same[2], same[3] = per, effect.duration, struct
+                    same[1:] = [per, effect.duration, struct, heal_trigger]
                 else:
-                    caster.hots.append([tgt, per, effect.duration, struct])
+                    caster.hots.append([tgt, per, effect.duration, struct, heal_trigger])
                 state.record(caster.name,
                              f"{act_kr} 지속힐 → {tgt.name} +{per:,.0f}/턴 ({effect.duration}턴)",
                              src_id=effect.owner, src_skill=effect.src_skill,
@@ -1619,7 +1623,8 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
                 caster.healing_done += per
                 state.record(caster.name, f"{act_kr} 힐 → {tgt.name} +{per:,.0f}",
                              amount=per, src_id=effect.owner, src_skill=effect.src_skill, detail=struct)
-                _fire_subs(tgt, "on_heal_received", state, caster)   # 힐 수령 트리거(다라완 파4: 받는 배리어 +24%)
+                if heal_trigger:
+                    _fire_subs(tgt, "on_heal_received", state, caster)   # 힐 수령 트리거(다라완 파4: 받는 배리어 +24%)
     elif kind == BARRIER:
         # 베리어 기준값: of_max_hp면 최대HP%(HP버프 반영), 아니면 ATK% (오렘·다라완파4 = 최대HP의 X%)
         base = caster.max_hp_eff() if effect.of_max_hp else caster.atk_eff()
@@ -2581,6 +2586,7 @@ def _tick_hots(state: BattleState) -> None:
         for entry in u.hots:
             tgt, per, turns = entry[0], entry[1], entry[2]
             calc = entry[3] if len(entry) > 3 else None    # 설치 시점 계산식(드릴다운)
+            heal_trigger = entry[4] if len(entry) > 4 else True   # 발동이 설치한 지속 치료는 '치료를 받을 때' 를 켜지 않음
             if tgt.alive:
                 tgt.hp = min(tgt.max_hp, tgt.hp + per)
                 u.healing_done += per
@@ -2588,7 +2594,8 @@ def _tick_hots(state: BattleState) -> None:
                              src_id=(calc or {}).get("skillId", 0),
                              src_skill=(calc or {}).get("skillName", ""),
                              detail=calc)
-                _fire_subs(tgt, "on_heal_received", state, u)   # 지속힐 수령도 트리거(다라완 파4)
+                if heal_trigger:
+                    _fire_subs(tgt, "on_heal_received", state, u)   # 본문 지속 치료 틱 → 힐 수령 트리거(다라완 파4)
             entry[2] = turns - 1
             if entry[2] > 0:
                 kept.append(entry)
