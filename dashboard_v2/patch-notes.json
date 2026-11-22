@@ -2,6 +2,46 @@
  "_comment": "패치 히스토리. 최신이 위. 원문은 tools/redesign/patch_notes_src/*.json, build_patch_notes.py 로 생성 — 이 파일을 직접 고치지 말 것. 버전 규칙: 동료 추가 = 메이저 x.y(펼침·히어로), 그 사이 = 패치 x.y.z(접힘, 최신이면 펼침). cat: new|balance|fix|qol. text/details[] 는 {kr,en,ja,zh,zhs}. items[].chars = 인라인 얼굴.",
  "releases": [
   {
+   "version": "2.4.1",
+   "date": "2026-11-22",
+   "highlight": false,
+   "title": {
+    "kr": "‘치료를 받을 때’ 효과 판정 수정",
+    "en": "‘Upon receiving healing’ effects fix",
+    "ja": "「治療を受ける時」効果の判定を修正",
+    "zh": "修正「受到治療時」效果的判定",
+    "zhs": "修正「受到治疗时」效果的判定"
+   },
+   "items": [
+    {
+     "cat": "fix",
+     "text": {
+      "kr": "‘치료를 받을 때’ 발동하는 효과는 보통 공격·필살기의 치료에만 반응합니다. 발동 스킬로 받은 치료와 발동 스킬이 건 지속형 치료에는 반응하지 않습니다.",
+      "en": "Effects that trigger ‘upon receiving healing’ respond only to healing from Basic Attacks and EX Skills. They do not respond to healing received from Triggered skills or to healing over time applied by Triggered skills.",
+      "ja": "「治療を受ける時」に誘発する効果は、通常攻撃・必殺技の治療にのみ反応します。発動スキルで受けた治療と、発動スキルがかけた継続治療には反応しません。",
+      "zh": "「受到治療時」觸發的效果只會對普通攻擊・必殺技的治療反應，不會對觸發技能給予的治療，以及觸發技能施加的持續治療反應。",
+      "zhs": "「受到治疗时」触发的效果只会对普通攻击・必杀技的治疗反应，不会对触发技能给予的治疗，以及触发技能施加的持续治疗反应。"
+     },
+     "details": [
+      {
+       "kr": "적용 효과: 델라크로이 ‘생명 방어선’의 배리어, 파도를 타는 젖소 다라완 ‘파도 위의 서퍼’의 받는 배리어 효과 증가, 몽규 ‘스탯이 부족하면... 스킬로!’의 ‘집중’.",
+       "en": "Applies to: the Barrier from Delacroy's ‘Lifeline’, the Barrier received increase from Wave Charger Dallawan's ‘Born to Surf’, and Hyperfocus from Mengkui's ‘Skill Beats Stats!’.",
+       "ja": "対象の効果：ドラクロイ「命の防衛線」のバリア、波の奔牛ダラワン「波頭で戯れる」の受けるバリア効果増加、蒙奎「数値不足をテクで補う」の【集中】。",
+       "zh": "適用效果：多拉克羅亞「生命防線」的護盾、浪尖奔牛達拉萬「浪尖弄潮本色」的受到護盾效果增加、蒙奎「數值不夠...技巧來湊！」的「專注」。",
+       "zhs": "适用效果：多拉克罗亚「生命防线」的护盾、浪尖奔牛达拉万「浪尖弄潮本色」的受到护盾效果增加、蒙奎「数值不够...技巧来凑！」的「专注」。"
+      },
+      {
+       "kr": "보통 공격·필살기가 건 지속형 치료는 매 턴 치료가 들어올 때마다 반응합니다.",
+       "en": "Healing over time applied by Basic Attacks and EX Skills triggers them each turn it heals.",
+       "ja": "通常攻撃・必殺技がかけた継続治療は、毎ターン治療が入るたびに反応します。",
+       "zh": "普通攻擊・必殺技施加的持續治療，每回合治療時都會反應。",
+       "zhs": "普通攻击・必杀技施加的持续治疗，每回合治疗时都会反应。"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "version": "2.4",
    "date": "2026-11-18",
    "highlight": true,
