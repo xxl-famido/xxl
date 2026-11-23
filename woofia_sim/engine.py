@@ -87,6 +87,10 @@ EX_JUDGED_ONEX_CHARS = {10437}   # 투명인간
 # 엔진 처리(가정: 10301-SIG-same-action · 10301-SYN-10410). False 면 설치한 그 행동에서도 발동.
 SKIP_SUBS_INSTALLED_THIS_ACTION = True   # [assumed: 10301-SIG-same-action]
 
+# 지속 치료의 매 턴 치료는 설치 판정과 무관하게 '치료를 받을 때' 를 켜지 않는다(피드백 행 36).
+# True 면 보통 공격·필살기가 설치한 지속 치료의 틱이 반응한다.
+HOT_TICK_FIRES_HEAL_RECEIVED = False   # [feedback-confirmed: 10448-P4-heal-source]
+
 
 def _trigger_src(caster: "Unit", sub: "Subscription") -> str:
     """트리거 데미지의 액션 판정.
@@ -267,7 +271,7 @@ class Unit:
     barrier_absorbed: float = 0.0         # 직전 피격에서 배리어가 흡수한 양
     taunt_turns: int = 0            # 조롱: >0이면 적이 이 아군을 강제 타격 (쿠모야마)
     taunt_since: int = 0            # 조롱 획득 시점(state.cur_action 스냅) — 다수 조롱 시 먼저 건 캐릭터에 어그로 집중
-    hots: list = field(default_factory=list)  # [target, per_turn, turns_left, calc, heal_trigger] heal-over-time (heal_trigger = 틱이 '치료를 받을 때' 를 켜는가)
+    hots: list = field(default_factory=list)  # [target, per_turn, turns_left, calc, heal_trigger] heal-over-time (heal_trigger = 설치 판정이 보통 공격·필살기인가 — 틱 반응은 HOT_TICK_FIRES_HEAL_RECEIVED 가 함께 정한다)
     dots: list = field(default_factory=list)  # [target, pct, turns_left, owner, src_skill, cast_snapshot] 지속딜(DoT)
     cond_buffs: list = field(default_factory=list)  # (stack,stat,value,owner,skill,scaled,thresh) while stacks≥thresh
     stack_caps: dict = field(default_factory=dict)  # stack_name -> max count (from its definition line)
@@ -1583,7 +1587,7 @@ def apply_effect(effect: Effect, caster: Unit, state: BattleState,
         eff_stat = _ACTION_EFF.get(action, "")
         # '치료를 받을 때' 트리거(on_heal_received — 다라완 파4·몽규 파2·델라크로이 파4, 원본 eff20005)는 행동 본문의
         # 치료 진행(평타·필살기 판정)에만 반응하고, 발동 효과로 들어온 치료('…치료 진행' 발동)에는 반응하지 않는다
-        # (피드백 행 35). 지속 치료는 설치한 판정을 틱까지 가져간다(_tick_hots).
+        # (피드백 행 35). 지속 치료의 틱은 HOT_TICK_FIRES_HEAL_RECEIVED 를 따른다(피드백 행 36, _tick_hots).
         heal_trigger = action != "trigger"
         for tgt in targets:
             # of_max_hp면 대상 최대HP의 X%(시전자 ATK 무관), 아니면 ATK% × 효과배율
@@ -2586,7 +2590,7 @@ def _tick_hots(state: BattleState) -> None:
         for entry in u.hots:
             tgt, per, turns = entry[0], entry[1], entry[2]
             calc = entry[3] if len(entry) > 3 else None    # 설치 시점 계산식(드릴다운)
-            heal_trigger = entry[4] if len(entry) > 4 else True   # 발동이 설치한 지속 치료는 '치료를 받을 때' 를 켜지 않음
+            heal_trigger = entry[4] if len(entry) > 4 else True
             if tgt.alive:
                 tgt.hp = min(tgt.max_hp, tgt.hp + per)
                 u.healing_done += per
@@ -2594,8 +2598,8 @@ def _tick_hots(state: BattleState) -> None:
                              src_id=(calc or {}).get("skillId", 0),
                              src_skill=(calc or {}).get("skillName", ""),
                              detail=calc)
-                if heal_trigger:
-                    _fire_subs(tgt, "on_heal_received", state, u)   # 본문 지속 치료 틱 → 힐 수령 트리거(다라완 파4)
+                if heal_trigger and HOT_TICK_FIRES_HEAL_RECEIVED:
+                    _fire_subs(tgt, "on_heal_received", state, u)
             entry[2] = turns - 1
             if entry[2] > 0:
                 kept.append(entry)

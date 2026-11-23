@@ -1,13 +1,23 @@
 {
  "_comment": "English translation of kr.json (tidied patch notes). Same versions, same items order/count, one details line per Korean line. Terms follow dashboard_v2/i18n/en.json.",
+ "2.4.2": {
+  "title": "‘Upon receiving healing’ and healing over time fix",
+  "items": [
+   {
+    "text": "Effects that trigger ‘upon receiving healing’ do not respond to the per-turn healing of healing over time. They respond only to immediate healing from Basic Attacks and EX Skills.",
+    "details": [
+     "This includes healing over time applied by Basic Attacks and EX Skills."
+    ]
+   }
+  ]
+ },
  "2.4.1": {
   "title": "‘Upon receiving healing’ effects fix",
   "items": [
    {
     "text": "Effects that trigger ‘upon receiving healing’ respond only to healing from Basic Attacks and EX Skills. They do not respond to healing received from Triggered skills or to healing over time applied by Triggered skills.",
     "details": [
-     "Applies to: the Barrier from Delacroy's ‘Lifeline’, the Barrier received increase from Wave Charger Dallawan's ‘Born to Surf’, and Hyperfocus from Mengkui's ‘Skill Beats Stats!’.",
-     "Healing over time applied by Basic Attacks and EX Skills triggers them each turn it heals."
+     "Applies to: the Barrier from Delacroy's ‘Lifeline’, the Barrier received increase from Wave Charger Dallawan's ‘Born to Surf’, and Hyperfocus from Mengkui's ‘Skill Beats Stats!’."
     ]
    }
   ]

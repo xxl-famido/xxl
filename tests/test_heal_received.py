@@ -1,8 +1,8 @@
 """'치료를 받을 때' 트리거(on_heal_received, 원본 eff20005) 판정 가드 — 피드백 행 35.
 
 다라완 파4(파도 위의 서퍼) · 몽규 파2(스탯이 부족하면... 스킬로!) · 델라크로이 파4(생명 방어선)는 같은 트리거다.
-반응하는 치료 = 행동 본문의 치료 진행(보통 공격·필살기 판정) + 본문이 설치한 지속 치료의 틱.
-반응하지 않는 치료 = 발동 효과로 들어온 치료('…치료 진행' 발동) + 발동이 설치한 지속 치료의 틱 · 흡혈.
+반응하는 치료 = 행동 본문의 즉시 치료 진행(보통 공격·필살기 판정).
+반응하지 않는 치료 = 발동 효과로 들어온 치료('…치료 진행' 발동) · 모든 지속 치료의 틱(피드백 행 36) · 흡혈.
 해석 기록 mining/autonomy/interpretations/10448.json `10448-P4-heal-source` [feedback-confirmed].
 
 시나리오 동료: 몽규 파1 '연쇄 치료 반응'(행동 시 발동 치료) · 맹씨 파1 '취심신왕'(보통 공격 시 발동 지속 치료) ·
@@ -10,10 +10,12 @@
 """
 from __future__ import annotations
 
+from woofia_sim import engine
 from woofia_sim.harness import CharSpec, run_team
 
 DELA, DARAWAN, MONGGYU, MENG, LEO = 10448, 10438, 10440, 10404, 10406
 TRIGGERED = "발동"
+HOT_TICK = "지속힐"
 DIRECT = ("평타", "필살")
 
 
@@ -66,13 +68,13 @@ def test_scenario_covers_direct_and_triggered_instant_and_tick_heals():
 
 
 def test_delacroy_barrier_only_from_direct_heals():
-    """[feedback-confirmed: 10448-P4-heal-source] 생명 방어선 배리어는 본문 치료(틱 포함)마다 1번, 발동 치료에는 0번."""
+    """[feedback-confirmed: 10448-P4-heal-source] 생명 방어선 배리어는 본문 즉시 치료마다 1번, 발동 치료·지속 치료 틱에는 0번."""
     res = _run([DELA, MONGGYU, MENG, LEO])
     pairs = _pairs(res, DELA_P4)
     assert pairs
     assert all(cause is not None and cause.detail["act"] in DIRECT for _, cause in pairs), \
         [(ev.text, cause and cause.text) for ev, cause in pairs if cause is None or cause.detail["act"] not in DIRECT]
-    direct = [ev for ev in _heals(res) if ev.detail["act"] in DIRECT]
+    direct = [ev for ev in _heals(res) if ev.detail["act"] in DIRECT and ev.action_kind != HOT_TICK]
     assert len(pairs) == len(direct)          # 아군 전체가 부여받음 → 본문 치료 1번 = 배리어 1번
 
 
@@ -85,7 +87,7 @@ def test_darawan_barrier_recv_only_from_direct_heals():
     name = next(u.name for u in res.state.allies if u._kit.char_id == DARAWAN)
     to_darawan = [ev for ev in _heals(res) if ev.detail["target"] == name]
     assert any(ev.detail["act"] == TRIGGERED for ev in to_darawan)       # 발동 치료를 받긴 받는다
-    assert len(pairs) == sum(ev.detail["act"] in DIRECT for ev in to_darawan)
+    assert len(pairs) == sum(ev.detail["act"] in DIRECT and ev.action_kind != HOT_TICK for ev in to_darawan)
 
 
 def test_monggyu_focus_only_from_direct_heals():
@@ -98,9 +100,24 @@ def test_monggyu_focus_only_from_direct_heals():
 
 
 def test_hot_keeps_install_judgement_through_refresh():
-    """[엔진 규칙] 같은 스킬·대상 지속 치료 갱신은 설치 판정을 다시 적는다 — 틱은 그 판정만 본다."""
+    """[엔진 규칙] 같은 스킬·대상 지속 치료 갱신은 설치 판정을 다시 적는다."""
     res = _run([DELA, MENG], max_turn=3)
     meng = next(u for u in res.state.allies if u._kit.char_id == MENG)
     assert meng.hots, "맹씨 취심신왕 지속 치료가 남아 있어야 한다"
     for entry in meng.hots:
         assert len(entry) == 5 and entry[4] is (entry[3]["act"] in DIRECT)
+
+
+def _tick_responses(res):
+    return [ev for ev in res.state.log
+            if ev.action_kind == HOT_TICK and (DELA_P4(ev) or DARAWAN_P4(ev) or MONGGYU_P2(ev))]
+
+
+def test_hot_ticks_never_fire_heal_received(monkeypatch):
+    """[feedback-confirmed: 10448-P4-heal-source] 본문·발동 지속 치료 틱 모두 반응 0 — 스위치를 켜면 본문 틱이 반응해 시나리오가 유효함을 확인."""
+    team = [DELA, DARAWAN, MONGGYU, MENG, LEO]
+    res = _run(team, max_turn=6)
+    assert any(ev.action_kind == HOT_TICK and ev.detail["act"] in DIRECT for ev in _heals(res))
+    assert _tick_responses(res) == []
+    monkeypatch.setattr(engine, "HOT_TICK_FIRES_HEAL_RECEIVED", True)
+    assert _tick_responses(_run(team, max_turn=6))
