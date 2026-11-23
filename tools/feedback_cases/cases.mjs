@@ -677,7 +677,7 @@ export const CASES = [
 
   // ── #35 '치료를 받을 때' 트리거 (메커니즘) ──────────────────────────────────
   { id: '35', fb: 35, kind: 'mechanism', intent: '「치료를 받을 때」 효과는 치료 진행에만 반응하고 「치료 진행」 발동에는 반응하지 않음',
-    flow: '델라크로이 생명 방어선 배리어·다라완 받는 배리어 증가·몽규 집중이 보통 공격·필살기의 치료(본문 지속 치료 틱 포함)에서만 나오고, '
+    flow: '델라크로이 생명 방어선 배리어·다라완 받는 배리어 증가·몽규 집중이 보통 공격·필살기의 즉시 치료에서만 나오고, '
       + '발동 효과 치료(몽규 연쇄 치료 반응·맹씨 취심신왕·레오 파티꾼 레오)에는 안 나옴',
     config: '델라크로이·다라완·몽규·맹씨·레오, 13턴, 확률 100%',
     setup: (ctx) => ctx.mk([10448, 10438, 10440, 10404, 10406], 13), runs: det,
@@ -685,6 +685,18 @@ export const CASES = [
     onMismatch: { cat: '엔진 규칙', why: '치료 수령 트리거 판정(on_heal_received)' },
     checks: [
       { label: '「치료를 받을 때」 반응 = 본문 치료에서만(발동 치료 0)', basis: '피드백 #35 + engine.py HEAL heal_trigger', type: 'fn', fn: healTriggerCheck },
+    ] },
+
+  // ── #36 지속형 치료 틱과 '치료를 받을 때' (메커니즘) ─────────────────────────
+  { id: '36', fb: 36, kind: 'mechanism', intent: '「치료 진행」이라고 적힌 지속형 치료라도 매 턴 치료에는 「치료를 받을 때」가 반응하지 않음',
+    flow: '보통 공격·필살기가 건 지속형 치료와 발동이 건 지속형 치료 모두 매 턴 치료가 들어와도 생명 방어선 배리어·받는 배리어 증가·집중이 나오지 않고, '
+      + '보통 공격·필살기의 즉시 치료에는 그대로 반응',
+    config: '델라크로이·다라완·몽규·맹씨·레오, 13턴, 확률 100%',
+    setup: (ctx) => ctx.mk([10448, 10438, 10440, 10404, 10406], 13), runs: det,
+    path: { status: '있음', how: '설정 불필요(엔진 규칙)' },
+    onMismatch: { cat: '엔진 규칙', why: '지속형 치료 틱의 치료 수령 트리거' },
+    checks: [
+      { label: '지속형 치료 틱 반응 0 · 즉시 치료 반응 유지', basis: '피드백 #36 + engine.py _tick_hots', type: 'fn', fn: hotTickCheck },
     ] },
 ];
 
@@ -716,6 +728,23 @@ function healTriggerCheck(r) {
   const ok = by.trig === 0 && by.none === 0 && by.direct > 0 && trigHeals > 0;
   return { verdict: ok ? 'pass' : 'fail',
     actual: `반응 ${by.direct + by.trig + by.none}건 = 본문 치료 ${by.direct} · 발동 치료 ${by.trig} · 원인 없음 ${by.none} (받은 발동 치료 ${trigHeals}건)` };
+}
+
+/** #36 지속형 치료 틱 묶음(kind '지속힐') 안의 '치료를 받을 때' 반응 수. 본문 지속형 치료 틱과 즉시 치료 반응이 실제로 있어야 판정한다. */
+function hotTickCheck(r) {
+  const RESP = [
+    (e) => e.srcSkill === '생명 방어선' && e.detail && e.detail.kind === 'barrier',
+    (e) => e.srcSkill === '파도 위의 서퍼' && /받는배리어/.test(e.text || ''),
+    (e) => e.srcSkill === '스탯이 부족하면... 스킬로!' && /집중 \+/.test(e.text || ''),
+  ];
+  let tickResp = 0, instResp = 0, directTicks = 0;
+  for (const e of r.log) {
+    const d = e.detail || {};
+    if (d.kind === 'heal' && d.hot == null && e.kind === '지속힐' && d.act !== '발동') directTicks++;
+    if (RESP.some((f) => f(e))) { if (e.kind === '지속힐') tickResp++; else instResp++; }
+  }
+  const ok = tickResp === 0 && instResp > 0 && directTicks > 0;
+  return { verdict: ok ? 'pass' : 'fail', actual: `지속형 치료 틱 반응 ${tickResp}건 · 즉시 치료 반응 ${instResp}건 (본문 지속형 치료 틱 ${directTicks}건)` };
 }
 
 function invExtra(r, pick, optional = false) {
